@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "shannon-insight"
+name = "shannon-codebase-insight"
 dynamic = ["version"]
 description = "Multi-signal codebase quality analyzer using mathematical primitives"
 readme = "README.md"

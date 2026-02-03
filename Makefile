@@ -38,7 +38,7 @@ run:  ## Run analyzer on test codebase
 
 package:  ## Build distribution packages
 	rm -rf dist/
-	python -m build
+	python3 -m build
 
 check-package:  ## Check package integrity
 	twine check dist/*

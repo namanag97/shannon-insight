@@ -11,7 +11,7 @@ A mathematical approach to code quality analysis using five orthogonal primitive
 Named after Claude Shannon, father of information theory.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.4.0"
 __author__ = "Naman Agarwal"
 
 from .core import CodebaseAnalyzer

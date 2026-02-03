@@ -1,46 +1,131 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "shannon-insight"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Multi-signal codebase quality analyzer using mathematical primitives"
 readme = "README.md"
-requires-python = ">=3.8"
-license = {text = "MIT"}
+requires-python = ">=3.9"
+license = "MIT"
 authors = [
     {name = "Naman Agarwal"}
 ]
 keywords = ["code-quality", "static-analysis", "codebase-analysis", "metrics", "entropy", "mathematics"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Quality Assurance",
-    "License :: OSI Approved :: MIT License",
+    "Topic :: Software Development :: Libraries :: Python Modules",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Environment :: Console",
+    "Typing :: Typed",
 ]
 dependencies = [
-    "numpy>=1.20.0",
+    "numpy>=1.22.0",
     "scikit-learn>=1.0.0",
+    "scipy>=1.7.0",
+    "rich>=13.0.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "diskcache>=5.6.0",
+    "typer>=0.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+    "build>=0.10.0",
+    "twine>=4.0.0",
 ]
 
 [project.scripts]
-shannon-insight = "shannon_insight.cli:main"
+shannon-insight = "shannon_insight.cli:app"
+
+[project.entry-points."shannon_insight.languages"]
+go = "shannon_insight.analyzers.go_analyzer:GoScanner"
+typescript = "shannon_insight.analyzers.typescript_analyzer:TypeScriptScanner"
+python = "shannon_insight.analyzers.python_analyzer:PythonScanner"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/shannon-insight"
-Documentation = "https://github.com/yourusername/shannon-insight#readme"
-Repository = "https://github.com/yourusername/shannon-insight"
-"Bug Tracker" = "https://github.com/yourusername/shannon-insight/issues"
+Homepage = "https://github.com/namanagarwal/shannon-insight"
+Documentation = "https://github.com/namanagarwal/shannon-insight#readme"
+Repository = "https://github.com/namanagarwal/shannon-insight"
+"Bug Tracker" = "https://github.com/namanagarwal/shannon-insight/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+shannon_insight = ["py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "shannon_insight.__version__"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # do not perform function calls in argument defaults
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["shannon_insight"]
+
+[tool.ruff.format]
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+show_error_context = true
+pretty = true
+
+[[tool.mypy.overrides]]
+module = ["sklearn.*", "diskcache.*", "typer.*", "rich.*"]
+ignore_missing_imports = true

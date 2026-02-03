@@ -3,26 +3,38 @@
 import re
 from pathlib import Path
 from collections import Counter
-from typing import List
+from typing import List, Optional
+
 from .base import BaseScanner
 from ..models import FileMetrics
+from ..config import AnalysisSettings
+from ..exceptions import FileAccessError
+from ..logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class GoScanner(BaseScanner):
     """Scanner optimized for Go codebases"""
 
-    def __init__(self, root_dir: str):
-        super().__init__(root_dir, extensions=[".go"])
+    def __init__(self, root_dir: str, settings: Optional[AnalysisSettings] = None):
+        super().__init__(root_dir, extensions=[".go"], settings=settings)
 
     def _should_skip(self, filepath: Path) -> bool:
-        """Skip test files and vendor directories"""
+        """Skip test files, vendor, venv, and other non-project directories"""
         path_str = str(filepath)
-        return "_test.go" in path_str or "vendor" in path_str
+        skip_dirs = ("vendor", "venv", ".venv", "__pycache__", ".git", ".tox", ".mypy_cache")
+        return "_test.go" in path_str or any(d in path_str for d in skip_dirs)
 
     def _analyze_file(self, filepath: Path) -> FileMetrics:
         """Extract all metrics from a Go file"""
-        with open(filepath, "r", encoding="utf-8") as f:
-            content = f.read()
+        try:
+            with open(filepath, "r", encoding="utf-8", errors="replace") as f:
+                content = f.read()
+        except OSError as e:
+            raise FileAccessError(filepath, f"Cannot read file: {e}")
+        except Exception as e:
+            raise FileAccessError(filepath, f"Unexpected error: {e}")
 
         lines = content.split("\n")
 
@@ -106,7 +118,7 @@ class GoScanner(BaseScanner):
         # Count decision points: if, else, case, for, range, select, &&, ||
         complexity = 1  # Base complexity
 
-        complexity += len(re.findall(r"\bif\s*\(", content))
+        complexity += len(re.findall(r"\bif\s+", content))
         complexity += len(re.findall(r"\belse\b", content))
         complexity += len(re.findall(r"\bcase\s+", content))
         complexity += len(re.findall(r"\bfor\s+", content))
@@ -127,7 +139,7 @@ class GoScanner(BaseScanner):
         node_types["interface"] = self._count_interfaces(content)
         node_types["import"] = len(self._extract_imports(content))
         node_types["export"] = len(self._extract_exports(content))
-        node_types["if"] = len(re.findall(r"\bif\s*\(", content))
+        node_types["if"] = len(re.findall(r"\bif\s+", content))
         node_types["for"] = len(re.findall(r"\bfor\s+", content))
         node_types["range"] = len(re.findall(r"\brange\s+", content))
         node_types["return"] = len(re.findall(r"\breturn\b", content))

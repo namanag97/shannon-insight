@@ -3,26 +3,38 @@
 import re
 from pathlib import Path
 from collections import Counter
-from typing import List
+from typing import List, Optional
+
 from .base import BaseScanner
 from ..models import FileMetrics
+from ..config import AnalysisSettings
+from ..exceptions import FileAccessError
+from ..logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class TypeScriptScanner(BaseScanner):
     """Scanner optimized for TypeScript and React codebases"""
 
-    def __init__(self, root_dir: str):
-        super().__init__(root_dir, extensions=[".ts", ".tsx", ".js", ".jsx"])
+    def __init__(self, root_dir: str, settings: Optional[AnalysisSettings] = None):
+        super().__init__(root_dir, extensions=[".ts", ".tsx", ".js", ".jsx"], settings=settings)
 
     def _should_skip(self, filepath: Path) -> bool:
-        """Skip node_modules and dist directories"""
+        """Skip node_modules, dist, venv, and other non-project directories"""
         path_str = str(filepath)
-        return "node_modules" in path_str or "dist" in path_str or "build" in path_str
+        skip_dirs = ("node_modules", "dist", "build", "venv", ".venv", "__pycache__", ".git", ".tox", ".mypy_cache")
+        return any(d in path_str for d in skip_dirs)
 
     def _analyze_file(self, filepath: Path) -> FileMetrics:
         """Extract all metrics from a TypeScript/React file"""
-        with open(filepath, "r", encoding="utf-8") as f:
-            content = f.read()
+        try:
+            with open(filepath, "r", encoding="utf-8", errors="replace") as f:
+                content = f.read()
+        except OSError as e:
+            raise FileAccessError(filepath, f"Cannot read file: {e}")
+        except Exception as e:
+            raise FileAccessError(filepath, f"Unexpected error: {e}")
 
         lines = content.split("\n")
 

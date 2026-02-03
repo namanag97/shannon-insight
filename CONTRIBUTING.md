@@ -1,230 +1,165 @@
 # Contributing to Shannon Insight
 
-Thank you for your interest in contributing to Shannon Insight! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to Shannon Insight! This document provides guidelines and instructions for contributing to the project.
 
-## 🎯 Ways to Contribute
+## Code of Conduct
 
-- **Add new language support** - Implement analyzers for Python, Rust, Java, etc.
-- **Improve primitives** - Enhance existing mathematical models
-- **Add new primitives** - Propose and implement new quality dimensions
-- **Fix bugs** - Report and fix issues
-- **Improve documentation** - Help others understand the math and implementation
-- **Write tests** - Increase code coverage and reliability
+This project adheres to a code of conduct. By participating, you are expected to uphold this standard.
 
-## 🚀 Getting Started
+## Getting Started
 
-### Development Setup
+### Prerequisites
+
+- Python 3.9 or higher
+- Git
+- Make (optional, for using the Makefile)
+
+### Setup Development Environment
 
 1. Fork and clone the repository:
-```bash
-git clone https://github.com/yourusername/shannon-insight.git
-cd shannon-insight
-```
+   ```bash
+   git clone https://github.com/namanagarwal/shannon-insight.git
+   cd shannon-insight
+   ```
 
 2. Create a virtual environment:
-```bash
-python3 -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
 
-3. Install in development mode:
-```bash
-pip install -e .
-pip install -r requirements.txt
-```
+3. Install with dev dependencies:
+   ```bash
+   pip install -e ".[dev]"
+   ```
 
-4. Run the analyzer to verify:
-```bash
-shannon-insight --help
-```
+4. Or use the Makefile:
+   ```bash
+   make install
+   ```
 
-## 📝 Adding a New Language
+## Development Workflow
 
-To add support for a new language, create a new scanner in `src/shannon_insight/analyzers/`:
+### Making Changes
 
-### Step 1: Create Scanner Class
+1. Create a new branch for your feature or bugfix:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-```python
-# src/shannon_insight/analyzers/python_analyzer.py
-from .base import BaseScanner
-from ..models import FileMetrics
+2. Make your changes following the coding standards (see below).
 
-class PythonScanner(BaseScanner):
-    def __init__(self, root_dir: str):
-        super().__init__(root_dir, extensions=[".py"])
+3. Run tests and linting:
+   ```bash
+   make check
+   make test
+   ```
 
-    def _should_skip(self, filepath: Path) -> bool:
-        """Skip test files and virtual environments"""
-        path_str = str(filepath)
-        return "__pycache__" in path_str or ".venv" in path_str
+4. Commit your changes with a clear message:
+   ```bash
+   git commit -m "Add feature: brief description of changes"
+   ```
 
-    def _analyze_file(self, filepath: Path) -> FileMetrics:
-        """Extract metrics from Python file"""
-        # Implement language-specific parsing
-        pass
+5. Push to your fork and create a pull request.
 
-    # Implement all abstract methods from BaseScanner
-    def _count_tokens(self, content: str) -> int:
-        pass
+### Coding Standards
 
-    def _extract_imports(self, content: str) -> List[str]:
-        pass
+- Follow PEP 8 style guidelines
+- Use `snake_case` for variables and functions
+- Use `PascalCase` for classes
+- Add type hints to all functions
+- Write Google-style docstrings for public functions and classes
+- Keep functions focused and under 50 lines when possible
+- Add tests for new functionality
 
-    # ... etc
-```
+### Code Formatting
 
-### Step 2: Register Scanner
-
-Update `src/shannon_insight/analyzers/__init__.py`:
-
-```python
-from .python_analyzer import PythonScanner
-
-__all__ = ["BaseScanner", "GoScanner", "TypeScriptScanner", "PythonScanner"]
-```
-
-### Step 3: Update Core
-
-Add auto-detection in `src/shannon_insight/core.py`:
-
-```python
-def _get_scanner(self):
-    if self.language == "python":
-        return PythonScanner(self.root_dir)
-    # ... existing code
-```
-
-### Step 4: Test
-
-Test your analyzer on real codebases:
+We use ruff for both linting and formatting:
 
 ```bash
-shannon-insight /path/to/python/project --language python
+# Format code
+make format
+
+# Check formatting
+ruff format --check src/ tests/
+ruff check src/ tests/
 ```
 
-## 🧮 Adding a New Primitive
+## Testing
 
-To add a sixth quality primitive:
+### Running Tests
 
-### Step 1: Update Models
-
-Add the field to `Primitives` in `src/shannon_insight/models.py`:
-
-```python
-@dataclass
-class Primitives:
-    structural_entropy: float
-    network_centrality: float
-    churn_volatility: float
-    semantic_coherence: float
-    cognitive_load: float
-    test_coverage: float  # NEW PRIMITIVE
-```
-
-### Step 2: Implement Computation
-
-Add computation method in `src/shannon_insight/primitives/extractor.py`:
-
-```python
-def _compute_test_coverage(self) -> Dict[str, float]:
-    """Compute test coverage metric"""
-    coverage = {}
-    # Implement your algorithm
-    return coverage
-```
-
-Update `extract_all()` to include the new primitive.
-
-### Step 3: Update Fusion
-
-Modify weights in `src/shannon_insight/primitives/fusion.py`:
-
-```python
-weights = [0.15, 0.2, 0.15, 0.15, 0.15, 0.2]  # 6 primitives now
-```
-
-### Step 4: Document
-
-Add mathematical foundation to `docs/MATHEMATICAL_FOUNDATION.md`.
-
-## 🐛 Reporting Bugs
-
-When reporting bugs, please include:
-- Python version
-- Shannon Insight version
-- Operating system
-- Minimal code example to reproduce
-- Expected vs actual behavior
-
-## 💡 Feature Requests
-
-Feature requests are welcome! Please:
-- Check existing issues first
-- Explain the use case
-- Propose implementation if possible
-- Consider mathematical soundness
-
-## 📐 Code Style
-
-- Follow PEP 8
-- Use type hints
-- Write docstrings for all public functions
-- Keep functions focused and small
-- Add comments for complex mathematical operations
-
-## ✅ Pull Request Process
-
-1. Create a feature branch: `git checkout -b feature/my-feature`
-2. Make your changes
-3. Test thoroughly
-4. Update documentation
-5. Commit with clear messages
-6. Push and create a PR
-7. Respond to review feedback
-
-## 🧪 Testing
-
-We value tests! Please add tests for:
-- New analyzers
-- New primitives
-- Bug fixes
-- Edge cases
-
-Run tests (when test suite exists):
 ```bash
-pytest
+# Run all tests with coverage
+make test
+
+# Run tests without coverage
+make test-quick
+
+# Run specific test file
+pytest tests/test_integration.py -v
 ```
 
-## 📖 Documentation
+### Writing Tests
 
-Good documentation helps everyone:
-- Update README.md for user-facing changes
-- Update MATHEMATICAL_FOUNDATION.md for algorithmic changes
-- Add docstrings to new code
-- Include examples in docs
+- Add tests for new features and bugfixes
+- Write integration tests for end-to-end functionality
+- Write unit tests for individual components
+- Follow the existing test structure
 
-## 🎓 Mathematical Rigor
+### Test Coverage
 
-Shannon Insight is built on mathematical principles. When proposing changes:
-- Explain the mathematical foundation
-- Show it's orthogonal to existing primitives
-- Provide empirical validation if possible
-- Consider computational complexity
+Maintain test coverage above 80% for new code. Check coverage with:
 
-## 📜 License
+```bash
+pytest --cov=src/shannon_insight --cov-report=html
+open htmlcov/index.html
+```
+
+## Type Checking
+
+We use mypy for static type checking:
+
+```bash
+make type-check
+```
+
+## Adding New Features
+
+### Adding a New Language
+
+1. Create a new scanner in `src/shannon_insight/analyzers/`
+2. Register in `analyzers/__init__.py`
+3. Add auto-detection in `core.py:_get_scanner()`
+4. Update entry points in `pyproject.toml`
+5. Add tests for the new language
+
+### Adding a New Primitive
+
+1. Add field to `Primitives` dataclass in `models.py`
+2. Implement extraction in `primitives/extractor.py`
+3. Update fusion weights in `config.py`
+4. Add recommendations in `primitives/recommendations.py`
+5. Add tests for the new primitive
+
+## Pull Request Guidelines
+
+1. Ensure all tests pass
+2. Run linting and fix any issues
+3. Run type checking and fix any issues
+4. Update documentation if needed
+5. Add tests for new functionality
+
+## Release Process
+
+Releases are handled by maintainers:
+
+1. Update version in `src/shannon_insight/__init__.py`
+2. Update CHANGELOG.md with release notes
+3. Create git tag: `git tag -a v0.x.x -m "Release v0.x.x"`
+4. Push tag: `git push origin v0.x.x`
+5. GitHub Actions will build and publish to PyPI
+
+## License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
-
-## ❓ Questions?
-
-- Open an issue for questions
-- Tag with "question" label
-- Be specific and provide context
-
-## 🙏 Thank You!
-
-Every contribution makes Shannon Insight better for everyone. Thank you for being part of this project!
-
----
-
-**Happy coding! 🚀**

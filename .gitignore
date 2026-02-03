@@ -64,3 +64,16 @@ dmypy.json
 
 # Distribution / packaging
 *.whl
+
+# Shannon Insight cache
+.shannon-cache/
+
+# Ruff cache
+.ruff_cache/
+
+# Log files
+install-log*.txt
+*.log
+
+# Coverage
+coverage.xml

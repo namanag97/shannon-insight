@@ -328,8 +328,20 @@ class CodebaseAnalyzer:
         table.add_column("Confidence", style="blue", justify="right", width=12)
         table.add_column("Primary Issue", style="white", ratio=2)
 
+        # Shorten flag names for table display
+        _short = {
+            "structural_entropy_high": "entropy high",
+            "structural_entropy_low": "entropy low",
+            "high_centrality": "high centrality",
+            "high_volatility": "high volatility",
+            "semantic_coherence_low": "coherence low",
+            "semantic_coherence_high": "coherence high",
+            "high_cognitive_load": "high cog. load",
+        }
+
         for i, report in enumerate(reports[:top_n], 1):
-            primary = ", ".join(report.anomaly_flags) if report.anomaly_flags else "-"
+            flags = [_short.get(f, f) for f in report.anomaly_flags]
+            primary = ", ".join(flags) if flags else "-"
             table.add_row(
                 str(i),
                 report.file,

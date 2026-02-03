@@ -1,21 +1,33 @@
 """Extract the 5 orthogonal quality primitives"""
 
-import math
 from pathlib import Path
 from collections import defaultdict
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Optional
 from datetime import datetime
 import numpy as np
 
 from ..models import FileMetrics, Primitives
+from ..cache import AnalysisCache
+from ..logging_config import get_logger
+from ..math import Entropy, GraphMetrics, RobustStatistics as RobustStats
+
+logger = get_logger(__name__)
 
 
 class PrimitiveExtractor:
     """Extract the 5 orthogonal quality primitives"""
 
-    def __init__(self, files: List[FileMetrics]):
+    def __init__(
+        self,
+        files: List[FileMetrics],
+        cache: Optional[AnalysisCache] = None,
+        config_hash: str = ""
+    ):
         self.files = files
         self.file_map = {f.path: f for f in files}
+        self.cache = cache
+        self.config_hash = config_hash
+        logger.debug(f"Initialized PrimitiveExtractor for {len(files)} files")
 
     def extract_all(self) -> Dict[str, Primitives]:
         """Extract all 5 primitives for each file"""
@@ -45,38 +57,49 @@ class PrimitiveExtractor:
     # ---- Primitive 1: Structural Entropy ----
 
     def _compute_structural_entropy(self) -> Dict[str, float]:
-        """Compute entropy of AST node type distribution"""
+        """Compute normalized entropy of AST node type distribution."""
         entropies = {}
 
         for file in self.files:
-            if not file.ast_node_types:
-                entropies[file.path] = 0
+            if not file.ast_node_types or sum(file.ast_node_types.values()) == 0:
+                entropies[file.path] = 0.0
                 continue
 
-            total = sum(file.ast_node_types.values())
-            if total == 0:
-                entropies[file.path] = 0
-                continue
-
-            # H(X) = -Σ p(x) log2 p(x)
-            entropy = 0
-            for count in file.ast_node_types.values():
-                p = count / total
-                if p > 0:
-                    entropy -= p * math.log2(p)
-
-            # Normalize by max possible entropy
-            num_types = len(file.ast_node_types)
-            max_entropy = math.log2(num_types) if num_types > 1 else 1
-
-            entropies[file.path] = entropy / max_entropy if max_entropy > 0 else 0
+            entropies[file.path] = Entropy.normalized(file.ast_node_types)
 
         return entropies
 
     # ---- Primitive 2: Network Centrality ----
 
+    # Standard library modules to ignore when building dependency graph
+    _STDLIB_NAMES = frozenset({
+        "abc", "ast", "asyncio", "base64", "bisect", "builtins", "calendar",
+        "cmath", "codecs", "collections", "concurrent", "contextlib", "copy",
+        "csv", "ctypes", "dataclasses", "datetime", "decimal", "difflib",
+        "email", "enum", "errno", "fcntl", "fileinput", "fnmatch", "fractions",
+        "ftplib", "functools", "gc", "getpass", "glob", "gzip", "hashlib",
+        "heapq", "hmac", "html", "http", "importlib", "inspect", "io",
+        "itertools", "json", "logging", "lzma", "math", "mimetypes",
+        "multiprocessing", "operator", "os", "pathlib", "pickle", "platform",
+        "pprint", "queue", "random", "re", "secrets", "select", "shelve",
+        "shlex", "shutil", "signal", "socket", "sqlite3", "ssl",
+        "statistics", "string", "struct", "subprocess", "sys", "tempfile",
+        "textwrap", "threading", "time", "timeit", "tkinter", "token",
+        "tomllib", "traceback", "types", "typing", "unicodedata", "unittest",
+        "urllib", "uuid", "venv", "warnings", "weakref", "xml", "zipfile",
+        "zlib",
+    })
+
+    # Common third-party packages to ignore
+    _THIRDPARTY_NAMES = frozenset({
+        "numpy", "np", "pandas", "pd", "scipy", "sklearn", "matplotlib",
+        "plt", "seaborn", "requests", "flask", "django", "fastapi",
+        "pydantic", "typer", "click", "rich", "diskcache", "pytest",
+        "setuptools", "wheel", "pip", "pkg_resources",
+    })
+
     def _build_dependency_graph(self) -> Dict[str, Set[str]]:
-        """Build file dependency graph from imports"""
+        """Build file dependency graph from internal project imports only."""
         graph = defaultdict(set)
 
         # Map import paths to actual files
@@ -85,11 +108,23 @@ class PrimitiveExtractor:
             name = Path(file.path).stem
             file_by_name[name] = file.path
 
+        skip_names = self._STDLIB_NAMES | self._THIRDPARTY_NAMES
+
         for file in self.files:
             for imp in file.imports:
-                # Try to match by package/module name
+                # Extract the leaf module name
                 pkg_name = imp.split("/")[-1].split(".")[-1]
-                if pkg_name in file_by_name:
+
+                # Skip stdlib and third-party imports
+                if pkg_name in skip_names:
+                    continue
+
+                # Skip relative import markers
+                if pkg_name.startswith(".") or pkg_name == "":
+                    continue
+
+                # Only add edge if it points to a different file
+                if pkg_name in file_by_name and file_by_name[pkg_name] != file.path:
                     graph[file.path].add(file_by_name[pkg_name])
 
         return dict(graph)
@@ -97,7 +132,16 @@ class PrimitiveExtractor:
     def _compute_network_centrality(
         self, graph: Dict[str, Set[str]]
     ) -> Dict[str, float]:
-        """Compute PageRank centrality"""
+        """Compute PageRank centrality.
+
+        TODO: Delegate to GraphMetrics.pagerank() for consistency and
+        correctness. The inline implementation differs from the canonical
+        version: it uses (1-d) instead of (1-d)/N for base probability,
+        has no dangling-node redistribution, no convergence check, and
+        misses nodes that appear only as targets. The min-max normalization
+        at the end masks the base-probability difference but the other
+        issues remain.
+        """
         # Initialize PageRank scores
         scores = {f.path: 1.0 for f in self.files}
         damping = 0.85
@@ -184,24 +228,37 @@ class PrimitiveExtractor:
         vectorizer = TfidfVectorizer(min_df=1, max_df=0.8)
         try:
             tfidf_matrix = vectorizer.fit_transform(documents)
-        except:
+        except Exception as e:
+            logger.warning(f"TF-IDF vectorization failed: {e}")
             return {f.path: 1.0 for f in self.files}
 
         # Compute pairwise similarities
         similarities = cosine_similarity(tfidf_matrix)
 
         coherences = {}
+        n = len(paths)
         for i, path in enumerate(paths):
-            # Coherence = average similarity to all other files
-            avg_sim = np.mean(similarities[i])
-            coherences[path] = float(avg_sim)
+            # Coherence = average similarity to OTHER files (exclude self)
+            if n > 1:
+                other_sims = [similarities[i][j] for j in range(n) if j != i]
+                coherences[path] = float(np.mean(other_sims))
+            else:
+                coherences[path] = 1.0
 
         return coherences
 
     # ---- Primitive 5: Cognitive Load ----
 
     def _compute_cognitive_load(self) -> Dict[str, float]:
-        """Compute cognitive load = concepts × complexity"""
+        """Compute cognitive load = concepts × complexity.
+
+        TODO: The formula CL = concepts * complexity * (1 + depth/10) is a
+        hand-tuned heuristic with no academic citation. The /10 divisor
+        maps typical nesting depths (0-5) to a 0-50% multiplier. Consider
+        citing Cant et al. (1995) "A Conceptual Complexity Metric" or
+        replacing with a validated cognitive complexity model such as
+        SonarSource's Cognitive Complexity (2017).
+        """
         loads = {}
 
         for file in self.files:

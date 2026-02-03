@@ -37,8 +37,10 @@ from .exceptions import (
     InsufficientDataError,
 )
 
+import sys as _sys
+
 logger = get_logger(__name__)
-console = Console()
+console = Console(stderr=True)
 
 
 class CodebaseAnalyzer:
@@ -319,15 +321,15 @@ class CodebaseAnalyzer:
         if not reports:
             return
 
-        table = Table(title=f"Top {min(top_n, len(reports))} Files Requiring Attention")
+        table = Table(title=f"Top {min(top_n, len(reports))} Files Requiring Attention", expand=True)
         table.add_column("#", style="dim", width=4)
-        table.add_column("File", style="yellow", no_wrap=True, max_width=40)
-        table.add_column("Score", style="red", justify="right")
-        table.add_column("Confidence", style="blue", justify="right")
-        table.add_column("Primary Issue", style="white")
+        table.add_column("File", style="yellow", no_wrap=False, ratio=3)
+        table.add_column("Score", style="red", justify="right", width=8)
+        table.add_column("Confidence", style="blue", justify="right", width=12)
+        table.add_column("Primary Issue", style="white", ratio=2)
 
         for i, report in enumerate(reports[:top_n], 1):
-            primary = report.anomaly_flags[0] if report.anomaly_flags else "-"
+            primary = ", ".join(report.anomaly_flags) if report.anomaly_flags else "-"
             table.add_row(
                 str(i),
                 report.file,

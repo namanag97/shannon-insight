@@ -49,6 +49,7 @@ htmlcov/
 
 # Analysis outputs
 analysis_report.json
+analysis_report_*.json
 *.png
 *.svg
 network_graph.*

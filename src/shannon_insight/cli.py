@@ -1,6 +1,7 @@
 """Command-line interface for Shannon Insight"""
 
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -222,9 +223,14 @@ def main(
                 analyzer.print_summary(reports, top_n=top)
                 analyzer.print_report(reports, top_n=top)
 
-            # Export JSON file only if -o was explicitly provided
+            # Export JSON report
             if output is not None:
                 analyzer.export_json(reports, filename=str(output))
+            elif fmt == "rich":
+                # Auto-save with timestamp when using rich output
+                ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+                auto_path = f"analysis_report_{ts}.json"
+                analyzer.export_json(reports, filename=auto_path)
 
             # --fail-above CI gating
             if fail_above is not None:
@@ -253,6 +259,9 @@ def main(
                     "[bold green]No anomalies detected - codebase looks clean![/bold green]"
                 )
             raise typer.Exit(0)
+
+    except typer.Exit:
+        raise  # Re-raise typer exits (--fail-above, no anomalies, etc.)
 
     except ShannonInsightError as e:
         # Handle known errors

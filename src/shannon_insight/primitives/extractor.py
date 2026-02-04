@@ -245,20 +245,39 @@ class PrimitiveExtractor:
         return coherences
 
     def _compute_cognitive_load(self) -> Dict[str, float]:
-        """Compute cognitive load enhanced with Gini coefficient.
+        """Compute cognitive load using Gini-enhanced formula with
+        compression-based fallback for language-agnostic coverage.
 
-        Base load = concepts x complexity x nesting_factor
-        Enhanced with function size inequality: load x (1 + gini)
+        When scanner regex detects functions (concepts > 0):
+            load = concepts × complexity × nesting_factor × (1 + gini)
 
-        High Gini means a few functions dominate the file's complexity
-        (the "God function" pattern), which makes the file harder to
-        understand even if the total function count is moderate.
+        When no functions are detected (truly unknown language):
+            load = compression_ratio × (lines/100) × complexity × nesting_factor
+
+        The compression fallback ensures meaningful cognitive load scores
+        even for languages where no function keyword is recognised,
+        using Kolmogorov complexity as a proxy for code density.
         """
         loads: Dict[str, float] = {}
 
         for file in self.files:
             concepts = file.functions + file.structs + file.interfaces
-            base_load = concepts * file.complexity_score * (1 + file.nesting_depth / 10)
+            nesting_factor = 1 + file.nesting_depth / 10
+
+            if concepts > 0:
+                # Scanner detected functions — use structural formula
+                base_load = concepts * file.complexity_score * nesting_factor
+            else:
+                # No functions detected — compression-based fallback
+                file_path = self._resolve_path(file.path)
+                try:
+                    with open(file_path, 'rb') as f:
+                        raw = f.read()
+                    ratio = Compression.compression_ratio(raw)
+                except Exception:
+                    ratio = 0.0
+                line_factor = file.lines / 100.0
+                base_load = ratio * line_factor * file.complexity_score * nesting_factor
 
             # Apply Gini coefficient for function size inequality
             if file.function_sizes and len(file.function_sizes) > 1:

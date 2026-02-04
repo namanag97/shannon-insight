@@ -21,7 +21,7 @@ from rich.progress import (
 )
 
 from .models import AnomalyReport, AnalysisContext, FileMetrics
-from .analyzers import GoScanner, TypeScriptScanner, PythonScanner
+from .analyzers import GoScanner, TypeScriptScanner, PythonScanner, UniversalScanner
 from .analyzers.java_analyzer import JavaScanner
 from .analyzers.rust_analyzer import RustScanner
 from .analyzers.c_analyzer import CScanner
@@ -58,6 +58,7 @@ class CodebaseAnalyzer:
     SUPPORTED_LANGUAGES = {
         "auto", "go", "typescript", "react", "javascript",
         "python", "java", "rust", "c", "cpp", "ruby",
+        "universal",
     }
 
     @staticmethod
@@ -274,6 +275,7 @@ class CodebaseAnalyzer:
             "c":          lambda: [mk(CScanner, "c")],
             "cpp":        lambda: [mk(CScanner, "cpp")],
             "ruby":       lambda: [mk(RubyScanner, "ruby")],
+            "universal":  lambda: [mk(UniversalScanner, "universal")],
         }
 
         if self.language in explicit_map:
@@ -303,22 +305,48 @@ class CodebaseAnalyzer:
             (_has_ext(".rb"),                                "ruby",       RubyScanner),
         ]
 
+        known_exts = {
+            ".go", ".ts", ".tsx", ".py",
+            ".java", ".rs",
+            ".c", ".cpp", ".cc", ".cxx", ".h", ".hpp", ".hxx",
+            ".rb",
+        }
+
         scanners = []
         for detected, lang, cls in candidates:
             if detected:
                 logger.info(f"Auto-detected: {lang} files")
                 scanners.append(mk(cls, lang))
 
+        # Collect unknown text-file extensions for the universal scanner
+        from .analyzers.universal_analyzer import _BINARY_EXTENSIONS
+
+        unknown_exts: set[str] = set()
+        for p in self.root_dir.rglob("*"):
+            if p.is_file() and not any(part in skip_dirs for part in p.parts):
+                ext = p.suffix.lower()
+                if ext and ext not in known_exts and ext not in _BINARY_EXTENSIONS:
+                    unknown_exts.add(ext)
+
+        if unknown_exts:
+            logger.info(f"Auto-detected unknown extensions for universal scanner: {unknown_exts}")
+            scanner = UniversalScanner(
+                str(self.root_dir),
+                extensions=sorted(unknown_exts),
+                settings=self.settings,
+            )
+            scanners.append((scanner, "universal"))
+
         if scanners:
             detected_names = [lang for _, lang in scanners]
             self._detected_languages = detected_names
             console.print(f"[yellow]Auto-detected: {', '.join(detected_names)}[/yellow]\n")
         else:
-            logger.warning("Could not auto-detect language, defaulting to Python")
+            logger.warning("Could not auto-detect language, falling back to universal scanner")
             console.print(
-                "[yellow]Could not auto-detect language. Defaulting to Python.[/yellow]\n"
+                "[yellow]Could not auto-detect language. Using universal scanner.[/yellow]\n"
             )
-            self._detected_languages = ["python"]
-            scanners.append(mk(PythonScanner, "python"))
+            self._detected_languages = ["universal"]
+            scanners.append(mk(UniversalScanner, "universal"))
 
         return scanners

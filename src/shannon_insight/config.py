@@ -132,6 +132,28 @@ class AnalysisSettings(BaseSettings):
         default=None, description="Log file path (optional)"
     )
 
+    # ==================== Insights ====================
+
+    git_max_commits: int = Field(
+        default=5000,
+        ge=0,
+        le=100000,
+        description="Max git commits to analyze (0 = no limit)",
+    )
+
+    git_min_commits: int = Field(
+        default=10,
+        ge=0,
+        description="Min commits required for temporal analysis",
+    )
+
+    insights_max_findings: int = Field(
+        default=10,
+        ge=1,
+        le=50,
+        description="Max findings to show in insights command",
+    )
+
     # ==================== Security ====================
 
     allow_hidden_files: bool = Field(

@@ -18,3 +18,4 @@ from .analyze import main as _main_callback  # noqa: F401, E402
 from .baseline import baseline as _baseline  # noqa: F401, E402
 from .cache import cache_info as _cache_info, cache_clear as _cache_clear  # noqa: F401, E402
 from .structure import structure as _structure  # noqa: F401, E402
+from .insights import insights as _insights  # noqa: F401, E402

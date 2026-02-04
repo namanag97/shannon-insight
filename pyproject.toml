@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "shannon-codebase-insight"
 dynamic = ["version"]
-description = "Multi-signal codebase quality analyzer using mathematical primitives"
+description = "Multi-level codebase structural analysis using information theory and graph algorithms"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"

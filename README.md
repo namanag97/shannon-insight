@@ -1,6 +1,6 @@
 # Shannon Insight
 
-[![CI](https://github.com/namanagarwal/shannon-insight/actions/workflows/ci.yml/badge.svg)](https://github.com/namanagarwal/shannon-insight/actions/workflows/ci.yml)
+[![CI](https://github.com/namanag97/shannon-insight/actions/workflows/ci.yml/badge.svg)](https://github.com/namanag97/shannon-insight/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/shannon-insight)](https://pypi.org/project/shannon-insight/)
 [![Python](https://img.shields.io/pypi/pyversions/shannon-insight)](https://pypi.org/project/shannon-insight/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)

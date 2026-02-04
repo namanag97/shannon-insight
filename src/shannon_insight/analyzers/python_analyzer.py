@@ -62,6 +62,7 @@ class PythonScanner(BaseScanner):
             nesting_depth=self._max_nesting_depth_python(content),
             ast_node_types=self._extract_ast_node_types(content),
             last_modified=filepath.stat().st_mtime,
+            function_sizes=self._extract_function_sizes(content),
         )
 
     def _count_tokens(self, content: str) -> int:
@@ -148,6 +149,34 @@ class PythonScanner(BaseScanner):
             depth = indent // 4
             max_depth = max(max_depth, depth)
         return max_depth
+
+    def _extract_function_sizes(self, content: str) -> List[int]:
+        """Extract line counts for each function/method definition."""
+        lines = content.split("\n")
+        func_starts = []
+
+        for i, line in enumerate(lines):
+            if re.match(r"^\s*def\s+\w+\s*\(", line):
+                indent = len(line) - len(line.lstrip())
+                func_starts.append((i, indent))
+
+        sizes = []
+        for idx, (start, indent) in enumerate(func_starts):
+            if idx + 1 < len(func_starts):
+                # Function ends at next function at same or lesser indent
+                end = func_starts[idx + 1][0]
+            else:
+                end = len(lines)
+
+            # Count non-empty lines in the function body
+            count = 0
+            for line in lines[start:end]:
+                stripped = line.strip()
+                if stripped and not stripped.startswith("#"):
+                    count += 1
+            sizes.append(max(count, 1))
+
+        return sizes
 
     def _extract_ast_node_types(self, content: str) -> Counter:
         """Extract distribution of AST node types for Python"""

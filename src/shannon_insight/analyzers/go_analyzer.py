@@ -51,6 +51,7 @@ class GoScanner(BaseScanner):
             nesting_depth=self._max_nesting_depth(content),
             ast_node_types=self._extract_ast_node_types(content),
             last_modified=filepath.stat().st_mtime,
+            function_sizes=self._extract_function_sizes(content),
         )
 
     def _count_tokens(self, content: str) -> int:
@@ -128,6 +129,36 @@ class GoScanner(BaseScanner):
         complexity += len(re.findall(r"\|\|", content))
 
         return complexity
+
+    def _extract_function_sizes(self, content: str) -> List[int]:
+        """Extract line counts per function using brace matching."""
+        lines = content.split("\n")
+        sizes = []
+
+        i = 0
+        while i < len(lines):
+            if re.match(r".*\bfunc\s+\w+\s*\(", lines[i]):
+                # Find the opening brace
+                start = i
+                depth = 0
+                found_open = False
+                j = i
+                while j < len(lines):
+                    depth += lines[j].count("{") - lines[j].count("}")
+                    if "{" in lines[j]:
+                        found_open = True
+                    if found_open and depth <= 0:
+                        count = j - start + 1
+                        sizes.append(max(count, 1))
+                        i = j + 1
+                        break
+                    j += 1
+                else:
+                    i += 1
+            else:
+                i += 1
+
+        return sizes
 
     def _extract_ast_node_types(self, content: str) -> Counter:
         """Extract distribution of AST node types for Go"""

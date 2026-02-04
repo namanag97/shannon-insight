@@ -56,6 +56,7 @@ class RecommendationEngine:
         normalized: Dict[str, Primitives],
         anomalies: Dict[str, List[str]],
         fused_scores: Dict[str, Tuple[float, float]],
+        root_dir: str = "",
     ):
         self.files = files
         self.file_map = {f.path: f for f in files}
@@ -63,6 +64,7 @@ class RecommendationEngine:
         self.normalized = normalized
         self.anomalies = anomalies
         self.fused_scores = fused_scores
+        self.root_dir = Path(root_dir) if root_dir else None
 
     def generate(self) -> List[AnomalyReport]:
         """Generate comprehensive analysis reports."""
@@ -338,9 +340,13 @@ class RecommendationEngine:
         """Get identifier clusters for a file (reads from disk)."""
         file_path = Path(path)
         if not file_path.is_absolute():
-            candidates = list(Path('.').rglob(str(file_path)))
-            if candidates:
-                file_path = candidates[0]
+            if self.root_dir:
+                resolved = self.root_dir / path
+                if resolved.exists():
+                    file_path = resolved
+            if not file_path.exists():
+                # Fallback: try from cwd
+                file_path = Path(path)
 
         try:
             with open(file_path, 'r', encoding='utf-8', errors='replace') as f:

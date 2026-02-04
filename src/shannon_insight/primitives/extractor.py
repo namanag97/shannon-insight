@@ -27,13 +27,29 @@ class PrimitiveExtractor:
         self,
         files: List[FileMetrics],
         cache: Optional[AnalysisCache] = None,
-        config_hash: str = ""
+        config_hash: str = "",
+        root_dir: Optional[str] = None,
     ):
         self.files = files
         self.file_map = {f.path: f for f in files}
         self.cache = cache
         self.config_hash = config_hash
+        self.root_dir = Path(root_dir) if root_dir else None
         logger.debug(f"Initialized PrimitiveExtractor for {len(files)} files")
+
+    def _resolve_path(self, rel_path: str) -> Path:
+        """Resolve a relative file path to an absolute path."""
+        p = Path(rel_path)
+        if p.is_absolute() and p.exists():
+            return p
+        if self.root_dir:
+            resolved = self.root_dir / rel_path
+            if resolved.exists():
+                return resolved
+        # Fallback: try from cwd
+        if p.exists():
+            return p
+        return p
 
     # ------------------------------------------------------------------
     # Public API
@@ -99,14 +115,7 @@ class PrimitiveExtractor:
         """
         complexities: Dict[str, float] = {}
         for file in self.files:
-            file_path = Path(file.path)
-            if not file_path.is_absolute():
-                # Resolve relative paths against the first file's parent
-                # (files come from scanners which use relative paths)
-                candidates = list(Path('.').rglob(str(file_path)))
-                if candidates:
-                    file_path = candidates[0]
-
+            file_path = self._resolve_path(file.path)
             try:
                 with open(file_path, 'rb') as f:
                     content = f.read()
@@ -222,12 +231,7 @@ class PrimitiveExtractor:
         """
         coherences: Dict[str, float] = {}
         for file in self.files:
-            file_path = Path(file.path)
-            if not file_path.is_absolute():
-                candidates = list(Path('.').rglob(str(file_path)))
-                if candidates:
-                    file_path = candidates[0]
-
+            file_path = self._resolve_path(file.path)
             try:
                 with open(file_path, 'r', encoding='utf-8', errors='replace') as f:
                     content = f.read()

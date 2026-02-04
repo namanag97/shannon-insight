@@ -5,27 +5,64 @@
 [![Python](https://img.shields.io/pypi/pyversions/shannon-insight)](https://pypi.org/project/shannon-insight/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Multi-signal codebase quality analyzer using information-theoretic primitives. Named after Claude Shannon, father of information theory.
+Multi-level codebase analysis using information theory and graph algorithms. Produces structural intelligence — dependency graphs, community detection, blast radius, cycle detection — not arbitrary scores. Named after Claude Shannon, father of information theory.
 
 ## Quick Start
 
 ```bash
 pip install shannon-insight
+
+# Structural analysis: dependencies, communities, cycles, blast radius
+shannon-insight . structure
+
+# Structural analysis as JSON (for AI agent consumption)
+shannon-insight . structure --format json
+
+# Per-file quality primitives (original analysis)
 shannon-insight /path/to/codebase
-shannon-insight . --format json | jq .
 ```
 
-## What It Does
+## Structural Analysis (new)
 
-Shannon Insight scans your codebase and computes **5 orthogonal quality primitives** per file, then fuses them with consistency-weighted scoring to surface files that need attention:
+The `structure` command builds a multi-level model of your codebase using graph theory and information theory:
+
+```bash
+shannon-insight . structure
+```
+
+**What it computes:**
+
+| Level | What | Math |
+|-------|------|------|
+| Dependency graph | Which files depend on which | Import resolution, directed graph |
+| Centrality | Which files are critical hubs | PageRank, betweenness centrality |
+| Blast radius | What breaks if you change a file | Transitive closure on reverse graph |
+| Cycles | Circular dependencies | Tarjan's SCC algorithm |
+| Communities | Natural clusters in the codebase | Louvain modularity optimization |
+| Module analysis | Cohesion/coupling per directory | Internal vs external edge density |
+| Boundary alignment | Do directories match actual structure? | Declared vs discovered communities |
+| Complexity outliers | Files with extreme measurements | Median Absolute Deviation (robust) |
+
+**Output shows only issues** — no noise, no scores, just structural facts:
+
+- Circular dependencies (real cycles, not Python package init patterns)
+- High-impact files (blast radius > 30% of codebase)
+- Boundary mismatches (directories that don't match coupling structure)
+- Top complexity outliers
+
+Use `--format json` to get the full structured data for piping to an AI agent.
+
+## Per-File Quality Primitives
+
+The default `shannon-insight .` command computes **5 orthogonal quality primitives** per file:
 
 | Primitive | What it measures | High means |
 |-----------|-----------------|------------|
-| **Structural Entropy** | AST node type distribution | Chaotic organization |
+| **Compression Complexity** | Kolmogorov complexity (via zlib) | Dense/unique code |
 | **Network Centrality** | PageRank on dependency graph | Critical hub |
 | **Churn Volatility** | File modification recency | Recently changed / unstable |
-| **Semantic Coherence** | Import/export focus | Low: too many unrelated concerns |
-| **Cognitive Load** | Functions x complexity x nesting | Overloaded file |
+| **Semantic Coherence** | Identifier-based responsibility focus | Low: mixed concerns |
+| **Cognitive Load** | Concepts x complexity x Gini inequality | Overloaded file |
 
 ## Output Formats
 
@@ -105,6 +142,8 @@ Options:
   --version                 Show version and exit
 
 Commands:
+  structure     Structural analysis: dependencies, communities, cycles
+  baseline      Save/show analysis baseline
   cache-info    Show cache statistics
   cache-clear   Clear analysis cache
 ```
@@ -120,20 +159,22 @@ Language is auto-detected by default. Override with `--language`.
 
 ## How It Works
 
-```
-CodebaseAnalyzer
-  Layer 1: Scanning       - Language-specific file parsing
-  Layer 2: Extraction     - Compute 5 orthogonal primitives per file
-  Layer 3: Detection      - Z-score normalization + anomaly thresholding
-  Layer 4: Fusion         - Consistency-weighted signal combination
-  Layer 5: Recommendations - Root cause attribution + actionable advice
-```
-
-Signal fusion uses coefficient of variation to penalize inconsistent signals:
+### Structural Analysis (`structure` command)
 
 ```
-consistency = 1 / (1 + CV)
-final_score = consistency * |weighted_average|
+Parse → Constructs + Relationships
+     → Build Dependency Graph
+     → Graph Algorithms (PageRank, Tarjan SCC, Louvain, transitive closure)
+     → Measure Constructs (compression ratio, cognitive load, Gini)
+     → Measure Modules (cohesion, coupling, boundary alignment)
+     → Statistical Layer (MAD-based outlier detection)
+     → Structured Result Store (queryable, not scored)
+```
+
+### Per-File Analysis (default command)
+
+```
+Scanner → FileMetrics → 5 Primitives → Z-score → Fusion → Recommendations
 ```
 
 See [docs/MATHEMATICAL_FOUNDATION.md](docs/MATHEMATICAL_FOUNDATION.md) for the full mathematical framework.
@@ -163,4 +204,4 @@ MIT License - see [LICENSE](LICENSE)
 
 ## Credits
 
-Created by Naman Agarwal. Inspired by Claude Shannon's information theory, PageRank (Page & Brin), and cyclomatic complexity (McCabe).
+Created by Naman Agarwal. Inspired by Claude Shannon's information theory, PageRank (Page & Brin), Louvain community detection (Blondel et al.), Tarjan's SCC algorithm, and Kolmogorov complexity.

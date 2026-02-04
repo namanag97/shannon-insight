@@ -15,11 +15,15 @@ __version__ = "0.4.0"
 __author__ = "Naman Agarwal"
 
 from .core import CodebaseAnalyzer
-from .models import FileMetrics, AnomalyReport, Primitives
+from .models import FileMetrics, AnomalyReport, Primitives, AnalysisContext, DiffReport, PrimitiveValues, PipelineContext
 
 __all__ = [
     "CodebaseAnalyzer",
     "Primitives",
+    "PrimitiveValues",
     "FileMetrics",
     "AnomalyReport",
+    "AnalysisContext",
+    "DiffReport",
+    "PipelineContext",
 ]

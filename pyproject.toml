@@ -52,9 +52,9 @@ dev = [
 shannon-insight = "shannon_insight.cli:app"
 
 [project.entry-points."shannon_insight.languages"]
-go = "shannon_insight.analyzers.go_analyzer:GoScanner"
-typescript = "shannon_insight.analyzers.typescript_analyzer:TypeScriptScanner"
-python = "shannon_insight.analyzers.python_analyzer:PythonScanner"
+go = "shannon_insight.analyzers:GoScanner"
+typescript = "shannon_insight.analyzers:TypeScriptScanner"
+python = "shannon_insight.analyzers:PythonScanner"
 
 [project.urls]
 Homepage = "https://github.com/namanagarwal/shannon-insight"

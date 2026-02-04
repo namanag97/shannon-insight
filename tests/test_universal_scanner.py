@@ -6,7 +6,12 @@ from pathlib import Path
 
 import pytest
 
-from shannon_insight.analyzers.universal_analyzer import UniversalScanner
+from shannon_insight.analyzers import ConfigurableScanner, get_language_config
+
+# Backward-compatible alias
+def UniversalScanner(root_dir, extensions=None, settings=None):
+    cfg = get_language_config("universal")
+    return ConfigurableScanner(root_dir, config=cfg, extensions=extensions, settings=settings)
 from shannon_insight.exceptions import InsufficientDataError
 
 
@@ -177,12 +182,12 @@ class TestNestingDepth:
     def test_brace_based(self):
         code = "func main() {\n  if true {\n    for {\n    }\n  }\n}\n"
         scanner = _make_scanner("/tmp")
-        assert scanner._max_nesting_depth_universal(code) >= 3
+        assert scanner._compute_nesting(code) >= 3
 
     def test_indent_based(self):
         code = "def foo():\n    if True:\n        for x in y:\n            pass\n"
         scanner = _make_scanner("/tmp")
-        assert scanner._max_nesting_depth_universal(code) >= 3
+        assert scanner._compute_nesting(code) >= 3
 
     def test_takes_maximum(self):
         # Mix of both — scanner should pick whichever is deeper
@@ -192,7 +197,7 @@ class TestNestingDepth:
             "func bar() {\n  {\n    {\n    }\n  }\n}\n"  # brace depth 3
         )
         scanner = _make_scanner("/tmp")
-        assert scanner._max_nesting_depth_universal(code) >= 3
+        assert scanner._compute_nesting(code) >= 3
 
 
 # ---------------------------------------------------------------------------

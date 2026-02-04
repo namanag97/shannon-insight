@@ -1,109 +1,70 @@
 """Primitive definitions registry — the single source of truth for all primitives.
 
-Adding a new primitive requires:
-1. Add a PrimitiveDefinition entry to PRIMITIVE_REGISTRY below.
-2. Add a ``_compute_<name>`` method in PrimitiveExtractor that returns Dict[str, float].
-That's it — AnomalyDetector, SignalFusion, and formatters pick it up automatically.
+Now backed by plugin classes. The PrimitiveDefinition dataclass is built
+automatically from each plugin's attributes for backward compatibility.
 """
 
 from dataclasses import dataclass
 from typing import Callable, List
 
+from .base import PrimitivePlugin
+from .plugins.compression import CompressionPrimitive
+from .plugins.centrality import CentralityPrimitive
+from .plugins.volatility import VolatilityPrimitive
+from .plugins.coherence import CoherencePrimitive
+from .plugins.cognitive_load import CognitiveLoadPrimitive
+
 
 @dataclass
 class PrimitiveDefinition:
-    name: str             # "structural_entropy"
-    display_name: str     # "Structural Entropy"
-    short_name: str       # "entropy" (for compact table columns)
-    description: str      # human-readable description
-    direction: str        # "high_is_bad" | "low_is_bad" | "both_extreme_bad"
-    default_weight: float # fusion weight (will be normalized)
-    interpret: Callable[[float], str]  # raw value -> human-readable note
+    name: str
+    display_name: str
+    short_name: str
+    description: str
+    direction: str
+    default_weight: float
+    interpret: Callable[[float], str]
 
 
-def _interpret_compression(v: float) -> str:
-    if v < 0.20:
-        return "highly repetitive (duplication?)"
-    elif v < 0.45:
-        return "normal complexity"
-    elif v < 0.65:
-        return "dense/complex"
-    return "very dense"
+# ── Plugin instances ───────────────────────────────────────────────
 
-
-def _interpret_centrality(v: float) -> str:
-    if v > 0.5:
-        return "high = heavily depended on"
-    return "within typical range"
-
-
-def _interpret_volatility(v: float) -> str:
-    if v > 0.5:
-        return "high = frequently changed"
-    return "within typical range"
-
-
-def _interpret_coherence(v: float) -> str:
-    if v < 0.30:
-        return "mixed responsibilities"
-    elif v < 0.70:
-        return "somewhat focused"
-    return "highly focused"
-
-
-def _interpret_cognitive(v: float) -> str:
-    if v > 0.6:
-        return "high = hard to understand"
-    return "within typical range"
-
-
-PRIMITIVE_REGISTRY: List[PrimitiveDefinition] = [
-    PrimitiveDefinition(
-        name="structural_entropy",
-        display_name="Compression Complexity",
-        short_name="compress",
-        description="Compression-based complexity (Kolmogorov approximation)",
-        direction="both_extreme_bad",
-        default_weight=0.20,
-        interpret=_interpret_compression,
-    ),
-    PrimitiveDefinition(
-        name="network_centrality",
-        display_name="Network Centrality",
-        short_name="centrality",
-        description="Importance in dependency graph (PageRank)",
-        direction="high_is_bad",
-        default_weight=0.25,
-        interpret=_interpret_centrality,
-    ),
-    PrimitiveDefinition(
-        name="churn_volatility",
-        display_name="Churn Volatility",
-        short_name="churn",
-        description="Instability of change patterns",
-        direction="high_is_bad",
-        default_weight=0.20,
-        interpret=_interpret_volatility,
-    ),
-    PrimitiveDefinition(
-        name="semantic_coherence",
-        display_name="Identifier Coherence",
-        short_name="coherence",
-        description="Responsibility focus (identifier clustering)",
-        direction="both_extreme_bad",
-        default_weight=0.15,
-        interpret=_interpret_coherence,
-    ),
-    PrimitiveDefinition(
-        name="cognitive_load",
-        display_name="Cognitive Load",
-        short_name="cog.load",
-        description="Mental effort to understand (Gini-enhanced)",
-        direction="high_is_bad",
-        default_weight=0.20,
-        interpret=_interpret_cognitive,
-    ),
+_ALL_PLUGINS: List[PrimitivePlugin] = [
+    CompressionPrimitive(),
+    CentralityPrimitive(),
+    VolatilityPrimitive(),
+    CoherencePrimitive(),
+    CognitiveLoadPrimitive(),
 ]
+
+
+def get_plugins() -> List[PrimitivePlugin]:
+    """Return all registered plugin instances."""
+    return list(_ALL_PLUGINS)
+
+
+def get_plugin(name: str) -> PrimitivePlugin:
+    """Look up a plugin by name."""
+    for p in _ALL_PLUGINS:
+        if p.name == name:
+            return p
+    raise KeyError(f"Unknown primitive: {name!r}")
+
+
+# ── Backward-compatible registry (PrimitiveDefinition list) ────────
+
+def _plugin_to_defn(plugin: PrimitivePlugin) -> PrimitiveDefinition:
+    return PrimitiveDefinition(
+        name=plugin.name,
+        display_name=plugin.display_name,
+        short_name=plugin.short_name,
+        description=plugin.description,
+        direction=plugin.direction,
+        default_weight=plugin.default_weight,
+        interpret=plugin.interpret,
+    )
+
+
+PRIMITIVE_REGISTRY: List[PrimitiveDefinition] = [_plugin_to_defn(p) for p in _ALL_PLUGINS]
 
 
 def get_registry() -> List[PrimitiveDefinition]:

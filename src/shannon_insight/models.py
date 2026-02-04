@@ -88,6 +88,24 @@ class AnalysisContext:
 
 
 @dataclass
+class PipelineContext:
+    """Mutable context that flows through composable pipeline stages."""
+
+    files: List[FileMetrics]
+    settings: object  # AnalysisSettings
+    root_dir: str = ""
+    cache: object = None  # Optional[AnalysisCache]
+    config_hash: str = ""
+
+    # Filled by stages as they run
+    primitives: Optional[Dict] = None        # Dict[str, Primitives]
+    normalized: Optional[Dict] = None        # Dict[str, Primitives]
+    anomalies: Optional[Dict] = None         # Dict[str, List[str]]
+    fused_scores: Optional[Dict] = None      # Dict[str, Tuple[float, float]]
+    reports: Optional[List] = None           # List[AnomalyReport]
+
+
+@dataclass
 class DiffReport:
     """A single file's diff between current and baseline analysis."""
 

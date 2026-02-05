@@ -1,7 +1,7 @@
 """Diff layer — change-scoped analysis and snapshot diffing."""
 
-from .models import SnapshotDiff, MetricDelta, FindingDelta, FileDelta
 from .engine import diff_snapshots
+from .models import FileDelta, FindingDelta, MetricDelta, SnapshotDiff
 
 __all__ = [
     "FileDelta",
@@ -21,6 +21,7 @@ try:
         get_changed_files,
         get_merge_base_files,
     )
+
     __all__ += [
         "ChangeScopedReport",
         "FileRiskSummary",

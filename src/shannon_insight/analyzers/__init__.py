@@ -1,19 +1,19 @@
 """Language analyzers"""
 
 from .base import BaseScanner
-from .scanner import ConfigurableScanner, BINARY_EXTENSIONS
 from .languages import (
-    LanguageConfig,
-    LANGUAGES,
     DEFAULT_SOURCE_EXTENSIONS,
-    get_language_config,
+    LANGUAGES,
+    LanguageConfig,
     get_all_known_extensions,
+    get_language_config,
 )
-
+from .scanner import BINARY_EXTENSIONS, ConfigurableScanner
 
 # ── Backward-compatible factory functions ──────────────────────────
 # These return ConfigurableScanner instances configured for each language,
 # preserving the old GoScanner(...), PythonScanner(...) etc. API.
+
 
 def _make_compat_scanner(lang_name, root_dir, extensions=None, settings=None):
     cfg = get_language_config(lang_name)
@@ -22,6 +22,7 @@ def _make_compat_scanner(lang_name, root_dir, extensions=None, settings=None):
 
 class _ScannerFactory:
     """Creates backward-compatible scanner classes."""
+
     def __init__(self, lang_name):
         self._lang = lang_name
 

@@ -4,8 +4,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
 
-from ..base import PrimitivePlugin
 from ...models import FileMetrics
+from ..base import PrimitivePlugin
 
 
 class VolatilityPrimitive(PrimitivePlugin):
@@ -23,8 +23,7 @@ class VolatilityPrimitive(PrimitivePlugin):
             return {}
         max_age = max(ages)
         return {
-            f.path: (1 - (now - f.last_modified) / max_age) if max_age > 0 else 0
-            for f in files
+            f.path: (1 - (now - f.last_modified) / max_age) if max_age > 0 else 0 for f in files
         }
 
     def interpret(self, v: float) -> str:

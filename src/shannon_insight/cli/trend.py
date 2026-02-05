@@ -19,16 +19,12 @@ def _sparkline(values: list) -> str:
     mn, mx = min(values), max(values)
     if mx == mn:
         return blocks[4] * len(values)
-    return "".join(
-        blocks[min(8, int((v - mn) / (mx - mn) * 8))] for v in values
-    )
+    return "".join(blocks[min(8, int((v - mn) / (mx - mn) * 8))] for v in values)
 
 
 @app.command()
 def trend(
-    filepath: str = typer.Argument(
-        ..., help="File path to show trends for"
-    ),
+    filepath: str = typer.Argument(..., help="File path to show trends for"),
     path: Path = typer.Argument(
         Path("."),
         help="Project root (where .shannon/ lives)",
@@ -80,7 +76,7 @@ def trend(
     if not db_path.exists():
         console.print(
             "[yellow]No history found.[/yellow] "
-            "Run [bold]shannon-insight . insights[/bold] first to create snapshots."
+            "Run [bold]shannon-insight .[/bold] first to create snapshots."
         )
         raise typer.Exit(0)
 
@@ -89,9 +85,7 @@ def trend(
         points = query.file_trend(filepath, metric, last_n)
 
     if not points:
-        console.print(
-            f"[yellow]No trend data for[/yellow] {filepath} / {metric}"
-        )
+        console.print(f"[yellow]No trend data for[/yellow] {filepath} / {metric}")
         raise typer.Exit(0)
 
     # ── JSON output ───────────────────────────────────────────────────
@@ -118,8 +112,7 @@ def trend(
 
     console.print()
     console.print(
-        f"[bold cyan]Trend:[/bold cyan] {filepath} "
-        f"-- {metric} (last {len(points)} snapshots)"
+        f"[bold cyan]Trend:[/bold cyan] {filepath} -- {metric} (last {len(points)} snapshots)"
     )
     console.print(f"  {spark}")
     console.print()

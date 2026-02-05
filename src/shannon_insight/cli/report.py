@@ -5,20 +5,14 @@ from typing import Optional
 
 import typer
 
+from ..logging_config import setup_logging
 from . import app
 from ._common import console, resolve_settings
-from ..logging_config import setup_logging
 
 
 @app.command()
 def report(
-    path: Path = typer.Argument(
-        Path("."),
-        help="Project root to analyse",
-        exists=True,
-        file_okay=False,
-        dir_okay=True,
-    ),
+    ctx: typer.Context,
     output: Path = typer.Option(
         Path("shannon-report.html"),
         "--output",
@@ -36,11 +30,11 @@ def report(
         "--trends/--no-trends",
         help="Include file trend sparklines (requires history)",
     ),
-    language: str = typer.Option(
-        "auto",
-        "--language",
-        "-l",
-        help="Programming language (auto, python, go, typescript, etc.)",
+    verbose: bool = typer.Option(
+        False,
+        "--verbose",
+        "-v",
+        help="Enable verbose logging",
     ),
     config: Optional[Path] = typer.Option(
         None,
@@ -50,18 +44,7 @@ def report(
         exists=True,
         file_okay=True,
         dir_okay=False,
-    ),
-    verbose: bool = typer.Option(
-        False,
-        "--verbose",
-        "-v",
-        help="Enable verbose logging",
-    ),
-    quiet: bool = typer.Option(
-        False,
-        "--quiet",
-        "-q",
-        help="Suppress all but error logging",
+        hidden=True,
     ),
     workers: Optional[int] = typer.Option(
         None,
@@ -70,14 +53,7 @@ def report(
         help="Parallel workers",
         min=1,
         max=32,
-    ),
-    max_findings: int = typer.Option(
-        10,
-        "--max-findings",
-        "-n",
-        help="Maximum findings to include in the report",
-        min=1,
-        max=50,
+        hidden=True,
     ),
 ):
     """
@@ -93,13 +69,14 @@ def report(
 
     [bold cyan]Examples:[/bold cyan]
 
-      shannon-insight . report
+      shannon-insight report
 
-      shannon-insight . report --output my-report.html --metric entropy
+      shannon-insight report --output my-report.html --metric entropy
 
-      shannon-insight . report --no-trends --max-findings 20
+      shannon-insight report --no-trends
     """
-    logger = setup_logging(verbose=verbose, quiet=quiet)
+    target = ctx.obj.get("path", Path.cwd())
+    logger = setup_logging(verbose=verbose)
 
     try:
         settings = resolve_settings(
@@ -107,37 +84,40 @@ def report(
             no_cache=False,
             workers=workers,
             verbose=verbose,
-            quiet=quiet,
         )
 
-        # ── Run the insight pipeline ──────────────────────────────
+        max_findings = settings.insights_max_findings
+
+        # -- Run the insight pipeline --
         from ..insights import InsightKernel
 
         kernel = InsightKernel(
-            str(path), language=language, settings=settings,
+            str(target),
+            language="auto",
+            settings=settings,
         )
-        result, snapshot = kernel.run_and_capture(max_findings=max_findings)
+        result, snapshot = kernel.run(max_findings=max_findings)
 
-        # ── Persist snapshot if history is enabled ────────────────
+        # -- Persist snapshot if history is enabled --
         if settings.enable_history:
             try:
                 from ..storage import HistoryDB
                 from ..storage.writer import save_snapshot
 
-                with HistoryDB(str(Path(path).resolve())) as db:
+                with HistoryDB(str(Path(target).resolve())) as db:
                     sid = save_snapshot(db.conn, snapshot)
                     logger.info(f"Snapshot saved (id={sid})")
             except Exception as e:
                 logger.warning(f"Failed to save snapshot: {e}")
 
-        # ── Load trend data if requested ──────────────────────────
+        # -- Load trend data if requested --
         trends = None
         if include_trends:
             try:
                 from ..storage import HistoryDB
                 from ..storage.queries import HistoryQuery
 
-                with HistoryDB(str(Path(path).resolve())) as db:
+                with HistoryDB(str(Path(target).resolve())) as db:
                     query = HistoryQuery(db.conn)
                     # Pick the top-20 files by the default colour metric.
                     top_files = sorted(
@@ -145,19 +125,14 @@ def report(
                         key=lambda x: x[1].get("cognitive_load", 0),
                         reverse=True,
                     )[:20]
-                    trends = {
-                        fp: query.file_trend(fp, "cognitive_load")
-                        for fp, _ in top_files
-                    }
+                    trends = {fp: query.file_trend(fp, "cognitive_load") for fp, _ in top_files}
                     # Drop files with no historical data points.
-                    trends = {
-                        fp: pts for fp, pts in trends.items() if pts
-                    }
+                    trends = {fp: pts for fp, pts in trends.items() if pts}
             except Exception:
                 # History may not be available; that is fine.
                 logger.debug("Trend data unavailable", exc_info=True)
 
-        # ── Generate the HTML report ──────────────────────────────
+        # -- Generate the HTML report --
         from ..visualization import generate_report
 
         report_path = generate_report(
@@ -166,9 +141,7 @@ def report(
             output_path=str(output),
             default_metric=metric,
         )
-        console.print(
-            f"[bold green]Report generated:[/bold green] {report_path}"
-        )
+        console.print(f"\nReport saved to: [bold green]{report_path}[/bold green]")
 
     except typer.Exit:
         raise

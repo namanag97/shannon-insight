@@ -31,6 +31,7 @@ class AnalysisSettings(BaseSettings):
     )
 
     # ==================== Anomaly Detection ====================
+    # Legacy — unused by InsightKernel, kept for config file compatibility
 
     z_score_threshold: float = Field(
         default=1.5,
@@ -54,15 +55,14 @@ class AnalysisSettings(BaseSettings):
     )
 
     # ==================== Signal Fusion ====================
+    # Legacy — unused by InsightKernel, kept for config file compatibility
 
     fusion_weights: List[float] = Field(
         default=[0.2, 0.25, 0.2, 0.15, 0.2],
         description="Signal fusion weights [entropy, centrality, churn, coherence, cognitive]",
     )
 
-    fusion_normalize: bool = Field(
-        default=True, description="Normalize weights to sum to 1.0"
-    )
+    fusion_normalize: bool = Field(default=True, description="Normalize weights to sum to 1.0")
 
     # ==================== File Filtering ====================
 
@@ -82,6 +82,16 @@ class AnalysisSettings(BaseSettings):
             "__pycache__/*",
             ".tox/*",
             ".mypy_cache/*",
+            "htmlcov/*",
+            ".coverage",
+            "coverage/*",
+            "*.egg-info/*",
+            ".eggs/*",
+            ".pytest_cache/*",
+            ".ruff_cache/*",
+            "*.min.js",
+            "*.bundle.js",
+            "*.generated.*",
         ],
         description="File patterns to exclude from analysis",
     )
@@ -128,9 +138,7 @@ class AnalysisSettings(BaseSettings):
 
     quiet: bool = Field(default=False, description="Suppress all but ERROR logging")
 
-    log_file: Optional[str] = Field(
-        default=None, description="Log file path (optional)"
-    )
+    log_file: Optional[str] = Field(default=None, description="Log file path (optional)")
 
     # ==================== Insights ====================
 
@@ -148,17 +156,15 @@ class AnalysisSettings(BaseSettings):
     )
 
     insights_max_findings: int = Field(
-        default=10,
+        default=50,
         ge=1,
-        le=50,
+        le=500,
         description="Max findings to show in insights command",
     )
 
     # ==================== History ====================
 
-    enable_history: bool = Field(
-        default=True, description="Auto-save snapshots to .shannon/"
-    )
+    enable_history: bool = Field(default=True, description="Auto-save snapshots to .shannon/")
 
     history_max_snapshots: int = Field(
         default=100,
@@ -173,9 +179,7 @@ class AnalysisSettings(BaseSettings):
         default=False, description="Allow analysis of hidden files (starting with .)"
     )
 
-    block_system_dirs: bool = Field(
-        default=True, description="Block access to system directories"
-    )
+    block_system_dirs: bool = Field(default=True, description="Block access to system directories")
 
     follow_symlinks: bool = Field(
         default=False, description="Follow symbolic links during scanning"
@@ -247,20 +251,24 @@ def load_settings(config_file: Optional[Path] = None, **overrides) -> AnalysisSe
         # pydantic-settings doesn't natively support TOML
         # We'll load it manually and pass as overrides
         try:
-            tomli = __import__("tomli")
-            with open(config_file, "rb") as f:
-                toml_data = tomli.load(f)
-            # Merge TOML data with overrides (overrides take precedence)
-            merged = {**toml_data, **overrides}
-            return AnalysisSettings(**merged)
-        except ImportError:
-            # tomli not available, fall back to env vars + overrides
-            pass
-        except Exception as e:
-            # TOML parsing failed, warn and continue
-            import warnings
+            import tomllib
+        except ModuleNotFoundError:
+            try:
+                tomllib = __import__("tomli")
+            except ImportError:
+                tomllib = None  # type: ignore[assignment]
 
-            warnings.warn(f"Failed to load config file {config_file}: {e}")
+        if tomllib is not None:
+            try:
+                with open(config_file, "rb") as f:
+                    toml_data = tomllib.load(f)
+                # Merge TOML data with overrides (overrides take precedence)
+                merged = {**toml_data, **overrides}
+                return AnalysisSettings(**merged)
+            except Exception as e:
+                from .exceptions import ShannonInsightError
+
+                raise ShannonInsightError(f"Invalid configuration file '{config_file}': {e}")
 
     # Load from environment variables + overrides
     return AnalysisSettings(**overrides)

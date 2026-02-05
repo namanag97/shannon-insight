@@ -3,17 +3,19 @@
 Example: Basic usage of Shannon Insight as a Python library
 """
 
-from shannon_insight import CodebaseAnalyzer
+from shannon_insight import InsightKernel
 
-# Analyze a Go codebase
-analyzer = CodebaseAnalyzer("/path/to/go/project", language="go")
-reports = analyzer.analyze()
+# Analyze a codebase
+kernel = InsightKernel("/path/to/project", language="python")
+result, snapshot = kernel.run(max_findings=10)
 
-# Print top 10 files requiring attention
-analyzer.print_report(reports, top_n=10)
+# Print findings
+for finding in result.findings:
+    print(f"{finding.title} (severity: {finding.severity:.2f})")
+    for e in finding.evidence:
+        print(f"  - {e.description}")
+    print(f"  -> {finding.suggestion}")
+    print()
 
-# Export detailed JSON report
-analyzer.export_json(reports, "analysis_results.json")
-
-print("\nAnalysis complete!")
-print(f"Found {len(reports)} files with quality issues")
+print(f"Analysis complete: {len(result.findings)} finding(s) from "
+      f"{result.store_summary.total_files} files")

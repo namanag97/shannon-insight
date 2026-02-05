@@ -1,21 +1,19 @@
 """Structural analysis command — multi-level codebase intelligence."""
 
 import json
-from dataclasses import asdict
 from pathlib import Path
 from typing import Optional
 
 import typer
-from rich.console import Console
 from rich.table import Table
 
-from . import app
-from ._common import console, resolve_settings
-from ..core.scanner_factory import ScannerFactory
 from ..analysis.engine import AnalysisEngine
 from ..analysis.models import CodebaseAnalysis
-from ..logging_config import setup_logging
+from ..core.scanner_factory import ScannerFactory
 from ..exceptions import ShannonInsightError
+from ..logging_config import setup_logging
+from . import app
+from ._common import console, resolve_settings
 
 _MIN_FILES = 3
 
@@ -25,33 +23,50 @@ def structure(
     path: Path = typer.Argument(
         Path("."),
         help="Path to the codebase directory",
-        exists=True, file_okay=False, dir_okay=True,
+        exists=True,
+        file_okay=False,
+        dir_okay=True,
     ),
     language: str = typer.Option(
-        "auto", "--language", "-l",
+        "auto",
+        "--language",
+        "-l",
         help="Programming language (auto, python, go, typescript, etc.)",
     ),
     fmt: str = typer.Option(
-        "rich", "--format", "-f",
+        "rich",
+        "--format",
+        "-f",
         help="Output format: rich (human-readable) or json (for AI agents)",
     ),
     verbose: bool = typer.Option(
-        False, "--verbose", "-v",
+        False,
+        "--verbose",
+        "-v",
         help="Show detailed metrics and all files",
     ),
     quiet: bool = typer.Option(
-        False, "--quiet", "-q",
+        False,
+        "--quiet",
+        "-q",
         help="Suppress logging",
     ),
     config: Optional[Path] = typer.Option(
-        None, "--config", "-c",
+        None,
+        "--config",
+        "-c",
         help="Configuration file (TOML)",
-        exists=True, file_okay=True, dir_okay=False,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
     ),
     workers: Optional[int] = typer.Option(
-        None, "--workers", "-w",
+        None,
+        "--workers",
+        "-w",
         help="Parallel workers",
-        min=1, max=32,
+        min=1,
+        max=32,
     ),
 ):
     """
@@ -72,8 +87,11 @@ def structure(
 
     try:
         settings = resolve_settings(
-            config=config, no_cache=False,
-            workers=workers, verbose=verbose, quiet=quiet,
+            config=config,
+            no_cache=False,
+            workers=workers,
+            verbose=verbose,
+            quiet=quiet,
         )
 
         # Phase 1: Scan
@@ -97,11 +115,15 @@ def structure(
         detected = [d for d in detected if d != "universal"]
 
         if len(all_files) < _MIN_FILES:
-            console.print(f"[yellow]Only {len(all_files)} files found — need at least {_MIN_FILES} for analysis[/yellow]")
+            console.print(
+                f"[yellow]Only {len(all_files)} files found — need at least {_MIN_FILES} for analysis[/yellow]"
+            )
             raise typer.Exit(1)
 
         if not quiet:
-            console.print(f"  Scanned [green]{len(all_files)}[/green] files ({', '.join(detected)})")
+            console.print(
+                f"  Scanned [green]{len(all_files)}[/green] files ({', '.join(detected)})"
+            )
 
         # Phase 2-5: Analysis engine
         engine = AnalysisEngine(all_files, root_dir=str(path))
@@ -184,8 +206,7 @@ def _output_json(result: CodebaseAnalysis):
                 "module": bm.module_path,
                 "community_distribution": bm.community_distribution,
                 "misplaced_files": [
-                    {"file": f, "suggested_module": s}
-                    for f, s in bm.misplaced_files
+                    {"file": f, "suggested_module": s} for f, s in bm.misplaced_files
                 ],
             }
             for bm in result.boundary_mismatches
@@ -201,9 +222,13 @@ def _output_rich(result: CodebaseAnalysis, verbose: bool = False):
 
     # ── Summary ────────────────────────────────────────────────────
     mod_label = _modularity_label(result.modularity)
-    console.print(f"  [bold]{result.total_files}[/bold] files across [bold]{result.total_modules}[/bold] modules")
+    console.print(
+        f"  [bold]{result.total_files}[/bold] files across [bold]{result.total_modules}[/bold] modules"
+    )
     console.print(f"  [bold]{result.total_edges}[/bold] dependency edges")
-    console.print(f"  [bold]{len(ga.communities)}[/bold] natural communities (modularity: {result.modularity:.2f} — {mod_label})")
+    console.print(
+        f"  [bold]{len(ga.communities)}[/bold] natural communities (modularity: {result.modularity:.2f} — {mod_label})"
+    )
     console.print()
 
     # ── Circular Dependencies ──────────────────────────────────────
@@ -218,7 +243,9 @@ def _output_rich(result: CodebaseAnalysis, verbose: bool = False):
             all_same_pkg = all(str(Path(n).parent) == init_dir for n in non_init)
             if all_same_pkg:
                 if verbose:
-                    console.print(f"  [dim]Package cycle in {init_dir}/ (structural, not a problem)[/dim]")
+                    console.print(
+                        f"  [dim]Package cycle in {init_dir}/ (structural, not a problem)[/dim]"
+                    )
                 continue
         real_cycles.append(cycle)
 
@@ -233,14 +260,17 @@ def _output_rich(result: CodebaseAnalysis, verbose: bool = False):
 
     # ── High-Impact Files ──────────────────────────────────────────
     high_impact = [
-        (path, fa) for path, fa in result.files.items()
+        (path, fa)
+        for path, fa in result.files.items()
         if fa.blast_radius_size > result.total_files * 0.3  # affects > 30% of codebase
     ]
     high_impact.sort(key=lambda x: x[1].blast_radius_size, reverse=True)
 
     if high_impact:
         has_issues = True
-        console.print("[bold yellow]High-Impact Files[/bold yellow] (changing these affects >30% of codebase)")
+        console.print(
+            "[bold yellow]High-Impact Files[/bold yellow] (changing these affects >30% of codebase)"
+        )
         for path, fa in high_impact:
             pct = fa.blast_radius_size * 100 // result.total_files
             console.print(
@@ -254,17 +284,20 @@ def _output_rich(result: CodebaseAnalysis, verbose: bool = False):
     meaningful_mismatches = []
     for bm in result.boundary_mismatches:
         useful_misplaced = [
-            (f, s) for f, s in bm.misplaced_files
-            if s and s != bm.module_path and s != "unknown"
+            (f, s) for f, s in bm.misplaced_files if s and s != bm.module_path and s != "unknown"
         ]
         if useful_misplaced:
             meaningful_mismatches.append((bm, useful_misplaced))
 
     if meaningful_mismatches:
         has_issues = True
-        console.print("[bold yellow]Boundary Mismatches[/bold yellow] (module boundaries don't match actual coupling)")
+        console.print(
+            "[bold yellow]Boundary Mismatches[/bold yellow] (module boundaries don't match actual coupling)"
+        )
         for bm, misplaced in meaningful_mismatches:
-            console.print(f"  [bold]{bm.module_path}/[/bold] spans {len(bm.community_distribution)} communities")
+            console.print(
+                f"  [bold]{bm.module_path}/[/bold] spans {len(bm.community_distribution)} communities"
+            )
             for file, suggested in misplaced:
                 console.print(f"    {file} is more connected to {suggested}/")
         console.print()
@@ -283,7 +316,7 @@ def _output_rich(result: CodebaseAnalysis, verbose: bool = False):
             z_idx = r.find("modified_z=")
             if z_idx > 0:
                 try:
-                    z_val = float(r[z_idx + 11:r.find(")", z_idx)])
+                    z_val = float(r[z_idx + 11 : r.find(")", z_idx)])
                     max_z = max(max_z, z_val)
                 except ValueError:
                     pass
@@ -324,7 +357,13 @@ def _output_rich(result: CodebaseAnalysis, verbose: bool = False):
             ma = result.modules[mod_path]
             coh_style = "green" if ma.cohesion > 0.3 else "yellow" if ma.cohesion > 0.1 else "red"
             coup_style = "green" if ma.coupling < 0.5 else "yellow" if ma.coupling < 0.8 else "red"
-            align_style = "green" if ma.boundary_alignment > 0.8 else "yellow" if ma.boundary_alignment > 0.5 else "red"
+            align_style = (
+                "green"
+                if ma.boundary_alignment > 0.8
+                else "yellow"
+                if ma.boundary_alignment > 0.5
+                else "red"
+            )
 
             table.add_row(
                 ma.path,

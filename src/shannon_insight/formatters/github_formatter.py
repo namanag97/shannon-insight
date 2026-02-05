@@ -2,8 +2,8 @@
 
 from typing import List
 
+from ..models import AnalysisContext, AnomalyReport, DiffReport
 from .base import BaseFormatter
-from ..models import AnomalyReport, AnalysisContext, DiffReport
 
 
 class GithubFormatter(BaseFormatter):
@@ -42,7 +42,9 @@ class GithubFormatter(BaseFormatter):
                 delta = f"+{d.score_delta:.3f}" if d.score_delta else ""
                 lines.append(f"::warning file={d.file}::Score regressed {delta}")
             elif d.status == "new":
-                lines.append(f"::notice file={d.file}::New file (score {d.current.overall_score:.3f})")
+                lines.append(
+                    f"::notice file={d.file}::New file (score {d.current.overall_score:.3f})"
+                )
 
         # Markdown summary for PR comment
         lines.append("")
@@ -52,7 +54,9 @@ class GithubFormatter(BaseFormatter):
         lines.append("|------|-------|-------|--------|")
         for d in diffs:
             delta_str = f"{d.score_delta:+.3f}" if d.score_delta is not None else "—"
-            lines.append(f"| `{d.file}` | {d.current.overall_score:.3f} | {delta_str} | {d.status} |")
+            lines.append(
+                f"| `{d.file}` | {d.current.overall_score:.3f} | {delta_str} | {d.status} |"
+            )
         lines.append("")
 
         counts = {}

@@ -1,6 +1,5 @@
 """Tests for shannon_insight.math.robust module."""
 
-import pytest
 import numpy as np
 
 from shannon_insight.math.robust import RobustStatistics

@@ -1,7 +1,5 @@
 """Tests for shannon_insight.math.statistics module."""
 
-import math
-import pytest
 import numpy as np
 
 from shannon_insight.math.statistics import Statistics
@@ -50,7 +48,7 @@ class TestZScores:
         values = [10.0, 20.0, 30.0, 40.0, 50.0]
         z = Statistics.z_scores(values)
         assert abs(sum(z) / len(z)) < 1e-10  # mean = 0
-        z_std = (sum(zi ** 2 for zi in z) / len(z)) ** 0.5
+        z_std = (sum(zi**2 for zi in z) / len(z)) ** 0.5
         assert abs(z_std - 1.0) < 0.2  # approximately unit variance
 
     def test_z_score_single(self):

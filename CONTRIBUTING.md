@@ -130,17 +130,23 @@ make type-check
 
 1. Create a new scanner in `src/shannon_insight/analyzers/`
 2. Register in `analyzers/__init__.py`
-3. Add auto-detection in `core.py:_get_scanner()`
+3. Add auto-detection in `core/scanner_factory.py`
 4. Update entry points in `pyproject.toml`
 5. Add tests for the new language
 
 ### Adding a New Primitive
 
-1. Add field to `Primitives` dataclass in `models.py`
-2. Implement extraction in `primitives/extractor.py`
-3. Update fusion weights in `config.py`
-4. Add recommendations in `primitives/recommendations.py`
-5. Add tests for the new primitive
+1. Create plugin in `src/shannon_insight/primitives/plugins/`
+2. Add field to `Primitives` dataclass in `models.py`
+3. Register in `primitives/registry.py`
+4. Add tests for the new primitive
+
+### Adding a New Insight Finder
+
+1. Create finder in `src/shannon_insight/insights/finders/`
+2. Implement the `Finder` protocol: declare `requires` and `find(store) -> list[Finding]`
+3. Register in `InsightKernel`
+4. Add tests for the new finder
 
 ## Pull Request Guidelines
 

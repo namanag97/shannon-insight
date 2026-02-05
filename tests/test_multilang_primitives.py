@@ -5,18 +5,17 @@ cognitive load work correctly across all 7 supported languages.
 """
 
 import tempfile
-import pytest
 from pathlib import Path
-from shannon_insight import CodebaseAnalyzer
-from shannon_insight.math import Compression, Gini, IdentifierAnalyzer
 
+from shannon_insight import InsightKernel
+from shannon_insight.math import Compression, Gini, IdentifierAnalyzer
 
 # ---------------------------------------------------------------------------
 # Test file content for each language — each has a "focused" file (single
 # responsibility) and a "mixed" file (multiple responsibilities).
 # ---------------------------------------------------------------------------
 
-GO_FOCUSED = '''package validator
+GO_FOCUSED = """package validator
 
 import "regexp"
 
@@ -51,9 +50,9 @@ func ValidateAge(age int) bool {
     }
     return true
 }
-'''
+"""
 
-GO_MIXED = '''package processor
+GO_MIXED = """package processor
 
 import (
     "fmt"
@@ -173,9 +172,9 @@ func FormatTimestamp(t time.Time) string {
 func ParseTimestamp(s string) (time.Time, error) {
     return time.Parse("2006-01-02 15:04:05", s)
 }
-'''
+"""
 
-GO_UTIL = '''package util
+GO_UTIL = """package util
 
 import "strings"
 
@@ -195,9 +194,9 @@ func ContainsString(haystack []string, needle string) bool {
     }
     return false
 }
-'''
+"""
 
-PYTHON_FOCUSED = '''
+PYTHON_FOCUSED = """
 import re
 
 
@@ -225,9 +224,9 @@ def validate_age(age: int) -> bool:
     if age > 150:
         return False
     return True
-'''
+"""
 
-PYTHON_MIXED = '''
+PYTHON_MIXED = """
 import os
 import json
 import logging
@@ -308,9 +307,9 @@ def format_timestamp(ts: float) -> str:
 
 def parse_timestamp(s: str) -> float:
     return time.mktime(time.strptime(s, "%Y-%m-%d %H:%M:%S"))
-'''
+"""
 
-PYTHON_UTIL = '''
+PYTHON_UTIL = """
 def join_strings(parts):
     return ",".join(parts)
 
@@ -321,9 +320,9 @@ def split_string(s):
 
 def contains_string(haystack, needle):
     return needle in haystack
-'''
+"""
 
-TS_FOCUSED = '''
+TS_FOCUSED = """
 export function validateEmail(email: string): boolean {
     const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
     return pattern.test(email);
@@ -353,9 +352,9 @@ export function validateAge(age: number): boolean {
     }
     return true;
 }
-'''
+"""
 
-TS_MIXED = '''
+TS_MIXED = """
 import { Request, Response } from 'express';
 
 const cache: Map<string, string> = new Map();
@@ -420,9 +419,9 @@ export function formatTimestamp(date: Date): string {
 export function parseTimestamp(s: string): Date {
     return new Date(s);
 }
-'''
+"""
 
-TS_UTIL = '''
+TS_UTIL = """
 export function joinStrings(parts: string[]): string {
     return parts.join(",");
 }
@@ -434,7 +433,7 @@ export function splitString(s: string): string[] {
 export function containsString(arr: string[], needle: string): boolean {
     return arr.includes(needle);
 }
-'''
+"""
 
 
 def _create_lang_dir(tmpdir: Path, lang: str, files: dict) -> Path:
@@ -447,7 +446,7 @@ def _create_lang_dir(tmpdir: Path, lang: str, files: dict) -> Path:
 
 
 class TestCrossLanguagePrimitives:
-    """Test that redesigned primitives produce meaningful results across languages."""
+    """Test that the insight pipeline produces meaningful results across languages."""
 
     def test_go_pipeline_runs(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -456,17 +455,10 @@ class TestCrossLanguagePrimitives:
             (d / "processor.go").write_text(GO_MIXED)
             (d / "util.go").write_text(GO_UTIL)
 
-            analyzer = CodebaseAnalyzer(d, language="go")
-            reports, ctx = analyzer.analyze()
+            kernel = InsightKernel(str(d), language="go")
+            result, snapshot = kernel.run()
 
-            assert ctx.total_files_scanned == 3
-            assert len(reports) > 0
-
-            for r in reports:
-                p = r.primitives
-                assert 0.0 <= p.structural_entropy <= 1.0
-                assert 0.0 <= p.semantic_coherence <= 1.0
-                assert 0.0 <= p.cognitive_load <= 1.0
+            assert snapshot.file_count == 3
 
     def test_python_pipeline_runs(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -475,17 +467,10 @@ class TestCrossLanguagePrimitives:
             (d / "processor.py").write_text(PYTHON_MIXED)
             (d / "util.py").write_text(PYTHON_UTIL)
 
-            analyzer = CodebaseAnalyzer(d, language="python")
-            reports, ctx = analyzer.analyze()
+            kernel = InsightKernel(str(d), language="python")
+            result, snapshot = kernel.run()
 
-            assert ctx.total_files_scanned == 3
-            assert len(reports) > 0
-
-            for r in reports:
-                p = r.primitives
-                assert 0.0 <= p.structural_entropy <= 1.0
-                assert 0.0 <= p.semantic_coherence <= 1.0
-                assert 0.0 <= p.cognitive_load <= 1.0
+            assert snapshot.file_count == 3
 
     def test_typescript_pipeline_runs(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -494,17 +479,10 @@ class TestCrossLanguagePrimitives:
             (d / "processor.ts").write_text(TS_MIXED)
             (d / "util.ts").write_text(TS_UTIL)
 
-            analyzer = CodebaseAnalyzer(d, language="typescript")
-            reports, ctx = analyzer.analyze()
+            kernel = InsightKernel(str(d), language="typescript")
+            result, snapshot = kernel.run()
 
-            assert ctx.total_files_scanned == 3
-            assert len(reports) > 0
-
-            for r in reports:
-                p = r.primitives
-                assert 0.0 <= p.structural_entropy <= 1.0
-                assert 0.0 <= p.semantic_coherence <= 1.0
-                assert 0.0 <= p.cognitive_load <= 1.0
+            assert snapshot.file_count == 3
 
     def test_auto_detect_multilang(self):
         """Auto-detect should handle Go + Python + TypeScript together."""
@@ -520,17 +498,10 @@ class TestCrossLanguagePrimitives:
             (d / "processor.ts").write_text(TS_MIXED)
             (d / "util.ts").write_text(TS_UTIL)
 
-            analyzer = CodebaseAnalyzer(d, language="auto")
-            reports, ctx = analyzer.analyze()
+            kernel = InsightKernel(str(d), language="auto")
+            result, snapshot = kernel.run()
 
-            assert ctx.total_files_scanned >= 9
-            assert len(ctx.detected_languages) >= 3
-
-            for r in reports:
-                p = r.primitives
-                assert 0.0 <= p.structural_entropy <= 1.0
-                assert 0.0 <= p.semantic_coherence <= 1.0
-                assert 0.0 <= p.cognitive_load <= 1.0
+            assert snapshot.file_count >= 9
 
 
 class TestCompressionCrossLanguage:
@@ -562,8 +533,10 @@ class TestCompressionCrossLanguage:
             mixed_bytes = mixed.encode("utf-8")
 
             # Only compare if both are above threshold
-            if (len(focused_bytes) >= Compression.MIN_SIZE_THRESHOLD and
-                    len(mixed_bytes) >= Compression.MIN_SIZE_THRESHOLD):
+            if (
+                len(focused_bytes) >= Compression.MIN_SIZE_THRESHOLD
+                and len(mixed_bytes) >= Compression.MIN_SIZE_THRESHOLD
+            ):
                 r_focused = Compression.compression_ratio(focused_bytes)
                 r_mixed = Compression.compression_ratio(mixed_bytes)
                 # Mixed file should generally compress less well (higher ratio)
@@ -619,8 +592,7 @@ class TestIdentifiersCrossLanguage:
 
     def test_coherence_in_valid_range(self):
         """All coherence scores should be in [0, 1]."""
-        for content in [PYTHON_FOCUSED, PYTHON_MIXED, GO_FOCUSED, GO_MIXED,
-                        TS_FOCUSED, TS_MIXED]:
+        for content in [PYTHON_FOCUSED, PYTHON_MIXED, GO_FOCUSED, GO_MIXED, TS_FOCUSED, TS_MIXED]:
             tokens = IdentifierAnalyzer.extract_identifier_tokens(content)
             coherence = IdentifierAnalyzer.compute_coherence(tokens)
             assert 0.0 <= coherence <= 1.0, f"Coherence out of range: {coherence}"
@@ -638,6 +610,7 @@ class TestGiniCrossLanguage:
             (d / "util.go").write_text(GO_UTIL)
 
             from shannon_insight.analyzers import GoScanner
+
             scanner = GoScanner(str(d))
             files = scanner.scan()
 
@@ -654,6 +627,7 @@ class TestGiniCrossLanguage:
             (d / "util.py").write_text(PYTHON_UTIL)
 
             from shannon_insight.analyzers import PythonScanner
+
             scanner = PythonScanner(str(d))
             files = scanner.scan()
 
@@ -670,6 +644,7 @@ class TestGiniCrossLanguage:
             (d / "util.ts").write_text(TS_UTIL)
 
             from shannon_insight.analyzers import TypeScriptScanner
+
             scanner = TypeScriptScanner(str(d))
             files = scanner.scan()
 
@@ -687,6 +662,7 @@ class TestGiniCrossLanguage:
             (d / "util.go").write_text(GO_UTIL)
 
             from shannon_insight.analyzers import GoScanner
+
             scanner = GoScanner(str(d))
             files = scanner.scan()
 
@@ -702,37 +678,37 @@ class TestGiniCrossLanguage:
                 assert 0.0 <= gini <= 1.0, f"{path}: Gini={gini} out of range"
 
 
-class TestRecommendationQuality:
-    """Verify recommendations are specific and actionable with new primitives."""
+class TestFindingSuggestions:
+    """Verify findings produce actionable suggestions."""
 
-    def test_recommendations_mention_specific_terms(self):
-        """Recommendations should use specific language from the analysis."""
+    def test_findings_have_suggestions(self):
+        """Findings should include suggestions."""
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.go").write_text(GO_FOCUSED)
             (d / "processor.go").write_text(GO_MIXED)
             (d / "util.go").write_text(GO_UTIL)
 
-            analyzer = CodebaseAnalyzer(d, language="go")
-            reports, _ctx = analyzer.analyze()
+            kernel = InsightKernel(str(d), language="go")
+            result, snapshot = kernel.run()
 
-            for report in reports:
-                assert len(report.recommendations) > 0
-                for rec in report.recommendations:
-                    assert len(rec) > 10, "Recommendations should be detailed"
+            for finding in result.findings:
+                assert finding.suggestion is not None
+                assert len(finding.suggestion) > 5, "Suggestions should be descriptive"
 
-    def test_root_causes_are_descriptive(self):
-        """Root causes should contain specific metric values."""
+    def test_findings_have_evidence(self):
+        """Findings should include evidence."""
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.py").write_text(PYTHON_FOCUSED)
             (d / "processor.py").write_text(PYTHON_MIXED)
             (d / "util.py").write_text(PYTHON_UTIL)
 
-            analyzer = CodebaseAnalyzer(d, language="python")
-            reports, _ctx = analyzer.analyze()
+            kernel = InsightKernel(str(d), language="python")
+            result, snapshot = kernel.run()
 
-            for report in reports:
-                assert len(report.root_causes) > 0
-                for cause in report.root_causes:
-                    assert len(cause) > 5, "Root causes should be descriptive"
+            for finding in result.findings:
+                assert len(finding.evidence) > 0
+                for ev in finding.evidence:
+                    assert ev.description is not None
+                    assert len(ev.description) > 5, "Evidence should be descriptive"

@@ -26,49 +26,60 @@ make check                       # lint + type-check
 make all                         # format + check + test
 
 # Run
-shannon-insight test_codebase/complexity_demo --language python --top 10
+shannon-insight -C test_codebase
 ```
 
 ## Architecture
 
-The codebase has three analysis pipelines, all starting from a shared scanning layer:
+All analysis flows through a single engine: `InsightKernel` (blackboard architecture).
+
+### Data Flow
+
+```
+ScannerFactory → FileMetrics[] → AnalysisStore (blackboard)
+                                   ↑ Analyzers write signals
+                                   ↓ Finders read signals
+                               Finding[] → InsightResult + Snapshot
+```
+
+Key types: `FileMetrics` (scanner output), `AnalysisStore` (blackboard), `Finding` (finder output), `InsightResult` (final result), `Snapshot` (serializable state for history/diff), `ChangeScopedReport` (scoped analysis for `--changed`/`--since`).
 
 ### Scanning Layer
 `core/scanner_factory.py` creates language-specific scanners (Python, Go, TypeScript, JavaScript, Java, Rust, Ruby, C/C++) defined in `analyzers/languages.py`. Scanners produce `FileMetrics` (lines, tokens, imports, complexity). `UniversalScanner` auto-detects language.
 
-### Pipeline 1: Per-File Primitives (`shannon-insight .`)
-`core/analyzer.py` → `core/pipeline.py` → `primitives/extractor.py`
-
-Computes 5 orthogonal quality metrics per file via a plugin system (`primitives/plugins/`):
-- Compression complexity (Kolmogorov via zlib)
-- Network centrality (PageRank)
-- Churn volatility
-- Semantic coherence (identifier clustering entropy)
-- Cognitive load (complexity x nesting x Gini)
-
-Signals are fused with configurable weights, anomalies flagged via z-score.
-
-### Pipeline 2: Insight Engine (`shannon-insight . insights`)
-`insights/kernel.py` orchestrates a **blackboard architecture**:
+### InsightKernel (`insights/kernel.py`)
+Orchestrates a **blackboard architecture**:
 
 1. **Analyzers** fill an `AnalysisStore` (blackboard) with signals. Each declares `requires`/`provides` and runs in topological order:
-   - `StructuralAnalyzer` → dependency graph, PageRank, SCC, Louvain communities
-   - `PerFileAnalyzer` → the 5 primitives above
-   - `TemporalAnalyzer` → git co-change matrix, churn trajectories
-   - `SpectralAnalyzer` → Laplacian eigendecomposition
+   - `StructuralAnalyzer` -> dependency graph, PageRank, SCC, Louvain communities
+   - `PerFileAnalyzer` -> the 5 primitives (compression, centrality, volatility, coherence, cognitive load)
+   - `TemporalAnalyzer` -> git co-change matrix, churn trajectories
+   - `SpectralAnalyzer` -> Laplacian eigendecomposition
 
 2. **Finders** read the store and produce evidence-backed `Finding` objects. Each declares required signals and is skipped if unavailable (graceful degradation when git is absent):
    - HighRiskHub, HiddenCoupling, GodFile, UnstableFile, BoundaryMismatch, DeadDependency
 
-### Pipeline 3: Structural Analysis (`shannon-insight . structure`)
-`analysis/engine.py` runs a DAG of graph algorithms: dependency graph construction, PageRank, betweenness centrality, Tarjan's SCC, Louvain modularity, module cohesion/coupling measurement.
+### CLI Layer
+Built on **Typer** (wraps Click). The main callback in `cli/analyze.py` handles `-C/--path` and stores it in `ctx.obj["path"]` for subcommands. Uses `click.Choice` via `click_type=` for `--fail-on` validation.
+
+```
+shannon-insight                        # Main analysis (InsightKernel)
+shannon-insight explain <file>         # Deep-dive on a specific file
+shannon-insight diff                   # Compare snapshots
+shannon-insight history                # List past snapshots
+shannon-insight health                 # Codebase health trends
+shannon-insight report                 # HTML treemap report
+```
+
+Key flags: `--changed` (auto-detect branch base), `--since <ref>` (scope to changed files), `--json`, `--verbose`, `--save`, `--fail-on any|high`.
 
 ### Supporting Modules
 - **`math/`**: Core algorithms (entropy, compression, Gini, graph algorithms, robust statistics, signal fusion)
 - **`temporal/`**: Git log parsing (`git_extractor.py`), co-change matrix, churn trajectory classification
-- **`formatters/`**: Output backends (Rich, JSON, CSV, quiet, GitHub Actions annotations)
+- **`formatters/`**: Output formatting base classes
 - **`storage/`**: SQLite-backed history for snapshot persistence
 - **`snapshot/`**: Capture/compare analysis state over time
+- **`diff/`**: Snapshot diffing and change-scoped analysis
 - **`config.py`**: Pydantic-based settings, overridable via `shannon-insight.toml` or `SHANNON_*` env vars
 
 ## Code Conventions
@@ -78,6 +89,8 @@ Signals are fused with configurable weights, anomalies flagged via z-score.
 - Mypy for type checking (ignores sklearn, diskcache, typer, rich)
 - `snake_case` for functions/variables, `PascalCase` for classes
 - Protocol classes for plugin interfaces (`Analyzer`, `Finder`, `Scanner`)
+- `--save` is opt-in (off by default) — bare `shannon-insight` produces no `.shannon/` side effects
+- Default log level is WARNING — scanner/analyzer noise suppressed unless `--verbose`
 
 ## Adding a New Language Scanner
 
@@ -91,8 +104,6 @@ Signals are fused with configurable weights, anomalies flagged via z-score.
 1. Create plugin in `src/shannon_insight/primitives/plugins/`
 2. Add field to `Primitives` dataclass in `models.py`
 3. Register in `primitives/registry.py`
-4. Update fusion weights in `config.py`
-5. Add recommendations in `primitives/recommendations.py`
 
 ## Adding a New Insight Finder
 

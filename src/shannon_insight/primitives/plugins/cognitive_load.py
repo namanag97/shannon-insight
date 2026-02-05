@@ -3,9 +3,9 @@
 from pathlib import Path
 from typing import Dict, List
 
-from ..base import PrimitivePlugin
-from ...models import FileMetrics
 from ...math import Compression, Gini
+from ...models import FileMetrics
+from ..base import PrimitivePlugin
 
 
 class CognitiveLoadPrimitive(PrimitivePlugin):
@@ -26,9 +26,11 @@ class CognitiveLoadPrimitive(PrimitivePlugin):
             if concepts > 0:
                 base_load = concepts * file.complexity_score * nesting_factor
             else:
-                file_path = root_dir / file.path if not Path(file.path).is_absolute() else Path(file.path)
+                file_path = (
+                    root_dir / file.path if not Path(file.path).is_absolute() else Path(file.path)
+                )
                 try:
-                    with open(file_path, 'rb') as f:
+                    with open(file_path, "rb") as f:
                         raw = f.read()
                     ratio = Compression.compression_ratio(raw)
                 except Exception:

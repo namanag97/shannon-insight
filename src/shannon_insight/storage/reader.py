@@ -27,9 +27,7 @@ def load_snapshot(conn: sqlite3.Connection, snapshot_id: int) -> Snapshot:
     ValueError
         If no snapshot with that ID exists.
     """
-    row = conn.execute(
-        "SELECT * FROM snapshots WHERE id = ?", (snapshot_id,)
-    ).fetchone()
+    row = conn.execute("SELECT * FROM snapshots WHERE id = ?", (snapshot_id,)).fetchone()
 
     if row is None:
         raise ValueError(f"No snapshot with id={snapshot_id}")
@@ -37,9 +35,7 @@ def load_snapshot(conn: sqlite3.Connection, snapshot_id: int) -> Snapshot:
     return _hydrate(conn, row)
 
 
-def load_snapshot_by_commit(
-    conn: sqlite3.Connection, commit_sha: str
-) -> Optional[Snapshot]:
+def load_snapshot_by_commit(conn: sqlite3.Connection, commit_sha: str) -> Optional[Snapshot]:
     """Load the most recent snapshot for a given commit SHA.
 
     Parameters
@@ -65,9 +61,7 @@ def load_snapshot_by_commit(
     return _hydrate(conn, row)
 
 
-def list_snapshots(
-    conn: sqlite3.Connection, limit: int = 20
-) -> List[Dict]:
+def list_snapshots(conn: sqlite3.Connection, limit: int = 20) -> List[Dict]:
     """List recent snapshots with finding counts.
 
     Parameters
@@ -148,9 +142,7 @@ def _hydrate(conn: sqlite3.Connection, row: sqlite3.Row) -> Snapshot:
 
     # Findings
     findings: List[FindingRecord] = []
-    for f_row in conn.execute(
-        "SELECT * FROM findings WHERE snapshot_id = ?", (snapshot_id,)
-    ):
+    for f_row in conn.execute("SELECT * FROM findings WHERE snapshot_id = ?", (snapshot_id,)):
         evidence_raw = json.loads(f_row["evidence"])
         evidence = [
             EvidenceRecord(

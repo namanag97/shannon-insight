@@ -1,13 +1,14 @@
 """Configuration and security exceptions: paths, settings, access control."""
 
 from pathlib import Path
-from typing import Optional, Any
+from typing import Any, Optional
 
 from .base import ShannonInsightError
 
 
 class ConfigurationError(ShannonInsightError):
     """Base class for configuration-related errors."""
+
     pass
 
 
@@ -15,9 +16,7 @@ class InvalidPathError(ConfigurationError):
     """Raised when a provided path is invalid."""
 
     def __init__(self, path: Path, reason: str):
-        super().__init__(
-            f"Invalid path: {path}", details={"path": str(path), "reason": reason}
-        )
+        super().__init__(f"Invalid path: {path}", details={"path": str(path), "reason": reason})
         self.path = path
         self.reason = reason
 

@@ -39,7 +39,7 @@ class GraphMetrics:
             return {}
 
         N = len(nodes)
-        rank = {node: 1.0 / N for node in nodes}
+        rank = dict.fromkeys(nodes, 1.0 / N)
 
         # Identify dangling nodes (no outgoing edges).
         # Standard treatment: redistribute their mass uniformly to all nodes.
@@ -104,15 +104,15 @@ class GraphMetrics:
         for neighbors in adjacency.values():
             nodes.update(neighbors)
 
-        betweenness = {node: 0.0 for node in nodes}
+        betweenness = dict.fromkeys(nodes, 0.0)
 
         for s in nodes:
             stack: List[str] = []
             predecessors: Dict[str, List[str]] = {v: [] for v in nodes}
-            sigma = {v: 0 for v in nodes}
+            sigma = dict.fromkeys(nodes, 0)
             sigma[s] = 1
 
-            dist = {v: -1 for v in nodes}
+            dist = dict.fromkeys(nodes, -1)
             dist[s] = 0
 
             queue = [s]
@@ -130,7 +130,7 @@ class GraphMetrics:
                         sigma[w] += sigma[v]
                         predecessors[w].append(v)
 
-            delta = {v: 0.0 for v in nodes}
+            delta = dict.fromkeys(nodes, 0.0)
 
             while stack:
                 w = stack.pop()
@@ -184,7 +184,7 @@ class GraphMetrics:
         # Consider falling back to PageRank or warning the caller.
         # Reference: Newman, "Networks: An Introduction" (2010), Section 7.2.
 
-        x = {node: 1.0 for node in nodes}
+        x = dict.fromkeys(nodes, 1.0)
 
         for _ in range(iterations):
             new_x = {}

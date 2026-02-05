@@ -1,15 +1,18 @@
 """Tests for the change-scoped analysis module."""
+
 import sys
+
 sys.path.insert(0, "src")
 
-import pytest
-from shannon_insight.snapshot.models import Snapshot, FindingRecord, EvidenceRecord
-from shannon_insight.diff.scope import compute_blast_radius, build_scoped_report
+from shannon_insight.diff.scope import build_scoped_report, compute_blast_radius
+from shannon_insight.snapshot.models import FindingRecord, Snapshot
 
 
 def _snap(file_signals=None, findings=None, edges=None):
     return Snapshot(
-        tool_version="0.6.0", timestamp="2025-01-01T00:00:00Z", analyzed_path="/tmp",
+        tool_version="0.6.0",
+        timestamp="2025-01-01T00:00:00Z",
+        analyzed_path="/tmp",
         file_count=len(file_signals or {}),
         file_signals=file_signals or {},
         findings=findings or [],

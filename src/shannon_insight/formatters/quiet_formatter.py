@@ -2,8 +2,8 @@
 
 from typing import List
 
+from ..models import AnalysisContext, AnomalyReport
 from .base import BaseFormatter
-from ..models import AnomalyReport, AnalysisContext
 
 
 class QuietFormatter(BaseFormatter):

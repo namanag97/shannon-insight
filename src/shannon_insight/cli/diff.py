@@ -1,8 +1,9 @@
-"""Insight diff and baseline CLI commands.
+"""Diff CLI command — compare snapshots and manage baselines.
 
-Provides two commands:
-- ``insights-baseline``: Manage the baseline snapshot used for diff comparisons.
-- ``insights-diff``: Show what changed since a previous analysis run.
+Provides:
+- ``diff``: Show what changed since a previous analysis run.
+- ``diff --pin``: Pin the current snapshot as baseline.
+- ``diff --unpin``: Clear the pinned baseline.
 """
 
 from pathlib import Path
@@ -10,195 +11,15 @@ from typing import Optional
 
 import typer
 
-from . import app
-from ._common import console, resolve_settings
 from ..exceptions import ShannonInsightError
 from ..logging_config import setup_logging
+from . import app
+from ._common import console, resolve_settings
 
 
-# ── insights-baseline ────────────────────────────────────────────────────────
-
-
-@app.command(name="insights-baseline")
-def insights_baseline(
-    path: Path = typer.Argument(
-        Path("."),
-        help="Path to the codebase directory",
-        exists=True,
-        file_okay=False,
-        dir_okay=True,
-    ),
-    action: str = typer.Option(
-        "show",
-        "--action",
-        "-a",
-        help="Action to perform: set, show, or clear",
-    ),
-    snapshot_id: Optional[int] = typer.Option(
-        None,
-        "--snapshot-id",
-        "-s",
-        help="Snapshot ID to set as baseline (required for 'set' action)",
-    ),
-    verbose: bool = typer.Option(
-        False,
-        "--verbose",
-        "-v",
-        help="Show detailed information",
-    ),
-) -> None:
-    """Manage the insight baseline for diff comparisons.
-
-    The baseline is a pinned snapshot against which ``insights-diff``
-    compares the current analysis.  Only one baseline can be active at
-    a time.
-
-    [bold cyan]Examples:[/bold cyan]
-
-      shannon-insight . insights-baseline --action show
-
-      shannon-insight . insights-baseline --action set --snapshot-id 3
-
-      shannon-insight . insights-baseline --action clear
-    """
-    logger = setup_logging(verbose=verbose, quiet=False)
-
-    from ..storage import HistoryDB
-    from ..storage.reader import load_snapshot, list_snapshots
-
-    resolved = str(Path(path).resolve())
-
-    try:
-        with HistoryDB(resolved) as db:
-            if action == "show":
-                _baseline_show(db, verbose=verbose)
-
-            elif action == "set":
-                if snapshot_id is None:
-                    # Auto-select: use the most recent snapshot
-                    snapshots = list_snapshots(db.conn, limit=1)
-                    if not snapshots:
-                        console.print(
-                            "[yellow]No snapshots found. "
-                            "Run 'insights' first to create one.[/yellow]"
-                        )
-                        raise typer.Exit(1)
-                    snapshot_id = snapshots[0]["id"]
-                    console.print(
-                        f"[dim]Auto-selecting most recent snapshot "
-                        f"(id={snapshot_id}).[/dim]"
-                    )
-
-                db.set_baseline(snapshot_id)
-                snap = load_snapshot(db.conn, snapshot_id)
-                console.print(
-                    f"[green]Baseline set to snapshot {snapshot_id}[/green]"
-                )
-                console.print(
-                    f"  commit: {snap.commit_sha or '(none)'}"
-                )
-                console.print(
-                    f"  timestamp: {snap.timestamp}"
-                )
-                console.print(
-                    f"  files: {snap.file_count}, "
-                    f"findings: {len(snap.findings)}"
-                )
-
-            elif action == "clear":
-                db.clear_baseline()
-                console.print("[green]Baseline cleared.[/green]")
-
-            else:
-                console.print(
-                    f"[red]Unknown action: {action!r}. "
-                    f"Use 'set', 'show', or 'clear'.[/red]"
-                )
-                raise typer.Exit(1)
-
-    except ValueError as e:
-        console.print(f"[red]Error:[/red] {e}")
-        raise typer.Exit(1)
-    except ShannonInsightError as e:
-        console.print(f"[red]Error:[/red] {e}")
-        raise typer.Exit(1)
-    except typer.Exit:
-        raise
-    except Exception as e:
-        logger.exception("Unexpected error in insights-baseline")
-        console.print(f"[red]Unexpected error:[/red] {e}")
-        raise typer.Exit(1)
-
-
-def _baseline_show(db, verbose: bool = False) -> None:
-    """Display the current baseline info."""
-    from ..storage.reader import load_snapshot, list_snapshots
-
-    baseline_id = db.get_baseline_snapshot_id()
-
-    if baseline_id is None:
-        console.print("[yellow]No baseline set.[/yellow]")
-        console.print(
-            "[dim]Use --action set to pin a snapshot as baseline.[/dim]"
-        )
-
-        # Show recent snapshots so user knows what's available
-        snapshots = list_snapshots(db.conn, limit=5)
-        if snapshots:
-            console.print()
-            console.print("[dim]Recent snapshots:[/dim]")
-            for snap in snapshots:
-                console.print(
-                    f"  [dim]id={snap['id']}  "
-                    f"{snap['timestamp'][:19]}  "
-                    f"commit={snap['commit_sha'][:8] if snap['commit_sha'] else '(none)'}  "
-                    f"files={snap['file_count']}  "
-                    f"findings={snap['finding_count']}[/dim]"
-                )
-        return
-
-    try:
-        snap = load_snapshot(db.conn, baseline_id)
-    except ValueError:
-        console.print(
-            f"[red]Baseline references snapshot {baseline_id} "
-            f"which no longer exists.[/red]"
-        )
-        return
-
-    console.print(
-        f"[bold cyan]Baseline:[/bold cyan] snapshot {baseline_id}"
-    )
-    console.print(
-        f"  commit: {snap.commit_sha or '(none)'}"
-    )
-    console.print(f"  timestamp: {snap.timestamp}")
-    console.print(
-        f"  files: {snap.file_count}, "
-        f"findings: {len(snap.findings)}"
-    )
-    if verbose:
-        console.print(
-            f"  analyzers: {', '.join(snap.analyzers_ran)}"
-        )
-        console.print(
-            f"  modules: {snap.module_count}, "
-            f"commits: {snap.commits_analyzed}"
-        )
-
-
-# ── insights-diff ────────────────────────────────────────────────────────────
-
-
-@app.command(name="insights-diff")
-def insights_diff(
-    path: Path = typer.Argument(
-        Path("."),
-        help="Path to the codebase directory",
-        exists=True,
-        file_okay=False,
-        dir_okay=True,
-    ),
+@app.command(name="diff")
+def diff_cmd(
+    ctx: typer.Context,
     ref: Optional[str] = typer.Option(
         None,
         "--ref",
@@ -211,37 +32,26 @@ def insights_diff(
         "-b",
         help="Compare against the pinned baseline snapshot",
     ),
-    language: str = typer.Option(
-        "auto",
-        "--language",
-        "-l",
-        help="Programming language (auto, python, go, typescript, etc.)",
+    pin: bool = typer.Option(
+        False,
+        "--pin",
+        help="Pin the current (most recent) snapshot as baseline",
     ),
-    fmt: str = typer.Option(
-        "rich",
-        "--format",
-        "-f",
-        help="Output format: rich or json",
+    unpin: bool = typer.Option(
+        False,
+        "--unpin",
+        help="Clear the pinned baseline",
+    ),
+    json_output: bool = typer.Option(
+        False,
+        "--json",
+        help="Output in machine-readable JSON format",
     ),
     verbose: bool = typer.Option(
         False,
         "--verbose",
         "-v",
         help="Show full per-file metric details",
-    ),
-    quiet: bool = typer.Option(
-        False,
-        "--quiet",
-        "-q",
-        help="Suppress logging",
-    ),
-    max_findings: int = typer.Option(
-        10,
-        "--max-findings",
-        "-n",
-        help="Maximum findings for current analysis run",
-        min=1,
-        max=50,
     ),
     config: Optional[Path] = typer.Option(
         None,
@@ -251,6 +61,7 @@ def insights_diff(
         exists=True,
         file_okay=True,
         dir_okay=False,
+        hidden=True,
     ),
     workers: Optional[int] = typer.Option(
         None,
@@ -259,6 +70,7 @@ def insights_diff(
         help="Parallel workers",
         min=1,
         max=32,
+        hidden=True,
     ),
 ) -> None:
     """Show what changed since a previous analysis run.
@@ -270,47 +82,84 @@ def insights_diff(
     File renames are detected automatically when both snapshots have
     commit SHAs.
 
+    Use --pin to pin the current snapshot as baseline, or --unpin to clear it.
+
     [bold cyan]Examples:[/bold cyan]
 
-      shannon-insight . insights-diff
+      shannon-insight diff
 
-      shannon-insight . insights-diff --baseline
+      shannon-insight diff --baseline
 
-      shannon-insight . insights-diff --ref 5
+      shannon-insight diff --ref 5
 
-      shannon-insight . insights-diff --format json --verbose
+      shannon-insight diff --json --verbose
+
+      shannon-insight diff --pin
+
+      shannon-insight diff --unpin
     """
-    logger = setup_logging(verbose=verbose, quiet=quiet)
+    resolved = ctx.obj.get("path", Path.cwd()).resolve()
+    logger = setup_logging(verbose=verbose)
 
-    from ..insights import InsightKernel
     from ..storage import HistoryDB
-    from ..storage.reader import load_snapshot, load_snapshot_by_commit, list_snapshots
-    from ..storage.writer import save_snapshot
-    from ..diff import diff_snapshots
-    from ..diff.rename import detect_renames
-    from ..formatters.insight_diff_formatter import InsightDiffFormatter
+    from ..storage.reader import list_snapshots, load_snapshot
 
-    resolved = str(Path(path).resolve())
+    resolved_str = str(resolved)
 
     try:
+        # ── Handle baseline management first (no analysis needed) ─────
+        if pin:
+            with HistoryDB(resolved_str) as db:
+                snapshots = list_snapshots(db.conn, limit=1)
+                if not snapshots:
+                    console.print(
+                        "[yellow]No snapshots found. "
+                        "Run 'shannon-insight --save' first to create one.[/yellow]"
+                    )
+                    raise typer.Exit(1)
+                snapshot_id = snapshots[0]["id"]
+                db.set_baseline(snapshot_id)
+                snap = load_snapshot(db.conn, snapshot_id)
+                console.print(f"[green]Baseline set to snapshot {snapshot_id}[/green]")
+                console.print(f"  commit: {snap.commit_sha or '(none)'}")
+                console.print(f"  timestamp: {snap.timestamp}")
+                console.print(f"  files: {snap.file_count}, findings: {len(snap.findings)}")
+            return
+
+        if unpin:
+            with HistoryDB(resolved_str) as db:
+                db.clear_baseline()
+                console.print("[green]Baseline cleared.[/green]")
+            return
+
+        # ── Normal diff flow ──────────────────────────────────────────
+        from ..diff import diff_snapshots
+        from ..diff.rename import detect_renames
+        from ..formatters.insight_diff_formatter import InsightDiffFormatter
+        from ..insights import InsightKernel
+        from ..storage.writer import save_snapshot
+
         settings = resolve_settings(
             config=config,
             no_cache=False,
             workers=workers,
             verbose=verbose,
-            quiet=quiet,
         )
+
+        max_findings = settings.insights_max_findings
 
         # ── Step 1: Run current analysis and capture snapshot ────────
         kernel = InsightKernel(
-            resolved, language=language, settings=settings,
+            resolved_str,
+            language="auto",
+            settings=settings,
         )
-        result, new_snapshot = kernel.run_and_capture(
+        result, new_snapshot = kernel.run(
             max_findings=max_findings,
         )
 
         # ── Step 2: Save current snapshot ────────────────────────────
-        with HistoryDB(resolved) as db:
+        with HistoryDB(resolved_str) as db:
             new_sid = save_snapshot(db.conn, new_snapshot)
             logger.info("Current snapshot saved (id=%d)", new_sid)
 
@@ -323,12 +172,10 @@ def insights_diff(
             )
 
             if old_snapshot is None:
+                console.print("[yellow]No previous snapshot found to compare against.[/yellow]")
                 console.print(
-                    "[yellow]No previous snapshot found to compare against.[/yellow]"
-                )
-                console.print(
-                    "[dim]Run 'insights' at least twice, or set a baseline "
-                    "with 'insights-baseline --action set'.[/dim]"
+                    "[dim]Run the analysis with --save at least twice, or set a baseline "
+                    "with 'diff --pin'.[/dim]"
                 )
                 raise typer.Exit(0)
 
@@ -337,14 +184,12 @@ def insights_diff(
             if old_snapshot.commit_sha and new_snapshot.commit_sha:
                 if old_snapshot.commit_sha != new_snapshot.commit_sha:
                     renames = detect_renames(
-                        resolved,
+                        resolved_str,
                         old_snapshot.commit_sha,
                         new_snapshot.commit_sha,
                     )
                     if renames:
-                        logger.info(
-                            "Detected %d rename(s)", len(renames)
-                        )
+                        logger.info("Detected %d rename(s)", len(renames))
 
             # ── Step 5: Compute diff ─────────────────────────────────
             diff = diff_snapshots(
@@ -355,6 +200,7 @@ def insights_diff(
 
             # ── Step 6: Render ───────────────────────────────────────
             formatter = InsightDiffFormatter(console=console)
+            fmt = "json" if json_output else "rich"
             formatter.render(diff, fmt=fmt, verbose=verbose)
 
     except typer.Exit:
@@ -363,7 +209,7 @@ def insights_diff(
         console.print(f"[red]Error:[/red] {e}")
         raise typer.Exit(1)
     except Exception as e:
-        logger.exception("Unexpected error in insights-diff")
+        logger.exception("Unexpected error in diff")
         console.print(f"[red]Unexpected error:[/red] {e}")
         if verbose:
             console.print_exception()
@@ -384,7 +230,7 @@ def _resolve_old_snapshot(
     3. If ``use_baseline`` is True, use the pinned baseline.
     4. Otherwise, use the most recent snapshot before the current one.
     """
-    from ..storage.reader import load_snapshot, load_snapshot_by_commit, list_snapshots
+    from ..storage.reader import list_snapshots, load_snapshot, load_snapshot_by_commit
 
     if ref is not None:
         # Try as snapshot ID first
@@ -399,25 +245,18 @@ def _resolve_old_snapshot(
         if snap is not None:
             return snap
 
-        console.print(
-            f"[yellow]Could not find snapshot for ref '{ref}'.[/yellow]"
-        )
+        console.print(f"[yellow]Could not find snapshot for ref '{ref}'.[/yellow]")
         return None
 
     if use_baseline:
         baseline_id = db.get_baseline_snapshot_id()
         if baseline_id is None:
-            console.print(
-                "[yellow]No baseline set. "
-                "Use 'insights-baseline --action set' first.[/yellow]"
-            )
+            console.print("[yellow]No baseline set. Use 'diff --pin' first.[/yellow]")
             return None
         try:
             return load_snapshot(db.conn, baseline_id)
         except ValueError:
-            console.print(
-                f"[yellow]Baseline snapshot {baseline_id} no longer exists.[/yellow]"
-            )
+            console.print(f"[yellow]Baseline snapshot {baseline_id} no longer exists.[/yellow]")
             return None
 
     # Default: most recent snapshot before the current one

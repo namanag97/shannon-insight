@@ -63,8 +63,11 @@ class GitExtractor:
     def _run_git_log(self) -> Optional[str]:
         try:
             cmd = [
-                "git", "-C", self.repo_path, "log",
-                f"--format=%H|%at|%ae",
+                "git",
+                "-C",
+                self.repo_path,
+                "log",
+                "--format=%H|%at|%ae",
                 "--name-only",
                 f"-n{self.max_commits}",
             ]
@@ -106,12 +109,14 @@ class GitExtractor:
             if self._HEADER_RE.match(line):
                 # Flush previous commit
                 if current_hash and current_files:
-                    commits.append(Commit(
-                        hash=current_hash,
-                        timestamp=current_ts,
-                        author=current_author,
-                        files=current_files,
-                    ))
+                    commits.append(
+                        Commit(
+                            hash=current_hash,
+                            timestamp=current_ts,
+                            author=current_author,
+                            files=current_files,
+                        )
+                    )
 
                 parts = line.split("|", 2)
                 current_hash = parts[0]
@@ -128,11 +133,13 @@ class GitExtractor:
 
         # Flush last commit
         if current_hash and current_files:
-            commits.append(Commit(
-                hash=current_hash,
-                timestamp=current_ts,
-                author=current_author,
-                files=current_files,
-            ))
+            commits.append(
+                Commit(
+                    hash=current_hash,
+                    timestamp=current_ts,
+                    author=current_author,
+                    files=current_files,
+                )
+            )
 
         return commits

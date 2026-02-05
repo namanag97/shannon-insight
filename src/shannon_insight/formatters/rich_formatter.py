@@ -6,8 +6,8 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from ..models import AnalysisContext, AnomalyReport
 from .base import BaseFormatter
-from ..models import AnomalyReport, AnalysisContext
 
 console = Console(stderr=True)
 
@@ -60,31 +60,64 @@ class RichFormatter(BaseFormatter):
         matching = [r for r in reports if pattern in r.file]
 
         if not matching:
-            console.print(f"[yellow]No files matching '{pattern}' found in analysis results.[/yellow]")
+            console.print(
+                f"[yellow]No files matching '{pattern}' found in analysis results.[/yellow]"
+            )
             return
 
-        threshold = context.settings.z_score_threshold if hasattr(context.settings, "z_score_threshold") else 1.5
+        threshold = (
+            context.settings.z_score_threshold
+            if hasattr(context.settings, "z_score_threshold")
+            else 1.5
+        )
 
         for report in matching:
-            console.print(Panel(
-                f"[bold]{report.file}[/bold]",
-                title="[bold cyan]Deep Dive[/bold cyan]",
-                expand=False,
-            ))
+            console.print(
+                Panel(
+                    f"[bold]{report.file}[/bold]",
+                    title="[bold cyan]Deep Dive[/bold cyan]",
+                    expand=False,
+                )
+            )
             console.print()
 
             console.print("[bold]Raw Primitives:[/bold]")
             for label, val, note in [
-                ("Structural Entropy", report.primitives.structural_entropy,
-                 "high = complex structure" if report.primitives.structural_entropy > 0.7 else "within typical range"),
-                ("Network Centrality", report.primitives.network_centrality,
-                 "high = heavily depended on" if report.primitives.network_centrality > 0.5 else "within typical range"),
-                ("Churn Volatility", report.primitives.churn_volatility,
-                 "high = frequently changed" if report.primitives.churn_volatility > 0.5 else "within typical range"),
-                ("Semantic Coherence", report.primitives.semantic_coherence,
-                 "low = mixed responsibilities" if report.primitives.semantic_coherence < 0.3 else "within typical range"),
-                ("Cognitive Load", report.primitives.cognitive_load,
-                 "high = hard to understand" if report.primitives.cognitive_load > 0.6 else "within typical range"),
+                (
+                    "Structural Entropy",
+                    report.primitives.structural_entropy,
+                    "high = complex structure"
+                    if report.primitives.structural_entropy > 0.7
+                    else "within typical range",
+                ),
+                (
+                    "Network Centrality",
+                    report.primitives.network_centrality,
+                    "high = heavily depended on"
+                    if report.primitives.network_centrality > 0.5
+                    else "within typical range",
+                ),
+                (
+                    "Churn Volatility",
+                    report.primitives.churn_volatility,
+                    "high = frequently changed"
+                    if report.primitives.churn_volatility > 0.5
+                    else "within typical range",
+                ),
+                (
+                    "Semantic Coherence",
+                    report.primitives.semantic_coherence,
+                    "low = mixed responsibilities"
+                    if report.primitives.semantic_coherence < 0.3
+                    else "within typical range",
+                ),
+                (
+                    "Cognitive Load",
+                    report.primitives.cognitive_load,
+                    "high = hard to understand"
+                    if report.primitives.cognitive_load > 0.6
+                    else "within typical range",
+                ),
             ]:
                 console.print(f"  {label:22s}  {val:.4f}  [dim]({note})[/dim]")
             console.print()
@@ -140,12 +173,12 @@ class RichFormatter(BaseFormatter):
         total = context.total_files_scanned
         pct = (num_anomalies / total * 100) if total > 0 else 0
         avg_confidence = (
-            sum(r.confidence for r in reports) / num_anomalies
-            if num_anomalies > 0
-            else 0.0
+            sum(r.confidence for r in reports) / num_anomalies if num_anomalies > 0 else 0.0
         )
 
-        lang_display = ", ".join(context.detected_languages) if context.detected_languages else "unknown"
+        lang_display = (
+            ", ".join(context.detected_languages) if context.detected_languages else "unknown"
+        )
         summary_text = (
             f"Scanned [bold]{total}[/bold] files "
             f"([cyan]{lang_display}[/cyan])  |  "
@@ -160,7 +193,9 @@ class RichFormatter(BaseFormatter):
         if not reports:
             return
 
-        table = Table(title=f"Top {min(top_n, len(reports))} Files Requiring Attention", expand=True)
+        table = Table(
+            title=f"Top {min(top_n, len(reports))} Files Requiring Attention", expand=True
+        )
         table.add_column("#", style="dim", width=4)
         table.add_column("File", style="yellow", no_wrap=False, ratio=3)
         table.add_column("Score", justify="right", width=8)
@@ -196,9 +231,7 @@ class RichFormatter(BaseFormatter):
     def _print_report(self, reports: List[AnomalyReport], context: AnalysisContext) -> None:
         top_n = context.top_n
         console.print("[bold cyan]=" * 40)
-        console.print(
-            f"[bold cyan]TOP {min(top_n, len(reports))} FILES REQUIRING ATTENTION"
-        )
+        console.print(f"[bold cyan]TOP {min(top_n, len(reports))} FILES REQUIRING ATTENTION")
         console.print("[bold cyan]=" * 40)
         console.print()
 
@@ -214,16 +247,41 @@ class RichFormatter(BaseFormatter):
 
             console.print("   [dim]Raw Primitives:[/dim]")
             for label, val, note in [
-                ("Structural Entropy", report.primitives.structural_entropy,
-                 "high = complex structure" if report.primitives.structural_entropy > 0.7 else "within typical range"),
-                ("Network Centrality", report.primitives.network_centrality,
-                 "high = heavily depended on" if report.primitives.network_centrality > 0.5 else "within typical range"),
-                ("Churn Volatility", report.primitives.churn_volatility,
-                 "high = frequently changed" if report.primitives.churn_volatility > 0.5 else "within typical range"),
-                ("Semantic Coherence", report.primitives.semantic_coherence,
-                 "low = mixed responsibilities" if report.primitives.semantic_coherence < 0.3 else "within typical range"),
-                ("Cognitive Load", report.primitives.cognitive_load,
-                 "high = hard to understand" if report.primitives.cognitive_load > 0.6 else "within typical range"),
+                (
+                    "Structural Entropy",
+                    report.primitives.structural_entropy,
+                    "high = complex structure"
+                    if report.primitives.structural_entropy > 0.7
+                    else "within typical range",
+                ),
+                (
+                    "Network Centrality",
+                    report.primitives.network_centrality,
+                    "high = heavily depended on"
+                    if report.primitives.network_centrality > 0.5
+                    else "within typical range",
+                ),
+                (
+                    "Churn Volatility",
+                    report.primitives.churn_volatility,
+                    "high = frequently changed"
+                    if report.primitives.churn_volatility > 0.5
+                    else "within typical range",
+                ),
+                (
+                    "Semantic Coherence",
+                    report.primitives.semantic_coherence,
+                    "low = mixed responsibilities"
+                    if report.primitives.semantic_coherence < 0.3
+                    else "within typical range",
+                ),
+                (
+                    "Cognitive Load",
+                    report.primitives.cognitive_load,
+                    "high = hard to understand"
+                    if report.primitives.cognitive_load > 0.6
+                    else "within typical range",
+                ),
             ]:
                 console.print(f"     - {label:22s}  {val:.3f}  [dim]({note})[/dim]")
             console.print()
@@ -236,9 +294,7 @@ class RichFormatter(BaseFormatter):
                 ("Semantic Coherence", report.normalized_primitives.semantic_coherence),
                 ("Cognitive Load", report.normalized_primitives.cognitive_load),
             ]:
-                console.print(
-                    f"     - {label:22s}  {val:+.2f}s  {_zscore_label(val)}"
-                )
+                console.print(f"     - {label:22s}  {val:+.2f}s  {_zscore_label(val)}")
             console.print()
 
             if report.root_causes:

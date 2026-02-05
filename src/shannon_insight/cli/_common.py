@@ -5,8 +5,7 @@ from typing import Optional
 
 from rich.console import Console
 
-from ..config import load_settings, AnalysisSettings
-from ..logging_config import setup_logging
+from ..config import AnalysisSettings, load_settings
 
 console = Console()
 
@@ -17,7 +16,6 @@ def resolve_settings(
     no_cache: bool = False,
     workers: Optional[int] = None,
     verbose: bool = False,
-    quiet: bool = False,
 ) -> AnalysisSettings:
     """Build settings from CLI options."""
     overrides = {}
@@ -29,6 +27,4 @@ def resolve_settings(
         overrides["parallel_workers"] = workers
     if verbose:
         overrides["verbose"] = True
-    if quiet:
-        overrides["quiet"] = True
     return load_settings(config_file=config, **overrides)

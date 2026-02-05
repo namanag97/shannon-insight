@@ -68,9 +68,7 @@ def generate_report(
     trend_data: Dict[str, List[Dict]] = {}
     if trends:
         for fp, points in trends.items():
-            trend_data[fp] = [
-                {"timestamp": p.timestamp, "value": p.value} for p in points
-            ]
+            trend_data[fp] = [{"timestamp": p.timestamp, "value": p.value} for p in points]
 
     # ── Summary data ───────────────────────────────────────────────
     summary_data = {
@@ -118,7 +116,7 @@ def _build_html(data_json: str) -> str:
     """
     # We use a raw string for the template and manually embed data_json.
     # The f-string uses {{ / }} to produce literal braces in the JS.
-    return f'''<!DOCTYPE html>
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -410,4 +408,4 @@ function escapeHtml(str) {{
 renderTreemap(DATA.default_metric);
 </script>
 </body>
-</html>'''
+</html>"""

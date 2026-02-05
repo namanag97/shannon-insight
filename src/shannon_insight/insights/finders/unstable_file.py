@@ -47,17 +47,13 @@ class UnstableFileFinder:
 
             # Build time-aware description
             if span_weeks > 0:
-                rate_desc = (
-                    f"changed {cs.total_changes} times over "
-                    f"{span_weeks} weeks"
-                )
+                rate_desc = f"changed {cs.total_changes} times over {span_weeks} weeks"
             else:
                 rate_desc = f"changed {cs.total_changes} times"
 
             if cs.trajectory == "spiking":
                 trend_desc = (
-                    "the change rate is increasing — "
-                    "more edits in recent weeks than earlier"
+                    "the change rate is increasing — more edits in recent weeks than earlier"
                 )
                 suggestion = (
                     "This file is being edited more and more frequently. "
@@ -67,10 +63,7 @@ class UnstableFileFinder:
                     "Investigate why it keeps needing changes."
                 )
             else:
-                trend_desc = (
-                    "the change rate is volatile — "
-                    "no sign of settling down"
-                )
+                trend_desc = "the change rate is volatile — no sign of settling down"
                 suggestion = (
                     "This file has been modified repeatedly without "
                     "stabilizing. Common causes: unclear ownership, "
@@ -79,26 +72,28 @@ class UnstableFileFinder:
                     "Review recent commits to find the pattern."
                 )
 
-            findings.append(Finding(
-                finding_type="unstable_file",
-                severity=severity,
-                title=f"{path} keeps changing without stabilizing",
-                files=[path],
-                evidence=[
-                    Evidence(
-                        signal="total_changes",
-                        value=float(cs.total_changes),
-                        percentile=pct,
-                        description=rate_desc,
-                    ),
-                    Evidence(
-                        signal="churn_trajectory",
-                        value=cs.slope,
-                        percentile=0,
-                        description=trend_desc,
-                    ),
-                ],
-                suggestion=suggestion,
-            ))
+            findings.append(
+                Finding(
+                    finding_type="unstable_file",
+                    severity=severity,
+                    title=f"{path} keeps changing without stabilizing",
+                    files=[path],
+                    evidence=[
+                        Evidence(
+                            signal="total_changes",
+                            value=float(cs.total_changes),
+                            percentile=pct,
+                            description=rate_desc,
+                        ),
+                        Evidence(
+                            signal="churn_trajectory",
+                            value=cs.slope,
+                            percentile=0,
+                            description=trend_desc,
+                        ),
+                    ],
+                    suggestion=suggestion,
+                )
+            )
 
         return findings

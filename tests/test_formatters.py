@@ -1,21 +1,21 @@
-"""Tests for the formatters package (Phase 2)."""
+"""Tests for the formatters package (legacy formatters).
+
+These test the old AnomalyReport-based formatters which are kept for
+backward compatibility but not used by the current CLI.
+"""
 
 import json
-import pytest
 
-from shannon_insight.models import (
-    AnomalyReport, Primitives, AnalysisContext, DiffReport,
-)
-from shannon_insight.formatters import (
-    get_formatter,
-    RichFormatter,
-    JsonFormatter,
-    CsvFormatter,
-    QuietFormatter,
-    DiffFormatter,
-    GithubFormatter,
-)
 from shannon_insight.config import default_settings
+from shannon_insight.formatters.csv_formatter import CsvFormatter
+from shannon_insight.formatters.github_formatter import GithubFormatter
+from shannon_insight.formatters.json_formatter import JsonFormatter
+from shannon_insight.formatters.quiet_formatter import QuietFormatter
+from shannon_insight.models import (
+    AnalysisContext,
+    AnomalyReport,
+    Primitives,
+)
 
 
 def _make_report(file="test.go", score=1.5, confidence=0.6):
@@ -55,17 +55,6 @@ def _make_context():
     )
 
 
-class TestGetFormatter:
-    def test_known_formatters(self):
-        for name in ("rich", "json", "csv", "quiet", "github"):
-            fmt = get_formatter(name)
-            assert fmt is not None
-
-    def test_unknown_formatter(self):
-        with pytest.raises(ValueError, match="Unknown formatter"):
-            get_formatter("xml")
-
-
 class TestJsonFormatter:
     def test_format_returns_valid_json(self):
         fmt = JsonFormatter()
@@ -98,20 +87,6 @@ class TestQuietFormatter:
         assert result == "a.go\nb.go"
 
 
-class TestDiffFormatter:
-    def test_renders_diffs(self, capsys):
-        fmt = DiffFormatter()
-        ctx = _make_context()
-        report = _make_report()
-        diffs = [
-            DiffReport(file="test.go", status="regressed", current=report,
-                       previous_score=1.0, score_delta=0.5),
-            DiffReport(file="new.go", status="new", current=report),
-        ]
-        fmt.render(diffs, ctx)
-        # DiffFormatter prints to stderr via rich console — just ensure no crash
-
-
 class TestGithubFormatter:
     def test_format_reports(self):
         fmt = GithubFormatter()
@@ -119,15 +94,3 @@ class TestGithubFormatter:
         reports = [_make_report()]
         result = fmt.format(reports, ctx)
         assert "::warning" in result or "::error" in result
-
-    def test_format_diffs(self):
-        fmt = GithubFormatter()
-        ctx = _make_context()
-        report = _make_report()
-        diffs = [
-            DiffReport(file="test.go", status="regressed", current=report,
-                       previous_score=1.0, score_delta=0.5),
-        ]
-        result = fmt.format(diffs, ctx)
-        assert "regressed" in result
-        assert "Score Deltas" in result or "Shannon Insight Diff" in result

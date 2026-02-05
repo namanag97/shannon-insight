@@ -75,10 +75,7 @@ class ChronicProblemFinder:
                 Finding(
                     finding_type="chronic_problem",
                     severity=severity,
-                    title=(
-                        f"{item['title']} "
-                        f"(unresolved for {item['count']} runs)"
-                    ),
+                    title=(f"{item['title']} (unresolved for {item['count']} runs)"),
                     files=item["files"],
                     evidence=[
                         Evidence(

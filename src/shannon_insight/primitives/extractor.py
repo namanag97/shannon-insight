@@ -7,9 +7,9 @@ method that returns ``Dict[str, float]``. Results are merged automatically.
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from ..models import FileMetrics, Primitives, PrimitiveValues
 from ..cache import AnalysisCache
 from ..logging_config import get_logger
+from ..models import FileMetrics, Primitives, PrimitiveValues
 from .registry import get_plugins
 
 logger = get_logger(__name__)

@@ -6,13 +6,14 @@ the data needed for the ``trend`` and ``health`` CLI commands.
 
 import json
 import sqlite3
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 
 @dataclass
 class TrendPoint:
     """A single data point in a file-metric time series."""
+
     snapshot_id: int
     commit_sha: Optional[str]
     timestamp: str
@@ -22,6 +23,7 @@ class TrendPoint:
 @dataclass
 class HealthPoint:
     """A single codebase-level health snapshot."""
+
     snapshot_id: int
     timestamp: str
     metrics: Dict[str, float]
@@ -42,9 +44,7 @@ class HistoryQuery:
 
     # ── file-level trend ──────────────────────────────────────────────
 
-    def file_trend(
-        self, filepath: str, metric: str, last_n: int = 20
-    ) -> List[TrendPoint]:
+    def file_trend(self, filepath: str, metric: str, last_n: int = 20) -> List[TrendPoint]:
         """Get the trend of *metric* for *filepath* over recent snapshots.
 
         Returns up to *last_n* points in **chronological** order (oldest
@@ -115,9 +115,7 @@ class HistoryQuery:
             """,
             snap_ids,
         ).fetchall()
-        finding_counts: Dict[int, int] = {
-            r["snapshot_id"]: r["cnt"] for r in finding_rows
-        }
+        finding_counts: Dict[int, int] = {r["snapshot_id"]: r["cnt"] for r in finding_rows}
 
         # 4. Group signals by snapshot.
         snap_metrics: Dict[int, Dict[str, float]] = {}
@@ -131,9 +129,7 @@ class HistoryQuery:
         for sid in snap_ids:
             if sid not in snap_metrics:
                 snap_metrics[sid] = {}
-            snap_metrics[sid]["active_findings"] = float(
-                finding_counts.get(sid, 0)
-            )
+            snap_metrics[sid]["active_findings"] = float(finding_counts.get(sid, 0))
 
         # 5. Build HealthPoints in chronological order.
         result: List[HealthPoint] = []
@@ -175,13 +171,9 @@ class HistoryQuery:
         # consecutiveness.
         all_snap_ids = [
             r["id"]
-            for r in self.conn.execute(
-                "SELECT id FROM snapshots ORDER BY timestamp ASC"
-            ).fetchall()
+            for r in self.conn.execute("SELECT id FROM snapshots ORDER BY timestamp ASC").fetchall()
         ]
-        snap_id_to_idx: Dict[int, int] = {
-            sid: i for i, sid in enumerate(all_snap_ids)
-        }
+        snap_id_to_idx: Dict[int, int] = {sid: i for i, sid in enumerate(all_snap_ids)}
 
         result: List[Dict] = []
         for r in rows:
@@ -205,9 +197,7 @@ class HistoryQuery:
 
     # ── top movers ────────────────────────────────────────────────────
 
-    def top_movers(
-        self, last_n: int = 5, metric: str = "cognitive_load"
-    ) -> List[Dict]:
+    def top_movers(self, last_n: int = 5, metric: str = "cognitive_load") -> List[Dict]:
         """Files with the largest *metric* changes over recent snapshots.
 
         Compares the oldest and newest of the last *last_n* snapshots and

@@ -1,18 +1,18 @@
 """Exception hierarchy for Shannon Insight."""
 
-from .base import ShannonInsightError
 from .analysis import (
     AnalysisError,
     FileAccessError,
-    ParsingError,
-    UnsupportedLanguageError,
     InsufficientDataError,
+    ParsingError,
     PrimitiveExtractionError,
+    UnsupportedLanguageError,
 )
+from .base import ShannonInsightError
 from .config import (
     ConfigurationError,
-    InvalidPathError,
     InvalidConfigError,
+    InvalidPathError,
     SecurityError,
 )
 

@@ -5,17 +5,14 @@ Provides structured logging with rich formatting for beautiful terminal output.
 """
 
 import logging
-import sys
 from typing import Optional
 
-from rich.logging import RichHandler
 from rich.console import Console
+from rich.logging import RichHandler
 
 
 def setup_logging(
-    verbose: bool = False,
-    quiet: bool = False,
-    log_file: Optional[str] = None
+    verbose: bool = False, quiet: bool = False, log_file: Optional[str] = None
 ) -> logging.Logger:
     """
     Configure logging with rich handler for colored output.
@@ -34,7 +31,7 @@ def setup_logging(
     elif verbose:
         level = logging.DEBUG
     else:
-        level = logging.INFO
+        level = logging.WARNING
 
     # Create rich console for logging
     console = Console(stderr=True)
@@ -53,22 +50,16 @@ def setup_logging(
 
     # Add file handler if specified
     if log_file:
-        file_handler = logging.FileHandler(log_file, mode='a')
+        file_handler = logging.FileHandler(log_file, mode="a")
         file_handler.setFormatter(
             logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                datefmt='%Y-%m-%d %H:%M:%S'
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
             )
         )
         handlers.append(file_handler)
 
     # Configure root logger
-    logging.basicConfig(
-        level=level,
-        format="%(message)s",
-        datefmt="[%X]",
-        handlers=handlers
-    )
+    logging.basicConfig(level=level, format="%(message)s", datefmt="[%X]", handlers=handlers)
 
     # Get shannon_insight logger
     logger = logging.getLogger("shannon_insight")

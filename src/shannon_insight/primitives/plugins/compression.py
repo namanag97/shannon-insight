@@ -3,9 +3,9 @@
 from pathlib import Path
 from typing import Dict, List
 
-from ..base import PrimitivePlugin
-from ...models import FileMetrics
 from ...math import Compression
+from ...models import FileMetrics
+from ..base import PrimitivePlugin
 
 
 class CompressionPrimitive(PrimitivePlugin):
@@ -19,9 +19,11 @@ class CompressionPrimitive(PrimitivePlugin):
     def compute(self, files: List[FileMetrics], root_dir: Path) -> Dict[str, float]:
         result = {}
         for file in files:
-            file_path = root_dir / file.path if not Path(file.path).is_absolute() else Path(file.path)
+            file_path = (
+                root_dir / file.path if not Path(file.path).is_absolute() else Path(file.path)
+            )
             try:
-                with open(file_path, 'rb') as f:
+                with open(file_path, "rb") as f:
                     content = f.read()
                 result[file.path] = Compression.compression_ratio(content)
             except Exception:

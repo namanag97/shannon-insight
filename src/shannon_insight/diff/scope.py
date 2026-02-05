@@ -5,13 +5,13 @@ computes the *blast radius* (transitive dependents), filters findings to
 those relevant to the change, and produces a risk-level assessment.
 """
 
+import subprocess
 from bisect import bisect_left
 from collections import defaultdict, deque
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
-import subprocess
+from dataclasses import dataclass
+from typing import Dict, List, Tuple
 
-from ..snapshot.models import Snapshot, FindingRecord
+from ..snapshot.models import FindingRecord, Snapshot
 
 
 @dataclass
@@ -224,9 +224,7 @@ def build_scoped_report(
         )
 
     # ── Compute risk level ────────────────────────────────────────────
-    risk_level, risk_reason = _compute_risk_level(
-        changed_files, snapshot, direct_findings
-    )
+    risk_level, risk_reason = _compute_risk_level(changed_files, snapshot, direct_findings)
 
     return ChangeScopedReport(
         changed_files=changed_files,
@@ -273,9 +271,7 @@ def _compute_file_percentiles(
     # For each metric, build a sorted list of values
     metric_sorted: Dict[str, List[float]] = {}
     for m in metrics:
-        vals = sorted(
-            v for sigs in all_signals.values() if (v := sigs.get(m)) is not None
-        )
+        vals = sorted(v for sigs in all_signals.values() if (v := sigs.get(m)) is not None)
         metric_sorted[m] = vals
 
     # Compute percentiles per file
@@ -331,8 +327,7 @@ def _compute_risk_level(
             primary_file = finding.files[0] if finding.files else "unknown"
             return (
                 "critical",
-                f"Changed file {primary_file} is a high-risk hub "
-                f"(severity {finding.severity:.2f})",
+                f"Changed file {primary_file} is a high-risk hub (severity {finding.severity:.2f})",
             )
 
     # Check severity sum and blast radius percentage
@@ -346,9 +341,7 @@ def _compute_risk_level(
         if severity_sum > 1.5:
             reason_parts.append(f"finding severity sum {severity_sum:.2f}")
         if blast_pct > 0.3:
-            reason_parts.append(
-                f"blast radius {len(blast)} files ({blast_pct:.0%} of codebase)"
-            )
+            reason_parts.append(f"blast radius {len(blast)} files ({blast_pct:.0%} of codebase)")
         return "high", " and ".join(reason_parts)
 
     return "medium", f"{len(direct_findings)} finding(s) involve changed files"

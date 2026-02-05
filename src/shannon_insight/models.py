@@ -1,9 +1,8 @@
 """Data models for Shannon Insight"""
 
-from dataclasses import dataclass, field
 from collections import Counter
+from dataclasses import dataclass, field
 from typing import Dict, List, Optional
-
 
 # Type alias used by the extensible-primitive pipeline (Phase 3+)
 PrimitiveValues = Dict[str, float]
@@ -78,7 +77,10 @@ class AnomalyReport:
 
 @dataclass
 class AnalysisContext:
-    """Context passed to formatters alongside reports."""
+    """Context passed to formatters alongside reports.
+
+    Legacy — kept for old formatter compatibility.
+    """
 
     total_files_scanned: int
     detected_languages: List[str]
@@ -88,26 +90,11 @@ class AnalysisContext:
 
 
 @dataclass
-class PipelineContext:
-    """Mutable context that flows through composable pipeline stages."""
-
-    files: List[FileMetrics]
-    settings: object  # AnalysisSettings
-    root_dir: str = ""
-    cache: object = None  # Optional[AnalysisCache]
-    config_hash: str = ""
-
-    # Filled by stages as they run
-    primitives: Optional[Dict] = None        # Dict[str, Primitives]
-    normalized: Optional[Dict] = None        # Dict[str, Primitives]
-    anomalies: Optional[Dict] = None         # Dict[str, List[str]]
-    fused_scores: Optional[Dict] = None      # Dict[str, Tuple[float, float]]
-    reports: Optional[List] = None           # List[AnomalyReport]
-
-
-@dataclass
 class DiffReport:
-    """A single file's diff between current and baseline analysis."""
+    """A single file's diff between current and baseline analysis.
+
+    Legacy — kept for old formatter compatibility.
+    """
 
     file: str
     status: str  # "new" | "modified" | "improved" | "regressed"

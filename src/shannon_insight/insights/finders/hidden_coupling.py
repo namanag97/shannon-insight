@@ -45,50 +45,47 @@ class HiddenCouplingFinder:
             severity = self.BASE_SEVERITY * strength
 
             # Determine if they share a parent directory
-            same_package = (
-                str(PurePosixPath(file_a).parent)
-                == str(PurePosixPath(file_b).parent)
-            )
+            same_package = str(PurePosixPath(file_a).parent) == str(PurePosixPath(file_b).parent)
 
             # Build human-readable descriptions
             conf_desc = self._describe_confidence(pair, file_a, file_b)
 
             suggestion = self._build_suggestion(
-                file_a, file_b, pair, same_package,
+                file_a,
+                file_b,
+                pair,
+                same_package,
             )
 
-            findings.append(Finding(
-                finding_type="hidden_coupling",
-                severity=severity,
-                title=f"{file_a} and {file_b} always change together",
-                files=[file_a, file_b],
-                evidence=[
-                    Evidence(
-                        signal="cochange_count",
-                        value=float(pair.cochange_count),
-                        percentile=0,
-                        description=conf_desc,
-                    ),
-                    Evidence(
-                        signal="cochange_lift",
-                        value=pair.lift,
-                        percentile=0,
-                        description=(
-                            f"{pair.lift:.1f}x more often than expected "
-                            f"by chance"
+            findings.append(
+                Finding(
+                    finding_type="hidden_coupling",
+                    severity=severity,
+                    title=f"{file_a} and {file_b} always change together",
+                    files=[file_a, file_b],
+                    evidence=[
+                        Evidence(
+                            signal="cochange_count",
+                            value=float(pair.cochange_count),
+                            percentile=0,
+                            description=conf_desc,
                         ),
-                    ),
-                    Evidence(
-                        signal="no_import",
-                        value=0.0,
-                        percentile=0,
-                        description=(
-                            "neither file imports the other"
+                        Evidence(
+                            signal="cochange_lift",
+                            value=pair.lift,
+                            percentile=0,
+                            description=(f"{pair.lift:.1f}x more often than expected by chance"),
                         ),
-                    ),
-                ],
-                suggestion=suggestion,
-            ))
+                        Evidence(
+                            signal="no_import",
+                            value=0.0,
+                            percentile=0,
+                            description=("neither file imports the other"),
+                        ),
+                    ],
+                    suggestion=suggestion,
+                )
+            )
 
         return findings
 
@@ -123,10 +120,10 @@ class HiddenCouplingFinder:
                 f"common module."
             )
         return (
-            f"These files live in different packages but always change "
-            f"together. This suggests a hidden dependency — perhaps "
-            f"a shared data format, duplicated logic, or an untracked "
-            f"protocol. Find what ties them and either: "
-            f"(1) make it an explicit import, or "
-            f"(2) extract it into a shared module both can reference."
+            "These files live in different packages but always change "
+            "together. This suggests a hidden dependency — perhaps "
+            "a shared data format, duplicated logic, or an untracked "
+            "protocol. Find what ties them and either: "
+            "(1) make it an explicit import, or "
+            "(2) extract it into a shared module both can reference."
         )

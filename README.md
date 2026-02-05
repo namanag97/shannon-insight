@@ -12,45 +12,78 @@ Named after Claude Shannon, father of information theory.
 ## Quick Start
 
 ```bash
-pip install shannon-insight
+pip install shannon-codebase-insight
 
-# Actionable insights: what to fix and why
-shannon-insight . insights
+# Analyze your codebase
+shannon-insight
 
-# Structural analysis: dependencies, communities, cycles
-shannon-insight . structure
+# Analyze a specific directory
+shannon-insight -C /path/to/project
 
-# Per-file quality primitives
-shannon-insight .
+# Focus on changed files (PR review)
+shannon-insight --changed
+
+# JSON output for CI
+shannon-insight --json --fail-on high
+
+# Deep-dive on a file
+shannon-insight explain engine.py
+
+# Health trends
+shannon-insight health
 ```
 
-## Insight Engine (`insights` command)
+## Commands
 
-The `insights` command cross-references **four signal categories** to find problems no single metric can catch:
+```
+shannon-insight                    # Analyze codebase (grouped findings)
+shannon-insight explain <file>     # Deep-dive: signals, findings, trends
+shannon-insight diff               # Compare against last snapshot
+shannon-insight history            # List past analysis snapshots
+shannon-insight health             # Codebase health trends
+shannon-insight report             # Interactive HTML treemap
+```
+
+## Options
+
+```
+-C, --path PATH     Project root (default: current directory)
+--changed           Scope to changed files (auto-detects branch)
+--since REF         Scope to files changed since a git ref
+--json              Machine-readable JSON output
+--verbose           Show detailed evidence per finding
+--save              Save snapshot for history tracking
+--fail-on LEVEL     Exit 1 if findings at level: any | high
+```
+
+## How It Works
+
+Shannon Insight cross-references **four signal categories** to find problems no single metric can catch:
 
 ```bash
-shannon-insight . insights
+shannon-insight
 ```
 
 ```
 SHANNON INSIGHT — 41 files, 14 modules, 688 commits analyzed
 
-1. HIGH RISK HUB
-   src/click/core.py
-   • harder to understand than 98% of files in this codebase
-   • changed 136 times in recent history
-   → This file is both complex and frequently modified. Each change carries
-     higher risk of introducing bugs. Extract the parts that change most
-     often into a separate, well-tested module.
+HIGH RISK HUBS — 2 files
+  These files have many dependents. A bug ripples widely.
 
-2. HIDDEN COUPLING
-   src/click/_termui_impl.py ↔ src/click/_winconsole.py
-   • when _winconsole.py changed, _termui_impl.py also changed 9 of 11 times (82%)
-   • 17.6x more often than expected by chance
-   • neither file imports the other
-   → These files always change together but share no import. They likely share
-     an implicit contract. Make this explicit: either add an import, or extract
-     the shared concept into a common module.
+  src/click/core.py
+    harder to understand than 98% of files in this codebase
+  src/click/decorators.py
+    changed 91 times in recent history
+
+  → Split into smaller modules or add interfaces to reduce coupling.
+
+HIDDEN COUPLING — 1 file
+  These file pairs always change together but share no import.
+
+  src/click/_termui_impl.py ↔ src/click/_winconsole.py
+    when _winconsole.py changed, _termui_impl.py also changed 9 of 11 times (82%)
+
+  → Make the dependency explicit or extract shared logic.
 ```
 
 Works **with or without git**. Without git, temporal findings (hidden coupling, unstable files) are skipped; structural and per-file findings still work.
@@ -76,91 +109,43 @@ Scanner → AnalysisStore ← Analyzers fill it → Finders read it → Ranked F
 
 1. **Scan** — language-aware file parsing (Python, Go, TypeScript, Java, Rust, Ruby, C/C++)
 2. **Analyze** — four analyzers populate a shared store:
-   - *Structural*: dependency graph, PageRank, blast radius, communities, cycles (existing engine)
+   - *Structural*: dependency graph, PageRank, blast radius, communities, cycles
    - *Per-file*: cognitive load, semantic coherence, compression complexity, centrality, volatility
    - *Temporal*: git history → co-change matrix (lift + confidence) + churn trajectories
    - *Spectral*: Laplacian eigenvalues, Fiedler value (algebraic connectivity)
 3. **Find** — six finders read from the store and produce evidence-backed findings
-4. **Rank** — findings sorted by severity (base priority × signal strength), capped at `--max-findings`
+4. **Rank** — findings sorted by severity, grouped by type
 
 Analyzers and finders declare `requires` and `provides` sets. The kernel topologically sorts analyzers and skips finders whose required signals are unavailable (graceful degradation).
-
-### Options
-
-```bash
-shannon-insight . insights                    # default: rich output, top 10 findings
-shannon-insight . insights --format json      # machine-readable JSON
-shannon-insight . insights --verbose          # show raw signal values
-shannon-insight . insights --max-findings 20  # show more findings
-shannon-insight . insights --language python  # analyze only Python files
-```
-
-## Structural Analysis (`structure` command)
-
-Builds a multi-level model of your codebase using graph theory:
-
-```bash
-shannon-insight . structure
-```
-
-| Level | What | Math |
-|-------|------|------|
-| Dependency graph | Which files depend on which | Import resolution, directed graph |
-| Centrality | Which files are critical hubs | PageRank, betweenness centrality |
-| Blast radius | What breaks if you change a file | Transitive closure on reverse graph |
-| Cycles | Circular dependencies | Tarjan's SCC algorithm |
-| Communities | Natural clusters in the codebase | Louvain modularity optimization |
-| Module analysis | Cohesion/coupling per directory | Internal vs external edge density |
-| Boundary alignment | Do directories match actual structure? | Declared vs discovered communities |
-| Complexity outliers | Files with extreme measurements | Median Absolute Deviation (robust) |
-
-Output shows only issues — circular dependencies, high-impact files, boundary mismatches, complexity outliers. Use `--format json` for full structured data.
-
-## Per-File Quality Primitives
-
-The default `shannon-insight .` command computes **5 orthogonal quality primitives** per file:
-
-| Primitive | What it measures | High means |
-|-----------|-----------------|------------|
-| **Compression Complexity** | Kolmogorov complexity (via zlib) | Dense/unique code |
-| **Network Centrality** | PageRank on dependency graph | Critical hub |
-| **Churn Volatility** | File modification recency | Recently changed / unstable |
-| **Semantic Coherence** | Identifier-based responsibility focus | Low: mixed concerns |
-| **Cognitive Load** | Concepts × complexity × Gini inequality | Overloaded file |
-
-## Output Formats
-
-```bash
-# Rich terminal output (default)
-shannon-insight .
-
-# Machine-readable JSON
-shannon-insight . --format json
-
-# Pipe-friendly CSV
-shannon-insight . --format csv
-
-# Just file paths (one per line)
-shannon-insight . --format quiet
-
-# Deep-dive on a specific file
-shannon-insight . --explain complex.go
-
-# Export to file
-shannon-insight . --output report.json
-```
 
 ## CI Integration
 
 ```bash
-# Fail if any file scores above 2.0
-shannon-insight . --format quiet --fail-above 2.0
+# Fail if any high-severity finding exists
+shannon-insight --fail-on high
+
+# Fail if any finding exists
+shannon-insight --fail-on any
 ```
 
 ```yaml
 # GitHub Actions
 - name: Code quality gate
-  run: shannon-insight . --fail-above 2.0 --format quiet
+  run: shannon-insight --fail-on high
+```
+
+## Snapshot History
+
+Use `--save` to record analysis snapshots for tracking over time.
+
+```bash
+shannon-insight --save              # Analyze and save snapshot
+shannon-insight history             # List past snapshots
+shannon-insight diff                # Compare current vs last snapshot
+shannon-insight diff --pin          # Pin current as baseline
+shannon-insight diff --baseline     # Compare against baseline
+shannon-insight health              # Health trends over time
+shannon-insight report              # Interactive HTML treemap
 ```
 
 ## Configuration
@@ -168,8 +153,6 @@ shannon-insight . --format quiet --fail-above 2.0
 Create `shannon-insight.toml` in your project root:
 
 ```toml
-z_score_threshold = 1.5
-fusion_weights = [0.2, 0.25, 0.2, 0.15, 0.2]
 exclude_patterns = ["*_test.go", "vendor/*", "node_modules/*"]
 max_file_size_mb = 10.0
 enable_cache = true
@@ -177,13 +160,12 @@ enable_cache = true
 # Insight engine settings
 git_max_commits = 5000          # max git commits to analyze (0 = no limit)
 git_min_commits = 10            # min commits for temporal analysis
-insights_max_findings = 10      # max findings in insights command
+insights_max_findings = 50      # max findings
 ```
 
 Or use environment variables with `SHANNON_` prefix:
 
 ```bash
-export SHANNON_Z_SCORE_THRESHOLD=2.0
 export SHANNON_GIT_MAX_COMMITS=10000
 ```
 
@@ -198,14 +180,14 @@ export SHANNON_GIT_MAX_COMMITS=10000
 - **Ruby** — `.rb` files
 - **C/C++** — `.c`, `.cpp`, `.cc`, `.h` files
 
-Language is auto-detected by default. Override with `--language`.
+Language is auto-detected.
 
 ## Architecture
 
 ```
 shannon_insight/
-├── cli/               # CLI commands (analyze, structure, insights, baseline, cache)
-├── core/              # Orchestration, pipeline, scanner factory
+├── cli/               # CLI commands (analyze, explain, diff, health, history, report)
+├── core/              # Scanner factory
 ├── analysis/          # Multi-level structural analysis engine
 ├── analyzers/         # Language-specific scanners
 ├── primitives/        # Plugin-based per-file quality primitives
@@ -214,7 +196,10 @@ shannon_insight/
 │   └── finders/       # Finding producers (6 finding types)
 ├── temporal/          # Git history extraction, co-change, churn analysis
 ├── math/              # Entropy, compression, graph algorithms, Gini, coherence
-├── formatters/        # Output formatting (rich, json, csv, quiet, github)
+├── snapshot/          # Immutable analysis snapshots
+├── storage/           # SQLite-backed snapshot history
+├── diff/              # Snapshot comparison and change-scoped analysis
+├── formatters/        # Output formatting
 └── exceptions/        # Exception hierarchy
 ```
 

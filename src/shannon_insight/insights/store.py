@@ -3,9 +3,9 @@
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set
 
-from ..models import FileMetrics
 from ..analysis.models import CodebaseAnalysis
-from ..temporal.models import GitHistory, CoChangeMatrix, ChurnSeries, SpectralSummary
+from ..models import FileMetrics
+from ..temporal.models import ChurnSeries, CoChangeMatrix, GitHistory, SpectralSummary
 
 
 @dataclass

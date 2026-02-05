@@ -15,9 +15,7 @@ class TestBayesianFusion:
 
     def test_zero_evidence_returns_uniform(self):
         """Zero evidence returns uniform posterior and zero confidence."""
-        max_post, confidence = SignalFusion.bayesian_fusion(
-            [0.5, 0.5], [0.0, 0.0]
-        )
+        max_post, confidence = SignalFusion.bayesian_fusion([0.5, 0.5], [0.0, 0.0])
         assert abs(max_post - 0.5) < 1e-10  # 1/n
         assert confidence == 0.0
 

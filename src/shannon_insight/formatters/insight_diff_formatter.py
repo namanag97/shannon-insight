@@ -9,13 +9,10 @@ import json
 from typing import Optional
 
 from rich.console import Console
-from rich.panel import Panel
 from rich.table import Table
-from rich.text import Text
 
 from ..diff.models import FileDelta, FindingDelta, MetricDelta, SnapshotDiff
 from ..snapshot.models import FindingRecord
-
 
 # ── Finding type presentation ────────────────────────────────────────────────
 
@@ -111,8 +108,7 @@ class InsightDiffFormatter:
             "improved_findings": [self._finding_delta_to_dict(fd) for fd in diff.improved_findings],
             "file_deltas": [self._file_delta_to_dict(fd) for fd in diff.file_deltas],
             "codebase_deltas": {
-                k: self._metric_delta_to_dict(v)
-                for k, v in diff.codebase_deltas.items()
+                k: self._metric_delta_to_dict(v) for k, v in diff.codebase_deltas.items()
             },
             "renames": [{"old": old, "new": new} for old, new in diff.renames],
         }
@@ -139,7 +135,9 @@ class InsightDiffFormatter:
             "files": fd.finding.files,
             "old_severity": round(fd.old_severity, 4) if fd.old_severity is not None else None,
             "new_severity": round(fd.new_severity, 4) if fd.new_severity is not None else None,
-            "severity_delta": round(fd.severity_delta, 4) if fd.severity_delta is not None else None,
+            "severity_delta": round(fd.severity_delta, 4)
+            if fd.severity_delta is not None
+            else None,
         }
 
     @staticmethod
@@ -180,9 +178,7 @@ class InsightDiffFormatter:
             f"[bold cyan]SHANNON INSIGHT DIFF[/bold cyan] "
             f"[dim]{old_label}[/dim] -> [bold]{new_label}[/bold]"
         )
-        con.print(
-            f"  [dim]{diff.old_timestamp} -> {diff.new_timestamp}[/dim]"
-        )
+        con.print(f"  [dim]{diff.old_timestamp} -> {diff.new_timestamp}[/dim]")
 
         if diff.renames:
             con.print(f"  [dim]{len(diff.renames)} file rename(s) detected[/dim]")
@@ -232,10 +228,7 @@ class InsightDiffFormatter:
 
         # ── NEW FINDINGS ─────────────────────────────────────────────
         if diff.new_findings:
-            con.print(
-                f"[bold red]NEW FINDINGS[/bold red] "
-                f"[dim]({len(diff.new_findings)})[/dim]"
-            )
+            con.print(f"[bold red]NEW FINDINGS[/bold red] [dim]({len(diff.new_findings)})[/dim]")
             for finding in diff.new_findings:
                 self._render_finding(finding, prefix="  [red]+[/red] ")
             con.print()
@@ -243,8 +236,7 @@ class InsightDiffFormatter:
         # ── RESOLVED FINDINGS ────────────────────────────────────────
         if diff.resolved_findings:
             con.print(
-                f"[bold green]RESOLVED[/bold green] "
-                f"[dim]({len(diff.resolved_findings)})[/dim]"
+                f"[bold green]RESOLVED[/bold green] [dim]({len(diff.resolved_findings)})[/dim]"
             )
             for finding in diff.resolved_findings:
                 self._render_finding(finding, prefix="  [green]-[/green] ")
@@ -252,10 +244,7 @@ class InsightDiffFormatter:
 
         # ── WORSENED FINDINGS ────────────────────────────────────────
         if diff.worsened_findings:
-            con.print(
-                f"[bold red]WORSENED[/bold red] "
-                f"[dim]({len(diff.worsened_findings)})[/dim]"
-            )
+            con.print(f"[bold red]WORSENED[/bold red] [dim]({len(diff.worsened_findings)})[/dim]")
             for fd in diff.worsened_findings:
                 self._render_finding_delta(fd, color="red")
             con.print()
@@ -263,8 +252,7 @@ class InsightDiffFormatter:
         # ── IMPROVED FINDINGS ────────────────────────────────────────
         if diff.improved_findings:
             con.print(
-                f"[bold green]IMPROVED[/bold green] "
-                f"[dim]({len(diff.improved_findings)})[/dim]"
+                f"[bold green]IMPROVED[/bold green] [dim]({len(diff.improved_findings)})[/dim]"
             )
             for fd in diff.improved_findings:
                 self._render_finding_delta(fd, color="green")
@@ -275,10 +263,7 @@ class InsightDiffFormatter:
             self._render_file_deltas(diff.file_deltas, verbose=verbose)
 
         # ── CODEBASE-LEVEL DELTAS ────────────────────────────────────
-        non_neutral = {
-            k: v for k, v in diff.codebase_deltas.items()
-            if v.direction != "neutral"
-        }
+        non_neutral = {k: v for k, v in diff.codebase_deltas.items() if v.direction != "neutral"}
         if non_neutral:
             con.print("[bold]CODEBASE SIGNALS[/bold]")
             for metric, md in sorted(non_neutral.items()):
@@ -336,9 +321,7 @@ class InsightDiffFormatter:
             f"[{color}]({_delta_str(sev_delta)})[/{color}]"
         )
 
-    def _render_file_deltas(
-        self, file_deltas: list, verbose: bool = False
-    ) -> None:
+    def _render_file_deltas(self, file_deltas: list, verbose: bool = False) -> None:
         """Render per-file metric changes as a Rich table."""
         con = self._console
 
@@ -347,7 +330,8 @@ class InsightDiffFormatter:
             # In non-verbose mode, show only files with at least one "worse" metric
             # or files that are new/removed, limited to 15 entries
             interesting = [
-                fd for fd in file_deltas
+                fd
+                for fd in file_deltas
                 if fd.status in ("new", "removed")
                 or any(md.direction == "worse" for md in fd.metric_deltas.values())
             ]
@@ -361,8 +345,7 @@ class InsightDiffFormatter:
             return
 
         con.print(
-            f"[bold]METRIC CHANGES[/bold] "
-            f"[dim]({len(display)} of {len(file_deltas)} files)[/dim]"
+            f"[bold]METRIC CHANGES[/bold] [dim]({len(display)} of {len(file_deltas)} files)[/dim]"
         )
 
         table = Table(expand=True, show_lines=False, pad_edge=False)
@@ -395,8 +378,10 @@ class InsightDiffFormatter:
             for i, (metric_name, md) in enumerate(sorted_metrics):
                 icon = _direction_icon(md.direction)
                 delta_color = (
-                    "red" if md.direction == "worse"
-                    else "green" if md.direction == "better"
+                    "red"
+                    if md.direction == "worse"
+                    else "green"
+                    if md.direction == "better"
                     else "dim"
                 )
 

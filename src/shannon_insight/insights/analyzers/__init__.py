@@ -2,10 +2,10 @@
 
 from typing import List
 
-from .structural import StructuralAnalyzer
 from .per_file import PerFileAnalyzer
-from .temporal import TemporalAnalyzer
 from .spectral import SpectralAnalyzer
+from .structural import StructuralAnalyzer
+from .temporal import TemporalAnalyzer
 
 
 def get_default_analyzers() -> List:

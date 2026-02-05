@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from ..models import AnomalyReport, AnalysisContext
+from ..models import AnalysisContext, AnomalyReport
 
 
 class BaseFormatter(ABC):

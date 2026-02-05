@@ -64,9 +64,7 @@ class SpectralAnalyzer:
             fiedler_value = eigenvalues[1]
         elif num_components > 1:
             # Find largest connected component and compute Fiedler on it
-            fiedler_value = self._fiedler_largest_component(
-                graph.adjacency, graph.all_nodes, np
-            )
+            fiedler_value = self._fiedler_largest_component(graph.adjacency, graph.all_nodes, np)
 
         # Spectral gap: ratio of 2nd to 3rd eigenvalue
         spectral_gap = 0.0
@@ -77,14 +75,11 @@ class SpectralAnalyzer:
         store.spectral = SpectralSummary(
             fiedler_value=fiedler_value,
             num_components=num_components,
-            eigenvalues=eigenvalues[:min(20, len(eigenvalues))],  # cap for storage
+            eigenvalues=eigenvalues[: min(20, len(eigenvalues))],  # cap for storage
             spectral_gap=spectral_gap,
         )
 
-        logger.debug(
-            f"Spectral analysis: Fiedler={fiedler_value:.4f}, "
-            f"components={num_components}"
-        )
+        logger.debug(f"Spectral analysis: Fiedler={fiedler_value:.4f}, components={num_components}")
 
     def _fiedler_largest_component(self, adjacency, all_nodes, np):
         """Compute Fiedler value on the largest connected component."""

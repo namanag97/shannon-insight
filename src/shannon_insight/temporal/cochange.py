@@ -4,7 +4,7 @@ from collections import defaultdict
 from itertools import combinations
 from typing import Dict, Set, Tuple
 
-from .models import CoChangePair, CoChangeMatrix, GitHistory
+from .models import CoChangeMatrix, CoChangePair, GitHistory
 
 
 def build_cochange_matrix(

@@ -1,3 +1,3 @@
-from .analyzer import CodebaseAnalyzer
+from .scanner_factory import ScannerFactory
 
-__all__ = ["CodebaseAnalyzer"]
+__all__ = ["ScannerFactory"]

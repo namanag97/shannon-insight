@@ -29,10 +29,7 @@ class AnalysisCache:
     """
 
     def __init__(
-        self,
-        cache_dir: str = ".shannon-cache",
-        ttl_hours: int = 24,
-        enabled: bool = True
+        self, cache_dir: str = ".shannon-cache", ttl_hours: int = 24, enabled: bool = True
     ):
         """
         Initialize cache.
@@ -143,16 +140,13 @@ class AnalysisCache:
                 "enabled": True,
                 "size": len(self.cache),
                 "directory": self.cache.directory,
-                "volume": self.cache.volume()
+                "volume": self.cache.volume(),
             }
         except Exception as e:
             logger.warning(f"Cache stats failed: {e}")
             return {"enabled": True, "error": str(e)}
 
-    def memoize(
-        self,
-        config_hash: Optional[str] = None
-    ) -> Callable:
+    def memoize(self, config_hash: Optional[str] = None) -> Callable:
         """
         Decorator for caching function results.
 
@@ -170,6 +164,7 @@ class AnalysisCache:
         Returns:
             Decorator function
         """
+
         def decorator(func: Callable) -> Callable:
             @wraps(func)
             def wrapper(filepath: Path, *args, **kwargs):
@@ -177,7 +172,7 @@ class AnalysisCache:
                     return func(filepath, *args, **kwargs)
 
                 # Generate cache key
-                cfg_hash = config_hash or kwargs.get('config_hash', '')
+                cfg_hash = config_hash or kwargs.get("config_hash", "")
                 key = self._get_file_key(filepath, cfg_hash)
 
                 # Try cache first
@@ -191,6 +186,7 @@ class AnalysisCache:
                 return result
 
             return wrapper
+
         return decorator
 
     def close(self) -> None:

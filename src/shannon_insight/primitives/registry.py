@@ -8,11 +8,11 @@ from dataclasses import dataclass
 from typing import Callable, List
 
 from .base import PrimitivePlugin
-from .plugins.compression import CompressionPrimitive
 from .plugins.centrality import CentralityPrimitive
-from .plugins.volatility import VolatilityPrimitive
-from .plugins.coherence import CoherencePrimitive
 from .plugins.cognitive_load import CognitiveLoadPrimitive
+from .plugins.coherence import CoherencePrimitive
+from .plugins.compression import CompressionPrimitive
+from .plugins.volatility import VolatilityPrimitive
 
 
 @dataclass
@@ -51,6 +51,7 @@ def get_plugin(name: str) -> PrimitivePlugin:
 
 
 # ── Backward-compatible registry (PrimitiveDefinition list) ────────
+
 
 def _plugin_to_defn(plugin: PrimitivePlugin) -> PrimitiveDefinition:
     return PrimitiveDefinition(

@@ -1,6 +1,6 @@
 """Data models for temporal (git-based) analysis."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, List, Set, Tuple
 
 

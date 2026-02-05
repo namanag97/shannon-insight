@@ -54,9 +54,7 @@ class Statistics:
         return (x - mean) / std
 
     @staticmethod
-    def mahalanobis_distance(
-        point: np.ndarray, mean: np.ndarray, cov_matrix: np.ndarray
-    ) -> float:
+    def mahalanobis_distance(point: np.ndarray, mean: np.ndarray, cov_matrix: np.ndarray) -> float:
         """
         Compute Mahalanobis distance: D^2 = (x - mu)^T Sigma^-1 (x - mu).
 
@@ -79,9 +77,7 @@ class Statistics:
         return float(distance)
 
     @staticmethod
-    def grubbs_test(
-        values: List[float], alpha: float = 0.05
-    ) -> Optional[Tuple[int, float]]:
+    def grubbs_test(values: List[float], alpha: float = 0.05) -> Optional[Tuple[int, float]]:
         """
         Grubbs' test for detecting a single outlier.
 
@@ -111,9 +107,7 @@ class Statistics:
         G = max_deviation / std_val
 
         t_critical = Statistics._t_critical_value(alpha / (2 * n), n - 2)
-        G_critical = ((n - 1) / math.sqrt(n)) * math.sqrt(
-            t_critical**2 / (n - 2 + t_critical**2)
-        )
+        G_critical = ((n - 1) / math.sqrt(n)) * math.sqrt(t_critical**2 / (n - 2 + t_critical**2))
 
         if G > G_critical:
             return outlier_index, float(G)
@@ -128,9 +122,7 @@ class Statistics:
         return float(sp_stats.t.ppf(1 - alpha, df))
 
     @staticmethod
-    def confidence_interval(
-        values: List[float], confidence: float = 0.95
-    ) -> Tuple[float, float]:
+    def confidence_interval(values: List[float], confidence: float = 0.95) -> Tuple[float, float]:
         """
         Confidence interval for the mean.
 

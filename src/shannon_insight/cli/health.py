@@ -18,32 +18,22 @@ def _sparkline(values: list) -> str:
     mn, mx = min(values), max(values)
     if mx == mn:
         return blocks[4] * len(values)
-    return "".join(
-        blocks[min(8, int((v - mn) / (mx - mn) * 8))] for v in values
-    )
+    return "".join(blocks[min(8, int((v - mn) / (mx - mn) * 8))] for v in values)
 
 
-# Direction metadata for health metrics.
-# Each entry: signal_name -> (display_label, direction, aspect_tag)
+# Direction metadata for health metrics — developer-friendly labels.
 _HEALTH_METRICS = {
-    "fiedler_value": ("Fiedler value", "higher_better", "connectivity"),
-    "modularity": ("Modularity", "higher_better", "boundaries"),
-    "cycle_count": ("Cycle count", "lower_better", "cycles"),
-    "total_edges": ("Total edges", "neutral", "dependencies"),
-    "spectral_gap": ("Spectral gap", "higher_better", "structure"),
-    "active_findings": ("Active findings", "lower_better", "findings"),
+    "active_findings": ("Issues found", "lower_better", "findings"),
+    "cycle_count": ("Circular dependencies", "lower_better", "cycles"),
+    "modularity": ("Module separation", "higher_better", "boundaries"),
+    "fiedler_value": ("Connectivity", "higher_better", "connectivity"),
+    "total_edges": ("Dependencies", "neutral", "dependencies"),
 }
 
 
 @app.command()
 def health(
-    path: Path = typer.Argument(
-        Path("."),
-        help="Project root (where .shannon/ lives)",
-        exists=True,
-        file_okay=False,
-        dir_okay=True,
-    ),
+    ctx: typer.Context,
     last_n: int = typer.Option(
         20,
         "--last",
@@ -52,38 +42,36 @@ def health(
         min=2,
         max=200,
     ),
-    fmt: str = typer.Option(
-        "rich",
-        "--format",
-        "-f",
-        help="Output format: rich (table) or json",
+    json_output: bool = typer.Option(
+        False,
+        "--json",
+        help="Output in machine-readable JSON format",
     ),
 ):
     """
     Show codebase health trends over time.
 
-    Queries .shannon/history.db for codebase-level signals (Fiedler value,
-    modularity, cycle count, etc.) and shows a sparkline trend plus a
-    directional assessment for each metric.
+    Queries .shannon/history.db for codebase-level signals and shows a
+    sparkline trend plus a directional assessment for each metric.
 
     [bold cyan]Examples:[/bold cyan]
 
-      shannon-insight . health
+      shannon-insight health
 
-      shannon-insight . health --last 10
+      shannon-insight health --last 10
 
-      shannon-insight . health --format json
+      shannon-insight health --json
     """
     from ..storage import HistoryDB
     from ..storage.queries import HistoryQuery
 
-    resolved = Path(path).resolve()
+    resolved = ctx.obj.get("path", Path.cwd()).resolve()
     db_path = resolved / ".shannon" / "history.db"
 
     if not db_path.exists():
         console.print(
             "[yellow]No history found.[/yellow] "
-            "Run [bold]shannon-insight . insights[/bold] first to create snapshots."
+            "Run [bold]shannon-insight --save[/bold] first to create snapshots."
         )
         raise typer.Exit(0)
 
@@ -92,14 +80,11 @@ def health(
         points = query.codebase_health(last_n)
 
     if not points:
-        console.print(
-            "[yellow]No health data available. "
-            "Run 'insights' first.[/yellow]"
-        )
+        console.print("[yellow]No health data available. Run the analysis first.[/yellow]")
         raise typer.Exit(0)
 
-    # ── JSON output ───────────────────────────────────────────────────
-    if fmt == "json":
+    # -- JSON output --
+    if json_output:
         print(
             json.dumps(
                 [
@@ -115,26 +100,20 @@ def health(
         )
         return
 
-    # ── Rich output ───────────────────────────────────────────────────
+    # -- Rich output --
     console.print()
-    console.print(
-        f"[bold cyan]CODEBASE HEALTH[/bold cyan] "
-        f"-- {len(points)} snapshots"
-    )
+    console.print(f"[bold cyan]CODEBASE HEALTH[/bold cyan] -- {len(points)} snapshots")
     console.print()
 
     table = Table(show_header=True, show_lines=False, pad_edge=True)
-    table.add_column("Metric", min_width=18)
+    table.add_column("Metric", min_width=24)
     table.add_column("Current", justify="right")
     table.add_column("Trend", min_width=15)
     table.add_column("Direction")
 
     for metric_key, (label, direction, _aspect) in _HEALTH_METRICS.items():
         # Collect non-None values for this metric across all snapshots.
-        values = [
-            p.metrics.get(metric_key)
-            for p in points
-        ]
+        values = [p.metrics.get(metric_key) for p in points]
         values = [v for v in values if v is not None]
         if not values:
             continue
@@ -152,17 +131,9 @@ def health(
             if abs(delta) < 0.001:
                 dir_str = "[dim]stable[/dim]"
             elif direction == "higher_better":
-                dir_str = (
-                    "[green]improving[/green]"
-                    if delta > 0
-                    else "[red]declining[/red]"
-                )
+                dir_str = "[green]improving[/green]" if delta > 0 else "[red]declining[/red]"
             elif direction == "lower_better":
-                dir_str = (
-                    "[green]improving[/green]"
-                    if delta < 0
-                    else "[red]worsening[/red]"
-                )
+                dir_str = "[green]improving[/green]" if delta < 0 else "[red]worsening[/red]"
             else:
                 dir_str = "[dim]changing[/dim]"
         else:

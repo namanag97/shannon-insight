@@ -1,6 +1,6 @@
 """Multi-level codebase analysis engine."""
 
-from .models import CodebaseAnalysis
 from .engine import AnalysisEngine
+from .models import CodebaseAnalysis
 
 __all__ = ["CodebaseAnalysis", "AnalysisEngine"]

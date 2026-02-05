@@ -57,9 +57,7 @@ def save_snapshot(conn: sqlite3.Connection, snapshot: Snapshot) -> int:
         file_signal_rows = []
         for file_path, signals in snapshot.file_signals.items():
             for signal_name, value in signals.items():
-                file_signal_rows.append(
-                    (snapshot_id, file_path, signal_name, value)
-                )
+                file_signal_rows.append((snapshot_id, file_path, signal_name, value))
         if file_signal_rows:
             cur.executemany(
                 """
@@ -121,10 +119,7 @@ def save_snapshot(conn: sqlite3.Connection, snapshot: Snapshot) -> int:
             )
 
         # ── dependency_edges (batch) ─────────────────────────────
-        edge_rows = [
-            (snapshot_id, src, dst)
-            for src, dst in snapshot.dependency_edges
-        ]
+        edge_rows = [(snapshot_id, src, dst) for src, dst in snapshot.dependency_edges]
         if edge_rows:
             cur.executemany(
                 """

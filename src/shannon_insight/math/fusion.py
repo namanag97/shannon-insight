@@ -2,16 +2,12 @@
 
 from typing import Dict, List, Tuple
 
-import numpy as np
-
 
 class SignalFusion:
     """Evidence-theoretic signal fusion methods."""
 
     @staticmethod
-    def bayesian_fusion(
-        priors: List[float], likelihoods: List[float]
-    ) -> Tuple[float, float]:
+    def bayesian_fusion(priors: List[float], likelihoods: List[float]) -> Tuple[float, float]:
         """
         Bayesian evidence combination: P(H|E) = P(E|H) * P(H) / P(E).
 
@@ -63,7 +59,7 @@ class SignalFusion:
 
     @staticmethod
     def dempster_shafer_combination(
-        mass_functions: List[Dict[frozenset, float]]
+        mass_functions: List[Dict[frozenset, float]],
     ) -> Dict[frozenset, float]:
         """
         Combine evidence using Dempster-Shafer theory.
@@ -94,9 +90,7 @@ class SignalFusion:
                 for b, mb in m2.items():
                     intersection = a & b  # proper set intersection
                     if intersection:
-                        new_combined[intersection] = (
-                            new_combined.get(intersection, 0.0) + ma * mb
-                        )
+                        new_combined[intersection] = new_combined.get(intersection, 0.0) + ma * mb
                     else:
                         total_conflict += ma * mb
 

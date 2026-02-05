@@ -5,9 +5,9 @@ Adding a new language:
   2. That's it. The ConfigurableScanner picks it up automatically.
 """
 
+import re as _re
 from dataclasses import dataclass, field
 from typing import List, Tuple
-import re as _re
 
 
 @dataclass(frozen=True)
@@ -52,9 +52,20 @@ class LanguageConfig:
 
     # Skip patterns: directory names and file prefixes to ignore.
     skip_dirs: Tuple[str, ...] = (
-        "vendor", "node_modules", "venv", ".venv", "__pycache__",
-        ".git", ".tox", ".mypy_cache", ".pytest_cache",
-        "dist", "build", "target", ".eggs", "third_party",
+        "vendor",
+        "node_modules",
+        "venv",
+        ".venv",
+        "__pycache__",
+        ".git",
+        ".tox",
+        ".mypy_cache",
+        ".pytest_cache",
+        "dist",
+        "build",
+        "target",
+        ".eggs",
+        "third_party",
     )
     skip_file_prefixes: Tuple[str, ...] = ("test_",)
     skip_file_suffixes: Tuple[str, ...] = ()
@@ -64,21 +75,20 @@ class LanguageConfig:
 
 # ── Re-usable building blocks ──────────────────────────────────────
 
-_C_LINE_COMMENT   = (r"//.*", 0)
-_C_BLOCK_COMMENT  = (r"/\*.*?\*/", _re.DOTALL)
-_HASH_COMMENT     = (r"#.*", 0)
-_TRIPLE_DQ_STR    = (r'""".*?"""', _re.DOTALL)
-_TRIPLE_SQ_STR    = (r"'''.*?'''", _re.DOTALL)
+_C_LINE_COMMENT = (r"//.*", 0)
+_C_BLOCK_COMMENT = (r"/\*.*?\*/", _re.DOTALL)
+_HASH_COMMENT = (r"#.*", 0)
+_TRIPLE_DQ_STR = (r'""".*?"""', _re.DOTALL)
+_TRIPLE_SQ_STR = (r"'''.*?'''", _re.DOTALL)
 
 _DOUBLE_QUOTE_STR = r'"[^"]*"'
 _SINGLE_QUOTE_STR = r"'[^']*'"
-_BACKTICK_STR     = r"`[^`]*`"
+_BACKTICK_STR = r"`[^`]*`"
 
 
 # ── Language definitions ───────────────────────────────────────────
 
 LANGUAGES = {
-
     "go": LanguageConfig(
         name="go",
         extensions=[".go"],
@@ -109,7 +119,6 @@ LANGUAGES = {
             ("chan", r"\bchan\s+\w+"),
         ],
     ),
-
     "python": LanguageConfig(
         name="python",
         extensions=[".py"],
@@ -129,9 +138,17 @@ LANGUAGES = {
         nesting_mode="indent",
         struct_patterns=[r"^class\s+\w+"],
         skip_dirs=(
-            "venv", ".venv", "__pycache__", ".git", ".tox",
-            ".mypy_cache", ".pytest_cache", "node_modules",
-            "dist", "build", ".eggs",
+            "venv",
+            ".venv",
+            "__pycache__",
+            ".git",
+            ".tox",
+            ".mypy_cache",
+            ".pytest_cache",
+            "node_modules",
+            "dist",
+            "build",
+            ".eggs",
         ),
         skip_file_prefixes=("test_",),
         skip_file_suffixes=("_test.py",),
@@ -143,7 +160,6 @@ LANGUAGES = {
             ("decorator", r"^\s*@\w+"),
         ],
     ),
-
     "typescript": LanguageConfig(
         name="typescript",
         extensions=[".ts", ".tsx", ".js", ".jsx"],
@@ -166,15 +182,23 @@ LANGUAGES = {
         nesting_mode="brace",
         interface_patterns=[r"\binterface\s+\w+"],
         struct_patterns=[r"const\s+[A-Z]\w+\s*:\s*React\.FC"],
-        skip_dirs=("node_modules", "dist", "build", "venv", ".venv",
-                   "__pycache__", ".git", ".tox", ".mypy_cache"),
+        skip_dirs=(
+            "node_modules",
+            "dist",
+            "build",
+            "venv",
+            ".venv",
+            "__pycache__",
+            ".git",
+            ".tox",
+            ".mypy_cache",
+        ),
         skip_file_prefixes=(),
         extra_ast_patterns=[
             ("jsx", r"<[A-Z]\w+"),
             ("hook", r"\buse[A-Z]\w+\s*\("),
         ],
     ),
-
     "java": LanguageConfig(
         name="java",
         extensions=[".java"],
@@ -193,8 +217,17 @@ LANGUAGES = {
         nesting_mode="brace",
         struct_patterns=[r"\bclass\s+\w+"],
         interface_patterns=[r"\binterface\s+\w+"],
-        skip_dirs=("target", "build", ".gradle", ".mvn", ".git",
-                   "node_modules", "venv", ".venv", "__pycache__"),
+        skip_dirs=(
+            "target",
+            "build",
+            ".gradle",
+            ".mvn",
+            ".git",
+            "node_modules",
+            "venv",
+            ".venv",
+            "__pycache__",
+        ),
         skip_file_prefixes=(),
         skip_file_suffixes=("Test.java", "Tests.java", "IT.java"),
         skip_path_fragments=("/test/", "/tests/"),
@@ -204,7 +237,6 @@ LANGUAGES = {
             ("annotation", r"^\s*@\w+"),
         ],
     ),
-
     "rust": LanguageConfig(
         name="rust",
         extensions=[".rs"],
@@ -230,7 +262,6 @@ LANGUAGES = {
             ("macro", r"\w+!\s*[(\[{]"),
         ],
     ),
-
     "c": LanguageConfig(
         name="c",
         extensions=[".c", ".cpp", ".cc", ".cxx", ".h", ".hpp", ".hxx"],
@@ -250,9 +281,19 @@ LANGUAGES = {
         nesting_mode="brace",
         struct_patterns=[r"\bstruct\s+\w+\s*\{", r"\btypedef\s+struct\b"],
         interface_patterns=[r"\bclass\s+\w+"],
-        skip_dirs=("build", "cmake-build", ".git", "node_modules",
-                   "venv", ".venv", "__pycache__", "third_party",
-                   "vendor", "deps", "external"),
+        skip_dirs=(
+            "build",
+            "cmake-build",
+            ".git",
+            "node_modules",
+            "venv",
+            ".venv",
+            "__pycache__",
+            "third_party",
+            "vendor",
+            "deps",
+            "external",
+        ),
         skip_file_prefixes=("test_",),
         skip_file_suffixes=("_test.cpp", "_test.c"),
         skip_path_fragments=("/test/", "/tests/"),
@@ -261,7 +302,6 @@ LANGUAGES = {
             ("template", r"\btemplate\s*<"),
         ],
     ),
-
     "ruby": LanguageConfig(
         name="ruby",
         extensions=[".rb"],
@@ -278,25 +318,45 @@ LANGUAGES = {
             r"^\s*module\s+(\w+)",
         ],
         complexity_keywords=[
-            "if", "elsif", "else", "unless", "case", "when",
-            "while", "until", "rescue",
+            "if",
+            "elsif",
+            "else",
+            "unless",
+            "case",
+            "when",
+            "while",
+            "until",
+            "rescue",
         ],
         complexity_operators=["&&", r"\|\|"],
         nesting_mode="ruby",
         struct_patterns=[r"\bclass\s+\w+"],
         interface_patterns=[r"\bmodule\s+\w+"],
-        skip_dirs=("vendor", "bundle", ".git", "node_modules",
-                   "venv", ".venv", "__pycache__", "tmp", "log"),
+        skip_dirs=(
+            "vendor",
+            "bundle",
+            ".git",
+            "node_modules",
+            "venv",
+            ".venv",
+            "__pycache__",
+            "tmp",
+            "log",
+        ),
         skip_file_prefixes=("test_",),
         skip_file_suffixes=("_test.rb", "_spec.rb"),
         skip_path_fragments=("/test/", "/spec/"),
     ),
-
     "universal": LanguageConfig(
         name="universal",
         extensions=[],  # set dynamically by caller
-        comment_patterns=[_C_LINE_COMMENT, _C_BLOCK_COMMENT, _HASH_COMMENT,
-                          _TRIPLE_DQ_STR, _TRIPLE_SQ_STR],
+        comment_patterns=[
+            _C_LINE_COMMENT,
+            _C_BLOCK_COMMENT,
+            _HASH_COMMENT,
+            _TRIPLE_DQ_STR,
+            _TRIPLE_SQ_STR,
+        ],
         string_patterns=[_BACKTICK_STR, _DOUBLE_QUOTE_STR, _SINGLE_QUOTE_STR],
         function_patterns=[
             r"\b(?:def|fn|func|function|sub)\s+\w+",
@@ -318,17 +378,36 @@ LANGUAGES = {
             r"^class\s+([a-zA-Z]\w*)",
         ],
         complexity_keywords=[
-            "if", "else", "elif", "elsif", "unless",
-            "case", "switch", "for", "while",
-            "match", "when",
+            "if",
+            "else",
+            "elif",
+            "elsif",
+            "unless",
+            "case",
+            "switch",
+            "for",
+            "while",
+            "match",
+            "when",
         ],
         complexity_operators=["&&", r"\|\|", r"\band\b", r"\bor\b"],
         nesting_mode="both",
         skip_dirs=(
-            "vendor", "node_modules", "venv", ".venv", "__pycache__",
-            ".git", ".tox", ".mypy_cache", ".pytest_cache",
-            "dist", "build", "target", ".eggs",
-            "third_party", "cmake-build",
+            "vendor",
+            "node_modules",
+            "venv",
+            ".venv",
+            "__pycache__",
+            ".git",
+            ".tox",
+            ".mypy_cache",
+            ".pytest_cache",
+            "dist",
+            "build",
+            "target",
+            ".eggs",
+            "third_party",
+            "cmake-build",
         ),
         skip_file_prefixes=("test_",),
     ),
@@ -338,32 +417,90 @@ LANGUAGES = {
 # ── Default source-file extensions for universal scanner ───────────
 
 DEFAULT_SOURCE_EXTENSIONS = [
-    ".scala", ".kt", ".kts", ".swift", ".m", ".mm",
-    ".ex", ".exs", ".erl", ".hrl",
-    ".clj", ".cljs", ".cljc", ".edn",
-    ".hs", ".lhs", ".ml", ".mli", ".fs", ".fsi", ".fsx",
-    ".lua", ".pl", ".pm", ".r", ".R",
-    ".jl", ".nim", ".zig", ".v", ".sv",
-    ".groovy", ".gradle", ".dart", ".php",
-    ".sh", ".bash", ".zsh", ".fish",
-    ".ps1", ".psm1",
-    ".coffee", ".elm", ".purs",
-    ".d", ".ada", ".adb", ".ads",
-    ".pas", ".pp", ".lpr",
-    ".vb", ".vbs", ".cls",
-    ".tcl", ".awk", ".sed",
-    ".pro", ".P",
-    ".lisp", ".cl", ".el",
-    ".rkt", ".scm", ".ss",
-    ".tf", ".hcl",
-    ".yaml", ".yml", ".toml", ".json5",
+    ".scala",
+    ".kt",
+    ".kts",
+    ".swift",
+    ".m",
+    ".mm",
+    ".ex",
+    ".exs",
+    ".erl",
+    ".hrl",
+    ".clj",
+    ".cljs",
+    ".cljc",
+    ".edn",
+    ".hs",
+    ".lhs",
+    ".ml",
+    ".mli",
+    ".fs",
+    ".fsi",
+    ".fsx",
+    ".lua",
+    ".pl",
+    ".pm",
+    ".r",
+    ".R",
+    ".jl",
+    ".nim",
+    ".zig",
+    ".v",
+    ".sv",
+    ".groovy",
+    ".gradle",
+    ".dart",
+    ".php",
+    ".sh",
+    ".bash",
+    ".zsh",
+    ".fish",
+    ".ps1",
+    ".psm1",
+    ".coffee",
+    ".elm",
+    ".purs",
+    ".d",
+    ".ada",
+    ".adb",
+    ".ads",
+    ".pas",
+    ".pp",
+    ".lpr",
+    ".vb",
+    ".vbs",
+    ".cls",
+    ".tcl",
+    ".awk",
+    ".sed",
+    ".pro",
+    ".P",
+    ".lisp",
+    ".cl",
+    ".el",
+    ".rkt",
+    ".scm",
+    ".ss",
+    ".tf",
+    ".hcl",
+    ".yaml",
+    ".yml",
+    ".toml",
+    ".json5",
     ".cmake",
 ]
 
 
 def get_language_config(name: str) -> LanguageConfig:
-    """Look up a language by name. Raises KeyError if not found."""
-    return LANGUAGES[name]
+    """Look up a language by name. Raises ShannonInsightError if unknown."""
+    try:
+        return LANGUAGES[name]
+    except KeyError:
+        supported = ", ".join(sorted(LANGUAGES.keys()))
+        from ..exceptions import ShannonInsightError
+
+        raise ShannonInsightError(f"Unsupported language: '{name}'. Supported: {supported}")
 
 
 def get_all_known_extensions() -> set:

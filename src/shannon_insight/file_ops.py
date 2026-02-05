@@ -5,9 +5,10 @@ Provides timeout-protected and size-limited file operations.
 """
 
 import signal
+from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Generator, List, Optional
+from typing import List, Optional
 
 from .exceptions import FileAccessError, SecurityError
 from .security import PathValidator, ResourceLimiter
@@ -15,6 +16,7 @@ from .security import PathValidator, ResourceLimiter
 
 class TimeoutError(Exception):
     """Raised when an operation times out."""
+
     pass
 
 
@@ -51,8 +53,8 @@ def safe_read_file(
     validator: Optional[PathValidator] = None,
     limiter: Optional[ResourceLimiter] = None,
     timeout_seconds: int = 10,
-    encoding: str = 'utf-8',
-    errors: str = 'replace'
+    encoding: str = "utf-8",
+    errors: str = "replace",
 ) -> str:
     """
     Safely read a file with security checks and timeout protection.
@@ -84,7 +86,7 @@ def safe_read_file(
     # Read with timeout protection
     try:
         with timeout(timeout_seconds):
-            with open(filepath, 'r', encoding=encoding, errors=errors) as f:
+            with open(filepath, encoding=encoding, errors=errors) as f:
                 return f.read()
     except TimeoutError:
         raise FileAccessError(filepath, f"Read operation timed out after {timeout_seconds}s")
@@ -101,7 +103,7 @@ def safe_scan_directory(
     pattern: str = "**/*",
     validator: Optional[PathValidator] = None,
     limiter: Optional[ResourceLimiter] = None,
-    follow_symlinks: bool = False
+    follow_symlinks: bool = False,
 ) -> Generator[Path, None, None]:
     """
     Safely scan a directory with security checks.
@@ -160,10 +162,7 @@ def safe_scan_directory(
 
 
 def safe_write_file(
-    filepath: Path,
-    content: str,
-    validator: Optional[PathValidator] = None,
-    encoding: str = 'utf-8'
+    filepath: Path, content: str, validator: Optional[PathValidator] = None, encoding: str = "utf-8"
 ) -> None:
     """
     Safely write to a file with validation.
@@ -189,7 +188,7 @@ def safe_write_file(
         filepath.parent.mkdir(parents=True, exist_ok=True)
 
         # Write file
-        with open(filepath, 'w', encoding=encoding) as f:
+        with open(filepath, "w", encoding=encoding) as f:
             f.write(content)
 
     except OSError as e:
@@ -198,10 +197,7 @@ def safe_write_file(
         raise FileAccessError(filepath, f"Unexpected error: {e}")
 
 
-def should_skip_file(
-    filepath: Path,
-    exclude_patterns: List[str]
-) -> bool:
+def should_skip_file(filepath: Path, exclude_patterns: List[str]) -> bool:
     """
     Check if a file should be skipped based on exclusion patterns.
 

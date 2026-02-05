@@ -1,7 +1,6 @@
 """Tests for shannon_insight.math.entropy module."""
 
 import math
-import pytest
 
 from shannon_insight.math.entropy import Entropy
 
@@ -97,8 +96,10 @@ class TestJointEntropy:
     def test_independent_events(self):
         """Joint entropy of independent events >= individual entropies."""
         joint = {
-            ("a", "x"): 25, ("a", "y"): 25,
-            ("b", "x"): 25, ("b", "y"): 25,
+            ("a", "x"): 25,
+            ("a", "y"): 25,
+            ("b", "x"): 25,
+            ("b", "y"): 25,
         }
         result = Entropy.joint_entropy(joint)
         # For independent uniform: H(X,Y) = H(X) + H(Y) = 1 + 1 = 2

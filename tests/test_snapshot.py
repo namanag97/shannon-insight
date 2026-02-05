@@ -1,16 +1,22 @@
 """Tests for the snapshot module (models, identity, capture)."""
+
 import sys
+
 sys.path.insert(0, "src")
 
-import pytest
-from shannon_insight.snapshot.models import Snapshot, FindingRecord, EvidenceRecord
 from shannon_insight.snapshot.identity import compute_identity_key
+from shannon_insight.snapshot.models import FindingRecord, Snapshot
 
 
 def _make_finding_record(**kwargs):
     defaults = dict(
-        finding_type="high_risk_hub", identity_key="abc123", severity=0.85,
-        title="test finding", files=["a.py"], evidence=[], suggestion="fix it",
+        finding_type="high_risk_hub",
+        identity_key="abc123",
+        severity=0.85,
+        title="test finding",
+        files=["a.py"],
+        evidence=[],
+        suggestion="fix it",
     )
     defaults.update(kwargs)
     return FindingRecord(**defaults)
@@ -28,8 +34,12 @@ class TestSnapshot:
 
     def test_snapshot_full_construction(self):
         s = Snapshot(
-            tool_version="0.6.0", timestamp="2025-01-01T00:00:00Z", analyzed_path="/tmp",
-            file_count=10, module_count=3, commits_analyzed=50,
+            tool_version="0.6.0",
+            timestamp="2025-01-01T00:00:00Z",
+            analyzed_path="/tmp",
+            file_count=10,
+            module_count=3,
+            commits_analyzed=50,
             analyzers_ran=["structural", "temporal"],
             config_hash="abc123",
             file_signals={"a.py": {"cognitive_load": 0.5}},

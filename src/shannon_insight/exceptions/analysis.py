@@ -1,13 +1,14 @@
 """Analysis-related exceptions: file access, parsing, data issues."""
 
 from pathlib import Path
-from typing import Optional, List, Dict
+from typing import Dict, List, Optional
 
 from .base import ShannonInsightError
 
 
 class AnalysisError(ShannonInsightError):
     """Base class for analysis-related errors."""
+
     pass
 
 

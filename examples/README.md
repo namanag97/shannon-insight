@@ -5,11 +5,12 @@ This directory contains usage examples for Shannon Insight.
 ## Basic Usage
 
 ```python
-from shannon_insight import CodebaseAnalyzer
+from shannon_insight import InsightKernel
 
-analyzer = CodebaseAnalyzer("/path/to/codebase")
-reports = analyzer.analyze()
-analyzer.print_report(reports, top_n=10)
+kernel = InsightKernel("/path/to/codebase")
+result, snapshot = kernel.run(max_findings=10)
+for finding in result.findings:
+    print(f"{finding.title} (severity: {finding.severity:.2f})")
 ```
 
 ## Examples
@@ -22,7 +23,7 @@ analyzer.print_report(reports, top_n=10)
 Make sure Shannon Insight is installed:
 
 ```bash
-pip install shannon-insight
+pip install shannon-codebase-insight
 ```
 
 Or install from source:
@@ -51,7 +52,17 @@ Analyze specific project:
 shannon-insight /path/to/project --language go
 ```
 
-Customize output:
+JSON output:
 ```bash
-shannon-insight . --top 20 --output my_results.json
+shannon-insight . --format json
+```
+
+Explain a specific file:
+```bash
+shannon-insight . --explain engine.py
+```
+
+Scoped analysis for PRs:
+```bash
+shannon-insight . --pr --fail-on high
 ```

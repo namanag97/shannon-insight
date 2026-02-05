@@ -2,8 +2,8 @@
 
 from typing import Set
 
-from ...temporal import GitExtractor, build_cochange_matrix, build_churn_series
 from ...logging_config import get_logger
+from ...temporal import GitExtractor, build_churn_series, build_cochange_matrix
 from ..store import AnalysisStore
 
 logger = get_logger(__name__)

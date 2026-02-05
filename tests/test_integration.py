@@ -1,10 +1,10 @@
 """Integration tests for Shannon Insight"""
 
-import pytest
+import subprocess
 import tempfile
 from pathlib import Path
-from shannon_insight import CodebaseAnalyzer, __version__
-from shannon_insight.exceptions import InsufficientDataError
+
+from shannon_insight import InsightKernel, __version__
 
 
 class TestSmokeTests:
@@ -12,200 +12,251 @@ class TestSmokeTests:
 
     def test_analyze_test_codebase(self):
         """Test analysis runs without errors on test codebase"""
-        analyzer = CodebaseAnalyzer("test_codebase", language="go")
-        reports, context = analyzer.analyze()
-        assert isinstance(reports, list)
-        assert len(reports) > 0
-        assert all(hasattr(r, "file") for r in reports)
-        assert all(hasattr(r, "primitives") for r in reports)
-        assert context.total_files_scanned > 0
-        assert "go" in context.detected_languages
+        kernel = InsightKernel("test_codebase", language="go")
+        result, snapshot = kernel.run()
+        assert result is not None
+        assert snapshot is not None
+        assert snapshot.file_count > 0
 
     def test_cli_version(self):
         """Test CLI version command works"""
-        import subprocess
-
-        result = subprocess.run(
-            ["shannon-insight", "--version"], capture_output=True, text=True
-        )
+        result = subprocess.run(["shannon-insight", "--version"], capture_output=True, text=True)
         assert result.returncode == 0
         assert __version__ in result.stdout
 
     def test_cli_help(self):
         """Test CLI help command works"""
-        import subprocess
-
-        result = subprocess.run(
-            ["shannon-insight", "--help"], capture_output=True, text=True
-        )
+        result = subprocess.run(["shannon-insight", "--help"], capture_output=True, text=True)
         assert result.returncode == 0
         assert "Shannon Insight" in result.stdout
 
+    def test_bare_command_works(self):
+        """shannon-insight with -C should analyze the given path."""
+        result = subprocess.run(
+            ["shannon-insight", "-C", "test_codebase"],
+            capture_output=True,
+            text=True,
+        )
+        assert result.returncode == 0
+
+    def test_path_option(self):
+        """shannon-insight -C <path> should work."""
+        result = subprocess.run(
+            ["shannon-insight", "-C", "test_codebase"],
+            capture_output=True,
+            text=True,
+        )
+        assert result.returncode == 0
+
+    def test_subcommand_help_explain(self):
+        """shannon-insight explain --help should show explain help."""
+        result = subprocess.run(
+            ["shannon-insight", "explain", "--help"],
+            capture_output=True,
+            text=True,
+        )
+        assert result.returncode == 0
+        assert "file" in result.stdout.lower() or "explain" in result.stdout.lower()
+
+    def test_subcommand_help_diff(self):
+        """shannon-insight diff --help should show diff help, not main help."""
+        result = subprocess.run(
+            ["shannon-insight", "diff", "--help"],
+            capture_output=True,
+            text=True,
+        )
+        assert result.returncode == 0
+        assert "snapshot" in result.stdout.lower() or "diff" in result.stdout.lower()
+
+    def test_json_flag(self):
+        """--json should produce valid JSON."""
+        result = subprocess.run(
+            ["shannon-insight", "--json", "-C", "test_codebase"],
+            capture_output=True,
+            text=True,
+        )
+        assert result.returncode == 0
+        import json
+
+        data = json.loads(result.stdout)
+        assert "findings" in data
+
+    def test_invalid_language_friendly_error(self):
+        """Invalid language should give a friendly error at API level."""
+        import pytest
+
+        from shannon_insight.analyzers.languages import get_language_config
+        from shannon_insight.exceptions import ShannonInsightError
+
+        with pytest.raises(ShannonInsightError, match="Unsupported language"):
+            get_language_config("invalid")
+
+    def test_fail_on_validates_input(self):
+        """--fail-on with invalid value should error."""
+        result = subprocess.run(
+            ["shannon-insight", "--fail-on", "invalid", "-C", "test_codebase"],
+            capture_output=True,
+            text=True,
+        )
+        assert result.returncode != 0
+
+    def test_no_save_by_default(self):
+        """Running without --save should not create .shannon/."""
+        import shutil
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            code_dir = Path(tmpdir) / "code"
+            shutil.copytree("test_codebase", str(code_dir))
+            # Remove any pre-existing .shannon/ copied from source
+            shannon_dir = code_dir / ".shannon"
+            if shannon_dir.exists():
+                shutil.rmtree(shannon_dir)
+            result = subprocess.run(
+                ["shannon-insight", "-C", str(code_dir)],
+                capture_output=True,
+                text=True,
+            )
+            assert result.returncode == 0
+            assert not (code_dir / ".shannon").exists()
+
+    def test_default_output_is_quiet(self):
+        """Default output should not contain INFO log lines."""
+        result = subprocess.run(
+            ["shannon-insight", "-C", "test_codebase"],
+            capture_output=True,
+            text=True,
+        )
+        assert "INFO" not in result.stderr
+        assert "Auto-detected" not in result.stderr + result.stdout
+
 
 class TestMultiLanguage:
-    """Phase 1: Multi-language support tests"""
+    """Multi-language support tests"""
 
     def test_auto_detect_finds_multiple_languages(self):
-        """Auto-detect should find both .go and .py files in test_codebase"""
+        """Auto-detect should find both .go and .py files"""
         with tempfile.TemporaryDirectory() as tmpdir:
-            # Create Go file
+            # Create Go files
             go_file = Path(tmpdir) / "main.go"
             go_file.write_text(
                 'package main\n\nimport "fmt"\n\n'
                 'func main() {\n\tfmt.Println("hi")\n}\n'
-                'func helper() {\n\tif true {\n\t\treturn\n\t}\n}\n'
-                'func another() {\n\tfor i := 0; i < 10; i++ {\n\t}\n}\n'
+                "func helper() {\n\tif true {\n\t\treturn\n\t}\n}\n"
+                "func another() {\n\tfor i := 0; i < 10; i++ {\n\t}\n}\n"
             )
             go_file2 = Path(tmpdir) / "util.go"
             go_file2.write_text(
                 'package main\n\nimport "os"\n\n'
-                'func readFile() {\n\tos.Exit(0)\n}\n'
-                'func writeFile() {\n\tif true {\n\t\treturn\n\t}\n}\n'
+                "func readFile() {\n\tos.Exit(0)\n}\n"
+                "func writeFile() {\n\tif true {\n\t\treturn\n\t}\n}\n"
             )
             go_file3 = Path(tmpdir) / "server.go"
             go_file3.write_text(
                 'package main\n\nimport "net/http"\n\n'
                 'func serve() {\n\thttp.ListenAndServe(":8080", nil)\n}\n'
-                'func handler() {\n\tif true {\n\t\treturn\n\t}\n}\n'
+                "func handler() {\n\tif true {\n\t\treturn\n\t}\n}\n"
             )
 
-            # Create Python file
+            # Create Python files
             py_file = Path(tmpdir) / "script.py"
             py_file.write_text(
-                'import os\nimport sys\n\n'
+                "import os\nimport sys\n\n"
                 'def main():\n    print("hello")\n\n'
-                'def helper():\n    if True:\n        return\n\n'
-                'def another():\n    for i in range(10):\n        pass\n'
+                "def helper():\n    if True:\n        return\n\n"
+                "def another():\n    for i in range(10):\n        pass\n"
             )
             py_file2 = Path(tmpdir) / "util.py"
             py_file2.write_text(
-                'import json\n\n'
+                "import json\n\n"
                 'def read_json():\n    return json.loads("{}")\n\n'
-                'def write_json():\n    if True:\n        return\n'
+                "def write_json():\n    if True:\n        return\n"
             )
             py_file3 = Path(tmpdir) / "config.py"
             py_file3.write_text(
-                'import pathlib\n\n'
+                "import pathlib\n\n"
                 'def load():\n    return pathlib.Path(".")\n\n'
-                'def save():\n    if True:\n        return\n'
+                "def save():\n    if True:\n        return\n"
             )
 
-            analyzer = CodebaseAnalyzer(tmpdir, language="auto")
-            reports, context = analyzer.analyze()
-            assert "go" in context.detected_languages
-            assert "python" in context.detected_languages
-            assert context.total_files_scanned >= 6
+            kernel = InsightKernel(tmpdir, language="auto")
+            result, snapshot = kernel.run()
+            assert snapshot.file_count >= 6
 
     def test_explicit_language_still_works(self):
-        """Specifying --language go should only scan Go files"""
-        analyzer = CodebaseAnalyzer("test_codebase", language="go")
-        reports, context = analyzer.analyze()
-        assert context.detected_languages == ["go"]
+        """Specifying language should work"""
+        kernel = InsightKernel("test_codebase", language="go")
+        result, snapshot = kernel.run()
+        assert snapshot.file_count > 0
 
 
-class TestPrimitiveExtraction:
-    """Tests for primitive extraction"""
+class TestInsightFindings:
+    """Tests for insight finding generation"""
 
-    def test_semantic_coherence_distinguishes_files(self):
-        """Test semantic coherence correctly distinguishes focused vs unfocused files"""
-        analyzer = CodebaseAnalyzer("test_codebase", language="go")
-        reports, _ctx = analyzer.analyze()
+    def test_findings_have_evidence(self):
+        """Test that findings include evidence"""
+        kernel = InsightKernel("test_codebase", language="go")
+        result, snapshot = kernel.run()
 
-        file_scores = {r.file: r.primitives.semantic_coherence for r in reports}
-        assert len(file_scores) > 0, "Should have at least one anomalous file"
-        assert all(score >= 0 for score in file_scores.values()), (
-            "All coherence scores should be non-negative"
-        )
+        for finding in result.findings:
+            assert finding.finding_type is not None
+            assert finding.severity >= 0
+            assert len(finding.files) > 0
+            assert finding.suggestion is not None
 
-    def test_cognitive_load_increases_with_complexity(self):
-        """Test cognitive load is positive for complex anomalous files"""
-        analyzer = CodebaseAnalyzer("test_codebase", language="go")
-        reports, _ctx = analyzer.analyze()
+    def test_findings_are_ranked_by_severity(self):
+        """Test findings are ordered by severity (descending)"""
+        kernel = InsightKernel("test_codebase", language="go")
+        result, snapshot = kernel.run()
 
-        file_scores = {r.file: r.primitives.cognitive_load for r in reports}
+        if len(result.findings) >= 2:
+            for i in range(len(result.findings) - 1):
+                assert result.findings[i].severity >= result.findings[i + 1].severity
 
-        complex_score = file_scores.get("complex.go", None)
-        assert complex_score is not None, "complex.go should be in anomaly reports"
-        assert complex_score > 0, "complex.go should have a positive cognitive load score"
+    def test_max_findings_respected(self):
+        """Test max_findings parameter caps output"""
+        kernel = InsightKernel("test_codebase", language="go")
+        result, snapshot = kernel.run(max_findings=3)
+        assert len(result.findings) <= 3
 
-    def test_structural_entropy_measures_disorder(self):
-        """Test structural entropy measures code organization disorder"""
-        analyzer = CodebaseAnalyzer("test_codebase", language="go")
-        reports, _ctx = analyzer.analyze()
 
-        file_scores = {r.file: r.primitives.structural_entropy for r in reports}
+class TestSnapshotCapture:
+    """Tests for snapshot capture"""
 
-        assert all(score > 0 for score in file_scores.values()), (
-            "All files should have structural entropy"
-        )
+    def test_snapshot_has_metadata(self):
+        """Test snapshot captures metadata"""
+        kernel = InsightKernel("test_codebase", language="go")
+        result, snapshot = kernel.run()
+
+        assert snapshot.file_count > 0
+        assert snapshot.tool_version != ""
+        assert snapshot.timestamp != ""
+        assert snapshot.analyzed_path != ""
+
+    def test_snapshot_has_file_signals(self):
+        """Test snapshot contains per-file signals"""
+        kernel = InsightKernel("test_codebase", language="go")
+        result, snapshot = kernel.run()
+
+        assert len(snapshot.file_signals) > 0
+
+    def test_snapshot_findings_match_result(self):
+        """Test snapshot findings correspond to result findings"""
+        kernel = InsightKernel("test_codebase", language="go")
+        result, snapshot = kernel.run()
+
+        assert len(snapshot.findings) == len(result.findings)
 
 
 class TestErrorHandling:
     """Tests for error handling"""
 
-    def test_insufficient_data_error(self):
-        """Test error when too few files to analyze"""
+    def test_empty_directory_returns_empty_result(self):
+        """Test empty directory produces empty result"""
         with tempfile.TemporaryDirectory() as tmpdir:
             empty_dir = Path(tmpdir) / "empty"
             empty_dir.mkdir()
 
-            with pytest.raises(InsufficientDataError):
-                analyzer = CodebaseAnalyzer(empty_dir, language="go")
-                analyzer.analyze()
-
-    def test_unsupported_language_error(self):
-        """Test error for unsupported language"""
-        from shannon_insight.exceptions import UnsupportedLanguageError
-
-        with pytest.raises(UnsupportedLanguageError):
-            analyzer = CodebaseAnalyzer(
-                "test_codebase",
-                language="cobol",
-            )
-            analyzer.analyze()
-
-
-class TestRecommendations:
-    """Tests for recommendation generation"""
-
-    def test_recommendations_are_actionable(self):
-        """Test recommendations are specific and actionable"""
-        analyzer = CodebaseAnalyzer("test_codebase", language="go")
-        reports, _ctx = analyzer.analyze()
-
-        for report in reports[:3]:
-            assert len(report.recommendations) > 0, (
-                f"{report.file} should have recommendations"
-            )
-            for rec in report.recommendations:
-                assert len(rec) > 10, "Recommendations should be detailed"
-                assert any(
-                    word in rec.lower()
-                    for word in ["reduce", "split", "extract", "implement",
-                                 "consider", "refactor", "review", "group",
-                                 "separate", "stabilize", "standardize"]
-                ), f"Recommendation should be actionable: {rec}"
-
-    def test_root_causes_identified(self):
-        """Test root causes are identified"""
-        analyzer = CodebaseAnalyzer("test_codebase", language="go")
-        reports, _ctx = analyzer.analyze()
-
-        for report in reports[:3]:
-            assert len(report.root_causes) > 0, f"{report.file} should have root causes"
-            for cause in report.root_causes:
-                assert len(cause) > 5, "Root causes should be descriptive"
-
-    def test_complex_file_has_specific_recommendations(self):
-        """Test complex file gets specific complexity-related recommendations"""
-        analyzer = CodebaseAnalyzer("test_codebase", language="go")
-        reports, _ctx = analyzer.analyze()
-
-        complex_report = next((r for r in reports if r.file == "complex.go"), None)
-        assert complex_report is not None, "complex.go should be in reports"
-
-        rec_text = " ".join(complex_report.recommendations)
-        assert any(
-            keyword in rec_text.lower()
-            for keyword in ["split", "reduce", "complexity", "function", "nest"]
-        ), "Complex file should have complexity-related recommendations"
+            kernel = InsightKernel(str(empty_dir), language="go")
+            result, snapshot = kernel.run()
+            assert len(result.findings) == 0
+            assert snapshot.file_count == 0

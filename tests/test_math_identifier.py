@@ -1,6 +1,5 @@
 """Tests for identifier token extraction and coherence analysis."""
 
-import pytest
 from shannon_insight.math.identifier import IdentifierAnalyzer
 
 
@@ -94,10 +93,7 @@ class TestDetectSemanticClusters:
         assert len(clusters) <= 1
 
     def test_distinct_groups(self):
-        tokens = (
-            ["validate", "validator", "validation"] * 3
-            + ["cache", "cached", "caching"] * 3
-        )
+        tokens = ["validate", "validator", "validation"] * 3 + ["cache", "cached", "caching"] * 3
         clusters = IdentifierAnalyzer.detect_semantic_clusters(tokens)
         assert len(clusters) >= 2
 

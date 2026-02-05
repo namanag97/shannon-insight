@@ -1,6 +1,6 @@
 """GodFileFinder — high cognitive load + low coherence."""
 
-from typing import List, Optional, Set
+from typing import List, Set
 
 from ..models import Evidence, Finding
 from ..ranking import compute_percentiles
@@ -22,21 +22,17 @@ class GodFileFinder:
 
         # Extract cognitive load and coherence signals
         cognitive = {
-            p: signals.get("cognitive_load", 0)
-            for p, signals in store.file_signals.items()
+            p: signals.get("cognitive_load", 0) for p, signals in store.file_signals.items()
         }
         coherence = {
-            p: signals.get("semantic_coherence", 0)
-            for p, signals in store.file_signals.items()
+            p: signals.get("semantic_coherence", 0) for p, signals in store.file_signals.items()
         }
 
         cg_pct = compute_percentiles(cognitive)
         co_pct = compute_percentiles(coherence)
 
         # Get structural data if available for richer descriptions
-        structural_files = (
-            store.structural.files if store.structural else {}
-        )
+        structural_files = store.structural.files if store.structural else {}
 
         findings = []
         for path in store.file_signals:
@@ -54,27 +50,29 @@ class GodFileFinder:
                 co_desc = self._describe_coherence(co_p)
                 suggestion = self._build_suggestion(path, fa)
 
-                findings.append(Finding(
-                    finding_type="god_file",
-                    severity=severity,
-                    title=f"{path} does too many things",
-                    files=[path],
-                    evidence=[
-                        Evidence(
-                            signal="cognitive_load",
-                            value=cognitive[path],
-                            percentile=cg_p,
-                            description=cg_desc,
-                        ),
-                        Evidence(
-                            signal="semantic_coherence",
-                            value=coherence[path],
-                            percentile=co_p,
-                            description=co_desc,
-                        ),
-                    ],
-                    suggestion=suggestion,
-                ))
+                findings.append(
+                    Finding(
+                        finding_type="god_file",
+                        severity=severity,
+                        title=f"{path} does too many things",
+                        files=[path],
+                        evidence=[
+                            Evidence(
+                                signal="cognitive_load",
+                                value=cognitive[path],
+                                percentile=cg_p,
+                                description=cg_desc,
+                            ),
+                            Evidence(
+                                signal="semantic_coherence",
+                                value=coherence[path],
+                                percentile=co_p,
+                                description=co_desc,
+                            ),
+                        ],
+                        suggestion=suggestion,
+                    )
+                )
 
         return findings
 
@@ -85,10 +83,7 @@ class GodFileFinder:
                 parts.append(f"{fa.lines} lines")
             if fa.nesting_depth > 3:
                 parts.append(f"nesting depth {fa.nesting_depth}")
-            return (
-                f"complex ({', '.join(parts)}) — "
-                f"harder to read than {cg_p:.0f}% of files"
-            )
+            return f"complex ({', '.join(parts)}) — harder to read than {cg_p:.0f}% of files"
         return f"harder to read than {cg_p:.0f}% of files in this codebase"
 
     def _describe_coherence(self, co_p: float) -> str:

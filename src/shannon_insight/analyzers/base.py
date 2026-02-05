@@ -4,11 +4,11 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import List, Optional
 
-from ..models import FileMetrics
 from ..config import AnalysisSettings, default_settings
-from ..logging_config import get_logger
 from ..exceptions import FileAccessError, ParsingError
 from ..file_ops import should_skip_file
+from ..logging_config import get_logger
+from ..models import FileMetrics
 
 logger = get_logger(__name__)
 
@@ -17,10 +17,7 @@ class BaseScanner(ABC):
     """Abstract base class for language-specific scanners"""
 
     def __init__(
-        self,
-        root_dir: str,
-        extensions: List[str],
-        settings: Optional[AnalysisSettings] = None
+        self, root_dir: str, extensions: List[str], settings: Optional[AnalysisSettings] = None
     ):
         """
         Initialize scanner.
@@ -94,7 +91,9 @@ class BaseScanner(ABC):
                     files_errored += 1
                     logger.error(f"Unexpected error analyzing {filepath}: {e}")
 
-        logger.info(f"Scan complete: {files_scanned} analyzed, {files_skipped} skipped, {files_errored} errors")
+        logger.info(
+            f"Scan complete: {files_scanned} analyzed, {files_skipped} skipped, {files_errored} errors"
+        )
         return files
 
     @abstractmethod

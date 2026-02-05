@@ -167,12 +167,8 @@ class HistoryDB:
         )
 
         # ── indexes ──────────────────────────────────────────────
-        c.execute(
-            "CREATE INDEX IF NOT EXISTS idx_snapshots_commit ON snapshots(commit_sha)"
-        )
-        c.execute(
-            "CREATE INDEX IF NOT EXISTS idx_snapshots_timestamp ON snapshots(timestamp)"
-        )
+        c.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_commit ON snapshots(commit_sha)")
+        c.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_timestamp ON snapshots(timestamp)")
         c.execute(
             "CREATE INDEX IF NOT EXISTS idx_file_signals_snapshot ON file_signals(snapshot_id)"
         )
@@ -182,12 +178,8 @@ class HistoryDB:
         c.execute(
             "CREATE INDEX IF NOT EXISTS idx_codebase_signals_snapshot ON codebase_signals(snapshot_id)"
         )
-        c.execute(
-            "CREATE INDEX IF NOT EXISTS idx_findings_snapshot ON findings(snapshot_id)"
-        )
-        c.execute(
-            "CREATE INDEX IF NOT EXISTS idx_findings_identity ON findings(identity_key)"
-        )
+        c.execute("CREATE INDEX IF NOT EXISTS idx_findings_snapshot ON findings(snapshot_id)")
+        c.execute("CREATE INDEX IF NOT EXISTS idx_findings_identity ON findings(identity_key)")
         c.execute(
             "CREATE INDEX IF NOT EXISTS idx_dependency_edges_snapshot ON dependency_edges(snapshot_id)"
         )
@@ -214,9 +206,7 @@ class HistoryDB:
         """
         assert self.conn is not None
         # Verify the snapshot exists
-        row = self.conn.execute(
-            "SELECT id FROM snapshots WHERE id = ?", (snapshot_id,)
-        ).fetchone()
+        row = self.conn.execute("SELECT id FROM snapshots WHERE id = ?", (snapshot_id,)).fetchone()
         if row is None:
             raise ValueError(f"No snapshot with id={snapshot_id}")
 
@@ -230,9 +220,7 @@ class HistoryDB:
     def get_baseline_snapshot_id(self) -> Optional[int]:
         """Return the baseline snapshot id, or ``None`` if unset."""
         assert self.conn is not None
-        row = self.conn.execute(
-            "SELECT snapshot_id FROM baseline WHERE id = 1"
-        ).fetchone()
+        row = self.conn.execute("SELECT snapshot_id FROM baseline WHERE id = 1").fetchone()
         if row is None:
             return None
         return row["snapshot_id"]

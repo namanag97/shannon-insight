@@ -11,8 +11,8 @@ Ontology levels:
 from dataclasses import dataclass, field
 from typing import Dict, List, Set, Tuple
 
-
 # ── Level 2: Relationships (the dependency graph) ──────────────────
+
 
 @dataclass
 class DependencyGraph:
@@ -20,6 +20,7 @@ class DependencyGraph:
 
     Edges are directed: adjacency[A] contains B means A imports/depends on B.
     """
+
     adjacency: Dict[str, List[str]] = field(default_factory=dict)
     reverse: Dict[str, List[str]] = field(default_factory=dict)
     all_nodes: Set[str] = field(default_factory=set)
@@ -28,9 +29,11 @@ class DependencyGraph:
 
 # ── Level 4: Derived structures ────────────────────────────────────
 
+
 @dataclass
 class CycleGroup:
     """A strongly connected component with more than one node (a real cycle)."""
+
     nodes: Set[str]
     internal_edge_count: int = 0
 
@@ -38,6 +41,7 @@ class CycleGroup:
 @dataclass
 class Community:
     """A group of files discovered by modularity optimization."""
+
     id: int
     members: Set[str]
 
@@ -45,6 +49,7 @@ class Community:
 @dataclass
 class GraphAnalysis:
     """All derived structures from graph algorithms."""
+
     # Per-node measurements (Level 5 on Level 4 structures)
     pagerank: Dict[str, float] = field(default_factory=dict)
     betweenness: Dict[str, float] = field(default_factory=dict)
@@ -65,9 +70,11 @@ class GraphAnalysis:
 
 # ── Level 3 + 5: Container measurements ───────────────────────────
 
+
 @dataclass
 class ModuleAnalysis:
     """Per-module (directory) analysis."""
+
     path: str
     files: List[str] = field(default_factory=list)
     file_count: int = 0
@@ -76,8 +83,8 @@ class ModuleAnalysis:
     internal_edges: int = 0
     external_edges_out: int = 0
     external_edges_in: int = 0
-    cohesion: float = 0.0      # internal / possible_internal
-    coupling: float = 0.0      # external / total
+    cohesion: float = 0.0  # internal / possible_internal
+    coupling: float = 0.0  # external / total
 
     # What communities do this module's files belong to?
     # If all files in one community -> well-aligned boundary
@@ -88,9 +95,11 @@ class ModuleAnalysis:
 
 # ── Level 1 + 5: Per-file measurements ────────────────────────────
 
+
 @dataclass
 class FileAnalysis:
     """Per-file measurements combining construct-level and graph-level data."""
+
     path: str
     lines: int = 0
     function_count: int = 0
@@ -118,9 +127,11 @@ class FileAnalysis:
 
 # ── Level 3 + 4 comparison: Declared vs Discovered ────────────────
 
+
 @dataclass
 class BoundaryMismatch:
     """When declared module boundaries don't match discovered communities."""
+
     module_path: str
     declared_files: Set[str] = field(default_factory=set)
     community_distribution: Dict[int, int] = field(default_factory=dict)
@@ -129,6 +140,7 @@ class BoundaryMismatch:
 
 
 # ── Full result ────────────────────────────────────────────────────
+
 
 @dataclass
 class CodebaseAnalysis:

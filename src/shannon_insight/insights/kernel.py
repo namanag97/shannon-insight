@@ -3,18 +3,16 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import Optional, Tuple
 
 from ..config import AnalysisSettings, default_settings
 from ..core.scanner_factory import ScannerFactory
 from ..logging_config import get_logger
-from .models import InsightResult, StoreSummary
-from .store import AnalysisStore
+from ..snapshot.models import Snapshot
 from .analyzers import get_default_analyzers
 from .finders import get_default_finders
-
-if TYPE_CHECKING:
-    from ..snapshot.models import Snapshot
+from .models import InsightResult, StoreSummary
+from .store import AnalysisStore
 
 logger = get_logger(__name__)
 
@@ -34,61 +32,15 @@ class InsightKernel:
         self._analyzers = get_default_analyzers()
         self._finders = get_default_finders()
 
-    def run(self, max_findings: int = 10) -> InsightResult:
-        """Execute the full insight pipeline."""
-        store = AnalysisStore(root_dir=self.root_dir)
-
-        # Phase 1: Scan files
-        store.file_metrics = self._scan()
-        logger.info(f"Scanned {len(store.file_metrics)} files")
-
-        if not store.file_metrics:
-            return InsightResult(
-                findings=[],
-                store_summary=StoreSummary(),
-            )
-
-        # Phase 2: Run analyzers (topologically sorted by requires/provides)
-        for analyzer in self._resolve_order():
-            if analyzer.requires.issubset(store.available):
-                try:
-                    analyzer.analyze(store)
-                    logger.debug(f"Analyzer {analyzer.name} completed")
-                except Exception as e:
-                    logger.warning(f"Analyzer {analyzer.name} failed: {e}")
-
-        # Phase 3: Run finders (skip if required signals unavailable)
-        findings = []
-        for finder in self._finders:
-            if finder.requires.issubset(store.available):
-                try:
-                    findings.extend(finder.find(store))
-                except Exception as e:
-                    logger.warning(f"Finder {finder.name} failed: {e}")
-
-        # Phase 4: Rank and cap
-        findings.sort(key=lambda f: f.severity, reverse=True)
-        capped = findings[:max_findings]
-
-        return InsightResult(
-            findings=capped,
-            store_summary=self._summarize(store),
-        )
-
-    def run_and_capture(
-        self, max_findings: int = 10
-    ) -> Tuple[InsightResult, Snapshot]:
+    def run(self, max_findings: int = 10) -> Tuple[InsightResult, Snapshot]:
         """Execute the full insight pipeline and capture a snapshot.
-
-        Identical to :meth:`run` but additionally builds an immutable
-        :class:`Snapshot` from the analysis store before returning.
 
         Returns
         -------
         Tuple[InsightResult, Snapshot]
             The insight result and a serialisable snapshot of this run.
         """
-        from ..snapshot.capture import capture_snapshot  # noqa: E402 — lazy to avoid circular import
+        from ..snapshot.capture import capture_snapshot
 
         store = AnalysisStore(root_dir=self.root_dir)
 

@@ -14,19 +14,19 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
-from ..models import FileMetrics
-from ..math.graph import GraphMetrics
 from ..math.compression import Compression
 from ..math.gini import Gini
+from ..math.graph import GraphMetrics
+from ..models import FileMetrics
 from .models import (
-    CodebaseAnalysis,
-    DependencyGraph,
-    GraphAnalysis,
-    CycleGroup,
-    Community,
-    FileAnalysis,
-    ModuleAnalysis,
     BoundaryMismatch,
+    CodebaseAnalysis,
+    Community,
+    CycleGroup,
+    DependencyGraph,
+    FileAnalysis,
+    GraphAnalysis,
+    ModuleAnalysis,
 )
 
 
@@ -62,9 +62,7 @@ class AnalysisEngine:
         result.total_modules = len(result.modules)
 
         # Phase 4c: Boundary analysis (declared vs discovered)
-        result.boundary_mismatches = self._analyze_boundaries(
-            result.modules, graph_analysis
-        )
+        result.boundary_mismatches = self._analyze_boundaries(result.modules, graph_analysis)
 
         # Phase 5: Statistical outlier detection
         result.outliers = self._detect_outliers(result.files)
@@ -106,11 +104,7 @@ class AnalysisEngine:
         index: Dict[str, str] = {}
         for path in all_paths:
             # "src/shannon_insight/models.py" -> dotted form
-            dotted = (
-                path.replace("/", ".")
-                .replace("\\", ".")
-                .replace(".py", "")
-            )
+            dotted = path.replace("/", ".").replace("\\", ".").replace(".py", "")
             # Remove __init__ suffix: "src.shannon_insight.math.__init__" -> "src.shannon_insight.math"
             if dotted.endswith(".__init__"):
                 dotted = dotted[: -len(".__init__")]
@@ -207,31 +201,22 @@ class AnalysisEngine:
         for scc in sccs:
             if len(scc) > 1:  # Only real cycles
                 internal_edges = sum(
-                    1
-                    for n in scc
-                    for neighbor in graph.adjacency.get(n, [])
-                    if neighbor in scc
+                    1 for n in scc for neighbor in graph.adjacency.get(n, []) if neighbor in scc
                 )
-                analysis.cycles.append(
-                    CycleGroup(nodes=scc, internal_edge_count=internal_edges)
-                )
+                analysis.cycles.append(CycleGroup(nodes=scc, internal_edge_count=internal_edges))
 
         # Blast radius (transitive closure on reverse graph)
         analysis.blast_radius = self._compute_blast_radius(graph.reverse)
 
         # Community detection (Louvain)
-        communities, node_community, modularity = self._louvain(
-            graph.adjacency, graph.all_nodes
-        )
+        communities, node_community, modularity = self._louvain(graph.adjacency, graph.all_nodes)
         analysis.communities = communities
         analysis.node_community = node_community
         analysis.modularity_score = modularity
 
         return analysis
 
-    def _tarjan_scc(
-        self, adjacency: Dict[str, List[str]], all_nodes: Set[str]
-    ) -> List[Set[str]]:
+    def _tarjan_scc(self, adjacency: Dict[str, List[str]], all_nodes: Set[str]) -> List[Set[str]]:
         """Tarjan's algorithm for strongly connected components."""
         index_counter = [0]
         stack: List[str] = []
@@ -272,9 +257,7 @@ class AnalysisEngine:
 
         return result
 
-    def _compute_blast_radius(
-        self, reverse_adj: Dict[str, List[str]]
-    ) -> Dict[str, Set[str]]:
+    def _compute_blast_radius(self, reverse_adj: Dict[str, List[str]]) -> Dict[str, Set[str]]:
         """Compute blast radius: for each file, what files are transitively affected.
 
         Uses BFS on the reverse graph. If A imports B, then changing B
@@ -290,9 +273,7 @@ class AnalysisEngine:
                 if node in visited:
                     continue
                 visited.add(node)
-                queue.extend(
-                    n for n in reverse_adj.get(node, []) if n not in visited
-                )
+                queue.extend(n for n in reverse_adj.get(node, []) if n not in visited)
             blast[start_node] = visited
 
         return blast
@@ -328,9 +309,7 @@ class AnalysisEngine:
 
         m = sum(edge_weights.values())  # total edge weight
         if m == 0:
-            communities = [
-                Community(id=i, members={n}) for i, n in enumerate(nodes)
-            ]
+            communities = [Community(id=i, members={n}) for i, n in enumerate(nodes)]
             node_community = {n: i for i, n in enumerate(nodes)}
             return communities, node_community, 0.0
 
@@ -406,13 +385,8 @@ class AnalysisEngine:
                 break
 
         # Build result
-        communities = [
-            Community(id=cid, members=members)
-            for cid, members in comm_members.items()
-        ]
-        modularity = self._compute_modularity(
-            edge_weights, degree, node_comm, m
-        )
+        communities = [Community(id=cid, members=members) for cid, members in comm_members.items()]
+        modularity = self._compute_modularity(edge_weights, degree, node_comm, m)
 
         return communities, node_comm, modularity
 
@@ -435,9 +409,7 @@ class AnalysisEngine:
 
     # ── Phase 4a: Per-file Measurements ────────────────────────────
 
-    def _measure_files(
-        self, graph: DependencyGraph, ga: GraphAnalysis
-    ) -> Dict[str, FileAnalysis]:
+    def _measure_files(self, graph: DependencyGraph, ga: GraphAnalysis) -> Dict[str, FileAnalysis]:
         results: Dict[str, FileAnalysis] = {}
 
         for fm in self.file_metrics:
@@ -451,9 +423,7 @@ class AnalysisEngine:
             # Compression ratio (read file content)
             content = self._read_file_content(fm.path)
             if content:
-                fa.compression_ratio = Compression.compression_ratio(
-                    content.encode("utf-8")
-                )
+                fa.compression_ratio = Compression.compression_ratio(content.encode("utf-8"))
 
             # Cognitive load with Gini
             fa.cognitive_load = self._compute_cognitive_load(fm)
@@ -469,9 +439,7 @@ class AnalysisEngine:
             fa.community_id = ga.node_community.get(fm.path, -1)
 
             # Cycle membership
-            fa.cycle_member = any(
-                fm.path in cycle.nodes for cycle in ga.cycles
-            )
+            fa.cycle_member = any(fm.path in cycle.nodes for cycle in ga.cycles)
 
             # Direct dependencies
             fa.depends_on = graph.adjacency.get(fm.path, [])
@@ -542,9 +510,7 @@ class AnalysisEngine:
             # Coupling: external edges / total edges
             total = ma.internal_edges + ma.external_edges_out + ma.external_edges_in
             ma.coupling = (
-                (ma.external_edges_out + ma.external_edges_in) / total
-                if total > 0
-                else 0.0
+                (ma.external_edges_out + ma.external_edges_in) / total if total > 0 else 0.0
             )
 
             # Community alignment
@@ -620,10 +586,7 @@ class AnalysisEngine:
         best_count = 0
 
         for mod_path, ma in modules.items():
-            count = sum(
-                1 for f in ma.files
-                if ga.node_community.get(f, -1) == community_id
-            )
+            count = sum(1 for f in ma.files if ga.node_community.get(f, -1) == community_id)
             if count > best_count:
                 best_count = count
                 best_module = mod_path
@@ -632,9 +595,7 @@ class AnalysisEngine:
 
     # ── Phase 5: Statistical Outlier Detection ─────────────────────
 
-    def _detect_outliers(
-        self, files: Dict[str, FileAnalysis]
-    ) -> Dict[str, List[str]]:
+    def _detect_outliers(self, files: Dict[str, FileAnalysis]) -> Dict[str, List[str]]:
         """Detect statistical outliers using MAD (robust to heavy-tailed distributions)."""
         outliers: Dict[str, List[str]] = defaultdict(list)
 
@@ -647,7 +608,10 @@ class AnalysisEngine:
         metrics = {
             "cognitive_load": ("high cognitive load", lambda f: f.cognitive_load),
             "compression_ratio": ("high compression complexity", lambda f: f.compression_ratio),
-            "function_size_gini": ("unequal function sizes (possible God function)", lambda f: f.function_size_gini),
+            "function_size_gini": (
+                "unequal function sizes (possible God function)",
+                lambda f: f.function_size_gini,
+            ),
             "blast_radius_size": ("large blast radius", lambda f: float(f.blast_radius_size)),
         }
 

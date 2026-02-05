@@ -1,8 +1,7 @@
 """Shared test fixtures for Shannon Insight math tests."""
 
-import pytest
 import numpy as np
-from collections import Counter
+import pytest
 
 
 @pytest.fixture

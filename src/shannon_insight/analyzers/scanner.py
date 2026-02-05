@@ -5,32 +5,78 @@ instance (from languages.py). No subclassing needed.
 """
 
 import re
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 from typing import List, Optional
 
-from .base import BaseScanner
-from .languages import LanguageConfig
-from ..models import FileMetrics
 from ..config import AnalysisSettings
 from ..exceptions import FileAccessError
 from ..logging_config import get_logger
+from ..models import FileMetrics
+from .base import BaseScanner
+from .languages import LanguageConfig
 
 logger = get_logger(__name__)
 
 # Binary extensions — never try to read these as text.
-BINARY_EXTENSIONS = frozenset({
-    ".exe", ".dll", ".so", ".dylib", ".o", ".a", ".lib",
-    ".class", ".jar", ".war", ".ear",
-    ".pyc", ".pyo", ".wasm",
-    ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".ico", ".svg", ".webp",
-    ".mp3", ".mp4", ".avi", ".mov", ".wav", ".flac",
-    ".zip", ".tar", ".gz", ".bz2", ".xz", ".7z", ".rar",
-    ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx",
-    ".ttf", ".otf", ".woff", ".woff2", ".eot",
-    ".db", ".sqlite", ".sqlite3",
-    ".bin", ".dat", ".img", ".iso",
-})
+BINARY_EXTENSIONS = frozenset(
+    {
+        ".exe",
+        ".dll",
+        ".so",
+        ".dylib",
+        ".o",
+        ".a",
+        ".lib",
+        ".class",
+        ".jar",
+        ".war",
+        ".ear",
+        ".pyc",
+        ".pyo",
+        ".wasm",
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".gif",
+        ".bmp",
+        ".ico",
+        ".svg",
+        ".webp",
+        ".mp3",
+        ".mp4",
+        ".avi",
+        ".mov",
+        ".wav",
+        ".flac",
+        ".zip",
+        ".tar",
+        ".gz",
+        ".bz2",
+        ".xz",
+        ".7z",
+        ".rar",
+        ".pdf",
+        ".doc",
+        ".docx",
+        ".xls",
+        ".xlsx",
+        ".ppt",
+        ".pptx",
+        ".ttf",
+        ".otf",
+        ".woff",
+        ".woff2",
+        ".eot",
+        ".db",
+        ".sqlite",
+        ".sqlite3",
+        ".bin",
+        ".dat",
+        ".img",
+        ".iso",
+    }
+)
 
 
 class ConfigurableScanner(BaseScanner):
@@ -84,7 +130,7 @@ class ConfigurableScanner(BaseScanner):
 
     def _analyze_file(self, filepath: Path) -> FileMetrics:
         try:
-            with open(filepath, "r", encoding="utf-8", errors="replace") as f:
+            with open(filepath, encoding="utf-8", errors="replace") as f:
                 content = f.read()
         except OSError as e:
             raise FileAccessError(filepath, f"Cannot read file: {e}")
@@ -92,9 +138,15 @@ class ConfigurableScanner(BaseScanner):
         if not content.strip():
             return FileMetrics(
                 path=str(filepath.relative_to(self.root_dir)),
-                lines=0, tokens=0, imports=[], exports=[],
-                functions=0, interfaces=0, structs=0,
-                complexity_score=1.0, nesting_depth=0,
+                lines=0,
+                tokens=0,
+                imports=[],
+                exports=[],
+                functions=0,
+                interfaces=0,
+                structs=0,
+                complexity_score=1.0,
+                nesting_depth=0,
                 ast_node_types=Counter(),
                 last_modified=filepath.stat().st_mtime,
                 function_sizes=[],
@@ -134,7 +186,7 @@ class ConfigurableScanner(BaseScanner):
             imports.extend(m.group(1) for m in re.finditer(pattern, content, re.MULTILINE))
         # Handle Go-style grouped imports
         if self.config.name in ("go", "universal"):
-            for m in re.finditer(r'import\s*\([^)]+\)', content, re.DOTALL):
+            for m in re.finditer(r"import\s*\([^)]+\)", content, re.DOTALL):
                 imports.extend(re.findall(r'"([^"]+)"', m.group(0)))
         # Strip whitespace from Rust-style imports
         imports = [i.strip() for i in imports]
@@ -204,10 +256,12 @@ class ConfigurableScanner(BaseScanner):
             stripped = line.strip()
             if not stripped or stripped.startswith("#"):
                 continue
-            openers = len(re.findall(
-                r"\b(?:def|class|module|do|begin|if|unless|case|while|until|for)\b",
-                stripped,
-            ))
+            openers = len(
+                re.findall(
+                    r"\b(?:def|class|module|do|begin|if|unless|case|while|until|for)\b",
+                    stripped,
+                )
+            )
             closers = len(re.findall(r"\bend\b", stripped))
             openers += stripped.count("{")
             closers += stripped.count("}")
@@ -266,10 +320,12 @@ class ConfigurableScanner(BaseScanner):
                     if not stripped or stripped.startswith("#"):
                         j += 1
                         continue
-                    depth += len(re.findall(
-                        r"\b(?:def|class|module|do|begin|if|unless|case|while|until|for)\b",
-                        stripped,
-                    ))
+                    depth += len(
+                        re.findall(
+                            r"\b(?:def|class|module|do|begin|if|unless|case|while|until|for)\b",
+                            stripped,
+                        )
+                    )
                     depth -= len(re.findall(r"\bend\b", stripped))
                     if depth <= 0:
                         sizes.append(max(j - start + 1, 1))
@@ -289,7 +345,7 @@ class ConfigurableScanner(BaseScanner):
             return 1
         base_indent = len(lines[start]) - len(lines[start].lstrip())
         count = 1
-        for line in lines[start + 1:]:
+        for line in lines[start + 1 :]:
             stripped = line.strip()
             if not stripped:
                 count += 1

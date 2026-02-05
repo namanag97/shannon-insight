@@ -45,36 +45,38 @@ class DeadDependencyFinder:
                 src_name = PurePosixPath(src).name
                 tgt_name = PurePosixPath(tgt).name
 
-                findings.append(Finding(
-                    finding_type="dead_dependency",
-                    severity=severity,
-                    title=f"{src} imports {tgt} but they never change together",
-                    files=[src, tgt],
-                    evidence=[
-                        Evidence(
-                            signal="structural_dep",
-                            value=1.0,
-                            percentile=0,
-                            description=f"{src_name} has an import statement for {tgt_name}",
-                        ),
-                        Evidence(
-                            signal="cochange_count",
-                            value=0.0,
-                            percentile=0,
-                            description=(
-                                f"across {store.git_history.total_commits} commits, "
-                                f"{src_name} changed {src_changes} times and "
-                                f"{tgt_name} changed {tgt_changes} times — "
-                                f"but never in the same commit"
+                findings.append(
+                    Finding(
+                        finding_type="dead_dependency",
+                        severity=severity,
+                        title=f"{src} imports {tgt} but they never change together",
+                        files=[src, tgt],
+                        evidence=[
+                            Evidence(
+                                signal="structural_dep",
+                                value=1.0,
+                                percentile=0,
+                                description=f"{src_name} has an import statement for {tgt_name}",
                             ),
+                            Evidence(
+                                signal="cochange_count",
+                                value=0.0,
+                                percentile=0,
+                                description=(
+                                    f"across {store.git_history.total_commits} commits, "
+                                    f"{src_name} changed {src_changes} times and "
+                                    f"{tgt_name} changed {tgt_changes} times — "
+                                    f"but never in the same commit"
+                                ),
+                            ),
+                        ],
+                        suggestion=(
+                            f"The import of {tgt_name} in {src_name} may be "
+                            f"unused or vestigial. Check whether {src_name} "
+                            f"actually uses anything from {tgt_name} — "
+                            f"if not, removing it will simplify the dependency graph."
                         ),
-                    ],
-                    suggestion=(
-                        f"The import of {tgt_name} in {src_name} may be "
-                        f"unused or vestigial. Check whether {src_name} "
-                        f"actually uses anything from {tgt_name} — "
-                        f"if not, removing it will simplify the dependency graph."
-                    ),
-                ))
+                    )
+                )
 
         return findings

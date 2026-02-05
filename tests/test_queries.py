@@ -1,19 +1,28 @@
 """Tests for the history queries module."""
+
 import sys
+
 sys.path.insert(0, "src")
 
 import tempfile
+
 import pytest
-from shannon_insight.snapshot.models import Snapshot, FindingRecord, EvidenceRecord
+
+from shannon_insight.snapshot.models import FindingRecord, Snapshot
 from shannon_insight.storage.database import HistoryDB
-from shannon_insight.storage.writer import save_snapshot
 from shannon_insight.storage.queries import HistoryQuery
+from shannon_insight.storage.writer import save_snapshot
 
 
-def _snap(ts="2025-01-01T00:00:00Z", file_signals=None, codebase_signals=None, findings=None, commit=None):
+def _snap(
+    ts="2025-01-01T00:00:00Z", file_signals=None, codebase_signals=None, findings=None, commit=None
+):
     return Snapshot(
-        tool_version="0.6.0", timestamp=ts, analyzed_path="/tmp",
-        file_count=len(file_signals or {}), commit_sha=commit,
+        tool_version="0.6.0",
+        timestamp=ts,
+        analyzed_path="/tmp",
+        file_count=len(file_signals or {}),
+        commit_sha=commit,
         file_signals=file_signals or {},
         codebase_signals=codebase_signals or {},
         findings=findings or [],
@@ -30,7 +39,7 @@ class TestFileTrend:
             with HistoryDB(tmpdir) as db:
                 for i in range(5):
                     snap = _snap(
-                        ts=f"2025-01-0{i+1}T00:00:00Z",
+                        ts=f"2025-01-0{i + 1}T00:00:00Z",
                         file_signals={"a.py": {"cognitive_load": 0.5 + i * 0.05}},
                     )
                     save_snapshot(db.conn, snap)
@@ -55,7 +64,7 @@ class TestCodebaseHealth:
             with HistoryDB(tmpdir) as db:
                 for i in range(3):
                     snap = _snap(
-                        ts=f"2025-01-0{i+1}T00:00:00Z",
+                        ts=f"2025-01-0{i + 1}T00:00:00Z",
                         codebase_signals={"fiedler_value": 0.1 + i * 0.02},
                     )
                     save_snapshot(db.conn, snap)
@@ -73,7 +82,7 @@ class TestPersistentFindings:
             with HistoryDB(tmpdir) as db:
                 for i in range(5):
                     snap = _snap(
-                        ts=f"2025-01-0{i+1}T00:00:00Z",
+                        ts=f"2025-01-0{i + 1}T00:00:00Z",
                         findings=[_finding("persistent_key", severity=0.7)],
                     )
                     save_snapshot(db.conn, snap)
@@ -89,7 +98,7 @@ class TestPersistentFindings:
                 # Finding appears in snapshots 1, 2, then disappears in 3, reappears in 4, 5
                 for i in range(5):
                     findings = [] if i == 2 else [_finding("gap_key")]
-                    snap = _snap(ts=f"2025-01-0{i+1}T00:00:00Z", findings=findings)
+                    snap = _snap(ts=f"2025-01-0{i + 1}T00:00:00Z", findings=findings)
                     save_snapshot(db.conn, snap)
                 query = HistoryQuery(db.conn)
                 # max consecutive run is 2 (snapshots 1,2 or 4,5), not 3

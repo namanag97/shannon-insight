@@ -8,19 +8,17 @@ blast radius, cycle detection — not arbitrary scores.
 Named after Claude Shannon, father of information theory.
 """
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 __author__ = "Naman Agarwal"
 
-from .core import CodebaseAnalyzer
-from .models import FileMetrics, AnomalyReport, Primitives, AnalysisContext, DiffReport, PrimitiveValues, PipelineContext
+from .insights import Finding, InsightKernel, InsightResult
+from .models import FileMetrics, Primitives, PrimitiveValues
 
 __all__ = [
-    "CodebaseAnalyzer",
+    "InsightKernel",
+    "InsightResult",
+    "Finding",
+    "FileMetrics",
     "Primitives",
     "PrimitiveValues",
-    "FileMetrics",
-    "AnomalyReport",
-    "AnalysisContext",
-    "DiffReport",
-    "PipelineContext",
 ]

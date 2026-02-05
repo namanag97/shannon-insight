@@ -2,12 +2,12 @@
 
 from typing import List
 
-from .high_risk_hub import HighRiskHubFinder
-from .hidden_coupling import HiddenCouplingFinder
-from .dead_dependency import DeadDependencyFinder
-from .unstable_file import UnstableFileFinder
-from .god_file import GodFileFinder
 from .boundary_mismatch import BoundaryMismatchFinder
+from .dead_dependency import DeadDependencyFinder
+from .god_file import GodFileFinder
+from .hidden_coupling import HiddenCouplingFinder
+from .high_risk_hub import HighRiskHubFinder
+from .unstable_file import UnstableFileFinder
 
 
 def get_default_finders() -> List:

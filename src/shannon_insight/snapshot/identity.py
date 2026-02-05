@@ -14,7 +14,6 @@ Rules (by finding type):
 import hashlib
 from typing import List
 
-
 # Types whose identity is the single primary file.
 _SINGLE_FILE_TYPES = frozenset({"high_risk_hub", "god_file", "unstable_file"})
 

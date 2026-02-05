@@ -31,7 +31,8 @@ def detect_renames(
     try:
         result = subprocess.run(
             [
-                "git", "diff",
+                "git",
+                "diff",
                 "--name-status",
                 "-M",  # enable rename detection
                 old_commit,

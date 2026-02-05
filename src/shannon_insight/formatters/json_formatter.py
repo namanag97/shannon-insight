@@ -4,8 +4,8 @@ import json
 from dataclasses import asdict
 from typing import List
 
+from ..models import AnalysisContext, AnomalyReport
 from .base import BaseFormatter
-from ..models import AnomalyReport, AnalysisContext
 
 
 class JsonFormatter(BaseFormatter):

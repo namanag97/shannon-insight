@@ -1,16 +1,29 @@
 """Tests for the diff module."""
+
 import sys
+
 sys.path.insert(0, "src")
 
 import pytest
-from shannon_insight.snapshot.models import Snapshot, FindingRecord, EvidenceRecord
+
 from shannon_insight.diff.engine import diff_snapshots
+from shannon_insight.snapshot.models import FindingRecord, Snapshot
 
 
-def _snap(commit=None, file_signals=None, codebase_signals=None, findings=None, edges=None, ts="2025-01-01T00:00:00Z"):
+def _snap(
+    commit=None,
+    file_signals=None,
+    codebase_signals=None,
+    findings=None,
+    edges=None,
+    ts="2025-01-01T00:00:00Z",
+):
     return Snapshot(
-        tool_version="0.6.0", timestamp=ts, analyzed_path="/tmp",
-        commit_sha=commit, file_count=len(file_signals or {}),
+        tool_version="0.6.0",
+        timestamp=ts,
+        analyzed_path="/tmp",
+        commit_sha=commit,
+        file_count=len(file_signals or {}),
         file_signals=file_signals or {},
         codebase_signals=codebase_signals or {},
         findings=findings or [],

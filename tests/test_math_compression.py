@@ -1,8 +1,9 @@
 """Tests for compression-based complexity metrics."""
 
 import os
-import zlib
+
 import pytest
+
 from shannon_insight.math.compression import Compression
 
 
@@ -32,7 +33,8 @@ class TestCompressionRatio:
 
     def test_real_source_code_normal_ratio(self):
         # Simulated source code should be in normal range
-        code = b"""
+        code = (
+            b"""
 def validate_email(email):
     if not email:
         return False
@@ -56,7 +58,9 @@ def process_user(name, email, phone):
     result['email_valid'] = validate_email(email)
     result['phone_valid'] = validate_phone(phone)
     return result
-""" * 3  # Make it large enough
+"""
+            * 3
+        )  # Make it large enough
         ratio = Compression.compression_ratio(code)
         assert 0.05 < ratio < 0.6
 

@@ -26,13 +26,9 @@ class HighRiskHubFinder:
         # Gather signals
         pageranks = {p: f.pagerank for p, f in files.items()}
         blast = {
-            p: f.blast_radius_size / total_files if total_files > 0 else 0
-            for p, f in files.items()
+            p: f.blast_radius_size / total_files if total_files > 0 else 0 for p, f in files.items()
         }
-        cognitive = {
-            p: store.file_signals.get(p, {}).get("cognitive_load", 0)
-            for p in files
-        }
+        cognitive = {p: store.file_signals.get(p, {}).get("cognitive_load", 0) for p in files}
 
         # Compute percentiles
         pr_pct = compute_percentiles(pageranks)
@@ -42,11 +38,7 @@ class HighRiskHubFinder:
         # Optionally include churn if temporal available
         churn_pct = {}
         if store.churn:
-            churn_vals = {
-                p: store.churn[p].total_changes
-                for p in files
-                if p in store.churn
-            }
+            churn_vals = {p: store.churn[p].total_changes for p in files if p in store.churn}
             churn_pct = compute_percentiles(churn_vals)
 
         findings = []
@@ -65,45 +57,48 @@ class HighRiskHubFinder:
             if pr_p >= 90:
                 has_connectivity = True
                 pcts.append(pr_p)
-                evidence_items.append(Evidence(
-                    signal="pagerank",
-                    value=pageranks[path],
-                    percentile=pr_p,
-                    description=(
-                        f"{fa.in_degree} files import this directly"
-                    ),
-                ))
+                evidence_items.append(
+                    Evidence(
+                        signal="pagerank",
+                        value=pageranks[path],
+                        percentile=pr_p,
+                        description=(f"{fa.in_degree} files import this directly"),
+                    )
+                )
 
             # Check blast radius (connectivity signal)
             bl_p = bl_pct.get(path, 0)
             if bl_p >= 90:
                 has_connectivity = True
                 pcts.append(bl_p)
-                evidence_items.append(Evidence(
-                    signal="blast_radius_pct",
-                    value=blast[path],
-                    percentile=bl_p,
-                    description=(
-                        f"a bug here could affect "
-                        f"{fa.blast_radius_size} of {total_files} files "
-                        f"({blast[path] * 100:.0f}% of the codebase)"
-                    ),
-                ))
+                evidence_items.append(
+                    Evidence(
+                        signal="blast_radius_pct",
+                        value=blast[path],
+                        percentile=bl_p,
+                        description=(
+                            f"a bug here could affect "
+                            f"{fa.blast_radius_size} of {total_files} files "
+                            f"({blast[path] * 100:.0f}% of the codebase)"
+                        ),
+                    )
+                )
 
             # Check cognitive load (complexity signal)
             cg_p = cg_pct.get(path, 0)
             if cg_p >= 90:
                 has_complexity = True
                 pcts.append(cg_p)
-                evidence_items.append(Evidence(
-                    signal="cognitive_load",
-                    value=cognitive[path],
-                    percentile=cg_p,
-                    description=(
-                        f"harder to understand than "
-                        f"{cg_p:.0f}% of files in this codebase"
-                    ),
-                ))
+                evidence_items.append(
+                    Evidence(
+                        signal="cognitive_load",
+                        value=cognitive[path],
+                        percentile=cg_p,
+                        description=(
+                            f"harder to understand than {cg_p:.0f}% of files in this codebase"
+                        ),
+                    )
+                )
 
             # Optional: churn (activity signal)
             if churn_pct:
@@ -111,16 +106,15 @@ class HighRiskHubFinder:
                 if ch_p >= 90:
                     has_churn = True
                     pcts.append(ch_p)
-                    churn_val = (
-                        store.churn[path].total_changes
-                        if path in store.churn else 0
+                    churn_val = store.churn[path].total_changes if path in store.churn else 0
+                    evidence_items.append(
+                        Evidence(
+                            signal="churn",
+                            value=float(churn_val),
+                            percentile=ch_p,
+                            description=f"changed {churn_val} times in recent history",
+                        )
                     )
-                    evidence_items.append(Evidence(
-                        signal="churn",
-                        value=float(churn_val),
-                        percentile=ch_p,
-                        description=f"changed {churn_val} times in recent history",
-                    ))
 
             # Need 2+ high signals to qualify
             if len(pcts) < 2:
@@ -130,24 +124,35 @@ class HighRiskHubFinder:
             severity = self.BASE_SEVERITY * max(0.1, min(1.0, avg_pct / 100))
 
             suggestion = self._build_suggestion(
-                path, fa, total_files,
-                has_connectivity, has_complexity, has_churn,
+                path,
+                fa,
+                total_files,
+                has_connectivity,
+                has_complexity,
+                has_churn,
             )
 
-            findings.append(Finding(
-                finding_type="high_risk_hub",
-                severity=severity,
-                title=f"{path} is a high-risk hub",
-                files=[path],
-                evidence=evidence_items,
-                suggestion=suggestion,
-            ))
+            findings.append(
+                Finding(
+                    finding_type="high_risk_hub",
+                    severity=severity,
+                    title=f"{path} is a high-risk hub",
+                    files=[path],
+                    evidence=evidence_items,
+                    suggestion=suggestion,
+                )
+            )
 
         return findings
 
     def _build_suggestion(
-        self, path, fa, total_files,
-        has_connectivity, has_complexity, has_churn,
+        self,
+        path,
+        fa,
+        total_files,
+        has_connectivity,
+        has_complexity,
+        has_churn,
     ) -> str:
         parts = []
 

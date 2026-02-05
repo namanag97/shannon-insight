@@ -10,7 +10,6 @@ so that renamed files are matched correctly rather than appearing as
 remove+add pairs.
 """
 
-import copy
 from typing import Dict, List, Optional
 
 from ..snapshot.models import FindingRecord, Snapshot
@@ -18,37 +17,43 @@ from .models import FileDelta, FindingDelta, MetricDelta, SnapshotDiff
 
 # ── Metric direction classification ──────────────────────────────────────────
 
-_LOWER_IS_BETTER = frozenset({
-    "cognitive_load",
-    "blast_radius_size",
-    "nesting_depth",
-    "cycle_count",
-    "coupling",
-    "total_changes",
-    "churn_slope",
-})
+_LOWER_IS_BETTER = frozenset(
+    {
+        "cognitive_load",
+        "blast_radius_size",
+        "nesting_depth",
+        "cycle_count",
+        "coupling",
+        "total_changes",
+        "churn_slope",
+    }
+)
 
-_HIGHER_IS_BETTER = frozenset({
-    "semantic_coherence",
-    "fiedler_value",
-    "modularity",
-    "cohesion",
-    "boundary_alignment",
-    "spectral_gap",
-})
+_HIGHER_IS_BETTER = frozenset(
+    {
+        "semantic_coherence",
+        "fiedler_value",
+        "modularity",
+        "cohesion",
+        "boundary_alignment",
+        "spectral_gap",
+    }
+)
 
-_NEUTRAL = frozenset({
-    "pagerank",
-    "betweenness",
-    "in_degree",
-    "out_degree",
-    "structural_entropy",
-    "network_centrality",
-    "churn_volatility",
-    "lines",
-    "function_count",
-    "compression_ratio",
-})
+_NEUTRAL = frozenset(
+    {
+        "pagerank",
+        "betweenness",
+        "in_degree",
+        "out_degree",
+        "structural_entropy",
+        "network_centrality",
+        "churn_volatility",
+        "lines",
+        "function_count",
+        "compression_ratio",
+    }
+)
 
 
 def _classify_direction(metric: str, delta: float) -> str:
@@ -68,6 +73,7 @@ def _classify_direction(metric: str, delta: float) -> str:
 
 
 # ── Rename helpers ───────────────────────────────────────────────────────────
+
 
 def _apply_renames_to_file_signals(
     file_signals: Dict[str, Dict[str, float]],
@@ -99,6 +105,7 @@ def _apply_renames_to_finding(
 
 
 # ── Core diff logic ─────────────────────────────────────────────────────────
+
 
 def _diff_findings(
     old_findings: List[FindingRecord],
@@ -132,21 +139,25 @@ def _diff_findings(
         sev_delta = new_f.severity - old_f.severity
 
         if sev_delta > severity_threshold:
-            worsened.append(FindingDelta(
-                status="worsened",
-                finding=new_f,
-                old_severity=old_f.severity,
-                new_severity=new_f.severity,
-                severity_delta=sev_delta,
-            ))
+            worsened.append(
+                FindingDelta(
+                    status="worsened",
+                    finding=new_f,
+                    old_severity=old_f.severity,
+                    new_severity=new_f.severity,
+                    severity_delta=sev_delta,
+                )
+            )
         elif sev_delta < -severity_threshold:
-            improved.append(FindingDelta(
-                status="improved",
-                finding=new_f,
-                old_severity=old_f.severity,
-                new_severity=new_f.severity,
-                severity_delta=sev_delta,
-            ))
+            improved.append(
+                FindingDelta(
+                    status="improved",
+                    finding=new_f,
+                    old_severity=old_f.severity,
+                    new_severity=new_f.severity,
+                    severity_delta=sev_delta,
+                )
+            )
 
     return only_new, only_old, worsened, improved
 
@@ -188,11 +199,13 @@ def _diff_file_signals(
                     )
 
             if metric_deltas:
-                deltas.append(FileDelta(
-                    filepath=filepath,
-                    status="changed",
-                    metric_deltas=metric_deltas,
-                ))
+                deltas.append(
+                    FileDelta(
+                        filepath=filepath,
+                        status="changed",
+                        metric_deltas=metric_deltas,
+                    )
+                )
             # else: unchanged — skip
 
         elif in_new and not in_old:
@@ -206,11 +219,13 @@ def _diff_file_signals(
                     delta=val,
                     direction=_classify_direction(metric, val),
                 )
-            deltas.append(FileDelta(
-                filepath=filepath,
-                status="new",
-                metric_deltas=metric_deltas,
-            ))
+            deltas.append(
+                FileDelta(
+                    filepath=filepath,
+                    status="new",
+                    metric_deltas=metric_deltas,
+                )
+            )
 
         else:
             # Removed file — include all its metrics as deltas to 0
@@ -223,11 +238,13 @@ def _diff_file_signals(
                     delta=-val,
                     direction=_classify_direction(metric, -val),
                 )
-            deltas.append(FileDelta(
-                filepath=filepath,
-                status="removed",
-                metric_deltas=metric_deltas,
-            ))
+            deltas.append(
+                FileDelta(
+                    filepath=filepath,
+                    status="removed",
+                    metric_deltas=metric_deltas,
+                )
+            )
 
     return deltas
 
@@ -257,6 +274,7 @@ def _diff_codebase_signals(
 
 # ── Public API ───────────────────────────────────────────────────────────────
 
+
 def diff_snapshots(
     old: Snapshot,
     new: Snapshot,
@@ -285,28 +303,31 @@ def diff_snapshots(
     # ── Step 0: Apply renames to old snapshot data ───────────────────────
     if rename_map:
         old_file_signals = _apply_renames_to_file_signals(
-            old.file_signals, rename_map,
+            old.file_signals,
+            rename_map,
         )
-        old_findings = [
-            _apply_renames_to_finding(f, rename_map) for f in old.findings
-        ]
+        old_findings = [_apply_renames_to_finding(f, rename_map) for f in old.findings]
     else:
         old_file_signals = old.file_signals
         old_findings = old.findings
 
     # ── Step 1: Finding-level diff ───────────────────────────────────────
     new_f, resolved_f, worsened_f, improved_f = _diff_findings(
-        old_findings, new.findings,
+        old_findings,
+        new.findings,
     )
 
     # ── Step 2: File-level diff ──────────────────────────────────────────
     file_deltas = _diff_file_signals(
-        old_file_signals, new.file_signals, metric_threshold,
+        old_file_signals,
+        new.file_signals,
+        metric_threshold,
     )
 
     # ── Step 3: Codebase-level diff ──────────────────────────────────────
     codebase_deltas = _diff_codebase_signals(
-        old.codebase_signals, new.codebase_signals,
+        old.codebase_signals,
+        new.codebase_signals,
     )
 
     return SnapshotDiff(

@@ -7,16 +7,25 @@ Provides path validation, resource limits, and safe file operations.
 import os
 import re
 from pathlib import Path
-from typing import Optional, Pattern
+from re import Pattern
+from typing import Optional
 
-from .exceptions import SecurityError, InvalidPathError
-
+from .exceptions import InvalidPathError, SecurityError
 
 # System directories that should never be analyzed
 SYSTEM_DIRECTORIES = {
-    "/etc", "/sys", "/proc", "/dev", "/boot",
-    "/bin", "/sbin", "/usr/bin", "/usr/sbin",
-    "C:\\Windows", "C:\\Program Files", "C:\\Program Files (x86)",
+    "/etc",
+    "/sys",
+    "/proc",
+    "/dev",
+    "/boot",
+    "/bin",
+    "/sbin",
+    "/usr/bin",
+    "/usr/sbin",
+    "C:\\Windows",
+    "C:\\Program Files",
+    "C:\\Program Files (x86)",
 }
 
 # Maximum file size in bytes (default 10MB)
@@ -37,12 +46,7 @@ class PathValidator:
     - Access to hidden sensitive files
     """
 
-    def __init__(
-        self,
-        root_dir: Path,
-        allow_hidden: bool = False,
-        block_system_dirs: bool = True
-    ):
+    def __init__(self, root_dir: Path, allow_hidden: bool = False, block_system_dirs: bool = True):
         """
         Initialize path validator.
 
@@ -84,8 +88,7 @@ class PathValidator:
             resolved_path.relative_to(self.root_dir)
         except ValueError:
             raise SecurityError(
-                "Path traversal detected: path is outside root directory",
-                filepath=resolved_path
+                "Path traversal detected: path is outside root directory", filepath=resolved_path
             )
 
         # Check for symlinks that escape root directory
@@ -96,7 +99,7 @@ class PathValidator:
             except ValueError:
                 raise SecurityError(
                     "Symlink escape detected: target is outside root directory",
-                    filepath=resolved_path
+                    filepath=resolved_path,
                 )
 
         # Block system directories
@@ -105,17 +108,15 @@ class PathValidator:
             for sys_dir in SYSTEM_DIRECTORIES:
                 if path_str.startswith(sys_dir):
                     raise SecurityError(
-                        f"Access to system directory blocked: {sys_dir}",
-                        filepath=resolved_path
+                        f"Access to system directory blocked: {sys_dir}", filepath=resolved_path
                     )
 
         # Check for hidden files
         if not self.allow_hidden:
             for part in resolved_path.parts:
-                if part.startswith('.') and part not in {'.', '..'}:
+                if part.startswith(".") and part not in {".", ".."}:
                     raise SecurityError(
-                        "Access to hidden file/directory blocked",
-                        filepath=resolved_path
+                        "Access to hidden file/directory blocked", filepath=resolved_path
                     )
 
         return resolved_path
@@ -143,9 +144,7 @@ class ResourceLimiter:
     """
 
     def __init__(
-        self,
-        max_file_size: int = DEFAULT_MAX_FILE_SIZE,
-        max_files: int = DEFAULT_MAX_FILES
+        self, max_file_size: int = DEFAULT_MAX_FILE_SIZE, max_files: int = DEFAULT_MAX_FILES
     ):
         """
         Initialize resource limiter.
@@ -177,8 +176,7 @@ class ResourceLimiter:
             size_mb = size / (1024 * 1024)
             limit_mb = self.max_file_size / (1024 * 1024)
             raise SecurityError(
-                f"File size ({size_mb:.2f}MB) exceeds limit ({limit_mb:.2f}MB)",
-                filepath=filepath
+                f"File size ({size_mb:.2f}MB) exceeds limit ({limit_mb:.2f}MB)", filepath=filepath
             )
 
     def check_file_count(self) -> None:
@@ -224,9 +222,9 @@ def safe_compile_regex(pattern: str, flags: int = 0) -> Optional[Pattern]:
 
     # Check for catastrophic backtracking patterns
     dangerous_patterns = [
-        r'\(.*\)\*',  # (...)*
-        r'\(.*\)\+',  # (...)+
-        r'\(.*\)\{',  # (...){n,m}
+        r"\(.*\)\*",  # (...)*
+        r"\(.*\)\+",  # (...)+
+        r"\(.*\)\{",  # (...){n,m}
     ]
 
     for dangerous in dangerous_patterns:
@@ -276,9 +274,6 @@ def validate_root_directory(path: Path) -> Path:
     path_str = str(resolved)
     for sys_dir in SYSTEM_DIRECTORIES:
         if path_str.startswith(sys_dir):
-            raise SecurityError(
-                f"Cannot analyze system directory: {sys_dir}",
-                filepath=resolved
-            )
+            raise SecurityError(f"Cannot analyze system directory: {sys_dir}", filepath=resolved)
 
     return resolved

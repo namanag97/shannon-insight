@@ -56,9 +56,7 @@ def build_treemap_data(
         A nested dictionary suitable for JSON serialisation.
     """
     # Pre-compute sorted colour values for percentile calculation.
-    color_values = sorted(
-        sigs.get(color_metric, 0.0) for sigs in file_signals.values()
-    )
+    color_values = sorted(sigs.get(color_metric, 0.0) for sigs in file_signals.values())
 
     root: Dict[str, Any] = {"name": "root", "children": []}
 

@@ -1,6 +1,7 @@
 """Tests for Gini coefficient calculations."""
 
 import pytest
+
 from shannon_insight.math.gini import Gini
 
 

@@ -104,9 +104,7 @@ def _collect_file_signals(store: AnalysisStore) -> Dict[str, Dict[str, float]]:
             sigs = merged[filepath]
             sigs["total_changes"] = float(churn_series.total_changes)
             sigs["churn_slope"] = churn_series.slope
-            sigs["trajectory"] = _TRAJECTORY_MAP.get(
-                churn_series.trajectory, 0.0
-            )
+            sigs["trajectory"] = _TRAJECTORY_MAP.get(churn_series.trajectory, 0.0)
 
     return merged
 

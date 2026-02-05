@@ -1,13 +1,13 @@
 """Mathematical utilities for codebase analysis."""
 
-from .entropy import Entropy
-from .graph import GraphMetrics
-from .statistics import Statistics
-from .robust import RobustStatistics
-from .fusion import SignalFusion
 from .compression import Compression
+from .entropy import Entropy
+from .fusion import SignalFusion
 from .gini import Gini
+from .graph import GraphMetrics
 from .identifier import IdentifierAnalyzer
+from .robust import RobustStatistics
+from .statistics import Statistics
 
 __all__ = [
     "Entropy",

@@ -1,6 +1,6 @@
 """Base exception for Shannon Insight."""
 
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 
 class ShannonInsightError(Exception):

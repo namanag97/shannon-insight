@@ -3,18 +3,19 @@
 Example: Analyzing a TypeScript/React codebase
 """
 
-from shannon_insight import CodebaseAnalyzer
+from shannon_insight import InsightKernel
 
 # Analyze a TypeScript/React codebase
-analyzer = CodebaseAnalyzer("/path/to/react/app", language="typescript")
-reports = analyzer.analyze()
+kernel = InsightKernel("/path/to/react/app", language="typescript")
+result, snapshot = kernel.run(max_findings=10)
 
-# Focus on high-confidence issues only
-high_confidence = [r for r in reports if r.confidence > 0.5]
+# Focus on high-severity findings
+high_severity = [f for f in result.findings if f.severity > 0.8]
 
-print(f"\nHigh-confidence issues: {len(high_confidence)}/{len(reports)}")
+print(f"\nHigh-severity findings: {len(high_severity)}/{len(result.findings)}")
 
-for report in high_confidence[:5]:
-    print(f"\n{report.file}")
-    print(f"  Score: {report.overall_score:.3f}")
-    print(f"  Root causes: {', '.join(report.root_causes)}")
+for finding in high_severity[:5]:
+    print(f"\n{finding.title}")
+    print(f"  Severity: {finding.severity:.3f}")
+    print(f"  Files: {', '.join(finding.files)}")
+    print(f"  Suggestion: {finding.suggestion}")

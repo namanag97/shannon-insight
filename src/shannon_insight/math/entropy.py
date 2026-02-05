@@ -1,7 +1,8 @@
 """Information theory: Shannon entropy, KL divergence, joint entropy."""
 
 import math
-from typing import List, Mapping, Union
+from collections.abc import Mapping
+from typing import Union
 
 
 class Entropy:
@@ -83,9 +84,7 @@ class Entropy:
         return kl_div
 
     @staticmethod
-    def joint_entropy(
-        joint_distribution: Mapping[tuple, Union[int, float]]
-    ) -> float:
+    def joint_entropy(joint_distribution: Mapping[tuple, Union[int, float]]) -> float:
         """
         Compute joint entropy H(X, Y, ...) from a joint distribution.
 

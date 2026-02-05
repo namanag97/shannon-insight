@@ -1,7 +1,7 @@
 """Insight engine — cross-references structural, temporal, and per-file signals."""
 
-from .models import Finding, Evidence, InsightResult
 from .kernel import InsightKernel
+from .models import Evidence, Finding, InsightResult
 
 __all__ = [
     "Finding",

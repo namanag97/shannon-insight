@@ -1,21 +1,26 @@
 """Tests for the storage module (database, writer, reader)."""
+
 import sys
+
 sys.path.insert(0, "src")
 
-import os
 import tempfile
-import pytest
-from shannon_insight.snapshot.models import Snapshot, FindingRecord, EvidenceRecord
+
+from shannon_insight.snapshot.models import EvidenceRecord, FindingRecord, Snapshot
 from shannon_insight.storage.database import HistoryDB
+from shannon_insight.storage.reader import list_snapshots, load_snapshot, load_snapshot_by_commit
 from shannon_insight.storage.writer import save_snapshot
-from shannon_insight.storage.reader import load_snapshot, load_snapshot_by_commit, list_snapshots
 
 
 def _make_snapshot(**kwargs):
     defaults = dict(
-        tool_version="0.6.0", timestamp="2025-01-01T12:00:00Z",
-        analyzed_path="/tmp/test", file_count=5, module_count=2,
-        commits_analyzed=10, analyzers_ran=["structural"],
+        tool_version="0.6.0",
+        timestamp="2025-01-01T12:00:00Z",
+        analyzed_path="/tmp/test",
+        file_count=5,
+        module_count=2,
+        commits_analyzed=10,
+        analyzers_ran=["structural"],
         config_hash="abcdef1234567890",
     )
     defaults.update(kwargs)
@@ -54,8 +59,11 @@ class TestWriterReader:
                 codebase_signals={"fiedler_value": 0.123},
                 findings=[
                     FindingRecord(
-                        finding_type="high_risk_hub", identity_key="key1",
-                        severity=0.85, title="test", files=["a.py"],
+                        finding_type="high_risk_hub",
+                        identity_key="key1",
+                        severity=0.85,
+                        title="test",
+                        files=["a.py"],
                         evidence=[EvidenceRecord("pagerank", 0.5, 95.0, "top 5%")],
                         suggestion="split it",
                     )
@@ -95,9 +103,11 @@ class TestWriterReader:
             with HistoryDB(tmpdir) as db:
                 for i in range(3):
                     snap = _make_snapshot(
-                        timestamp=f"2025-01-0{i+1}T12:00:00Z",
+                        timestamp=f"2025-01-0{i + 1}T12:00:00Z",
                         file_count=i * 10 + 5,
-                        findings=[FindingRecord("god_file", f"key{i}", 0.5, "f", ["a.py"], [], "s")] if i > 0 else [],
+                        findings=[FindingRecord("god_file", f"key{i}", 0.5, "f", ["a.py"], [], "s")]
+                        if i > 0
+                        else [],
                     )
                     save_snapshot(db.conn, snap)
                 rows = list_snapshots(db.conn)

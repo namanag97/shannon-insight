@@ -1,10 +1,9 @@
 """PerFileAnalyzer — wraps existing primitive plugins."""
 
-from pathlib import Path
 from typing import Set
 
-from ...primitives.extractor import PrimitiveExtractor
 from ...logging_config import get_logger
+from ...primitives.extractor import PrimitiveExtractor
 from ..store import AnalysisStore
 
 logger = get_logger(__name__)

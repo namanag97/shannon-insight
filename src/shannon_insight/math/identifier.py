@@ -16,40 +16,137 @@ class IdentifierAnalyzer:
     """Extract and analyze identifier tokens from source code."""
 
     # Language keywords that don't carry semantic meaning.
-    STOP_WORDS: Set[str] = frozenset({
-        # Python
-        "def", "class", "import", "from", "return", "elif",
-        "for", "while", "with", "try", "except", "finally", "raise",
-        "pass", "break", "continue", "and", "not",
-        "lambda", "yield", "async", "await", "global", "nonlocal",
-        "assert", "del", "true", "false", "none", "self",
-        # Go
-        "func", "var", "const", "type", "struct", "interface", "package",
-        "range", "chan", "select", "defer", "recover", "make", "new",
-        "append", "copy", "len", "cap", "close", "nil",
-        # TypeScript / JavaScript
-        "function", "const", "let", "return",
-        "switch", "case", "throw", "catch",
-        "super", "extends", "enum", "export",
-        "default", "undefined", "this",
-        # Rust
-        "impl", "trait", "enum", "match", "loop", "pub", "mod", "crate",
-        "where", "unsafe", "extern",
-        # Java
-        "public", "private", "protected", "static", "final", "void",
-        "abstract", "implements", "throws", "synchronized",
-        # Ruby
-        "require", "include", "extend", "module", "begin", "rescue",
-        "ensure", "elsif", "unless", "until", "attr",
-        # C / C++
-        "include", "define", "ifdef", "ifndef", "endif", "typedef",
-        "extern", "sizeof", "template", "namespace", "using",
-        "virtual", "inline", "volatile", "register",
-        # Common generic terms (too short or too common to be meaningful)
-        "get", "set", "the", "and", "for", "not",
-        "else", "elif", "null", "true", "false",
-        "int", "str", "bool", "float", "string", "err", "error",
-    })
+    STOP_WORDS: Set[str] = frozenset(
+        {
+            # Python
+            "def",
+            "class",
+            "import",
+            "from",
+            "return",
+            "elif",
+            "for",
+            "while",
+            "with",
+            "try",
+            "except",
+            "finally",
+            "raise",
+            "pass",
+            "break",
+            "continue",
+            "and",
+            "not",
+            "lambda",
+            "yield",
+            "async",
+            "await",
+            "global",
+            "nonlocal",
+            "assert",
+            "del",
+            "true",
+            "false",
+            "none",
+            "self",
+            # Go
+            "func",
+            "var",
+            "const",
+            "type",
+            "struct",
+            "interface",
+            "package",
+            "range",
+            "chan",
+            "select",
+            "defer",
+            "recover",
+            "make",
+            "new",
+            "append",
+            "copy",
+            "len",
+            "cap",
+            "close",
+            "nil",
+            # TypeScript / JavaScript
+            "function",
+            "let",
+            "switch",
+            "case",
+            "throw",
+            "catch",
+            "super",
+            "extends",
+            "enum",
+            "export",
+            "default",
+            "undefined",
+            "this",
+            # Rust
+            "impl",
+            "trait",
+            "match",
+            "loop",
+            "pub",
+            "mod",
+            "crate",
+            "where",
+            "unsafe",
+            "extern",
+            # Java
+            "public",
+            "private",
+            "protected",
+            "static",
+            "final",
+            "void",
+            "abstract",
+            "implements",
+            "throws",
+            "synchronized",
+            # Ruby
+            "require",
+            "include",
+            "extend",
+            "module",
+            "begin",
+            "rescue",
+            "ensure",
+            "elsif",
+            "unless",
+            "until",
+            "attr",
+            # C / C++
+            "define",
+            "ifdef",
+            "ifndef",
+            "endif",
+            "typedef",
+            "sizeof",
+            "template",
+            "namespace",
+            "using",
+            "virtual",
+            "inline",
+            "volatile",
+            "register",
+            # Common generic terms (too short or too common to be meaningful)
+            "get",
+            "set",
+            "the",
+            "else",
+            "null",
+            "int",
+            "str",
+            "bool",
+            "float",
+            "string",
+            "err",
+            "error",
+        }
+    )
 
     @staticmethod
     def extract_identifier_tokens(content: str) -> List[str]:
@@ -73,7 +170,7 @@ class IdentifierAnalyzer:
             return []
 
         # Extract identifier-like tokens (words that look like identifiers)
-        raw_identifiers = re.findall(r'[a-zA-Z_]\w{2,}', content)
+        raw_identifiers = re.findall(r"[a-zA-Z_]\w{2,}", content)
 
         tokens: List[str] = []
         stop = IdentifierAnalyzer.STOP_WORDS
@@ -81,11 +178,11 @@ class IdentifierAnalyzer:
         for ident in raw_identifiers:
             # Split camelCase: "validateEmail" -> "validate Email"
             # Also handle consecutive uppercase: "XMLParser" -> "XML Parser"
-            parts = re.sub(r'([A-Z]+)([A-Z][a-z])', r'\1 \2', ident)
-            parts = re.sub(r'([a-z])([A-Z])', r'\1 \2', parts)
+            parts = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1 \2", ident)
+            parts = re.sub(r"([a-z])([A-Z])", r"\1 \2", parts)
 
             # Split on underscores and spaces, normalize
-            for part in parts.replace('_', ' ').split():
+            for part in parts.replace("_", " ").split():
                 word = part.lower().strip()
                 if len(word) >= 3 and not word.isdigit() and word not in stop:
                     tokens.append(word)
@@ -117,24 +214,26 @@ class IdentifierAnalyzer:
         unique_tokens = sorted(token_counts.keys())
 
         if len(unique_tokens) < 3:
-            return [{
-                'tokens': list(token_counts.keys()),
-                'top_terms': [t for t, _ in token_counts.most_common(3)],
-                'count': len(tokens),
-            }]
+            return [
+                {
+                    "tokens": list(token_counts.keys()),
+                    "top_terms": [t for t, _ in token_counts.most_common(3)],
+                    "count": len(tokens),
+                }
+            ]
 
         clusters: List[Dict] = []
         for _prefix, group in groupby(unique_tokens, key=lambda x: x[:3]):
             group_list = list(group)
             total_count = sum(token_counts[t] for t in group_list)
             if total_count >= min_cluster_size:
-                clusters.append({
-                    'tokens': group_list,
-                    'top_terms': sorted(
-                        group_list, key=lambda x: -token_counts[x]
-                    )[:3],
-                    'count': total_count,
-                })
+                clusters.append(
+                    {
+                        "tokens": group_list,
+                        "top_terms": sorted(group_list, key=lambda x: -token_counts[x])[:3],
+                        "count": total_count,
+                    }
+                )
 
         return clusters
 
@@ -165,7 +264,7 @@ class IdentifierAnalyzer:
         cluster_entropy = 0.0
 
         for cluster in clusters:
-            p = cluster['count'] / token_count
+            p = cluster["count"] / token_count
             if p > 0:
                 cluster_entropy -= p * math.log2(p)
 

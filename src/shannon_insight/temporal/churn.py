@@ -78,9 +78,7 @@ def _linear_slope(values: List[int]) -> float:
     return numerator / denominator
 
 
-def _classify_trajectory(
-    counts: List[int], total: int, slope: float
-) -> str:
+def _classify_trajectory(counts: List[int], total: int, slope: float) -> str:
     """Classify churn trajectory."""
     if total <= 1:
         return "dormant"
@@ -92,7 +90,7 @@ def _classify_trajectory(
         return "dormant"
 
     variance = sum((c - mean) ** 2 for c in counts) / n
-    std = variance ** 0.5
+    std = variance**0.5
     cv = std / mean
 
     if slope < -0.1:

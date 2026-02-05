@@ -154,6 +154,19 @@ class AnalysisSettings(BaseSettings):
         description="Max findings to show in insights command",
     )
 
+    # ==================== History ====================
+
+    enable_history: bool = Field(
+        default=True, description="Auto-save snapshots to .shannon/"
+    )
+
+    history_max_snapshots: int = Field(
+        default=100,
+        ge=1,
+        le=10000,
+        description="Maximum snapshots to retain (oldest pruned)",
+    )
+
     # ==================== Security ====================
 
     allow_hidden_files: bool = Field(

@@ -1,7 +1,9 @@
 """InsightKernel — orchestrates analyzers and finders on the blackboard."""
 
+from __future__ import annotations
+
 from pathlib import Path
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional, Tuple
 
 from ..config import AnalysisSettings, default_settings
 from ..core.scanner_factory import ScannerFactory
@@ -10,6 +12,9 @@ from .models import InsightResult, StoreSummary
 from .store import AnalysisStore
 from .analyzers import get_default_analyzers
 from .finders import get_default_finders
+
+if TYPE_CHECKING:
+    from ..snapshot.models import Snapshot
 
 logger = get_logger(__name__)
 
@@ -69,6 +74,67 @@ class InsightKernel:
             findings=capped,
             store_summary=self._summarize(store),
         )
+
+    def run_and_capture(
+        self, max_findings: int = 10
+    ) -> Tuple[InsightResult, Snapshot]:
+        """Execute the full insight pipeline and capture a snapshot.
+
+        Identical to :meth:`run` but additionally builds an immutable
+        :class:`Snapshot` from the analysis store before returning.
+
+        Returns
+        -------
+        Tuple[InsightResult, Snapshot]
+            The insight result and a serialisable snapshot of this run.
+        """
+        from ..snapshot.capture import capture_snapshot  # noqa: E402 — lazy to avoid circular import
+
+        store = AnalysisStore(root_dir=self.root_dir)
+
+        # Phase 1: Scan files
+        store.file_metrics = self._scan()
+        logger.info(f"Scanned {len(store.file_metrics)} files")
+
+        if not store.file_metrics:
+            empty_result = InsightResult(
+                findings=[],
+                store_summary=StoreSummary(),
+            )
+            empty_snapshot = capture_snapshot(store, empty_result, self.settings)
+            return empty_result, empty_snapshot
+
+        # Phase 2: Run analyzers (topologically sorted by requires/provides)
+        for analyzer in self._resolve_order():
+            if analyzer.requires.issubset(store.available):
+                try:
+                    analyzer.analyze(store)
+                    logger.debug(f"Analyzer {analyzer.name} completed")
+                except Exception as e:
+                    logger.warning(f"Analyzer {analyzer.name} failed: {e}")
+
+        # Phase 3: Run finders (skip if required signals unavailable)
+        findings = []
+        for finder in self._finders:
+            if finder.requires.issubset(store.available):
+                try:
+                    findings.extend(finder.find(store))
+                except Exception as e:
+                    logger.warning(f"Finder {finder.name} failed: {e}")
+
+        # Phase 4: Rank and cap
+        findings.sort(key=lambda f: f.severity, reverse=True)
+        capped = findings[:max_findings]
+
+        result = InsightResult(
+            findings=capped,
+            store_summary=self._summarize(store),
+        )
+
+        # Phase 5: Capture snapshot
+        snapshot = capture_snapshot(store, result, self.settings)
+
+        return result, snapshot
 
     def _scan(self) -> list:
         """Scan files using ScannerFactory."""

@@ -7,12 +7,12 @@ Backward compatibility: Primitives class preserved with from_file_signals() meth
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     pass
 
-PrimitiveValues = Dict[str, float]
+PrimitiveValues = dict[str, float]
 
 
 @dataclass
@@ -39,7 +39,7 @@ class FileSignals:
     concept_entropy: float = 0.0
     naming_drift: float = 0.0
     todo_density: float = 0.0
-    docstring_coverage: Optional[float] = None
+    docstring_coverage: float | None = None
 
     # IR3 (graph) - signals #14-26
     pagerank: float = 0.0
@@ -74,7 +74,7 @@ class FileSignals:
     wiring_quality: float = 1.0  # (#36)
 
     # Percentiles (filled by normalization)
-    percentiles: Dict[str, float] = field(default_factory=dict)
+    percentiles: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -89,7 +89,7 @@ class ModuleSignals:
     # Martin metrics (from architecture/) - signals #37-41
     cohesion: float = 0.0
     coupling: float = 0.0
-    instability: Optional[float] = None  # None if isolated module (Ca=Ce=0)
+    instability: float | None = None  # None if isolated module (Ca=Ce=0)
     abstractness: float = 0.0
     main_seq_distance: float = 0.0  # 0.0 if instability is None
 
@@ -131,6 +131,12 @@ class GlobalSignals:
     phantom_ratio: float = 0.0
     glue_deficit: float = 0.0
 
+    # Phase 3/4 derived signals (needed for composites)
+    clone_ratio: float = 0.0  # From Phase 3 clone detection
+    violation_rate: float = 0.0  # From Phase 4 architecture
+    conway_alignment: float = 1.0  # From Phase 3 author distances (1.0 = perfect alignment)
+    team_size: int = 1  # From Phase 3 git history
+
     # Composites - signals #60-62
     wiring_score: float = 0.0
     architecture_health: float = 0.0
@@ -146,12 +152,12 @@ class SignalField:
     """
 
     tier: str = "FULL"  # "ABSOLUTE" | "BAYESIAN" | "FULL"
-    per_file: Dict[str, FileSignals] = field(default_factory=dict)
-    per_module: Dict[str, ModuleSignals] = field(default_factory=dict)
+    per_file: dict[str, FileSignals] = field(default_factory=dict)
+    per_module: dict[str, ModuleSignals] = field(default_factory=dict)
     global_signals: GlobalSignals = field(default_factory=GlobalSignals)
-    delta_h: Dict[str, float] = field(default_factory=dict)  # Health Laplacian per file
+    delta_h: dict[str, float] = field(default_factory=dict)  # Health Laplacian per file
 
-    def file(self, path: str) -> Optional[FileSignals]:
+    def file(self, path: str) -> FileSignals | None:
         """Get FileSignals for a path, or None if not found."""
         return self.per_file.get(path)
 

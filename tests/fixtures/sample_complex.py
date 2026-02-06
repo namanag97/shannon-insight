@@ -1,9 +1,9 @@
 """Complex file with deep nesting for testing cognitive_load."""
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
-def deeply_nested(data: List[Dict[str, Any]], config: Dict[str, Any]) -> List[str]:
+def deeply_nested(data: list[dict[str, Any]], config: dict[str, Any]) -> list[str]:
     """
     A function with deep nesting.
     Expected max_nesting = 5 (function + for + if + for + if)
@@ -20,7 +20,7 @@ def deeply_nested(data: List[Dict[str, Any]], config: Dict[str, Any]) -> List[st
     return results
 
 
-def moderately_nested(items: List[int]) -> int:
+def moderately_nested(items: list[int]) -> int:
     """
     Moderate nesting.
     Expected max_nesting = 3 (function + for + if + else)
@@ -50,7 +50,7 @@ def flat_function(a: int, b: int, c: int) -> int:
     return result
 
 
-def try_except_nested(data: Dict[str, Any]) -> Optional[str]:
+def try_except_nested(data: dict[str, Any]) -> Optional[str]:
     """
     Function with try/except nesting.
     Expected max_nesting = 4
@@ -71,11 +71,11 @@ def try_except_nested(data: Dict[str, Any]) -> Optional[str]:
 class ComplexClass:
     """Class with multiple complex methods."""
 
-    def __init__(self, data: List[int]) -> None:
+    def __init__(self, data: list[int]) -> None:
         self.data = data
-        self._cache: Dict[str, Any] = {}
+        self._cache: dict[str, Any] = {}
 
-    def process(self) -> List[int]:
+    def process(self) -> list[int]:
         """Process with nesting."""
         results = []
         for item in self.data:

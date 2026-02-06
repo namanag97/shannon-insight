@@ -1,7 +1,6 @@
 """DeadDependencyFinder — structural dep without co-change."""
 
 from pathlib import PurePosixPath
-from typing import List, Set
 
 from ..models import Evidence, Finding
 from ..store import AnalysisStore
@@ -11,10 +10,10 @@ _MIN_HISTORY_COMMITS = 50
 
 class DeadDependencyFinder:
     name = "dead_dependency"
-    requires: Set[str] = {"structural", "temporal"}
+    requires: set[str] = {"structural", "temporal"}
     BASE_SEVERITY = 0.4
 
-    def find(self, store: AnalysisStore) -> List[Finding]:
+    def find(self, store: AnalysisStore) -> list[Finding]:
         if not store.structural or not store.cochange or not store.git_history:
             return []
 

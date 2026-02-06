@@ -6,7 +6,6 @@ from shannon_insight.graph.clone_detection import (
     compute_ncd,
     detect_clones,
 )
-from shannon_insight.graph.models import ClonePair
 
 
 class TestComputeNCD:

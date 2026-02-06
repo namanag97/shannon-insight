@@ -1,7 +1,5 @@
 """GodFileFinder — high cognitive load + low coherence."""
 
-from typing import List, Set
-
 from ..models import Evidence, Finding
 from ..ranking import compute_percentiles
 from ..store import AnalysisStore
@@ -11,10 +9,10 @@ _MIN_FILES = 5
 
 class GodFileFinder:
     name = "god_file"
-    requires: Set[str] = {"file_signals"}
+    requires: set[str] = {"file_signals"}
     BASE_SEVERITY = 0.8
 
-    def find(self, store: AnalysisStore) -> List[Finding]:
+    def find(self, store: AnalysisStore) -> list[Finding]:
         if not store.file_signals:
             return []
         if len(store.file_signals) < _MIN_FILES:

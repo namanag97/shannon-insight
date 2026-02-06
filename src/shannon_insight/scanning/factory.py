@@ -1,7 +1,6 @@
 """Scanner factory — resolves language setting to scanner instances."""
 
 from pathlib import Path
-from typing import List, Tuple
 
 from ..config import AnalysisSettings
 from ..logging_config import get_logger
@@ -31,7 +30,7 @@ class ScannerFactory:
         self.root_dir = root_dir
         self.settings = settings
 
-    def create(self, language: str) -> Tuple[List[Tuple], List[str]]:
+    def create(self, language: str) -> tuple[list[tuple], list[str]]:
         """Return (scanners, detected_languages)."""
         if language != "auto":
             return self._explicit(language)
@@ -42,7 +41,7 @@ class ScannerFactory:
         scanner = ConfigurableScanner(str(self.root_dir), config=cfg, settings=self.settings)
         return (scanner, display_name or lang_name)
 
-    def _explicit(self, language: str) -> Tuple[List[Tuple], List[str]]:
+    def _explicit(self, language: str) -> tuple[list[tuple], list[str]]:
         base_lang = _ALIASES.get(language, language)
         if base_lang == "universal":
             cfg = get_language_config("universal")
@@ -55,7 +54,7 @@ class ScannerFactory:
             return [(scanner, language)], [language]
         return [self._mk(base_lang, language)], [language]
 
-    def _auto_detect(self) -> Tuple[List[Tuple], List[str]]:
+    def _auto_detect(self) -> tuple[list[tuple], list[str]]:
         def _has_ext(ext: str) -> bool:
             for p in self.root_dir.rglob(f"*{ext}"):
                 if not any(part in _SKIP_DIRS for part in p.parts):

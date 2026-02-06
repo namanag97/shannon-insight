@@ -1,7 +1,5 @@
 """HighRiskHubFinder — central + complex + churning files."""
 
-from typing import List, Set
-
 from ..models import Evidence, Finding
 from ..ranking import compute_percentiles
 from ..store import AnalysisStore
@@ -11,10 +9,10 @@ _MIN_FILES = 5
 
 class HighRiskHubFinder:
     name = "high_risk_hub"
-    requires: Set[str] = {"structural", "file_signals"}
+    requires: set[str] = {"structural", "file_signals"}
     BASE_SEVERITY = 1.0
 
-    def find(self, store: AnalysisStore) -> List[Finding]:
+    def find(self, store: AnalysisStore) -> list[Finding]:
         if not store.structural or not store.file_signals:
             return []
         if len(store.structural.files) < _MIN_FILES:

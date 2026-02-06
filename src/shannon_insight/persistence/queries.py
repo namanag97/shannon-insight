@@ -7,7 +7,7 @@ the data needed for the ``trend`` and ``health`` CLI commands.
 import json
 import sqlite3
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 @dataclass
@@ -26,7 +26,7 @@ class HealthPoint:
 
     snapshot_id: int
     timestamp: str
-    metrics: Dict[str, float]
+    metrics: dict[str, float]
 
 
 class HistoryQuery:
@@ -44,7 +44,7 @@ class HistoryQuery:
 
     # ── file-level trend ──────────────────────────────────────────────
 
-    def file_trend(self, filepath: str, metric: str, last_n: int = 20) -> List[TrendPoint]:
+    def file_trend(self, filepath: str, metric: str, last_n: int = 20) -> list[TrendPoint]:
         """Get the trend of *metric* for *filepath* over recent snapshots.
 
         Returns up to *last_n* points in **chronological** order (oldest
@@ -75,7 +75,7 @@ class HistoryQuery:
 
     # ── codebase health trend ─────────────────────────────────────────
 
-    def codebase_health(self, last_n: int = 20) -> List[HealthPoint]:
+    def codebase_health(self, last_n: int = 20) -> list[HealthPoint]:
         """Get codebase-level metric trends over the last *last_n* snapshots.
 
         Each ``HealthPoint`` contains all codebase signals for that
@@ -115,10 +115,10 @@ class HistoryQuery:
             """,
             snap_ids,
         ).fetchall()
-        finding_counts: Dict[int, int] = {r["snapshot_id"]: r["cnt"] for r in finding_rows}
+        finding_counts: dict[int, int] = {r["snapshot_id"]: r["cnt"] for r in finding_rows}
 
         # 4. Group signals by snapshot.
-        snap_metrics: Dict[int, Dict[str, float]] = {}
+        snap_metrics: dict[int, dict[str, float]] = {}
         for r in sig_rows:
             sid = r["snapshot_id"]
             if sid not in snap_metrics:
@@ -132,7 +132,7 @@ class HistoryQuery:
             snap_metrics[sid]["active_findings"] = float(finding_counts.get(sid, 0))
 
         # 5. Build HealthPoints in chronological order.
-        result: List[HealthPoint] = []
+        result: list[HealthPoint] = []
         for r in reversed(snap_rows):
             sid = r["id"]
             result.append(
@@ -146,7 +146,7 @@ class HistoryQuery:
 
     # ── persistent findings ───────────────────────────────────────────
 
-    def persistent_findings(self, min_snapshots: int = 3) -> List[Dict]:
+    def persistent_findings(self, min_snapshots: int = 3) -> list[dict]:
         """Find findings that appear in *min_snapshots*+ **consecutive** snapshots.
 
         Returns a list of dicts with keys: ``identity_key``,
@@ -173,9 +173,9 @@ class HistoryQuery:
             r["id"]
             for r in self.conn.execute("SELECT id FROM snapshots ORDER BY timestamp ASC").fetchall()
         ]
-        snap_id_to_idx: Dict[int, int] = {sid: i for i, sid in enumerate(all_snap_ids)}
+        snap_id_to_idx: dict[int, int] = {sid: i for i, sid in enumerate(all_snap_ids)}
 
-        result: List[Dict] = []
+        result: list[dict] = []
         for r in rows:
             snap_ids = sorted(int(s) for s in r["snap_ids"].split(","))
             indices = sorted(snap_id_to_idx.get(s, -1) for s in snap_ids)
@@ -197,7 +197,7 @@ class HistoryQuery:
 
     # ── top movers ────────────────────────────────────────────────────
 
-    def top_movers(self, last_n: int = 5, metric: str = "cognitive_load") -> List[Dict]:
+    def top_movers(self, last_n: int = 5, metric: str = "cognitive_load") -> list[dict]:
         """Files with the largest *metric* changes over recent snapshots.
 
         Compares the oldest and newest of the last *last_n* snapshots and
@@ -215,7 +215,7 @@ class HistoryQuery:
         oldest_id = snap_rows[-1]["id"]
 
         # Fetch metric values at both ends.
-        old_vals: Dict[str, float] = dict(
+        old_vals: dict[str, float] = dict(
             self.conn.execute(
                 """
                 SELECT file_path, value FROM file_signals
@@ -225,7 +225,7 @@ class HistoryQuery:
             ).fetchall()
         )
 
-        new_vals: Dict[str, float] = dict(
+        new_vals: dict[str, float] = dict(
             self.conn.execute(
                 """
                 SELECT file_path, value FROM file_signals
@@ -236,7 +236,7 @@ class HistoryQuery:
         )
 
         # Compute deltas for files present in both snapshots.
-        movers: List[Dict] = []
+        movers: list[dict] = []
         for fp in set(old_vals) | set(new_vals):
             if fp in old_vals and fp in new_vals:
                 delta = new_vals[fp] - old_vals[fp]
@@ -257,7 +257,7 @@ class HistoryQuery:
 # ── Utility ──────────────────────────────────────────────────────────────
 
 
-def _max_consecutive_run(indices: List[int]) -> int:
+def _max_consecutive_run(indices: list[int]) -> int:
     """Return the length of the longest run of consecutive integers."""
     if not indices:
         return 0

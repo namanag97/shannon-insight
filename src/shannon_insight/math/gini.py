@@ -12,7 +12,7 @@ Formula (for sorted values x_1 <= x_2 <= ... <= x_n):
     G = (2 * sum(i * x_i)) / (n * sum(x_i)) - (n + 1) / n
 """
 
-from typing import List, Union
+from typing import Union
 
 
 class Gini:
@@ -20,7 +20,7 @@ class Gini:
 
     @staticmethod
     def gini_coefficient(
-        values: Union[List[float], List[int]],
+        values: Union[list[float], list[int]],
         bias_correction: bool = True,
     ) -> float:
         """Compute Gini coefficient.

@@ -1,7 +1,6 @@
 """Cognitive load using Gini-enhanced formula with compression fallback."""
 
 from pathlib import Path
-from typing import Dict, List
 
 from ...math import Compression, Gini
 from ...scanning.models import FileMetrics
@@ -16,8 +15,8 @@ class CognitiveLoadPrimitive(PrimitivePlugin):
     direction = "high_is_bad"
     default_weight = 0.20
 
-    def compute(self, files: List[FileMetrics], root_dir: Path) -> Dict[str, float]:
-        loads: Dict[str, float] = {}
+    def compute(self, files: list[FileMetrics], root_dir: Path) -> dict[str, float]:
+        loads: dict[str, float] = {}
 
         for file in files:
             concepts = file.functions + file.structs + file.interfaces

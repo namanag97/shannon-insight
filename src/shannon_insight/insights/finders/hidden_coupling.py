@@ -1,7 +1,6 @@
 """HiddenCouplingFinder — co-change without structural dependency."""
 
 from pathlib import PurePosixPath
-from typing import List, Set
 
 from ..models import Evidence, Finding
 from ..store import AnalysisStore
@@ -12,10 +11,10 @@ _MIN_CONFIDENCE = 0.5
 
 class HiddenCouplingFinder:
     name = "hidden_coupling"
-    requires: Set[str] = {"structural", "temporal"}
+    requires: set[str] = {"structural", "temporal"}
     BASE_SEVERITY = 0.9
 
-    def find(self, store: AnalysisStore) -> List[Finding]:
+    def find(self, store: AnalysisStore) -> list[Finding]:
         if not store.structural or not store.cochange:
             return []
 

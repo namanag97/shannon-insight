@@ -1,7 +1,5 @@
 """StructuralAnalyzer — wraps existing AnalysisEngine."""
 
-from typing import Set
-
 from ...graph.engine import AnalysisEngine
 from ...logging_config import get_logger
 from ..store import AnalysisStore
@@ -11,8 +9,8 @@ logger = get_logger(__name__)
 
 class StructuralAnalyzer:
     name = "structural"
-    requires: Set[str] = {"files"}
-    provides: Set[str] = {"structural"}
+    requires: set[str] = {"files"}
+    provides: set[str] = {"structural"}
 
     def analyze(self, store: AnalysisStore) -> None:
         if not store.file_metrics:

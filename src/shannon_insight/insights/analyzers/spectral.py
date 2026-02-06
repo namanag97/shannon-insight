@@ -1,7 +1,6 @@
 """SpectralAnalyzer — Laplacian eigenvalues and Fiedler value."""
 
 from collections import defaultdict
-from typing import Set
 
 from ...logging_config import get_logger
 from ...temporal.models import SpectralSummary
@@ -12,8 +11,8 @@ logger = get_logger(__name__)
 
 class SpectralAnalyzer:
     name = "spectral"
-    requires: Set[str] = {"structural"}
-    provides: Set[str] = {"spectral"}
+    requires: set[str] = {"structural"}
+    provides: set[str] = {"spectral"}
 
     def analyze(self, store: AnalysisStore) -> None:
         if not store.structural:

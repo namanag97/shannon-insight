@@ -7,7 +7,7 @@ instance (from languages.py). No subclassing needed.
 import re
 from collections import Counter
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 from ..config import AnalysisSettings
 from ..exceptions import FileAccessError
@@ -86,7 +86,7 @@ class ConfigurableScanner(BaseScanner):
         self,
         root_dir: str,
         config: LanguageConfig,
-        extensions: Optional[List[str]] = None,
+        extensions: Optional[list[str]] = None,
         settings: Optional[AnalysisSettings] = None,
     ):
         super().__init__(
@@ -180,7 +180,7 @@ class ConfigurableScanner(BaseScanner):
 
     # ── Imports ────────────────────────────────────────────────
 
-    def _extract_imports(self, content: str) -> List[str]:
+    def _extract_imports(self, content: str) -> list[str]:
         imports: list[str] = []
         for pattern in self.config.import_patterns:
             imports.extend(m.group(1) for m in re.finditer(pattern, content, re.MULTILINE))
@@ -194,7 +194,7 @@ class ConfigurableScanner(BaseScanner):
 
     # ── Exports ────────────────────────────────────────────────
 
-    def _extract_exports(self, content: str) -> List[str]:
+    def _extract_exports(self, content: str) -> list[str]:
         exports = []
         for pattern in self.config.export_patterns:
             exports.extend(re.findall(pattern, content, re.MULTILINE))
@@ -211,7 +211,7 @@ class ConfigurableScanner(BaseScanner):
     # ── Generic pattern counter (structs, interfaces) ──────────
 
     @staticmethod
-    def _count_patterns(content: str, patterns: List[str]) -> int:
+    def _count_patterns(content: str, patterns: list[str]) -> int:
         return sum(len(re.findall(p, content)) for p in patterns)
 
     # ── Complexity ─────────────────────────────────────────────
@@ -272,7 +272,7 @@ class ConfigurableScanner(BaseScanner):
 
     # ── Function sizes ─────────────────────────────────────────
 
-    def _extract_function_sizes(self, content: str) -> List[int]:
+    def _extract_function_sizes(self, content: str) -> list[int]:
         if self.config.nesting_mode == "ruby":
             return self._ruby_function_sizes(content)
 
@@ -306,7 +306,7 @@ class ConfigurableScanner(BaseScanner):
                 i += 1
         return sizes
 
-    def _ruby_function_sizes(self, content: str) -> List[int]:
+    def _ruby_function_sizes(self, content: str) -> list[int]:
         lines = content.split("\n")
         sizes = []
         i = 0
@@ -340,7 +340,7 @@ class ConfigurableScanner(BaseScanner):
         return sizes
 
     @staticmethod
-    def _indent_fn_size(lines: List[str], start: int) -> int:
+    def _indent_fn_size(lines: list[str], start: int) -> int:
         if start >= len(lines):
             return 1
         base_indent = len(lines[start]) - len(lines[start].lstrip())

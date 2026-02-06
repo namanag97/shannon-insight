@@ -10,7 +10,7 @@ so that renamed files are matched correctly rather than appearing as
 remove+add pairs.
 """
 
-from typing import Dict, List, Optional
+from typing import Optional
 
 from .diff_models import FileDelta, FindingDelta, MetricDelta, SnapshotDiff
 from .models import FindingRecord, Snapshot
@@ -76,11 +76,11 @@ def _classify_direction(metric: str, delta: float) -> str:
 
 
 def _apply_renames_to_file_signals(
-    file_signals: Dict[str, Dict[str, float]],
-    rename_map: Dict[str, str],
-) -> Dict[str, Dict[str, float]]:
+    file_signals: dict[str, dict[str, float]],
+    rename_map: dict[str, str],
+) -> dict[str, dict[str, float]]:
     """Return a new file_signals dict with old paths replaced by new paths."""
-    result: Dict[str, Dict[str, float]] = {}
+    result: dict[str, dict[str, float]] = {}
     for path, signals in file_signals.items():
         new_path = rename_map.get(path, path)
         result[new_path] = signals
@@ -89,7 +89,7 @@ def _apply_renames_to_file_signals(
 
 def _apply_renames_to_finding(
     finding: FindingRecord,
-    rename_map: Dict[str, str],
+    rename_map: dict[str, str],
 ) -> FindingRecord:
     """Return a copy of the finding with file paths updated via rename_map."""
     new_files = [rename_map.get(f, f) for f in finding.files]
@@ -108,8 +108,8 @@ def _apply_renames_to_finding(
 
 
 def _diff_findings(
-    old_findings: List[FindingRecord],
-    new_findings: List[FindingRecord],
+    old_findings: list[FindingRecord],
+    new_findings: list[FindingRecord],
     severity_threshold: float = 0.01,
 ) -> tuple:
     """Match findings by identity_key and classify changes.
@@ -130,8 +130,8 @@ def _diff_findings(
     only_old = [old_by_key[k] for k in sorted(old_keys - new_keys)]
 
     # Findings in both — check for severity changes
-    worsened: List[FindingDelta] = []
-    improved: List[FindingDelta] = []
+    worsened: list[FindingDelta] = []
+    improved: list[FindingDelta] = []
 
     for key in sorted(old_keys & new_keys):
         old_f = old_by_key[key]
@@ -163,16 +163,16 @@ def _diff_findings(
 
 
 def _diff_file_signals(
-    old_signals: Dict[str, Dict[str, float]],
-    new_signals: Dict[str, Dict[str, float]],
+    old_signals: dict[str, dict[str, float]],
+    new_signals: dict[str, dict[str, float]],
     metric_threshold: float,
-) -> List[FileDelta]:
+) -> list[FileDelta]:
     """Compute per-file metric deltas across the union of file paths."""
     old_files = set(old_signals.keys())
     new_files = set(new_signals.keys())
     all_files = sorted(old_files | new_files)
 
-    deltas: List[FileDelta] = []
+    deltas: list[FileDelta] = []
 
     for filepath in all_files:
         in_old = filepath in old_files
@@ -184,7 +184,7 @@ def _diff_file_signals(
             new_m = new_signals[filepath]
             all_metrics = sorted(set(old_m.keys()) | set(new_m.keys()))
 
-            metric_deltas: Dict[str, MetricDelta] = {}
+            metric_deltas: dict[str, MetricDelta] = {}
             for metric in all_metrics:
                 old_val = old_m.get(metric, 0.0)
                 new_val = new_m.get(metric, 0.0)
@@ -250,12 +250,12 @@ def _diff_file_signals(
 
 
 def _diff_codebase_signals(
-    old_signals: Dict[str, float],
-    new_signals: Dict[str, float],
-) -> Dict[str, MetricDelta]:
+    old_signals: dict[str, float],
+    new_signals: dict[str, float],
+) -> dict[str, MetricDelta]:
     """Diff codebase-level aggregate signals."""
     all_metrics = sorted(set(old_signals.keys()) | set(new_signals.keys()))
-    deltas: Dict[str, MetricDelta] = {}
+    deltas: dict[str, MetricDelta] = {}
 
     for metric in all_metrics:
         old_val = old_signals.get(metric, 0.0)
@@ -278,7 +278,7 @@ def _diff_codebase_signals(
 def diff_snapshots(
     old: Snapshot,
     new: Snapshot,
-    renames: Optional[Dict[str, str]] = None,
+    renames: Optional[dict[str, str]] = None,
     metric_threshold: float = 0.01,
 ) -> SnapshotDiff:
     """Compute a structured diff between two analysis snapshots.

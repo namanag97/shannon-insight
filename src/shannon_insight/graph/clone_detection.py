@@ -12,7 +12,6 @@ to avoid O(n²) blowup. For smaller codebases, direct pairwise is fast enough.
 """
 
 import zlib
-from typing import Dict, List, Set
 
 from .models import ClonePair
 
@@ -55,10 +54,10 @@ def compute_ncd(content_a: bytes, content_b: bytes) -> float:
 
 
 def detect_clones(
-    file_contents: Dict[str, bytes],
-    roles: Dict[str, str],
+    file_contents: dict[str, bytes],
+    roles: dict[str, str],
     threshold: float = CLONE_THRESHOLD,
-) -> List[ClonePair]:
+) -> list[ClonePair]:
     """Detect clone pairs in a codebase.
 
     Uses direct pairwise comparison for smaller codebases (<1000 files).
@@ -95,7 +94,7 @@ def detect_clones(
     # For now, always use direct pairwise (simpler, fast enough for most cases)
     # LSH implementation can be added later if needed for very large codebases
     paths = sorted(valid_files.keys())
-    clones: List[ClonePair] = []
+    clones: list[ClonePair] = []
 
     for i, path_a in enumerate(paths):
         content_a = valid_files[path_a]
@@ -120,7 +119,7 @@ def detect_clones(
     return clones
 
 
-def compute_clone_ratio(clone_pairs: List[ClonePair], total_files: int) -> float:
+def compute_clone_ratio(clone_pairs: list[ClonePair], total_files: int) -> float:
     """Compute global clone ratio: files in any clone pair / total files.
 
     Args:
@@ -133,7 +132,7 @@ def compute_clone_ratio(clone_pairs: List[ClonePair], total_files: int) -> float
     if total_files == 0:
         return 0.0
 
-    files_in_clones: Set[str] = set()
+    files_in_clones: set[str] = set()
     for pair in clone_pairs:
         files_in_clones.add(pair.file_a)
         files_in_clones.add(pair.file_b)

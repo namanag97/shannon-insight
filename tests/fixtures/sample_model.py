@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Optional
+from typing import Optional
 
 
 class Status(Enum):
@@ -32,7 +32,7 @@ class Project:
     title: str
     description: Optional[str] = None
     owner: Optional[User] = None
-    members: List[User] = None
+    members: list[User] = None
 
     def __post_init__(self):
         if self.members is None:

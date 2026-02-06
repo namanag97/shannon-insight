@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from .models import Completeness
 
@@ -64,9 +64,7 @@ def count_todos(content: str) -> int:
     return count
 
 
-def compute_docstring_coverage(
-    syntax: FileSyntax, content: str
-) -> tuple[Optional[float], int, int]:
+def compute_docstring_coverage(syntax: FileSyntax, content: str) -> tuple[float | None, int, int]:
     """Compute docstring coverage for Python files.
 
     Args:

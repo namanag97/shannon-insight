@@ -1,10 +1,9 @@
 """Entry point file for testing ENTRY_POINT role detection."""
 
 import sys
-from typing import List
 
 
-def main(args: List[str]) -> int:
+def main(args: list[str]) -> int:
     """Main entry point."""
     if not args:
         print("No arguments provided")
@@ -14,7 +13,7 @@ def main(args: List[str]) -> int:
     return 0
 
 
-def parse_args(args: List[str]) -> dict:
+def parse_args(args: list[str]) -> dict:
     """Parse command line arguments."""
     result = {}
     for arg in args:

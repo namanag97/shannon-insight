@@ -1,7 +1,7 @@
 """Data models for analysis snapshots — immutable records of a single analysis run."""
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 
 @dataclass
@@ -22,8 +22,8 @@ class FindingRecord:
     identity_key: str  # SHA-256[:16] hex, stable across runs
     severity: float
     title: str
-    files: List[str]
-    evidence: List[EvidenceRecord]
+    files: list[str]
+    evidence: list[EvidenceRecord]
     suggestion: str
 
 
@@ -45,17 +45,17 @@ class Snapshot:
     file_count: int = 0
     module_count: int = 0
     commits_analyzed: int = 0
-    analyzers_ran: List[str] = field(default_factory=list)
+    analyzers_ran: list[str] = field(default_factory=list)
     config_hash: str = ""
 
     # ── Per-file signals ──────────────────────────────────────────
-    file_signals: Dict[str, Dict[str, float]] = field(default_factory=dict)
+    file_signals: dict[str, dict[str, float]] = field(default_factory=dict)
 
     # ── Codebase-level signals ────────────────────────────────────
-    codebase_signals: Dict[str, float] = field(default_factory=dict)
+    codebase_signals: dict[str, float] = field(default_factory=dict)
 
     # ── Findings ──────────────────────────────────────────────────
-    findings: List[FindingRecord] = field(default_factory=list)
+    findings: list[FindingRecord] = field(default_factory=list)
 
     # ── Dependency edges ──────────────────────────────────────────
-    dependency_edges: List[Tuple[str, str]] = field(default_factory=list)
+    dependency_edges: list[tuple[str, str]] = field(default_factory=list)

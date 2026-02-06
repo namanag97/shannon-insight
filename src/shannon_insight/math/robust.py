@@ -1,6 +1,6 @@
 """Robust statistics: MAD, modified z-scores, IQR, isolation forest."""
 
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 import numpy as np
 
@@ -9,7 +9,7 @@ class RobustStatistics:
     """Robust statistical methods resistant to outliers."""
 
     @staticmethod
-    def median_absolute_deviation(values: Union[List[float], np.ndarray]) -> float:
+    def median_absolute_deviation(values: Union[list[float], np.ndarray]) -> float:
         """
         Median Absolute Deviation: MAD = median(|x_i - median(x)|).
 
@@ -30,8 +30,8 @@ class RobustStatistics:
 
     @staticmethod
     def modified_z_score(
-        values: Union[List[float], np.ndarray], threshold: float = 3.5
-    ) -> List[float]:
+        values: Union[list[float], np.ndarray], threshold: float = 3.5
+    ) -> list[float]:
         """
         Modified z-scores using MAD (robust to outliers).
 
@@ -54,7 +54,7 @@ class RobustStatistics:
         return [constant * (x - median_val) / mad for x in values]
 
     @staticmethod
-    def iqr_outliers(values: List[float], multiplier: float = 1.5) -> List[bool]:
+    def iqr_outliers(values: list[float], multiplier: float = 1.5) -> list[bool]:
         """
         Detect outliers using Interquartile Range.
 

@@ -9,7 +9,6 @@ import subprocess
 from bisect import bisect_left
 from collections import defaultdict, deque
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
 
 from .models import FindingRecord, Snapshot
 
@@ -19,8 +18,8 @@ class FileRiskSummary:
     """Per-file risk summary within the change scope."""
 
     filepath: str
-    signals: Dict[str, float]
-    percentiles: Dict[str, float]  # percentile positions computed from all files
+    signals: dict[str, float]
+    percentiles: dict[str, float]  # percentile positions computed from all files
     dependents_count: int
     findings_count: int
 
@@ -34,11 +33,11 @@ class ChangeScopedReport:
     an overall risk-level assessment.
     """
 
-    changed_files: List[str]
-    blast_radius_files: List[str]
-    direct_findings: List[FindingRecord]  # findings where files intersect changed_files
-    blast_findings: List[FindingRecord]  # findings where files intersect blast_radius
-    file_risk: List[FileRiskSummary]
+    changed_files: list[str]
+    blast_radius_files: list[str]
+    direct_findings: list[FindingRecord]  # findings where files intersect changed_files
+    blast_findings: list[FindingRecord]  # findings where files intersect blast_radius
+    file_risk: list[FileRiskSummary]
     risk_level: str  # "low" | "medium" | "high" | "critical"
     risk_reason: str
 
@@ -48,7 +47,7 @@ class ChangeScopedReport:
 # ---------------------------------------------------------------------------
 
 
-def get_changed_files(repo_path: str, ref: str = "HEAD~1") -> List[str]:
+def get_changed_files(repo_path: str, ref: str = "HEAD~1") -> list[str]:
     """Get files changed between *ref* and HEAD using ``git diff --name-only``.
 
     Parameters
@@ -77,7 +76,7 @@ def get_changed_files(repo_path: str, ref: str = "HEAD~1") -> List[str]:
         return []
 
 
-def get_merge_base_files(repo_path: str, base_branch: str = "main") -> List[str]:
+def get_merge_base_files(repo_path: str, base_branch: str = "main") -> list[str]:
     """Get files changed on the current branch vs *base_branch*.
 
     Finds the merge-base between HEAD and *base_branch*, then returns
@@ -117,7 +116,7 @@ def get_merge_base_files(repo_path: str, base_branch: str = "main") -> List[str]
 # ---------------------------------------------------------------------------
 
 
-def compute_blast_radius(changed_files: List[str], snapshot: Snapshot) -> List[str]:
+def compute_blast_radius(changed_files: list[str], snapshot: Snapshot) -> list[str]:
     """Find all files transitively depending on the changed files.
 
     Builds a *reverse* dependency graph from ``snapshot.dependency_edges``
@@ -138,7 +137,7 @@ def compute_blast_radius(changed_files: List[str], snapshot: Snapshot) -> List[s
         themselves.
     """
     # Build reverse adjacency: for each file, which files depend on it?
-    reverse: Dict[str, set] = defaultdict(set)
+    reverse: dict[str, set] = defaultdict(set)
     for src, dst in snapshot.dependency_edges:
         # src depends on dst  -->  dst is depended upon by src
         reverse[dst].add(src)
@@ -166,7 +165,7 @@ def compute_blast_radius(changed_files: List[str], snapshot: Snapshot) -> List[s
 
 
 def build_scoped_report(
-    changed_files: List[str],
+    changed_files: list[str],
     snapshot: Snapshot,
 ) -> ChangeScopedReport:
     """Build a change-scoped risk report.
@@ -188,8 +187,8 @@ def build_scoped_report(
     blast_set = set(blast_radius)
 
     # ── Filter findings ───────────────────────────────────────────────
-    direct_findings: List[FindingRecord] = []
-    blast_findings: List[FindingRecord] = []
+    direct_findings: list[FindingRecord] = []
+    blast_findings: list[FindingRecord] = []
     for finding in snapshot.findings:
         finding_files = set(finding.files)
         if finding_files & changed_set:
@@ -202,12 +201,12 @@ def build_scoped_report(
     percentiles = _compute_file_percentiles(all_files_signals)
 
     # ── Build reverse graph once for dependents count ─────────────────
-    reverse: Dict[str, set] = defaultdict(set)
+    reverse: dict[str, set] = defaultdict(set)
     for src, dst in snapshot.dependency_edges:
         reverse[dst].add(src)
 
     # ── Build per-file risk summaries for changed files ───────────────
-    file_risk: List[FileRiskSummary] = []
+    file_risk: list[FileRiskSummary] = []
     for fp in changed_files:
         signals = all_files_signals.get(fp, {})
         pcts = percentiles.get(fp, {})
@@ -243,8 +242,8 @@ def build_scoped_report(
 
 
 def _compute_file_percentiles(
-    all_signals: Dict[str, Dict[str, float]],
-) -> Dict[str, Dict[str, float]]:
+    all_signals: dict[str, dict[str, float]],
+) -> dict[str, dict[str, float]]:
     """Compute percentile rank for each file on each metric.
 
     For every metric *m*, gather values across all files and compute
@@ -269,15 +268,15 @@ def _compute_file_percentiles(
         metrics.update(sigs.keys())
 
     # For each metric, build a sorted list of values
-    metric_sorted: Dict[str, List[float]] = {}
+    metric_sorted: dict[str, list[float]] = {}
     for m in metrics:
         vals = sorted(v for sigs in all_signals.values() if (v := sigs.get(m)) is not None)
         metric_sorted[m] = vals
 
     # Compute percentiles per file
-    result: Dict[str, Dict[str, float]] = {}
+    result: dict[str, dict[str, float]] = {}
     for fp, sigs in all_signals.items():
-        pcts: Dict[str, float] = {}
+        pcts: dict[str, float] = {}
         for m, v in sigs.items():
             sorted_vals = metric_sorted.get(m, [])
             if sorted_vals:
@@ -291,10 +290,10 @@ def _compute_file_percentiles(
 
 
 def _compute_risk_level(
-    changed_files: List[str],
+    changed_files: list[str],
     snapshot: Snapshot,
-    direct_findings: List[FindingRecord],
-) -> Tuple[str, str]:
+    direct_findings: list[FindingRecord],
+) -> tuple[str, str]:
     """Compute an overall risk level for the change.
 
     Heuristic tiers:
@@ -337,7 +336,7 @@ def _compute_risk_level(
     blast_pct = len(blast) / total_files
 
     if severity_sum > 1.5 or blast_pct > 0.3:
-        reason_parts: List[str] = []
+        reason_parts: list[str] = []
         if severity_sum > 1.5:
             reason_parts.append(f"finding severity sum {severity_sum:.2f}")
         if blast_pct > 0.3:

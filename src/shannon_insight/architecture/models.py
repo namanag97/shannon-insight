@@ -7,7 +7,7 @@ architectural violations.
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 class ViolationType(Enum):
@@ -26,7 +26,7 @@ class Module:
     """
 
     path: str  # directory path
-    files: List[str] = field(default_factory=list)
+    files: list[str] = field(default_factory=list)
     file_count: int = 0
 
     # Martin metrics
@@ -54,7 +54,7 @@ class Layer:
     """A depth level in the inferred architectural layering."""
 
     depth: int
-    modules: List[str] = field(default_factory=list)  # module paths
+    modules: list[str] = field(default_factory=list)  # module paths
     label: str = ""  # e.g., "entry", "service", "core", "foundation"
 
 
@@ -74,9 +74,9 @@ class Violation:
 class Architecture:
     """Top-level result of architectural analysis."""
 
-    modules: Dict[str, Module] = field(default_factory=dict)
-    layers: List[Layer] = field(default_factory=list)
-    violations: List[Violation] = field(default_factory=list)
+    modules: dict[str, Module] = field(default_factory=dict)
+    layers: list[Layer] = field(default_factory=list)
+    violations: list[Violation] = field(default_factory=list)
     violation_rate: float = 0.0  # violating edges / total cross-module edges
 
     # Patterns detected

@@ -12,7 +12,6 @@ Rules (by finding type):
 """
 
 import hashlib
-from typing import List
 
 # Types whose identity is the single primary file.
 _SINGLE_FILE_TYPES = frozenset({"high_risk_hub", "god_file", "unstable_file"})
@@ -24,7 +23,7 @@ _PAIR_FILE_TYPES = frozenset({"hidden_coupling", "dead_dependency"})
 _PRIMARY_FILE_TYPES = frozenset({"boundary_mismatch"})
 
 
-def compute_identity_key(finding_type: str, files: List[str]) -> str:
+def compute_identity_key(finding_type: str, files: list[str]) -> str:
     """Return a stable SHA-256[:16] hex digest for a finding.
 
     Parameters

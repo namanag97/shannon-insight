@@ -123,7 +123,7 @@ class AnalysisStore:
     clone_pairs: Slot[list[Any]] = field(default_factory=Slot)
     author_distances: Slot[list[Any]] = field(default_factory=Slot)
     architecture: Slot[Any] = field(default_factory=Slot)
-    signal_field: Slot["SignalField"] = field(default_factory=Slot)
+    signal_field: Slot[SignalField] = field(default_factory=Slot)
 
     @property
     def available(self) -> set[str]:

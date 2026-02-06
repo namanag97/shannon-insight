@@ -1,22 +1,22 @@
 """Dependency graph construction from import declarations."""
 
 from pathlib import Path
-from typing import Dict, List, Optional, Set
+from typing import Optional
 
 from ..scanning.models import FileMetrics
 from .models import DependencyGraph
 
 
-def build_dependency_graph(file_metrics: List[FileMetrics], root_dir: str = "") -> DependencyGraph:
+def build_dependency_graph(file_metrics: list[FileMetrics], root_dir: str = "") -> DependencyGraph:
     """Build dependency graph from import declarations in FileMetrics.
 
     Also tracks unresolved imports for phantom_import_count signal.
     """
-    file_map: Dict[str, FileMetrics] = {f.path: f for f in file_metrics}
+    file_map: dict[str, FileMetrics] = {f.path: f for f in file_metrics}
     all_paths = set(file_map.keys())
-    adjacency: Dict[str, List[str]] = {p: [] for p in all_paths}
-    reverse: Dict[str, List[str]] = {p: [] for p in all_paths}
-    unresolved: Dict[str, List[str]] = {}  # Phase 3: track unresolved imports
+    adjacency: dict[str, list[str]] = {p: [] for p in all_paths}
+    reverse: dict[str, list[str]] = {p: [] for p in all_paths}
+    unresolved: dict[str, list[str]] = {}  # Phase 3: track unresolved imports
     edge_count = 0
 
     path_index = _build_path_index(all_paths)
@@ -43,13 +43,13 @@ def build_dependency_graph(file_metrics: List[FileMetrics], root_dir: str = "") 
     )
 
 
-def _build_path_index(all_paths: Set[str]) -> Dict[str, str]:
+def _build_path_index(all_paths: set[str]) -> dict[str, str]:
     """Map dotted module paths to file paths for import resolution.
 
     Builds multiple lookup keys per file so resolution can work
     from different prefix levels.
     """
-    index: Dict[str, str] = {}
+    index: dict[str, str] = {}
     for path in all_paths:
         # "src/shannon_insight/models.py" -> dotted form
         dotted = path.replace("/", ".").replace("\\", ".").replace(".py", "")
@@ -70,8 +70,8 @@ def _build_path_index(all_paths: Set[str]) -> Dict[str, str]:
 def _resolve_import(
     imp: str,
     source_path: str,
-    path_index: Dict[str, str],
-    all_paths: Set[str],
+    path_index: dict[str, str],
+    all_paths: set[str],
 ) -> Optional[str]:
     """Resolve an import string to a file path in the codebase.
 
@@ -100,7 +100,7 @@ def _resolve_import(
     return None
 
 
-def _resolve_relative_import(imp: str, source_path: str, all_paths: Set[str]) -> Optional[str]:
+def _resolve_relative_import(imp: str, source_path: str, all_paths: set[str]) -> Optional[str]:
     """Resolve a Python relative import like ..models or .base."""
     # Count leading dots
     dot_count = 0

@@ -2,7 +2,7 @@
 
 import json
 import sqlite3
-from typing import Dict, List, Optional
+from typing import Optional
 
 from .models import EvidenceRecord, FindingRecord, Snapshot
 
@@ -61,7 +61,7 @@ def load_snapshot_by_commit(conn: sqlite3.Connection, commit_sha: str) -> Option
     return _hydrate(conn, row)
 
 
-def list_snapshots(conn: sqlite3.Connection, limit: int = 20) -> List[Dict]:
+def list_snapshots(conn: sqlite3.Connection, limit: int = 20) -> list[dict]:
     """List recent snapshots with finding counts.
 
     Parameters
@@ -97,7 +97,7 @@ def list_snapshots(conn: sqlite3.Connection, limit: int = 20) -> List[Dict]:
         (limit,),
     ).fetchall()
 
-    results: List[Dict] = []
+    results: list[dict] = []
     for r in rows:
         results.append(
             {
@@ -122,7 +122,7 @@ def _hydrate(conn: sqlite3.Connection, row: sqlite3.Row) -> Snapshot:
     snapshot_id = row["id"]
 
     # File signals
-    file_signals: Dict[str, Dict[str, float]] = {}
+    file_signals: dict[str, dict[str, float]] = {}
     for fs_row in conn.execute(
         "SELECT file_path, signal_name, value FROM file_signals WHERE snapshot_id = ?",
         (snapshot_id,),
@@ -133,7 +133,7 @@ def _hydrate(conn: sqlite3.Connection, row: sqlite3.Row) -> Snapshot:
         file_signals[fp][fs_row["signal_name"]] = fs_row["value"]
 
     # Codebase signals
-    codebase_signals: Dict[str, float] = {}
+    codebase_signals: dict[str, float] = {}
     for cs_row in conn.execute(
         "SELECT signal_name, value FROM codebase_signals WHERE snapshot_id = ?",
         (snapshot_id,),
@@ -141,7 +141,7 @@ def _hydrate(conn: sqlite3.Connection, row: sqlite3.Row) -> Snapshot:
         codebase_signals[cs_row["signal_name"]] = cs_row["value"]
 
     # Findings
-    findings: List[FindingRecord] = []
+    findings: list[FindingRecord] = []
     for f_row in conn.execute("SELECT * FROM findings WHERE snapshot_id = ?", (snapshot_id,)):
         evidence_raw = json.loads(f_row["evidence"])
         evidence = [

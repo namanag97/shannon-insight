@@ -5,7 +5,7 @@ Uses pydantic-settings for type-safe configuration with automatic validation.
 """
 
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -57,7 +57,7 @@ class AnalysisSettings(BaseSettings):
     # ==================== Signal Fusion ====================
     # Legacy — unused by InsightKernel, kept for config file compatibility
 
-    fusion_weights: List[float] = Field(
+    fusion_weights: list[float] = Field(
         default=[0.2, 0.25, 0.2, 0.15, 0.2],
         description="Signal fusion weights [entropy, centrality, churn, coherence, cognitive]",
     )
@@ -66,7 +66,7 @@ class AnalysisSettings(BaseSettings):
 
     # ==================== File Filtering ====================
 
-    exclude_patterns: List[str] = Field(
+    exclude_patterns: list[str] = Field(
         default=[
             "*_test.go",
             "*_test.ts",
@@ -189,7 +189,7 @@ class AnalysisSettings(BaseSettings):
 
     @field_validator("fusion_weights")
     @classmethod
-    def validate_fusion_weights(cls, v: List[float]) -> List[float]:
+    def validate_fusion_weights(cls, v: list[float]) -> list[float]:
         """Validate fusion weights."""
         if len(v) != 5:
             raise ValueError("fusion_weights must have exactly 5 values")

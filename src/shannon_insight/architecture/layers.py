@@ -9,16 +9,15 @@ Infers architectural layers from module dependencies:
 """
 
 from collections import defaultdict, deque
-from typing import Dict, List, Set, Tuple
 
 from ..graph.models import DependencyGraph
 from .models import Layer, Module, Violation, ViolationType
 
 
 def build_module_graph(
-    modules: Dict[str, Module],
+    modules: dict[str, Module],
     file_graph: DependencyGraph,
-) -> Dict[str, Dict[str, int]]:
+) -> dict[str, dict[str, int]]:
     """Build weighted module graph from file-level edges.
 
     Contracts file-level edges to module-level edges.
@@ -32,13 +31,13 @@ def build_module_graph(
         Dict[source_module][target_module] = edge_count
     """
     # Build file -> module lookup
-    file_to_module: Dict[str, str] = {}
+    file_to_module: dict[str, str] = {}
     for mod_path, mod in modules.items():
         for f in mod.files:
             file_to_module[f] = mod_path
 
     # Contract edges
-    module_edges: Dict[str, Dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    module_edges: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
 
     for source_file, targets in file_graph.adjacency.items():
         source_mod = file_to_module.get(source_file)
@@ -54,9 +53,9 @@ def build_module_graph(
 
 
 def infer_layers(
-    modules: Dict[str, Module],
+    modules: dict[str, Module],
     file_graph: DependencyGraph,
-) -> Tuple[List[Layer], List[Violation]]:
+) -> tuple[list[Layer], list[Violation]]:
     """Infer architectural layers from module dependencies.
 
     Uses topological sort on the module graph. Modules with no
@@ -76,20 +75,20 @@ def infer_layers(
     module_graph = build_module_graph(modules, file_graph)
 
     # Build reverse graph for traversal from leaves
-    reverse_graph: Dict[str, Set[str]] = defaultdict(set)
+    reverse_graph: dict[str, set[str]] = defaultdict(set)
     for source, targets in module_graph.items():
         for target in targets:
             reverse_graph[target].add(source)
 
     # Compute out-degree for each module
-    out_degree: Dict[str, int] = {m: 0 for m in modules}
+    out_degree: dict[str, int] = dict.fromkeys(modules, 0)
     for source, targets in module_graph.items():
         out_degree[source] = len(targets)
 
     # BFS from modules with no outgoing edges (foundation modules)
     # Layer 0 = modules that don't import anything
     queue: deque[str] = deque()
-    layer_assignment: Dict[str, int] = {}
+    layer_assignment: dict[str, int] = {}
 
     for mod_path in modules:
         if out_degree.get(mod_path, 0) == 0 or mod_path not in module_graph:
@@ -123,7 +122,7 @@ def infer_layers(
         max_layer = max(max_layer, layer)
 
     # Build Layer objects
-    layers_by_depth: Dict[int, List[str]] = defaultdict(list)
+    layers_by_depth: dict[int, list[str]] = defaultdict(list)
     for mod_path, layer in layer_assignment.items():
         layers_by_depth[layer].append(mod_path)
 
@@ -140,9 +139,9 @@ def infer_layers(
 
 
 def detect_violations(
-    modules: Dict[str, Module],
-    module_graph: Dict[str, Dict[str, int]],
-) -> List[Violation]:
+    modules: dict[str, Module],
+    module_graph: dict[str, dict[str, int]],
+) -> list[Violation]:
     """Detect layer dependency violations.
 
     Violations:
@@ -156,7 +155,7 @@ def detect_violations(
     Returns:
         List of Violation objects
     """
-    violations: List[Violation] = []
+    violations: list[Violation] = []
 
     for source_mod, targets in module_graph.items():
         if source_mod not in modules:
@@ -199,8 +198,8 @@ def detect_violations(
 def _infer_layer_label(
     depth: int,
     max_depth: int,
-    modules: List[str],
-    all_modules: Dict[str, Module],
+    modules: list[str],
+    all_modules: dict[str, Module],
 ) -> str:
     """Infer a human-readable label for a layer.
 

@@ -5,7 +5,7 @@ automatically from each plugin's attributes for backward compatibility.
 """
 
 from dataclasses import dataclass
-from typing import Callable, List
+from typing import Callable
 
 from .base import PrimitivePlugin
 from .plugins.centrality import CentralityPrimitive
@@ -28,7 +28,7 @@ class PrimitiveDefinition:
 
 # ── Plugin instances ───────────────────────────────────────────────
 
-_ALL_PLUGINS: List[PrimitivePlugin] = [
+_ALL_PLUGINS: list[PrimitivePlugin] = [
     CompressionPrimitive(),
     CentralityPrimitive(),
     VolatilityPrimitive(),
@@ -37,7 +37,7 @@ _ALL_PLUGINS: List[PrimitivePlugin] = [
 ]
 
 
-def get_plugins() -> List[PrimitivePlugin]:
+def get_plugins() -> list[PrimitivePlugin]:
     """Return all registered plugin instances."""
     return list(_ALL_PLUGINS)
 
@@ -65,10 +65,10 @@ def _plugin_to_defn(plugin: PrimitivePlugin) -> PrimitiveDefinition:
     )
 
 
-PRIMITIVE_REGISTRY: List[PrimitiveDefinition] = [_plugin_to_defn(p) for p in _ALL_PLUGINS]
+PRIMITIVE_REGISTRY: list[PrimitiveDefinition] = [_plugin_to_defn(p) for p in _ALL_PLUGINS]
 
 
-def get_registry() -> List[PrimitiveDefinition]:
+def get_registry() -> list[PrimitiveDefinition]:
     """Return the current registry (snapshot)."""
     return list(PRIMITIVE_REGISTRY)
 

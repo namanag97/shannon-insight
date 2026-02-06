@@ -1,11 +1,8 @@
 """Tests for Phase 4 module detection."""
 
-import pytest
-
-from shannon_insight.architecture.models import Module
 from shannon_insight.architecture.modules import (
-    determine_module_depth,
     detect_modules,
+    determine_module_depth,
 )
 
 

@@ -2,7 +2,6 @@
 
 from collections import Counter
 from dataclasses import dataclass, field
-from typing import List
 
 
 @dataclass
@@ -12,8 +11,8 @@ class FileMetrics:
     path: str
     lines: int
     tokens: int
-    imports: List[str]
-    exports: List[str]
+    imports: list[str]
+    exports: list[str]
     functions: int
     interfaces: int
     structs: int
@@ -21,4 +20,4 @@ class FileMetrics:
     nesting_depth: int
     ast_node_types: Counter
     last_modified: float
-    function_sizes: List[int] = field(default_factory=list)
+    function_sizes: list[int] = field(default_factory=list)

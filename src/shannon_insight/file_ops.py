@@ -8,7 +8,7 @@ import signal
 from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 from .exceptions import FileAccessError, SecurityError
 from .security import PathValidator, ResourceLimiter
@@ -197,7 +197,7 @@ def safe_write_file(
         raise FileAccessError(filepath, f"Unexpected error: {e}")
 
 
-def should_skip_file(filepath: Path, exclude_patterns: List[str]) -> bool:
+def should_skip_file(filepath: Path, exclude_patterns: list[str]) -> bool:
     """
     Check if a file should be skipped based on exclusion patterns.
 

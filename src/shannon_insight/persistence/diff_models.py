@@ -1,7 +1,7 @@
 """Data models for snapshot diffing — deltas at metric, finding, file, and snapshot level."""
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 from .models import FindingRecord
 
@@ -33,7 +33,7 @@ class FileDelta:
 
     filepath: str
     status: str  # "new" | "removed" | "changed" | "unchanged"
-    metric_deltas: Dict[str, MetricDelta] = field(default_factory=dict)
+    metric_deltas: dict[str, MetricDelta] = field(default_factory=dict)
 
 
 @dataclass
@@ -50,16 +50,16 @@ class SnapshotDiff:
     new_timestamp: str
 
     # Finding-level deltas
-    new_findings: List[FindingRecord] = field(default_factory=list)
-    resolved_findings: List[FindingRecord] = field(default_factory=list)
-    worsened_findings: List[FindingDelta] = field(default_factory=list)
-    improved_findings: List[FindingDelta] = field(default_factory=list)
+    new_findings: list[FindingRecord] = field(default_factory=list)
+    resolved_findings: list[FindingRecord] = field(default_factory=list)
+    worsened_findings: list[FindingDelta] = field(default_factory=list)
+    improved_findings: list[FindingDelta] = field(default_factory=list)
 
     # File-level deltas
-    file_deltas: List[FileDelta] = field(default_factory=list)
+    file_deltas: list[FileDelta] = field(default_factory=list)
 
     # Codebase-level signal deltas
-    codebase_deltas: Dict[str, MetricDelta] = field(default_factory=dict)
+    codebase_deltas: dict[str, MetricDelta] = field(default_factory=dict)
 
     # Detected file renames (old_path, new_path)
-    renames: List[Tuple[str, str]] = field(default_factory=list)
+    renames: list[tuple[str, str]] = field(default_factory=list)

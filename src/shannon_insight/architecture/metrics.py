@@ -10,7 +10,7 @@ Computes per-module metrics:
 """
 
 from collections import Counter
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 from ..graph.models import DependencyGraph
 from .models import Module
@@ -18,9 +18,9 @@ from .models import Module
 
 def compute_coupling(
     module: Module,
-    all_modules: Dict[str, Module],
+    all_modules: dict[str, Module],
     graph: DependencyGraph,
-) -> Tuple[int, int]:
+) -> tuple[int, int]:
     """Compute afferent (Ca) and efferent (Ce) coupling for a module.
 
     Ca = edges FROM other modules TO this module's files
@@ -34,10 +34,10 @@ def compute_coupling(
     Returns:
         Tuple of (Ca, Ce)
     """
-    module_files = set(module.files)
+    set(module.files)
 
     # Build reverse lookup: file -> module
-    file_to_module: Dict[str, str] = {}
+    file_to_module: dict[str, str] = {}
     for mod_path, mod in all_modules.items():
         for f in mod.files:
             file_to_module[f] = mod_path
@@ -132,9 +132,9 @@ def compute_main_seq_distance(
 
 
 def compute_role_consistency(
-    files: List[str],
-    roles: Dict[str, str],
-) -> Tuple[float, str]:
+    files: list[str],
+    roles: dict[str, str],
+) -> tuple[float, str]:
     """Compute role consistency for a module.
 
     Role consistency = max(role_count) / total_files
@@ -166,11 +166,11 @@ def compute_role_consistency(
 
 def compute_module_metrics(
     module: Module,
-    all_modules: Dict[str, Module],
+    all_modules: dict[str, Module],
     graph: DependencyGraph,
-    roles: Dict[str, str],
-    file_class_counts: Optional[Dict[str, int]] = None,
-    file_abstract_counts: Optional[Dict[str, int]] = None,
+    roles: dict[str, str],
+    file_class_counts: Optional[dict[str, int]] = None,
+    file_abstract_counts: Optional[dict[str, int]] = None,
 ) -> None:
     """Compute all Martin metrics for a module (mutates module in place).
 

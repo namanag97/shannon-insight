@@ -1,7 +1,7 @@
 """Analysis-related exceptions: file access, parsing, data issues."""
 
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from .base import ShannonInsightError
 
@@ -40,7 +40,7 @@ class ParsingError(AnalysisError):
 class UnsupportedLanguageError(AnalysisError):
     """Raised when attempting to analyze an unsupported language."""
 
-    def __init__(self, language: str, supported_languages: List[str]):
+    def __init__(self, language: str, supported_languages: list[str]):
         super().__init__(
             f"Unsupported language: {language}",
             details={"language": language, "supported": ", ".join(supported_languages)},
@@ -53,7 +53,7 @@ class InsufficientDataError(AnalysisError):
     """Raised when there's not enough data for analysis."""
 
     def __init__(self, reason: str, minimum_required: Optional[int] = None):
-        details: Dict[str, str] = {"reason": reason}
+        details: dict[str, str] = {"reason": reason}
         if minimum_required is not None:
             details["minimum_required"] = str(minimum_required)
 

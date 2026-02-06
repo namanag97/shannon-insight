@@ -1,7 +1,6 @@
 """BoundaryMismatchFinder — repackages existing boundary analysis."""
 
 from pathlib import PurePosixPath
-from typing import List, Set
 
 from ..models import Evidence, Finding
 from ..store import AnalysisStore
@@ -9,10 +8,10 @@ from ..store import AnalysisStore
 
 class BoundaryMismatchFinder:
     name = "boundary_mismatch"
-    requires: Set[str] = {"structural"}
+    requires: set[str] = {"structural"}
     BASE_SEVERITY = 0.6
 
-    def find(self, store: AnalysisStore) -> List[Finding]:
+    def find(self, store: AnalysisStore) -> list[Finding]:
         if not store.structural:
             return []
 
@@ -43,7 +42,7 @@ class BoundaryMismatchFinder:
             relocations = []
             for f, s in useful_misplaced[:4]:
                 f_name = PurePosixPath(f).name
-                s_name = PurePosixPath(s).name or s
+                PurePosixPath(s).name or s
                 relocations.append(f"  {f_name} is more connected to {s}/")
 
             reloc_text = "\n".join(relocations)

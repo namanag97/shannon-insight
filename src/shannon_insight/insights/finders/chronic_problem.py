@@ -8,7 +8,7 @@ represent accumulated tech debt that teams have been ignoring.
 """
 
 import sqlite3
-from typing import List, Optional
+from typing import Optional
 
 from ..models import Evidence, Finding
 
@@ -43,7 +43,7 @@ class ChronicProblemFinder:
         self.history_conn = history_conn
         self.min_persistence = min_persistence
 
-    def find(self, store) -> List[Finding]:
+    def find(self, store) -> list[Finding]:
         """Run the finder against the current store + history.
 
         Parameters
@@ -66,7 +66,7 @@ class ChronicProblemFinder:
         query = HistoryQuery(self.history_conn)
         chronic = query.persistent_findings(min_snapshots=self.min_persistence)
 
-        findings: List[Finding] = []
+        findings: list[Finding] = []
         for item in chronic:
             # Severity scales with persistence, capped at BASE_SEVERITY.
             severity = self.BASE_SEVERITY * min(1.0, item["count"] / 10)

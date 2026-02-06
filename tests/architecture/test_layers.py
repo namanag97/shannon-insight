@@ -1,7 +1,5 @@
 """Tests for Phase 4 layer inference."""
 
-import pytest
-
 from shannon_insight.architecture.layers import (
     build_module_graph,
     detect_violations,

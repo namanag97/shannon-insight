@@ -7,7 +7,6 @@ Adding a new language:
 
 import re as _re
 from dataclasses import dataclass, field
-from typing import List, Tuple
 
 
 @dataclass(frozen=True)
@@ -15,43 +14,43 @@ class LanguageConfig:
     """Everything the scanner needs to know about a language."""
 
     name: str
-    extensions: List[str]
+    extensions: list[str]
 
     # Comment syntax to strip before token counting.
     # Each tuple is (pattern, flags) passed to re.sub.
-    comment_patterns: List[Tuple[str, int]] = field(default_factory=list)
+    comment_patterns: list[tuple[str, int]] = field(default_factory=list)
 
     # String literal patterns to strip before token counting.
-    string_patterns: List[str] = field(default_factory=list)
+    string_patterns: list[str] = field(default_factory=list)
 
     # Function detection regex(es). Matches are counted.
-    function_patterns: List[str] = field(default_factory=list)
+    function_patterns: list[str] = field(default_factory=list)
 
     # Import detection regex(es). Group 1 is captured as the import name.
-    import_patterns: List[str] = field(default_factory=list)
+    import_patterns: list[str] = field(default_factory=list)
 
     # Export detection regex(es). Group 1 is captured as the export name.
-    export_patterns: List[str] = field(default_factory=list)
+    export_patterns: list[str] = field(default_factory=list)
 
     # Complexity keywords. Each occurrence adds 1.
-    complexity_keywords: List[str] = field(default_factory=list)
+    complexity_keywords: list[str] = field(default_factory=list)
 
     # Complexity operators (not word-boundary). Each occurrence adds 1.
-    complexity_operators: List[str] = field(default_factory=list)
+    complexity_operators: list[str] = field(default_factory=list)
 
     # Nesting mode: "brace" (count {}), "indent" (count indentation),
     # or "both" (take max of brace and indent depth).
     nesting_mode: str = "brace"
 
     # Struct/interface patterns (language-specific, empty = returns 0)
-    struct_patterns: List[str] = field(default_factory=list)
-    interface_patterns: List[str] = field(default_factory=list)
+    struct_patterns: list[str] = field(default_factory=list)
+    interface_patterns: list[str] = field(default_factory=list)
 
     # Extra AST node type patterns: list of (node_name, pattern).
-    extra_ast_patterns: List[Tuple[str, str]] = field(default_factory=list)
+    extra_ast_patterns: list[tuple[str, str]] = field(default_factory=list)
 
     # Skip patterns: directory names and file prefixes to ignore.
-    skip_dirs: Tuple[str, ...] = (
+    skip_dirs: tuple[str, ...] = (
         "vendor",
         "node_modules",
         "venv",
@@ -67,10 +66,10 @@ class LanguageConfig:
         ".eggs",
         "third_party",
     )
-    skip_file_prefixes: Tuple[str, ...] = ("test_",)
-    skip_file_suffixes: Tuple[str, ...] = ()
-    skip_file_names: Tuple[str, ...] = ()
-    skip_path_fragments: Tuple[str, ...] = ()
+    skip_file_prefixes: tuple[str, ...] = ("test_",)
+    skip_file_suffixes: tuple[str, ...] = ()
+    skip_file_names: tuple[str, ...] = ()
+    skip_path_fragments: tuple[str, ...] = ()
 
 
 # ── Re-usable building blocks ──────────────────────────────────────

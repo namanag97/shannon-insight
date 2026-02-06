@@ -2,7 +2,6 @@
 
 import logging
 import subprocess
-from typing import Dict
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +10,7 @@ def detect_renames(
     repo_path: str,
     old_commit: str,
     new_commit: str,
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """Detect file renames between two commits using git.
 
     Runs ``git diff --name-status -M <old> <new>`` and parses lines that
@@ -52,7 +51,7 @@ def detect_renames(
             )
             return {}
 
-        renames: Dict[str, str] = {}
+        renames: dict[str, str] = {}
         for line in result.stdout.splitlines():
             line = line.strip()
             if not line:

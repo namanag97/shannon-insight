@@ -1,7 +1,6 @@
 """Graph theory: PageRank, betweenness centrality, eigenvector centrality."""
 
 import math
-from typing import Dict, List
 
 
 class GraphMetrics:
@@ -9,11 +8,11 @@ class GraphMetrics:
 
     @staticmethod
     def pagerank(
-        adjacency: Dict[str, List[str]],
+        adjacency: dict[str, list[str]],
         damping: float = 0.85,
         iterations: int = 100,
         tolerance: float = 1e-6,
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """
         Compute PageRank using power iteration.
 
@@ -29,7 +28,7 @@ class GraphMetrics:
             Dictionary mapping nodes to PageRank scores
         """
         # Work on a copy to avoid mutating the caller's data structure.
-        adj: Dict[str, List[str]] = {k: list(v) for k, v in adjacency.items()}
+        adj: dict[str, list[str]] = {k: list(v) for k, v in adjacency.items()}
 
         nodes = set(adj.keys())
         for neighbors in adj.values():
@@ -53,7 +52,7 @@ class GraphMetrics:
 
         out_degree = {node: len(neighbors) for node, neighbors in adj.items()}
 
-        reverse: Dict[str, List[str]] = {node: [] for node in nodes}
+        reverse: dict[str, list[str]] = {node: [] for node in nodes}
         for src, neighbors in adj.items():
             for tgt in neighbors:
                 if tgt in reverse:
@@ -86,8 +85,8 @@ class GraphMetrics:
 
     @staticmethod
     def betweenness_centrality(
-        adjacency: Dict[str, List[str]], normalize: bool = True
-    ) -> Dict[str, float]:
+        adjacency: dict[str, list[str]], normalize: bool = True
+    ) -> dict[str, float]:
         """
         Compute betweenness centrality using Brandes' algorithm.
 
@@ -107,8 +106,8 @@ class GraphMetrics:
         betweenness = dict.fromkeys(nodes, 0.0)
 
         for s in nodes:
-            stack: List[str] = []
-            predecessors: Dict[str, List[str]] = {v: [] for v in nodes}
+            stack: list[str] = []
+            predecessors: dict[str, list[str]] = {v: [] for v in nodes}
             sigma = dict.fromkeys(nodes, 0)
             sigma[s] = 1
 
@@ -153,8 +152,8 @@ class GraphMetrics:
 
     @staticmethod
     def eigenvector_centrality(
-        adjacency: Dict[str, List[str]], iterations: int = 100, tolerance: float = 1e-6
-    ) -> Dict[str, float]:
+        adjacency: dict[str, list[str]], iterations: int = 100, tolerance: float = 1e-6
+    ) -> dict[str, float]:
         """
         Compute eigenvector centrality using power iteration.
 

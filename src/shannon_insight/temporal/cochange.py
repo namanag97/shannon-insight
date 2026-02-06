@@ -2,14 +2,13 @@
 
 from collections import defaultdict
 from itertools import combinations
-from typing import Dict, Set, Tuple
 
 from .models import CoChangeMatrix, CoChangePair, GitHistory
 
 
 def build_cochange_matrix(
     history: GitHistory,
-    analyzed_files: Set[str],
+    analyzed_files: set[str],
     min_cochanges: int = 2,
     max_files_per_commit: int = 50,
 ) -> CoChangeMatrix:
@@ -20,8 +19,8 @@ def build_cochange_matrix(
     - Pairs with cochange_count >= min_cochanges (filter noise)
     - Commits that touch <= max_files_per_commit files (filter bulk reformats)
     """
-    file_change_counts: Dict[str, int] = defaultdict(int)
-    pair_counts: Dict[Tuple[str, str], int] = defaultdict(int)
+    file_change_counts: dict[str, int] = defaultdict(int)
+    pair_counts: dict[tuple[str, str], int] = defaultdict(int)
 
     for commit in history.commits:
         # Filter to analyzed files only
@@ -37,7 +36,7 @@ def build_cochange_matrix(
             pair_counts[(a, b)] += 1
 
     # Build CoChangePair objects for pairs above threshold
-    pairs: Dict[Tuple[str, str], CoChangePair] = {}
+    pairs: dict[tuple[str, str], CoChangePair] = {}
     total_commits = history.total_commits
 
     for (a, b), count in pair_counts.items():

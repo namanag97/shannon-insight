@@ -124,7 +124,7 @@ class TestTierDetermination:
             "phi",
         ]
         functions = []
-        for i, word in enumerate(words):
+        for _i, word in enumerate(words):
             functions.append(
                 make_function(
                     name=f"compute_{word}_metric",

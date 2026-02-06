@@ -7,13 +7,13 @@ treemap layout.  Leaf nodes carry ``value`` (for area sizing), a
 """
 
 from bisect import bisect_left
-from typing import Any, Dict
+from typing import Any
 
 
 def build_treemap_data(
-    file_signals: Dict[str, Dict[str, float]],
+    file_signals: dict[str, dict[str, float]],
     color_metric: str = "cognitive_load",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Convert flat file signals into d3-treemap hierarchical JSON.
 
     Structure::
@@ -58,7 +58,7 @@ def build_treemap_data(
     # Pre-compute sorted colour values for percentile calculation.
     color_values = sorted(sigs.get(color_metric, 0.0) for sigs in file_signals.values())
 
-    root: Dict[str, Any] = {"name": "root", "children": []}
+    root: dict[str, Any] = {"name": "root", "children": []}
 
     for filepath, signals in sorted(file_signals.items()):
         parts = filepath.split("/")
@@ -74,7 +74,7 @@ def build_treemap_data(
                 else:
                     percentile = 0.0
 
-                leaf: Dict[str, Any] = {
+                leaf: dict[str, Any] = {
                     "name": part,
                     "path": filepath,
                     "value": max(1, int(signals.get("lines", 1))),

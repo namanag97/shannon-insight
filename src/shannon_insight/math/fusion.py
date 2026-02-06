@@ -1,13 +1,11 @@
 """Evidence fusion: Bayesian combination, Dempster-Shafer theory."""
 
-from typing import Dict, List, Tuple
-
 
 class SignalFusion:
     """Evidence-theoretic signal fusion methods."""
 
     @staticmethod
-    def bayesian_fusion(priors: List[float], likelihoods: List[float]) -> Tuple[float, float]:
+    def bayesian_fusion(priors: list[float], likelihoods: list[float]) -> tuple[float, float]:
         """
         Bayesian evidence combination: P(H|E) = P(E|H) * P(H) / P(E).
 
@@ -59,8 +57,8 @@ class SignalFusion:
 
     @staticmethod
     def dempster_shafer_combination(
-        mass_functions: List[Dict[frozenset, float]],
-    ) -> Dict[frozenset, float]:
+        mass_functions: list[dict[frozenset, float]],
+    ) -> dict[frozenset, float]:
         """
         Combine evidence using Dempster-Shafer theory.
 
@@ -83,7 +81,7 @@ class SignalFusion:
 
         for i in range(1, len(mass_functions)):
             m2 = mass_functions[i]
-            new_combined: Dict[frozenset, float] = {}
+            new_combined: dict[frozenset, float] = {}
             total_conflict = 0.0
 
             for a, ma in combined.items():

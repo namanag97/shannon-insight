@@ -2,7 +2,6 @@
 
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
 
 from ...scanning.models import FileMetrics
 from ..base import PrimitivePlugin
@@ -16,7 +15,7 @@ class VolatilityPrimitive(PrimitivePlugin):
     direction = "high_is_bad"
     default_weight = 0.20
 
-    def compute(self, files: List[FileMetrics], root_dir: Path) -> Dict[str, float]:
+    def compute(self, files: list[FileMetrics], root_dir: Path) -> dict[str, float]:
         now = datetime.now().timestamp()
         ages = [now - f.last_modified for f in files]
         if not ages:

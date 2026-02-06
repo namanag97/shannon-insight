@@ -2,7 +2,6 @@
 
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Set
 
 from ...scanning.models import FileMetrics
 from ..base import PrimitivePlugin
@@ -135,12 +134,12 @@ class CentralityPrimitive(PrimitivePlugin):
         }
     )
 
-    def compute(self, files: List[FileMetrics], root_dir: Path) -> Dict[str, float]:
+    def compute(self, files: list[FileMetrics], root_dir: Path) -> dict[str, float]:
         graph = self._build_graph(files)
         return self._pagerank(files, graph)
 
-    def _build_graph(self, files: List[FileMetrics]) -> Dict[str, Set[str]]:
-        graph: Dict[str, Set[str]] = defaultdict(set)
+    def _build_graph(self, files: list[FileMetrics]) -> dict[str, set[str]]:
+        graph: dict[str, set[str]] = defaultdict(set)
         file_by_name = {Path(f.path).stem: f.path for f in files}
         for file in files:
             for imp in file.imports:
@@ -152,10 +151,10 @@ class CentralityPrimitive(PrimitivePlugin):
         return dict(graph)
 
     @staticmethod
-    def _pagerank(files: List[FileMetrics], graph: Dict[str, Set[str]]) -> Dict[str, float]:
+    def _pagerank(files: list[FileMetrics], graph: dict[str, set[str]]) -> dict[str, float]:
         scores = {f.path: 1.0 for f in files}
         damping, iterations = 0.85, 20
-        incoming: Dict[str, Set[str]] = defaultdict(set)
+        incoming: dict[str, set[str]] = defaultdict(set)
         for src, targets in graph.items():
             for tgt in targets:
                 incoming[tgt].add(src)

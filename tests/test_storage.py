@@ -17,16 +17,16 @@ from shannon_insight.persistence.writer import save_snapshot
 
 
 def _make_snapshot(**kwargs):
-    defaults = dict(
-        tool_version="0.6.0",
-        timestamp="2025-01-01T12:00:00Z",
-        analyzed_path="/tmp/test",
-        file_count=5,
-        module_count=2,
-        commits_analyzed=10,
-        analyzers_ran=["structural"],
-        config_hash="abcdef1234567890",
-    )
+    defaults = {
+        "tool_version": "0.6.0",
+        "timestamp": "2025-01-01T12:00:00Z",
+        "analyzed_path": "/tmp/test",
+        "file_count": 5,
+        "module_count": 2,
+        "commits_analyzed": 10,
+        "analyzers_ran": ["structural"],
+        "config_hash": "abcdef1234567890",
+    }
     defaults.update(kwargs)
     return Snapshot(**defaults)
 

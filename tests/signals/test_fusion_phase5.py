@@ -10,7 +10,6 @@ Tests for:
 7. Backward compat: Primitives.from_file_signals()
 """
 
-
 from shannon_insight.insights.store_v2 import AnalysisStore
 from shannon_insight.signals.composites import compute_composites
 from shannon_insight.signals.display import to_display_scale

@@ -1,9 +1,7 @@
 """Orphan file that nothing imports - for testing ORPHAN_CODE detection."""
 
-from typing import List
 
-
-def unused_helper(items: List[str]) -> List[str]:
+def unused_helper(items: list[str]) -> list[str]:
     """A helper function that no one calls."""
     return [item.strip() for item in items]
 

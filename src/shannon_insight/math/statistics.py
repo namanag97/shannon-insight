@@ -2,7 +2,7 @@
 
 import math
 import statistics as stdlib_stats
-from typing import List, Optional, Tuple
+from typing import Optional
 
 import numpy as np
 
@@ -11,21 +11,21 @@ class Statistics:
     """Statistical analysis methods."""
 
     @staticmethod
-    def mean(values: List[float]) -> float:
+    def mean(values: list[float]) -> float:
         """Compute arithmetic mean."""
         if not values:
             return 0.0
         return stdlib_stats.mean(values)
 
     @staticmethod
-    def stdev(values: List[float]) -> float:
+    def stdev(values: list[float]) -> float:
         """Compute sample standard deviation."""
         if len(values) < 2:
             return 0.0
         return stdlib_stats.stdev(values)
 
     @staticmethod
-    def z_scores(values: List[float]) -> List[float]:
+    def z_scores(values: list[float]) -> list[float]:
         """
         Compute z-scores: z = (x - mu) / sigma.
 
@@ -77,7 +77,7 @@ class Statistics:
         return float(distance)
 
     @staticmethod
-    def grubbs_test(values: List[float], alpha: float = 0.05) -> Optional[Tuple[int, float]]:
+    def grubbs_test(values: list[float], alpha: float = 0.05) -> Optional[tuple[int, float]]:
         """
         Grubbs' test for detecting a single outlier.
 
@@ -122,7 +122,7 @@ class Statistics:
         return float(sp_stats.t.ppf(1 - alpha, df))
 
     @staticmethod
-    def confidence_interval(values: List[float], confidence: float = 0.95) -> Tuple[float, float]:
+    def confidence_interval(values: list[float], confidence: float = 0.95) -> tuple[float, float]:
         """
         Confidence interval for the mean.
 

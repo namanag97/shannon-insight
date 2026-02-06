@@ -1,7 +1,5 @@
 """TemporalAnalyzer — orchestrates git extraction, co-change, and churn."""
 
-from typing import Set
-
 from ...logging_config import get_logger
 from ...temporal import GitExtractor, build_churn_series, build_cochange_matrix
 from ..store import AnalysisStore
@@ -14,8 +12,8 @@ _MIN_COMMITS = 10
 
 class TemporalAnalyzer:
     name = "temporal"
-    requires: Set[str] = {"files"}
-    provides: Set[str] = {"temporal"}
+    requires: set[str] = {"files"}
+    provides: set[str] = {"temporal"}
 
     def __init__(self, max_commits: int = 5000, min_commits: int = _MIN_COMMITS):
         self.max_commits = max_commits

@@ -1,7 +1,6 @@
 """Graph algorithms: centrality, SCC, blast radius, community detection."""
 
 from collections import defaultdict, deque
-from typing import Dict, List, Set, Tuple
 
 from ..math.gini import Gini
 from ..math.graph import GraphMetrics
@@ -42,25 +41,25 @@ def run_graph_algorithms(graph: DependencyGraph) -> GraphAnalysis:
     return analysis
 
 
-def tarjan_scc(adjacency: Dict[str, List[str]], all_nodes: Set[str]) -> List[Set[str]]:
+def tarjan_scc(adjacency: dict[str, list[str]], all_nodes: set[str]) -> list[set[str]]:
     """Tarjan's algorithm for strongly connected components (iterative).
 
     Uses an explicit call stack to avoid Python recursion limits on deep
     dependency chains.
     """
     counter = 0
-    scc_stack: List[str] = []
-    on_stack: Set[str] = set()
-    index: Dict[str, int] = {}
-    lowlink: Dict[str, int] = {}
-    result: List[Set[str]] = []
+    scc_stack: list[str] = []
+    on_stack: set[str] = set()
+    index: dict[str, int] = {}
+    lowlink: dict[str, int] = {}
+    result: list[set[str]] = []
 
     for root in all_nodes:
         if root in index:
             continue
 
         # Explicit call stack: each frame is (node, neighbor_iterator, caller)
-        call_stack: List[tuple] = []
+        call_stack: list[tuple] = []
         # "Enter" root
         index[root] = lowlink[root] = counter
         counter += 1
@@ -95,7 +94,7 @@ def tarjan_scc(adjacency: Dict[str, List[str]], all_nodes: Set[str]) -> List[Set
 
                 # If v is an SCC root, pop the component
                 if lowlink[v] == index[v]:
-                    component: Set[str] = set()
+                    component: set[str] = set()
                     while True:
                         w = scc_stack.pop()
                         on_stack.discard(w)
@@ -107,16 +106,16 @@ def tarjan_scc(adjacency: Dict[str, List[str]], all_nodes: Set[str]) -> List[Set
     return result
 
 
-def compute_blast_radius(reverse_adj: Dict[str, List[str]]) -> Dict[str, Set[str]]:
+def compute_blast_radius(reverse_adj: dict[str, list[str]]) -> dict[str, set[str]]:
     """Compute blast radius: for each file, what files are transitively affected.
 
     Uses BFS on the reverse graph. If A imports B, then changing B
     affects A. So we follow reverse edges from each node.
     """
-    blast: Dict[str, Set[str]] = {}
+    blast: dict[str, set[str]] = {}
 
     for start_node in reverse_adj:
-        visited: Set[str] = set()
+        visited: set[str] = set()
         queue: deque[str] = deque(reverse_adj.get(start_node, []))
         while queue:
             node = queue.popleft()
@@ -130,9 +129,9 @@ def compute_blast_radius(reverse_adj: Dict[str, List[str]]) -> Dict[str, Set[str
 
 
 def louvain(
-    adjacency: Dict[str, List[str]],
-    all_nodes: Set[str],
-) -> Tuple[List[Community], Dict[str, int], float]:
+    adjacency: dict[str, list[str]],
+    all_nodes: set[str],
+) -> tuple[list[Community], dict[str, int], float]:
     """Louvain community detection.
 
     Maximizes modularity Q = (1/2m) * sum[(A_ij - k_i*k_j/2m) * delta(c_i, c_j)]
@@ -146,8 +145,8 @@ def louvain(
         return [], {}, 0.0
 
     # Build undirected weighted adjacency for modularity computation
-    edge_weights: Dict[Tuple[str, str], float] = {}
-    degree: Dict[str, float] = defaultdict(float)
+    edge_weights: dict[tuple[str, str], float] = {}
+    degree: dict[str, float] = defaultdict(float)
 
     for src, targets in adjacency.items():
         for tgt in targets:
@@ -167,14 +166,14 @@ def louvain(
     two_m = 2.0 * m
 
     # Initialize: each node in its own community
-    node_comm: Dict[str, int] = {n: i for i, n in enumerate(nodes)}
-    comm_members: Dict[int, Set[str]] = {i: {n} for i, n in enumerate(nodes)}
+    node_comm: dict[str, int] = {n: i for i, n in enumerate(nodes)}
+    comm_members: dict[int, set[str]] = {i: {n} for i, n in enumerate(nodes)}
 
     # Precompute: sum of degrees per community
-    sigma_tot: Dict[int, float] = {i: degree.get(n, 0) for i, n in enumerate(nodes)}
+    sigma_tot: dict[int, float] = {i: degree.get(n, 0) for i, n in enumerate(nodes)}
 
     # Neighbor edges per node
-    neighbors: Dict[str, Dict[str, float]] = defaultdict(lambda: defaultdict(float))
+    neighbors: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
     for (a, b), w in edge_weights.items():
         neighbors[a][b] += w
         neighbors[b][a] += w
@@ -187,7 +186,7 @@ def louvain(
             ki = degree.get(node, 0)
 
             # Weights from node to each neighboring community
-            comm_edge_weights: Dict[int, float] = defaultdict(float)
+            comm_edge_weights: dict[int, float] = defaultdict(float)
             for neighbor, w in neighbors[node].items():
                 comm_edge_weights[node_comm[neighbor]] += w
 
@@ -243,9 +242,9 @@ def louvain(
 
 
 def compute_modularity(
-    edge_weights: Dict[Tuple[str, str], float],
-    degree: Dict[str, float],
-    node_comm: Dict[str, int],
+    edge_weights: dict[tuple[str, str], float],
+    degree: dict[str, float],
+    node_comm: dict[str, int],
     m: float,
 ) -> float:
     """Compute modularity Q = (1/2m) * sum[(A_ij - ki*kj/2m) * delta(ci,cj)]."""
@@ -263,9 +262,9 @@ def compute_modularity(
 
 
 def compute_dag_depth(
-    adjacency: Dict[str, List[str]],
-    entry_points: Set[str],
-) -> Dict[str, int]:
+    adjacency: dict[str, list[str]],
+    entry_points: set[str],
+) -> dict[str, int]:
     """BFS from entry points on the forward (import) graph.
 
     Entry point fallback chain (if entry_points is empty):
@@ -285,12 +284,12 @@ def compute_dag_depth(
         Dict mapping file path to depth (-1 if unreachable)
     """
     # Collect all nodes
-    all_nodes: Set[str] = set(adjacency.keys())
+    all_nodes: set[str] = set(adjacency.keys())
     for targets in adjacency.values():
         all_nodes.update(targets)
 
     # Initialize all to -1 (unreachable)
-    depth: Dict[str, int] = {node: -1 for node in all_nodes}
+    depth: dict[str, int] = dict.fromkeys(all_nodes, -1)
 
     if not entry_points:
         return depth
@@ -313,9 +312,9 @@ def compute_dag_depth(
 
 
 def compute_orphans(
-    in_degree: Dict[str, int],
-    roles: Dict[str, str],
-) -> Dict[str, bool]:
+    in_degree: dict[str, int],
+    roles: dict[str, str],
+) -> dict[str, bool]:
     """Detect orphan files: in_degree=0 AND role not in {ENTRY_POINT, TEST}.
 
     Orphan files are never imported but aren't entry points or tests.
@@ -335,7 +334,7 @@ def compute_orphans(
     }
 
 
-def compute_centrality_gini(pagerank: Dict[str, float]) -> float:
+def compute_centrality_gini(pagerank: dict[str, float]) -> float:
     """Compute Gini coefficient of pagerank distribution.
 
     Measures inequality in centrality:

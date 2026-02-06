@@ -272,6 +272,64 @@ class FusionPipeline:
         # Glue deficit placeholder (requires more complex analysis)
         g.glue_deficit = 0.0
 
+        # Clone ratio from Phase 3 clone detection
+        if self.store.clone_pairs.available:
+            files_in_clones = set()
+            for pair in self.store.clone_pairs.value:
+                files_in_clones.add(pair.file_a)
+                files_in_clones.add(pair.file_b)
+            total_files = len(self.field.per_file)
+            g.clone_ratio = len(files_in_clones) / total_files if total_files > 0 else 0.0
+
+        # Violation rate from Phase 4 architecture
+        if self.store.architecture.available:
+            arch = self.store.architecture.value
+            g.violation_rate = arch.violation_rate
+
+        # Conway alignment from Phase 3 author distances
+        if self.store.author_distances.available and self.store.architecture.available:
+            author_dists = self.store.author_distances.value
+            arch = self.store.architecture.value
+
+            # Get structurally-coupled module pairs (modules with imports between them)
+            module_graph = arch.module_graph if hasattr(arch, "module_graph") else {}
+
+            if author_dists and module_graph:
+                # Map files to modules
+                file_to_module = {}
+                for mod_path, mod in arch.modules.items():
+                    for fpath in mod.files:
+                        file_to_module[fpath] = mod_path
+
+                # Find module pairs with structural coupling AND author distances
+                module_pair_distances = []
+                for ad in author_dists:
+                    mod_a = file_to_module.get(ad.file_a)
+                    mod_b = file_to_module.get(ad.file_b)
+                    if mod_a and mod_b and mod_a != mod_b:
+                        # Check if these modules have structural coupling
+                        if mod_b in module_graph.get(mod_a, {}) or mod_a in module_graph.get(
+                            mod_b, {}
+                        ):
+                            module_pair_distances.append(ad.distance)
+
+                # Conway alignment = 1 - mean(author_distance)
+                if module_pair_distances:
+                    mean_distance = sum(module_pair_distances) / len(module_pair_distances)
+                    g.conway_alignment = max(0.0, 1.0 - mean_distance)
+                else:
+                    # No structurally-coupled pairs with different teams
+                    g.conway_alignment = 1.0
+            else:
+                # Solo project or no data
+                g.conway_alignment = 1.0
+
+        # Team size from Phase 3 git history
+        if self.store.git_history.available:
+            git_hist = self.store.git_history.value
+            distinct_authors = {commit.author for commit in git_hist.commits}
+            g.team_size = len(distinct_authors) if distinct_authors else 1
+
 
 class _Collected:
     """State after step1_collect. Can only proceed to step2_raw_risk."""
@@ -348,7 +406,7 @@ class _Normalized:
                     commit_module_files = [f for f in commit.files if f in module_files]
                     if commit_module_files:
                         costs.append(1)  # Each commit = 1 author touching module
-                ms.coordination_cost = len(set(c.author for c in module_commits)) / max(
+                ms.coordination_cost = len({c.author for c in module_commits}) / max(
                     len(module_commits), 1
                 )
 

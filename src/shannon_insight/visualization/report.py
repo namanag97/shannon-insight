@@ -7,7 +7,7 @@ can be opened from any local file:// path or served statically.
 
 import json
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from ..persistence.models import Snapshot
 from .treemap import build_treemap_data
@@ -16,7 +16,7 @@ from .treemap import build_treemap_data
 def generate_report(
     snapshot: Snapshot,
     diff=None,
-    trends: Optional[Dict[str, list]] = None,
+    trends: Optional[dict[str, list]] = None,
     output_path: str = "shannon-report.html",
     default_metric: str = "cognitive_load",
 ) -> str:
@@ -65,7 +65,7 @@ def generate_report(
     ]
 
     # ── Trend data ─────────────────────────────────────────────────
-    trend_data: Dict[str, List[Dict]] = {}
+    trend_data: dict[str, list[dict]] = {}
     if trends:
         for fp, points in trends.items():
             trend_data[fp] = [{"timestamp": p.timestamp, "value": p.value} for p in points]

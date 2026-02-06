@@ -1,7 +1,5 @@
 """UnstableFileFinder — never-stabilizing churn."""
 
-from typing import List, Set
-
 from ..models import Evidence, Finding
 from ..ranking import compute_percentiles
 from ..store import AnalysisStore
@@ -11,10 +9,10 @@ _MIN_FILES = 5
 
 class UnstableFileFinder:
     name = "unstable_file"
-    requires: Set[str] = {"temporal"}
+    requires: set[str] = {"temporal"}
     BASE_SEVERITY = 0.7
 
-    def find(self, store: AnalysisStore) -> List[Finding]:
+    def find(self, store: AnalysisStore) -> list[Finding]:
         if not store.churn:
             return []
         if len(store.churn) < _MIN_FILES:

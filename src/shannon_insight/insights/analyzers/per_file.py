@@ -1,7 +1,5 @@
 """PerFileAnalyzer — wraps existing primitive plugins."""
 
-from typing import Set
-
 from ...logging_config import get_logger
 from ...signals.extractor import PrimitiveExtractor
 from ..store import AnalysisStore
@@ -11,8 +9,8 @@ logger = get_logger(__name__)
 
 class PerFileAnalyzer:
     name = "per_file"
-    requires: Set[str] = {"files"}
-    provides: Set[str] = {"file_signals"}
+    requires: set[str] = {"files"}
+    provides: set[str] = {"file_signals"}
 
     def analyze(self, store: AnalysisStore) -> None:
         if not store.file_metrics:

@@ -2,7 +2,6 @@
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Dict, List
 
 from ..scanning.models import FileMetrics
 
@@ -16,7 +15,7 @@ class PrimitivePlugin(ABC):
     default_weight: float
 
     @abstractmethod
-    def compute(self, files: List[FileMetrics], root_dir: Path) -> Dict[str, float]: ...
+    def compute(self, files: list[FileMetrics], root_dir: Path) -> dict[str, float]: ...
 
     @abstractmethod
     def interpret(self, value: float) -> str: ...

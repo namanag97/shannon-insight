@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional, Tuple
 
 from ..config import AnalysisSettings, default_settings
 from ..logging_config import get_logger
@@ -24,7 +23,7 @@ class InsightKernel:
         self,
         root_dir: str,
         language: str = "auto",
-        settings: Optional[AnalysisSettings] = None,
+        settings: AnalysisSettings | None = None,
     ):
         self.root_dir = str(Path(root_dir).resolve())
         self.language = language
@@ -33,7 +32,7 @@ class InsightKernel:
         self._wave2_analyzers = get_wave2_analyzers()
         self._finders = get_default_finders()
 
-    def run(self, max_findings: int = 10) -> Tuple[InsightResult, Snapshot]:
+    def run(self, max_findings: int = 10) -> tuple[InsightResult, Snapshot]:
         """Execute the full insight pipeline and capture a snapshot.
 
         Returns

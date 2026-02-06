@@ -1,10 +1,9 @@
 """Percentile computation and severity ranking utilities."""
 
 from bisect import bisect_left
-from typing import Dict
 
 
-def compute_percentiles(values: Dict[str, float]) -> Dict[str, float]:
+def compute_percentiles(values: dict[str, float]) -> dict[str, float]:
     """Given {file: value}, return {file: percentile 0-100}.
 
     Uses bisect for efficient rank lookup. Ties get the same percentile
@@ -18,7 +17,7 @@ def compute_percentiles(values: Dict[str, float]) -> Dict[str, float]:
     if n == 0:
         return {}
 
-    rank_map: Dict[str, float] = {}
+    rank_map: dict[str, float] = {}
     for path, val in values.items():
         rank = bisect_left(sorted_vals, val)
         rank_map[path] = (rank / n) * 100

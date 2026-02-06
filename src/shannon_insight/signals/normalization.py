@@ -12,7 +12,7 @@ Uses <= (not <) to avoid off-by-one errors.
 from __future__ import annotations
 
 from bisect import bisect_right
-from typing import TYPE_CHECKING, Dict, List
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from shannon_insight.signals.models import SignalField
@@ -52,7 +52,7 @@ NORMALIZABLE_SIGNALS = [
 # Absolute floors for percentile effectiveness
 # If raw value is below floor, percentile is forced to 0.0
 # This prevents 450 files with pagerank=0.001 from showing as "90th percentile"
-ABSOLUTE_FLOORS: Dict[str, float] = {
+ABSOLUTE_FLOORS: dict[str, float] = {
     "pagerank": 0.005,
     "blast_radius_size": 5.0,
     "cognitive_load": 10.0,
@@ -94,9 +94,9 @@ def normalize(field: SignalField) -> None:
             fs.percentiles[signal_name] = pctl
 
 
-def _collect_signal_values(field: SignalField) -> Dict[str, List[float]]:
+def _collect_signal_values(field: SignalField) -> dict[str, list[float]]:
     """Collect all numeric signal values across files."""
-    signal_values: Dict[str, List[float]] = {}
+    signal_values: dict[str, list[float]] = {}
 
     for fs in field.per_file.values():
         for signal_name in NORMALIZABLE_SIGNALS:
@@ -113,7 +113,7 @@ def _collect_signal_values(field: SignalField) -> Dict[str, List[float]]:
     return signal_values
 
 
-def _standard_percentile(value: float, sorted_values: List[float]) -> float:
+def _standard_percentile(value: float, sorted_values: list[float]) -> float:
     """Compute percentile using <= formula.
 
     pctl(x) = |{v : v <= x}| / |values|

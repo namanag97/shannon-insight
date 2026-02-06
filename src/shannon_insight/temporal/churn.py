@@ -1,16 +1,15 @@
 """Build per-file churn time series from git history."""
 
 from collections import defaultdict
-from typing import Dict, List, Set
 
 from .models import ChurnSeries, GitHistory
 
 
 def build_churn_series(
     history: GitHistory,
-    analyzed_files: Set[str],
+    analyzed_files: set[str],
     window_weeks: int = 4,
-) -> Dict[str, ChurnSeries]:
+) -> dict[str, ChurnSeries]:
     """Build per-file churn time series with trajectory classification.
 
     Trajectory classification via linear regression slope + coefficient of variation:
@@ -34,7 +33,7 @@ def build_churn_series(
     num_windows = max(1, (max_ts - min_ts) // window_secs + 1)
 
     # Count changes per file per window
-    file_windows: Dict[str, List[int]] = defaultdict(lambda: [0] * num_windows)
+    file_windows: dict[str, list[int]] = defaultdict(lambda: [0] * num_windows)
 
     for commit in history.commits:
         window_idx = min((commit.timestamp - min_ts) // window_secs, num_windows - 1)
@@ -43,7 +42,7 @@ def build_churn_series(
                 file_windows[f][window_idx] += 1
 
     # Build ChurnSeries for each file
-    results: Dict[str, ChurnSeries] = {}
+    results: dict[str, ChurnSeries] = {}
 
     for file_path, counts in file_windows.items():
         total = sum(counts)
@@ -61,7 +60,7 @@ def build_churn_series(
     return results
 
 
-def _linear_slope(values: List[int]) -> float:
+def _linear_slope(values: list[int]) -> float:
     """Simple linear regression slope."""
     n = len(values)
     if n < 2:
@@ -78,7 +77,7 @@ def _linear_slope(values: List[int]) -> float:
     return numerator / denominator
 
 
-def _classify_trajectory(counts: List[int], total: int, slope: float) -> str:
+def _classify_trajectory(counts: list[int], total: int, slope: float) -> str:
     """Classify churn trajectory."""
     if total <= 1:
         return "dormant"

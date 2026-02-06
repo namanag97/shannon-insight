@@ -18,14 +18,14 @@ Using raw values avoids circularity of computing Laplacian on percentile-uniform
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from shannon_insight.graph.models import DependencyGraph
     from shannon_insight.signals.models import FileSignals, SignalField
 
 
-def compute_health_laplacian(field: SignalField, graph: DependencyGraph) -> Dict[str, float]:
+def compute_health_laplacian(field: SignalField, graph: DependencyGraph) -> dict[str, float]:
     """Compute delta_h for all files.
 
     delta_h(f) = raw_risk(f) - mean(raw_risk(neighbors))
@@ -37,7 +37,7 @@ def compute_health_laplacian(field: SignalField, graph: DependencyGraph) -> Dict
     Returns:
         Dict mapping file path to delta_h value
     """
-    delta_h: Dict[str, float] = {}
+    delta_h: dict[str, float] = {}
 
     for path, fs in field.per_file.items():
         # Get neighbors: files that import this file OR that this file imports

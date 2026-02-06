@@ -9,12 +9,12 @@ Detects module boundaries from directory structure. The algorithm:
 
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from .models import Module
 
 
-def determine_module_depth(file_paths: List[str], target_size: tuple[int, int] = (3, 15)) -> int:
+def determine_module_depth(file_paths: list[str], target_size: tuple[int, int] = (3, 15)) -> int:
     """Determine the optimal module depth based on file distribution.
 
     Finds the depth level where directories have an ideal number of files
@@ -37,7 +37,7 @@ def determine_module_depth(file_paths: List[str], target_size: tuple[int, int] =
 
     # Count files per directory at each depth
     # depth_stats[depth][dir_path] = file count in that directory subtree at that depth
-    depth_stats: Dict[int, Counter] = defaultdict(Counter)
+    depth_stats: dict[int, Counter] = defaultdict(Counter)
     max_depth = 0
 
     for path in file_paths:
@@ -88,11 +88,11 @@ def determine_module_depth(file_paths: List[str], target_size: tuple[int, int] =
 
 
 def detect_modules(
-    file_paths: List[str],
+    file_paths: list[str],
     root_dir: str = "",
     module_depth: Optional[int] = None,
-    communities: Optional[Dict[str, int]] = None,
-) -> Dict[str, Module]:
+    communities: Optional[dict[str, int]] = None,
+) -> dict[str, Module]:
     """Detect modules from file paths.
 
     Args:
@@ -112,7 +112,7 @@ def detect_modules(
         module_depth = determine_module_depth(file_paths)
 
     # Group files by module
-    module_files: Dict[str, List[str]] = defaultdict(list)
+    module_files: dict[str, list[str]] = defaultdict(list)
 
     for file_path in file_paths:
         parts = Path(file_path).parts[:-1]  # Directory parts
@@ -130,7 +130,7 @@ def detect_modules(
         module_files[module_path].append(file_path)
 
     # Create Module objects
-    modules: Dict[str, Module] = {}
+    modules: dict[str, Module] = {}
     for mod_path, files in module_files.items():
         # Skip empty modules (only __init__.py or no real source files)
         real_files = [f for f in files if not f.endswith("__init__.py")]
@@ -151,9 +151,9 @@ def detect_modules(
 
 
 def _create_community_modules(
-    file_paths: List[str],
-    communities: Dict[str, int],
-) -> Dict[str, Module]:
+    file_paths: list[str],
+    communities: dict[str, int],
+) -> dict[str, Module]:
     """Create synthetic modules from Louvain communities for flat projects.
 
     Args:
@@ -163,13 +163,13 @@ def _create_community_modules(
     Returns:
         Dict mapping community-based module name to Module
     """
-    community_files: Dict[int, List[str]] = defaultdict(list)
+    community_files: dict[int, list[str]] = defaultdict(list)
 
     for file_path in file_paths:
         comm_id = communities.get(file_path, 0)
         community_files[comm_id].append(file_path)
 
-    modules: Dict[str, Module] = {}
+    modules: dict[str, Module] = {}
     for comm_id, files in community_files.items():
         mod_path = f"community_{comm_id}"
         modules[mod_path] = Module(

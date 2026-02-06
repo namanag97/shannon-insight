@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 from ..config import AnalysisSettings, default_settings
 from ..exceptions import FileAccessError, ParsingError
@@ -17,7 +17,7 @@ class BaseScanner(ABC):
     """Abstract base class for language-specific scanners"""
 
     def __init__(
-        self, root_dir: str, extensions: List[str], settings: Optional[AnalysisSettings] = None
+        self, root_dir: str, extensions: list[str], settings: Optional[AnalysisSettings] = None
     ):
         """
         Initialize scanner.
@@ -32,7 +32,7 @@ class BaseScanner(ABC):
         self.settings = settings or default_settings
         logger.debug(f"Initialized {self.__class__.__name__} for {self.root_dir}")
 
-    def scan(self) -> List[FileMetrics]:
+    def scan(self) -> list[FileMetrics]:
         """
         Scan all source files and extract metrics.
 
@@ -140,7 +140,7 @@ class BaseScanner(ABC):
         pass
 
     @abstractmethod
-    def _extract_imports(self, content: str) -> List[str]:
+    def _extract_imports(self, content: str) -> list[str]:
         """
         Extract import statements.
 
@@ -153,7 +153,7 @@ class BaseScanner(ABC):
         pass
 
     @abstractmethod
-    def _extract_exports(self, content: str) -> List[str]:
+    def _extract_exports(self, content: str) -> list[str]:
         """
         Extract exported identifiers.
 

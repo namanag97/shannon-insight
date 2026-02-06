@@ -2,7 +2,7 @@
 
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from ..math.compression import Compression
 from ..math.gini import Gini
@@ -26,10 +26,10 @@ from .models import (
 class AnalysisEngine:
     """Executes the full analysis DAG on a set of parsed files."""
 
-    def __init__(self, file_metrics: List[FileMetrics], root_dir: str = ""):
+    def __init__(self, file_metrics: list[FileMetrics], root_dir: str = ""):
         self.file_metrics = file_metrics
         self.root_dir = root_dir
-        self._file_map: Dict[str, FileMetrics] = {f.path: f for f in file_metrics}
+        self._file_map: dict[str, FileMetrics] = {f.path: f for f in file_metrics}
 
     def run(self) -> CodebaseAnalysis:
         """Run the full analysis DAG and return structured results."""
@@ -82,8 +82,8 @@ class AnalysisEngine:
 
     # ── Phase 4a: Per-file Measurements ────────────────────────────
 
-    def _measure_files(self, graph, ga: GraphAnalysis) -> Dict[str, FileAnalysis]:
-        results: Dict[str, FileAnalysis] = {}
+    def _measure_files(self, graph, ga: GraphAnalysis) -> dict[str, FileAnalysis]:
+        results: dict[str, FileAnalysis] = {}
 
         for fm in self.file_metrics:
             fa = FileAnalysis(path=fm.path, lines=fm.lines)
@@ -153,15 +153,15 @@ class AnalysisEngine:
 
     # ── Phase 4b: Per-module Measurements ──────────────────────────
 
-    def _measure_modules(self, graph, ga: GraphAnalysis) -> Dict[str, ModuleAnalysis]:
+    def _measure_modules(self, graph, ga: GraphAnalysis) -> dict[str, ModuleAnalysis]:
         """Compute per-module (directory) metrics: cohesion, coupling."""
         # Group files by parent directory
-        module_files: Dict[str, List[str]] = defaultdict(list)
+        module_files: dict[str, list[str]] = defaultdict(list)
         for fm in self.file_metrics:
             module_path = str(Path(fm.path).parent)
             module_files[module_path].append(fm.path)
 
-        results: Dict[str, ModuleAnalysis] = {}
+        results: dict[str, ModuleAnalysis] = {}
 
         for mod_path, files in module_files.items():
             file_set = set(files)
@@ -191,7 +191,7 @@ class AnalysisEngine:
 
             # Community alignment
             community_ids = set()
-            comm_counts: Dict[int, int] = defaultdict(int)
+            comm_counts: dict[int, int] = defaultdict(int)
             for f in files:
                 cid = ga.node_community.get(f, -1)
                 community_ids.add(cid)
@@ -212,16 +212,16 @@ class AnalysisEngine:
 
     def _analyze_boundaries(
         self,
-        modules: Dict[str, ModuleAnalysis],
+        modules: dict[str, ModuleAnalysis],
         ga: GraphAnalysis,
-    ) -> List[BoundaryMismatch]:
+    ) -> list[BoundaryMismatch]:
         """Find modules where declared boundaries don't match communities."""
-        mismatches: List[BoundaryMismatch] = []
+        mismatches: list[BoundaryMismatch] = []
 
         for mod_path, ma in modules.items():
             if ma.boundary_alignment < 0.7 and ma.file_count > 2:
                 # This module spans multiple communities
-                comm_dist: Dict[int, int] = defaultdict(int)
+                comm_dist: dict[int, int] = defaultdict(int)
                 for f in ma.files:
                     cid = ga.node_community.get(f, -1)
                     comm_dist[cid] += 1
@@ -253,7 +253,7 @@ class AnalysisEngine:
         self,
         file_path: str,
         community_id: int,
-        modules: Dict[str, ModuleAnalysis],
+        modules: dict[str, ModuleAnalysis],
         ga: GraphAnalysis,
     ) -> str:
         """Suggest which module a misplaced file should belong to."""
@@ -271,9 +271,9 @@ class AnalysisEngine:
 
     # ── Phase 5: Statistical Outlier Detection ─────────────────────
 
-    def _detect_outliers(self, files: Dict[str, FileAnalysis]) -> Dict[str, List[str]]:
+    def _detect_outliers(self, files: dict[str, FileAnalysis]) -> dict[str, list[str]]:
         """Detect statistical outliers using MAD (robust to heavy-tailed distributions)."""
-        outliers: Dict[str, List[str]] = defaultdict(list)
+        outliers: dict[str, list[str]] = defaultdict(list)
 
         if len(files) < 5:
             return dict(outliers)
@@ -291,7 +291,7 @@ class AnalysisEngine:
             "blast_radius_size": ("large blast radius", lambda f: float(f.blast_radius_size)),
         }
 
-        for metric_name, (description, extractor) in metrics.items():
+        for _metric_name, (description, extractor) in metrics.items():
             values = [(path, extractor(fa)) for path, fa in files.items()]
             vals_only = [v for _, v in values]
 
@@ -321,7 +321,7 @@ class AnalysisEngine:
         return dict(outliers)
 
     @staticmethod
-    def _median(values: List[float]) -> float:
+    def _median(values: list[float]) -> float:
         if not values:
             return 0.0
         sorted_v = sorted(values)
@@ -331,7 +331,7 @@ class AnalysisEngine:
         return sorted_v[n // 2]
 
     @staticmethod
-    def _mad(values: List[float]) -> float:
+    def _mad(values: list[float]) -> float:
         """Median Absolute Deviation."""
         if not values:
             return 0.0

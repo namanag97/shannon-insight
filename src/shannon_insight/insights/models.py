@@ -1,7 +1,7 @@
 """Data models for the insight engine."""
 
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Optional
 
 
 @dataclass
@@ -17,8 +17,8 @@ class Finding:
     finding_type: str  # "high_risk_hub", "hidden_coupling", etc.
     severity: float  # 0.0 to 1.0
     title: str  # "analysis/engine.py is a high-risk hub"
-    files: List[str]  # involved files
-    evidence: List[Evidence]
+    files: list[str]  # involved files
+    evidence: list[Evidence]
     suggestion: str  # "Consider splitting this file..."
 
 
@@ -29,10 +29,10 @@ class StoreSummary:
     commits_analyzed: int = 0
     git_available: bool = False
     fiedler_value: Optional[float] = None
-    signals_available: List[str] = field(default_factory=list)
+    signals_available: list[str] = field(default_factory=list)
 
 
 @dataclass
 class InsightResult:
-    findings: List[Finding]
+    findings: list[Finding]
     store_summary: StoreSummary

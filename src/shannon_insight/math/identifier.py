@@ -9,7 +9,6 @@ import math
 import re
 from collections import Counter
 from itertools import groupby
-from typing import Dict, List
 
 
 class IdentifierAnalyzer:
@@ -149,7 +148,7 @@ class IdentifierAnalyzer:
     )
 
     @staticmethod
-    def extract_identifier_tokens(content: str) -> List[str]:
+    def extract_identifier_tokens(content: str) -> list[str]:
         """Extract and split all identifiers into semantic tokens.
 
         Splits camelCase and snake_case into component words.
@@ -172,7 +171,7 @@ class IdentifierAnalyzer:
         # Extract identifier-like tokens (words that look like identifiers)
         raw_identifiers = re.findall(r"[a-zA-Z_]\w{2,}", content)
 
-        tokens: List[str] = []
+        tokens: list[str] = []
         stop = IdentifierAnalyzer.STOP_WORDS
 
         for ident in raw_identifiers:
@@ -191,9 +190,9 @@ class IdentifierAnalyzer:
 
     @staticmethod
     def detect_semantic_clusters(
-        tokens: List[str],
+        tokens: list[str],
         min_cluster_size: int = 3,
-    ) -> List[Dict]:
+    ) -> list[dict]:
         """Detect semantic responsibility clusters by prefix grouping.
 
         A simple heuristic that groups tokens sharing a common 3-character
@@ -222,7 +221,7 @@ class IdentifierAnalyzer:
                 }
             ]
 
-        clusters: List[Dict] = []
+        clusters: list[dict] = []
         for _prefix, group in groupby(unique_tokens, key=lambda x: x[:3]):
             group_list = list(group)
             total_count = sum(token_counts[t] for t in group_list)
@@ -238,7 +237,7 @@ class IdentifierAnalyzer:
         return clusters
 
     @staticmethod
-    def compute_coherence(tokens: List[str]) -> float:
+    def compute_coherence(tokens: list[str]) -> float:
         """Compute coherence score using cluster entropy.
 
         Fewer, larger clusters = high coherence (single responsibility).

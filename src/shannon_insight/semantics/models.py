@@ -11,7 +11,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 
 class Role(Enum):
@@ -75,7 +74,7 @@ class Completeness:
     """
 
     todo_density: float = 0.0
-    docstring_coverage: Optional[float] = None
+    docstring_coverage: float | None = None
     todo_count: int = 0
     documented_count: int = 0
     total_documentable: int = 0
@@ -113,7 +112,7 @@ class FileSemantics:
         return self.completeness.todo_density
 
     @property
-    def docstring_coverage(self) -> Optional[float]:
+    def docstring_coverage(self) -> float | None:
         """Shortcut to completeness.docstring_coverage."""
         return self.completeness.docstring_coverage
 

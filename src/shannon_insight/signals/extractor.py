@@ -5,7 +5,7 @@ method that returns ``Dict[str, float]``. Results are merged automatically.
 """
 
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from ..cache import AnalysisCache
 from ..logging_config import get_logger
@@ -21,7 +21,7 @@ class PrimitiveExtractor:
 
     def __init__(
         self,
-        files: List[FileMetrics],
+        files: list[FileMetrics],
         cache: Optional[AnalysisCache] = None,
         config_hash: str = "",
         root_dir: Optional[str] = None,
@@ -33,20 +33,20 @@ class PrimitiveExtractor:
         self.root_dir = Path(root_dir) if root_dir else None
         logger.debug(f"Initialized PrimitiveExtractor for {len(files)} files")
 
-    def extract_all(self) -> Dict[str, Primitives]:
+    def extract_all(self) -> dict[str, Primitives]:
         """Extract all registered primitives for each file."""
         raw = self.extract_all_dict()
-        results: Dict[str, Primitives] = {}
+        results: dict[str, Primitives] = {}
         for path, vals in raw.items():
             results[path] = Primitives.from_dict(vals)
         return results
 
-    def extract_all_dict(self) -> Dict[str, PrimitiveValues]:
+    def extract_all_dict(self) -> dict[str, PrimitiveValues]:
         """Extract all registered primitives as Dict[str, Dict[str, float]]."""
         plugins = get_plugins()
         root = self.root_dir or Path(".")
 
-        per_primitive: Dict[str, Dict[str, float]] = {}
+        per_primitive: dict[str, dict[str, float]] = {}
         for plugin in plugins:
             try:
                 per_primitive[plugin.name] = plugin.compute(self.files, root)
@@ -55,7 +55,7 @@ class PrimitiveExtractor:
                 per_primitive[plugin.name] = {f.path: 0.0 for f in self.files}
 
         # Pivot: file -> {prim_name: value}
-        result: Dict[str, PrimitiveValues] = {}
+        result: dict[str, PrimitiveValues] = {}
         for file in self.files:
             vals: PrimitiveValues = {}
             for plugin in plugins:

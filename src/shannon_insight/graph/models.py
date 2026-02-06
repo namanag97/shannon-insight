@@ -9,7 +9,7 @@ Ontology levels:
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Optional
 
 # ── Level 2: Relationships (the dependency graph) ──────────────────
 
@@ -21,13 +21,13 @@ class DependencyGraph:
     Edges are directed: adjacency[A] contains B means A imports/depends on B.
     """
 
-    adjacency: Dict[str, List[str]] = field(default_factory=dict)
-    reverse: Dict[str, List[str]] = field(default_factory=dict)
-    all_nodes: Set[str] = field(default_factory=set)
+    adjacency: dict[str, list[str]] = field(default_factory=dict)
+    reverse: dict[str, list[str]] = field(default_factory=dict)
+    all_nodes: set[str] = field(default_factory=set)
     edge_count: int = 0
 
     # Phase 3: track unresolved imports for phantom_import_count signal
-    unresolved_imports: Dict[str, List[str]] = field(default_factory=dict)
+    unresolved_imports: dict[str, list[str]] = field(default_factory=dict)
 
 
 # ── Level 4: Derived structures ────────────────────────────────────
@@ -37,7 +37,7 @@ class DependencyGraph:
 class CycleGroup:
     """A strongly connected component with more than one node (a real cycle)."""
 
-    nodes: Set[str]
+    nodes: set[str]
     internal_edge_count: int = 0
 
 
@@ -46,7 +46,7 @@ class Community:
     """A group of files discovered by modularity optimization."""
 
     id: int
-    members: Set[str]
+    members: set[str]
 
 
 @dataclass
@@ -54,27 +54,27 @@ class GraphAnalysis:
     """All derived structures from graph algorithms."""
 
     # Per-node measurements (Level 5 on Level 4 structures)
-    pagerank: Dict[str, float] = field(default_factory=dict)
-    betweenness: Dict[str, float] = field(default_factory=dict)
-    in_degree: Dict[str, int] = field(default_factory=dict)
-    out_degree: Dict[str, int] = field(default_factory=dict)
+    pagerank: dict[str, float] = field(default_factory=dict)
+    betweenness: dict[str, float] = field(default_factory=dict)
+    in_degree: dict[str, int] = field(default_factory=dict)
+    out_degree: dict[str, int] = field(default_factory=dict)
 
     # Blast radius: file -> set of files transitively affected
-    blast_radius: Dict[str, Set[str]] = field(default_factory=dict)
+    blast_radius: dict[str, set[str]] = field(default_factory=dict)
 
     # Cycle groups (only SCCs with > 1 node)
-    cycles: List[CycleGroup] = field(default_factory=list)
+    cycles: list[CycleGroup] = field(default_factory=list)
 
     # Community detection
-    communities: List[Community] = field(default_factory=list)
-    node_community: Dict[str, int] = field(default_factory=dict)
+    communities: list[Community] = field(default_factory=list)
+    node_community: dict[str, int] = field(default_factory=dict)
     modularity_score: float = 0.0
 
     # Phase 3 additions:
-    depth: Dict[str, int] = field(
+    depth: dict[str, int] = field(
         default_factory=dict
     )  # BFS depth from entry points, -1 = unreachable
-    is_orphan: Dict[str, bool] = field(default_factory=dict)  # in_degree=0 AND not entry_point/test
+    is_orphan: dict[str, bool] = field(default_factory=dict)  # in_degree=0 AND not entry_point/test
     centrality_gini: float = 0.0  # Gini coefficient of pagerank distribution
     spectral_gap: float = 0.0  # λ₂/λ₃ (moved from SpectralSummary)
 
@@ -87,7 +87,7 @@ class ModuleAnalysis:
     """Per-module (directory) analysis."""
 
     path: str
-    files: List[str] = field(default_factory=list)
+    files: list[str] = field(default_factory=list)
     file_count: int = 0
 
     # Coupling/cohesion (ratio scale)
@@ -100,7 +100,7 @@ class ModuleAnalysis:
     # What communities do this module's files belong to?
     # If all files in one community -> well-aligned boundary
     # If spread across many -> misaligned boundary
-    community_ids: Set[int] = field(default_factory=set)
+    community_ids: set[int] = field(default_factory=set)
     boundary_alignment: float = 0.0  # 1.0 = all in same community
 
     # Phase 4 additions: Martin metrics
@@ -140,8 +140,8 @@ class FileAnalysis:
     community_id: int = -1
 
     # Direct dependencies
-    depends_on: List[str] = field(default_factory=list)
-    depended_on_by: List[str] = field(default_factory=list)
+    depends_on: list[str] = field(default_factory=list)
+    depended_on_by: list[str] = field(default_factory=list)
 
     # Phase 3 additions:
     depth: int = -1  # BFS depth from entry points, -1 = unreachable
@@ -157,10 +157,10 @@ class BoundaryMismatch:
     """When declared module boundaries don't match discovered communities."""
 
     module_path: str
-    declared_files: Set[str] = field(default_factory=set)
-    community_distribution: Dict[int, int] = field(default_factory=dict)
+    declared_files: set[str] = field(default_factory=set)
+    community_distribution: dict[int, int] = field(default_factory=dict)
     # Files in this module that are more connected to another module
-    misplaced_files: List[Tuple[str, str]] = field(default_factory=list)  # (file, suggested_module)
+    misplaced_files: list[tuple[str, str]] = field(default_factory=list)  # (file, suggested_module)
 
 
 # ── Phase 3: Clone detection and author distance ──────────────────
@@ -194,15 +194,15 @@ class CodebaseAnalysis:
     """Complete multi-level analysis result. Queryable, not scored."""
 
     # Per-entity results
-    files: Dict[str, FileAnalysis] = field(default_factory=dict)
-    modules: Dict[str, ModuleAnalysis] = field(default_factory=dict)
+    files: dict[str, FileAnalysis] = field(default_factory=dict)
+    modules: dict[str, ModuleAnalysis] = field(default_factory=dict)
 
     # Graph and derived structures
     graph: DependencyGraph = field(default_factory=DependencyGraph)
     graph_analysis: GraphAnalysis = field(default_factory=GraphAnalysis)
 
     # Boundary analysis
-    boundary_mismatches: List[BoundaryMismatch] = field(default_factory=list)
+    boundary_mismatches: list[BoundaryMismatch] = field(default_factory=list)
 
     # Codebase-level summary
     total_files: int = 0
@@ -212,4 +212,4 @@ class CodebaseAnalysis:
     modularity: float = 0.0
 
     # Statistical outliers (file -> list of reasons)
-    outliers: Dict[str, List[str]] = field(default_factory=dict)
+    outliers: dict[str, list[str]] = field(default_factory=dict)

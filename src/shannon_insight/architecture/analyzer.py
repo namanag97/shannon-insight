@@ -7,13 +7,11 @@ Orchestrates:
 4. Violation detection
 """
 
-from typing import Set
-
 from ..graph.models import CodebaseAnalysis
 from ..logging_config import get_logger
 from .layers import infer_layers
 from .metrics import compute_module_metrics
-from .models import Architecture, Module
+from .models import Architecture
 from .modules import detect_modules
 
 logger = get_logger(__name__)
@@ -23,8 +21,8 @@ class ArchitectureAnalyzer:
     """Analyzer protocol implementation for architecture detection."""
 
     name = "architecture"
-    requires: Set[str] = {"structural"}
-    provides: Set[str] = {"architecture"}
+    requires: set[str] = {"structural"}
+    provides: set[str] = {"architecture"}
 
     def analyze(self, store) -> None:
         """Run architecture analysis and populate store.architecture.

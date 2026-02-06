@@ -2,7 +2,7 @@
 
 import subprocess
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 from .. import __version__
 from ..cache import compute_config_hash
@@ -13,7 +13,7 @@ from .identity import compute_identity_key
 from .models import EvidenceRecord, FindingRecord, Snapshot
 
 # Trajectory string -> numeric encoding
-_TRAJECTORY_MAP: Dict[str, float] = {
+_TRAJECTORY_MAP: dict[str, float] = {
     "dormant": 0.0,
     "stabilizing": 1.0,
     "churning": 2.0,
@@ -71,9 +71,9 @@ def capture_snapshot(
 # ── Private helpers ──────────────────────────────────────────────────
 
 
-def _collect_file_signals(store: AnalysisStore) -> Dict[str, Dict[str, float]]:
+def _collect_file_signals(store: AnalysisStore) -> dict[str, dict[str, float]]:
     """Merge per-file signals from store.file_signals and store.structural.files."""
-    merged: Dict[str, Dict[str, float]] = {}
+    merged: dict[str, dict[str, float]] = {}
 
     # Source 1: store.file_signals (cognitive_load, semantic_coherence, etc.)
     if store.file_signals:
@@ -109,9 +109,9 @@ def _collect_file_signals(store: AnalysisStore) -> Dict[str, Dict[str, float]]:
     return merged
 
 
-def _collect_codebase_signals(store: AnalysisStore) -> Dict[str, float]:
+def _collect_codebase_signals(store: AnalysisStore) -> dict[str, float]:
     """Extract codebase-level scalar signals."""
-    signals: Dict[str, float] = {}
+    signals: dict[str, float] = {}
 
     if store.spectral:
         signals["fiedler_value"] = store.spectral.fiedler_value
@@ -126,9 +126,9 @@ def _collect_codebase_signals(store: AnalysisStore) -> Dict[str, float]:
     return signals
 
 
-def _convert_findings(result: InsightResult) -> List[FindingRecord]:
+def _convert_findings(result: InsightResult) -> list[FindingRecord]:
     """Convert Finding objects to FindingRecord with stable identity keys."""
-    records: List[FindingRecord] = []
+    records: list[FindingRecord] = []
     for f in result.findings:
         identity_key = compute_identity_key(f.finding_type, f.files)
         evidence = [
@@ -156,9 +156,9 @@ def _convert_findings(result: InsightResult) -> List[FindingRecord]:
 
 def _collect_dependency_edges(
     store: AnalysisStore,
-) -> List[Tuple[str, str]]:
+) -> list[tuple[str, str]]:
     """Flatten the adjacency dict into a list of (src, dst) tuples."""
-    edges: List[Tuple[str, str]] = []
+    edges: list[tuple[str, str]] = []
     if store.structural and store.structural.graph:
         for src, dsts in store.structural.graph.adjacency.items():
             for dst in dsts:
@@ -188,9 +188,9 @@ def _compute_config_hash(settings: AnalysisSettings) -> str:
     return compute_config_hash(config_dict)
 
 
-def _determine_analyzers_ran(store: AnalysisStore) -> List[str]:
+def _determine_analyzers_ran(store: AnalysisStore) -> list[str]:
     """Determine which analyzer categories actually ran from the store."""
-    ran: List[str] = []
+    ran: list[str] = []
     if "structural" in store.available:
         ran.append("structural")
     if "file_signals" in store.available:

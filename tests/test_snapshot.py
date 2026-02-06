@@ -9,15 +9,15 @@ from shannon_insight.persistence.models import FindingRecord, Snapshot
 
 
 def _make_finding_record(**kwargs):
-    defaults = dict(
-        finding_type="high_risk_hub",
-        identity_key="abc123",
-        severity=0.85,
-        title="test finding",
-        files=["a.py"],
-        evidence=[],
-        suggestion="fix it",
-    )
+    defaults = {
+        "finding_type": "high_risk_hub",
+        "identity_key": "abc123",
+        "severity": 0.85,
+        "title": "test finding",
+        "files": ["a.py"],
+        "evidence": [],
+        "suggestion": "fix it",
+    }
     defaults.update(kwargs)
     return FindingRecord(**defaults)
 

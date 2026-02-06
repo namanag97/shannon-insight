@@ -1,7 +1,5 @@
 """Finder implementations — read the AnalysisStore and produce Findings."""
 
-from typing import List
-
 from .boundary_mismatch import BoundaryMismatchFinder
 from .dead_dependency import DeadDependencyFinder
 from .god_file import GodFileFinder
@@ -10,7 +8,7 @@ from .high_risk_hub import HighRiskHubFinder
 from .unstable_file import UnstableFileFinder
 
 
-def get_default_finders() -> List:
+def get_default_finders() -> list:
     """Return all default finders."""
     return [
         HighRiskHubFinder(),

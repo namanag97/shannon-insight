@@ -14,7 +14,6 @@ This keeps the representation sparse.
 """
 
 from collections import defaultdict
-from typing import Dict, List, Set
 
 from ..temporal.models import GitHistory
 from .models import AuthorDistance
@@ -22,8 +21,8 @@ from .models import AuthorDistance
 
 def compute_author_distances(
     git_history: GitHistory,
-    analyzed_files: Set[str],
-) -> List[AuthorDistance]:
+    analyzed_files: set[str],
+) -> list[AuthorDistance]:
     """Compute weighted Jaccard distance between author distributions.
 
     Only computes for file pairs that share at least one author (sparse).
@@ -41,8 +40,8 @@ def compute_author_distances(
 
     # Step 1: Build per-file author commit counts
     # file_author_counts[file][author] = number of commits by author on file
-    file_author_counts: Dict[str, Dict[str, int]] = defaultdict(lambda: defaultdict(int))
-    all_authors: Set[str] = set()
+    file_author_counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    all_authors: set[str] = set()
 
     for commit in git_history.commits:
         all_authors.add(commit.author)
@@ -56,23 +55,23 @@ def compute_author_distances(
 
     # Step 2: Convert counts to normalized weights (distributions)
     # author_weights[file][author] = commits_by_author / total_commits_on_file
-    author_weights: Dict[str, Dict[str, float]] = {}
+    author_weights: dict[str, dict[str, float]] = {}
     for file_path, counts in file_author_counts.items():
         total = sum(counts.values())
         if total > 0:
             author_weights[file_path] = {author: count / total for author, count in counts.items()}
 
     # Step 3: Build author -> files index for sparse computation
-    author_files: Dict[str, Set[str]] = defaultdict(set)
+    author_files: dict[str, set[str]] = defaultdict(set)
     for file_path, weights in author_weights.items():
         for author in weights:
             author_files[author].add(file_path)
 
     # Step 4: Compute distances for pairs sharing at least one author
-    computed_pairs: Set[tuple[str, str]] = set()
-    distances: List[AuthorDistance] = []
+    computed_pairs: set[tuple[str, str]] = set()
+    distances: list[AuthorDistance] = []
 
-    for author, files in author_files.items():
+    for _author, files in author_files.items():
         files_list = sorted(files)  # Sort for determinism
         for i, file_a in enumerate(files_list):
             for file_b in files_list[i + 1 :]:

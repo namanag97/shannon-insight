@@ -332,34 +332,19 @@ def _get_mean_stub_ratio(field: SignalField) -> float:
 def _get_clone_ratio(field: SignalField) -> float:
     """Get clone ratio (files in NCD clone pairs / total files).
 
-    This should be pre-computed and stored. For now return 0.0 as placeholder.
+    Pre-computed in fusion from Phase 3 clone detection.
     """
-    # Clone detection is done in graph enrichment phase
-    # The value should be passed through architecture or signal_field
-    # For now, return 0.0 as it requires integration with clone_pairs
-    return 0.0
+    return field.global_signals.clone_ratio
 
 
 def _get_violation_rate(field: SignalField) -> float:
     """Get layer violation rate from architecture.
 
     violation_rate = violating_cross_module_edges / total_cross_module_edges
+
+    Pre-computed in fusion from Phase 4 architecture.
     """
-    # This should come from architecture analysis
-    # Sum layer_violation_count across modules / total cross-module edges
-    if not field.per_module:
-        return 0.0
-
-    total_violations = sum(ms.layer_violation_count for ms in field.per_module.values())
-    # Estimate total edges from coupling
-    # For now, use a placeholder calculation
-    if total_violations == 0:
-        return 0.0
-
-    # Approximate: if any violations exist, estimate rate
-    # Better: get from Architecture.violation_rate in store
-    total_cross = max(total_violations * 2, 1)  # Rough estimate
-    return min(total_violations / total_cross, 1.0)
+    return field.global_signals.violation_rate
 
 
 def _get_min_bus_factor_critical(field: SignalField) -> float:
@@ -386,22 +371,17 @@ def _get_conway_alignment(field: SignalField) -> float:
 
     Author distance measures team overlap between modules.
     If not available (solo project), return 1.0 (no team risk).
+
+    Pre-computed in fusion from Phase 3 author distances.
     """
-    # This requires author_distances from graph enrichment
-    # For now, return 1.0 as placeholder
-    return 1.0
+    return field.global_signals.conway_alignment
 
 
 def _get_team_size(field: SignalField) -> int:
     """Get team size (distinct authors in recent window).
 
     Should come from git_history. Default to 1 for solo projects.
-    """
-    # Count distinct authors from author_entropy
-    # For now, estimate from bus_factors
-    # If max bus_factor is high, team is likely larger
-    if not field.per_file:
-        return 1
 
-    max_bf = max(fs.bus_factor for fs in field.per_file.values())
-    return max(1, int(max_bf * 1.5))  # Rough estimate
+    Pre-computed in fusion from Phase 3 git history.
+    """
+    return field.global_signals.team_size

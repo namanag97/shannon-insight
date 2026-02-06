@@ -3,7 +3,7 @@
 import difflib
 import json as json_mod
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 import typer
 
@@ -13,7 +13,7 @@ from . import app
 from ._common import console, resolve_settings
 
 # Signal name translation: internal -> developer-friendly
-SIGNAL_LABELS: Dict[str, tuple] = {
+SIGNAL_LABELS: dict[str, tuple] = {
     "cognitive_load": ("Complexity", "higher means harder to understand"),
     "semantic_coherence": ("Focus", "higher means more single-purpose"),
     "pagerank": ("Importance", "how many files depend on this"),
@@ -65,7 +65,7 @@ def _interpret_percentile(percentile: float) -> str:
         return "Low"
 
 
-def _load_trends(target: Path, filepath: str) -> Optional[Dict[str, List]]:
+def _load_trends(target: Path, filepath: str) -> Optional[dict[str, list]]:
     """Load trend data from history for a file, if available."""
     try:
         from ..persistence import HistoryDB
@@ -150,8 +150,8 @@ def explain(
 
 
 def _compute_percentiles(
-    filepath: str, all_signals: Dict[str, Dict[str, float]]
-) -> Dict[str, float]:
+    filepath: str, all_signals: dict[str, dict[str, float]]
+) -> dict[str, float]:
     """Compute percentile rank for a file on each metric."""
     from bisect import bisect_left
 
@@ -160,7 +160,7 @@ def _compute_percentiles(
         return {}
 
     # For each metric, build sorted values
-    result: Dict[str, float] = {}
+    result: dict[str, float] = {}
     for metric, value in file_sigs.items():
         vals = sorted(v for sigs in all_signals.values() if (v := sigs.get(metric)) is not None)
         if vals:

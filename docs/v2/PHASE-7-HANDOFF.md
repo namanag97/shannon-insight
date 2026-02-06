@@ -18,7 +18,7 @@
 ### Key Files to Know
 ```
 src/shannon_insight/insights/
-├── finders/
+├── finders/staar
 │   ├── __init__.py          # get_default_finders() returns 20 finders
 │   ├── orphan_code.py       # Batch 1: Structural
 │   ├── hollow_code.py

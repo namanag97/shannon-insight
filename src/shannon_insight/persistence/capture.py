@@ -1,16 +1,21 @@
-"""Capture an analysis snapshot from the AnalysisStore and InsightResult."""
+"""Capture an analysis snapshot from the AnalysisStore and InsightResult.
+
+V2 captures the full SignalField with FileSignals, ModuleSignals, GlobalSignals,
+plus architecture data (modules, layers, violations) and health Laplacian delta_h.
+"""
 
 import subprocess
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Any, Optional
 
 from .. import __version__
 from ..cache import compute_config_hash
 from ..config import AnalysisSettings
 from ..insights.models import InsightResult
 from ..insights.store import AnalysisStore
+from ..signals.models import FileSignals, GlobalSignals, ModuleSignals
 from .identity import compute_identity_key
-from .models import EvidenceRecord, FindingRecord, Snapshot
+from .models import EvidenceRecord, FindingRecord, Snapshot, TensorSnapshot
 
 # Trajectory string -> numeric encoding
 _TRAJECTORY_MAP: dict[str, float] = {
@@ -26,7 +31,9 @@ def capture_snapshot(
     result: InsightResult,
     settings: AnalysisSettings,
 ) -> Snapshot:
-    """Build an immutable Snapshot from the analysis store and result.
+    """Build an immutable V1 Snapshot from the analysis store and result.
+
+    DEPRECATED: Use capture_tensor_snapshot() for new code.
 
     Parameters
     ----------
@@ -68,7 +75,257 @@ def capture_snapshot(
     )
 
 
+def capture_tensor_snapshot(
+    store: AnalysisStore,
+    result: InsightResult,
+    settings: AnalysisSettings,
+) -> TensorSnapshot:
+    """Build an immutable V2 TensorSnapshot from the analysis store and result.
+
+    Captures the full SignalField with:
+    - Per-file signals (FileSignals) including percentiles
+    - Per-module signals (ModuleSignals)
+    - Global signals (GlobalSignals)
+    - Architecture data (modules, layers, violations)
+    - Health Laplacian delta_h
+
+    Parameters
+    ----------
+    store:
+        The populated ``AnalysisStore`` blackboard.
+    result:
+        The ``InsightResult`` returned by the kernel.
+    settings:
+        The ``AnalysisSettings`` used for this run.
+
+    Returns
+    -------
+    TensorSnapshot
+        A complete V2 snapshot with full signal data.
+    """
+    commit_sha = _get_commit_sha(store.root_dir)
+    config_hash = _compute_config_hash(settings)
+    analyzers_ran = _determine_analyzers_ran(store)
+    dependency_edges = _collect_dependency_edges(store)
+
+    # Serialize SignalField if available
+    file_signals: dict[str, dict[str, Any]] = {}
+    module_signals: dict[str, dict[str, Any]] = {}
+    global_signals: dict[str, Any] = {}
+    delta_h: dict[str, float] = {}
+
+    if hasattr(store, "signal_field") and store.signal_field is not None:
+        sf = store.signal_field
+        # Per-file signals
+        for path, fs in sf.per_file.items():
+            file_signals[path] = _serialize_file_signals(fs)
+        # Per-module signals
+        for path, ms in sf.per_module.items():
+            module_signals[path] = _serialize_module_signals(ms)
+        # Global signals
+        global_signals = _serialize_global_signals(sf.global_signals)
+        # delta_h (health Laplacian)
+        delta_h = dict(sf.delta_h)
+    else:
+        # Fallback to v1 collection if SignalField not available
+        file_signals = _collect_file_signals(store)
+        global_signals = _collect_codebase_signals(store)
+
+    # Serialize architecture if available
+    modules: list[str] = []
+    layers: list[dict[str, Any]] = []
+    violations: list[dict[str, Any]] = []
+
+    if hasattr(store, "architecture") and store.architecture is not None:
+        arch = store.architecture
+        modules = list(arch.modules.keys()) if hasattr(arch, "modules") else []
+        if hasattr(arch, "layers"):
+            layers = [{"depth": l.depth, "modules": l.modules} for l in arch.layers]
+        if hasattr(arch, "violations"):
+            violations = [
+                {
+                    "src": v.source_module,
+                    "tgt": v.target_module,
+                    "type": v.violation_type.value
+                    if hasattr(v.violation_type, "value")
+                    else str(v.violation_type),
+                }
+                for v in arch.violations
+            ]
+
+    # Convert findings with v2 fields
+    findings = _convert_findings_v2(result)
+
+    return TensorSnapshot(
+        schema_version=2,
+        tool_version=__version__,
+        commit_sha=commit_sha,
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        analyzed_path=store.root_dir,
+        file_count=result.store_summary.total_files,
+        module_count=result.store_summary.total_modules,
+        commits_analyzed=result.store_summary.commits_analyzed,
+        analyzers_ran=analyzers_ran,
+        config_hash=config_hash,
+        file_signals=file_signals,
+        module_signals=module_signals,
+        global_signals=global_signals,
+        findings=findings,
+        dependency_edges=dependency_edges,
+        modules=modules,
+        layers=layers,
+        violations=violations,
+        delta_h=delta_h,
+    )
+
+
 # ── Private helpers ──────────────────────────────────────────────────
+
+
+def _serialize_file_signals(fs: FileSignals) -> dict[str, Any]:
+    """Serialize FileSignals to a dict for snapshot storage.
+
+    Includes all scalar fields plus the percentiles dict.
+    """
+    result: dict[str, Any] = {}
+
+    # Scalar fields (skip 'path' and 'percentiles')
+    for field_name in [
+        "lines",
+        "function_count",
+        "class_count",
+        "max_nesting",
+        "impl_gini",
+        "stub_ratio",
+        "import_count",
+        "role",
+        "concept_count",
+        "concept_entropy",
+        "naming_drift",
+        "todo_density",
+        "docstring_coverage",
+        "pagerank",
+        "betweenness",
+        "in_degree",
+        "out_degree",
+        "blast_radius_size",
+        "depth",
+        "is_orphan",
+        "phantom_import_count",
+        "broken_call_count",
+        "community",
+        "compression_ratio",
+        "semantic_coherence",
+        "cognitive_load",
+        "total_changes",
+        "churn_trajectory",
+        "churn_slope",
+        "churn_cv",
+        "bus_factor",
+        "author_entropy",
+        "fix_ratio",
+        "refactor_ratio",
+        "raw_risk",
+        "risk_score",
+        "wiring_quality",
+    ]:
+        val = getattr(fs, field_name, None)
+        if val is not None:
+            result[field_name] = val
+
+    # Include percentiles as nested dict
+    if fs.percentiles:
+        result["percentiles"] = dict(fs.percentiles)
+
+    return result
+
+
+def _serialize_module_signals(ms: ModuleSignals) -> dict[str, Any]:
+    """Serialize ModuleSignals to a dict for snapshot storage."""
+    result: dict[str, Any] = {}
+
+    for field_name in [
+        "cohesion",
+        "coupling",
+        "instability",
+        "abstractness",
+        "main_seq_distance",
+        "boundary_alignment",
+        "layer_violation_count",
+        "role_consistency",
+        "velocity",
+        "coordination_cost",
+        "knowledge_gini",
+        "module_bus_factor",
+        "mean_cognitive_load",
+        "file_count",
+        "health_score",
+    ]:
+        val = getattr(ms, field_name, None)
+        if val is not None:
+            result[field_name] = val
+
+    return result
+
+
+def _serialize_global_signals(gs: GlobalSignals) -> dict[str, Any]:
+    """Serialize GlobalSignals to a dict for snapshot storage."""
+    result: dict[str, Any] = {}
+
+    for field_name in [
+        "modularity",
+        "fiedler_value",
+        "spectral_gap",
+        "cycle_count",
+        "centrality_gini",
+        "orphan_ratio",
+        "phantom_ratio",
+        "glue_deficit",
+        "clone_ratio",
+        "violation_rate",
+        "conway_alignment",
+        "team_size",
+        "wiring_score",
+        "architecture_health",
+        "team_risk",
+        "codebase_health",
+    ]:
+        val = getattr(gs, field_name, None)
+        if val is not None:
+            result[field_name] = val
+
+    return result
+
+
+def _convert_findings_v2(result: InsightResult) -> list[FindingRecord]:
+    """Convert Finding objects to FindingRecord with v2 fields (confidence, effort, scope)."""
+    records: list[FindingRecord] = []
+    for f in result.findings:
+        identity_key = compute_identity_key(f.finding_type, f.files)
+        evidence = [
+            EvidenceRecord(
+                signal=e.signal,
+                value=e.value,
+                percentile=e.percentile,
+                description=e.description,
+            )
+            for e in f.evidence
+        ]
+        records.append(
+            FindingRecord(
+                finding_type=f.finding_type,
+                identity_key=identity_key,
+                severity=f.severity,
+                title=f.title,
+                files=list(f.files),
+                evidence=evidence,
+                suggestion=f.suggestion,
+                confidence=getattr(f, "confidence", 1.0),
+                effort=getattr(f, "effort", "MEDIUM"),
+                scope=getattr(f, "scope", "FILE"),
+            )
+        )
+    return records
 
 
 def _collect_file_signals(store: AnalysisStore) -> dict[str, dict[str, float]]:

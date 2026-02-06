@@ -5,17 +5,32 @@ The algorithm works in three passes:
   2. File-level: union of file paths, compute per-metric deltas.
   3. Codebase-level: diff each codebase signal.
 
+V2 adds:
+  - TensorSnapshot diffing with SignalDelta and trend detection
+  - Finding lifecycle tracking (new/persisting/resolved/regression)
+  - debt_velocity calculation
+
 Rename-aware: an optional rename map transforms old paths before comparison
 so that renamed files are matched correctly rather than appearing as
 remove+add pairs.
 """
 
-from typing import Optional
+from typing import Any, Optional
 
-from .diff_models import FileDelta, FindingDelta, MetricDelta, SnapshotDiff
-from .models import FindingRecord, Snapshot
+from .diff_models import (
+    FileDelta,
+    FindingDelta,
+    MetricDelta,
+    SignalDelta,
+    SnapshotDiff,
+    TensorSnapshotDiff,
+)
+from .models import FindingRecord, Snapshot, TensorSnapshot
 
 # ── Metric direction classification ──────────────────────────────────────────
+# HIGH_IS_BAD: lower values are better
+# HIGH_IS_GOOD: higher values are better
+# NEUTRAL: changes have no inherent good/bad direction
 
 _LOWER_IS_BETTER = frozenset(
     {
@@ -26,6 +41,26 @@ _LOWER_IS_BETTER = frozenset(
         "coupling",
         "total_changes",
         "churn_slope",
+        # Phase 5/6 signals
+        "risk_score",
+        "raw_risk",
+        "stub_ratio",
+        "naming_drift",
+        "todo_density",
+        "phantom_import_count",
+        "broken_call_count",
+        "churn_cv",
+        "fix_ratio",
+        "main_seq_distance",
+        "layer_violation_count",
+        "coordination_cost",
+        "knowledge_gini",
+        "orphan_ratio",
+        "phantom_ratio",
+        "glue_deficit",
+        "clone_ratio",
+        "violation_rate",
+        "team_risk",
     }
 )
 
@@ -37,6 +72,18 @@ _HIGHER_IS_BETTER = frozenset(
         "cohesion",
         "boundary_alignment",
         "spectral_gap",
+        # Phase 5/6 signals
+        "wiring_quality",
+        "bus_factor",
+        "author_entropy",
+        "docstring_coverage",
+        "role_consistency",
+        "module_bus_factor",
+        "health_score",
+        "conway_alignment",
+        "wiring_score",
+        "architecture_health",
+        "codebase_health",
     }
 )
 
@@ -52,6 +99,22 @@ _NEUTRAL = frozenset(
         "lines",
         "function_count",
         "compression_ratio",
+        # Non-directional signals
+        "class_count",
+        "max_nesting",
+        "import_count",
+        "concept_count",
+        "concept_entropy",
+        "depth",
+        "community",
+        "refactor_ratio",
+        "impl_gini",
+        "velocity",
+        "mean_cognitive_load",
+        "file_count",
+        "abstractness",
+        "instability",
+        "team_size",
     }
 )
 
@@ -339,6 +402,261 @@ def diff_snapshots(
         resolved_findings=resolved_f,
         worsened_findings=worsened_f,
         improved_findings=improved_f,
+        file_deltas=file_deltas,
+        codebase_deltas=codebase_deltas,
+        renames=rename_pairs,
+    )
+
+
+# ── TensorSnapshot Diff (V2) ─────────────────────────────────────────────────
+
+
+def _classify_trend(signal: str, delta: float, threshold: float = 0.001) -> str:
+    """Classify a signal delta as improving, stable, or worsening.
+
+    Based on signal polarity from the registry.
+    """
+    if abs(delta) < threshold:
+        return "stable"
+
+    if signal in _LOWER_IS_BETTER:
+        return "improving" if delta < 0 else "worsening"
+    elif signal in _HIGHER_IS_BETTER:
+        return "improving" if delta > 0 else "worsening"
+    else:
+        # Neutral signals: just report direction
+        return "stable"
+
+
+def _diff_signal_dicts(
+    old_signals: dict[str, Any],
+    new_signals: dict[str, Any],
+    threshold: float = 0.001,
+) -> list[SignalDelta]:
+    """Compute SignalDeltas between two signal dicts."""
+    deltas: list[SignalDelta] = []
+    all_signals = sorted(set(old_signals.keys()) | set(new_signals.keys()))
+
+    for signal in all_signals:
+        # Skip non-numeric values
+        old_val = old_signals.get(signal)
+        new_val = new_signals.get(signal)
+
+        if old_val is None or new_val is None:
+            continue
+        if not isinstance(old_val, (int, float)) or not isinstance(new_val, (int, float)):
+            continue
+
+        delta = float(new_val) - float(old_val)
+        if abs(delta) > threshold:
+            deltas.append(
+                SignalDelta(
+                    signal_name=signal,
+                    old_value=float(old_val),
+                    new_value=float(new_val),
+                    delta=delta,
+                    trend=_classify_trend(signal, delta, threshold),
+                )
+            )
+
+    return deltas
+
+
+def _classify_file_health(deltas: list[SignalDelta]) -> str:
+    """Classify overall file health change based on signal deltas."""
+    improving = sum(1 for d in deltas if d.trend == "improving")
+    worsening = sum(1 for d in deltas if d.trend == "worsening")
+
+    if improving > worsening:
+        return "improving"
+    elif worsening > improving:
+        return "worsening"
+    else:
+        return "stable"
+
+
+def _diff_tensor_findings(
+    old_findings: list[FindingRecord],
+    new_findings: list[FindingRecord],
+    finding_lifecycle: Optional[dict[str, dict]] = None,
+) -> tuple[list[FindingDelta], list[FindingRecord], list[FindingRecord]]:
+    """Match findings by identity_key and classify lifecycle.
+
+    Returns:
+        (all_deltas, new_list, resolved_list)
+    """
+    old_by_key = {f.identity_key: f for f in old_findings}
+    new_by_key = {f.identity_key: f for f in new_findings}
+
+    old_keys = set(old_by_key.keys())
+    new_keys = set(new_by_key.keys())
+
+    deltas: list[FindingDelta] = []
+    new_list: list[FindingRecord] = []
+    resolved_list: list[FindingRecord] = []
+
+    # New findings (only in new snapshot)
+    for key in sorted(new_keys - old_keys):
+        finding = new_by_key[key]
+        # Check if this is a regression (was resolved before)
+        lifecycle = finding_lifecycle.get(key, {}) if finding_lifecycle else {}
+        was_resolved = lifecycle.get("current_status") == "resolved"
+
+        status = "regression" if was_resolved else "new"
+        new_list.append(finding)
+        deltas.append(
+            FindingDelta(
+                status=status,
+                finding=finding,
+                old_severity=None,
+                new_severity=finding.severity,
+                severity_delta=None,
+                persistence_count=lifecycle.get("persistence_count", 0) + 1,
+            )
+        )
+
+    # Resolved findings (only in old snapshot)
+    for key in sorted(old_keys - new_keys):
+        finding = old_by_key[key]
+        resolved_list.append(finding)
+        deltas.append(
+            FindingDelta(
+                status="resolved",
+                finding=finding,
+                old_severity=finding.severity,
+                new_severity=None,
+                severity_delta=None,
+            )
+        )
+
+    # Persisting findings (in both snapshots)
+    for key in sorted(old_keys & new_keys):
+        old_f = old_by_key[key]
+        new_f = new_by_key[key]
+        sev_delta = new_f.severity - old_f.severity
+
+        lifecycle = finding_lifecycle.get(key, {}) if finding_lifecycle else {}
+        persistence = lifecycle.get("persistence_count", 1) + 1
+
+        if abs(sev_delta) > 0.01:
+            status = "worsened" if sev_delta > 0 else "improved"
+        else:
+            status = "persisting"
+
+        deltas.append(
+            FindingDelta(
+                status=status,
+                finding=new_f,
+                old_severity=old_f.severity,
+                new_severity=new_f.severity,
+                severity_delta=sev_delta,
+                persistence_count=persistence,
+            )
+        )
+
+    return deltas, new_list, resolved_list
+
+
+def diff_tensor_snapshots(
+    old: TensorSnapshot,
+    new: TensorSnapshot,
+    renames: Optional[dict[str, str]] = None,
+    finding_lifecycle: Optional[dict[str, dict]] = None,
+    metric_threshold: float = 0.01,
+) -> TensorSnapshotDiff:
+    """Compute a structured diff between two TensorSnapshots.
+
+    Args:
+        old: The earlier snapshot (baseline or previous run).
+        new: The later snapshot (current run).
+        renames: Optional mapping of {old_path: new_path} for renamed files.
+        finding_lifecycle: Optional dict of identity_key -> lifecycle data from DB.
+        metric_threshold: Minimum absolute delta for a signal to be included.
+
+    Returns:
+        A TensorSnapshotDiff with signal deltas, finding lifecycle, and summary.
+    """
+    rename_map = renames or {}
+    rename_pairs = sorted(rename_map.items())
+
+    # Apply renames to old snapshot paths
+    old_file_signals = {
+        rename_map.get(path, path): signals for path, signals in old.file_signals.items()
+    }
+
+    # Compute file additions/removals
+    old_files = set(old_file_signals.keys())
+    new_files = set(new.file_signals.keys())
+    files_added = sorted(new_files - old_files)
+    files_removed = sorted(old_files - new_files)
+
+    # Compute per-file signal deltas
+    signal_deltas: dict[str, list[SignalDelta]] = {}
+    improving_files: list[str] = []
+    worsening_files: list[str] = []
+
+    for filepath in sorted(old_files & new_files):
+        old_sigs = old_file_signals.get(filepath, {})
+        new_sigs = new.file_signals.get(filepath, {})
+        deltas = _diff_signal_dicts(old_sigs, new_sigs, metric_threshold)
+        if deltas:
+            signal_deltas[filepath] = deltas
+            health = _classify_file_health(deltas)
+            if health == "improving":
+                improving_files.append(filepath)
+            elif health == "worsening":
+                worsening_files.append(filepath)
+
+    # Compute per-module signal deltas
+    module_deltas: dict[str, list[SignalDelta]] = {}
+    old_modules = set(old.module_signals.keys())
+    new_modules = set(new.module_signals.keys())
+
+    for module in sorted(old_modules & new_modules):
+        old_sigs = old.module_signals.get(module, {})
+        new_sigs = new.module_signals.get(module, {})
+        deltas = _diff_signal_dicts(old_sigs, new_sigs, metric_threshold)
+        if deltas:
+            module_deltas[module] = deltas
+
+    # Compute global signal deltas
+    global_deltas = _diff_signal_dicts(old.global_signals, new.global_signals, metric_threshold)
+
+    # Compute finding lifecycle
+    finding_deltas, new_findings, resolved_findings = _diff_tensor_findings(
+        old.findings, new.findings, finding_lifecycle
+    )
+
+    # Calculate debt_velocity
+    debt_velocity = len(new_findings) - len(resolved_findings)
+
+    # Also compute V1-compatible file_deltas and codebase_deltas
+    file_deltas = _diff_file_signals(
+        old_file_signals,
+        new.file_signals,
+        metric_threshold,
+    )
+    codebase_deltas = _diff_codebase_signals(
+        old.global_signals,
+        new.global_signals,
+    )
+
+    return TensorSnapshotDiff(
+        old_commit=old.commit_sha,
+        new_commit=new.commit_sha,
+        old_timestamp=old.timestamp,
+        new_timestamp=new.timestamp,
+        files_added=files_added,
+        files_removed=files_removed,
+        signal_deltas=signal_deltas,
+        module_deltas=module_deltas,
+        global_deltas=global_deltas,
+        finding_deltas=finding_deltas,
+        debt_velocity=debt_velocity,
+        improving_files=improving_files,
+        worsening_files=worsening_files,
+        new_findings=new_findings,
+        resolved_findings=resolved_findings,
         file_deltas=file_deltas,
         codebase_deltas=codebase_deltas,
         renames=rename_pairs,

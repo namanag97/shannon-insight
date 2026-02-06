@@ -1,98 +1,129 @@
-"""ChronicProblemFinder -- detects findings that persist across multiple consecutive snapshots.
+"""ChronicProblemFinder — findings persisting across 3+ snapshots.
 
-Unlike the other finders which operate purely on the current AnalysisStore,
-this finder queries the history database to identify findings that have
-appeared in N+ consecutive analysis runs without being addressed.  These
-"chronic" problems are often more important than new findings because they
-represent accumulated tech debt that teams have been ignoring.
+This is a meta-finder that wraps other findings when they persist too long.
+It queries the finding_lifecycle table to identify chronic issues.
 """
 
 import sqlite3
 from typing import Optional
 
+from ...persistence.queries import get_chronic_findings
 from ..models import Evidence, Finding
+from ..store import AnalysisStore
 
 
 class ChronicProblemFinder:
-    """Detect findings that have persisted across N+ consecutive snapshots.
+    """Identifies findings that have persisted across multiple snapshots.
 
-    This finder requires an open ``sqlite3.Connection`` to the history
-    database.  If no connection is provided it silently returns an empty
-    list, making it safe to include in the default finder pipeline.
+    A chronic problem is any finding that has appeared in 3+ consecutive
+    snapshots without being resolved. This suggests the issue is being
+    ignored or is particularly difficult to fix.
 
-    Parameters
+    Attributes
     ----------
-    history_conn:
-        An open ``sqlite3.Connection`` (with ``row_factory = sqlite3.Row``)
-        pointing at the ``.shannon/history.db`` database.  ``None`` disables
-        the finder.
-    min_persistence:
-        Minimum number of **consecutive** snapshots a finding must appear
-        in before it is flagged.  Defaults to ``3``.
+    name : str
+        Finder identifier.
+    requires : set[str]
+        Required store slots (none for this finder).
+    min_persistence : int
+        Minimum snapshots a finding must persist (default 3).
+    severity_multiplier : float
+        Multiply base severity by this for chronic findings (default 1.25).
     """
 
     name = "chronic_problem"
-    requires = {"files"}
-    BASE_SEVERITY = 0.75
+    requires: set[str] = set()  # Doesn't need store data, uses persistence layer
 
-    def __init__(
-        self,
-        history_conn: Optional[sqlite3.Connection] = None,
-        min_persistence: int = 3,
-    ):
-        self.history_conn = history_conn
+    def __init__(self, min_persistence: int = 3, severity_multiplier: float = 1.25):
         self.min_persistence = min_persistence
+        self.severity_multiplier = severity_multiplier
 
-    def find(self, store) -> list[Finding]:
-        """Run the finder against the current store + history.
+    def find(
+        self,
+        store: AnalysisStore,
+        db_conn: Optional[sqlite3.Connection] = None,
+    ) -> list[Finding]:
+        """Find chronic problems from persistence data.
 
         Parameters
         ----------
         store:
-            The ``AnalysisStore`` for the current run.  Not directly used
-            by this finder (the history DB is the primary data source),
-            but accepted to match the standard finder protocol.
+            The analysis store (not used, but part of interface).
+        db_conn:
+            Optional database connection. If not provided, returns empty list.
 
         Returns
         -------
-        List[Finding]
-            One finding per chronically-persistent issue.
+        list[Finding]
+            Chronic problem findings, one per persistent finding.
         """
-        if not self.history_conn:
+        if db_conn is None:
             return []
 
-        from ...persistence.queries import HistoryQuery
+        chronic = get_chronic_findings(db_conn, min_persistence=self.min_persistence)
+        if not chronic:
+            return []
 
-        query = HistoryQuery(self.history_conn)
-        chronic = query.persistent_findings(min_snapshots=self.min_persistence)
+        findings = []
+        for info in chronic:
+            # Compute enhanced severity
+            base_severity = info.severity
+            enhanced_severity = min(1.0, base_severity * self.severity_multiplier)
 
-        findings: list[Finding] = []
-        for item in chronic:
-            # Severity scales with persistence, capped at BASE_SEVERITY.
-            severity = self.BASE_SEVERITY * min(1.0, item["count"] / 10)
+            # Build evidence
+            evidence = [
+                Evidence(
+                    signal="persistence_count",
+                    value=float(info.persistence_count),
+                    percentile=100.0,  # By definition, these are the most persistent
+                    description=f"persisted across {info.persistence_count} snapshots",
+                ),
+            ]
+
+            # Build suggestion based on original finding type
+            suggestion = self._build_suggestion(info.finding_type, info.persistence_count)
 
             findings.append(
                 Finding(
                     finding_type="chronic_problem",
-                    severity=severity,
-                    title=(f"{item['title']} (unresolved for {item['count']} runs)"),
-                    files=item["files"],
-                    evidence=[
-                        Evidence(
-                            signal="persistence",
-                            value=float(item["count"]),
-                            percentile=0.0,
-                            description=(
-                                f"This finding has appeared in {item['count']} "
-                                f"consecutive analysis runs without being addressed"
-                            ),
-                        ),
-                    ],
-                    suggestion=(
-                        f"This has been flagged {item['count']} times. "
-                        f"Consider prioritizing a fix or explicitly "
-                        f"suppressing it."
-                    ),
+                    severity=enhanced_severity,
+                    title=f"Chronic {info.finding_type.replace('_', ' ')}: persisted {info.persistence_count} snapshots",
+                    files=[],  # Files are in the wrapped finding
+                    evidence=evidence,
+                    suggestion=suggestion,
+                    confidence=1.0,  # High confidence for persisting issues
+                    effort="HIGH",  # Chronic problems are typically harder to fix
+                    scope="FILE",  # Inherits scope from wrapped finding
                 )
             )
+
         return findings
+
+    def _build_suggestion(self, finding_type: str, persistence_count: int) -> str:
+        """Build actionable suggestion for chronic problem."""
+        base = f"This issue has persisted for {persistence_count} snapshots. Consider: "
+
+        if finding_type in ("high_risk_hub", "god_file"):
+            return base + (
+                "This is likely a systemic architectural issue. "
+                "Schedule dedicated refactoring time or create a tech debt ticket "
+                "with a specific deadline. Break the file into smaller pieces incrementally."
+            )
+        elif finding_type in ("hidden_coupling", "dead_dependency"):
+            return base + (
+                "Coupling issues that persist often indicate unclear ownership. "
+                "Define clear module boundaries and enforce them with linting rules "
+                "or import restrictions."
+            )
+        elif finding_type in ("unstable_file", "bug_attractor"):
+            return base + (
+                "Files that remain unstable over time may need fundamental redesign. "
+                "Consider adding comprehensive tests before refactoring, "
+                "or isolate the instability behind a stable interface."
+            )
+        else:
+            return base + (
+                "Create a tech debt ticket and prioritize based on the file's "
+                "centrality and change frequency. "
+                "Consider blocking new features until this is addressed."
+            )

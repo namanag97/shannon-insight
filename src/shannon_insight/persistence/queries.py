@@ -2,6 +2,12 @@
 
 These operate on the history.db created by the storage layer and provide
 the data needed for the ``trend`` and ``health`` CLI commands.
+
+V2 adds:
+- get_signal_time_series(): query signal_history for a file/signal pair
+- get_finding_history(): query finding_lifecycle for a finding's history
+- get_chronic_findings(): query findings persisting 3+ snapshots
+- update_finding_lifecycle(): update lifecycle state after a new snapshot
 """
 
 import json
@@ -270,3 +276,352 @@ def _max_consecutive_run(indices: list[int]) -> int:
         else:
             current_run = 1
     return max_run
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# V2 Query Functions (Phase 7)
+# ══════════════════════════════════════════════════════════════════════════
+
+
+@dataclass
+class SignalTimePoint:
+    """A single data point in a signal time series."""
+
+    snapshot_id: int
+    timestamp: str
+    value: float
+    percentile: Optional[float] = None
+
+
+@dataclass
+class FindingLifecycleInfo:
+    """Lifecycle information for a finding."""
+
+    identity_key: str
+    finding_type: str
+    first_seen_snapshot: int
+    last_seen_snapshot: int
+    persistence_count: int
+    current_status: str  # "active" | "resolved"
+    severity: float
+
+
+def get_signal_time_series(
+    conn: sqlite3.Connection,
+    file_path: str,
+    signal_name: str,
+    limit: int = 20,
+) -> list[SignalTimePoint]:
+    """Return time series of a signal for a file.
+
+    Queries signal_history table for (timestamp, value, percentile) pairs.
+
+    Parameters
+    ----------
+    conn:
+        Open database connection.
+    file_path:
+        The file path to query.
+    signal_name:
+        The signal name (e.g., "cognitive_load").
+    limit:
+        Maximum number of points to return (default 20).
+
+    Returns
+    -------
+    list[SignalTimePoint]
+        Points in chronological order (oldest first).
+    """
+    rows = conn.execute(
+        """
+        SELECT sh.snapshot_id, s.timestamp, sh.value, sh.percentile
+        FROM signal_history sh
+        JOIN snapshots s ON s.id = sh.snapshot_id
+        WHERE sh.file_path = ? AND sh.signal_name = ?
+        ORDER BY s.timestamp DESC
+        LIMIT ?
+        """,
+        (file_path, signal_name, limit),
+    ).fetchall()
+
+    # Reverse for chronological order
+    return [
+        SignalTimePoint(
+            snapshot_id=r["snapshot_id"],
+            timestamp=r["timestamp"],
+            value=r["value"],
+            percentile=r["percentile"],
+        )
+        for r in reversed(rows)
+    ]
+
+
+def get_module_signal_time_series(
+    conn: sqlite3.Connection,
+    module_path: str,
+    signal_name: str,
+    limit: int = 20,
+) -> list[SignalTimePoint]:
+    """Return time series of a signal for a module.
+
+    Parameters
+    ----------
+    conn:
+        Open database connection.
+    module_path:
+        The module path to query.
+    signal_name:
+        The signal name (e.g., "cohesion").
+    limit:
+        Maximum number of points to return.
+
+    Returns
+    -------
+    list[SignalTimePoint]
+        Points in chronological order (oldest first).
+    """
+    rows = conn.execute(
+        """
+        SELECT msh.snapshot_id, s.timestamp, msh.value
+        FROM module_signal_history msh
+        JOIN snapshots s ON s.id = msh.snapshot_id
+        WHERE msh.module_path = ? AND msh.signal_name = ?
+        ORDER BY s.timestamp DESC
+        LIMIT ?
+        """,
+        (module_path, signal_name, limit),
+    ).fetchall()
+
+    return [
+        SignalTimePoint(
+            snapshot_id=r["snapshot_id"],
+            timestamp=r["timestamp"],
+            value=r["value"],
+        )
+        for r in reversed(rows)
+    ]
+
+
+def get_global_signal_time_series(
+    conn: sqlite3.Connection,
+    signal_name: str,
+    limit: int = 20,
+) -> list[SignalTimePoint]:
+    """Return time series of a global signal.
+
+    Parameters
+    ----------
+    conn:
+        Open database connection.
+    signal_name:
+        The signal name (e.g., "codebase_health").
+    limit:
+        Maximum number of points to return.
+
+    Returns
+    -------
+    list[SignalTimePoint]
+        Points in chronological order (oldest first).
+    """
+    rows = conn.execute(
+        """
+        SELECT gsh.snapshot_id, s.timestamp, gsh.value
+        FROM global_signal_history gsh
+        JOIN snapshots s ON s.id = gsh.snapshot_id
+        WHERE gsh.signal_name = ?
+        ORDER BY s.timestamp DESC
+        LIMIT ?
+        """,
+        (signal_name, limit),
+    ).fetchall()
+
+    return [
+        SignalTimePoint(
+            snapshot_id=r["snapshot_id"],
+            timestamp=r["timestamp"],
+            value=r["value"],
+        )
+        for r in reversed(rows)
+    ]
+
+
+def get_finding_history(
+    conn: sqlite3.Connection,
+    identity_key: str,
+) -> Optional[FindingLifecycleInfo]:
+    """Return lifecycle data for a finding.
+
+    Parameters
+    ----------
+    conn:
+        Open database connection.
+    identity_key:
+        The finding's identity key.
+
+    Returns
+    -------
+    FindingLifecycleInfo or None
+        Lifecycle data if found, None otherwise.
+    """
+    row = conn.execute(
+        """
+        SELECT identity_key, finding_type, first_seen_snapshot, last_seen_snapshot,
+               persistence_count, current_status, severity
+        FROM finding_lifecycle
+        WHERE identity_key = ?
+        """,
+        (identity_key,),
+    ).fetchone()
+
+    if row is None:
+        return None
+
+    return FindingLifecycleInfo(
+        identity_key=row["identity_key"],
+        finding_type=row["finding_type"],
+        first_seen_snapshot=row["first_seen_snapshot"],
+        last_seen_snapshot=row["last_seen_snapshot"],
+        persistence_count=row["persistence_count"],
+        current_status=row["current_status"],
+        severity=row["severity"],
+    )
+
+
+def get_chronic_findings(
+    conn: sqlite3.Connection,
+    min_persistence: int = 3,
+) -> list[FindingLifecycleInfo]:
+    """Return findings persisting across min_persistence+ snapshots.
+
+    Parameters
+    ----------
+    conn:
+        Open database connection.
+    min_persistence:
+        Minimum number of snapshots a finding must persist (default 3).
+
+    Returns
+    -------
+    list[FindingLifecycleInfo]
+        Chronic findings ordered by persistence count (descending).
+    """
+    rows = conn.execute(
+        """
+        SELECT identity_key, finding_type, first_seen_snapshot, last_seen_snapshot,
+               persistence_count, current_status, severity
+        FROM finding_lifecycle
+        WHERE persistence_count >= ? AND current_status = 'active'
+        ORDER BY persistence_count DESC, severity DESC
+        """,
+        (min_persistence,),
+    ).fetchall()
+
+    return [
+        FindingLifecycleInfo(
+            identity_key=r["identity_key"],
+            finding_type=r["finding_type"],
+            first_seen_snapshot=r["first_seen_snapshot"],
+            last_seen_snapshot=r["last_seen_snapshot"],
+            persistence_count=r["persistence_count"],
+            current_status=r["current_status"],
+            severity=r["severity"],
+        )
+        for r in rows
+    ]
+
+
+def update_finding_lifecycle(
+    conn: sqlite3.Connection,
+    identity_key: str,
+    finding_type: str,
+    severity: float,
+    snapshot_id: int,
+    is_present: bool,
+) -> None:
+    """Update finding lifecycle state after a new snapshot.
+
+    Parameters
+    ----------
+    conn:
+        Open database connection.
+    identity_key:
+        The finding's identity key.
+    finding_type:
+        The finding type (e.g., "high_risk_hub").
+    severity:
+        Current severity value.
+    snapshot_id:
+        The current snapshot ID.
+    is_present:
+        True if finding is in current snapshot, False if resolved.
+    """
+    existing = conn.execute(
+        "SELECT * FROM finding_lifecycle WHERE identity_key = ?",
+        (identity_key,),
+    ).fetchone()
+
+    if existing is None:
+        if is_present:
+            # New finding
+            conn.execute(
+                """
+                INSERT INTO finding_lifecycle
+                    (identity_key, first_seen_snapshot, last_seen_snapshot,
+                     persistence_count, current_status, finding_type, severity)
+                VALUES (?, ?, ?, 1, 'active', ?, ?)
+                """,
+                (identity_key, snapshot_id, snapshot_id, finding_type, severity),
+            )
+    else:
+        if is_present:
+            # Persisting or regression
+            conn.execute(
+                """
+                UPDATE finding_lifecycle
+                SET last_seen_snapshot = ?,
+                    persistence_count = persistence_count + 1,
+                    current_status = 'active',
+                    severity = ?
+                WHERE identity_key = ?
+                """,
+                (snapshot_id, severity, identity_key),
+            )
+        else:
+            # Resolved
+            conn.execute(
+                """
+                UPDATE finding_lifecycle
+                SET current_status = 'resolved'
+                WHERE identity_key = ?
+                """,
+                (identity_key,),
+            )
+
+
+def get_finding_lifecycle_map(conn: sqlite3.Connection) -> dict[str, dict]:
+    """Return a dict of all finding lifecycle data for diff operations.
+
+    Returns
+    -------
+    dict[str, dict]
+        Mapping of identity_key -> lifecycle data dict.
+    """
+    rows = conn.execute(
+        """
+        SELECT identity_key, finding_type, first_seen_snapshot, last_seen_snapshot,
+               persistence_count, current_status, severity
+        FROM finding_lifecycle
+        """
+    ).fetchall()
+
+    return {
+        r["identity_key"]: {
+            "finding_type": r["finding_type"],
+            "first_seen_snapshot": r["first_seen_snapshot"],
+            "last_seen_snapshot": r["last_seen_snapshot"],
+            "persistence_count": r["persistence_count"],
+            "current_status": r["current_status"],
+            "severity": r["severity"],
+        }
+        for r in rows
+    }

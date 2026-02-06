@@ -5,14 +5,24 @@ Phase 6 adds 15 new finders in 3 batches:
 - Batch 2: Architecture (2 finders)
 - Batch 3: Cross-dimensional (6 finders)
 
+Phase 7 adds 2 persistence-based finders:
+- chronic_problem: findings persisting 3+ snapshots
+- architecture_erosion: violation_rate increasing 3+ snapshots
+
 Plus existing Phase 0-5 finders (6).
-Total: 21 finders (22 with CHRONIC_PROBLEM deferred to Phase 7).
+Total: 22 finders.
 """
 
 # Existing finders (Phase 0-5)
 from .accidental_coupling import AccidentalCouplingFinder
+
+# Phase 7: Persistence-based finders
+from .architecture_erosion import ArchitectureErosionFinder
 from .boundary_mismatch import BoundaryMismatchFinder
 from .bug_attractor import BugAttractorFinder
+
+# Phase 7: Persistence-based finders
+from .chronic_problem import ChronicProblemFinder
 from .conway_violation import ConwayViolationFinder
 from .copy_paste_clone import CopyPasteCloneFinder
 from .dead_dependency import DeadDependencyFinder
@@ -46,6 +56,9 @@ def get_default_finders() -> list:
     2. Architecture
     3. Structural
     4. Original finders
+
+    Note: Persistence-based finders (chronic_problem, architecture_erosion)
+    are NOT included here. Use get_persistence_finders() for those.
     """
     return [
         # Existing finders (Phase 0-5)
@@ -72,4 +85,20 @@ def get_default_finders() -> list:
         WeakLinkFinder(),
         BugAttractorFinder(),
         AccidentalCouplingFinder(),
+    ]
+
+
+def get_persistence_finders() -> list:
+    """Return persistence-based finders (Phase 7).
+
+    These finders require a database connection and query the
+    finding_lifecycle and signal_history tables.
+
+    Returns finders in priority order:
+    1. architecture_erosion (codebase-level)
+    2. chronic_problem (wraps other findings)
+    """
+    return [
+        ArchitectureErosionFinder(),
+        ChronicProblemFinder(),
     ]

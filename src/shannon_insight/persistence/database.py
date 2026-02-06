@@ -1,4 +1,11 @@
-"""SQLite-backed history database stored in .shannon/ at the project root."""
+"""SQLite-backed history database stored in .shannon/ at the project root.
+
+V2 schema adds:
+- signal_history: per-file signal time series
+- module_signal_history: per-module signal time series
+- global_signal_history: global signal time series
+- finding_lifecycle: finding persistence tracking
+"""
 
 import sqlite3
 from pathlib import Path
@@ -9,7 +16,7 @@ from ..logging_config import get_logger
 logger = get_logger(__name__)
 
 # Current schema version (bump when tables change).
-_SCHEMA_VERSION = 1
+_SCHEMA_VERSION = 2
 
 
 class HistoryDB:
@@ -86,6 +93,7 @@ class HistoryDB:
 
         # Check current version
         row = c.execute("SELECT version FROM schema_version").fetchone()
+        current_version = row["version"] if row else 0
         if row is None:
             c.execute(
                 "INSERT INTO schema_version (version) VALUES (?)",
@@ -175,7 +183,68 @@ class HistoryDB:
             """
         )
 
-        # ── indexes ──────────────────────────────────────────────
+        # ══════════════════════════════════════════════════════════
+        # V2 Tables (Phase 7)
+        # ══════════════════════════════════════════════════════════
+
+        # ── signal_history (per-file signal time series) ─────────
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS signal_history (
+                snapshot_id  INTEGER NOT NULL,
+                file_path    TEXT    NOT NULL,
+                signal_name  TEXT    NOT NULL,
+                value        REAL,
+                percentile   REAL,
+                PRIMARY KEY (snapshot_id, file_path, signal_name),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        # ── module_signal_history (per-module signal time series) ─
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS module_signal_history (
+                snapshot_id  INTEGER NOT NULL,
+                module_path  TEXT    NOT NULL,
+                signal_name  TEXT    NOT NULL,
+                value        REAL,
+                PRIMARY KEY (snapshot_id, module_path, signal_name),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        # ── global_signal_history ─────────────────────────────────
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS global_signal_history (
+                snapshot_id  INTEGER NOT NULL,
+                signal_name  TEXT    NOT NULL,
+                value        REAL,
+                PRIMARY KEY (snapshot_id, signal_name),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        # ── finding_lifecycle ─────────────────────────────────────
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS finding_lifecycle (
+                identity_key        TEXT    NOT NULL PRIMARY KEY,
+                first_seen_snapshot INTEGER NOT NULL,
+                last_seen_snapshot  INTEGER NOT NULL,
+                persistence_count   INTEGER DEFAULT 1,
+                current_status      TEXT    DEFAULT 'active',
+                finding_type        TEXT    NOT NULL,
+                severity            REAL
+            )
+            """
+        )
+
+        # ── indexes (v1) ──────────────────────────────────────────
         c.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_commit ON snapshots(commit_sha)")
         c.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_timestamp ON snapshots(timestamp)")
         c.execute(
@@ -193,7 +262,73 @@ class HistoryDB:
             "CREATE INDEX IF NOT EXISTS idx_dependency_edges_snapshot ON dependency_edges(snapshot_id)"
         )
 
+        # ── indexes (v2) ──────────────────────────────────────────
+        c.execute(
+            "CREATE INDEX IF NOT EXISTS idx_signal_file_name "
+            "ON signal_history(file_path, signal_name, snapshot_id)"
+        )
+        c.execute(
+            "CREATE INDEX IF NOT EXISTS idx_module_signal_history "
+            "ON module_signal_history(module_path, signal_name, snapshot_id)"
+        )
+        c.execute(
+            "CREATE INDEX IF NOT EXISTS idx_finding_type "
+            "ON finding_lifecycle(finding_type, current_status)"
+        )
+
+        # ── V1 → V2 migration ─────────────────────────────────────
+        if current_version == 1:
+            self._migrate_v1_to_v2()
+            c.execute("UPDATE schema_version SET version = ?", (_SCHEMA_VERSION,))
+
         c.commit()
+
+    def _migrate_v1_to_v2(self) -> None:
+        """Migrate v1 database to v2 schema.
+
+        Backfills signal_history and finding_lifecycle from existing data.
+        """
+        c = self.conn
+        logger.info("Migrating database from v1 to v2...")
+
+        # Backfill signal_history from file_signals
+        c.execute(
+            """
+            INSERT OR IGNORE INTO signal_history (snapshot_id, file_path, signal_name, value, percentile)
+            SELECT snapshot_id, file_path, signal_name, value, NULL
+            FROM file_signals
+            """
+        )
+
+        # Backfill global_signal_history from codebase_signals
+        c.execute(
+            """
+            INSERT OR IGNORE INTO global_signal_history (snapshot_id, signal_name, value)
+            SELECT snapshot_id, signal_name, value
+            FROM codebase_signals
+            """
+        )
+
+        # Backfill finding_lifecycle from findings
+        # For each unique identity_key, track first/last seen and count
+        c.execute(
+            """
+            INSERT OR IGNORE INTO finding_lifecycle
+                (identity_key, first_seen_snapshot, last_seen_snapshot, persistence_count, current_status, finding_type, severity)
+            SELECT
+                identity_key,
+                MIN(snapshot_id) as first_seen_snapshot,
+                MAX(snapshot_id) as last_seen_snapshot,
+                COUNT(DISTINCT snapshot_id) as persistence_count,
+                'active' as current_status,
+                finding_type,
+                MAX(severity) as severity
+            FROM findings
+            GROUP BY identity_key
+            """
+        )
+
+        logger.info("Migration v1 → v2 complete")
 
     # ── baseline management ────────────────────────────────────────
 

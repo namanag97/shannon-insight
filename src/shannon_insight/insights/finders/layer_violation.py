@@ -1,0 +1,95 @@
+"""LAYER_VIOLATION — backward or skip dependencies in layer ordering.
+
+Scope: MODULE_PAIR
+Severity: 0.52
+Hotspot: NO (architectural)
+
+Detected when a higher-layer module imports from a lower layer,
+or when modules skip layers (e.g., presentation importing data layer).
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from ..models import Evidence, Finding
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
+
+
+class LayerViolationFinder:
+    """Detects layer violations from architecture analysis."""
+
+    name = "layer_violation"
+    api_version = "2.0"
+    requires = frozenset({"signal_field", "architecture"})
+    error_mode = "skip"
+    hotspot_filtered = False  # Architectural
+    tier_minimum = "BAYESIAN"  # Needs modules
+    deprecated = False
+    deprecation_note = None
+
+    # Constants
+    BASE_SEVERITY = 0.52
+
+    def find(self, store: AnalysisStore) -> list[Finding]:
+        """Detect layer violations from architecture analysis.
+
+        Returns:
+            List of findings for each violation, sorted by severity desc.
+        """
+        if not store.architecture.available:
+            return []
+
+        architecture = store.architecture.value
+        if not hasattr(architecture, "violations") or not architecture.violations:
+            return []
+
+        findings: list[Finding] = []
+
+        for violation in architecture.violations:
+            # Access violation attributes (adapt to actual model)
+            source_module = getattr(violation, "source_module", str(violation.source))
+            target_module = getattr(violation, "target_module", str(violation.target))
+            source_layer = getattr(violation, "source_layer", 0)
+            target_layer = getattr(violation, "target_layer", 0)
+            violation_type = getattr(violation, "violation_type", "backward")
+
+            # Build evidence
+            evidence = [
+                Evidence(
+                    signal="source_layer",
+                    value=float(source_layer),
+                    percentile=0.0,
+                    description=f"{source_module} at layer {source_layer}",
+                ),
+                Evidence(
+                    signal="target_layer",
+                    value=float(target_layer),
+                    percentile=0.0,
+                    description=f"{target_module} at layer {target_layer}",
+                ),
+                Evidence(
+                    signal="violation_type",
+                    value=0.0,
+                    percentile=0.0,
+                    description=f"Violation: {violation_type}",
+                ),
+            ]
+
+            findings.append(
+                Finding(
+                    finding_type=self.name,
+                    severity=self.BASE_SEVERITY,
+                    title=f"Layer violation: {source_module} -> {target_module}",
+                    files=[],  # MODULE_PAIR scope
+                    evidence=evidence,
+                    suggestion="Inject dependency or restructure to respect layer ordering.",
+                    confidence=1.0,  # Violation detected = certain
+                    effort="MEDIUM",
+                    scope="MODULE_PAIR",
+                )
+            )
+
+        return sorted(findings, key=lambda f: f.severity, reverse=True)

@@ -510,3 +510,27 @@ def get_all_known_extensions() -> set:
         if name != "universal":
             exts.update(cfg.extensions)
     return exts
+
+
+# Extension to language mapping (built from LANGUAGES)
+_EXTENSION_TO_LANGUAGE: dict[str, str] = {}
+for _lang_name, _cfg in LANGUAGES.items():
+    if _lang_name != "universal":
+        for _ext in _cfg.extensions:
+            _EXTENSION_TO_LANGUAGE[_ext] = _lang_name
+
+
+def detect_language(filepath) -> str:
+    """Detect language from file extension.
+
+    Args:
+        filepath: Path object or string
+
+    Returns:
+        Language name (e.g., "python", "go") or "unknown"
+    """
+    from pathlib import Path
+
+    path = Path(filepath) if not hasattr(filepath, "suffix") else filepath
+    ext = path.suffix.lower()
+    return _EXTENSION_TO_LANGUAGE.get(ext, "unknown")

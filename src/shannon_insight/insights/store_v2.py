@@ -1,0 +1,151 @@
+"""AnalysisStore v2 — typed Slot[T] blackboard pattern.
+
+The Slot[T] wrapper provides:
+    - Type safety: Generic type parameter for compile-time checking
+    - Availability tracking: .available property replaces scattered None checks
+    - Error context: .error property captures WHY something is missing
+    - Provenance: .produced_by tracks which analyzer populated the slot
+
+Slots prevent FM-12 (Slot not populated) crashes by requiring explicit checks.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Any, Generic, TypeVar
+
+T = TypeVar("T")
+
+
+@dataclass
+class Slot(Generic[T]):
+    """A typed blackboard slot. Wraps Optional with provenance and error context.
+
+    Usage:
+        # Check before access (REQUIRED)
+        if store.structural.available:
+            graph = store.structural.value  # Safe
+        else:
+            return []  # Graceful degradation
+
+        # Or use get() with default
+        graph = store.structural.get(default=empty_graph)
+
+    Never access .value without checking .available first!
+    """
+
+    _value: T | None = None
+    _error: str | None = None
+    _produced_by: str = ""
+
+    @property
+    def available(self) -> bool:
+        """True if value has been set."""
+        return self._value is not None
+
+    @property
+    def value(self) -> T:
+        """Get the value. Raises LookupError if not populated.
+
+        ALWAYS check .available before accessing .value!
+        """
+        if self._value is None:
+            if self._error:
+                raise LookupError(f"Slot not populated: {self._error}")
+            raise LookupError("Slot not populated")
+        return self._value
+
+    def get(self, default: T | None = None) -> T | None:
+        """Get value or default if not available."""
+        return self._value if self._value is not None else default
+
+    def set(self, value: T, produced_by: str) -> None:
+        """Set the slot value with provenance."""
+        self._value = value
+        self._produced_by = produced_by
+        self._error = None
+
+    def set_error(self, error: str, produced_by: str) -> None:
+        """Mark slot as failed with error message."""
+        self._error = error
+        self._produced_by = produced_by
+        self._value = None
+
+    @property
+    def produced_by(self) -> str:
+        """Who populated this slot."""
+        return self._produced_by
+
+    @property
+    def error(self) -> str | None:
+        """Error message if set_error was called."""
+        return self._error
+
+
+@dataclass
+class AnalysisStore:
+    """The blackboard that all analyzers write to and finders read from.
+
+    All optional data is wrapped in Slot[T] for type safety and error context.
+    Finders MUST check .available before accessing .value.
+
+    Slots (from v2 spec):
+        - file_syntax: Dict[path, FileSyntax] from tree-sitter/regex parsing
+        - structural: CodebaseAnalysis with graph, PageRank, SCC, Louvain
+        - git_history: GitHistory with commits and file changes
+        - churn: Dict[path, ChurnSeries] with per-file churn stats
+        - cochange: CoChangeMatrix with file co-change patterns
+        - semantics: Dict[path, FileSemantics] with concepts and coherence
+        - roles: Dict[path, str] with file role classifications
+        - spectral: SpectralSummary with Fiedler value and spectral gap
+        - clone_pairs: List[ClonePair] with detected clones
+        - author_distances: List[AuthorDistance] with author overlap metrics
+        - architecture: Architecture with modules, layers, Martin metrics
+        - signal_field: SignalField with all computed signals per file/module
+    """
+
+    # Always-available inputs (set by kernel before analyzers run)
+    root_dir: str = ""
+    file_metrics: list[Any] = field(default_factory=list)
+
+    # Typed slots — each knows if it's populated, why not, and who wrote it
+    file_syntax: Slot[dict[str, Any]] = field(default_factory=Slot)
+    structural: Slot[Any] = field(default_factory=Slot)
+    git_history: Slot[Any] = field(default_factory=Slot)
+    churn: Slot[dict[str, Any]] = field(default_factory=Slot)
+    cochange: Slot[Any] = field(default_factory=Slot)
+    semantics: Slot[dict[str, Any]] = field(default_factory=Slot)
+    roles: Slot[dict[str, str]] = field(default_factory=Slot)
+    spectral: Slot[Any] = field(default_factory=Slot)
+    clone_pairs: Slot[list[Any]] = field(default_factory=Slot)
+    author_distances: Slot[list[Any]] = field(default_factory=Slot)
+    architecture: Slot[Any] = field(default_factory=Slot)
+    signal_field: Slot[Any] = field(default_factory=Slot)
+
+    @property
+    def available(self) -> set[str]:
+        """Track what signal categories have been populated.
+
+        Returns set of slot names that have data. 'files' is always present
+        (represents file_metrics which is never wrapped in Slot).
+        """
+        avail: set[str] = {"files"}
+        slot_names = [
+            "file_syntax",
+            "structural",
+            "git_history",
+            "churn",
+            "cochange",
+            "semantics",
+            "roles",
+            "spectral",
+            "clone_pairs",
+            "author_distances",
+            "architecture",
+            "signal_field",
+        ]
+        for name in slot_names:
+            slot = getattr(self, name)
+            if isinstance(slot, Slot) and slot.available:
+                avail.add(name)
+        return avail

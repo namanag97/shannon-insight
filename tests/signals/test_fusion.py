@@ -21,6 +21,12 @@ class MockFileMetrics:
 
     def __init__(self, path: str):
         self.path = path
+        self.lines = 100
+        self.functions = 5
+        self.structs = 1
+        self.nesting_depth = 2
+        self.imports = []
+        self.function_sizes = [10, 20, 30]
 
 
 class TestFusionPipelineStructure:

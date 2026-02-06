@@ -12,7 +12,10 @@ Slots prevent FM-12 (Slot not populated) crashes by requiring explicit checks.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
+
+if TYPE_CHECKING:
+    from shannon_insight.signals.models import SignalField
 
 T = TypeVar("T")
 
@@ -120,7 +123,7 @@ class AnalysisStore:
     clone_pairs: Slot[list[Any]] = field(default_factory=Slot)
     author_distances: Slot[list[Any]] = field(default_factory=Slot)
     architecture: Slot[Any] = field(default_factory=Slot)
-    signal_field: Slot[Any] = field(default_factory=Slot)
+    signal_field: Slot["SignalField"] = field(default_factory=Slot)
 
     @property
     def available(self) -> set[str]:

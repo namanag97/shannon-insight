@@ -9,7 +9,7 @@ from ..config import AnalysisSettings, default_settings
 from ..logging_config import get_logger
 from ..persistence.models import Snapshot
 from ..scanning.factory import ScannerFactory
-from .analyzers import get_default_analyzers
+from .analyzers import get_default_analyzers, get_wave2_analyzers
 from .finders import get_default_finders
 from .models import InsightResult, StoreSummary
 from .store import AnalysisStore
@@ -30,6 +30,7 @@ class InsightKernel:
         self.language = language
         self.settings = settings or default_settings
         self._analyzers = get_default_analyzers()
+        self._wave2_analyzers = get_wave2_analyzers()
         self._finders = get_default_finders()
 
     def run(self, max_findings: int = 10) -> Tuple[InsightResult, Snapshot]:
@@ -56,7 +57,7 @@ class InsightKernel:
             empty_snapshot = capture_snapshot(store, empty_result, self.settings)
             return empty_result, empty_snapshot
 
-        # Phase 2: Run analyzers (topologically sorted by requires/provides)
+        # Phase 2a: Run Wave 1 analyzers (topologically sorted by requires/provides)
         for analyzer in self._resolve_order():
             if analyzer.requires.issubset(store.available):
                 try:
@@ -64,6 +65,14 @@ class InsightKernel:
                     logger.debug(f"Analyzer {analyzer.name} completed")
                 except Exception as e:
                     logger.warning(f"Analyzer {analyzer.name} failed: {e}")
+
+        # Phase 2b: Run Wave 2 analyzers (signal fusion, after all Wave 1)
+        for analyzer in self._wave2_analyzers:
+            try:
+                analyzer.analyze(store)
+                logger.debug(f"Wave 2 analyzer {analyzer.name} completed")
+            except Exception as e:
+                logger.warning(f"Wave 2 analyzer {analyzer.name} failed: {e}")
 
         # Phase 3: Run finders (skip if required signals unavailable)
         findings = []

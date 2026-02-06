@@ -8,11 +8,15 @@ from .models import DependencyGraph
 
 
 def build_dependency_graph(file_metrics: List[FileMetrics], root_dir: str = "") -> DependencyGraph:
-    """Build dependency graph from import declarations in FileMetrics."""
+    """Build dependency graph from import declarations in FileMetrics.
+
+    Also tracks unresolved imports for phantom_import_count signal.
+    """
     file_map: Dict[str, FileMetrics] = {f.path: f for f in file_metrics}
     all_paths = set(file_map.keys())
     adjacency: Dict[str, List[str]] = {p: [] for p in all_paths}
     reverse: Dict[str, List[str]] = {p: [] for p in all_paths}
+    unresolved: Dict[str, List[str]] = {}  # Phase 3: track unresolved imports
     edge_count = 0
 
     path_index = _build_path_index(all_paths)
@@ -24,12 +28,18 @@ def build_dependency_graph(file_metrics: List[FileMetrics], root_dir: str = "") 
                 adjacency[fm.path].append(resolved)
                 reverse[resolved].append(fm.path)
                 edge_count += 1
+            elif resolved is None:
+                # Phase 3: track unresolved imports (potentially phantom)
+                if fm.path not in unresolved:
+                    unresolved[fm.path] = []
+                unresolved[fm.path].append(imp)
 
     return DependencyGraph(
         adjacency=adjacency,
         reverse=reverse,
         all_nodes=all_paths,
         edge_count=edge_count,
+        unresolved_imports=unresolved,
     )
 
 

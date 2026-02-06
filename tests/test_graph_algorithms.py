@@ -61,6 +61,14 @@ class TestBuildDependencyGraph:
         graph = build_dependency_graph(metrics)
         assert graph.edge_count == 0
 
+    def test_unresolved_imports_tracked(self):
+        # Phase 3: unresolved imports should be tracked for phantom_import_count
+        metrics = [_fm("a.py", imports=["os", "pathlib", "missing_module"])]
+        graph = build_dependency_graph(metrics)
+        assert "a.py" in graph.unresolved_imports
+        # All three are unresolved (not in codebase)
+        assert len(graph.unresolved_imports["a.py"]) == 3
+
     def test_self_import_ignored(self):
         metrics = [_fm("src/pkg/a.py", imports=[".a"])]
         graph = build_dependency_graph(metrics)

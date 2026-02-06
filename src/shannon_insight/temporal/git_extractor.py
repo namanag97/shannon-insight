@@ -67,7 +67,7 @@ class GitExtractor:
                 "-C",
                 self.repo_path,
                 "log",
-                "--format=%H|%at|%ae",
+                "--format=%H|%at|%ae|%s",  # Phase 3: include subject for fix_ratio/refactor_ratio
                 "--name-only",
                 f"-n{self.max_commits}",
             ]
@@ -85,8 +85,9 @@ class GitExtractor:
             logger.warning(f"git log error: {e}")
             return None
 
-    # Matches: 40-char hex hash | unix timestamp | author email
-    _HEADER_RE = re.compile(r"^[0-9a-f]{40}\|\d+\|.+$")
+    # Matches: 40-char hex hash | unix timestamp | author email | subject
+    # Subject can contain | characters, so we use maxsplit=3 during parsing
+    _HEADER_RE = re.compile(r"^[0-9a-f]{40}\|\d+\|[^|]+\|.*$")
 
     def _parse_log(self, raw: str) -> list:
         """Parse git log output into Commit objects.
@@ -94,11 +95,14 @@ class GitExtractor:
         Handles merge commits (no files) and consecutive headers correctly
         by detecting header lines via regex rather than relying on blank-line
         separation.
+
+        Phase 3: Also extracts commit subject for fix_ratio/refactor_ratio.
         """
         commits = []
         current_hash = None
         current_ts = 0
         current_author = ""
+        current_subject = ""
         current_files: list[str] = []
 
         for line in raw.split("\n"):
@@ -115,10 +119,13 @@ class GitExtractor:
                             timestamp=current_ts,
                             author=current_author,
                             files=current_files,
+                            subject=current_subject,
                         )
                     )
 
-                parts = line.split("|", 2)
+                # Parse with maxsplit=3: hash | timestamp | author | subject
+                # Subject can contain | characters (e.g., "fix auth | update deps")
+                parts = line.split("|", 3)
                 current_hash = parts[0]
                 try:
                     current_ts = int(parts[1])
@@ -126,6 +133,7 @@ class GitExtractor:
                     current_hash = None
                     continue
                 current_author = parts[2]
+                current_subject = parts[3] if len(parts) > 3 else ""
                 current_files = []
             elif current_hash:
                 # This is a file path belonging to the current commit
@@ -139,6 +147,7 @@ class GitExtractor:
                     timestamp=current_ts,
                     author=current_author,
                     files=current_files,
+                    subject=current_subject,
                 )
             )
 

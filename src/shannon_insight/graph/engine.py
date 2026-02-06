@@ -7,7 +7,12 @@ from typing import Dict, List, Optional
 from ..math.compression import Compression
 from ..math.gini import Gini
 from ..scanning.models import FileMetrics
-from .algorithms import run_graph_algorithms
+from .algorithms import (
+    compute_centrality_gini,
+    compute_dag_depth,
+    compute_orphans,
+    run_graph_algorithms,
+)
 from .builder import build_dependency_graph
 from .models import (
     BoundaryMismatch,
@@ -41,6 +46,24 @@ class AnalysisEngine:
         result.graph_analysis = graph_analysis
         result.cycle_count = len(graph_analysis.cycles)
         result.modularity = graph_analysis.modularity_score
+
+        # Phase 3 additions: centrality_gini
+        graph_analysis.centrality_gini = compute_centrality_gini(graph_analysis.pagerank)
+
+        # Phase 3: DAG depth computation
+        # For now, use simple heuristic for entry points: in_degree=0 files
+        # Full role-based entry points will come from Phase 2 semantics
+        entry_points = {
+            path
+            for path, degree in graph_analysis.in_degree.items()
+            if degree == 0 and graph_analysis.out_degree.get(path, 0) > 0
+        }
+        graph_analysis.depth = compute_dag_depth(graph.adjacency, entry_points)
+
+        # Phase 3: Orphan detection (without roles, all in_degree=0 are candidates)
+        # When roles are available (Phase 2), will filter ENTRY_POINT and TEST
+        no_roles: dict[str, str] = {}  # Empty roles for now
+        graph_analysis.is_orphan = compute_orphans(graph_analysis.in_degree, no_roles)
 
         # Phase 4a: Per-file measurements (construct-level + graph-level)
         result.files = self._measure_files(graph, graph_analysis)
@@ -94,6 +117,11 @@ class AnalysisEngine:
             # Direct dependencies
             fa.depends_on = graph.adjacency.get(fm.path, [])
             fa.depended_on_by = graph.reverse.get(fm.path, [])
+
+            # Phase 3 additions
+            fa.depth = ga.depth.get(fm.path, -1)
+            fa.is_orphan = ga.is_orphan.get(fm.path, False)
+            fa.phantom_import_count = len(graph.unresolved_imports.get(fm.path, []))
 
             results[fm.path] = fa
 

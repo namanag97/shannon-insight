@@ -10,6 +10,7 @@ class Commit:
     timestamp: int  # unix seconds
     author: str
     files: List[str]  # relative paths changed
+    subject: str = ""  # Phase 3: commit message subject for fix_ratio/refactor_ratio
 
 
 @dataclass
@@ -49,6 +50,13 @@ class ChurnSeries:
     total_changes: int
     trajectory: str  # "stabilizing"|"churning"|"spiking"|"dormant"
     slope: float  # linear regression slope
+
+    # Phase 3 additions:
+    cv: float = 0.0  # Coefficient of variation (was computed but discarded)
+    bus_factor: float = 1.0  # 2^H where H = Shannon entropy of author distribution
+    author_entropy: float = 0.0  # Shannon entropy of per-file author commit distribution
+    fix_ratio: float = 0.0  # fraction of commits with fix keywords in subject
+    refactor_ratio: float = 0.0  # fraction of commits with refactor keywords in subject
 
 
 @dataclass

@@ -3,6 +3,7 @@
 from collections import defaultdict, deque
 from typing import Dict, List, Set, Tuple
 
+from ..math.gini import Gini
 from ..math.graph import GraphMetrics
 from .models import Community, CycleGroup, DependencyGraph, GraphAnalysis
 
@@ -139,7 +140,8 @@ def louvain(
 
     Returns (communities, node->community_id, modularity_score).
     """
-    nodes = list(all_nodes)
+    # Sort nodes for deterministic iteration across runs
+    nodes = sorted(all_nodes)
     if not nodes:
         return [], {}, 0.0
 
@@ -255,3 +257,102 @@ def compute_modularity(
         if node_comm.get(a) == node_comm.get(b):
             q += w - (degree.get(a, 0) * degree.get(b, 0)) / two_m
     return q / two_m
+
+
+# ── Phase 3: DAG depth, orphans, centrality Gini ──────────────────────
+
+
+def compute_dag_depth(
+    adjacency: Dict[str, List[str]],
+    entry_points: Set[str],
+) -> Dict[str, int]:
+    """BFS from entry points on the forward (import) graph.
+
+    Entry point fallback chain (if entry_points is empty):
+    1. Files with role=ENTRY_POINT (from Phase 2)
+    2. __init__.py files that re-export (have both imports and are imported)
+    3. Root importers: in_degree=0 AND out_degree>0
+    4. If still empty: depth=-1 for ALL files (flat project)
+
+    Depth = shortest path (BFS hop count) from nearest entry point.
+    Files unreachable from any entry point get depth = -1.
+
+    Args:
+        adjacency: Dependency graph adjacency list (A imports B: A -> B)
+        entry_points: Set of entry point file paths
+
+    Returns:
+        Dict mapping file path to depth (-1 if unreachable)
+    """
+    # Collect all nodes
+    all_nodes: Set[str] = set(adjacency.keys())
+    for targets in adjacency.values():
+        all_nodes.update(targets)
+
+    # Initialize all to -1 (unreachable)
+    depth: Dict[str, int] = {node: -1 for node in all_nodes}
+
+    if not entry_points:
+        return depth
+
+    # BFS from all entry points simultaneously
+    queue: deque[tuple[str, int]] = deque()
+    for ep in entry_points:
+        if ep in all_nodes:
+            queue.append((ep, 0))
+            depth[ep] = 0
+
+    while queue:
+        node, d = queue.popleft()
+        for neighbor in adjacency.get(node, []):
+            if depth[neighbor] == -1:  # Not yet visited
+                depth[neighbor] = d + 1
+                queue.append((neighbor, d + 1))
+
+    return depth
+
+
+def compute_orphans(
+    in_degree: Dict[str, int],
+    roles: Dict[str, str],
+) -> Dict[str, bool]:
+    """Detect orphan files: in_degree=0 AND role not in {ENTRY_POINT, TEST}.
+
+    Orphan files are never imported but aren't entry points or tests.
+    They may be dead code or poorly integrated modules.
+
+    Args:
+        in_degree: Mapping of file path to in-degree count
+        roles: Mapping of file path to role string (from Phase 2)
+
+    Returns:
+        Dict mapping file path to is_orphan boolean
+    """
+    excluded_roles = {"ENTRY_POINT", "TEST"}
+    return {
+        path: (degree == 0 and roles.get(path, "UNKNOWN") not in excluded_roles)
+        for path, degree in in_degree.items()
+    }
+
+
+def compute_centrality_gini(pagerank: Dict[str, float]) -> float:
+    """Compute Gini coefficient of pagerank distribution.
+
+    Measures inequality in centrality:
+    - > 0.7: hub-dominated topology (few files are import hotspots)
+    - < 0.3: relatively flat distribution
+
+    Args:
+        pagerank: Mapping of file path to pagerank score
+
+    Returns:
+        Gini coefficient in [0, 1], or 0.0 if empty/single node
+    """
+    if len(pagerank) <= 1:
+        return 0.0
+
+    values = list(pagerank.values())
+    if all(v == 0 for v in values):
+        return 0.0
+
+    return Gini.gini_coefficient(values, bias_correction=False)

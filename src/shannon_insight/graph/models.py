@@ -26,6 +26,9 @@ class DependencyGraph:
     all_nodes: Set[str] = field(default_factory=set)
     edge_count: int = 0
 
+    # Phase 3: track unresolved imports for phantom_import_count signal
+    unresolved_imports: Dict[str, List[str]] = field(default_factory=dict)
+
 
 # ── Level 4: Derived structures ────────────────────────────────────
 
@@ -66,6 +69,14 @@ class GraphAnalysis:
     communities: List[Community] = field(default_factory=list)
     node_community: Dict[str, int] = field(default_factory=dict)
     modularity_score: float = 0.0
+
+    # Phase 3 additions:
+    depth: Dict[str, int] = field(
+        default_factory=dict
+    )  # BFS depth from entry points, -1 = unreachable
+    is_orphan: Dict[str, bool] = field(default_factory=dict)  # in_degree=0 AND not entry_point/test
+    centrality_gini: float = 0.0  # Gini coefficient of pagerank distribution
+    spectral_gap: float = 0.0  # λ₂/λ₃ (moved from SpectralSummary)
 
 
 # ── Level 3 + 5: Container measurements ───────────────────────────
@@ -124,6 +135,11 @@ class FileAnalysis:
     depends_on: List[str] = field(default_factory=list)
     depended_on_by: List[str] = field(default_factory=list)
 
+    # Phase 3 additions:
+    depth: int = -1  # BFS depth from entry points, -1 = unreachable
+    is_orphan: bool = False  # in_degree=0 AND not entry_point/test
+    phantom_import_count: int = 0  # number of unresolved imports
+
 
 # ── Level 3 + 4 comparison: Declared vs Discovered ────────────────
 
@@ -137,6 +153,29 @@ class BoundaryMismatch:
     community_distribution: Dict[int, int] = field(default_factory=dict)
     # Files in this module that are more connected to another module
     misplaced_files: List[Tuple[str, str]] = field(default_factory=list)  # (file, suggested_module)
+
+
+# ── Phase 3: Clone detection and author distance ──────────────────
+
+
+@dataclass
+class ClonePair:
+    """A pair of files detected as clones via NCD."""
+
+    file_a: str
+    file_b: str
+    ncd: float  # Normalized Compression Distance, lower = more similar
+    size_a: int  # bytes
+    size_b: int
+
+
+@dataclass
+class AuthorDistance:
+    """G5 distance space entry: author-based file distance."""
+
+    file_a: str
+    file_b: str
+    distance: float  # 1 - weighted Jaccard overlap of author distributions
 
 
 # ── Full result ────────────────────────────────────────────────────

@@ -9,7 +9,7 @@ Ontology levels:
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 # ── Level 2: Relationships (the dependency graph) ──────────────────
 
@@ -102,6 +102,14 @@ class ModuleAnalysis:
     # If spread across many -> misaligned boundary
     community_ids: Set[int] = field(default_factory=set)
     boundary_alignment: float = 0.0  # 1.0 = all in same community
+
+    # Phase 4 additions: Martin metrics
+    instability: Optional[float] = None  # Ce / (Ca + Ce), None if isolated
+    abstractness: float = 0.0  # abstract_symbols / total_symbols
+    main_seq_distance: float = 0.0  # |A + I - 1|
+    role_consistency: float = 0.0  # max(role_count) / total_files
+    layer: int = -1  # Layer assignment (-1 = unassigned)
+    layer_violation_count: int = 0  # Number of violations from this module
 
 
 # ── Level 1 + 5: Per-file measurements ────────────────────────────

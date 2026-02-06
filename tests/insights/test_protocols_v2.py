@@ -1,9 +1,5 @@
 """Tests for v2 enhanced Analyzer and Finder protocols."""
 
-import pytest
-
-from shannon_insight.insights.protocols_v2 import Analyzer, Finder
-
 
 class MockAnalyzer:
     """Mock analyzer implementing the protocol."""

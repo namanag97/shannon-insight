@@ -30,7 +30,9 @@ class HistoryDB:
     def conn(self) -> sqlite3.Connection:
         """Return the active connection. Raises if not connected."""
         if self._conn is None:
-            raise RuntimeError("HistoryDB is not connected. Use as context manager or call connect().")
+            raise RuntimeError(
+                "HistoryDB is not connected. Use as context manager or call connect()."
+            )
         return self._conn
 
     # ── lifecycle ─────────────────────────────────────────────────

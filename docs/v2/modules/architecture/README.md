@@ -87,7 +87,7 @@ insights/ (IR6: architecture finders)
 
 3. **Layer inference** --- topological sort of the module DAG to assign layer depths, then detect violations (back-edges and skip-edges). See `layer-inference.md`.
 
-4. **Martin's metrics** --- compute I, A, D per module using expanded abstractness for dynamic languages. See `martin-metrics.md`.
+4. **Martin's metrics** --- compute I, A, D per module using expanded abstractness for dynamic languages. Abstractness computation detailed in `models.md` (Module.abstractness field).
 
 5. **Pattern classification** --- detect architectural patterns (layered, modular, hub-and-spoke, god-module) from the module graph topology and metric distributions.
 

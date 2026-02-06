@@ -106,10 +106,7 @@ class TestSyntaxExtractorBasic:
             (root / "c.py").write_text("def c(): pass")
 
             extractor = SyntaxExtractor()
-            results = extractor.extract_all(
-                [root / "a.py", root / "b.py", root / "c.py"],
-                root
-            )
+            results = extractor.extract_all([root / "a.py", root / "b.py", root / "c.py"], root)
 
             assert len(results) == 3
             assert "a.py" in results

@@ -36,9 +36,11 @@ Create the `semantics/` package to classify file roles, extract concept clusters
 |---|---|
 | `insights/analyzers/__init__.py` | Add semantic analyzer import |
 | `insights/kernel.py` | Register `SemanticAnalyzer` in the analyzer pipeline (runs after scanning, before graph) |
-| `insights/store.py` | Add semantic signal slots: `role`, `concept_count`, `concept_entropy`, `naming_drift`, `todo_density`, `docstring_coverage` |
+| `insights/store.py` | Add `semantics: Optional[Dict[str, FileSemantics]] = None` slot (full semantic objects) and `roles: Optional[Dict[str, str]] = None` convenience slot. Individual signals are read from `FileSemantics` objects, not scattered into `file_signals`. |
 
 ### Role Classification Decision Tree
+
+**Priority rule**: The decision tree is evaluated top-to-bottom. First matching rule wins. No multi-classification.
 
 ```
 classify_role(file: FileSyntax) -> Role:
@@ -57,19 +59,42 @@ classify_role(file: FileSyntax) -> Role:
     else                                                         -> UNKNOWN
 ```
 
-### Concept Extraction (Tier 2: files with 20+ unique identifiers)
+### Concept Extraction (tiered by file complexity)
+
+**Tier 1 (< 3 functions)**: Single concept based on role.
+```concepts = [Concept(topic=role.name, weight=1.0)]```
+concept_entropy = 0.0, concept_count = 1
+
+**Tier 2 (3-9 functions)**: Keyword frequency. Extract identifiers, split camelCase/snake_case, count token frequency, top-k tokens (k=3) become concept labels. No Louvain -- graph too small.
+
+**Tier 3 (10+ functions, 20+ unique identifiers)**: Full TF-IDF + Louvain pipeline (unchanged from current spec).
+
+Files below Tier 3 get naming_drift = 0.0 (not enough data to compare filename vs content meaningfully).
+
+### Implementation Note: Two-Pass Architecture
+
+TF-IDF requires corpus-wide IDF values (computed across ALL files). The `SemanticAnalyzer` **cannot** process files lazily — it needs all files upfront.
 
 ```
-1. Extract all identifiers from FileSyntax
-2. Split camelCase/snake_case into tokens
-3. Build TF-IDF vectors (within-file corpus)
-4. Build token co-occurrence graph (tokens appearing in same function)
-5. Run Louvain community detection on co-occurrence graph
-6. Each community = a concept, with weight = sum of TF-IDF scores
-7. concept_entropy = H(concept_weights)
+Pass 1: Extract identifiers from every file → build corpus-wide IDF dictionary
+Pass 2: Compute per-file TF-IDF vectors → run Louvain on co-occurrence graph for Tier 3 files
 ```
 
-For files with fewer than 20 identifiers: `concepts = [Concept(topic=role.name, weight=1.0)]`, `concept_entropy = 0.0`.
+The `SemanticAnalyzer.analyze(store)` interface has access to all files via `store.file_syntax`, so this works. But the implementation must be explicitly two-pass. Do NOT attempt streaming or per-file processing for Tier 3 concept extraction.
+
+### Store Changes
+
+```python
+@dataclass
+class AnalysisStore:
+    # ... existing ...
+
+    # Phase 2 additions:
+    semantics: Optional[Dict[str, FileSemantics]] = None  # path -> full FileSemantics
+    roles: Optional[Dict[str, str]] = None                 # path -> role string (convenience alias)
+```
+
+`SemanticAnalyzer` writes both slots. `roles` is a convenience alias so downstream consumers (Phase 3 `compute_orphans`, Phase 4 `ArchitectureAnalyzer`) don't need to unpack `FileSemantics` objects just to get the role.
 
 ## New Signals Available After This Phase
 
@@ -80,7 +105,7 @@ For files with fewer than 20 identifiers: `concepts = [Concept(topic=role.name, 
 | 10 | `concept_entropy` | float | [0, inf) | `semantics/concepts.py` |
 | 11 | `naming_drift` | float | [0, 1] | `semantics/naming.py` |
 | 12 | `todo_density` | float | [0, inf) | `semantics/completeness.py` |
-| 13 | `docstring_coverage` | float | [0, 1] | `semantics/completeness.py` |
+| 13 | `docstring_coverage` | float | [0, 1] | `semantics/completeness.py` | Python only. For other languages: `None` (not 0.0 -- that would mean 'no docs' which is a different claim than 'cannot measure'). |
 
 ## New Finders Available After This Phase
 
@@ -106,6 +131,9 @@ No new finders yet (finders are Phase 6). However, signals 8-13 are prerequisite
 7. `docstring_coverage` = 1.0 for fully documented file, 0.0 for undocumented file
 8. Graceful degradation: files with < 20 identifiers get single-concept fallback
 9. All existing tests pass
+10. Files with < 3 functions get single-concept fallback (Tier 1)
+
+**Generic filename handling**: Files named `utils.py`, `helpers.py`, `common.py`, `misc.py`, `shared.py`, `base.py`, `core.py`, `__init__.py` get `naming_drift = 0.0` (they are intentionally generic, not drifted).
 
 ## Estimated Scope
 

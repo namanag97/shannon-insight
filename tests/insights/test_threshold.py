@@ -1,7 +1,5 @@
 """Tests for ThresholdCheck tier-aware threshold strategy."""
 
-import pytest
-
 from shannon_insight.insights.threshold import ThresholdCheck
 from shannon_insight.signals.registry_v2 import Signal
 

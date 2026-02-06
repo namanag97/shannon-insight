@@ -4,14 +4,14 @@ Between any two files, "closeness" has six independent meanings. Each is defined
 
 ## The Six Spaces
 
-| # | Space | Edges | Distance meaning | Source IR | Status |
-|---|-------|-------|-----------------|-----------|--------|
-| G1 | **Dependency** | import A→B | Structural proximity | IR3 | Exists |
-| G2 | **Call** | fn in A calls fn in B | Behavioral proximity | IR3 (CALL edges) | Phase 3 |
-| G3 | **Type** | A uses type from B | Contract proximity | IR3 (TYPE_FLOW edges) | Phase 3+ |
-| G4 | **Co-change** | A, B in same commit | Evolutionary proximity | IR5t | Exists |
-| G5 | **Author** | A, B share authors | Social proximity | IR5t | Trivial to add |
-| G6 | **Semantic** | A, B share concepts | Meaning proximity | IR2 | Phase 2+ |
+| # | Space | Edges | Distance meaning | Source IR | Status | Phase |
+|---|-------|-------|-----------------|-----------|--------|-------|
+| G1 | **Dependency** | import A→B | Structural proximity | IR3 | OPERATIONAL | Exists (v1) |
+| G2 | **Call** | fn in A calls fn in B | Behavioral proximity | IR3 (CALL edges) | BACKLOGGED (B6) | — |
+| G3 | **Type** | A uses type from B | Contract proximity | IR3 (TYPE_FLOW edges) | BACKLOGGED (B4) | — |
+| G4 | **Co-change** | A, B in same commit | Evolutionary proximity | IR5t | OPERATIONAL | Exists (v1) |
+| G5 | **Author** | A, B share authors | Social proximity | IR5t | PLANNED | Phase 3 |
+| G6 | **Semantic** | A, B share concepts | Meaning proximity | IR2 | PLANNED | Phase 2 |
 
 ## Distance Functions
 
@@ -103,31 +103,35 @@ Files with high aggregate anomaly are "structurally surprising."
 
 ## Build Order
 
-Based on dependencies and implementation phases:
+Based on dependencies and implementation phases (4 active spaces; G2 and G3 are backlogged):
 
 1. **G1 + G4** — exist today (dependency graph + co-change from git)
-2. **G5** — trivial to add (author overlap from git data already in IR5t)
-3. **G6** — requires IR2 concept vectors (Phase 2)
-4. **G2** — requires CALL edges in IR3 (Phase 3)
-5. **G3** — requires TYPE_FLOW edges in IR3 (Phase 3+, hardest)
+2. **G5** — trivial to add (author overlap from git data already in IR5t) (Phase 3)
+3. **G6** — requires IR2 concept vectors (Phase 2+)
+4. ~~**G2**~~ — BACKLOGGED (B6). Requires CALL edges in IR3.
+5. ~~**G3**~~ — BACKLOGGED (B4). Requires TYPE_FLOW edges in IR3.
 
 ## Multi-Graph Analysis
 
-### Combined Laplacian
+### Combined Laplacian (BACKLOGGED)
+
+**BACKLOGGED**: See `BACKLOG.md` B5. Keep individual distance spaces, defer the combined operator.
 
 ```
 L_combined = Σᵢ αᵢ Lᵢ
 
 where Lᵢ = Laplacian of graph i
-      αᵢ = weight (default: α₁=0.30, α₄=0.25, α₅=0.15, α₆=0.20, α₂=0.10)
+      αᵢ = weight (TBD — requires calibration when at least 4 spaces are operational)
 ```
 
-Eigenvectors of L_combined define multi-relational communities.
+Eigenvectors of L_combined define multi-relational communities. Weights will be determined empirically when implemented — no speculative defaults.
 
-### Graph Disagreement Matrix
+### Graph Disagreement Matrix (THEORETICAL)
+
+**Status**: Theoretical model for future exploration. No current component consumes this matrix. Included as a research reference for systematic finding discovery.
 
 ```
 D_ij = ‖Lᵢ/‖Lᵢ‖_F - Lⱼ/‖Lⱼ‖_F‖_F
 ```
 
-6×6 matrix. High values = fruitful finding opportunities between those two spaces.
+6×6 matrix. High values = fruitful finding opportunities between those two spaces. Requires at least 4 operational distance spaces to be meaningful.

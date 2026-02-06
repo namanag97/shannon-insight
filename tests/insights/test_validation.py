@@ -2,13 +2,13 @@
 
 import pytest
 
+from shannon_insight.insights.store_v2 import AnalysisStore
 from shannon_insight.insights.validation import (
     PhaseValidationError,
     validate_after_scanning,
     validate_after_structural,
     validate_signal_field,
 )
-from shannon_insight.insights.store_v2 import AnalysisStore
 
 
 class MockFileMetrics:

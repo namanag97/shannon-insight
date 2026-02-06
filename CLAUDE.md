@@ -1,40 +1,32 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+**Shannon Insight**: Codebase analysis tool using information theory, graph algorithms, and git history.
+PyPI: `shannon-codebase-insight` | CLI: `shannon-insight`
 
-## Project Overview
-
-Shannon Insight is a multi-level codebase analysis tool using information theory, graph algorithms, and git history. PyPI package: `shannon-codebase-insight`. CLI entry point: `shannon-insight`.
-
-## Common Commands
+## Quick Reference
 
 ```bash
-# Setup
-pip install -e ".[dev]"          # or: make install
+# Setup & Quality
+make install                     # pip install -e ".[dev]"
+make all                         # format + check + test
 
 # Testing
 make test                        # Full suite with coverage
-make test-quick                  # Without coverage
-pytest tests/test_foo.py -v      # Single test file
-pytest tests/ -k "test_name" -v  # Single test by name
+pytest tests/test_foo.py -v      # Single file
+pytest tests/ -k "test_name" -v  # Single test
 
-# Code quality
-make format                      # ruff format + auto-fix
-make lint                        # ruff check
-make type-check                  # mypy src/
-make check                       # lint + type-check
-make all                         # format + check + test
-
-# Run
-shannon-insight -C test_codebase
+# CLI
+shannon-insight -C <path>        # Main analysis
+shannon-insight explain <file>   # File deep-dive
+shannon-insight diff/history     # Snapshot operations
+shannon-insight health/report    # Health trends / HTML report
 ```
+
+Key flags: `--changed`, `--since <ref>`, `--json`, `--verbose`, `--save`, `--fail-on any|high`
 
 ## Architecture
 
-All analysis flows through a single engine: `InsightKernel` (blackboard architecture).
-
-### Data Flow
-
+**Core**: `InsightKernel` orchestrates blackboard pattern:
 ```
 ScannerFactory → FileMetrics[] → AnalysisStore (blackboard)
                                    ↑ Analyzers write signals
@@ -42,77 +34,40 @@ ScannerFactory → FileMetrics[] → AnalysisStore (blackboard)
                                Finding[] → InsightResult + Snapshot
 ```
 
-Key types: `FileMetrics` (scanner output), `AnalysisStore` (blackboard), `Finding` (finder output), `InsightResult` (final result), `Snapshot` (serializable state for history/diff), `ChangeScopedReport` (scoped analysis for `--changed`/`--since`).
+**Key Types**: `FileMetrics`, `AnalysisStore`, `Finding`, `InsightResult`, `Snapshot`, `ChangeScopedReport`
 
-### Scanning Layer (`scanning/`)
-`scanning/factory.py` creates language-specific scanners (Python, Go, TypeScript, JavaScript, Java, Rust, Ruby, C/C++) defined in `scanning/languages.py`. Scanners produce `FileMetrics` (in `scanning/models.py`). `UniversalScanner` auto-detects language.
+### Core Modules
 
-### InsightKernel (`insights/kernel.py`)
-Orchestrates a **blackboard architecture**:
+**`scanning/`**: `ScannerFactory` (factory.py) creates language scanners (Python, Go, TS, JS, Java, Rust, Ruby, C/C++) → `FileMetrics`. `UniversalScanner` auto-detects.
 
-1. **Analyzers** fill an `AnalysisStore` (blackboard) with signals. Each declares `requires`/`provides` and runs in topological order:
-   - `StructuralAnalyzer` -> dependency graph, PageRank, SCC, Louvain communities
-   - `PerFileAnalyzer` -> the 5 primitives (compression, centrality, volatility, coherence, cognitive load)
-   - `TemporalAnalyzer` -> git co-change matrix, churn trajectories
-   - `SpectralAnalyzer` -> Laplacian eigendecomposition
+**`insights/kernel.py`**: Blackboard orchestrator
+- **Analyzers** (topo-sorted): `StructuralAnalyzer` (graph, PageRank, SCC, Louvain), `PerFileAnalyzer` (5 primitives), `TemporalAnalyzer` (co-change), `SpectralAnalyzer` (Laplacian)
+- **Finders** (graceful degradation): HighRiskHub, HiddenCoupling, GodFile, UnstableFile, BoundaryMismatch, DeadDependency
 
-2. **Finders** read the store and produce evidence-backed `Finding` objects. Each declares required signals and is skipped if unavailable (graceful degradation when git is absent):
-   - HighRiskHub, HiddenCoupling, GodFile, UnstableFile, BoundaryMismatch, DeadDependency
+**`graph/`**: Dependency graph (builder.py), algorithms (centrality, SCC, Louvain), measurements (engine.py)
 
-### CLI Layer
-Built on **Typer** (wraps Click). The main callback in `cli/analyze.py` handles `-C/--path` and stores it in `ctx.obj["path"]` for subcommands. Uses `click.Choice` via `click_type=` for `--fail-on` validation.
+**`signals/`**: Plugin-based primitives (compression, centrality, volatility, coherence, cognitive load). Plugins in `signals/plugins/`, dataclass in models.py
 
-```
-shannon-insight                        # Main analysis (InsightKernel)
-shannon-insight explain <file>         # Deep-dive on a specific file
-shannon-insight diff                   # Compare snapshots
-shannon-insight history                # List past snapshots
-shannon-insight health                 # Codebase health trends
-shannon-insight report                 # HTML treemap report
-```
+**`persistence/`**: SQLite history (database.py), snapshots (capture.py, models.py), diff (diff_engine.py), scoping (scope.py)
 
-Key flags: `--changed` (auto-detect branch base), `--since <ref>` (scope to changed files), `--json`, `--verbose`, `--save`, `--fail-on any|high`.
+**`temporal/`**: Git extraction (git_extractor.py), co-change matrix, churn classification
 
-### Structural Analysis (`graph/`)
-Dependency graph construction (`builder.py`), graph algorithms (`algorithms.py` — centrality, SCC, blast radius, Louvain), and per-file/module measurements (`engine.py`).
+**`config.py`**: Pydantic settings, overridable via `shannon-insight.toml` or `SHANNON_*` env vars
 
-### Signal Computation (`signals/`)
-Per-file quality primitives (compression, centrality, volatility, coherence, cognitive load). Plugin-based: each primitive in `signals/plugins/`. `Primitives` dataclass in `signals/models.py`.
+**`cli/`**: Typer-based. Main callback (analyze.py) handles `-C/--path` → `ctx.obj["path"]`
 
-### Persistence (`persistence/`)
-SQLite-backed history (`database.py`), snapshot capture/models (`capture.py`, `models.py`), reading/writing (`reader.py`, `writer.py`), snapshot diffing (`diff_engine.py`, `diff_models.py`), and change-scoped analysis (`scope.py`).
+## Conventions
 
-### Supporting Modules
-- **`math/`**: Core algorithms (entropy, compression, Gini, graph algorithms, robust statistics, signal fusion)
-- **`temporal/`**: Git log parsing (`git_extractor.py`), co-change matrix, churn trajectory classification
-- **`cli/formatters/`**: Output formatting base classes (legacy formatters)
-- **`config.py`**: Pydantic-based settings, overridable via `shannon-insight.toml` or `SHANNON_*` env vars
+- Python 3.9+, type hints, `snake_case`/`PascalCase`
+- Ruff (line 100), mypy (ignores: sklearn, diskcache, typer, rich)
+- Protocol interfaces: `Analyzer`, `Finder`, `Scanner`
+- `--save` opt-in (default: no `.shannon/` side effects)
+- Log level WARNING (use `--verbose` for debug)
 
-## Code Conventions
+## Extension Points
 
-- Python 3.9+ target, type hints on functions
-- Ruff for linting/formatting (line length 100)
-- Mypy for type checking (ignores sklearn, diskcache, typer, rich)
-- `snake_case` for functions/variables, `PascalCase` for classes
-- Protocol classes for plugin interfaces (`Analyzer`, `Finder`, `Scanner`)
-- `--save` is opt-in (off by default) — bare `shannon-insight` produces no `.shannon/` side effects
-- Default log level is WARNING — scanner/analyzer noise suppressed unless `--verbose`
+**Language Scanner**: Class in `scanning/` → register in `__init__.py`, `factory.py` → add entry point in `pyproject.toml`
 
-## Adding a New Language Scanner
+**Primitive**: Plugin in `signals/plugins/` → add field to `Primitives` (models.py) → register in `registry.py`
 
-1. Create scanner class in `src/shannon_insight/scanning/`
-2. Register in `scanning/__init__.py`
-3. Add auto-detection in `scanning/factory.py`
-4. Add entry point in `pyproject.toml` under `[project.entry-points."shannon_insight.languages"]`
-
-## Adding a New Primitive
-
-1. Create plugin in `src/shannon_insight/signals/plugins/`
-2. Add field to `Primitives` dataclass in `signals/models.py`
-3. Register in `signals/registry.py`
-
-## Adding a New Insight Finder
-
-1. Create finder in `src/shannon_insight/insights/finders/`
-2. Implement the `Finder` protocol: declare `requires` (store signals needed) and `find(store) -> list[Finding]`
-3. Register in `InsightKernel`
+**Finder**: Class in `insights/finders/` → implement `Finder` protocol (`requires`, `find(store)`) → register in `InsightKernel`

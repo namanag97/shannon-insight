@@ -13,11 +13,11 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from .completeness import compute_completeness
 from .concepts import ConceptExtractor
-from .models import FileSemantics, Role
+from .models import FileSemantics
 from .naming import compute_naming_drift
 from .roles import classify_role
 

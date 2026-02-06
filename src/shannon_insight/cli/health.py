@@ -125,7 +125,9 @@ def health(
         if len(values) >= 2:
             half = len(values) // 2
             first_half_avg = sum(v for v in values[:half] if v is not None) / max(1, half)
-            second_half_avg = sum(v for v in values[half:] if v is not None) / max(1, len(values) - half)
+            second_half_avg = sum(v for v in values[half:] if v is not None) / max(
+                1, len(values) - half
+            )
             delta = second_half_avg - first_half_avg
 
             if abs(delta) < 0.001:

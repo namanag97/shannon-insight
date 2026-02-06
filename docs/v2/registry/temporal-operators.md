@@ -88,13 +88,15 @@ Is change speeding up or slowing down?
 
 ```
 if Σ S(t) ≤ 1:                              DORMANT
-elif velocity < -threshold AND CV < 1:        STABILIZING
+elif velocity < -threshold AND CV < 0.5:      STABILIZING
 elif velocity > threshold AND CV > 0.5:       SPIKING
 elif CV > 0.5:                                CHURNING
 else:                                         STABLE
 ```
 
 Qualitative classification. Used for churn_trajectory (D6) but applicable to any signal.
+
+**CV threshold note**: The trajectory classifier uses CV > 0.5 to distinguish erratic (CHURNING/SPIKING) from steady (STABLE/STABILIZING). This is different from the `churn_cv` signal's absolute threshold of > 1.0 in `signals.md`, which flags extremely erratic files for standalone reporting. The trajectory classifier uses the lower 0.5 threshold because it combines CV with velocity for a more nuanced classification.
 
 ### Volatility
 
@@ -113,7 +115,13 @@ trend(S) = direction of rolling_mean(S, window=3)
 
 Long-term direction ignoring noise. "Improving" vs "worsening" depends on signal polarity (defined in `signals.md` per signal).
 
-### Seasonality
+---
+
+## BACKLOGGED Operators
+
+The following operators are deferred (see `BACKLOG.md` B3). No current finder uses them. Implement when a finder requires them. Minimum 20+ snapshots for statistical significance.
+
+### Seasonality (BACKLOGGED)
 
 ```
 r(lag) = autocorrelation(S(t), S(t + lag))
@@ -121,7 +129,7 @@ r(lag) = autocorrelation(S(t), S(t + lag))
 
 If r(lag = 2 weeks) is high, signal has a fortnightly rhythm (release cycles).
 
-### Stationarity
+### Stationarity (BACKLOGGED)
 
 ```
 Augmented Dickey-Fuller test on S(t₀..tₙ)
@@ -132,14 +140,17 @@ Is this signal a stable process or is it drifting?
 
 ## Which Operators Apply When
 
-Not all operators are meaningful for all signals:
+Not all operators are meaningful for all signals. Only operational operators (not backlogged) are listed.
 
-| Signal type | Useful operators |
-|---|---|
-| Numeric (pagerank, lines, etc.) | All operators |
-| Boolean (is_orphan) | Delta only (became orphan / stopped being orphan) |
-| Enum (role, trajectory) | Delta only (role changed from X to Y) |
-| Ratio [0,1] (stub_ratio, coherence) | Delta, velocity, trend (not CV — bounded range) |
+| Signal type | delta | velocity | acceleration | trajectory | volatility | trend |
+|---|---|---|---|---|---|---|
+| Numeric (pagerank, lines, etc.) | x | x | x | x | x | x |
+| Float ratio [0,1] (stub_ratio) | x | x | x | x | — | x |
+| Boolean (is_orphan) | x | — | — | — | — | — |
+| Enum (role, churn_trajectory) | x | — | — | — | — | — |
+| Composite (risk_score, health) | x | x | x | x | x | x |
+
+Backlogged operators (seasonality, stationarity) would apply to numeric and composite signals only. See above.
 
 Each signal in `signals.md` lists its applicable temporal operators.
 
@@ -155,6 +166,8 @@ trend(pagerank)           → IMPROVING | STABLE | WORSENING
 ```
 
 ## The Temporal Tensor
+
+**BACKLOGGED**: CP/Tucker decomposition is deferred. See `BACKLOG.md` B1. The section below describes the theoretical model for future reference.
 
 The full data is a 3D tensor:
 

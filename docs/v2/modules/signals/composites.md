@@ -72,7 +72,7 @@ All formulas are defined in `registry/composites.md`. Summary of what is compute
 | `wiring_score` | 60 | orphan_ratio, phantom_ratio, glue_deficit, stub_ratio, clone_ratio | Codebase-level AI code quality? |
 | `architecture_health` | 61 | violation_rate, cohesion, coupling, main_seq_distance, boundary_alignment | How well is the system structured? |
 | `team_risk` | - | bus_factor, knowledge_gini, coordination_cost, conway_correlation | Social/organizational risk? |
-| `codebase_health` | 62 | architecture_health, wiring_score, finding_density, bus_factor, modularity | The one number. |
+| `codebase_health` | 62 | architecture_health, wiring_score, global_bus_factor, modularity | The one number (finding_density removed to avoid circular dep). |
 
 ## Calibration Strategy (W3)
 

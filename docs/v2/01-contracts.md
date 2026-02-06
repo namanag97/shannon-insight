@@ -19,9 +19,9 @@ The wiring diagram of Shannon Insight. What each module exports, what it require
                                                    insights/
                                                     (IR6)
                                                         │
-                              ┌──────────────┬──────────┤
-                              ▼              ▼          ▼
-                          persistence/     cli/       web/
+                              ┌──────────────┤
+                              ▼              ▼
+                          persistence/   cli/ + JSON
 ```
 
 ## Module Contracts
@@ -87,7 +87,7 @@ The wiring diagram of Shannon Insight. What each module exports, what it require
 | **Requires** | ALL other modules (scanning, semantics, graph, architecture, temporal) |
 | **Feeds** | insights/ (the signal field that finders evaluate against) |
 | **Computes signals** | `risk_score`, `wiring_quality`, `health_score`, `wiring_score`, `architecture_health`, `team_risk`, `codebase_health` (all composites) |
-| **Responsibilities** | Percentile normalization, tiered analysis (small codebases), composite score computation, health Laplacian, temporal tensor operations |
+| **Responsibilities** | Percentile normalization, tiered analysis (small codebases), composite score computation, health Laplacian computation. Two-wave execution: SignalFusion runs in Wave 2 (after all Wave 1 analyzers complete) |
 | **Temporal contract** | Output at time t: SignalField(t). Every signal becomes a time series S(f, t₀..tₙ). Applies temporal operators (delta, velocity, trend) to all numeric signals. Stores historical signal values for sparklines. |
 
 ### insights/ (IR6)
@@ -96,7 +96,7 @@ The wiring diagram of Shannon Insight. What each module exports, what it require
 |---|---|
 | **Exports** | `InsightKernel`, `InsightResult`, `Finding`, `Evidence`, `Suggestion`, `CompositeScores` |
 | **Requires** | signals/ (SignalField) |
-| **Feeds** | persistence/ (results to store), cli/ (results to display), web/ (results to serve) |
+| **Feeds** | persistence/ (results to store), cli/ (results to display) |
 | **Responsibilities** | Signal registry for demand-driven evaluation, topological sort of analyzer/finder dependencies, finding predicate evaluation, evidence chain construction, severity/confidence scoring |
 | **Computes** | All 22 finding types (see `registry/finders.md`) |
 | **Temporal contract** | Output at time t: InsightResult(t). Delta: InsightDelta (new/resolved/persisting/regression findings). Debt velocity = \|new\| - \|resolved\|. Finding IDs are stable hashes for cross-snapshot tracking. |
@@ -118,13 +118,7 @@ The wiring diagram of Shannon Insight. What each module exports, what it require
 | **Requires** | insights/ (InsightKernel), persistence/ (history), config |
 | **Commands** | main, explain, diff, health, history, report, serve (new) |
 
-### web/ — NEW, future
-
-| | |
-|---|---|
-| **Exports** | `serve()`, FastAPI app |
-| **Requires** | persistence/ (reads TensorSnapshot via REST API) |
-| **Views** | Map, Timeline, File, Architecture, PR Risk |
+### web/ — BACKLOGGED (see BACKLOG.md B7)
 
 ## Parallelism
 
@@ -153,6 +147,6 @@ See `registry/temporal-operators.md` for full specification. Summary:
 
 - **Kind 1** (git-derived): `temporal/` computes from git log. Always available.
 - **Kind 2** (cross-snapshot): `persistence/` stores and compares analysis runs. Requires `--save`.
-- **Kind 3** (reconstruction): Re-run pipeline at historical commits. On demand, expensive.
+- **Kind 3** (reconstruction): BACKLOGGED (see `BACKLOG.md` B2). Re-run pipeline at historical commits.
 
 Every module has a temporal contract (defined in its README.md) specifying: output at time t, structured delta, time series, and reconstruction method.

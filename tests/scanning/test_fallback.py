@@ -1,10 +1,7 @@
 """Tests for regex fallback scanner."""
 
-import pytest
-
 from shannon_insight.scanning.fallback import RegexFallbackScanner
 from shannon_insight.scanning.models_v2 import FileSyntax
-
 
 SAMPLE_PYTHON = '''
 """A sample Python file."""
@@ -82,10 +79,10 @@ class TestRegexFallbackScanner:
 
     def test_no_main_guard_when_absent(self):
         """has_main_guard is False when not present."""
-        code = '''
+        code = """
 def foo():
     pass
-'''
+"""
         scanner = RegexFallbackScanner()
         result = scanner.parse(code, "/test.py", "python")
         assert result.has_main_guard is False
@@ -130,7 +127,7 @@ class TestGoFallback:
 
     def test_detects_go_functions(self):
         """Detects Go function definitions."""
-        go_code = '''
+        go_code = """
 package main
 
 import "fmt"
@@ -142,7 +139,7 @@ func main() {
 func helper(x int) int {
     return x * 2
 }
-'''
+"""
         scanner = RegexFallbackScanner()
         result = scanner.parse(go_code, "/main.go", "go")
         fn_names = [fn.name for fn in result.functions]
@@ -155,7 +152,7 @@ class TestTypeScriptFallback:
 
     def test_detects_typescript_functions(self):
         """Detects TypeScript function definitions."""
-        ts_code = '''
+        ts_code = """
 import { Something } from './module';
 
 function greet(name: string): string {
@@ -169,7 +166,7 @@ class MyClass {
         console.log('hello');
     }
 }
-'''
+"""
         scanner = RegexFallbackScanner()
         result = scanner.parse(ts_code, "/test.ts", "typescript")
         fn_names = [fn.name for fn in result.functions]
@@ -181,7 +178,7 @@ class TestJavaFallback:
 
     def test_detects_java_methods(self):
         """Detects Java methods."""
-        java_code = '''
+        java_code = """
 package com.example;
 
 import java.util.List;
@@ -195,7 +192,7 @@ public class MyClass {
         return x * 2;
     }
 }
-'''
+"""
         scanner = RegexFallbackScanner()
         result = scanner.parse(java_code, "/MyClass.java", "java")
         fn_names = [fn.name for fn in result.functions]

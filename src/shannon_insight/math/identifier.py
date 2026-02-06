@@ -9,7 +9,7 @@ import math
 import re
 from collections import Counter
 from itertools import groupby
-from typing import Dict, List, Set
+from typing import Dict, List
 
 
 class IdentifierAnalyzer:

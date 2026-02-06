@@ -2,7 +2,7 @@
 
 import pytest
 
-from shannon_insight.scanning.models_v2 import ClassDef, FileSyntax, FunctionDef, ImportDecl
+from shannon_insight.scanning.models_v2 import ClassDef, FileSyntax, FunctionDef
 from shannon_insight.semantics import (
     Concept,
     Role,
@@ -107,16 +107,30 @@ class TestTierDetermination:
         # Create functions with many unique non-stopword identifiers
         # Each function contributes 5 unique tokens (avoiding stopwords)
         words = [
-            "alpha", "beta", "gamma", "delta", "epsilon",
-            "zeta", "eta", "theta", "iota", "kappa",
-            "lambda", "sigma", "omega", "tau", "phi"
+            "alpha",
+            "beta",
+            "gamma",
+            "delta",
+            "epsilon",
+            "zeta",
+            "eta",
+            "theta",
+            "iota",
+            "kappa",
+            "lambda",
+            "sigma",
+            "omega",
+            "tau",
+            "phi",
         ]
         functions = []
         for i, word in enumerate(words):
-            functions.append(make_function(
-                name=f"compute_{word}_metric",
-                params=[f"source_{word}", f"target_{word}", f"cache_{word}"]
-            ))
+            functions.append(
+                make_function(
+                    name=f"compute_{word}_metric",
+                    params=[f"source_{word}", f"target_{word}", f"cache_{word}"],
+                )
+            )
         syntax = make_syntax(functions=functions)
         identifiers = extract_identifiers(syntax)
 
@@ -309,9 +323,9 @@ class TestDocstringCoverage:
             end_line=3,
         )
         syntax = make_syntax(functions=[fn])
-        content = '''def foo():
+        content = """def foo():
     pass
-'''
+"""
         completeness = compute_completeness(syntax, content)
         assert completeness.docstring_coverage == 0.0
 

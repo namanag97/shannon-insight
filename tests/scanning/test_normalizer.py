@@ -128,10 +128,11 @@ class TestNormalizerMultiLanguage:
     def test_go_parsing(self):
         """Parse Go code."""
         from shannon_insight.scanning.treesitter_parser import get_supported_languages
+
         if "go" not in get_supported_languages():
             pytest.skip("Go grammar not installed")
 
-        go_code = '''
+        go_code = """
 package main
 
 import "fmt"
@@ -143,7 +144,7 @@ func main() {
 func helper(x int) int {
     return x * 2
 }
-'''
+"""
         normalizer = TreeSitterNormalizer()
         result = normalizer.parse_file(go_code, "/main.go", "go")
 
@@ -154,10 +155,11 @@ func helper(x int) int {
     def test_typescript_parsing(self):
         """Parse TypeScript code."""
         from shannon_insight.scanning.treesitter_parser import get_supported_languages
+
         if "typescript" not in get_supported_languages():
             pytest.skip("TypeScript grammar not installed")
 
-        ts_code = '''
+        ts_code = """
 import { Something } from './module';
 
 function greet(name: string): string {
@@ -169,7 +171,7 @@ class MyClass {
         console.log('hello');
     }
 }
-'''
+"""
         normalizer = TreeSitterNormalizer()
         result = normalizer.parse_file(ts_code, "/test.ts", "typescript")
 
@@ -180,10 +182,11 @@ class MyClass {
     def test_javascript_parsing(self):
         """Parse JavaScript code."""
         from shannon_insight.scanning.treesitter_parser import get_supported_languages
+
         if "javascript" not in get_supported_languages():
             pytest.skip("JavaScript grammar not installed")
 
-        js_code = '''
+        js_code = """
 function hello() {
     console.log("hello");
 }
@@ -193,7 +196,7 @@ class MyClass {
         this.x = 1;
     }
 }
-'''
+"""
         normalizer = TreeSitterNormalizer()
         result = normalizer.parse_file(js_code, "/test.js", "javascript")
 
@@ -202,10 +205,11 @@ class MyClass {
     def test_java_parsing(self):
         """Parse Java code."""
         from shannon_insight.scanning.treesitter_parser import get_supported_languages
+
         if "java" not in get_supported_languages():
             pytest.skip("Java grammar not installed")
 
-        java_code = '''
+        java_code = """
 package com.example;
 
 import java.util.List;
@@ -215,7 +219,7 @@ public class MyClass {
         System.out.println("hello");
     }
 }
-'''
+"""
         normalizer = TreeSitterNormalizer()
         result = normalizer.parse_file(java_code, "/MyClass.java", "java")
 
@@ -224,10 +228,11 @@ public class MyClass {
     def test_rust_parsing(self):
         """Parse Rust code."""
         from shannon_insight.scanning.treesitter_parser import get_supported_languages
+
         if "rust" not in get_supported_languages():
             pytest.skip("Rust grammar not installed")
 
-        rust_code = '''
+        rust_code = """
 use std::io;
 
 fn main() {
@@ -237,7 +242,7 @@ fn main() {
 fn helper(x: i32) -> i32 {
     x * 2
 }
-'''
+"""
         normalizer = TreeSitterNormalizer()
         result = normalizer.parse_file(rust_code, "/main.rs", "rust")
 
@@ -246,10 +251,11 @@ fn helper(x: i32) -> i32 {
     def test_ruby_parsing(self):
         """Parse Ruby code."""
         from shannon_insight.scanning.treesitter_parser import get_supported_languages
+
         if "ruby" not in get_supported_languages():
             pytest.skip("Ruby grammar not installed")
 
-        ruby_code = '''
+        ruby_code = """
 require 'json'
 
 class MyClass
@@ -265,7 +271,7 @@ end
 def standalone
   puts "hello"
 end
-'''
+"""
         normalizer = TreeSitterNormalizer()
         result = normalizer.parse_file(ruby_code, "/test.rb", "ruby")
 

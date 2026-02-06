@@ -126,27 +126,29 @@ class FileSemantics:
 
 
 # Generic filenames that should not trigger naming drift
-GENERIC_FILENAMES = frozenset({
-    "utils",
-    "util",
-    "utilities",
-    "helpers",
-    "helper",
-    "common",
-    "misc",
-    "shared",
-    "base",
-    "core",
-    "__init__",
-    "index",
-    "main",
-    "app",
-    "config",
-    "settings",
-    "constants",
-    "types",
-    "models",
-    "schemas",
-    "exceptions",
-    "errors",
-})
+GENERIC_FILENAMES = frozenset(
+    {
+        "utils",
+        "util",
+        "utilities",
+        "helpers",
+        "helper",
+        "common",
+        "misc",
+        "shared",
+        "base",
+        "core",
+        "__init__",
+        "index",
+        "main",
+        "app",
+        "config",
+        "settings",
+        "constants",
+        "types",
+        "models",
+        "schemas",
+        "exceptions",
+        "errors",
+    }
+)

@@ -3,19 +3,17 @@
 This tests the Phase 0 skeleton structure. Full implementation is Phase 5.
 """
 
-import pytest
-
+from shannon_insight.insights.store_v2 import AnalysisStore
 from shannon_insight.signals.fusion import (
     FusionPipeline,
     SignalField,
-    build,
     _Collected,
-    _RawRisked,
-    _Normalized,
-    _ModuleTemporal,
     _Composited,
+    _ModuleTemporal,
+    _Normalized,
+    _RawRisked,
+    build,
 )
-from shannon_insight.insights.store_v2 import AnalysisStore
 
 
 class MockFileMetrics:
@@ -62,9 +60,7 @@ class TestFusionPipelineStructure:
         """step4_module_temporal returns _ModuleTemporal."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
-        normalized = (
-            FusionPipeline(store).step1_collect().step2_raw_risk().step3_normalize()
-        )
+        normalized = FusionPipeline(store).step1_collect().step2_raw_risk().step3_normalize()
         result = normalized.step4_module_temporal()
         assert isinstance(result, _ModuleTemporal)
 

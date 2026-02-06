@@ -72,8 +72,7 @@ def _toposort_analyzers(analyzers: list[Any]) -> list[Any]:
         for slot in getattr(analyzer, "provides", set()):
             if slot in provides_map:
                 raise SlotCollisionError(
-                    f"Slot '{slot}' provided by both '{provides_map[slot]}' "
-                    f"and '{analyzer.name}'"
+                    f"Slot '{slot}' provided by both '{provides_map[slot]}' and '{analyzer.name}'"
                 )
             provides_map[slot] = analyzer.name
 

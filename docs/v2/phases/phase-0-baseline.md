@@ -55,13 +55,16 @@ Signals currently computed by the v1 codebase:
 | 18 | `blast_radius_size` | EXISTS | `graph/algorithms.py` |
 | 23 | `community` | EXISTS | `graph/algorithms.py` (Louvain) |
 | 24 | `compression_ratio` | EXISTS | `signals/plugins/compression.py` |
-| 25 | `semantic_coherence` | EXISTS | `signals/plugins/coherence.py` |
+| 25 | `semantic_coherence` | **PARTIAL** | `signals/plugins/coherence.py` — measures import-based coherence (ratio of internal vs external imports). v2 redefines this as function-level TF-IDF cosine similarity within a file. Needs rewrite in Phase 2. |
 | 26 | `cognitive_load` | EXISTS | `signals/plugins/cognitive_load.py` |
 | 27 | `total_changes` | EXISTS | `temporal/` |
 | 28 | `churn_trajectory` | EXISTS | `temporal/churn.py` |
-| 29-30 | `churn_slope`, `churn_cv` | EXISTS | `temporal/churn.py` |
-| 31-32 | `bus_factor`, `author_entropy` | EXISTS | `temporal/` |
-| 33-34 | `fix_ratio`, `refactor_ratio` | EXISTS | `temporal/` |
+| 29 | `churn_slope` | EXISTS | `temporal/churn.py` |
+| 30 | `churn_cv` | **PARTIAL** | `temporal/churn.py` — computed in `_classify_trajectory()` but NOT stored in `ChurnSeries`. CV is a local variable used for classification then discarded. Must add `cv: float` field to `ChurnSeries`. |
+| 31 | `bus_factor` | **MISSING** | Not computed. Requires per-file author distribution from git history. `Commit.author` exists but nobody aggregates per-file author counts or computes Shannon entropy → `2^H`. |
+| 32 | `author_entropy` | **MISSING** | Same as bus_factor — requires per-file author distribution. |
+| 33 | `fix_ratio` | **MISSING** | Not computed. Git log format is `%H|%at|%ae` (no commit subject `%s`). Cannot classify commits as fix/bug/patch without the subject line. Must add `%s` to git log format. |
+| 34 | `refactor_ratio` | **MISSING** | Same as fix_ratio — needs commit subject. |
 | 52 | `modularity` | EXISTS | `graph/algorithms.py` |
 | 53 | `fiedler_value` | EXISTS | `insights/analyzers/spectral.py` |
 

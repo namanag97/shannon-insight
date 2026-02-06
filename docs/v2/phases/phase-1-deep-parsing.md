@@ -42,7 +42,7 @@ Replace regex-based scanning with tree-sitter AST parsing to produce `FileSyntax
 | `scanning/scanner.py` | Adapt `UniversalScanner` to use tree-sitter pipeline |
 | `scanning/languages.py` | Retain for language detection; parsing logic moves to tree-sitter |
 | `scanning/base.py` | Update `Scanner` protocol to return `FileSyntax` |
-| `pyproject.toml` | Add dependencies: `tree-sitter>=0.25`, `tree-sitter-languages>=1.10` |
+| `pyproject.toml` | Add optional dependency group: `[project.optional-dependencies] parsing = ["tree-sitter>=0.23", "tree-sitter-python>=0.23", "tree-sitter-go>=0.23", "tree-sitter-typescript>=0.23", "tree-sitter-javascript>=0.23", "tree-sitter-java>=0.23", "tree-sitter-rust>=0.23", "tree-sitter-ruby>=0.23", "tree-sitter-c>=0.23", "tree-sitter-cpp>=0.23"]`. Install via `pip install shannon-codebase-insight[parsing]`. |
 
 ### Data Model: FileSyntax
 
@@ -53,7 +53,7 @@ class FunctionDef:
     params: list[str]
     body_tokens: int
     signature_tokens: int
-    calls: list[str]          # NEW: syntactic call targets
+    call_targets: list[str] | None = None  # Unresolved syntactic targets. None if regex-parsed.
     nesting_depth: int        # NEW: accurate from AST
     start_line: int
     end_line: int
@@ -80,7 +80,45 @@ class FileSyntax:
     classes: list[ClassDef]
     imports: list[ImportDecl]
     language: str
+    has_main_guard: bool = False  # True if `if __name__ == "__main__":` or equivalent detected
 ```
+
+**`has_main_guard` detection**:
+- **tree-sitter**: Query for `if_statement` containing `__name__` and `"__main__"` comparisons
+- **regex fallback**: Simple text search for `if __name__` in raw content during scanning
+- **Non-Python**: `False` (language-specific entry point patterns handled by role classification instead)
+
+### Store Slot: `file_syntax`
+
+Phase 1 adds a new slot to `AnalysisStore`:
+
+```python
+@dataclass
+class AnalysisStore:
+    # ... existing ...
+
+    # Phase 1 addition:
+    file_syntax: Optional[Dict[str, FileSyntax]] = None  # path -> FileSyntax
+```
+
+The scanner writes `store.file_syntax` after parsing all files. Downstream consumers:
+- **SemanticAnalyzer** (Phase 2): reads functions, classes, decorators for role classification
+- **ArchitectureAnalyzer** (Phase 4): reads classes with `is_abstract` for abstractness
+- **SignalFusion** (Phase 5): reads functions for `impl_gini`, `stub_ratio` recomputation
+- **Clone detection** (Phase 3): reads identifiers for MinHash shingles
+
+### Fallback Strategy
+
+tree-sitter is optional. The scanning pipeline:
+
+1. Check if tree-sitter grammar is installed for the detected language
+2. If YES: parse with tree-sitter → FileSyntax (full: call_targets, decorators populated)
+3. If parse FAILS (encoding error, syntax error): fall back to regex → FileSyntax (basic: call_targets=None)
+4. If NO grammar installed: regex scanner → FileSyntax (basic)
+
+Both paths produce FileSyntax. Downstream code checks `if fn.call_targets is not None` to handle the difference.
+
+Track fallback rate: log how many files used regex fallback. If > 20%, warn the user.
 
 ## New Signals Available After This Phase
 
@@ -118,6 +156,7 @@ None directly. But `FileSyntax` enables future `SyntaxDelta` (functions added/re
 6. All 247 existing tests pass (backward compatibility)
 7. New tests cover: function extraction, class extraction, import extraction, nesting depth, stub detection per language
 8. Performance: parsing 500 files completes in under 2 seconds
+9. Regex fallback activates for files with encoding errors (test with a Latin-1 encoded fixture)
 
 ## Estimated Scope
 

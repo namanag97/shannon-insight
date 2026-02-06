@@ -87,7 +87,7 @@ The canonical classification rules are defined in `registry/temporal-operators.m
 
 ```
 if total_changes <= 1:                                  DORMANT
-elif slope < -threshold AND CV < 1:                     STABILIZING
+elif slope < -threshold AND CV < 0.5:                   STABILIZING
 elif slope > threshold AND CV > 0.5:                    SPIKING
 elif CV > 0.5:                                          CHURNING
 else:                                                   STABLE
@@ -109,12 +109,14 @@ v2 fixes both:
 1. The STABLE trajectory is added as the `else` branch -- files that are not dormant, not clearly trending, and not erratic are stable.
 2. CV thresholds are aligned with the registry specification.
 
+**v2 canonical thresholds** (from `registry/temporal-operators.md`): SPIKING = velocity > threshold AND CV > 0.5. CHURNING = CV > 0.5. These supersede any v1 values. Update code to match.
+
 ### Decision tree (v2)
 
 ```
 total_changes <= 1?
   YES -> DORMANT
-  NO  -> slope < -0.1 AND CV < 1.0?
+  NO  -> slope < -0.1 AND CV < 0.5?
            YES -> STABILIZING
            NO  -> slope > 0.1 AND CV > 0.5?
                     YES -> SPIKING

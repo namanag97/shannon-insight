@@ -28,44 +28,50 @@ TEST_PATH_PATTERNS = (
 )
 
 # Entry point decorators
-ENTRY_POINT_DECORATORS = frozenset({
-    "click.command",
-    "click.group",
-    "app.command",
-    "main",
-    "typer.command",
-})
+ENTRY_POINT_DECORATORS = frozenset(
+    {
+        "click.command",
+        "click.group",
+        "app.command",
+        "main",
+        "typer.command",
+    }
+)
 
 # Interface indicators
 INTERFACE_BASES = frozenset({"ABC", "Protocol", "ABCMeta"})
 INTERFACE_DECORATORS = frozenset({"abstractmethod", "abstractproperty"})
 
 # CLI framework decorators
-CLI_DECORATORS = frozenset({
-    "app.route",
-    "router.route",
-    "app.get",
-    "app.post",
-    "app.put",
-    "app.delete",
-    "app.patch",
-    "route",
-    "get",
-    "post",
-    "put",
-    "delete",
-})
+CLI_DECORATORS = frozenset(
+    {
+        "app.route",
+        "router.route",
+        "app.get",
+        "app.post",
+        "app.put",
+        "app.delete",
+        "app.patch",
+        "route",
+        "get",
+        "post",
+        "put",
+        "delete",
+    }
+)
 
 # HTTP service indicators
-SERVICE_BASES = frozenset({
-    "BaseHTTPRequestHandler",
-    "HTTPServer",
-    "View",
-    "APIView",
-    "Resource",
-    "Handler",
-    "Controller",
-})
+SERVICE_BASES = frozenset(
+    {
+        "BaseHTTPRequestHandler",
+        "HTTPServer",
+        "View",
+        "APIView",
+        "Resource",
+        "Handler",
+        "Controller",
+    }
+)
 
 # Migration patterns
 MIGRATION_PATTERNS = (
@@ -203,7 +209,11 @@ def _is_exception_module(syntax: FileSyntax) -> bool:
     for cls in syntax.classes:
         for base in cls.bases:
             base_simple = base.split(".")[-1]  # Handle module.Exception
-            if base_simple in exception_bases or "Error" in base_simple or "Exception" in base_simple:
+            if (
+                base_simple in exception_bases
+                or "Error" in base_simple
+                or "Exception" in base_simple
+            ):
                 exception_count += 1
                 break
 

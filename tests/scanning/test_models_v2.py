@@ -149,9 +149,7 @@ class TestClassDef:
 
     def test_is_abstract_true(self):
         """is_abstract can be set True."""
-        cls = ClassDef(
-            name="AbstractFoo", bases=["ABC"], methods=[], fields=[], is_abstract=True
-        )
+        cls = ClassDef(name="AbstractFoo", bases=["ABC"], methods=[], fields=[], is_abstract=True)
         assert cls.is_abstract is True
 
 
@@ -171,9 +169,7 @@ class TestImportDecl:
 
     def test_resolved_path_populated(self):
         """resolved_path can be set."""
-        imp = ImportDecl(
-            source="mymodule", names=["thing"], resolved_path="/path/to/mymodule.py"
-        )
+        imp = ImportDecl(source="mymodule", names=["thing"], resolved_path="/path/to/mymodule.py")
         assert imp.resolved_path == "/path/to/mymodule.py"
 
     def test_is_phantom_property(self):
@@ -181,9 +177,7 @@ class TestImportDecl:
         phantom = ImportDecl(source="missing", names=["foo"])
         assert phantom.is_phantom is True
 
-        resolved = ImportDecl(
-            source="found", names=["bar"], resolved_path="/path/to/found.py"
-        )
+        resolved = ImportDecl(source="found", names=["bar"], resolved_path="/path/to/found.py")
         assert resolved.is_phantom is False
 
 
@@ -207,9 +201,7 @@ class TestFileSyntax:
 
     def test_has_main_guard_default(self):
         """has_main_guard defaults to False."""
-        fs = FileSyntax(
-            path="/foo.py", functions=[], classes=[], imports=[], language="python"
-        )
+        fs = FileSyntax(path="/foo.py", functions=[], classes=[], imports=[], language="python")
         assert fs.has_main_guard is False
 
     def test_has_main_guard_true(self):
@@ -284,9 +276,7 @@ class TestFileSyntax:
 
     def test_max_nesting_empty(self):
         """max_nesting returns 0 if no functions."""
-        fs = FileSyntax(
-            path="/foo.py", functions=[], classes=[], imports=[], language="python"
-        )
+        fs = FileSyntax(path="/foo.py", functions=[], classes=[], imports=[], language="python")
         assert fs.max_nesting == 0
 
     def test_stub_ratio_property(self):
@@ -307,9 +297,7 @@ class TestFileSyntax:
 
     def test_stub_ratio_no_functions(self):
         """stub_ratio returns 0.0 if no functions."""
-        fs = FileSyntax(
-            path="/foo.py", functions=[], classes=[], imports=[], language="python"
-        )
+        fs = FileSyntax(path="/foo.py", functions=[], classes=[], imports=[], language="python")
         assert fs.stub_ratio == 0.0
 
     def test_impl_gini_property(self):

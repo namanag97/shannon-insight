@@ -34,9 +34,9 @@ class Module:
     # Structural metrics (see registry/signals.md #37-44)
     cohesion:          float        # signal #37: internal_edges / possible_edges
     coupling:          float        # signal #38: external_edges / total_edges
-    instability:       float        # signal #39: Ce / (Ca + Ce)
+    instability:       Optional[float]  # signal #39: Ce / (Ca + Ce), None if Ca+Ce=0
     abstractness:      float        # signal #40: abstract_symbols / total_symbols
-    main_seq_distance: float        # signal #41: |A + I - 1|
+    main_seq_distance: float        # signal #41: |A + I - 1|, 0.0 if instability is None
     boundary_alignment: float       # signal #42: files in dominant Louvain community / total
     layer_violation_count: int      # signal #43: backward/skip edges into this module
     role_consistency:  float        # signal #44: max(role_count) / total_files
@@ -51,8 +51,8 @@ class Module:
 ### Invariants
 
 - `file_count == len(files)`
-- `instability == ce / (ca + ce)` if `ca + ce > 0`, else `0.0`
-- `main_seq_distance == abs(abstractness + instability - 1.0)`
+- `instability == ce / (ca + ce)` if `ca + ce > 0`, else `None` (isolated module)
+- `main_seq_distance == abs(abstractness + instability - 1.0)` if `instability is not None`, else `0.0`
 - `role_consistency == max(role_distribution.values()) / file_count` if `file_count > 0`
 - `cohesion == 0.0` if `file_count <= 1`
 

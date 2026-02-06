@@ -7,6 +7,121 @@ Every finding type in Shannon Insight. Each finder declares which signals it req
 - If a signal is missing (e.g., no git = no bus_factor), the finder is gracefully skipped.
 - This enables demand-driven evaluation: trace from active finders → required signals → compute only those.
 
+**Severity values**: All severity numbers are hand-tuned initial values, not calibrated. They define relative ordering (HIGH_RISK_HUB at 1.0 is worse than NAMING_DRIFT at 0.45). Exact values will be adjusted based on real-world usage. The seemingly precise values (0.71, 0.55) are intentional rank separators, not claims of measurement precision.
+
+**Intermediate terms**: Some finders reference computed intermediates that are NOT numbered signals in `signals.md`:
+- `cochange_lift`, `cochange_confidence` — derived from the co-change matrix (AnalysisStore.cochange)
+- `clone_ratio` — `|files in NCD clone pairs| / |total files|`, computed during wiring_score
+- `violation_rate` — `violating_cross_module_edges / total_cross_module_edges`, computed during architecture_health
+- `raw_risk` — pre-percentile weighted sum used by health Laplacian (see `composites.md`)
+- `graph edges` — structural dependency edges from the DependencyGraph
+
+These are data-structure reads, not standalone signal computations. They don't need signal IDs.
+
+**Hotspot filter**: For FILE-scope findings that involve temporal signals (HIGH_RISK_HUB, UNSTABLE_FILE, KNOWLEDGE_SILO, BUG_ATTRACTOR, REVIEW_BLINDSPOT, WEAK_LINK), the finder MUST also check: `total_changes > median(total_changes)`. This ensures we only flag files that are actively being worked on. Structural-only findings (ORPHAN_CODE, HOLLOW_CODE, PHANTOM_IMPORTS, COPY_PASTE_CLONE, FLAT_ARCHITECTURE, NAMING_DRIFT) are exempt — they're problems regardless of change frequency.
+
+**Hotspot median definition**:
+```python
+def compute_hotspot_median(store: AnalysisStore) -> float:
+    """
+    Compute median of total_changes across non-test files.
+    Excludes TEST role files to avoid skewing by test churn.
+    """
+    changes = [
+        store.churn[path].total_changes
+        for path in store.file_metrics
+        if store.roles.get(path) != "TEST"
+        and path in store.churn
+    ]
+    return statistics.median(changes) if changes else 0.0
+```
+
+---
+
+## Confidence Scoring Formula
+
+Every finder computes a confidence score in [0, 1] using the **margin formula**:
+
+```python
+def compute_confidence(
+    triggered_conditions: List[Tuple[str, float, float, str]]
+    # (signal_name, actual_value, threshold, polarity)
+) -> float:
+    """
+    Confidence = mean of normalized margins across all triggered conditions.
+
+    For each condition that fired:
+    - If polarity == "high_is_bad" (e.g., pagerank): margin = (actual - threshold) / (1.0 - threshold)
+    - If polarity == "high_is_good" (e.g., bus_factor): margin = (threshold - actual) / threshold
+
+    margin is clamped to [0, 1].
+    """
+    if not triggered_conditions:
+        return 0.0
+
+    margins = []
+    for signal, actual, threshold, polarity in triggered_conditions:
+        if polarity == "high_is_bad":
+            # Higher value = worse. Margin = how much above threshold.
+            margin = (actual - threshold) / (1.0 - threshold) if threshold < 1.0 else 0.0
+        else:  # high_is_good
+            # Lower value = worse. Margin = how much below threshold.
+            margin = (threshold - actual) / threshold if threshold > 0.0 else 0.0
+        margins.append(max(0.0, min(1.0, margin)))
+
+    return sum(margins) / len(margins)
+
+# Example: HIGH_RISK_HUB
+# pctl(pagerank) = 0.95, threshold = 0.90, polarity = "high_is_bad"
+# margin = (0.95 - 0.90) / (1.0 - 0.90) = 0.05 / 0.10 = 0.50
+#
+# pctl(blast_radius) = 0.98, threshold = 0.90, polarity = "high_is_bad"
+# margin = (0.98 - 0.90) / (1.0 - 0.90) = 0.08 / 0.10 = 0.80
+#
+# confidence = mean([0.50, 0.80]) = 0.65
+```
+
+---
+
+## Signal Polarity in Finder Conditions
+
+Every finder condition MUST respect signal polarity. This table shows how each finder interprets its signals:
+
+| Finder | Signal | Polarity | Condition interpretation |
+|--------|--------|----------|--------------------------|
+| HIGH_RISK_HUB | pagerank | high=BAD | `pctl > 0.90` → "too central" |
+| HIGH_RISK_HUB | blast_radius_size | high=BAD | `pctl > 0.90` → "too impactful" |
+| HIGH_RISK_HUB | cognitive_load | high=BAD | `pctl > 0.90` → "too complex" |
+| GOD_FILE | cognitive_load | high=BAD | `pctl > 0.90` → "too complex" |
+| GOD_FILE | semantic_coherence | high=GOOD | `pctl < 0.20` → "too unfocused" |
+| KNOWLEDGE_SILO | bus_factor | high=GOOD | `≤ 1.5` → "too few authors" |
+| KNOWLEDGE_SILO | pagerank | high=BAD | `pctl > 0.75` → "too central" |
+| BUG_ATTRACTOR | fix_ratio | high=BAD | `> 0.4` → "too many bug fixes" |
+| BUG_ATTRACTOR | pagerank | high=BAD | `pctl > 0.75` → "too central" |
+| REVIEW_BLINDSPOT | pagerank | high=BAD | `pctl > 0.75` → "too central" |
+| REVIEW_BLINDSPOT | bus_factor | high=GOOD | `≤ 1.5` → "too few authors" |
+| HOLLOW_CODE | stub_ratio | high=BAD | `> 0.5` → "too incomplete" |
+| HOLLOW_CODE | impl_gini | high=BAD | `> 0.6` → "too uneven" |
+| NAMING_DRIFT | naming_drift | high=BAD | `> 0.7` → "filename misleads" |
+| ZONE_OF_PAIN | abstractness | neutral | `< 0.3` → "too concrete" |
+| ZONE_OF_PAIN | instability | neutral | `< 0.3` → "too stable" (hard to change) |
+
+**Validation rule**: Before using a signal in a finder condition, assert its polarity matches the condition direction:
+
+```python
+def validate_finder_condition(signal: Signal, operator: str, threshold: float):
+    """Validate that finder condition respects signal polarity."""
+    meta = REGISTRY[signal]
+
+    if operator == ">" and meta.polarity == "high_is_good":
+        raise ValueError(f"Signal {signal} is high=GOOD but condition uses > (expecting bad)")
+
+    if operator == "<" and meta.polarity == "high_is_bad":
+        raise ValueError(f"Signal {signal} is high=BAD but condition uses < (expecting good)")
+
+    # neutral polarity: both directions are valid
+```
+
 ---
 
 ## Existing Findings (upgraded with multi-IR evidence)
@@ -252,7 +367,7 @@ Every finding type in Shannon Insight. Each finder declares which signals it req
 | **Scope** | MODULE |
 | **Severity** | 0.60 |
 | **Requires** | `abstractness`, `instability` |
-| **Condition** | `abstractness < 0.3 AND instability < 0.3` |
+| **Condition** | `instability is not None AND abstractness < 0.3 AND instability < 0.3` |
 | **Evidence** | [IR4] A, I, D values, dependents count |
 | **Suggestion** | "Concrete and stable — hard to change. Extract interfaces or reduce dependents." |
 | **Effort** | HIGH |
@@ -281,9 +396,9 @@ Every finding type in Shannon Insight. Each finder declares which signals it req
 |---|---|
 | **Scope** | FILE |
 | **Severity** | 0.75 |
-| **Requires** | `risk_score`, graph edges (for health Laplacian) |
+| **Requires** | `raw_risk`, graph edges (for health Laplacian Δh computation) |
 | **Condition** | `Δh(f) > 0.4` (health Laplacian: file much worse than all neighbors) |
-| **Evidence** | [IR5s] Δh value, neighbor health values, risk_score |
+| **Evidence** | [IR5s] Δh value, neighbor raw_risk values, risk_score for display |
 | **Suggestion** | "This file drags down its healthy neighborhood. Prioritize improvement." |
 | **Effort** | MEDIUM |
 | **Phase** | 6 |
@@ -307,12 +422,94 @@ Every finding type in Shannon Insight. Each finder declares which signals it req
 |---|---|
 | **Scope** | FILE_PAIR |
 | **Severity** | 0.50 |
-| **Requires** | structural edges, `naming_drift` or semantic distance (G6) |
-| **Condition** | `d_dependency CLOSE (edge exists) AND d_semantic FAR (cosine < 0.3)` |
-| **Evidence** | [G1] structural edge, [G6] semantic distance, concept lists |
+| **Requires** | structural edges, concept clusters (from Phase 2 semantics) |
+| **Condition** | `structural edge exists AND concept_overlap(A, B) < 0.2` where `concept_overlap = |concepts(A) ∩ concepts(B)| / |concepts(A) ∪ concepts(B)|` (Jaccard) |
+| **Evidence** | [G1] structural edge, [IR2] concept lists, Jaccard overlap score |
 | **Suggestion** | "Connected but unrelated concepts. Consider removing or abstracting the dependency." |
 | **Effort** | MEDIUM |
 | **Phase** | 6 |
+
+---
+
+## Hotspot and Tier Behavior
+
+### Hotspot Classification
+
+Each finder is either **hotspot-filtered** (requires `total_changes > median`) or **structural-only** (fires regardless of change frequency).
+
+| Finder | Hotspot | Rationale |
+|--------|---------|-----------|
+| HIGH_RISK_HUB | yes | Temporal signals in condition |
+| HIDDEN_COUPLING | no | Co-change is inherently temporal |
+| GOD_FILE | no | Structural complexity, not change-driven |
+| UNSTABLE_FILE | yes | Temporal by definition |
+| BOUNDARY_MISMATCH | no | Structural (module scope) |
+| DEAD_DEPENDENCY | no | Requires history but condition is structural |
+| CHRONIC_PROBLEM | no | Meta-finder (wraps others) |
+| ORPHAN_CODE | no | Structural-only |
+| HOLLOW_CODE | no | Structural-only |
+| PHANTOM_IMPORTS | no | Structural-only |
+| COPY_PASTE_CLONE | no | Structural-only |
+| FLAT_ARCHITECTURE | no | Structural-only (codebase scope) |
+| NAMING_DRIFT | no | Structural-only |
+| KNOWLEDGE_SILO | yes | Temporal (bus_factor) + structural |
+| CONWAY_VIOLATION | no | Module scope, social signal |
+| REVIEW_BLINDSPOT | yes | Temporal (bus_factor) + structural |
+| LAYER_VIOLATION | no | Structural (architecture) |
+| ZONE_OF_PAIN | no | Structural (Martin metrics) |
+| ARCHITECTURE_EROSION | no | Requires snapshots, not hotspot |
+| WEAK_LINK | yes | Cross-dimensional, health Laplacian |
+| BUG_ATTRACTOR | yes | Temporal (fix_ratio) |
+| ACCIDENTAL_COUPLING | no | Structural + semantic |
+
+### Tier Behavior
+
+Which finders fire in which normalization tier.
+
+| Finder | ABSOLUTE (<15) | BAYESIAN (15-50) | FULL (50+) | Notes |
+|--------|---------------|-----------------|------------|-------|
+| HIGH_RISK_HUB | skip | fire | fire | Requires percentile conditions |
+| HIDDEN_COUPLING | fire | fire | fire | Uses lift threshold (absolute) |
+| GOD_FILE | skip | fire | fire | Requires percentile conditions |
+| UNSTABLE_FILE | fire | fire | fire | Uses enum + median (relative) |
+| BOUNDARY_MISMATCH | skip | fire | fire | Needs ≥2 modules |
+| DEAD_DEPENDENCY | fire | fire | fire | Uses absolute commit count |
+| CHRONIC_PROBLEM | fire | fire | fire | Meta-finder, depends on base |
+| ORPHAN_CODE | fire | fire | fire | Boolean condition |
+| HOLLOW_CODE | fire | fire | fire | Absolute thresholds |
+| PHANTOM_IMPORTS | fire | fire | fire | Count > 0 |
+| COPY_PASTE_CLONE | fire | fire | fire | NCD threshold (absolute) |
+| FLAT_ARCHITECTURE | fire | fire | fire | Absolute thresholds |
+| NAMING_DRIFT | fire | fire | fire | Absolute threshold |
+| KNOWLEDGE_SILO | skip | fire | fire | Requires percentile (pagerank) |
+| CONWAY_VIOLATION | skip | fire | fire | Needs ≥2 modules + ≥3 authors |
+| REVIEW_BLINDSPOT | skip | fire | fire | Requires percentile (pagerank) |
+| LAYER_VIOLATION | skip | fire | fire | Needs ≥2 modules |
+| ZONE_OF_PAIN | skip | fire | fire | Needs module Martin metrics |
+| ARCHITECTURE_EROSION | skip | fire | fire | Needs ≥3 snapshots + modules |
+| WEAK_LINK | skip | fire | fire | Needs raw_risk computation |
+| BUG_ATTRACTOR | skip | fire | fire | Requires percentile (pagerank) |
+| ACCIDENTAL_COUPLING | skip | fire | fire | Needs concept clusters (Phase 2) |
+
+**ABSOLUTE tier**: Only 8 of 22 finders fire. These use boolean, enum, count, or absolute threshold conditions that don't require percentile normalization.
+
+---
+
+## Finding Identity Keys
+
+Each finding has a **stable identity key** for tracking across snapshots (CHRONIC_PROBLEM detection, finding lifecycle in persistence).
+
+```
+identity_key = (finder_name, scope, *scope_specific_key)
+
+FILE scope:       (finder, file_path)
+FILE_PAIR scope:  (finder, sorted(file_a, file_b))
+MODULE scope:     (finder, module_name)
+MODULE_PAIR:      (finder, sorted(mod_a, mod_b))
+CODEBASE scope:   (finder,)
+```
+
+**Rename awareness**: When persistence detects a file rename (via git rename tracking), the identity key is updated to use the new path. This prevents rename → finding disappears → finding reappears as new.
 
 ---
 

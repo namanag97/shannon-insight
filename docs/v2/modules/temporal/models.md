@@ -257,4 +257,4 @@ class SpectralSummary:
     spectral_gap:   float
 ```
 
-**Status**: EXISTS in `temporal/models.py` but does not belong here. This is a graph/ concern (spectral decomposition of the Laplacian). v2 moves it to `graph/models.py`.
+**Status**: EXISTS in `temporal/models.py` but does not belong here. This is a graph/ concern (spectral decomposition of the Laplacian). **Phase 3 moves `spectral_gap` to `graph/models.py:GraphAnalysis`. The `fiedler_value`, `num_components`, and `eigenvalues` fields also move to GraphAnalysis. The `SpectralSummary` class is then removed from temporal/models.py.**

@@ -45,9 +45,7 @@ def compute_completeness(syntax: FileSyntax, content: str) -> Completeness:
     todo_density = (todo_count / lines * 100) if lines > 0 else 0.0
 
     # Docstring coverage (Python only)
-    docstring_coverage, documented, documentable = compute_docstring_coverage(
-        syntax, content
-    )
+    docstring_coverage, documented, documentable = compute_docstring_coverage(syntax, content)
 
     return Completeness(
         todo_density=todo_density,
@@ -144,7 +142,7 @@ def has_class_docstring(content: str, class_name: str) -> bool:
         return False
 
     # Get content after class def
-    after_def = content[match.end():]
+    after_def = content[match.end() :]
     lines = after_def.split("\n")
 
     # Look for docstring in first few lines after class:

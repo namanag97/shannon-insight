@@ -110,8 +110,8 @@ class TestTarjanSCC:
         """Iterative Tarjan should handle deep chains without recursion limit."""
         n = 1000
         nodes = {f"n{i}" for i in range(n)}
-        adj = {f"n{i}": [f"n{i+1}"] for i in range(n - 1)}
-        adj[f"n{n-1}"] = []
+        adj = {f"n{i}": [f"n{i + 1}"] for i in range(n - 1)}
+        adj[f"n{n - 1}"] = []
         sccs = tarjan_scc(adj, nodes)
         assert len(sccs) == n  # each node is its own SCC
 
@@ -161,15 +161,11 @@ class TestLouvain:
         assert modularity == 0.0
 
     def test_two_clusters(self):
-        # Two tight clusters: {a,b} and {c,d} with one bridge
+        # Two tight clusters: {a,b} and {c,d} with one bridge a-c
         adj = {
-            "a": ["b"],
+            "a": ["b", "c"],  # a connects to b (cluster 1) and c (bridge to cluster 2)
             "b": ["a"],
-            "c": ["d"],
-            "d": ["c"],
-            "a": ["b", "c"],  # bridge
-            "b": ["a"],
-            "c": ["d", "a"],
+            "c": ["d", "a"],  # c connects to d (cluster 2) and a (bridge back)
             "d": ["c"],
         }
         communities, node_comm, modularity = louvain(adj, {"a", "b", "c", "d"})

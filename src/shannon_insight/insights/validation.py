@@ -81,9 +81,7 @@ def validate_after_structural(store: AnalysisStore) -> None:
     for src, targets in graph.adjacency.items():
         for tgt in targets:
             if src not in graph.reverse.get(tgt, []):
-                raise PhaseValidationError(
-                    f"Adjacency has {src}→{tgt} but reverse is inconsistent"
-                )
+                raise PhaseValidationError(f"Adjacency has {src}→{tgt} but reverse is inconsistent")
 
 
 def validate_signal_field(store: AnalysisStore) -> None:

@@ -163,9 +163,7 @@ class TreeSitterParser:
         except Exception:
             return None
 
-    def query(
-        self, tree: Tree | None, query_str: str, language: str
-    ) -> list[Capture]:
+    def query(self, tree: Tree | None, query_str: str, language: str) -> list[Capture]:
         """Run a query on a syntax tree.
 
         Args:

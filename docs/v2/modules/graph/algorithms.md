@@ -116,6 +116,8 @@ For each node:
   add_gain = ki_in_target / 2m - sigma_target * ki / (2m)^2
   net_gain = add_gain - remove_cost
   Move node if net_gain > 0
+
+Note: `(2m)²` means `4m²`, which is `two_m * two_m` in code. This IS the standard Louvain modularity gain formula. The squared denominator is correct.
 ```
 
 **Parameters**:
@@ -143,18 +145,17 @@ Initialize:
   depth[v] = 0 for entry points
   depth[v] = -1 for all others (unreachable until proven otherwise)
 
-BFS from all entry points simultaneously:
+BFS from all entry points simultaneously (standard BFS = shortest path):
   queue = all entry points
   while queue:
     u = queue.popleft()
     for v in adjacency[u]:
-      candidate_depth = depth[u] + 1
-      if candidate_depth > depth[v]:
-        depth[v] = candidate_depth
+      if depth[v] == -1:  # not yet visited
+        depth[v] = depth[u] + 1
         queue.append(v)
 ```
 
-This computes the **longest** path from nearest entry point, not shortest. For cycle members, depth is set to the depth at which the cycle is first reached.
+This computes the **shortest** path from nearest entry point (standard BFS). Each node is visited once via its first (shortest) discovery path.
 
 Files with `depth == -1` after BFS completes are true orphans (unreachable from any entry point).
 

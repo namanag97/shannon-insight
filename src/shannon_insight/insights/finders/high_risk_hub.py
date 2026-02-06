@@ -106,7 +106,11 @@ class HighRiskHubFinder:
                 if ch_p >= 90:
                     has_churn = True
                     pcts.append(ch_p)
-                    churn_val = store.churn[path].total_changes if store.churn and path in store.churn else 0
+                    churn_val = (
+                        store.churn[path].total_changes
+                        if store.churn and path in store.churn
+                        else 0
+                    )
                     evidence_items.append(
                         Evidence(
                             signal="churn",

@@ -3,9 +3,9 @@
 import pytest
 
 from shannon_insight.insights.kernel_toposort import (
-    resolve_analyzer_order,
-    SlotCollisionError,
     AnalyzerCycleError,
+    SlotCollisionError,
+    resolve_analyzer_order,
 )
 
 

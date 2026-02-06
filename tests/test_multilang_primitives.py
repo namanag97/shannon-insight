@@ -609,7 +609,7 @@ class TestGiniCrossLanguage:
             (d / "proc.go").write_text(GO_MIXED)
             (d / "util.go").write_text(GO_UTIL)
 
-            from shannon_insight.analyzers import GoScanner
+            from shannon_insight.scanning import GoScanner
 
             scanner = GoScanner(str(d))
             files = scanner.scan()
@@ -626,7 +626,7 @@ class TestGiniCrossLanguage:
             (d / "processor.py").write_text(PYTHON_MIXED)
             (d / "util.py").write_text(PYTHON_UTIL)
 
-            from shannon_insight.analyzers import PythonScanner
+            from shannon_insight.scanning import PythonScanner
 
             scanner = PythonScanner(str(d))
             files = scanner.scan()
@@ -643,7 +643,7 @@ class TestGiniCrossLanguage:
             (d / "processor.ts").write_text(TS_MIXED)
             (d / "util.ts").write_text(TS_UTIL)
 
-            from shannon_insight.analyzers import TypeScriptScanner
+            from shannon_insight.scanning import TypeScriptScanner
 
             scanner = TypeScriptScanner(str(d))
             files = scanner.scan()
@@ -661,7 +661,7 @@ class TestGiniCrossLanguage:
             (d / "processor.go").write_text(GO_MIXED)
             (d / "util.go").write_text(GO_UTIL)
 
-            from shannon_insight.analyzers import GoScanner
+            from shannon_insight.scanning import GoScanner
 
             scanner = GoScanner(str(d))
             files = scanner.scan()

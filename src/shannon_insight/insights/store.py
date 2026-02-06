@@ -3,8 +3,8 @@
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set
 
-from ..analysis.models import CodebaseAnalysis
-from ..models import FileMetrics
+from ..graph.models import CodebaseAnalysis
+from ..scanning.models import FileMetrics
 from ..temporal.models import ChurnSeries, CoChangeMatrix, GitHistory, SpectralSummary
 
 

@@ -8,10 +8,10 @@ import tempfile
 
 import pytest
 
-from shannon_insight.snapshot.models import FindingRecord, Snapshot
-from shannon_insight.storage.database import HistoryDB
-from shannon_insight.storage.queries import HistoryQuery
-from shannon_insight.storage.writer import save_snapshot
+from shannon_insight.persistence.database import HistoryDB
+from shannon_insight.persistence.models import FindingRecord, Snapshot
+from shannon_insight.persistence.queries import HistoryQuery
+from shannon_insight.persistence.writer import save_snapshot
 
 
 def _snap(

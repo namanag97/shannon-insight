@@ -4,7 +4,7 @@ import typer
 
 from ._common import console
 
-app = typer.Typer(
+app: typer.Typer = typer.Typer(
     name="shannon-insight",
     help="Shannon Insight - Multi-Signal Codebase Quality Analyzer",
     add_completion=False,

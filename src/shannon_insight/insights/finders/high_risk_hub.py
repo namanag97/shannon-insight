@@ -38,7 +38,7 @@ class HighRiskHubFinder:
         # Optionally include churn if temporal available
         churn_pct = {}
         if store.churn:
-            churn_vals = {p: store.churn[p].total_changes for p in files if p in store.churn}
+            churn_vals = {p: float(store.churn[p].total_changes) for p in files if p in store.churn}
             churn_pct = compute_percentiles(churn_vals)
 
         findings = []
@@ -106,7 +106,7 @@ class HighRiskHubFinder:
                 if ch_p >= 90:
                     has_churn = True
                     pcts.append(ch_p)
-                    churn_val = store.churn[path].total_changes if path in store.churn else 0
+                    churn_val = store.churn[path].total_changes if store.churn and path in store.churn else 0
                     evidence_items.append(
                         Evidence(
                             signal="churn",

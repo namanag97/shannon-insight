@@ -44,8 +44,8 @@ ScannerFactory → FileMetrics[] → AnalysisStore (blackboard)
 
 Key types: `FileMetrics` (scanner output), `AnalysisStore` (blackboard), `Finding` (finder output), `InsightResult` (final result), `Snapshot` (serializable state for history/diff), `ChangeScopedReport` (scoped analysis for `--changed`/`--since`).
 
-### Scanning Layer
-`core/scanner_factory.py` creates language-specific scanners (Python, Go, TypeScript, JavaScript, Java, Rust, Ruby, C/C++) defined in `analyzers/languages.py`. Scanners produce `FileMetrics` (lines, tokens, imports, complexity). `UniversalScanner` auto-detects language.
+### Scanning Layer (`scanning/`)
+`scanning/factory.py` creates language-specific scanners (Python, Go, TypeScript, JavaScript, Java, Rust, Ruby, C/C++) defined in `scanning/languages.py`. Scanners produce `FileMetrics` (in `scanning/models.py`). `UniversalScanner` auto-detects language.
 
 ### InsightKernel (`insights/kernel.py`)
 Orchestrates a **blackboard architecture**:
@@ -73,13 +73,19 @@ shannon-insight report                 # HTML treemap report
 
 Key flags: `--changed` (auto-detect branch base), `--since <ref>` (scope to changed files), `--json`, `--verbose`, `--save`, `--fail-on any|high`.
 
+### Structural Analysis (`graph/`)
+Dependency graph construction (`builder.py`), graph algorithms (`algorithms.py` — centrality, SCC, blast radius, Louvain), and per-file/module measurements (`engine.py`).
+
+### Signal Computation (`signals/`)
+Per-file quality primitives (compression, centrality, volatility, coherence, cognitive load). Plugin-based: each primitive in `signals/plugins/`. `Primitives` dataclass in `signals/models.py`.
+
+### Persistence (`persistence/`)
+SQLite-backed history (`database.py`), snapshot capture/models (`capture.py`, `models.py`), reading/writing (`reader.py`, `writer.py`), snapshot diffing (`diff_engine.py`, `diff_models.py`), and change-scoped analysis (`scope.py`).
+
 ### Supporting Modules
 - **`math/`**: Core algorithms (entropy, compression, Gini, graph algorithms, robust statistics, signal fusion)
 - **`temporal/`**: Git log parsing (`git_extractor.py`), co-change matrix, churn trajectory classification
-- **`formatters/`**: Output formatting base classes
-- **`storage/`**: SQLite-backed history for snapshot persistence
-- **`snapshot/`**: Capture/compare analysis state over time
-- **`diff/`**: Snapshot diffing and change-scoped analysis
+- **`cli/formatters/`**: Output formatting base classes (legacy formatters)
 - **`config.py`**: Pydantic-based settings, overridable via `shannon-insight.toml` or `SHANNON_*` env vars
 
 ## Code Conventions
@@ -94,16 +100,16 @@ Key flags: `--changed` (auto-detect branch base), `--since <ref>` (scope to chan
 
 ## Adding a New Language Scanner
 
-1. Create scanner class in `src/shannon_insight/analyzers/`
-2. Register in `analyzers/__init__.py`
-3. Add auto-detection in `core/scanner_factory.py`
+1. Create scanner class in `src/shannon_insight/scanning/`
+2. Register in `scanning/__init__.py`
+3. Add auto-detection in `scanning/factory.py`
 4. Add entry point in `pyproject.toml` under `[project.entry-points."shannon_insight.languages"]`
 
 ## Adding a New Primitive
 
-1. Create plugin in `src/shannon_insight/primitives/plugins/`
-2. Add field to `Primitives` dataclass in `models.py`
-3. Register in `primitives/registry.py`
+1. Create plugin in `src/shannon_insight/signals/plugins/`
+2. Add field to `Primitives` dataclass in `signals/models.py`
+3. Register in `signals/registry.py`
 
 ## Adding a New Insight Finder
 

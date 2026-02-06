@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from ..snapshot.models import Snapshot
+from ..persistence.models import Snapshot
 from .treemap import build_treemap_data
 
 
@@ -81,7 +81,7 @@ def generate_report(
     }
 
     # ── Available metrics for dropdown ─────────────────────────────
-    metrics = set()
+    metrics: set[str] = set()
     for sigs in snapshot.file_signals.values():
         metrics.update(sigs.keys())
     metrics_list = sorted(metrics)

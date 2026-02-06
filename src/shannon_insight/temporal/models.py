@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Set, Tuple
 
-
+This is a brainstorming session. I am building a code analyzer, basically which will help developers figure out insights about their code. Now tell me functionally how can we better serve our developers?
 @dataclass
 class Commit:
     hash: str

@@ -26,7 +26,7 @@ class UnstableFileFinder:
         median_changes = all_changes[n // 2] if n > 0 else 0
 
         # Compute churn percentiles for severity
-        churn_vals = {p: cs.total_changes for p, cs in store.churn.items()}
+        churn_vals = {p: float(cs.total_changes) for p, cs in store.churn.items()}
         churn_pct = compute_percentiles(churn_vals)
 
         # Get span for context

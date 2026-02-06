@@ -3,7 +3,7 @@
 from typing import Set
 
 from ...logging_config import get_logger
-from ...primitives.extractor import PrimitiveExtractor
+from ...signals.extractor import PrimitiveExtractor
 from ..store import AnalysisStore
 
 logger = get_logger(__name__)

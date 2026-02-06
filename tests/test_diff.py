@@ -6,8 +6,8 @@ sys.path.insert(0, "src")
 
 import pytest
 
-from shannon_insight.diff.engine import diff_snapshots
-from shannon_insight.snapshot.models import FindingRecord, Snapshot
+from shannon_insight.persistence.diff_engine import diff_snapshots
+from shannon_insight.persistence.models import FindingRecord, Snapshot
 
 
 def _snap(

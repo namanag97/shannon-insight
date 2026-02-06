@@ -101,8 +101,8 @@ def report(
         # -- Persist snapshot if history is enabled --
         if settings.enable_history:
             try:
-                from ..storage import HistoryDB
-                from ..storage.writer import save_snapshot
+                from ..persistence import HistoryDB
+                from ..persistence.writer import save_snapshot
 
                 with HistoryDB(str(Path(target).resolve())) as db:
                     sid = save_snapshot(db.conn, snapshot)
@@ -114,8 +114,8 @@ def report(
         trends = None
         if include_trends:
             try:
-                from ..storage import HistoryDB
-                from ..storage.queries import HistoryQuery
+                from ..persistence import HistoryDB
+                from ..persistence.queries import HistoryQuery
 
                 with HistoryDB(str(Path(target).resolve())) as db:
                     query = HistoryQuery(db.conn)

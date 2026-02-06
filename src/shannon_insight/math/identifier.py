@@ -16,7 +16,7 @@ class IdentifierAnalyzer:
     """Extract and analyze identifier tokens from source code."""
 
     # Language keywords that don't carry semantic meaning.
-    STOP_WORDS: Set[str] = frozenset(
+    STOP_WORDS: frozenset[str] = frozenset(
         {
             # Python
             "def",

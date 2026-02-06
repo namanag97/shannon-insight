@@ -96,10 +96,10 @@ class RobustStatistics:
             contamination_val = "auto" if contamination is None else contamination
             clf = IsolationForest(contamination=contamination_val, random_state=42)
             outliers = clf.fit_predict(values.reshape(-1, 1))
-            return np.array([o == -1 for o in outliers])
+            return np.array([o == -1 for o in outliers])  # type: ignore[no-any-return]
 
         except (ImportError, Exception):
-            return np.array(
+            return np.array(  # type: ignore[no-any-return]
                 RobustStatistics.iqr_outliers(
                     values.tolist() if hasattr(values, "tolist") else list(values)
                 )

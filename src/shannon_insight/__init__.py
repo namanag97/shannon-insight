@@ -12,7 +12,8 @@ __version__ = "0.7.0"
 __author__ = "Naman Agarwal"
 
 from .insights import Finding, InsightKernel, InsightResult
-from .models import FileMetrics, Primitives, PrimitiveValues
+from .scanning.models import FileMetrics
+from .signals.models import Primitives, PrimitiveValues
 
 __all__ = [
     "InsightKernel",

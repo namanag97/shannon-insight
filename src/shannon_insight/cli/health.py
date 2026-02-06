@@ -62,8 +62,8 @@ def health(
 
       shannon-insight health --json
     """
-    from ..storage import HistoryDB
-    from ..storage.queries import HistoryQuery
+    from ..persistence import HistoryDB
+    from ..persistence.queries import HistoryQuery
 
     resolved = ctx.obj.get("path", Path.cwd()).resolve()
     db_path = resolved / ".shannon" / "history.db"
@@ -124,8 +124,8 @@ def health(
         # Determine trend direction by comparing first vs second half.
         if len(values) >= 2:
             half = len(values) // 2
-            first_half_avg = sum(values[:half]) / max(1, half)
-            second_half_avg = sum(values[half:]) / max(1, len(values) - half)
+            first_half_avg = sum(v for v in values[:half] if v is not None) / max(1, half)
+            second_half_avg = sum(v for v in values[half:] if v is not None) / max(1, len(values) - half)
             delta = second_half_avg - first_half_avg
 
             if abs(delta) < 0.001:
@@ -140,7 +140,9 @@ def health(
             dir_str = "[dim]--[/dim]"
 
         # Format the current value: integers for counts, decimals for floats.
-        if isinstance(current, float) and current != int(current):
+        if current is None:
+            current_str = "0"
+        elif isinstance(current, float) and current != int(current):
             current_str = f"{current:.4f}"
         else:
             current_str = str(int(current))

@@ -7,7 +7,7 @@ sys.path.insert(0, "src")
 import os
 import tempfile
 
-from shannon_insight.snapshot.models import EvidenceRecord, FindingRecord, Snapshot
+from shannon_insight.persistence.models import EvidenceRecord, FindingRecord, Snapshot
 from shannon_insight.visualization.report import generate_report
 from shannon_insight.visualization.treemap import build_treemap_data
 

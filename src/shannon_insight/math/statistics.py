@@ -117,7 +117,7 @@ class Statistics:
     @staticmethod
     def _t_critical_value(alpha: float, df: int) -> float:
         """Inverse t-distribution critical value."""
-        from scipy import stats as sp_stats
+        from scipy import stats as sp_stats  # type: ignore[import-untyped]
 
         return float(sp_stats.t.ppf(1 - alpha, df))
 

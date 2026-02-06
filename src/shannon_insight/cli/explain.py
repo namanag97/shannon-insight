@@ -68,8 +68,8 @@ def _interpret_percentile(percentile: float) -> str:
 def _load_trends(target: Path, filepath: str) -> Optional[Dict[str, List]]:
     """Load trend data from history for a file, if available."""
     try:
-        from ..storage import HistoryDB
-        from ..storage.queries import HistoryQuery
+        from ..persistence import HistoryDB
+        from ..persistence.queries import HistoryQuery
 
         resolved = target.resolve()
         db_path = resolved / ".shannon" / "history.db"

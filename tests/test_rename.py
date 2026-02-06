@@ -10,7 +10,7 @@ import tempfile
 
 import pytest
 
-from shannon_insight.diff.rename import detect_renames
+from shannon_insight.persistence.rename import detect_renames
 
 
 class TestDetectRenames:

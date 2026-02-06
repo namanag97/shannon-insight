@@ -5,8 +5,8 @@ from pathlib import Path
 
 import typer
 
-from ..storage import HistoryDB
-from ..storage.reader import list_snapshots
+from ..persistence import HistoryDB
+from ..persistence.reader import list_snapshots
 from . import app
 from ._common import console
 

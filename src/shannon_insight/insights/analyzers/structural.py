@@ -2,7 +2,7 @@
 
 from typing import Set
 
-from ...analysis.engine import AnalysisEngine
+from ...graph.engine import AnalysisEngine
 from ...logging_config import get_logger
 from ..store import AnalysisStore
 

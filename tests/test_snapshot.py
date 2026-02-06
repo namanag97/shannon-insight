@@ -4,8 +4,8 @@ import sys
 
 sys.path.insert(0, "src")
 
-from shannon_insight.snapshot.identity import compute_identity_key
-from shannon_insight.snapshot.models import FindingRecord, Snapshot
+from shannon_insight.persistence.identity import compute_identity_key
+from shannon_insight.persistence.models import FindingRecord, Snapshot
 
 
 def _make_finding_record(**kwargs):

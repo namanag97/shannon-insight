@@ -105,7 +105,7 @@ class Entropy:
         """
         # Delegate to shannon() — the formula is identical, only the
         # sample space changes from singleton events to joint events.
-        return Entropy.shannon(joint_distribution)
+        return Entropy.shannon(joint_distribution)  # type: ignore[arg-type]
 
     @staticmethod
     def pooled_entropy(*distributions: Mapping[str, Union[int, float]]) -> float:

@@ -34,7 +34,7 @@ class SpectralAnalyzer:
         node_idx = {n: i for i, n in enumerate(nodes)}
         n = len(nodes)
 
-        adj = np.zeros((n, n), dtype=float)
+        adj = np.zeros((n, n), dtype=float)  # type: ignore[var-annotated]
         for src, targets in graph.adjacency.items():
             i = node_idx.get(src)
             if i is None:

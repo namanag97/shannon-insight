@@ -3,7 +3,7 @@
 import tempfile
 from pathlib import Path
 
-from shannon_insight.analyzers import ConfigurableScanner, get_language_config
+from shannon_insight.scanning import ConfigurableScanner, get_language_config
 
 
 # Backward-compatible alias

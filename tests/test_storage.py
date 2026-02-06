@@ -6,10 +6,14 @@ sys.path.insert(0, "src")
 
 import tempfile
 
-from shannon_insight.snapshot.models import EvidenceRecord, FindingRecord, Snapshot
-from shannon_insight.storage.database import HistoryDB
-from shannon_insight.storage.reader import list_snapshots, load_snapshot, load_snapshot_by_commit
-from shannon_insight.storage.writer import save_snapshot
+from shannon_insight.persistence.database import HistoryDB
+from shannon_insight.persistence.models import EvidenceRecord, FindingRecord, Snapshot
+from shannon_insight.persistence.reader import (
+    list_snapshots,
+    load_snapshot,
+    load_snapshot_by_commit,
+)
+from shannon_insight.persistence.writer import save_snapshot
 
 
 def _make_snapshot(**kwargs):
@@ -39,7 +43,7 @@ class TestHistoryDB:
         with tempfile.TemporaryDirectory() as tmpdir:
             with HistoryDB(tmpdir) as db:
                 assert db.conn is not None
-            assert db.conn is None  # closed after exit
+            assert db._conn is None  # closed after exit
 
     def test_migrate_idempotent(self):
         with tempfile.TemporaryDirectory() as tmpdir:

@@ -101,8 +101,8 @@ def diff_cmd(
     resolved = ctx.obj.get("path", Path.cwd()).resolve()
     logger = setup_logging(verbose=verbose)
 
-    from ..storage import HistoryDB
-    from ..storage.reader import list_snapshots, load_snapshot
+    from ..persistence import HistoryDB
+    from ..persistence.reader import list_snapshots, load_snapshot
 
     resolved_str = str(resolved)
 
@@ -133,11 +133,11 @@ def diff_cmd(
             return
 
         # ── Normal diff flow ──────────────────────────────────────────
-        from ..diff import diff_snapshots
-        from ..diff.rename import detect_renames
-        from ..formatters.insight_diff_formatter import InsightDiffFormatter
         from ..insights import InsightKernel
-        from ..storage.writer import save_snapshot
+        from ..persistence.diff_engine import diff_snapshots
+        from ..persistence.rename import detect_renames
+        from ..persistence.writer import save_snapshot
+        from ._diff_output import InsightDiffFormatter
 
         settings = resolve_settings(
             config=config,
@@ -230,7 +230,7 @@ def _resolve_old_snapshot(
     3. If ``use_baseline`` is True, use the pinned baseline.
     4. Otherwise, use the most recent snapshot before the current one.
     """
-    from ..storage.reader import list_snapshots, load_snapshot, load_snapshot_by_commit
+    from ..persistence.reader import list_snapshots, load_snapshot, load_snapshot_by_commit
 
     if ref is not None:
         # Try as snapshot ID first

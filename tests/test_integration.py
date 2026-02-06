@@ -85,8 +85,8 @@ class TestSmokeTests:
         """Invalid language should give a friendly error at API level."""
         import pytest
 
-        from shannon_insight.analyzers.languages import get_language_config
         from shannon_insight.exceptions import ShannonInsightError
+        from shannon_insight.scanning.languages import get_language_config
 
         with pytest.raises(ShannonInsightError, match="Unsupported language"):
             get_language_config("invalid")

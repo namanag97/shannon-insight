@@ -61,7 +61,7 @@ class ChronicProblemFinder:
         if not self.history_conn:
             return []
 
-        from ...storage.queries import HistoryQuery
+        from ...persistence.queries import HistoryQuery
 
         query = HistoryQuery(self.history_conn)
         chronic = query.persistent_findings(min_snapshots=self.min_persistence)

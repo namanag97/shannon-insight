@@ -37,7 +37,7 @@ def setup_logging(
     console = Console(stderr=True)
 
     # Configure handlers
-    handlers = [
+    handlers: list[logging.Handler] = [
         RichHandler(
             console=console,
             rich_tracebacks=True,

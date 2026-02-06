@@ -4,8 +4,8 @@ import sys
 
 sys.path.insert(0, "src")
 
-from shannon_insight.diff.scope import build_scoped_report, compute_blast_radius
-from shannon_insight.snapshot.models import FindingRecord, Snapshot
+from shannon_insight.persistence.models import FindingRecord, Snapshot
+from shannon_insight.persistence.scope import build_scoped_report, compute_blast_radius
 
 
 def _snap(file_signals=None, findings=None, edges=None):

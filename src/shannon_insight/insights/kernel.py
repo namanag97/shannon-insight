@@ -6,9 +6,9 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 from ..config import AnalysisSettings, default_settings
-from ..core.scanner_factory import ScannerFactory
 from ..logging_config import get_logger
-from ..snapshot.models import Snapshot
+from ..persistence.models import Snapshot
+from ..scanning.factory import ScannerFactory
 from .analyzers import get_default_analyzers
 from .finders import get_default_finders
 from .models import InsightResult, StoreSummary
@@ -40,7 +40,7 @@ class InsightKernel:
         Tuple[InsightResult, Snapshot]
             The insight result and a serialisable snapshot of this run.
         """
-        from ..snapshot.capture import capture_snapshot
+        from ..persistence.capture import capture_snapshot
 
         store = AnalysisStore(root_dir=self.root_dir)
 

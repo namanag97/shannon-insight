@@ -99,7 +99,7 @@ class GitExtractor:
         current_hash = None
         current_ts = 0
         current_author = ""
-        current_files = []
+        current_files: list[str] = []
 
         for line in raw.split("\n"):
             line = line.strip()

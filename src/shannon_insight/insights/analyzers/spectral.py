@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from ...logging_config import get_logger
 from ...temporal.models import SpectralSummary
-from ..store import AnalysisStore
+from ..store_v2 import AnalysisStore
 
 logger = get_logger(__name__)
 
@@ -15,10 +15,11 @@ class SpectralAnalyzer:
     provides: set[str] = {"spectral"}
 
     def analyze(self, store: AnalysisStore) -> None:
-        if not store.structural:
+        if not store.structural.available:
             return
 
-        graph = store.structural.graph
+        structural = store.structural.value
+        graph = structural.graph
         if len(graph.all_nodes) < 3:
             return
 
@@ -71,12 +72,13 @@ class SpectralAnalyzer:
         if len(non_zero) >= 2:
             spectral_gap = non_zero[0] / non_zero[1] if non_zero[1] > 0 else 0.0
 
-        store.spectral = SpectralSummary(
+        result = SpectralSummary(
             fiedler_value=fiedler_value,
             num_components=num_components,
             eigenvalues=eigenvalues[: min(20, len(eigenvalues))],  # cap for storage
             spectral_gap=spectral_gap,
         )
+        store.spectral.set(result, produced_by=self.name)
 
         logger.debug(f"Spectral analysis: Fiedler={fiedler_value:.4f}, components={num_components}")
 

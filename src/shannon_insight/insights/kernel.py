@@ -8,10 +8,11 @@ from ..config import AnalysisSettings, default_settings
 from ..logging_config import get_logger
 from ..persistence.models import Snapshot
 from ..scanning.factory import ScannerFactory
+from ..scanning.syntax_extractor import SyntaxExtractor
 from .analyzers import get_default_analyzers, get_wave2_analyzers
 from .finders import get_default_finders
 from .models import InsightResult, StoreSummary
-from .store import AnalysisStore
+from .store_v2 import AnalysisStore
 
 logger = get_logger(__name__)
 
@@ -55,6 +56,9 @@ class InsightKernel:
             )
             empty_snapshot = capture_snapshot(store, empty_result, self.settings)
             return empty_result, empty_snapshot
+
+        # Phase 1.5: Extract file_syntax for deep parsing
+        self._extract_syntax(store)
 
         # Phase 2a: Run Wave 1 analyzers (topologically sorted by requires/provides)
         for analyzer in self._resolve_order():
@@ -109,6 +113,29 @@ class InsightKernel:
 
         return all_files
 
+    def _extract_syntax(self, store: AnalysisStore) -> None:
+        """Extract FileSyntax for all scanned files.
+
+        Populates store.file_syntax slot with dict[path, FileSyntax].
+        Uses tree-sitter if available, falls back to regex.
+        """
+        root = Path(self.root_dir)
+        extractor = SyntaxExtractor()
+
+        # Get file paths from file_metrics
+        file_paths = [root / fm.path for fm in store.file_metrics]
+
+        # Extract syntax for all files
+        file_syntax = extractor.extract_all(file_paths, root)
+
+        # Store result
+        store.file_syntax.set(file_syntax, produced_by="kernel")
+        logger.debug(
+            f"Extracted syntax for {len(file_syntax)} files "
+            f"(tree-sitter: {extractor.treesitter_count}, "
+            f"fallback: {extractor.fallback_count})"
+        )
+
     def _resolve_order(self) -> list:
         """Topologically sort analyzers by requires/provides."""
         # Simple topological sort: analyzers with fewer requirements go first
@@ -138,14 +165,14 @@ class InsightKernel:
             signals_available=sorted(store.available),
         )
 
-        if store.structural:
-            summary.total_modules = store.structural.total_modules
+        if store.structural.available:
+            summary.total_modules = store.structural.value.total_modules
 
-        if store.git_history:
-            summary.commits_analyzed = store.git_history.total_commits
+        if store.git_history.available:
+            summary.commits_analyzed = store.git_history.value.total_commits
             summary.git_available = True
 
-        if store.spectral:
-            summary.fiedler_value = store.spectral.fiedler_value
+        if store.spectral.available:
+            summary.fiedler_value = store.spectral.value.fiedler_value
 
         return summary

@@ -12,7 +12,7 @@ from .. import __version__
 from ..cache import compute_config_hash
 from ..config import AnalysisSettings
 from ..insights.models import InsightResult
-from ..insights.store import AnalysisStore
+from ..insights.store_v2 import AnalysisStore
 from ..signals.models import FileSignals, GlobalSignals, ModuleSignals
 from .identity import compute_identity_key
 from .models import EvidenceRecord, FindingRecord, Snapshot, TensorSnapshot
@@ -114,8 +114,8 @@ def capture_tensor_snapshot(
     global_signals: dict[str, Any] = {}
     delta_h: dict[str, float] = {}
 
-    if hasattr(store, "signal_field") and store.signal_field is not None:
-        sf = store.signal_field
+    if store.signal_field.available:
+        sf = store.signal_field.value
         # Per-file signals
         for path, fs in sf.per_file.items():
             file_signals[path] = _serialize_file_signals(fs)
@@ -136,8 +136,8 @@ def capture_tensor_snapshot(
     layers: list[dict[str, Any]] = []
     violations: list[dict[str, Any]] = []
 
-    if hasattr(store, "architecture") and store.architecture is not None:
-        arch = store.architecture
+    if store.architecture.available:
+        arch = store.architecture.value
         modules = list(arch.modules.keys()) if hasattr(arch, "modules") else []
         if hasattr(arch, "layers"):
             layers = [{"depth": l.depth, "modules": l.modules} for l in arch.layers]
@@ -329,33 +329,34 @@ def _convert_findings_v2(result: InsightResult) -> list[FindingRecord]:
 
 
 def _collect_file_signals(store: AnalysisStore) -> dict[str, dict[str, float]]:
-    """Merge per-file signals from store.file_signals and store.structural.files."""
+    """Merge per-file signals from store.structural.files and store.churn.
+
+    In v2, file_signals is replaced by signal_field. This function
+    collects raw signals for backward compatibility with v1 snapshots.
+    """
     merged: dict[str, dict[str, float]] = {}
 
-    # Source 1: store.file_signals (cognitive_load, semantic_coherence, etc.)
-    if store.file_signals:
-        for filepath, signals in store.file_signals.items():
-            merged[filepath] = dict(signals)
+    # Source 1: store.structural.files (pagerank, betweenness, etc.)
+    if store.structural.available:
+        structural = store.structural.value
+        if structural.files:
+            for filepath, fa in structural.files.items():
+                if filepath not in merged:
+                    merged[filepath] = {}
+                sigs = merged[filepath]
+                sigs["pagerank"] = fa.pagerank
+                sigs["betweenness"] = fa.betweenness
+                sigs["blast_radius_size"] = float(fa.blast_radius_size)
+                sigs["in_degree"] = float(fa.in_degree)
+                sigs["out_degree"] = float(fa.out_degree)
+                sigs["compression_ratio"] = fa.compression_ratio
+                sigs["nesting_depth"] = float(fa.nesting_depth)
+                sigs["function_count"] = float(fa.function_count)
+                sigs["lines"] = float(fa.lines)
 
-    # Source 2: store.structural.files (pagerank, betweenness, etc.)
-    if store.structural and store.structural.files:
-        for filepath, fa in store.structural.files.items():
-            if filepath not in merged:
-                merged[filepath] = {}
-            sigs = merged[filepath]
-            sigs["pagerank"] = fa.pagerank
-            sigs["betweenness"] = fa.betweenness
-            sigs["blast_radius_size"] = float(fa.blast_radius_size)
-            sigs["in_degree"] = float(fa.in_degree)
-            sigs["out_degree"] = float(fa.out_degree)
-            sigs["compression_ratio"] = fa.compression_ratio
-            sigs["nesting_depth"] = float(fa.nesting_depth)
-            sigs["function_count"] = float(fa.function_count)
-            sigs["lines"] = float(fa.lines)
-
-    # Source 3 (optional): store.churn (temporal signals)
-    if store.churn:
-        for filepath, churn_series in store.churn.items():
+    # Source 2 (optional): store.churn (temporal signals)
+    if store.churn.available:
+        for filepath, churn_series in store.churn.value.items():
             if filepath not in merged:
                 merged[filepath] = {}
             sigs = merged[filepath]
@@ -370,15 +371,17 @@ def _collect_codebase_signals(store: AnalysisStore) -> dict[str, float]:
     """Extract codebase-level scalar signals."""
     signals: dict[str, float] = {}
 
-    if store.spectral:
-        signals["fiedler_value"] = store.spectral.fiedler_value
-        signals["spectral_gap"] = store.spectral.spectral_gap
-        signals["num_components"] = float(store.spectral.num_components)
+    if store.spectral.available:
+        spectral = store.spectral.value
+        signals["fiedler_value"] = spectral.fiedler_value
+        signals["spectral_gap"] = spectral.spectral_gap
+        signals["num_components"] = float(spectral.num_components)
 
-    if store.structural:
-        signals["modularity"] = store.structural.modularity
-        signals["total_edges"] = float(store.structural.total_edges)
-        signals["cycle_count"] = float(store.structural.cycle_count)
+    if store.structural.available:
+        structural = store.structural.value
+        signals["modularity"] = structural.modularity
+        signals["total_edges"] = float(structural.total_edges)
+        signals["cycle_count"] = float(structural.cycle_count)
 
     return signals
 
@@ -416,10 +419,12 @@ def _collect_dependency_edges(
 ) -> list[tuple[str, str]]:
     """Flatten the adjacency dict into a list of (src, dst) tuples."""
     edges: list[tuple[str, str]] = []
-    if store.structural and store.structural.graph:
-        for src, dsts in store.structural.graph.adjacency.items():
-            for dst in dsts:
-                edges.append((src, dst))
+    if store.structural.available:
+        structural = store.structural.value
+        if structural.graph:
+            for src, dsts in structural.graph.adjacency.items():
+                for dst in dsts:
+                    edges.append((src, dst))
     return edges
 
 
@@ -450,10 +455,14 @@ def _determine_analyzers_ran(store: AnalysisStore) -> list[str]:
     ran: list[str] = []
     if "structural" in store.available:
         ran.append("structural")
-    if "file_signals" in store.available:
-        ran.append("file_signals")
-    if "temporal" in store.available:
+    if "signal_field" in store.available:
+        ran.append("signal_field")
+    if "git_history" in store.available or "churn" in store.available:
         ran.append("temporal")
     if "spectral" in store.available:
         ran.append("spectral")
+    if "semantics" in store.available:
+        ran.append("semantics")
+    if "architecture" in store.available:
+        ran.append("architecture")
     return ran

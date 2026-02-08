@@ -1,27 +1,52 @@
-"""HiddenCouplingFinder — co-change without structural dependency."""
+"""HiddenCouplingFinder — co-change without structural dependency.
+
+Scope: FILE_PAIR
+Severity: 0.9
+Hotspot: YES (requires temporal data)
+
+Files that always change together but have no import relationship.
+This suggests an implicit contract that should be made explicit.
+"""
+
+from __future__ import annotations
 
 from pathlib import PurePosixPath
+from typing import TYPE_CHECKING
 
 from ..models import Evidence, Finding
-from ..store import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
 
 _MIN_LIFT = 2.0
 _MIN_CONFIDENCE = 0.5
 
 
 class HiddenCouplingFinder:
+    """Detects file pairs that co-change without structural dependency."""
+
     name = "hidden_coupling"
-    requires: set[str] = {"structural", "temporal"}
+    api_version = "2.0"
+    requires = frozenset({"structural", "cochange"})
+    error_mode = "skip"
+    hotspot_filtered = True
+    tier_minimum = "ABSOLUTE"  # Works with any tier
+    deprecated = False
+    deprecation_note = None
+
     BASE_SEVERITY = 0.9
 
     def find(self, store: AnalysisStore) -> list[Finding]:
-        if not store.structural or not store.cochange:
+        """Detect hidden coupling between files."""
+        if not store.structural.available or not store.cochange.available:
             return []
 
-        graph = store.structural.graph
+        structural = store.structural.value
+        cochange = store.cochange.value
+        graph = structural.graph
         findings = []
 
-        for (file_a, file_b), pair in store.cochange.pairs.items():
+        for (file_a, file_b), pair in cochange.pairs.items():
             # Skip __init__.py pairs (noise)
             if file_a.endswith("__init__.py") or file_b.endswith("__init__.py"):
                 continue
@@ -58,7 +83,7 @@ class HiddenCouplingFinder:
 
             findings.append(
                 Finding(
-                    finding_type="hidden_coupling",
+                    finding_type=self.name,
                     severity=severity,
                     title=f"{file_a} and {file_b} always change together",
                     files=[file_a, file_b],
@@ -73,26 +98,28 @@ class HiddenCouplingFinder:
                             signal="cochange_lift",
                             value=pair.lift,
                             percentile=0,
-                            description=(f"{pair.lift:.1f}x more often than expected by chance"),
+                            description=f"{pair.lift:.1f}x more often than expected by chance",
                         ),
                         Evidence(
                             signal="no_import",
                             value=0.0,
                             percentile=0,
-                            description=("neither file imports the other"),
+                            description="neither file imports the other",
                         ),
                     ],
                     suggestion=suggestion,
+                    confidence=0.8,
+                    effort="LOW",
+                    scope="FILE_PAIR",
                 )
             )
 
-        return findings
+        return sorted(findings, key=lambda f: f.severity, reverse=True)
 
     def _describe_confidence(self, pair, file_a, file_b) -> str:
         """Describe co-change in plain terms."""
         a_name = PurePosixPath(file_a).name
         b_name = PurePosixPath(file_b).name
-        # Use the higher-confidence direction
         if pair.confidence_a_b >= pair.confidence_b_a:
             return (
                 f"when {a_name} changed, {b_name} also changed "
@@ -113,16 +140,9 @@ class HiddenCouplingFinder:
             return (
                 f"{a_name} and {b_name} are in the same package and "
                 f"always change together, but neither imports the other. "
-                f"They likely share an implicit contract — a data format, "
-                f"naming convention, or config. Make this explicit: either "
-                f"add an import, or extract the shared concept into a "
-                f"common module."
+                f"Make this explicit: add an import or extract shared logic."
             )
         return (
-            "These files live in different packages but always change "
-            "together. This suggests a hidden dependency — perhaps "
-            "a shared data format, duplicated logic, or an untracked "
-            "protocol. Find what ties them and either: "
-            "(1) make it an explicit import, or "
-            "(2) extract it into a shared module both can reference."
+            "These files live in different packages but always change together. "
+            "Find what ties them and make it explicit via import or shared module."
         )

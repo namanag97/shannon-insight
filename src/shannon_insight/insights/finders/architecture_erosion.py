@@ -4,12 +4,16 @@ Detects when architectural health is degrading over time by tracking
 the violation_rate global signal across snapshots.
 """
 
+from __future__ import annotations
+
 import sqlite3
-from typing import Optional
+from typing import TYPE_CHECKING
 
 from ...persistence.queries import get_global_signal_time_series
 from ..models import Evidence, Finding
-from ..store import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
 
 
 class ArchitectureErosionFinder:
@@ -41,7 +45,7 @@ class ArchitectureErosionFinder:
     def find(
         self,
         store: AnalysisStore,
-        db_conn: Optional[sqlite3.Connection] = None,
+        db_conn: sqlite3.Connection | None = None,
     ) -> list[Finding]:
         """Find architecture erosion from violation_rate trends.
 

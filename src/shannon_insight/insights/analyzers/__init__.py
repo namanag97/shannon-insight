@@ -1,18 +1,29 @@
 """Analyzer implementations — fill the AnalysisStore."""
 
-from .per_file import PerFileAnalyzer
 from .spectral import SpectralAnalyzer
 from .structural import StructuralAnalyzer
 from .temporal import TemporalAnalyzer
 
 
 def get_default_analyzers() -> list:
-    """Return Wave 1 analyzers (topo-sorted by requires/provides)."""
+    """Return Wave 1 analyzers (topo-sorted by requires/provides).
+
+    Order is determined by requires/provides dependencies:
+    1. StructuralAnalyzer: requires files, provides structural
+    2. TemporalAnalyzer: requires files, provides git_history/cochange/churn
+    3. SpectralAnalyzer: requires structural, provides spectral
+    4. SemanticAnalyzer: requires file_syntax, provides semantics/roles
+    5. ArchitectureAnalyzer: requires structural, provides architecture
+    """
+    from shannon_insight.architecture.analyzer import ArchitectureAnalyzer
+    from shannon_insight.semantics.analyzer import SemanticAnalyzer
+
     return [
         StructuralAnalyzer(),
-        PerFileAnalyzer(),
         TemporalAnalyzer(),
         SpectralAnalyzer(),
+        SemanticAnalyzer(),
+        ArchitectureAnalyzer(),
     ]
 
 

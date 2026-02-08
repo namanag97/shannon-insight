@@ -1,22 +1,47 @@
-"""BoundaryMismatchFinder — repackages existing boundary analysis."""
+"""BoundaryMismatchFinder — package boundaries don't match usage.
+
+Scope: MODULE
+Severity: 0.6
+Hotspot: NO (structural-only)
+
+Modules where boundary_alignment < 0.7, indicating files
+in the directory are more connected to files elsewhere.
+"""
+
+from __future__ import annotations
 
 from pathlib import PurePosixPath
+from typing import TYPE_CHECKING
 
 from ..models import Evidence, Finding
-from ..store import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
 
 
 class BoundaryMismatchFinder:
+    """Detects packages whose boundaries don't match dependency patterns."""
+
     name = "boundary_mismatch"
-    requires: set[str] = {"structural"}
+    api_version = "2.0"
+    requires = frozenset({"structural"})
+    error_mode = "skip"
+    hotspot_filtered = False  # Structural-only
+    tier_minimum = "ABSOLUTE"
+    deprecated = False
+    deprecation_note = None
+
     BASE_SEVERITY = 0.6
 
     def find(self, store: AnalysisStore) -> list[Finding]:
-        if not store.structural:
+        """Detect boundary mismatches in packages."""
+        if not store.structural.available:
             return []
 
+        structural = store.structural.value
         findings = []
-        for bm in store.structural.boundary_mismatches:
+
+        for bm in structural.boundary_mismatches:
             # Only include mismatches with actionable suggestions
             useful_misplaced = [
                 (f, s)
@@ -26,7 +51,7 @@ class BoundaryMismatchFinder:
             if not useful_misplaced:
                 continue
 
-            module = store.structural.modules.get(bm.module_path)
+            module = structural.modules.get(bm.module_path)
             if not module or module.file_count <= 2:
                 continue
 
@@ -42,7 +67,6 @@ class BoundaryMismatchFinder:
             relocations = []
             for f, s in useful_misplaced[:4]:
                 f_name = PurePosixPath(f).name
-                PurePosixPath(s).name or s
                 relocations.append(f"  {f_name} is more connected to {s}/")
 
             reloc_text = "\n".join(relocations)
@@ -54,9 +78,9 @@ class BoundaryMismatchFinder:
 
             findings.append(
                 Finding(
-                    finding_type="boundary_mismatch",
+                    finding_type=self.name,
                     severity=severity,
-                    title=(f"{mod_name}/ groups files that don't actually work together"),
+                    title=f"Boundary mismatch: {mod_name}/",
                     files=[f for f, _ in useful_misplaced],
                     evidence=[
                         Evidence(
@@ -65,8 +89,7 @@ class BoundaryMismatchFinder:
                             percentile=0,
                             description=(
                                 f"only {alignment * 100:.0f}% of files in this "
-                                f"directory import each other — "
-                                f"the rest are more connected elsewhere"
+                                f"directory import each other"
                             ),
                         ),
                         Evidence(
@@ -75,18 +98,18 @@ class BoundaryMismatchFinder:
                             percentile=0,
                             description=(
                                 f"dependency analysis found {n_communities} "
-                                f"distinct clusters inside this one directory"
+                                f"distinct clusters inside this directory"
                             ),
                         ),
                     ],
                     suggestion=(
-                        f"The files in {mod_name}/ belong to "
-                        f"{n_communities} separate dependency clusters. "
-                        f"Based on actual import patterns:\n{reloc_text}\n"
-                        f"Moving these files would make the package "
-                        f"boundaries match real usage."
+                        f"Files in {mod_name}/ belong to {n_communities} clusters. "
+                        f"Consider moving:\n{reloc_text}"
                     ),
+                    confidence=0.7,
+                    effort="HIGH",
+                    scope="MODULE",
                 )
             )
 
-        return findings
+        return sorted(findings, key=lambda f: f.severity, reverse=True)

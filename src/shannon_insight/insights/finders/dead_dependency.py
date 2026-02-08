@@ -1,28 +1,58 @@
-"""DeadDependencyFinder — structural dep without co-change."""
+"""DeadDependencyFinder — structural dep without co-change.
+
+Scope: FILE_PAIR
+Severity: 0.4
+Hotspot: YES (requires temporal data)
+
+An import exists but the files never change together,
+suggesting the import may be unused or vestigial.
+"""
+
+from __future__ import annotations
 
 from pathlib import PurePosixPath
+from typing import TYPE_CHECKING
 
 from ..models import Evidence, Finding
-from ..store import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
 
 _MIN_HISTORY_COMMITS = 50
 
 
 class DeadDependencyFinder:
+    """Detects structural dependencies with no co-change evidence."""
+
     name = "dead_dependency"
-    requires: set[str] = {"structural", "temporal"}
+    api_version = "2.0"
+    requires = frozenset({"structural", "cochange", "git_history"})
+    error_mode = "skip"
+    hotspot_filtered = True
+    tier_minimum = "ABSOLUTE"
+    deprecated = False
+    deprecation_note = None
+
     BASE_SEVERITY = 0.4
 
     def find(self, store: AnalysisStore) -> list[Finding]:
-        if not store.structural or not store.cochange or not store.git_history:
+        """Detect dead dependencies."""
+        if not store.structural.available:
             return []
+        if not store.cochange.available:
+            return []
+        if not store.git_history.available:
+            return []
+
+        git_history = store.git_history.value
 
         # Need sufficient history for absence of co-change to be meaningful
-        if store.git_history.total_commits < _MIN_HISTORY_COMMITS:
+        if git_history.total_commits < _MIN_HISTORY_COMMITS:
             return []
 
-        graph = store.structural.graph
-        cochange = store.cochange
+        structural = store.structural.value
+        cochange = store.cochange.value
+        graph = structural.graph
         change_counts = cochange.file_change_counts
         findings = []
 
@@ -46,7 +76,7 @@ class DeadDependencyFinder:
 
                 findings.append(
                     Finding(
-                        finding_type="dead_dependency",
+                        finding_type=self.name,
                         severity=severity,
                         title=f"{src} imports {tgt} but they never change together",
                         files=[src, tgt],
@@ -62,7 +92,7 @@ class DeadDependencyFinder:
                                 value=0.0,
                                 percentile=0,
                                 description=(
-                                    f"across {store.git_history.total_commits} commits, "
+                                    f"across {git_history.total_commits} commits, "
                                     f"{src_name} changed {src_changes} times and "
                                     f"{tgt_name} changed {tgt_changes} times — "
                                     f"but never in the same commit"
@@ -71,11 +101,12 @@ class DeadDependencyFinder:
                         ],
                         suggestion=(
                             f"The import of {tgt_name} in {src_name} may be "
-                            f"unused or vestigial. Check whether {src_name} "
-                            f"actually uses anything from {tgt_name} — "
-                            f"if not, removing it will simplify the dependency graph."
+                            f"unused or vestigial. Check if it can be removed."
                         ),
+                        confidence=0.6,
+                        effort="LOW",
+                        scope="FILE_PAIR",
                     )
                 )
 
-        return findings
+        return sorted(findings, key=lambda f: f.severity, reverse=True)

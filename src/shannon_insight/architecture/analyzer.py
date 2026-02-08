@@ -7,12 +7,19 @@ Orchestrates:
 4. Violation detection
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from ..graph.models import CodebaseAnalysis
 from ..logging_config import get_logger
 from .layers import infer_layers
 from .metrics import compute_module_metrics
 from .models import Architecture
 from .modules import detect_modules
+
+if TYPE_CHECKING:
+    from ..insights.store_v2 import AnalysisStore
 
 logger = get_logger(__name__)
 
@@ -24,18 +31,19 @@ class ArchitectureAnalyzer:
     requires: set[str] = {"structural"}
     provides: set[str] = {"architecture"}
 
-    def analyze(self, store) -> None:
+    def analyze(self, store: AnalysisStore) -> None:
         """Run architecture analysis and populate store.architecture.
 
         Args:
             store: AnalysisStore with structural analysis completed
         """
         # Check prerequisites
-        if not hasattr(store, "structural") or store.structural is None:
+        if not store.structural.available:
             logger.warning("Structural analysis not available - skipping architecture")
+            store.architecture.set_error("structural not available", self.name)
             return
 
-        structural: CodebaseAnalysis = store.structural
+        structural: CodebaseAnalysis = store.structural.value
 
         # Get file paths from structural analysis
         file_paths = list(structural.files.keys())
@@ -51,13 +59,9 @@ class ArchitectureAnalyzer:
             logger.info("Single module detected - minimal architecture analysis")
 
         # 2. Compute Martin metrics per module
-        roles = getattr(store, "roles", None) or {}
-        if hasattr(roles, "get"):
-            roles_dict = roles
-        elif hasattr(roles, "value"):
-            roles_dict = roles.value if roles.available else {}
-        else:
-            roles_dict = {}
+        roles_dict: dict[str, str] = {}
+        if store.roles.available:
+            roles_dict = store.roles.value
 
         for mod in modules.values():
             compute_module_metrics(
@@ -88,7 +92,7 @@ class ArchitectureAnalyzer:
         )
 
         # Store result
-        store.architecture = architecture
+        store.architecture.set(architecture, produced_by=self.name)
         logger.debug(
             f"Architecture analysis complete: {architecture.module_count} modules, "
             f"{architecture.max_depth + 1} layers, {len(violations)} violations"

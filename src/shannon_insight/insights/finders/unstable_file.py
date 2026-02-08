@@ -1,97 +1,115 @@
-"""UnstableFileFinder — never-stabilizing churn."""
+"""UnstableFileFinder — never-stabilizing churn.
+
+Scope: FILE
+Severity: 0.7
+Hotspot: YES (requires temporal data)
+
+Files with trajectory CHURNING or SPIKING that have
+above-median change counts are unstable.
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from ..models import Evidence, Finding
-from ..ranking import compute_percentiles
-from ..store import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
 
 _MIN_FILES = 5
 
 
 class UnstableFileFinder:
+    """Detects files with never-stabilizing churn patterns."""
+
     name = "unstable_file"
-    requires: set[str] = {"temporal"}
+    api_version = "2.0"
+    requires = frozenset({"signal_field"})
+    error_mode = "skip"
+    hotspot_filtered = True
+    tier_minimum = "ABSOLUTE"
+    deprecated = False
+    deprecation_note = None
+
     BASE_SEVERITY = 0.7
 
     def find(self, store: AnalysisStore) -> list[Finding]:
-        if not store.churn:
-            return []
-        if len(store.churn) < _MIN_FILES:
+        """Detect unstable files based on churn trajectory."""
+        if not store.signal_field.available:
             return []
 
-        # Find the median total_changes
-        all_changes = sorted(cs.total_changes for cs in store.churn.values())
+        field = store.signal_field.value
+
+        if len(field.per_file) < _MIN_FILES:
+            return []
+
+        # Find median total_changes
+        all_changes = sorted(fs.total_changes for fs in field.per_file.values())
         n = len(all_changes)
         median_changes = all_changes[n // 2] if n > 0 else 0
 
-        # Compute churn percentiles for severity
-        churn_vals = {p: float(cs.total_changes) for p, cs in store.churn.items()}
-        churn_pct = compute_percentiles(churn_vals)
-
         # Get span for context
         span_weeks = 0
-        if store.git_history:
-            span_weeks = max(1, store.git_history.span_days // 7)
+        if store.git_history.available:
+            span_weeks = max(1, store.git_history.value.span_days // 7)
 
         findings = []
-        for path, cs in store.churn.items():
-            if cs.trajectory not in ("churning", "spiking"):
+        for path, fs in sorted(field.per_file.items()):
+            if fs.churn_trajectory not in ("CHURNING", "SPIKING"):
                 continue
-            if cs.total_changes <= median_changes:
+            if fs.total_changes <= median_changes:
                 continue
 
-            pct = churn_pct.get(path, 0)
-            strength = max(0.1, min(1.0, pct / 100))
+            # Get percentile if available
+            pctl = fs.percentiles.get("total_changes", 0.5)
+            strength = max(0.3, pctl)
             severity = self.BASE_SEVERITY * strength
 
             # Build time-aware description
             if span_weeks > 0:
-                rate_desc = f"changed {cs.total_changes} times over {span_weeks} weeks"
+                rate_desc = f"changed {fs.total_changes} times over {span_weeks} weeks"
             else:
-                rate_desc = f"changed {cs.total_changes} times"
+                rate_desc = f"changed {fs.total_changes} times"
 
-            if cs.trajectory == "spiking":
-                trend_desc = (
-                    "the change rate is increasing — more edits in recent weeks than earlier"
-                )
+            if fs.churn_trajectory == "SPIKING":
+                trend_desc = "change rate is increasing — more edits recently"
                 suggestion = (
-                    "This file is being edited more and more frequently. "
-                    "This often signals unclear requirements, "
-                    "a leaky abstraction that needs constant patching, "
-                    "or missing test coverage that lets bugs through. "
-                    "Investigate why it keeps needing changes."
+                    "This file is being edited more frequently. "
+                    "Investigate unclear requirements or missing test coverage."
                 )
             else:
-                trend_desc = "the change rate is volatile — no sign of settling down"
+                trend_desc = "change rate is volatile — no sign of settling down"
                 suggestion = (
-                    "This file has been modified repeatedly without "
-                    "stabilizing. Common causes: unclear ownership, "
-                    "too many responsibilities (consider splitting), "
-                    "or insufficient tests causing bug-fix churn. "
-                    "Review recent commits to find the pattern."
+                    "This file has been modified repeatedly without stabilizing. "
+                    "Consider splitting it or adding tests to reduce churn."
                 )
 
             findings.append(
                 Finding(
-                    finding_type="unstable_file",
+                    finding_type=self.name,
                     severity=severity,
-                    title=f"{path} keeps changing without stabilizing",
+                    title=f"Unstable file: {path}",
                     files=[path],
                     evidence=[
                         Evidence(
                             signal="total_changes",
-                            value=float(cs.total_changes),
-                            percentile=pct,
+                            value=float(fs.total_changes),
+                            percentile=pctl,
                             description=rate_desc,
                         ),
                         Evidence(
                             signal="churn_trajectory",
-                            value=cs.slope,
+                            value=fs.churn_slope,
                             percentile=0,
                             description=trend_desc,
                         ),
                     ],
                     suggestion=suggestion,
+                    confidence=0.75,
+                    effort="MEDIUM",
+                    scope="FILE",
                 )
             )
 
-        return findings
+        return sorted(findings, key=lambda f: f.severity, reverse=True)

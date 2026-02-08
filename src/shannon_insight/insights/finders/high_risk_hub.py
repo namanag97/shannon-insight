@@ -1,201 +1,166 @@
-"""HighRiskHubFinder — central + complex + churning files."""
+"""HighRiskHubFinder — central + complex + churning files.
+
+Scope: FILE
+Severity: 1.0 (highest)
+Hotspot: YES (requires change activity)
+
+A high-risk hub is a file with:
+- High centrality (pagerank or blast_radius in top 10%)
+- AND (high complexity OR high churn)
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from ..models import Evidence, Finding
-from ..ranking import compute_percentiles
-from ..store import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
 
 _MIN_FILES = 5
 
 
 class HighRiskHubFinder:
+    """Detects central, complex files that are risky to modify."""
+
     name = "high_risk_hub"
-    requires: set[str] = {"structural", "file_signals"}
+    api_version = "2.0"
+    requires = frozenset({"signal_field"})
+    error_mode = "skip"
+    hotspot_filtered = True
+    tier_minimum = "BAYESIAN"  # Needs percentiles
+    deprecated = False
+    deprecation_note = None
+
     BASE_SEVERITY = 1.0
 
     def find(self, store: AnalysisStore) -> list[Finding]:
-        if not store.structural or not store.file_signals:
+        """Detect high-risk hub files.
+
+        Criteria (v2 spec):
+        - pctl(pagerank) > 0.90 AND pctl(blast_radius_size) > 0.90
+        - AND (pctl(cognitive_load) > 0.90 OR trajectory in {CHURNING, SPIKING})
+        """
+        if not store.signal_field.available:
             return []
-        if len(store.structural.files) < _MIN_FILES:
+
+        field = store.signal_field.value
+
+        # Need enough files for percentiles to be meaningful
+        if len(field.per_file) < _MIN_FILES:
             return []
 
-        files = store.structural.files
-        total_files = len(files)
+        # In ABSOLUTE tier, percentiles don't exist
+        if field.tier == "ABSOLUTE":
+            return []
 
-        # Gather signals
-        pageranks = {p: f.pagerank for p, f in files.items()}
-        blast = {
-            p: f.blast_radius_size / total_files if total_files > 0 else 0 for p, f in files.items()
-        }
-        cognitive = {p: store.file_signals.get(p, {}).get("cognitive_load", 0) for p in files}
+        findings: list[Finding] = []
 
-        # Compute percentiles
-        pr_pct = compute_percentiles(pageranks)
-        bl_pct = compute_percentiles(blast)
-        cg_pct = compute_percentiles(cognitive)
+        for path, fs in sorted(field.per_file.items()):
+            pctl = fs.percentiles
 
-        # Optionally include churn if temporal available
-        churn_pct = {}
-        if store.churn:
-            churn_vals = {p: float(store.churn[p].total_changes) for p in files if p in store.churn}
-            churn_pct = compute_percentiles(churn_vals)
+            # Get percentiles (default 0 if not computed)
+            pr_pctl = pctl.get("pagerank", 0)
+            br_pctl = pctl.get("blast_radius_size", 0)
+            cog_pctl = pctl.get("cognitive_load", 0)
 
-        findings = []
-        for path in files:
-            fa = files[path]
-            evidence_items = []
-            pcts = []
+            # Need high centrality (pagerank OR blast_radius in top 10%)
+            has_high_centrality = pr_pctl >= 0.90 or br_pctl >= 0.90
+            if not has_high_centrality:
+                continue
 
-            # Track which signal categories fired
-            has_connectivity = False
-            has_complexity = False
-            has_churn = False
+            # Need high complexity OR high churn
+            has_high_complexity = cog_pctl >= 0.90
+            has_high_churn = fs.churn_trajectory in {"CHURNING", "SPIKING"}
 
-            # Check PageRank (connectivity signal)
-            pr_p = pr_pct.get(path, 0)
-            if pr_p >= 90:
-                has_connectivity = True
-                pcts.append(pr_p)
+            if not (has_high_complexity or has_high_churn):
+                continue
+
+            # Build evidence
+            evidence_items: list[Evidence] = []
+            pcts: list[float] = []
+
+            if pr_pctl >= 0.90:
+                pcts.append(pr_pctl)
                 evidence_items.append(
                     Evidence(
                         signal="pagerank",
-                        value=pageranks[path],
-                        percentile=pr_p,
-                        description=(f"{fa.in_degree} files import this directly"),
+                        value=fs.pagerank,
+                        percentile=pr_pctl,
+                        description=f"{fs.in_degree} files import this directly",
                     )
                 )
 
-            # Check blast radius (connectivity signal)
-            bl_p = bl_pct.get(path, 0)
-            if bl_p >= 90:
-                has_connectivity = True
-                pcts.append(bl_p)
+            if br_pctl >= 0.90:
+                pcts.append(br_pctl)
                 evidence_items.append(
                     Evidence(
-                        signal="blast_radius_pct",
-                        value=blast[path],
-                        percentile=bl_p,
+                        signal="blast_radius_size",
+                        value=float(fs.blast_radius_size),
+                        percentile=br_pctl,
                         description=(
-                            f"a bug here could affect "
-                            f"{fa.blast_radius_size} of {total_files} files "
-                            f"({blast[path] * 100:.0f}% of the codebase)"
+                            f"a bug here could affect {fs.blast_radius_size} of "
+                            f"{len(field.per_file)} files"
                         ),
                     )
                 )
 
-            # Check cognitive load (complexity signal)
-            cg_p = cg_pct.get(path, 0)
-            if cg_p >= 90:
-                has_complexity = True
-                pcts.append(cg_p)
+            if has_high_complexity:
+                pcts.append(cog_pctl)
                 evidence_items.append(
                     Evidence(
                         signal="cognitive_load",
-                        value=cognitive[path],
-                        percentile=cg_p,
-                        description=(
-                            f"harder to understand than {cg_p:.0f}% of files in this codebase"
-                        ),
+                        value=fs.cognitive_load,
+                        percentile=cog_pctl,
+                        description=f"harder to understand than {cog_pctl * 100:.0f}% of files",
                     )
                 )
 
-            # Optional: churn (activity signal)
-            if churn_pct:
-                ch_p = churn_pct.get(path, 0)
-                if ch_p >= 90:
-                    has_churn = True
-                    pcts.append(ch_p)
-                    churn_val = (
-                        store.churn[path].total_changes
-                        if store.churn and path in store.churn
-                        else 0
+            if has_high_churn:
+                evidence_items.append(
+                    Evidence(
+                        signal="churn_trajectory",
+                        value=0.0,  # enum, use 0
+                        percentile=0.0,
+                        description=f"trajectory={fs.churn_trajectory}, {fs.total_changes} changes",
                     )
-                    evidence_items.append(
-                        Evidence(
-                            signal="churn",
-                            value=float(churn_val),
-                            percentile=ch_p,
-                            description=f"changed {churn_val} times in recent history",
-                        )
-                    )
+                )
 
-            # Need 2+ high signals to qualify
-            if len(pcts) < 2:
-                continue
-
-            avg_pct = sum(pcts) / len(pcts)
-            severity = self.BASE_SEVERITY * max(0.1, min(1.0, avg_pct / 100))
-
-            suggestion = self._build_suggestion(
-                path,
-                fa,
-                total_files,
-                has_connectivity,
-                has_complexity,
-                has_churn,
-            )
+            # Severity scales with average percentile
+            avg_pctl = sum(pcts) / len(pcts) if pcts else 0.9
+            severity = self.BASE_SEVERITY * max(0.5, avg_pctl)
 
             findings.append(
                 Finding(
-                    finding_type="high_risk_hub",
+                    finding_type=self.name,
                     severity=severity,
-                    title=f"{path} is a high-risk hub",
+                    title=f"High-risk hub: {path}",
                     files=[path],
                     evidence=evidence_items,
-                    suggestion=suggestion,
+                    suggestion=self._build_suggestion(fs, has_high_complexity, has_high_churn),
+                    confidence=0.9,
+                    effort="MEDIUM",
+                    scope="FILE",
                 )
             )
 
-        return findings
+        return sorted(findings, key=lambda f: f.severity, reverse=True)
 
-    def _build_suggestion(
-        self,
-        path,
-        fa,
-        total_files,
-        has_connectivity,
-        has_complexity,
-        has_churn,
-    ) -> str:
-        parts = []
-
-        if has_connectivity and has_complexity:
-            parts.append(
-                f"This file is both heavily depended on "
-                f"({fa.in_degree} direct importers, "
-                f"blast radius {fa.blast_radius_size}/{total_files} files) "
-                f"and complex. Split it: move distinct type groups or "
-                f"utility functions into separate files so consumers "
-                f"only import what they need."
-            )
-        elif has_connectivity:
-            parts.append(
-                f"Many files depend on this "
-                f"({fa.in_degree} direct importers), "
-                f"so any change here ripples across "
-                f"{fa.blast_radius_size} files. "
-                f"Reduce the blast radius by splitting into "
-                f"smaller, focused modules — or introduce "
-                f"interfaces so consumers aren't tightly coupled "
-                f"to the implementation."
-            )
-        elif has_complexity and has_churn:
-            parts.append(
-                "This file is both complex and frequently modified. "
-                "Each change carries higher risk of introducing bugs. "
-                "Extract the parts that change most often into a "
-                "separate, well-tested module."
+    def _build_suggestion(self, fs, has_complexity: bool, has_churn: bool) -> str:
+        """Build actionable suggestion based on which signals fired."""
+        if has_complexity and has_churn:
+            return (
+                "This file is central, complex, and frequently modified. "
+                "Split into smaller modules to reduce coupling and simplify changes."
             )
         elif has_complexity:
-            parts.append(
-                "This file is disproportionately complex. "
-                "Break it into smaller pieces — each with a single "
-                "clear purpose — to make changes safer and reviews easier."
+            return (
+                "This file is central and complex. "
+                "Break into smaller pieces to make changes safer and reviews easier."
             )
         else:
-            parts.append(
-                "Multiple risk signals converge on this file. "
-                "Review whether it can be decomposed into smaller, "
-                "focused modules."
+            return (
+                "This file is central and churning. "
+                "Consider stabilizing the interface or extracting frequently-changing parts."
             )
-
-        return " ".join(parts)

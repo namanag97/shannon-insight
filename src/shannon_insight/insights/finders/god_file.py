@@ -1,108 +1,137 @@
-"""GodFileFinder — high cognitive load + low coherence."""
+"""GOD_FILE — high cognitive load + low coherence.
+
+Scope: FILE
+Severity: 0.8
+Hotspot: YES (requires meaningful code)
+
+A god file has:
+- High cognitive load (top 10%)
+- Low semantic coherence (bottom 20%)
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from ..models import Evidence, Finding
-from ..ranking import compute_percentiles
-from ..store import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
 
 _MIN_FILES = 5
 
 
 class GodFileFinder:
+    """Detects files that do too many unrelated things."""
+
     name = "god_file"
-    requires: set[str] = {"file_signals"}
+    api_version = "2.0"
+    requires = frozenset({"signal_field"})
+    error_mode = "skip"
+    hotspot_filtered = True
+    tier_minimum = "BAYESIAN"  # Needs percentiles
+    deprecated = False
+    deprecation_note = None
+
     BASE_SEVERITY = 0.8
 
     def find(self, store: AnalysisStore) -> list[Finding]:
-        if not store.file_signals:
+        """Detect god files.
+
+        Criteria (v2 spec):
+        - pctl(cognitive_load) > 0.90
+        - pctl(semantic_coherence) < 0.20
+        """
+        if not store.signal_field.available:
             return []
-        if len(store.file_signals) < _MIN_FILES:
+
+        field = store.signal_field.value
+
+        if len(field.per_file) < _MIN_FILES:
             return []
 
-        # Extract cognitive load and coherence signals
-        cognitive = {
-            p: signals.get("cognitive_load", 0) for p, signals in store.file_signals.items()
-        }
-        coherence = {
-            p: signals.get("semantic_coherence", 0) for p, signals in store.file_signals.items()
-        }
+        # In ABSOLUTE tier, percentiles don't exist
+        if field.tier == "ABSOLUTE":
+            return []
 
-        cg_pct = compute_percentiles(cognitive)
-        co_pct = compute_percentiles(coherence)
+        findings: list[Finding] = []
 
-        # Get structural data if available for richer descriptions
-        structural_files = store.structural.files if store.structural else {}
+        for path, fs in sorted(field.per_file.items()):
+            pctl = fs.percentiles
 
-        findings = []
-        for path in store.file_signals:
-            cg_p = cg_pct.get(path, 0)
-            co_p = co_pct.get(path, 100)
+            cog_pctl = pctl.get("cognitive_load", 0)
+            coh_pctl = pctl.get("semantic_coherence", 1.0)
 
             # Top 10% cognitive load AND bottom 20% coherence
-            if cg_p >= 90 and co_p <= 20:
-                avg_pct = (cg_p + (100 - co_p)) / 2
-                strength = max(0.1, min(1.0, avg_pct / 100))
-                severity = self.BASE_SEVERITY * strength
+            if cog_pctl >= 0.90 and coh_pctl <= 0.20:
+                # Severity scales with how extreme the signals are
+                avg_pctl = (cog_pctl + (1 - coh_pctl)) / 2
+                severity = self.BASE_SEVERITY * max(0.5, avg_pctl)
 
-                fa = structural_files.get(path)
-                cg_desc = self._describe_complexity(fa, cg_p)
-                co_desc = self._describe_coherence(co_p)
-                suggestion = self._build_suggestion(path, fa)
+                evidence = [
+                    Evidence(
+                        signal="cognitive_load",
+                        value=fs.cognitive_load,
+                        percentile=cog_pctl,
+                        description=self._describe_complexity(fs, cog_pctl),
+                    ),
+                    Evidence(
+                        signal="semantic_coherence",
+                        value=fs.semantic_coherence,
+                        percentile=coh_pctl,
+                        description=self._describe_coherence(coh_pctl),
+                    ),
+                ]
 
                 findings.append(
                     Finding(
-                        finding_type="god_file",
+                        finding_type=self.name,
                         severity=severity,
-                        title=f"{path} does too many things",
+                        title=f"God file: {path}",
                         files=[path],
-                        evidence=[
-                            Evidence(
-                                signal="cognitive_load",
-                                value=cognitive[path],
-                                percentile=cg_p,
-                                description=cg_desc,
-                            ),
-                            Evidence(
-                                signal="semantic_coherence",
-                                value=coherence[path],
-                                percentile=co_p,
-                                description=co_desc,
-                            ),
-                        ],
-                        suggestion=suggestion,
+                        evidence=evidence,
+                        suggestion=self._build_suggestion(fs),
+                        confidence=0.85,
+                        effort="HIGH",
+                        scope="FILE",
                     )
                 )
 
-        return findings
+        return sorted(findings, key=lambda f: f.severity, reverse=True)
 
-    def _describe_complexity(self, fa, cg_p: float) -> str:
-        if fa and fa.function_count > 0:
-            parts = [f"{fa.function_count} functions"]
-            if fa.lines > 0:
-                parts.append(f"{fa.lines} lines")
-            if fa.nesting_depth > 3:
-                parts.append(f"nesting depth {fa.nesting_depth}")
-            return f"complex ({', '.join(parts)}) — harder to read than {cg_p:.0f}% of files"
-        return f"harder to read than {cg_p:.0f}% of files in this codebase"
+    def _describe_complexity(self, fs, cog_pctl: float) -> str:
+        """Describe why the file is complex."""
+        parts = []
+        if fs.function_count > 0:
+            parts.append(f"{fs.function_count} functions")
+        if fs.lines > 0:
+            parts.append(f"{fs.lines} lines")
+        if fs.max_nesting > 3:
+            parts.append(f"nesting depth {fs.max_nesting}")
 
-    def _describe_coherence(self, co_p: float) -> str:
+        if parts:
+            return (
+                f"complex ({', '.join(parts)}) — harder to read than {cog_pctl * 100:.0f}% of files"
+            )
+        return f"harder to read than {cog_pctl * 100:.0f}% of files"
+
+    def _describe_coherence(self, coh_pctl: float) -> str:
+        """Describe why the file lacks coherence."""
         return (
-            f"unfocused — variable/function names suggest "
-            f"multiple unrelated concerns (less focused than "
-            f"{100 - co_p:.0f}% of files)"
+            f"unfocused — code suggests multiple unrelated concerns "
+            f"(less focused than {(1 - coh_pctl) * 100:.0f}% of files)"
         )
 
-    def _build_suggestion(self, path: str, fa) -> str:
-        if fa and fa.function_count > 5:
+    def _build_suggestion(self, fs) -> str:
+        """Build actionable suggestion."""
+        if fs.function_count > 5:
             return (
-                f"This file has {fa.function_count} functions handling "
-                f"unrelated concerns. "
-                f"Identify clusters of related functions and extract "
-                f"each group into its own module. A good heuristic: "
-                f"if you can't describe what the file does in one sentence, "
-                f"it should be split."
+                f"This file has {fs.function_count} functions handling "
+                f"unrelated concerns. Identify clusters of related functions "
+                f"and extract each group into its own module."
             )
         return (
             "This file is complex and mixes multiple responsibilities. "
             "Look for groups of functions that work on the same data "
-            "or concept, and extract each group into a focused module."
+            "and extract each group into a focused module."
         )

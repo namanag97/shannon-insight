@@ -2,7 +2,7 @@
 
 from ...graph.engine import AnalysisEngine
 from ...logging_config import get_logger
-from ..store import AnalysisStore
+from ..store_v2 import AnalysisStore
 
 logger = get_logger(__name__)
 
@@ -17,8 +17,6 @@ class StructuralAnalyzer:
             return
 
         engine = AnalysisEngine(store.file_metrics, root_dir=store.root_dir)
-        store.structural = engine.run()
-        logger.debug(
-            f"Structural analysis: {store.structural.total_files} files, "
-            f"{store.structural.total_edges} edges"
-        )
+        result = engine.run()
+        store.structural.set(result, produced_by=self.name)
+        logger.debug(f"Structural analysis: {result.total_files} files, {result.total_edges} edges")

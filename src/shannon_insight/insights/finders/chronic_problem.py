@@ -4,12 +4,16 @@ This is a meta-finder that wraps other findings when they persist too long.
 It queries the finding_lifecycle table to identify chronic issues.
 """
 
+from __future__ import annotations
+
 import sqlite3
-from typing import Optional
+from typing import TYPE_CHECKING
 
 from ...persistence.queries import get_chronic_findings
 from ..models import Evidence, Finding
-from ..store import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..store_v2 import AnalysisStore
 
 
 class ChronicProblemFinder:
@@ -41,7 +45,7 @@ class ChronicProblemFinder:
     def find(
         self,
         store: AnalysisStore,
-        db_conn: Optional[sqlite3.Connection] = None,
+        db_conn: sqlite3.Connection | None = None,
     ) -> list[Finding]:
         """Find chronic problems from persistence data.
 

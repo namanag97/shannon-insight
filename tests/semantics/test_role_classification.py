@@ -206,8 +206,16 @@ class TestRoleClassificationService:
         assert classify_role(syntax) == Role.SERVICE
 
     def test_stateful_class(self):
-        """Classes with methods (non-dunder) are SERVICE."""
-        cls = make_class(methods=[make_function(name="process")])
+        """Classes with >= 3 non-dunder methods and state are SERVICE."""
+        cls = make_class(
+            methods=[
+                make_function(name="__init__"),
+                make_function(name="process"),
+                make_function(name="validate"),
+                make_function(name="execute"),
+            ],
+            fields=["name"],
+        )
         syntax = make_syntax(classes=[cls])
         assert classify_role(syntax) == Role.SERVICE
 

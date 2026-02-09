@@ -7,14 +7,14 @@ can be opened from any local file:// path or served statically.
 
 import json
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
-from ..persistence.models import Snapshot
+from ..persistence.models import Snapshot, TensorSnapshot
 from .treemap import build_treemap_data
 
 
 def generate_report(
-    snapshot: Snapshot,
+    snapshot: Union[Snapshot, TensorSnapshot],
     diff=None,
     trends: Optional[dict[str, list]] = None,
     output_path: str = "shannon-report.html",
@@ -47,7 +47,7 @@ def generate_report(
     findings_data = [
         {
             "type": f.finding_type,
-            "severity": f.severity,
+            "severity": round(f.severity * 9 + 1, 1),  # Display scale [1,10]
             "title": f.title,
             "files": f.files,
             "evidence": [
@@ -77,7 +77,8 @@ def generate_report(
         "timestamp": snapshot.timestamp,
         "commit_sha": snapshot.commit_sha,
         "finding_count": len(snapshot.findings),
-        "codebase_signals": snapshot.codebase_signals,
+        "codebase_signals": getattr(snapshot, "codebase_signals", None)
+        or getattr(snapshot, "global_signals", {}),
     }
 
     # ── Available metrics for dropdown ─────────────────────────────

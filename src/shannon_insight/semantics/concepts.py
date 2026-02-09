@@ -7,6 +7,10 @@ Tier 3 (10+ functions, 20+ identifiers): TF-IDF + Louvain
 Two-pass architecture:
 - Pass 1: Extract identifiers from all files, build corpus IDF
 - Pass 2: Compute per-file TF-IDF vectors, run Louvain for Tier 3
+
+Path-based concept enrichment:
+- Extract tokens from directory path for every file
+- This ensures even single-function files get meaningful concepts
 """
 
 from __future__ import annotations
@@ -14,6 +18,7 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter, defaultdict
+from pathlib import PurePosixPath
 from typing import TYPE_CHECKING
 
 from .models import Concept, Role
@@ -213,6 +218,22 @@ def split_identifier(name: str) -> list[str]:
         parts = re.findall(r"[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)", name)
 
     return [p.lower() for p in parts if p]
+
+
+def extract_path_concepts(path: str) -> list[str]:
+    """Extract concept tokens from the file's directory path.
+
+    signals/plugins/centrality.py → ["signal", "plugin", "centrality"]
+    """
+    parts = PurePosixPath(path).parts
+    tokens: list[str] = []
+    skip_parts = {"src", "__pycache__", ".", "..", "__init__"}
+    for part in parts:
+        stem = PurePosixPath(part).stem
+        if stem in skip_parts:
+            continue
+        tokens.extend(split_identifier(stem))
+    return [t for t in tokens if t.lower() not in STOPWORDS and len(t) > 2]
 
 
 def determine_tier(syntax: FileSyntax, identifiers: list[str]) -> int:
@@ -438,16 +459,32 @@ class ConceptExtractor:
         self._doc_freq: Counter[str] = Counter()
         self._num_docs: int = 0
         self._idf: dict[str, float] = {}
+        self._file_imports: dict[str, set[str]] = {}
+        self._import_doc_freq: Counter[str] = Counter()
 
     def add_file(self, syntax: FileSyntax) -> None:
         """Pass 1: Add file to corpus for IDF computation."""
         identifiers = extract_identifiers(syntax)
+
+        # Add path-based concepts as low-weight identifiers
+        path_tokens = extract_path_concepts(syntax.path)
+        identifiers.extend(path_tokens)
+
         self._file_identifiers[syntax.path] = identifiers
 
         # Update document frequency (count unique tokens per doc)
         unique_tokens = set(identifiers)
         for token in unique_tokens:
             self._doc_freq[token] += 1
+
+        # Track imports for import fingerprinting
+        import_modules = set()
+        for imp in syntax.imports:
+            if imp.source:
+                import_modules.add(imp.source)
+        self._file_imports[syntax.path] = import_modules
+        for mod in import_modules:
+            self._import_doc_freq[mod] += 1
 
         self._num_docs += 1
 
@@ -459,6 +496,24 @@ class ConceptExtractor:
         for token, doc_count in self._doc_freq.items():
             # IDF = log(N / df) + 1 (smoothed)
             self._idf[token] = math.log(self._num_docs / doc_count) + 1
+
+    def compute_import_fingerprint(self, path: str) -> dict[str, float]:
+        """Compute import fingerprint for a file.
+
+        Each import is weighted by its surprise: -log2(files_importing / total_files).
+        Rare imports have high surprise (more distinctive).
+        """
+        imports = self._file_imports.get(path, set())
+        if not imports or self._num_docs == 0:
+            return {}
+
+        fingerprint: dict[str, float] = {}
+        for mod in imports:
+            freq = self._import_doc_freq.get(mod, 1)
+            surprise = -math.log2(freq / self._num_docs)
+            fingerprint[mod] = surprise
+
+        return fingerprint
 
     def extract(self, syntax: FileSyntax, role: Role) -> tuple[list[Concept], float, int]:
         """Pass 2: Extract concepts for a file.

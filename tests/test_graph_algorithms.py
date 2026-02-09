@@ -62,12 +62,20 @@ class TestBuildDependencyGraph:
         assert graph.edge_count == 0
 
     def test_unresolved_imports_tracked(self):
-        # Phase 3: unresolved imports should be tracked for phantom_import_count
-        metrics = [_fm("a.py", imports=["os", "pathlib", "missing_module"])]
+        # Phase 3: only internal-looking unresolved imports are tracked
+        # Single-segment imports (os, pathlib) are treated as stdlib/external
+        # Relative imports are always considered internal (phantom)
+        metrics = [
+            _fm("pkg/a.py", imports=["os", "pathlib", ".missing", "pkg.submod"]),
+            _fm("pkg/b.py", imports=[]),
+        ]
         graph = build_dependency_graph(metrics)
-        assert "a.py" in graph.unresolved_imports
-        # All three are unresolved (not in codebase)
-        assert len(graph.unresolved_imports["a.py"]) == 3
+        assert "pkg/a.py" in graph.unresolved_imports
+        # os, pathlib are single-segment (stdlib) → not tracked
+        # .missing is relative → tracked as phantom
+        # pkg.submod matches project prefix "pkg" → tracked as phantom
+        assert ".missing" in graph.unresolved_imports["pkg/a.py"]
+        assert "pkg.submod" in graph.unresolved_imports["pkg/a.py"]
 
     def test_self_import_ignored(self):
         metrics = [_fm("src/pkg/a.py", imports=[".a"])]

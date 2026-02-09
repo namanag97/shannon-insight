@@ -102,10 +102,10 @@ def report(
         if settings.enable_history:
             try:
                 from ..persistence import HistoryDB
-                from ..persistence.writer import save_snapshot
+                from ..persistence.writer import save_tensor_snapshot
 
                 with HistoryDB(str(Path(target).resolve())) as db:
-                    sid = save_snapshot(db.conn, snapshot)
+                    sid = save_tensor_snapshot(db.conn, snapshot)
                     logger.info(f"Snapshot saved (id={sid})")
             except Exception as e:
                 logger.warning(f"Failed to save snapshot: {e}")

@@ -10,6 +10,14 @@ from ..config import AnalysisSettings, load_settings
 console = Console()
 
 
+def display_score(score: float) -> float:
+    """Map internal [0,1] score to display [1,10] scale.
+
+    Internal storage stays [0,1]. This is applied at display time only.
+    """
+    return round(score * 9 + 1, 1)
+
+
 def resolve_settings(
     config: Optional[Path] = None,
     threshold: Optional[float] = None,

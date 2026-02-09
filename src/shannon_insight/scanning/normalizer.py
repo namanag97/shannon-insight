@@ -102,10 +102,12 @@ class TreeSitterNormalizer:
             if func_node is None:
                 continue
 
-            node_id = id(func_node)
-            if node_id in processed_nodes:
+            # Dedup by position (start_byte), not Python object id,
+            # since QueryCursor may return distinct objects for the same node
+            node_key = func_node.start_byte
+            if node_key in processed_nodes:
                 continue
-            processed_nodes.add(node_id)
+            processed_nodes.add(node_key)
 
             func = self._node_to_function(func_node, code_bytes, language, captures)
             if func is not None:
@@ -326,7 +328,7 @@ class TreeSitterNormalizer:
         for child in node.children:
             if child.type == child_type:
                 if child.text:
-                    return child.text.decode("utf-8", errors="ignore")
+                    return str(child.text.decode("utf-8", errors="ignore"))
             # Check grandchildren (for decorated definitions)
             result = self._find_child_text(child, child_type, code_bytes)
             if result:
@@ -476,14 +478,14 @@ class TreeSitterNormalizer:
         """Get decorator name from decorator node."""
         for child in node.children:
             if child.type == "identifier" and child.text:
-                return child.text.decode("utf-8", errors="ignore")
+                return str(child.text.decode("utf-8", errors="ignore"))
             if child.type == "attribute" and child.text:
-                return child.text.decode("utf-8", errors="ignore")
+                return str(child.text.decode("utf-8", errors="ignore"))
             if child.type == "call":
                 # Get the function being called
                 for gc in child.children:
                     if gc.type in ("identifier", "attribute") and gc.text:
-                        return gc.text.decode("utf-8", errors="ignore")
+                        return str(gc.text.decode("utf-8", errors="ignore"))
         return None
 
     def _extract_bases(self, node: Any, code_bytes: bytes, language: str) -> list[str]:
@@ -533,10 +535,10 @@ class TreeSitterNormalizer:
                         return True
 
         if language == "typescript":
-            return node.type == "abstract_class_declaration"
+            return bool(node.type == "abstract_class_declaration")
 
         if language == "rust":
-            return node.type == "trait_item"
+            return bool(node.type == "trait_item")
 
         return False
 
@@ -547,7 +549,7 @@ class TreeSitterNormalizer:
         if node.text is None:
             return None
 
-        text = node.text.decode("utf-8", errors="ignore")
+        text: str = str(node.text.decode("utf-8", errors="ignore"))
 
         # Strip quotes for string paths
         if text.startswith(("'", '"', "<")):

@@ -9,8 +9,9 @@ import subprocess
 from bisect import bisect_left
 from collections import defaultdict, deque
 from dataclasses import dataclass
+from typing import Union
 
-from .models import FindingRecord, Snapshot
+from .models import FindingRecord, Snapshot, TensorSnapshot
 
 
 @dataclass
@@ -116,7 +117,9 @@ def get_merge_base_files(repo_path: str, base_branch: str = "main") -> list[str]
 # ---------------------------------------------------------------------------
 
 
-def compute_blast_radius(changed_files: list[str], snapshot: Snapshot) -> list[str]:
+def compute_blast_radius(
+    changed_files: list[str], snapshot: Union[Snapshot, TensorSnapshot]
+) -> list[str]:
     """Find all files transitively depending on the changed files.
 
     Builds a *reverse* dependency graph from ``snapshot.dependency_edges``
@@ -166,7 +169,7 @@ def compute_blast_radius(changed_files: list[str], snapshot: Snapshot) -> list[s
 
 def build_scoped_report(
     changed_files: list[str],
-    snapshot: Snapshot,
+    snapshot: Union[Snapshot, TensorSnapshot],
 ) -> ChangeScopedReport:
     """Build a change-scoped risk report.
 
@@ -291,7 +294,7 @@ def _compute_file_percentiles(
 
 def _compute_risk_level(
     changed_files: list[str],
-    snapshot: Snapshot,
+    snapshot: Union[Snapshot, TensorSnapshot],
     direct_findings: list[FindingRecord],
 ) -> tuple[str, str]:
     """Compute an overall risk level for the change.

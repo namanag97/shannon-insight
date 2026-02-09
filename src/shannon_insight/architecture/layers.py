@@ -95,12 +95,16 @@ def infer_layers(
             queue.append(mod_path)
             layer_assignment[mod_path] = 0
 
-    # Propagate layers upward through reverse edges
+    # Propagate layers upward through reverse edges.
+    # Cap layer depth to module count (cycles can't create more layers than modules).
+    max_layer_depth = len(modules)
     while queue:
         mod_path = queue.popleft()
         current_layer = layer_assignment[mod_path]
 
-        # Modules that import this one are at a higher layer
+        if current_layer >= max_layer_depth:
+            continue  # Cycle detected — stop propagating
+
         for importer in reverse_graph.get(mod_path, set()):
             new_layer = current_layer + 1
             if importer not in layer_assignment:
@@ -110,10 +114,26 @@ def infer_layers(
                 layer_assignment[importer] = new_layer
                 queue.append(importer)
 
+    # Contract SCCs: modules in same cycle get same layer
+    sccs = _find_module_sccs(module_graph, set(modules.keys()))
+    scc_representatives: dict[str, str] = {}
+    for scc in sccs:
+        if len(scc) > 1:
+            rep = min(scc)  # Use alphabetically first as representative
+            for mod in scc:
+                scc_representatives[mod] = rep
+
     # Handle any remaining modules (isolated or cycles)
     for mod_path in modules:
         if mod_path not in layer_assignment:
             layer_assignment[mod_path] = 0
+
+    # Force SCC members to same layer (use max layer in SCC)
+    for scc in sccs:
+        if len(scc) > 1:
+            max_scc_layer = max(layer_assignment.get(m, 0) for m in scc)
+            for mod in scc:
+                layer_assignment[mod] = max_scc_layer
 
     # Update modules with layer assignments
     max_layer = 0
@@ -127,10 +147,18 @@ def infer_layers(
         layers_by_depth[layer].append(mod_path)
 
     layers = []
-    for depth in range(max_layer + 1):
-        mods = sorted(layers_by_depth.get(depth, []))
+    for depth in sorted(layers_by_depth.keys()):
+        mods = sorted(layers_by_depth[depth])
+        if not mods:
+            continue  # Prune empty layers
         label = _infer_layer_label(depth, max_layer, mods, modules)
         layers.append(Layer(depth=depth, modules=mods, label=label))
+
+    # Renumber depths contiguously (prune gaps from empty layers)
+    for i, layer in enumerate(layers):
+        layer.depth = i
+        for mod_path in layer.modules:
+            modules[mod_path].layer = i
 
     # Detect violations
     violations = detect_violations(modules, module_graph)
@@ -193,6 +221,68 @@ def detect_violations(
                 )
 
     return violations
+
+
+def _find_module_sccs(
+    module_graph: dict[str, dict[str, int]],
+    all_modules: set[str],
+) -> list[set[str]]:
+    """Find strongly connected components in the module graph.
+
+    Uses iterative Tarjan's algorithm.
+    """
+    counter = 0
+    scc_stack: list[str] = []
+    on_stack: set[str] = set()
+    index: dict[str, int] = {}
+    lowlink: dict[str, int] = {}
+    result: list[set[str]] = []
+
+    for root in sorted(all_modules):
+        if root in index:
+            continue
+
+        call_stack: list[tuple] = []
+        index[root] = lowlink[root] = counter
+        counter += 1
+        scc_stack.append(root)
+        on_stack.add(root)
+        neighbors = [w for w in module_graph.get(root, {}) if w in all_modules]
+        call_stack.append((root, iter(neighbors)))
+
+        while call_stack:
+            v, it = call_stack[-1]
+            pushed = False
+            for w in it:
+                if w not in index:
+                    index[w] = lowlink[w] = counter
+                    counter += 1
+                    scc_stack.append(w)
+                    on_stack.add(w)
+                    w_neighbors = [n for n in module_graph.get(w, {}) if n in all_modules]
+                    call_stack.append((w, iter(w_neighbors)))
+                    pushed = True
+                    break
+                elif w in on_stack:
+                    lowlink[v] = min(lowlink[v], index[w])
+
+            if not pushed:
+                call_stack.pop()
+                if call_stack:
+                    caller = call_stack[-1][0]
+                    lowlink[caller] = min(lowlink[caller], lowlink[v])
+
+                if lowlink[v] == index[v]:
+                    component: set[str] = set()
+                    while True:
+                        w = scc_stack.pop()
+                        on_stack.discard(w)
+                        component.add(w)
+                        if w == v:
+                            break
+                    result.append(component)
+
+    return result
 
 
 def _infer_layer_label(

@@ -6,11 +6,11 @@ from pathlib import Path
 
 from ..config import AnalysisSettings, default_settings
 from ..logging_config import get_logger
-from ..persistence.models import Snapshot
+from ..persistence.models import TensorSnapshot
 from ..scanning.factory import ScannerFactory
 from ..scanning.syntax_extractor import SyntaxExtractor
 from .analyzers import get_default_analyzers, get_wave2_analyzers
-from .finders import get_default_finders
+from .finders import get_default_finders, get_persistence_finders
 from .models import InsightResult, StoreSummary
 from .store_v2 import AnalysisStore
 
@@ -25,6 +25,7 @@ class InsightKernel:
         root_dir: str,
         language: str = "auto",
         settings: AnalysisSettings | None = None,
+        enable_persistence_finders: bool = False,
     ):
         self.root_dir = str(Path(root_dir).resolve())
         self.language = language
@@ -32,16 +33,17 @@ class InsightKernel:
         self._analyzers = get_default_analyzers()
         self._wave2_analyzers = get_wave2_analyzers()
         self._finders = get_default_finders()
+        self._persistence_finders = get_persistence_finders() if enable_persistence_finders else []
 
-    def run(self, max_findings: int = 10) -> tuple[InsightResult, Snapshot]:
+    def run(self, max_findings: int = 10) -> tuple[InsightResult, TensorSnapshot]:
         """Execute the full insight pipeline and capture a snapshot.
 
         Returns
         -------
-        Tuple[InsightResult, Snapshot]
-            The insight result and a serialisable snapshot of this run.
+        Tuple[InsightResult, TensorSnapshot]
+            The insight result and a serialisable v2 snapshot of this run.
         """
-        from ..persistence.capture import capture_snapshot
+        from ..persistence.capture import capture_tensor_snapshot
 
         store = AnalysisStore(root_dir=self.root_dir)
 
@@ -54,7 +56,7 @@ class InsightKernel:
                 findings=[],
                 store_summary=StoreSummary(),
             )
-            empty_snapshot = capture_snapshot(store, empty_result, self.settings)
+            empty_snapshot = capture_tensor_snapshot(store, empty_result, self.settings)
             return empty_result, empty_snapshot
 
         # Phase 1.5: Extract file_syntax for deep parsing
@@ -86,7 +88,23 @@ class InsightKernel:
                 except Exception as e:
                     logger.warning(f"Finder {finder.name} failed: {e}")
 
-        # Phase 4: Rank and cap
+        # Phase 3b: Run persistence finders (need DB connection)
+        if self._persistence_finders:
+            self._run_persistence_finders(findings)
+
+        # Phase 3c: Run diagnostics
+        from .diagnostics import run_diagnostics
+
+        diagnostic_report = run_diagnostics(store, findings)
+        if diagnostic_report.has_issues:
+            logger.info(f"Diagnostics: {diagnostic_report.summary()}")
+            for issue in diagnostic_report.issues:
+                logger.debug(f"  [{issue.severity}] {issue.message}")
+
+        # Phase 4: Deduplicate, rank, and cap
+        from .ranking import deduplicate_findings
+
+        findings = deduplicate_findings(findings)
         findings.sort(key=lambda f: f.severity, reverse=True)
         capped = findings[:max_findings]
 
@@ -94,9 +112,10 @@ class InsightKernel:
             findings=capped,
             store_summary=self._summarize(store),
         )
+        result.diagnostic_report = diagnostic_report
 
-        # Phase 5: Capture snapshot
-        snapshot = capture_snapshot(store, result, self.settings)
+        # Phase 5: Capture v2 snapshot (includes module signals, delta_h, architecture)
+        snapshot = capture_tensor_snapshot(store, result, self.settings)
 
         return result, snapshot
 
@@ -157,6 +176,20 @@ class InsightKernel:
         # but the kernel will skip them based on store.available)
         ordered.extend(remaining)
         return ordered
+
+    def _run_persistence_finders(self, findings: list) -> None:
+        """Run persistence-based finders with a temporary DB connection."""
+        from ..persistence import HistoryDB
+
+        try:
+            with HistoryDB(self.root_dir) as db:
+                for finder in self._persistence_finders:
+                    try:
+                        findings.extend(finder.find(store=None, db_conn=db.conn))
+                    except Exception as e:
+                        logger.warning(f"Persistence finder {finder.name} failed: {e}")
+        except Exception as e:
+            logger.debug(f"No history DB available for persistence finders: {e}")
 
     def _summarize(self, store: AnalysisStore) -> StoreSummary:
         """Build summary from store state."""

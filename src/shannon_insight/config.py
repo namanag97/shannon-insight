@@ -251,7 +251,7 @@ def load_settings(config_file: Optional[Path] = None, **overrides) -> AnalysisSe
         # pydantic-settings doesn't natively support TOML
         # We'll load it manually and pass as overrides
         try:
-            import tomllib  # type: ignore[import-untyped]
+            import tomllib
         except ModuleNotFoundError:
             try:
                 tomllib = __import__("tomli")

@@ -71,3 +71,4 @@ class StoreSummary:
 class InsightResult:
     findings: list[Finding]
     store_summary: StoreSummary
+    diagnostic_report: object = None  # Optional DiagnosticReport

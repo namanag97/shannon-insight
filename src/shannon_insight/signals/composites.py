@@ -40,6 +40,7 @@ def compute_composites(field: SignalField) -> None:
     for fs in field.per_file.values():
         fs.risk_score = _compute_risk_score(fs, max_bus_factor)
         fs.wiring_quality = _compute_wiring_quality(fs)
+        fs.file_health_score = _compute_file_health_score(fs)
 
     # Per-module composites
     for ms in field.per_module.values():
@@ -108,6 +109,27 @@ def _compute_wiring_quality(fs: FileSignals) -> float:
 
     quality = 1.0 - penalty
     return max(0.0, min(1.0, quality))
+
+
+def _compute_file_health_score(fs: FileSignals) -> float:
+    """Per-file health composite.
+
+    file_health = 1 - (0.25*risk_score + 0.25*(1-wiring_quality)
+                     + 0.20*pctl(cognitive_load) + 0.15*stub_ratio
+                     + 0.15*is_orphan)
+    """
+    pctl_cog = fs.percentiles.get("cognitive_load", 0.0)
+    orphan_term = 1.0 if fs.is_orphan else 0.0
+
+    penalty = (
+        0.25 * fs.risk_score
+        + 0.25 * (1.0 - fs.wiring_quality)
+        + 0.20 * pctl_cog
+        + 0.15 * fs.stub_ratio
+        + 0.15 * orphan_term
+    )
+
+    return max(0.0, min(1.0, 1.0 - penalty))
 
 
 # ── Per-module composites ──────────────────────────────────────────────

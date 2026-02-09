@@ -135,7 +135,12 @@ def classify_role(syntax: FileSyntax) -> Role:
     if _has_stateful_classes(syntax):
         return Role.SERVICE
 
-    # 11. UTILITY - pure functions, no classes
+    # 10.5. Filename heuristic — soft fallback before UTILITY/CONFIG
+    filename_role = _filename_heuristic(syntax, path_lower)
+    if filename_role is not None:
+        return filename_role
+
+    # 11. UTILITY - functions with at most one small class
     if _is_utility(syntax):
         return Role.UTILITY
 
@@ -229,9 +234,11 @@ def _is_model_file(syntax: FileSyntax) -> bool:
     model_indicators = {"dataclass", "BaseModel", "Model", "Schema", "NamedTuple", "TypedDict"}
     model_count = 0
 
+    # Filename hint: "models.py" or "schemas.py" with classes having >= 2 fields
+    stem = Path(syntax.path).stem.lower()
+    filename_is_model = stem in ("models", "schemas", "model", "schema")
+
     for cls in syntax.classes:
-        # Check decorators for @dataclass
-        # Note: decorators might not be populated if using regex fallback
         is_model = False
 
         # Check bases for Pydantic, Django, etc.
@@ -242,6 +249,10 @@ def _is_model_file(syntax: FileSyntax) -> bool:
 
         # Check field-heavy heuristic: many fields, few methods
         if cls.fields and len(cls.fields) > 3 and len(cls.methods) <= len(cls.fields):
+            is_model = True
+
+        # Filename hint + any fields → model
+        if filename_is_model and cls.fields and len(cls.fields) >= 2:
             is_model = True
 
         if is_model:
@@ -283,21 +294,59 @@ def _is_migration(path_lower: str) -> bool:
 
 
 def _has_stateful_classes(syntax: FileSyntax) -> bool:
-    """Check for stateful classes with methods."""
+    """Check for stateful classes with methods.
+
+    Requires >= 3 non-dunder methods AND __init__ with state storage.
+    This avoids classifying analyzer/finder classes (1-2 public methods) as SERVICE.
+    """
     for cls in syntax.classes:
-        # Has methods beyond __init__
-        non_init_methods = [m for m in cls.methods if not m.name.startswith("__")]
-        if non_init_methods:
+        non_dunder_methods = [m for m in cls.methods if not m.name.startswith("__")]
+        has_init = any(m.name == "__init__" for m in cls.methods)
+        has_fields = bool(cls.fields)
+
+        # Need substantial method surface AND state
+        if len(non_dunder_methods) >= 3 and (has_init or has_fields):
             return True
     return False
 
 
 def _is_utility(syntax: FileSyntax) -> bool:
-    """Check if file is pure functions (utility module)."""
-    # Has functions but no classes
-    if syntax.functions and not syntax.classes:
+    """Check if file is primarily functions (utility module).
+
+    Allows at most 1 small helper class alongside functions.
+    """
+    if syntax.functions and syntax.function_count > syntax.class_count and syntax.class_count <= 1:
         return True
     return False
+
+
+def _filename_heuristic(syntax: FileSyntax, path_lower: str) -> Role | None:
+    """Soft fallback: classify by filename/directory when structural checks fail.
+
+    Only fires after all structural checks. Returns None if no match.
+    """
+    stem = Path(path_lower).stem
+    parts = Path(path_lower).parts
+
+    # Model/schema files with classes
+    if stem in ("models", "schemas", "model", "schema") and syntax.classes:
+        return Role.MODEL
+
+    # Finder/analyzer/extractor/plugin patterns → UTILITY
+    utility_stems = {"finder", "analyzer", "extractor", "plugin", "scanner", "builder"}
+    if stem in utility_stems or any(s in stem for s in utility_stems):
+        return Role.UTILITY
+
+    # Directory-based patterns
+    utility_dirs = {"finders", "analyzers", "plugins", "scanners", "extractors", "builders"}
+    if any(d in parts for d in utility_dirs):
+        return Role.UTILITY
+
+    # conftest.py → CONFIG
+    if stem == "conftest":
+        return Role.CONFIG
+
+    return None
 
 
 def _is_config(syntax: FileSyntax, path_lower: str) -> bool:

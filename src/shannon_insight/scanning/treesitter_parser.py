@@ -20,69 +20,69 @@ _tree_sitter_module: Any = None
 _language_modules: dict[str, Any] = {}
 
 try:
-    import tree_sitter as _tree_sitter_module  # type: ignore[import-not-found,no-redef]
+    import tree_sitter as _tree_sitter_module  # type: ignore[no-redef]
 
     TREE_SITTER_AVAILABLE = True
 
     # Try to import language grammars
     try:
-        import tree_sitter_python  # type: ignore
+        import tree_sitter_python
 
         _language_modules["python"] = tree_sitter_python
     except ImportError:
         pass
 
     try:
-        import tree_sitter_go  # type: ignore
+        import tree_sitter_go
 
         _language_modules["go"] = tree_sitter_go
     except ImportError:
         pass
 
     try:
-        import tree_sitter_typescript  # type: ignore
+        import tree_sitter_typescript
 
         _language_modules["typescript"] = tree_sitter_typescript
     except ImportError:
         pass
 
     try:
-        import tree_sitter_javascript  # type: ignore
+        import tree_sitter_javascript
 
         _language_modules["javascript"] = tree_sitter_javascript
     except ImportError:
         pass
 
     try:
-        import tree_sitter_java  # type: ignore
+        import tree_sitter_java
 
         _language_modules["java"] = tree_sitter_java
     except ImportError:
         pass
 
     try:
-        import tree_sitter_rust  # type: ignore
+        import tree_sitter_rust
 
         _language_modules["rust"] = tree_sitter_rust
     except ImportError:
         pass
 
     try:
-        import tree_sitter_ruby  # type: ignore
+        import tree_sitter_ruby
 
         _language_modules["ruby"] = tree_sitter_ruby
     except ImportError:
         pass
 
     try:
-        import tree_sitter_c  # type: ignore
+        import tree_sitter_c
 
         _language_modules["c"] = tree_sitter_c
     except ImportError:
         pass
 
     try:
-        import tree_sitter_cpp  # type: ignore
+        import tree_sitter_cpp
 
         _language_modules["cpp"] = tree_sitter_cpp
     except ImportError:
@@ -132,9 +132,19 @@ class TreeSitterParser:
         # Initialize parsers for available languages
         for lang_name, lang_module in _language_modules.items():
             try:
-                parser = _tree_sitter_module.Parser(lang_module.language())
+                # Some modules use language_<name>() instead of language()
+                lang_fn = getattr(lang_module, f"language_{lang_name}", None)
+                if lang_fn is None:
+                    lang_fn = getattr(lang_module, "language", None)
+                if lang_fn is None:
+                    continue
+
+                raw_lang = lang_fn()
+                # tree-sitter >= 0.23 returns PyCapsule; wrap in Language()
+                lang_obj = _tree_sitter_module.Language(raw_lang)
+                parser = _tree_sitter_module.Parser(lang_obj)
                 self._parsers[lang_name] = parser
-                self._languages[lang_name] = lang_module.language()
+                self._languages[lang_name] = lang_obj
             except Exception:
                 # Skip if parser creation fails
                 pass
@@ -183,7 +193,15 @@ class TreeSitterParser:
 
         try:
             query = _tree_sitter_module.Query(lang, query_str)
-            result: list[Capture] = query.captures(tree.root_node)
+            # tree-sitter 0.25+: use QueryCursor for execution
+            cursor = _tree_sitter_module.QueryCursor(query)
+            matches = cursor.matches(tree.root_node)
+            # Convert from [(pattern_id, {name: [nodes]})] to [(node, name)]
+            result: list[Capture] = []
+            for _pattern_id, captures_dict in matches:
+                for capture_name, nodes in captures_dict.items():
+                    for node in nodes:
+                        result.append((node, capture_name))
             return result
         except Exception:
             return []

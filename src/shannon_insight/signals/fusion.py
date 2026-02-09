@@ -146,18 +146,13 @@ class FusionPipeline:
             fs.compression_ratio = fa.compression_ratio
             fs.cognitive_load = fa.cognitive_load
 
-        # Semantic coherence from graph-based calculation
-        # (import-based, not function-level TF-IDF)
-        if hasattr(structural, "graph_analysis"):
-            ga = structural.graph_analysis
-            # Semantic coherence approximated from community structure
-            # Files in same community have higher coherence
-            if path in ga.node_community:
-                comm_id = ga.node_community[path]
-                comm = next((c for c in ga.communities if c.id == comm_id), None)
-                if comm and len(comm.members) > 1:
-                    # Coherence = how central this file is within its community
-                    fs.semantic_coherence = min(1.0, fa.pagerank * 10) if fa else 0.0
+        # Re-compute is_orphan with role awareness (structural runs before semantics,
+        # so the initial orphan detection has no role info).
+        # Entry points and test files with in_degree=0 are NOT orphans.
+        if fs.is_orphan and self.store.roles.available:
+            role = self.store.roles.value.get(path, "unknown").upper()
+            if role in ("ENTRY_POINT", "TEST", "CONFIG", "INTERFACE", "EXCEPTION"):
+                fs.is_orphan = False
 
     def _fill_from_semantics(self, fs: FileSignals) -> None:
         """Fill IR2 semantic signals from semantics slot."""
@@ -180,6 +175,12 @@ class FusionPipeline:
 
         if sem.docstring_coverage is not None:
             fs.docstring_coverage = sem.docstring_coverage
+
+        # Semantic coherence: derived from concept entropy.
+        # Lower entropy = more focused/coherent file.
+        # Normalize: coherence = 1 / (1 + concept_entropy) so coherence ∈ (0, 1]
+        # Single-concept files get coherence=1.0, high-entropy files approach 0.
+        fs.semantic_coherence = 1.0 / (1.0 + sem.concept_entropy)
 
         # Role from semantics if not already set from roles slot
         if fs.role == "UNKNOWN" and hasattr(sem, "role"):
@@ -269,8 +270,8 @@ class FusionPipeline:
             g.orphan_ratio = orphan_count / total
             g.phantom_ratio = phantom_count / total
 
-        # Glue deficit placeholder (requires more complex analysis)
-        g.glue_deficit = 0.0
+        # Glue deficit: measures if enough files serve as glue between modules
+        g.glue_deficit = self._compute_glue_deficit()
 
         # Clone ratio from Phase 3 clone detection
         if self.store.clone_pairs.available:
@@ -329,6 +330,40 @@ class FusionPipeline:
             git_hist = self.store.git_history.value
             distinct_authors = {commit.author for commit in git_hist.commits}
             g.team_size = len(distinct_authors) if distinct_authors else 1
+
+
+    def _compute_glue_deficit(self) -> float:
+        """Compute glue deficit: are there enough bridge files?
+
+        glue_files = files with betweenness > median AND out_degree > median
+        expected_glue = sqrt(num_modules)
+        glue_deficit = 1 - glue_files / max(expected_glue, 1)
+        """
+        import math
+
+        if not self.field.per_file:
+            return 0.0
+
+        betweenness_vals = [fs.betweenness for fs in self.field.per_file.values()]
+        out_degree_vals = [fs.out_degree for fs in self.field.per_file.values()]
+
+        if not betweenness_vals or not out_degree_vals:
+            return 0.0
+
+        median_betweenness = sorted(betweenness_vals)[len(betweenness_vals) // 2]
+        median_out_degree = sorted(out_degree_vals)[len(out_degree_vals) // 2]
+
+        glue_files = sum(
+            1
+            for fs in self.field.per_file.values()
+            if fs.betweenness > median_betweenness and fs.out_degree > median_out_degree
+        )
+
+        num_modules = len(self.field.per_module) if self.field.per_module else 1
+        expected_glue = math.sqrt(num_modules)
+
+        deficit = 1.0 - glue_files / max(expected_glue, 1.0)
+        return max(0.0, min(1.0, deficit))
 
 
 class _Collected:

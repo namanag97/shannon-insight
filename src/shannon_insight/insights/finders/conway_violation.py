@@ -54,17 +54,13 @@ class ConwayViolationFinder:
         architecture = store.architecture.value
 
         # Build module coupling map from architecture
+        # module_graph is dict[source_module][target_module] = edge_count
         module_coupling: dict[tuple[str, str], float] = {}
-        if hasattr(architecture, "module_graph"):
-            for edge in architecture.module_graph:
-                src = edge.source if hasattr(edge, "source") else edge[0]
-                tgt = edge.target if hasattr(edge, "target") else edge[1]
-                weight = (
-                    edge.weight if hasattr(edge, "weight") else edge[2] if len(edge) > 2 else 1.0
-                )
-                # Normalize key (sorted for consistency)
-                key = tuple(sorted([src, tgt]))
-                module_coupling[key] = max(module_coupling.get(key, 0), weight)
+        if hasattr(architecture, "module_graph") and architecture.module_graph:
+            for src, targets in architecture.module_graph.items():
+                for tgt, weight in targets.items():
+                    key = tuple(sorted([src, tgt]))
+                    module_coupling[key] = max(module_coupling.get(key, 0), float(weight))
 
         findings: list[Finding] = []
 

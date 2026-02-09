@@ -13,15 +13,14 @@ from ..exceptions import ShannonInsightError
 from ..insights import InsightKernel, InsightResult
 from ..logging_config import setup_logging
 from ..persistence import HistoryDB
-from ..persistence.models import Snapshot
+from ..persistence.models import TensorSnapshot
 from ..persistence.scope import (
     ChangeScopedReport,
     build_scoped_report,
     get_changed_files,
 )
-from ..persistence.writer import save_snapshot
 from . import app
-from ._common import console, resolve_settings
+from ._common import console, display_score, resolve_settings
 from ._finding_display import FINDING_DISPLAY, MAX_FILES_PER_GROUP
 from ._scoped_output import _output_scoped_json, _output_scoped_rich
 
@@ -273,11 +272,13 @@ def main(
 # ---------------------------------------------------------------------------
 
 
-def _save_snapshot(repo_path: str, snapshot: Snapshot, logger) -> None:
-    """Save snapshot to .shannon/ history database."""
+def _save_snapshot(repo_path: str, snapshot: TensorSnapshot, logger) -> None:
+    """Save v2 snapshot to .shannon/ history database."""
     try:
+        from ..persistence.writer import save_tensor_snapshot
+
         with HistoryDB(repo_path) as db:
-            sid = save_snapshot(db.conn, snapshot)
+            sid = save_tensor_snapshot(db.conn, snapshot)
             logger.info(f"Snapshot saved (id={sid})")
     except Exception as e:
         logger.warning(f"Failed to save snapshot: {e}")
@@ -354,7 +355,7 @@ def _output_json(result: InsightResult):
         "findings": [
             {
                 "type": f.finding_type,
-                "severity": round(f.severity, 3),
+                "severity": display_score(f.severity),
                 "title": f.title,
                 "files": f.files,
                 "evidence": [
@@ -374,7 +375,7 @@ def _output_json(result: InsightResult):
             ftype: [
                 {
                     "type": f.finding_type,
-                    "severity": round(f.severity, 3),
+                    "severity": display_score(f.severity),
                     "title": f.title,
                     "files": f.files,
                 }
@@ -461,5 +462,19 @@ def _output_rich(result: InsightResult, verbose: bool = False):
 
     total = sum(len(fs) for fs in groups.values())
     console.print(f"{total} finding{'s' if total != 1 else ''} from {summary.total_files} files.")
+
+    # Show diagnostics in verbose mode
+    if verbose and hasattr(result, "diagnostic_report") and result.diagnostic_report:
+        diag = result.diagnostic_report
+        if diag.has_issues:
+            console.print()
+            console.print("[bold dim]ANALYSIS DIAGNOSTICS[/bold dim]")
+            for issue in diag.issues:
+                icon = "[yellow]![/yellow]" if issue.severity == "warning" else "[dim]i[/dim]"
+                console.print(f"  {icon} {issue.message}")
+                if issue.detail:
+                    console.print(f"    [dim]{issue.detail}[/dim]")
+            console.print()
+
     console.print("[dim]Run 'shannon-insight explain <file>' for details.[/dim]")
     console.print()

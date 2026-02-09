@@ -59,6 +59,14 @@ class Concept:
     weight: float
     keywords: list[str] = field(default_factory=list)
 
+    def __hash__(self) -> int:
+        return hash(self.topic)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Concept):
+            return NotImplemented
+        return self.topic == other.topic
+
 
 @dataclass
 class Completeness:
@@ -105,6 +113,7 @@ class FileSemantics:
     naming_drift: float = 0.0
     completeness: Completeness = field(default_factory=Completeness)
     tier: int = 1
+    import_fingerprint: dict[str, float] = field(default_factory=dict)
 
     @property
     def todo_density(self) -> float:

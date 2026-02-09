@@ -57,6 +57,10 @@ class KnowledgeSiloFinder:
         if tier == "ABSOLUTE":
             return []
 
+        # Skip for solo projects — bus_factor=1 is tautological
+        if field.global_signals.team_size <= 1:
+            return []
+
         # Compute hotspot filter median
         median_changes = compute_hotspot_median(field)
 

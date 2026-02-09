@@ -13,6 +13,7 @@ from __future__ import annotations
 from pathlib import PurePosixPath
 from typing import TYPE_CHECKING
 
+from ...math.statistics import Statistics
 from ..models import Evidence, Finding
 
 if TYPE_CHECKING:
@@ -20,6 +21,9 @@ if TYPE_CHECKING:
 
 _MIN_LIFT = 2.0
 _MIN_CONFIDENCE = 0.5
+_MIN_MI = 0.05  # Minimum mutual information in bits
+_MIN_COCHANGE = 3  # Minimum co-occurrences
+_MAX_FINDINGS = 20  # Finder-level cap
 
 
 class HiddenCouplingFinder:
@@ -46,9 +50,15 @@ class HiddenCouplingFinder:
         graph = structural.graph
         findings = []
 
+        total_commits = cochange.total_commits
+
         for (file_a, file_b), pair in cochange.pairs.items():
             # Skip __init__.py pairs (noise)
             if file_a.endswith("__init__.py") or file_b.endswith("__init__.py"):
+                continue
+
+            # Minimum co-occurrences to avoid noise from small history
+            if pair.cochange_count < _MIN_COCHANGE:
                 continue
 
             # Check lift and confidence thresholds
@@ -58,14 +68,27 @@ class HiddenCouplingFinder:
             if max_conf < _MIN_CONFIDENCE:
                 continue
 
+            # Mutual Information filter — captures full joint distribution
+            # If both files change in every commit (bulk refactor), MI ≈ 0
+            total_a = cochange.file_change_counts.get(file_a, 0)
+            total_b = cochange.file_change_counts.get(file_b, 0)
+            joint = pair.cochange_count
+            only_a = total_a - joint
+            only_b = total_b - joint
+            neither = max(0, total_commits - total_a - total_b + joint)
+
+            mi = Statistics.mutual_information(joint, only_a, only_b, neither)
+            if mi < _MIN_MI:
+                continue
+
             # Check there is NO structural dependency between the pair
             a_deps = set(graph.adjacency.get(file_a, []))
             b_deps = set(graph.adjacency.get(file_b, []))
             if file_b in a_deps or file_a in b_deps:
                 continue  # structural dep exists — not hidden
 
-            # Severity based on lift and confidence
-            strength = min(1.0, max(0.1, (pair.lift / 10.0 + max_conf) / 2))
+            # Severity based on lift, confidence, and MI
+            strength = min(1.0, max(0.1, (pair.lift / 10.0 + max_conf + mi) / 3))
             severity = self.BASE_SEVERITY * strength
 
             # Determine if they share a parent directory
@@ -101,6 +124,12 @@ class HiddenCouplingFinder:
                             description=f"{pair.lift:.1f}x more often than expected by chance",
                         ),
                         Evidence(
+                            signal="mutual_information",
+                            value=mi,
+                            percentile=0,
+                            description=f"MI = {mi:.3f} bits (genuine coupling signal)",
+                        ),
+                        Evidence(
                             signal="no_import",
                             value=0.0,
                             percentile=0,
@@ -114,7 +143,9 @@ class HiddenCouplingFinder:
                 )
             )
 
-        return sorted(findings, key=lambda f: f.severity, reverse=True)
+        # Sort by MI × severity descending, cap at _MAX_FINDINGS
+        findings.sort(key=lambda f: f.severity, reverse=True)
+        return findings[:_MAX_FINDINGS]
 
     def _describe_confidence(self, pair, file_a, file_b) -> str:
         """Describe co-change in plain terms."""

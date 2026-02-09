@@ -27,12 +27,13 @@ class GitHistory:
 class CoChangePair:
     file_a: str
     file_b: str
-    cochange_count: int  # times in same commit
+    cochange_count: int  # times in same commit (raw count)
     total_a: int  # times file_a changed
     total_b: int  # times file_b changed
     confidence_a_b: float  # P(B | A changed)
     confidence_b_a: float  # P(A | B changed)
     lift: float  # observed / expected
+    weight: float = 0.0  # temporal-decay-weighted co-change count
 
 
 @dataclass

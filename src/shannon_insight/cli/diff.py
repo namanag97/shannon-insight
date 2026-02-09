@@ -136,7 +136,7 @@ def diff_cmd(
         from ..insights import InsightKernel
         from ..persistence.diff_engine import diff_snapshots
         from ..persistence.rename import detect_renames
-        from ..persistence.writer import save_snapshot
+        from ..persistence.writer import save_tensor_snapshot
         from ._diff_output import InsightDiffFormatter
 
         settings = resolve_settings(
@@ -160,7 +160,7 @@ def diff_cmd(
 
         # ── Step 2: Save current snapshot ────────────────────────────
         with HistoryDB(resolved_str) as db:
-            new_sid = save_snapshot(db.conn, new_snapshot)
+            new_sid = save_tensor_snapshot(db.conn, new_snapshot)
             logger.info("Current snapshot saved (id=%d)", new_sid)
 
             # ── Step 3: Load old snapshot ────────────────────────────

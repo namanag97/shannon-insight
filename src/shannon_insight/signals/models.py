@@ -72,6 +72,7 @@ class FileSignals:
     # Composites (computed by this phase, AFTER percentile normalization)
     risk_score: float = 0.0  # percentile-based composite (#35)
     wiring_quality: float = 1.0  # (#36)
+    file_health_score: float = 1.0  # Per-file health composite
 
     # Percentiles (filled by normalization)
     percentiles: dict[str, float] = field(default_factory=dict)

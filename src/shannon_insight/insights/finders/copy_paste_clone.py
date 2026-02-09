@@ -47,10 +47,10 @@ class CopyPasteCloneFinder:
         findings: list[Finding] = []
 
         for pair in clone_pairs:
-            # Clone pairs have (file_a, file_b, ncd_score)
-            file_a = pair.file_a if hasattr(pair, "file_a") else pair[0]
-            file_b = pair.file_b if hasattr(pair, "file_b") else pair[1]
-            ncd_score = pair.ncd_score if hasattr(pair, "ncd_score") else pair[2]
+            # ClonePair dataclass: file_a, file_b, ncd
+            file_a = pair.file_a
+            file_b = pair.file_b
+            ncd_score = pair.ncd
 
             # Already filtered by Phase 3, but double-check threshold
             if ncd_score >= self.NCD_THRESHOLD:

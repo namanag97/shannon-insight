@@ -104,11 +104,13 @@ class ReviewBlindspotFinder:
     PAGERANK_PCTL_THRESHOLD = 0.75
     BASE_SEVERITY = 0.80
 
+    MAX_FINDINGS = 10  # Cap findings for review blindspot
+
     def find(self, store: AnalysisStore) -> list[Finding]:
         """Detect review blindspots.
 
         Returns:
-            List of findings sorted by severity desc.
+            List of findings sorted by severity desc, capped at MAX_FINDINGS.
         """
         if not store.signal_field.available:
             return []
@@ -118,6 +120,10 @@ class ReviewBlindspotFinder:
 
         # Skip in ABSOLUTE tier (needs percentiles)
         if tier == "ABSOLUTE":
+            return []
+
+        # Skip for solo projects — "single owner" is meaningless
+        if field.global_signals.team_size <= 1:
             return []
 
         # Compute hotspot filter median
@@ -194,4 +200,5 @@ class ReviewBlindspotFinder:
                 )
             )
 
-        return sorted(findings, key=lambda f: f.severity, reverse=True)
+        findings.sort(key=lambda f: f.severity, reverse=True)
+        return findings[:self.MAX_FINDINGS]

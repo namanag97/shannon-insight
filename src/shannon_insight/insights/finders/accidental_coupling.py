@@ -6,14 +6,17 @@ Hotspot: NO (structural + semantic)
 
 Detected when:
 - A structural edge exists (import dependency)
-- But concept_overlap(A, B) < 0.2 (Jaccard similarity of concepts)
+- But combined similarity (import fingerprint + concept overlap) < 0.15
+- Neither file is an infrastructure file (models, __init__, config, etc.)
 
-The dependency exists but the files have nothing in common conceptually.
-This suggests the coupling is accidental and should be reconsidered.
+Uses import fingerprint cosine similarity (weighted by import surprise)
+combined with Jaccard concept overlap for robust detection.
 """
 
 from __future__ import annotations
 
+import math
+from pathlib import PurePosixPath
 from typing import TYPE_CHECKING
 
 from ..models import Evidence, Finding, compute_confidence
@@ -21,17 +24,56 @@ from ..models import Evidence, Finding, compute_confidence
 if TYPE_CHECKING:
     from ..store_v2 import AnalysisStore
 
+# Roles that are DESIGNED for broad import — coupling to them is expected
+_INFRASTRUCTURE_ROLES = frozenset({"model", "config", "interface", "exception", "constant"})
+
+# Filename stems that are infrastructure by convention
+_INFRASTRUCTURE_STEMS = frozenset({
+    "models", "model", "schemas", "schema", "types",
+    "exceptions", "errors", "constants",
+    "protocols", "interfaces",
+})
+
 
 def _concept_overlap(concepts_a: set[str], concepts_b: set[str]) -> float:
-    """Compute Jaccard similarity between concept sets.
-
-    Returns 0.0 if either set is empty.
-    """
+    """Compute Jaccard similarity between concept sets."""
     if not concepts_a or not concepts_b:
         return 0.0
     intersection = concepts_a & concepts_b
     union = concepts_a | concepts_b
     return len(intersection) / len(union) if union else 0.0
+
+
+def _cosine_similarity(vec_a: dict[str, float], vec_b: dict[str, float]) -> float:
+    """Compute cosine similarity between two sparse vectors."""
+    if not vec_a or not vec_b:
+        return 0.0
+
+    keys = set(vec_a) & set(vec_b)
+    if not keys:
+        return 0.0
+
+    dot = sum(vec_a[k] * vec_b[k] for k in keys)
+    norm_a = math.sqrt(sum(v * v for v in vec_a.values()))
+    norm_b = math.sqrt(sum(v * v for v in vec_b.values()))
+
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+
+    return dot / (norm_a * norm_b)
+
+
+def _is_infrastructure(path: str, roles: dict[str, str]) -> bool:
+    """Check if a file is infrastructure (designed for broad import)."""
+    if path.endswith("__init__.py"):
+        return True
+
+    stem = PurePosixPath(path).stem.lower()
+    if stem in _INFRASTRUCTURE_STEMS:
+        return True
+
+    role = roles.get(path, "unknown").lower()
+    return role in _INFRASTRUCTURE_ROLES
 
 
 class AccidentalCouplingFinder:
@@ -46,16 +88,12 @@ class AccidentalCouplingFinder:
     deprecated = False
     deprecation_note = None
 
-    # Thresholds from registry
-    OVERLAP_THRESHOLD = 0.2
+    COMBINED_THRESHOLD = 0.15
     BASE_SEVERITY = 0.50
+    MAX_FINDINGS = 20
 
     def find(self, store: AnalysisStore) -> list[Finding]:
-        """Detect accidental coupling between file pairs.
-
-        Returns:
-            List of findings sorted by severity desc.
-        """
+        """Detect accidental coupling between file pairs."""
         if not store.structural.available:
             return []
         if not store.semantics.available:
@@ -64,60 +102,79 @@ class AccidentalCouplingFinder:
         structural = store.structural.value
         semantics = store.semantics.value
 
-        # Build concept set lookup
+        # Get role lookup
+        roles: dict[str, str] = {}
+        if store.roles.available:
+            roles = store.roles.value
+
+        # Build concept set and import fingerprint lookups
         file_concepts: dict[str, set[str]] = {}
+        file_fingerprints: dict[str, dict[str, float]] = {}
+
         for path, sem in semantics.items():
-            # Extract concept topics from FileSemantics
             if hasattr(sem, "concepts"):
-                concepts = sem.concepts
-                # concepts is a list of Concept objects with .topic attribute
-                topics = {c.topic if hasattr(c, "topic") else str(c) for c in concepts}
+                topics = {c.topic if hasattr(c, "topic") else str(c) for c in sem.concepts}
                 file_concepts[path] = topics
             else:
                 file_concepts[path] = set()
 
+            if hasattr(sem, "import_fingerprint"):
+                file_fingerprints[path] = sem.import_fingerprint
+            else:
+                file_fingerprints[path] = {}
+
         findings: list[Finding] = []
         seen_pairs: set[tuple[str, str]] = set()
 
-        # Iterate over structural edges
         if hasattr(structural, "graph") and hasattr(structural.graph, "adjacency"):
             for source, targets in structural.graph.adjacency.items():
+                # Skip if source is infrastructure
+                if _is_infrastructure(source, roles):
+                    continue
+
                 concepts_a = file_concepts.get(source, set())
-                if not concepts_a:
-                    continue  # No concepts for source, skip
+                fp_a = file_fingerprints.get(source, {})
 
                 for target in targets:
-                    # Normalize pair (sorted for dedup)
+                    # Skip if target is infrastructure
+                    if _is_infrastructure(target, roles):
+                        continue
+
                     pair = tuple(sorted([source, target]))
                     if pair in seen_pairs:
                         continue
                     seen_pairs.add(pair)
 
                     concepts_b = file_concepts.get(target, set())
-                    if not concepts_b:
-                        continue  # No concepts for target, skip
+                    fp_b = file_fingerprints.get(target, {})
 
-                    # Compute Jaccard overlap
-                    overlap = _concept_overlap(concepts_a, concepts_b)
+                    # Skip if no data at all for either side
+                    if not concepts_a and not fp_a:
+                        continue
+                    if not concepts_b and not fp_b:
+                        continue
 
-                    # Check threshold
-                    if overlap >= self.OVERLAP_THRESHOLD:
+                    # Compute combined similarity
+                    import_sim = _cosine_similarity(fp_a, fp_b)
+                    concept_sim = _concept_overlap(concepts_a, concepts_b)
+                    combined = 0.6 * import_sim + 0.4 * concept_sim
+
+                    if combined >= self.COMBINED_THRESHOLD:
                         continue  # Related enough
 
-                    # Compute confidence (lower overlap = higher confidence)
+                    # Compute confidence
                     confidence = compute_confidence(
                         [
-                            ("concept_overlap", overlap, self.OVERLAP_THRESHOLD, "high_is_good"),
+                            ("combined_similarity", combined, self.COMBINED_THRESHOLD, "high_is_good"),
                         ]
                     )
 
-                    # Build evidence
                     evidence = [
                         Evidence(
-                            signal="concept_overlap",
-                            value=overlap,
+                            signal="combined_similarity",
+                            value=combined,
                             percentile=0.0,
-                            description=f"Concept overlap = {overlap:.2f} (Jaccard similarity)",
+                            description=f"Combined similarity = {combined:.2f} (import: {import_sim:.2f}, concept: {concept_sim:.2f})",
                         ),
                         Evidence(
                             signal="structural_edge",
@@ -126,26 +183,6 @@ class AccidentalCouplingFinder:
                             description=f"Import dependency: {source} -> {target}",
                         ),
                     ]
-
-                    # Add concept lists (truncated)
-                    concepts_a_str = ", ".join(sorted(concepts_a)[:5])
-                    concepts_b_str = ", ".join(sorted(concepts_b)[:5])
-                    evidence.append(
-                        Evidence(
-                            signal="concepts_a",
-                            value=float(len(concepts_a)),
-                            percentile=0.0,
-                            description=f"Concepts in {source}: {concepts_a_str}",
-                        )
-                    )
-                    evidence.append(
-                        Evidence(
-                            signal="concepts_b",
-                            value=float(len(concepts_b)),
-                            percentile=0.0,
-                            description=f"Concepts in {target}: {concepts_b_str}",
-                        )
-                    )
 
                     findings.append(
                         Finding(
@@ -161,4 +198,5 @@ class AccidentalCouplingFinder:
                         )
                     )
 
-        return sorted(findings, key=lambda f: f.severity, reverse=True)
+        findings.sort(key=lambda f: f.severity, reverse=True)
+        return findings[:self.MAX_FINDINGS]

@@ -67,6 +67,58 @@ class ThresholdCheck:
         pctl_value: float = fs.percentiles.get(signal.value, 0)
         return pctl_value > pctl_threshold
 
+    def above_adaptive(self, fs: Any, signal: Signal, all_values: list[float]) -> bool:
+        """Is this file above the natural breakpoint for this signal?
+
+        Uses Otsu's method to find the natural threshold in the distribution.
+        Falls back to percentile if Otsu produces degenerate result.
+
+        Args:
+            fs: FileSignals object
+            signal: Signal enum value
+            all_values: All values of this signal across the codebase
+
+        Returns:
+            True if signal exceeds Otsu threshold
+        """
+        from ..math.statistics import Statistics
+
+        if len(all_values) < 4:
+            return self.above(fs, signal, 0.75)  # Fall back to fixed percentile
+
+        threshold = Statistics.otsu_threshold(all_values)
+        raw = getattr(fs, signal.value, 0)
+        return raw > threshold
+
+    def mad_outlier(self, fs: Any, signal: Signal, all_values: list[float], z_cutoff: float = 3.0) -> bool:
+        """Is this file a MAD-based outlier for this signal?
+
+        Uses robust z-scores (MAD) to detect genuine outliers.
+
+        Args:
+            fs: FileSignals object
+            signal: Signal enum value
+            all_values: All values of this signal across the codebase
+            z_cutoff: MAD z-score cutoff (default 3.0)
+
+        Returns:
+            True if file is a statistical outlier
+        """
+        from ..math.statistics import Statistics
+
+        if len(all_values) < 4:
+            return False
+
+        raw = getattr(fs, signal.value, 0)
+        z_scores = Statistics.mad_z_score(all_values)
+
+        # Find index of this file's value
+        try:
+            idx = all_values.index(raw)
+            return abs(z_scores[idx]) > z_cutoff
+        except (ValueError, IndexError):
+            return False
+
     def below(self, fs: Any, signal: Signal, pctl_threshold: float) -> bool:
         """Is this file below the threshold for this signal?
 

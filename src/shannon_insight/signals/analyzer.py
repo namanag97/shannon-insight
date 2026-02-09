@@ -5,7 +5,6 @@ all signals from various store slots into a single SignalField.
 
 Wave 1 analyzers (topo-sorted by requires/provides):
 - StructuralAnalyzer
-- PerFileAnalyzer
 - TemporalAnalyzer
 - SemanticAnalyzer
 - ArchitectureAnalyzer

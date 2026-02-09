@@ -11,6 +11,8 @@ def build_dependency_graph(file_metrics: list[FileMetrics], root_dir: str = "") 
     """Build dependency graph from import declarations in FileMetrics.
 
     Also tracks unresolved imports for phantom_import_count signal.
+    Only imports that look like they should resolve internally are tracked
+    as unresolved — stdlib and third-party imports are excluded.
     """
     file_map: dict[str, FileMetrics] = {f.path: f for f in file_metrics}
     all_paths = set(file_map.keys())
@@ -20,6 +22,7 @@ def build_dependency_graph(file_metrics: list[FileMetrics], root_dir: str = "") 
     edge_count = 0
 
     path_index = _build_path_index(all_paths)
+    project_prefixes = _infer_project_prefixes(all_paths)
 
     for fm in file_metrics:
         for imp in fm.imports:
@@ -28,8 +31,8 @@ def build_dependency_graph(file_metrics: list[FileMetrics], root_dir: str = "") 
                 adjacency[fm.path].append(resolved)
                 reverse[resolved].append(fm.path)
                 edge_count += 1
-            elif resolved is None:
-                # Phase 3: track unresolved imports (potentially phantom)
+            elif resolved is None and _looks_internal(imp, project_prefixes):
+                # Only track as phantom if it looks like it should be internal
                 if fm.path not in unresolved:
                     unresolved[fm.path] = []
                 unresolved[fm.path].append(imp)
@@ -41,6 +44,59 @@ def build_dependency_graph(file_metrics: list[FileMetrics], root_dir: str = "") 
         edge_count=edge_count,
         unresolved_imports=unresolved,
     )
+
+
+def _infer_project_prefixes(all_paths: set[str]) -> set[str]:
+    """Infer project namespace prefixes from file paths.
+
+    If files live under "src/myproject/", then "myproject" is a project prefix.
+    Relative imports (starting with ".") are always considered internal.
+    """
+    prefixes: set[str] = set()
+    for path in all_paths:
+        parts = Path(path).parts
+        # Top-level directory names are likely project prefixes
+        if len(parts) >= 2:
+            prefixes.add(parts[0])
+            # Also add "src/X" patterns
+            if parts[0] == "src" and len(parts) >= 3:
+                prefixes.add(parts[1])
+    return prefixes
+
+
+def _looks_internal(imp: str, project_prefixes: set[str]) -> bool:
+    """Check if an unresolved import looks like it should be internal.
+
+    Returns True for:
+    - Relative imports (.foo, ..bar) — always internal
+    - Imports matching a project namespace prefix
+
+    Returns False for:
+    - Stdlib-looking imports (single-segment: os, sys, math, fmt)
+    - Go stdlib imports (quoted paths like "fmt", "net/http")
+    - Third-party packages (don't match project prefixes)
+    """
+    imp = imp.strip()
+
+    # Relative imports are always internal
+    if imp.startswith("."):
+        return True
+
+    # Go-style quoted imports: strip quotes
+    if imp.startswith('"') and imp.endswith('"'):
+        imp = imp[1:-1]
+
+    # Single-segment imports are almost always stdlib/builtin
+    # (os, sys, fmt, math, json, etc.)
+    if "." not in imp and "/" not in imp:
+        return False
+
+    # Check if any segment matches a project prefix
+    first_segment = imp.split(".")[0].split("/")[0]
+    if first_segment in project_prefixes:
+        return True
+
+    return False
 
 
 def _build_path_index(all_paths: set[str]) -> dict[str, str]:
@@ -90,11 +146,19 @@ def _resolve_import(
     if imp in path_index:
         return path_index[imp]
 
-    # Try with common project prefixes stripped
+    # Try with common project prefixes prepended
     for prefix in ("src.", "src.shannon_insight."):
         candidate = prefix + imp
         if candidate in path_index:
             return path_index[candidate]
+
+    # Try stripping prefixes progressively
+    # "shannon_insight.signals.composites" → "signals.composites" → "composites"
+    parts = imp.split(".")
+    for i in range(1, len(parts)):
+        suffix = ".".join(parts[i:])
+        if suffix in path_index:
+            return path_index[suffix]
 
     # Not an internal import (stdlib or third-party)
     return None

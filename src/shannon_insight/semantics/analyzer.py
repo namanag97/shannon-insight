@@ -128,10 +128,13 @@ class SemanticAnalyzer:
         # 2. Extract concepts
         concepts, concept_entropy, tier = extractor.extract(syntax, role)
 
-        # 3. Compute naming drift
+        # 3. Compute import fingerprint
+        import_fingerprint = extractor.compute_import_fingerprint(syntax.path)
+
+        # 4. Compute naming drift
         naming_drift = compute_naming_drift(syntax.path, concepts, tier)
 
-        # 4. Compute completeness
+        # 5. Compute completeness
         completeness = compute_completeness(syntax, content)
 
         return FileSemantics(
@@ -143,6 +146,7 @@ class SemanticAnalyzer:
             naming_drift=naming_drift,
             completeness=completeness,
             tier=tier,
+            import_fingerprint=import_fingerprint,
         )
 
     def _summarize_roles(self, roles: dict[str, str]) -> str:

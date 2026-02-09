@@ -327,9 +327,9 @@ def compute_orphans(
     Returns:
         Dict mapping file path to is_orphan boolean
     """
-    excluded_roles = {"ENTRY_POINT", "TEST"}
+    excluded_roles = {"ENTRY_POINT", "TEST", "CONFIG", "INTERFACE", "EXCEPTION"}
     return {
-        path: (degree == 0 and roles.get(path, "UNKNOWN") not in excluded_roles)
+        path: (degree == 0 and roles.get(path, "UNKNOWN").upper() not in excluded_roles)
         for path, degree in in_degree.items()
     }
 

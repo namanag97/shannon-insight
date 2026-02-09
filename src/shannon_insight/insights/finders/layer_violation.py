@@ -50,8 +50,8 @@ class LayerViolationFinder:
 
         for violation in architecture.violations:
             # Access violation attributes (adapt to actual model)
-            source_module = getattr(violation, "source_module", str(violation.source))
-            target_module = getattr(violation, "target_module", str(violation.target))
+            source_module = violation.source_module
+            target_module = violation.target_module
             source_layer = getattr(violation, "source_layer", 0)
             target_layer = getattr(violation, "target_layer", 0)
             violation_type = getattr(violation, "violation_type", "backward")

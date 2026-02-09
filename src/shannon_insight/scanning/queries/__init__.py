@@ -38,7 +38,7 @@ def get_queries(language: str) -> dict[str, str] | None:
     module = QUERY_MODULES.get(language)
     if module is None:
         return None
-    return module.get_all_queries()
+    return dict(module.get_all_queries())
 
 
 def get_query(language: str, query_name: str) -> str | None:

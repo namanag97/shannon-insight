@@ -79,6 +79,9 @@ class Architecture:
     violations: list[Violation] = field(default_factory=list)
     violation_rate: float = 0.0  # violating edges / total cross-module edges
 
+    # Module-level dependency graph: module_graph[src][tgt] = edge_count
+    module_graph: dict[str, dict[str, int]] = field(default_factory=dict)
+
     # Patterns detected
     has_layering: bool = False  # True if 2+ layers inferred
     max_depth: int = 0

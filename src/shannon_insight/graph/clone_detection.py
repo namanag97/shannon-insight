@@ -91,16 +91,25 @@ def detect_clones(
         role_b = roles.get(path_b, "")
         return role_a in excluded_roles and role_b in excluded_roles
 
-    # For now, always use direct pairwise (simpler, fast enough for most cases)
-    # LSH implementation can be added later if needed for very large codebases
+    # Pre-compute compressed sizes for size-ratio pre-filter.
+    # Spec: only compare files with similar size (±30%) to prune O(n²).
     paths = sorted(valid_files.keys())
+    sizes = {p: len(c) for p, c in valid_files.items()}
     clones: list[ClonePair] = []
 
     for i, path_a in enumerate(paths):
+        size_a = sizes[path_a]
         content_a = valid_files[path_a]
         for path_b in paths[i + 1 :]:
             if should_skip_pair(path_a, path_b):
                 continue
+
+            # Size pre-filter: skip if sizes differ by more than 30%
+            size_b = sizes[path_b]
+            if size_a > 0 and size_b > 0:
+                ratio = min(size_a, size_b) / max(size_a, size_b)
+                if ratio < 0.7:
+                    continue
 
             content_b = valid_files[path_b]
             ncd = compute_ncd(content_a, content_b)
@@ -111,8 +120,8 @@ def detect_clones(
                         file_a=path_a,
                         file_b=path_b,
                         ncd=ncd,
-                        size_a=len(content_a),
-                        size_b=len(content_b),
+                        size_a=size_a,
+                        size_b=size_b,
                     )
                 )
 

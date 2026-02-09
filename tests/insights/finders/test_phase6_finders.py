@@ -355,6 +355,7 @@ class TestKnowledgeSiloFinder:
 
         field = basic_store.signal_field.value
         field.tier = "FULL"  # Needs percentiles
+        field.global_signals.team_size = 3  # Needs team > 1
 
         # Add a cold file to establish median (median = 50, so 100 is above)
         cold = file_signal_factory("cold.py", total_changes=10, bus_factor=3.0)
@@ -376,6 +377,23 @@ class TestKnowledgeSiloFinder:
         assert len(findings) == 1
         assert findings[0].finding_type == "knowledge_silo"
         assert findings[0].severity == 0.70
+
+    def test_skips_solo_project(self, basic_store, file_signal_factory):
+        """Should skip for solo projects (team_size=1)."""
+        from shannon_insight.insights.finders.knowledge_silo import KnowledgeSiloFinder
+
+        field = basic_store.signal_field.value
+        field.tier = "FULL"
+        field.global_signals.team_size = 1  # Solo project
+
+        fs = file_signal_factory("critical.py", bus_factor=1.0, total_changes=100)
+        fs.percentiles = {"pagerank": 0.90}
+        field.per_file["critical.py"] = fs
+
+        finder = KnowledgeSiloFinder()
+        findings = finder.find(basic_store)
+
+        assert len(findings) == 0  # Skipped for solo project
 
     def test_skips_in_absolute_tier(self, basic_store, file_signal_factory):
         """Should skip in ABSOLUTE tier (needs percentiles)."""

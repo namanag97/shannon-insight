@@ -15,6 +15,8 @@ so that renamed files are matched correctly rather than appearing as
 remove+add pairs.
 """
 
+from __future__ import annotations
+
 from typing import Any, Optional
 
 from .diff_models import (
@@ -339,8 +341,8 @@ def _diff_codebase_signals(
 
 
 def diff_snapshots(
-    old: Snapshot,
-    new: Snapshot,
+    old: Snapshot | TensorSnapshot,
+    new: Snapshot | TensorSnapshot,
     renames: Optional[dict[str, str]] = None,
     metric_threshold: float = 0.01,
 ) -> SnapshotDiff:
@@ -388,10 +390,10 @@ def diff_snapshots(
     )
 
     # ── Step 3: Codebase-level diff ──────────────────────────────────────
-    codebase_deltas = _diff_codebase_signals(
-        old.codebase_signals,
-        new.codebase_signals,
-    )
+    # Handle both v1 (codebase_signals) and v2 (global_signals) snapshots
+    old_codebase = getattr(old, "codebase_signals", None) or getattr(old, "global_signals", {})
+    new_codebase = getattr(new, "codebase_signals", None) or getattr(new, "global_signals", {})
+    codebase_deltas = _diff_codebase_signals(old_codebase, new_codebase)
 
     return SnapshotDiff(
         old_commit=old.commit_sha,

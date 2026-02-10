@@ -110,6 +110,11 @@ def main(
         "--parquet",
         help="Also export snapshot as Parquet files (requires [tensordb] extra)",
     ),
+    use_tensordb: bool = typer.Option(
+        False,
+        "--use-tensordb",
+        help="Use DuckDB/Parquet SQL finders (requires [tensordb] extra and --parquet data)",
+    ),
     fail_on: Optional[str] = typer.Option(
         None,
         "--fail-on",
@@ -180,6 +185,10 @@ def main(
 
     logger = setup_logging(verbose=verbose)
 
+    # --use-tensordb implies --parquet (need data to query)
+    if use_tensordb:
+        parquet = True
+
     try:
         settings = resolve_settings(
             config=config,
@@ -225,6 +234,9 @@ def main(
             if parquet:
                 _save_parquet(repo_path, snapshot, logger)
 
+            if use_tensordb:
+                result = _overlay_sql_findings(str(target.resolve()), result, logger)
+
             report = build_scoped_report(changed_files, snapshot)
 
             if json_output:
@@ -246,6 +258,9 @@ def main(
 
             if parquet:
                 _save_parquet(str(target.resolve()), snapshot, logger)
+
+            if use_tensordb:
+                result = _overlay_sql_findings(str(target.resolve()), result, logger)
 
             if json_output:
                 _output_json(result)
@@ -293,6 +308,74 @@ def _save_snapshot(repo_path: str, snapshot: TensorSnapshot, logger) -> None:
             logger.info(f"Snapshot saved (id={sid})")
     except Exception as e:
         logger.warning(f"Failed to save snapshot: {e}")
+
+
+def _overlay_sql_findings(
+    repo_path: str,
+    result: InsightResult,
+    logger,
+) -> InsightResult:
+    """Replace findings for SQL-implemented finder types with SQL results.
+
+    For finder types that have SQL implementations (high_risk_hub, orphan_code,
+    hidden_coupling), the SQL results replace the original Python results.
+    All other finding types are kept unchanged.
+
+    This allows side-by-side validation during the migration period.
+    """
+    try:
+        from ..query.engine import QueryEngine
+        from ..query.finders.runner import SQLFinderRunner
+
+        engine = QueryEngine(repo_path)
+        if not engine.available:
+            logger.warning("No Parquet data available for --use-tensordb")
+            return result
+
+        engine.load()
+        runner = SQLFinderRunner(engine)
+        sql_findings = runner.run_all()
+        engine.close()
+
+        # SQL-implemented finder types
+        sql_types = {"high_risk_hub", "orphan_code", "hidden_coupling"}
+
+        # Keep non-SQL findings from original result
+        kept_findings = [f for f in result.findings if f.finding_type not in sql_types]
+
+        # Add SQL findings
+        all_findings = kept_findings + sql_findings
+        all_findings.sort(key=lambda f: f.severity, reverse=True)
+
+        sql_count = len(sql_findings)
+        original_sql_count = sum(1 for f in result.findings if f.finding_type in sql_types)
+        logger.info(
+            "TensorDB overlay: replaced %d findings with %d SQL findings "
+            "for types: %s",
+            original_sql_count,
+            sql_count,
+            ", ".join(sorted(sql_types)),
+        )
+
+        return InsightResult(
+            findings=all_findings,
+            store_summary=result.store_summary,
+            diagnostic_report=result.diagnostic_report,
+        )
+
+    except ImportError:
+        logger.warning(
+            "--use-tensordb requires duckdb. "
+            "Install with: pip install shannon-codebase-insight[tensordb]"
+        )
+        console.print(
+            "[yellow]--use-tensordb requires duckdb.[/yellow] "
+            "Install: pip install shannon-codebase-insight[tensordb]"
+        )
+        return result
+    except Exception as e:
+        logger.warning("TensorDB overlay failed: %s", e)
+        return result
 
 
 def _save_parquet(repo_path: str, snapshot: TensorSnapshot, logger) -> None:

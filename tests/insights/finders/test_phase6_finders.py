@@ -480,7 +480,7 @@ class TestBugAttractorFinder:
             total_changes=100,  # Above median
             blast_radius_size=20,
         )
-        fs.percentiles = {"pagerank": 0.80, "fix_ratio": 0.90}
+        fs.percentiles = {"pagerank": 0.85, "fix_ratio": 0.90}
         field.per_file["buggy.py"] = fs
 
         finder = BugAttractorFinder()

@@ -35,7 +35,7 @@ class UnstableFileFinder:
     BASE_SEVERITY = 0.7
 
     def find(self, store: AnalysisStore) -> list[Finding]:
-        """Detect unstable files based on churn trajectory."""
+        """Detect unstable files based on churn trajectory and change entropy."""
         if not store.signal_field.available:
             return []
 
@@ -44,7 +44,7 @@ class UnstableFileFinder:
         if len(field.per_file) < _MIN_FILES:
             return []
 
-        # Find median total_changes
+        # Find median total_changes for hotspot gate
         all_changes = sorted(fs.total_changes for fs in field.per_file.values())
         n = len(all_changes)
         median_changes = all_changes[n // 2] if n > 0 else 0
@@ -56,6 +56,10 @@ class UnstableFileFinder:
 
         findings = []
         for path, fs in sorted(field.per_file.items()):
+            # Hotspot gate: must have meaningful change activity
+            if fs.total_changes == 0:
+                continue
+
             if fs.churn_trajectory not in ("CHURNING", "SPIKING"):
                 continue
             if fs.total_changes <= median_changes:
@@ -85,26 +89,39 @@ class UnstableFileFinder:
                     "Consider splitting it or adding tests to reduce churn."
                 )
 
+            evidence_items = [
+                Evidence(
+                    signal="total_changes",
+                    value=float(fs.total_changes),
+                    percentile=pctl,
+                    description=rate_desc,
+                ),
+                Evidence(
+                    signal="churn_trajectory",
+                    value=fs.churn_slope,
+                    percentile=0,
+                    description=trend_desc,
+                ),
+            ]
+
+            # Include change_entropy if available
+            if fs.change_entropy > 0:
+                evidence_items.append(
+                    Evidence(
+                        signal="change_entropy",
+                        value=fs.change_entropy,
+                        percentile=0,
+                        description=f"Change entropy = {fs.change_entropy:.2f} bits (scattered changes)",
+                    )
+                )
+
             findings.append(
                 Finding(
                     finding_type=self.name,
                     severity=severity,
                     title=f"Unstable file: {path}",
                     files=[path],
-                    evidence=[
-                        Evidence(
-                            signal="total_changes",
-                            value=float(fs.total_changes),
-                            percentile=pctl,
-                            description=rate_desc,
-                        ),
-                        Evidence(
-                            signal="churn_trajectory",
-                            value=fs.churn_slope,
-                            percentile=0,
-                            description=trend_desc,
-                        ),
-                    ],
+                    evidence=evidence_items,
                     suggestion=suggestion,
                     confidence=0.75,
                     effort="MEDIUM",

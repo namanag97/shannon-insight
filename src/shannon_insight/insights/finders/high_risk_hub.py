@@ -38,9 +38,10 @@ class HighRiskHubFinder:
     def find(self, store: AnalysisStore) -> list[Finding]:
         """Detect high-risk hub files.
 
-        Criteria (v2 spec):
-        - pctl(pagerank) > 0.90 AND pctl(blast_radius_size) > 0.90
-        - AND (pctl(cognitive_load) > 0.90 OR trajectory in {CHURNING, SPIKING})
+        Criteria (tightened):
+        - pctl(pagerank) >= 0.95 OR pctl(blast_radius_size) >= 0.95
+        - AND (pctl(cognitive_load) >= 0.95 OR trajectory in {CHURNING, SPIKING})
+        - AND total_changes > 0 (hotspot gate)
         """
         if not store.signal_field.available:
             return []
@@ -58,6 +59,10 @@ class HighRiskHubFinder:
         findings: list[Finding] = []
 
         for path, fs in sorted(field.per_file.items()):
+            # Hotspot gate: must have change activity
+            if fs.total_changes == 0:
+                continue
+
             pctl = fs.percentiles
 
             # Get percentiles (default 0 if not computed)
@@ -65,13 +70,13 @@ class HighRiskHubFinder:
             br_pctl = pctl.get("blast_radius_size", 0)
             cog_pctl = pctl.get("cognitive_load", 0)
 
-            # Need high centrality (pagerank OR blast_radius in top 10%)
-            has_high_centrality = pr_pctl >= 0.90 or br_pctl >= 0.90
+            # Need high centrality (pagerank OR blast_radius in top 5%)
+            has_high_centrality = pr_pctl >= 0.95 or br_pctl >= 0.95
             if not has_high_centrality:
                 continue
 
             # Need high complexity OR high churn
-            has_high_complexity = cog_pctl >= 0.90
+            has_high_complexity = cog_pctl >= 0.95
             has_high_churn = fs.churn_trajectory in {"CHURNING", "SPIKING"}
 
             if not (has_high_complexity or has_high_churn):
@@ -81,7 +86,7 @@ class HighRiskHubFinder:
             evidence_items: list[Evidence] = []
             pcts: list[float] = []
 
-            if pr_pctl >= 0.90:
+            if pr_pctl >= 0.95:
                 pcts.append(pr_pctl)
                 evidence_items.append(
                     Evidence(
@@ -92,7 +97,7 @@ class HighRiskHubFinder:
                     )
                 )
 
-            if br_pctl >= 0.90:
+            if br_pctl >= 0.95:
                 pcts.append(br_pctl)
                 evidence_items.append(
                     Evidence(

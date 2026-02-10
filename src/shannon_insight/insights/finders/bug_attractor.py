@@ -35,9 +35,9 @@ class BugAttractorFinder:
     deprecated = False
     deprecation_note = None
 
-    # Thresholds from registry
+    # Thresholds (tightened)
     FIX_RATIO_THRESHOLD = 0.4
-    PAGERANK_PCTL_THRESHOLD = 0.75
+    PAGERANK_PCTL_THRESHOLD = 0.80  # Was 0.75 — tighter to reduce noise
     PAGERANK_ABSOLUTE_THRESHOLD = 0.005  # For ABSOLUTE tier
     BASE_SEVERITY = 0.70
 

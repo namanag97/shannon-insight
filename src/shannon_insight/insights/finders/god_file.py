@@ -38,9 +38,11 @@ class GodFileFinder:
     def find(self, store: AnalysisStore) -> list[Finding]:
         """Detect god files.
 
-        Criteria (v2 spec):
-        - pctl(cognitive_load) > 0.90
+        Criteria (tightened):
+        - pctl(cognitive_load) >= 0.95
         - pctl(semantic_coherence) < 0.20
+        - function_count >= 3 (minimum size)
+        - total_changes > 0 (hotspot gate)
         """
         if not store.signal_field.available:
             return []
@@ -57,13 +59,21 @@ class GodFileFinder:
         findings: list[Finding] = []
 
         for path, fs in sorted(field.per_file.items()):
+            # Hotspot gate: must have change activity
+            if fs.total_changes == 0:
+                continue
+
+            # Minimum function count to avoid flagging trivial files
+            if fs.function_count < 3:
+                continue
+
             pctl = fs.percentiles
 
             cog_pctl = pctl.get("cognitive_load", 0)
             coh_pctl = pctl.get("semantic_coherence", 1.0)
 
-            # Top 10% cognitive load AND bottom 20% coherence
-            if cog_pctl >= 0.90 and coh_pctl <= 0.20:
+            # Top 5% cognitive load AND bottom 20% coherence
+            if cog_pctl >= 0.95 and coh_pctl <= 0.20:
                 # Severity scales with how extreme the signals are
                 avg_pctl = (cog_pctl + (1 - coh_pctl)) / 2
                 severity = self.BASE_SEVERITY * max(0.5, avg_pctl)

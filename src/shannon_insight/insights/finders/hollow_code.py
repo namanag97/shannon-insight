@@ -31,9 +31,10 @@ class HollowCodeFinder:
     deprecated = False
     deprecation_note = None
 
-    # Thresholds from registry
-    STUB_THRESHOLD = 0.5
+    # Thresholds (tightened from registry defaults)
+    STUB_THRESHOLD = 0.6  # Was 0.5 — tighter to reduce noise
     GINI_THRESHOLD = 0.6
+    MIN_FUNCTION_COUNT = 3  # Files need at least 3 functions to be meaningful
     BASE_SEVERITY = 0.71
 
     def find(self, store: AnalysisStore) -> list[Finding]:
@@ -49,8 +50,8 @@ class HollowCodeFinder:
         findings: list[Finding] = []
 
         for path, fs in sorted(field.per_file.items()):
-            # Need functions to compute stub_ratio and impl_gini
-            if fs.function_count == 0:
+            # Need enough functions for hollow code to be meaningful
+            if fs.function_count < self.MIN_FUNCTION_COUNT:
                 continue
 
             # Check condition: stub_ratio > 0.5 AND impl_gini > 0.6

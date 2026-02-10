@@ -35,9 +35,9 @@ class KnowledgeSiloFinder:
     deprecated = False
     deprecation_note = None
 
-    # Thresholds from registry
+    # Thresholds (tightened)
     BUS_FACTOR_THRESHOLD = 1.5
-    PAGERANK_PCTL_THRESHOLD = 0.75
+    PAGERANK_PCTL_THRESHOLD = 0.80  # Was 0.75 — tighter to reduce noise
     PAGERANK_ABSOLUTE_THRESHOLD = 0.005  # For ABSOLUTE tier
     BASE_SEVERITY = 0.70
 

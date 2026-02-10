@@ -99,9 +99,9 @@ class ReviewBlindspotFinder:
     deprecated = False
     deprecation_note = None
 
-    # Thresholds from registry
+    # Thresholds (tightened)
     BUS_FACTOR_THRESHOLD = 1.5
-    PAGERANK_PCTL_THRESHOLD = 0.75
+    PAGERANK_PCTL_THRESHOLD = 0.80  # Was 0.75 — tighter to reduce noise
     BASE_SEVERITY = 0.80
 
     MAX_FINDINGS = 10  # Cap findings for review blindspot

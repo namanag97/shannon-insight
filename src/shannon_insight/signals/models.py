@@ -65,6 +65,7 @@ class FileSignals:
     author_entropy: float = 0.0
     fix_ratio: float = 0.0
     refactor_ratio: float = 0.0
+    change_entropy: float = 0.0  # Shannon entropy of change distribution across time windows
 
     # Pre-percentile risk (used by health Laplacian BEFORE percentile normalization)
     raw_risk: float = 0.0

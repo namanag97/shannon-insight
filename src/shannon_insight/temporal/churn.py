@@ -1,6 +1,7 @@
 """Build per-file churn time series from git history."""
 
 from collections import defaultdict
+from math import log2
 
 from .models import ChurnSeries, GitHistory
 
@@ -48,6 +49,7 @@ def build_churn_series(
         total = sum(counts)
         slope = _linear_slope(counts)
         trajectory = _classify_trajectory(counts, total, slope)
+        change_entropy = compute_change_entropy(counts)
 
         results[file_path] = ChurnSeries(
             file_path=file_path,
@@ -55,6 +57,7 @@ def build_churn_series(
             total_changes=total,
             trajectory=trajectory,
             slope=slope,
+            change_entropy=change_entropy,
         )
 
     return results
@@ -100,3 +103,20 @@ def _classify_trajectory(counts: list[int], total: int, slope: float) -> str:
         return "churning"
     else:
         return "stabilizing"
+
+
+def compute_change_entropy(commits_per_window: list[int]) -> float:
+    """Compute Shannon entropy of change distribution across time windows.
+
+    High entropy = changes scattered evenly across all windows = BAD
+    (constant churn with no focused burst pattern).
+    Low entropy = changes concentrated in few windows = more predictable.
+
+    Returns:
+        Entropy in bits. 0.0 if no changes.
+    """
+    total = sum(commits_per_window)
+    if total == 0:
+        return 0.0
+    probs = [c / total for c in commits_per_window if c > 0]
+    return -sum(p * log2(p) for p in probs)

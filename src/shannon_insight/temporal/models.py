@@ -57,6 +57,7 @@ class ChurnSeries:
     author_entropy: float = 0.0  # Shannon entropy of per-file author commit distribution
     fix_ratio: float = 0.0  # fraction of commits with fix keywords in subject
     refactor_ratio: float = 0.0  # fraction of commits with refactor keywords in subject
+    change_entropy: float = 0.0  # Shannon entropy of change distribution across time windows
 
 
 @dataclass

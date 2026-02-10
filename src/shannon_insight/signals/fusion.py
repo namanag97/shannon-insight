@@ -203,6 +203,7 @@ class FusionPipeline:
         fs.author_entropy = churn.author_entropy
         fs.fix_ratio = churn.fix_ratio
         fs.refactor_ratio = churn.refactor_ratio
+        fs.change_entropy = getattr(churn, "change_entropy", 0.0)
 
     def _collect_modules(self) -> None:
         """Collect per-module signals from architecture."""

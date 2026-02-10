@@ -257,12 +257,13 @@ class TestRiskScoreComputation:
         assert fs.risk_score < 0.4
 
     def test_risk_score_high_for_risky_file(self):
-        """Risky file (high metrics, churning) has high risk score."""
+        """Risky file (high metrics, churning, active) has high risk score."""
         field = SignalField(tier="FULL")
         fs = FileSignals(
             path="/risky.py",
             churn_trajectory="CHURNING",
             bus_factor=1.0,
+            total_changes=50,  # Must have change activity for non-zero risk
         )
         fs.percentiles = {
             "pagerank": 0.95,
@@ -273,32 +274,64 @@ class TestRiskScoreComputation:
 
         compute_composites(field)
 
-        # High percentiles + churning + single author = high risk
+        # High percentiles + churning + single author + active = high risk
         assert fs.risk_score > 0.7
 
-    def test_instability_factor_churning(self):
-        """CHURNING trajectory gives instability factor of 1.0."""
+    def test_risk_score_zero_for_inactive_file(self):
+        """Inactive file (no changes) always has zero risk score."""
         field = SignalField(tier="FULL")
-        fs = FileSignals(path="/a.py", churn_trajectory="CHURNING", bus_factor=1.0)
+        fs = FileSignals(
+            path="/inactive.py",
+            churn_trajectory="DORMANT",
+            bus_factor=1.0,
+            total_changes=0,  # No changes = no risk
+        )
+        fs.percentiles = {
+            "pagerank": 0.95,
+            "blast_radius_size": 0.95,
+            "cognitive_load": 0.95,
+        }
+        field.per_file["/inactive.py"] = fs
+
+        compute_composites(field)
+
+        # No changes = zero risk, regardless of how central/complex
+        assert fs.risk_score == 0.0
+
+    def test_instability_factor_churning(self):
+        """CHURNING trajectory gives churn_factor of 1.0."""
+        field = SignalField(tier="FULL")
+        fs = FileSignals(
+            path="/a.py",
+            churn_trajectory="CHURNING",
+            bus_factor=1.0,
+            total_changes=50,  # Active file
+        )
         fs.percentiles = {"pagerank": 0.5, "blast_radius_size": 0.5, "cognitive_load": 0.5}
         field.per_file["/a.py"] = fs
 
         compute_composites(field)
 
-        # With instability_factor=1.0 (CHURNING), risk should be higher
-        assert fs.risk_score >= 0.5
+        # With churn_factor=1.0 (CHURNING), risk uses full multiplier
+        assert fs.risk_score > 0.0
 
     def test_instability_factor_dormant(self):
-        """DORMANT trajectory gives instability factor of 0.3."""
+        """DORMANT trajectory gives churn_factor of 0.3."""
         field = SignalField(tier="FULL")
-        fs = FileSignals(path="/a.py", churn_trajectory="DORMANT", bus_factor=1.0)
+        fs = FileSignals(
+            path="/a.py",
+            churn_trajectory="DORMANT",
+            bus_factor=1.0,
+            total_changes=50,  # Active file
+        )
         fs.percentiles = {"pagerank": 0.5, "blast_radius_size": 0.5, "cognitive_load": 0.5}
         field.per_file["/a.py"] = fs
 
         compute_composites(field)
 
-        # With instability_factor=0.3 (DORMANT), risk should be lower
-        assert fs.risk_score < 0.7
+        # With churn_factor=0.3 (DORMANT), risk uses reduced multiplier
+        # Multiplicative: 0.5 * 0.5 * 0.3 * (1 + 0.67) = 0.125
+        assert fs.risk_score < 0.3
 
 
 class TestHealthScoreInstabilityGuard:

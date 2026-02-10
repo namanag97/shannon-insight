@@ -60,27 +60,39 @@ def compute_composites(field: SignalField) -> None:
 def _compute_risk_score(fs: FileSignals, max_bus_factor: float) -> float:
     """Signal #35: How dangerous is this file?
 
-    risk_score = 0.25 * pctl(pagerank)
-               + 0.20 * pctl(blast_radius_size)
-               + 0.20 * pctl(cognitive_load)
-               + 0.20 * instability_factor
-               + 0.15 * (1 - bus_factor / max_bus_factor)
+    Multiplicative scoring: inactive code (no changes) = zero risk.
 
-    instability_factor = 1.0 if trajectory in {CHURNING, SPIKING} else 0.3
+    risk_score = structural_risk * complexity_factor * churn_factor * (1 + bus_factor_risk)
+
+    where:
+        structural_risk = max(pctl(pagerank), pctl(blast_radius_size))
+        complexity_factor = pctl(cognitive_load)
+        churn_factor = 1.0 if trajectory in {CHURNING, SPIKING} else 0.3
+        bus_factor_risk = 1.0 - min(bus_factor, 3) / 3
+
+    If total_changes == 0, risk_score = 0.0 (dormant code is not risky).
     """
+    # Gate: no changes = no risk
+    if fs.total_changes == 0:
+        return 0.0
+
     pctl_pr = fs.percentiles.get("pagerank", 0.0)
     pctl_blast = fs.percentiles.get("blast_radius_size", 0.0)
     pctl_cog = fs.percentiles.get("cognitive_load", 0.0)
 
-    # Instability factor based on churn trajectory
-    instab_factor = 1.0 if fs.churn_trajectory in ("CHURNING", "SPIKING") else 0.3
+    # Structural risk: how central is this file?
+    structural_risk = max(pctl_pr, pctl_blast)
 
-    # Bus factor contribution (higher bus factor = lower risk)
-    bf_term = 1 - fs.bus_factor / max(max_bus_factor, 1.0)
+    # Complexity factor: how hard is this file to understand?
+    complexity_factor = pctl_cog
 
-    risk = (
-        0.25 * pctl_pr + 0.20 * pctl_blast + 0.20 * pctl_cog + 0.20 * instab_factor + 0.15 * bf_term
-    )
+    # Churn factor: is this file actively churning?
+    churn_factor = 1.0 if fs.churn_trajectory in ("CHURNING", "SPIKING") else 0.3
+
+    # Bus factor risk: concentrated knowledge = higher risk (capped at 3)
+    bus_factor_risk = 1.0 - min(fs.bus_factor, 3.0) / 3.0
+
+    risk = structural_risk * complexity_factor * churn_factor * (1.0 + bus_factor_risk)
 
     return max(0.0, min(1.0, risk))
 

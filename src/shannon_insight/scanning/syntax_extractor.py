@@ -106,17 +106,30 @@ class SyntaxExtractor:
         return results
 
     def _check_fallback_rate(self) -> None:
-        """Log warning if fallback rate exceeds 20%."""
+        """Log fallback rate information.
+
+        - If tree-sitter is not installed at all, use INFO (expected behavior).
+        - If tree-sitter IS installed but many files fell back, use WARNING
+          (something is actually wrong).
+        """
         if self.total_count == 0:
             return
 
         fallback_rate = self.fallback_count / self.total_count
         if fallback_rate > 0.2:
-            logger.warning(
-                f"High regex fallback rate: {self.fallback_count}/{self.total_count} "
-                f"({fallback_rate:.1%}) files used regex instead of tree-sitter. "
-                "Consider installing tree-sitter grammars: pip install shannon-codebase-insight[parsing]"
-            )
+            if TREE_SITTER_AVAILABLE:
+                # tree-sitter is installed but failing on many files — real problem
+                logger.warning(
+                    f"tree-sitter installed but {self.fallback_count}/{self.total_count} "
+                    f"({fallback_rate:.1%}) files fell back to regex. "
+                    "Check for unsupported languages or syntax errors."
+                )
+            else:
+                # tree-sitter not installed — expected, just inform once at INFO
+                logger.info(
+                    f"Using regex parsing ({self.total_count} files). "
+                    "For richer analysis: pip install shannon-codebase-insight[parsing]"
+                )
         elif self.fallback_count > 0:
             logger.debug(
                 f"Fallback rate: {self.fallback_count}/{self.total_count} "

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Callable, Optional
 
 from ..config import AnalysisSettings, default_settings
 from ..logging_config import get_logger
@@ -13,6 +14,8 @@ from .analyzers import get_default_analyzers, get_wave2_analyzers
 from .finders import get_default_finders, get_persistence_finders
 from .models import InsightResult, StoreSummary
 from .store_v2 import AnalysisStore
+
+ProgressCallback = Optional[Callable[[str], None]]
 
 logger = get_logger(__name__)
 
@@ -35,8 +38,20 @@ class InsightKernel:
         self._finders = get_default_finders()
         self._persistence_finders = get_persistence_finders() if enable_persistence_finders else []
 
-    def run(self, max_findings: int = 10) -> tuple[InsightResult, TensorSnapshot]:
+    def run(
+        self,
+        max_findings: int = 10,
+        on_progress: ProgressCallback = None,
+    ) -> tuple[InsightResult, TensorSnapshot]:
         """Execute the full insight pipeline and capture a snapshot.
+
+        Parameters
+        ----------
+        max_findings : int
+            Maximum findings to return (default 10).
+        on_progress : callable, optional
+            If provided, called with a status message string at each phase
+            transition. Useful for driving a CLI spinner.
 
         Returns
         -------
@@ -45,9 +60,14 @@ class InsightKernel:
         """
         from ..persistence.capture import capture_tensor_snapshot
 
+        def _progress(msg: str) -> None:
+            if on_progress is not None:
+                on_progress(msg)
+
         store = AnalysisStore(root_dir=self.root_dir)
 
         # Phase 1: Scan files
+        _progress("Scanning files...")
         store.file_metrics = self._scan()
         logger.info(f"Scanned {len(store.file_metrics)} files")
 
@@ -59,27 +79,34 @@ class InsightKernel:
             empty_snapshot = capture_tensor_snapshot(store, empty_result, self.settings)
             return empty_result, empty_snapshot
 
+        _progress(f"Parsing {len(store.file_metrics)} files...")
+
         # Phase 1.5: Extract file_syntax for deep parsing
         self._extract_syntax(store)
 
         # Phase 2a: Run Wave 1 analyzers (topologically sorted by requires/provides)
+        _progress("Analyzing dependencies...")
         for analyzer in self._resolve_order():
             if analyzer.requires.issubset(store.available):
                 try:
+                    _progress(f"Running {analyzer.name}...")
                     analyzer.analyze(store)
                     logger.debug(f"Analyzer {analyzer.name} completed")
                 except Exception as e:
                     logger.warning(f"Analyzer {analyzer.name} failed: {e}")
 
         # Phase 2b: Run Wave 2 analyzers (signal fusion, after all Wave 1)
+        _progress("Computing signals...")
         for analyzer in self._wave2_analyzers:
             try:
+                _progress(f"Running {analyzer.name}...")
                 analyzer.analyze(store)
                 logger.debug(f"Wave 2 analyzer {analyzer.name} completed")
             except Exception as e:
                 logger.warning(f"Wave 2 analyzer {analyzer.name} failed: {e}")
 
         # Phase 3: Run finders (skip if required signals unavailable)
+        _progress("Detecting issues...")
         findings = []
         for finder in self._finders:
             if finder.requires.issubset(store.available):
@@ -90,6 +117,7 @@ class InsightKernel:
 
         # Phase 3b: Run persistence finders (need DB connection)
         if self._persistence_finders:
+            _progress("Checking history...")
             self._run_persistence_finders(findings)
 
         # Phase 3c: Run diagnostics
@@ -102,6 +130,7 @@ class InsightKernel:
                 logger.debug(f"  [{issue.severity}] {issue.message}")
 
         # Phase 4: Deduplicate, rank, and cap
+        _progress("Ranking findings...")
         from .ranking import deduplicate_findings
 
         findings = deduplicate_findings(findings)
@@ -115,6 +144,7 @@ class InsightKernel:
         result.diagnostic_report = diagnostic_report
 
         # Phase 5: Capture v2 snapshot (includes module signals, delta_h, architecture)
+        _progress("Capturing snapshot...")
         snapshot = capture_tensor_snapshot(store, result, self.settings)
 
         return result, snapshot

@@ -3,6 +3,7 @@
 import json
 import subprocess
 from collections import OrderedDict
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Optional
 
@@ -228,40 +229,89 @@ def main(
 
         max_findings = settings.insights_max_findings
 
+        # Progress spinner — only visible in Rich (non-JSON) mode
+        show_progress = not json_output
+        status_ctx = (
+            console.status("[cyan]Initializing...", spinner="dots")
+            if show_progress
+            else nullcontext()
+        )
+
         # Determine if we are in scoped mode
         scoped_mode = since is not None or changed
 
-        if scoped_mode:
-            # -- Scoped analysis path --
-            repo_path = str(target.resolve())
+        with status_ctx as status:
 
-            if since:
-                changed_files = get_changed_files(repo_path, since)
-            elif changed:
-                ref = _auto_detect_changed_ref(repo_path)
-                changed_files = get_changed_files(repo_path, ref)
-            else:
-                changed_files = []
+            def _on_progress(msg: str) -> None:
+                if show_progress and status is not None:
+                    status.update(f"[cyan]{msg}")
 
-            if not changed_files:
-                console.print(
-                    "[yellow]No changed files detected.[/yellow] Check the ref or branch name."
+            if scoped_mode:
+                # -- Scoped analysis path --
+                repo_path = str(target.resolve())
+
+                _on_progress("Detecting changed files...")
+                if since:
+                    changed_files = get_changed_files(repo_path, since)
+                elif changed:
+                    ref = _auto_detect_changed_ref(repo_path)
+                    changed_files = get_changed_files(repo_path, ref)
+                else:
+                    changed_files = []
+
+                if not changed_files:
+                    console.print(
+                        "[yellow]No changed files detected.[/yellow] "
+                        "Check the ref or branch name."
+                    )
+                    raise typer.Exit(0)
+
+                result, snapshot = kernel.run(
+                    max_findings=max_findings,
+                    on_progress=_on_progress,
                 )
-                raise typer.Exit(0)
 
-            result, snapshot = kernel.run(max_findings=max_findings)
+                if save and settings.enable_history:
+                    _on_progress("Saving snapshot...")
+                    _save_snapshot(repo_path, snapshot, logger)
 
-            if save and settings.enable_history:
-                _save_snapshot(repo_path, snapshot, logger)
+                if parquet:
+                    _on_progress("Exporting Parquet...")
+                    _save_parquet(repo_path, snapshot, logger)
 
-            if parquet:
-                _save_parquet(repo_path, snapshot, logger)
+                if use_tensordb and _parquet_data_exists(repo_path):
+                    _on_progress("Running SQL finders...")
+                    result = _overlay_sql_findings(
+                        str(target.resolve()), result, logger
+                    )
 
-            if use_tensordb and _parquet_data_exists(repo_path):
-                result = _overlay_sql_findings(str(target.resolve()), result, logger)
+                report = build_scoped_report(changed_files, snapshot)
 
-            report = build_scoped_report(changed_files, snapshot)
+            else:
+                # -- Full analysis path --
+                result, snapshot = kernel.run(
+                    max_findings=max_findings,
+                    on_progress=_on_progress,
+                )
 
+                repo_path_full = str(target.resolve())
+
+                if save and settings.enable_history:
+                    _on_progress("Saving snapshot...")
+                    _save_snapshot(repo_path_full, snapshot, logger)
+
+                if parquet:
+                    _on_progress("Exporting Parquet...")
+                    _save_parquet(repo_path_full, snapshot, logger)
+
+                if use_tensordb and _parquet_data_exists(repo_path_full):
+                    _on_progress("Running SQL finders...")
+                    result = _overlay_sql_findings(repo_path_full, result, logger)
+
+                report = None
+
+        # -- Spinner is now cleared; render output --
+        if scoped_mode:
             if json_output:
                 _output_scoped_json(report, result)
             else:
@@ -271,22 +321,7 @@ def main(
                 should_fail = _check_fail_condition_scoped(fail_on, report)
                 if should_fail:
                     raise typer.Exit(1)
-
         else:
-            # -- Full analysis path --
-            result, snapshot = kernel.run(max_findings=max_findings)
-
-            repo_path_full = str(target.resolve())
-
-            if save and settings.enable_history:
-                _save_snapshot(repo_path_full, snapshot, logger)
-
-            if parquet:
-                _save_parquet(repo_path_full, snapshot, logger)
-
-            if use_tensordb and _parquet_data_exists(repo_path_full):
-                result = _overlay_sql_findings(repo_path_full, result, logger)
-
             if json_output:
                 _output_json(result)
             else:

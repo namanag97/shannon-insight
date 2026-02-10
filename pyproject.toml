@@ -81,7 +81,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-shannon_insight = ["py.typed"]
+shannon_insight = ["py.typed", "storage/*.sql", "query/finders/*.sql"]
 
 [tool.setuptools.dynamic]
 version = {attr = "shannon_insight.__version__"}

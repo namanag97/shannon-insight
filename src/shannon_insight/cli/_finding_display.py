@@ -2,7 +2,7 @@
 
 from ..insights import Finding
 
-MAX_FILES_PER_GROUP = 5
+MAX_FILES_PER_GROUP = 15
 
 
 def _hub_oneliner(finding: Finding) -> str:

@@ -201,4 +201,4 @@ class ReviewBlindspotFinder:
             )
 
         findings.sort(key=lambda f: f.severity, reverse=True)
-        return findings[:self.MAX_FINDINGS]
+        return findings[: self.MAX_FINDINGS]

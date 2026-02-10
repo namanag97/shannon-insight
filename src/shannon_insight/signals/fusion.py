@@ -331,7 +331,6 @@ class FusionPipeline:
             distinct_authors = {commit.author for commit in git_hist.commits}
             g.team_size = len(distinct_authors) if distinct_authors else 1
 
-
     def _compute_glue_deficit(self) -> float:
         """Compute glue deficit: are there enough bridge files?
 

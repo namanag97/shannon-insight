@@ -10,6 +10,7 @@ strangler-fig migration, both paths coexist:
 
 from __future__ import annotations
 
+import json
 import uuid
 from typing import Any
 
@@ -78,10 +79,28 @@ def snapshot_to_events(
     # ── Global signals ────────────────────────────────────────────
     global_signal_event = _dict_to_global_signal_event(sid, snapshot.global_signals)
 
-    # ── Edges (G1 = dependency) ───────────────────────────────────
+    # ── Edges (G1 = dependency, G4 = cochange) ────────────────────
     edge_events: list[EdgeEvent] = []
     for src, dst in snapshot.dependency_edges:
         edge_events.append(EdgeEvent(snapshot_id=sid, source=src, target=dst, space="G1"))
+
+    # G4 = cochange edges (from temporal analysis)
+    for cochange_tuple in getattr(snapshot, "cochange_edges", []):
+        file_a, file_b, weight, lift, conf_ab, conf_ba, count = cochange_tuple
+        data = json.dumps({
+            "lift": lift,
+            "confidence_a_b": conf_ab,
+            "confidence_b_a": conf_ba,
+            "cochange_count": count,
+        })
+        edge_events.append(EdgeEvent(
+            snapshot_id=sid,
+            source=file_a,
+            target=file_b,
+            space="G4",
+            weight=weight,
+            data=data,
+        ))
 
     # ── Findings ──────────────────────────────────────────────────
     finding_events: list[FindingEvent] = []

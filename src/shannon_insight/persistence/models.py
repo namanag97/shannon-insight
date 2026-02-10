@@ -120,6 +120,10 @@ class TensorSnapshot:
     layers: list[dict[str, Any]] = field(default_factory=list)  # [{depth, modules}]
     violations: list[dict[str, Any]] = field(default_factory=list)  # [{src, tgt, type}]
 
+    # ── Cochange edges (G4 space) ─────────────────────────────────
+    # List of (file_a, file_b, weight, lift, confidence_ab, confidence_ba, cochange_count)
+    cochange_edges: list[tuple] = field(default_factory=list)
+
     # ── Health Laplacian delta_h (NEW) ────────────────────────────
     delta_h: dict[str, float] = field(default_factory=dict)  # file -> delta_h value
 
@@ -158,6 +162,7 @@ def snapshot_to_tensor(v1: Snapshot) -> TensorSnapshot:
         global_signals=dict(v1.codebase_signals),
         findings=list(v1.findings),
         dependency_edges=list(v1.dependency_edges),
+        cochange_edges=[],  # V1 didn't have cochange edges
         modules=[],  # V1 didn't have architecture
         layers=[],
         violations=[],

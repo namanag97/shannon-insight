@@ -28,11 +28,20 @@ if TYPE_CHECKING:
 _INFRASTRUCTURE_ROLES = frozenset({"model", "config", "interface", "exception", "constant"})
 
 # Filename stems that are infrastructure by convention
-_INFRASTRUCTURE_STEMS = frozenset({
-    "models", "model", "schemas", "schema", "types",
-    "exceptions", "errors", "constants",
-    "protocols", "interfaces",
-})
+_INFRASTRUCTURE_STEMS = frozenset(
+    {
+        "models",
+        "model",
+        "schemas",
+        "schema",
+        "types",
+        "exceptions",
+        "errors",
+        "constants",
+        "protocols",
+        "interfaces",
+    }
+)
 
 
 def _concept_overlap(concepts_a: set[str], concepts_b: set[str]) -> float:
@@ -165,7 +174,12 @@ class AccidentalCouplingFinder:
                     # Compute confidence
                     confidence = compute_confidence(
                         [
-                            ("combined_similarity", combined, self.COMBINED_THRESHOLD, "high_is_good"),
+                            (
+                                "combined_similarity",
+                                combined,
+                                self.COMBINED_THRESHOLD,
+                                "high_is_good",
+                            ),
                         ]
                     )
 
@@ -199,4 +213,4 @@ class AccidentalCouplingFinder:
                     )
 
         findings.sort(key=lambda f: f.severity, reverse=True)
-        return findings[:self.MAX_FINDINGS]
+        return findings[: self.MAX_FINDINGS]

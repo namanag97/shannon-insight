@@ -167,9 +167,7 @@ def _check_finder_noise(findings: list[Finding], report: DiagnosticReport) -> No
             )
 
 
-def _check_signal_information_gain(
-    store: AnalysisStore, report: DiagnosticReport
-) -> None:
+def _check_signal_information_gain(store: AnalysisStore, report: DiagnosticReport) -> None:
     """Compute information gain for key signals.
 
     IG(S) = H(risk) - H(risk|S)

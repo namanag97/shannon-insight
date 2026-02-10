@@ -131,15 +131,18 @@ class QueryEngine:
             self.load()
         return self._con
 
-    def execute(self, sql: str, params: list | None = None) -> list[tuple]:
+    def execute(
+        self, sql: str, params: list | dict | None = None
+    ) -> list[tuple]:
         """Execute SQL and return results as list of tuples.
 
         Parameters
         ----------
         sql:
             SQL query. Can reference views: file_signals, edges, findings, etc.
+            Use ``?`` for positional params (list) or ``$name`` for named params (dict).
         params:
-            Optional positional parameters for parameterized queries.
+            Positional (list) or named (dict) parameters for parameterized queries.
 
         Returns
         -------
@@ -155,15 +158,17 @@ class QueryEngine:
             result = self._con.execute(sql)
         return result.fetchall()
 
-    def execute_dict(self, sql: str, params: list | None = None) -> list[dict[str, Any]]:
+    def execute_dict(
+        self, sql: str, params: list | dict | None = None
+    ) -> list[dict[str, Any]]:
         """Execute SQL and return results as list of dicts.
 
         Parameters
         ----------
         sql:
-            SQL query.
+            SQL query. Use ``?`` for positional params or ``$name`` for named params.
         params:
-            Optional positional parameters.
+            Positional (list) or named (dict) parameters.
 
         Returns
         -------

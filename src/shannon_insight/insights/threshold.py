@@ -90,7 +90,9 @@ class ThresholdCheck:
         raw = getattr(fs, signal.value, 0)
         return raw > threshold
 
-    def mad_outlier(self, fs: Any, signal: Signal, all_values: list[float], z_cutoff: float = 3.0) -> bool:
+    def mad_outlier(
+        self, fs: Any, signal: Signal, all_values: list[float], z_cutoff: float = 3.0
+    ) -> bool:
         """Is this file a MAD-based outlier for this signal?
 
         Uses robust z-scores (MAD) to detect genuine outliers.

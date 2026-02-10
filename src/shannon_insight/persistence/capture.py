@@ -107,6 +107,7 @@ def capture_tensor_snapshot(
     config_hash = _compute_config_hash(settings)
     analyzers_ran = _determine_analyzers_ran(store)
     dependency_edges = _collect_dependency_edges(store)
+    cochange_edges = _collect_cochange_edges(store)
 
     # Serialize SignalField if available
     file_signals: dict[str, dict[str, Any]] = {}
@@ -172,6 +173,7 @@ def capture_tensor_snapshot(
         global_signals=global_signals,
         findings=findings,
         dependency_edges=dependency_edges,
+        cochange_edges=cochange_edges,
         modules=modules,
         layers=layers,
         violations=violations,
@@ -412,6 +414,29 @@ def _convert_findings(result: InsightResult) -> list[FindingRecord]:
             )
         )
     return records
+
+
+def _collect_cochange_edges(
+    store: AnalysisStore,
+) -> list[tuple]:
+    """Collect cochange pairs as edge tuples for Parquet emission.
+
+    Returns list of (file_a, file_b, weight, lift, conf_ab, conf_ba, count).
+    """
+    edges: list[tuple] = []
+    if store.cochange.available:
+        matrix = store.cochange.value
+        for (file_a, file_b), pair in matrix.pairs.items():
+            edges.append((
+                file_a,
+                file_b,
+                pair.weight,
+                pair.lift,
+                pair.confidence_a_b,
+                pair.confidence_b_a,
+                pair.cochange_count,
+            ))
+    return edges
 
 
 def _collect_dependency_edges(

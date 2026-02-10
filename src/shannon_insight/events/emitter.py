@@ -87,20 +87,24 @@ def snapshot_to_events(
     # G4 = cochange edges (from temporal analysis)
     for cochange_tuple in getattr(snapshot, "cochange_edges", []):
         file_a, file_b, weight, lift, conf_ab, conf_ba, count = cochange_tuple
-        data = json.dumps({
-            "lift": lift,
-            "confidence_a_b": conf_ab,
-            "confidence_b_a": conf_ba,
-            "cochange_count": count,
-        })
-        edge_events.append(EdgeEvent(
-            snapshot_id=sid,
-            source=file_a,
-            target=file_b,
-            space="G4",
-            weight=weight,
-            data=data,
-        ))
+        data = json.dumps(
+            {
+                "lift": lift,
+                "confidence_a_b": conf_ab,
+                "confidence_b_a": conf_ba,
+                "cochange_count": count,
+            }
+        )
+        edge_events.append(
+            EdgeEvent(
+                snapshot_id=sid,
+                source=file_a,
+                target=file_b,
+                space="G4",
+                weight=weight,
+                data=data,
+            )
+        )
 
     # ── Findings ──────────────────────────────────────────────────
     finding_events: list[FindingEvent] = []

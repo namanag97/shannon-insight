@@ -95,8 +95,7 @@ class QueryEngine:
             if parquet_path.exists():
                 # Use CREATE VIEW so data is always read fresh from Parquet
                 self._con.execute(
-                    f"CREATE VIEW {view_name} AS "
-                    f"SELECT * FROM read_parquet('{parquet_path}')"
+                    f"CREATE VIEW {view_name} AS SELECT * FROM read_parquet('{parquet_path}')"
                 )
                 registered.append(view_name)
             else:
@@ -131,9 +130,7 @@ class QueryEngine:
             self.load()
         return self._con
 
-    def execute(
-        self, sql: str, params: list | dict | None = None
-    ) -> list[tuple]:
+    def execute(self, sql: str, params: list | dict | None = None) -> list[tuple]:
         """Execute SQL and return results as list of tuples.
 
         Parameters
@@ -158,9 +155,7 @@ class QueryEngine:
             result = self._con.execute(sql)
         return result.fetchall()
 
-    def execute_dict(
-        self, sql: str, params: list | dict | None = None
-    ) -> list[dict[str, Any]]:
+    def execute_dict(self, sql: str, params: list | dict | None = None) -> list[dict[str, Any]]:
         """Execute SQL and return results as list of dicts.
 
         Parameters
@@ -189,9 +184,7 @@ class QueryEngine:
 
     def latest_snapshot_id(self) -> str | None:
         """Return the most recent snapshot_id, or None if no snapshots exist."""
-        rows = self.execute(
-            "SELECT snapshot_id FROM snapshots ORDER BY timestamp DESC LIMIT 1"
-        )
+        rows = self.execute("SELECT snapshot_id FROM snapshots ORDER BY timestamp DESC LIMIT 1")
         if rows:
             return rows[0][0]
         return None

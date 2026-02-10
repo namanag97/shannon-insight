@@ -427,15 +427,17 @@ def _collect_cochange_edges(
     if store.cochange.available:
         matrix = store.cochange.value
         for (file_a, file_b), pair in matrix.pairs.items():
-            edges.append((
-                file_a,
-                file_b,
-                pair.weight,
-                pair.lift,
-                pair.confidence_a_b,
-                pair.confidence_b_a,
-                pair.cochange_count,
-            ))
+            edges.append(
+                (
+                    file_a,
+                    file_b,
+                    pair.weight,
+                    pair.lift,
+                    pair.confidence_a_b,
+                    pair.confidence_b_a,
+                    pair.cochange_count,
+                )
+            )
     return edges
 
 

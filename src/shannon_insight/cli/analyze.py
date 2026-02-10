@@ -337,8 +337,31 @@ def _overlay_sql_findings(
         sql_findings = runner.run_all()
         engine.close()
 
-        # SQL-implemented finder types
-        sql_types = {"high_risk_hub", "orphan_code", "hidden_coupling"}
+        # SQL-implemented finder types (all 22 finders)
+        sql_types = {
+            "high_risk_hub",
+            "orphan_code",
+            "hidden_coupling",
+            "phantom_imports",
+            "hollow_code",
+            "unstable_file",
+            "god_file",
+            "naming_drift",
+            "flat_architecture",
+            "dead_dependency",
+            "zone_of_pain",
+            "boundary_mismatch",
+            "layer_violation",
+            "copy_paste_clone",
+            "weak_link",
+            "knowledge_silo",
+            "review_blindspot",
+            "bug_attractor",
+            "conway_violation",
+            "accidental_coupling",
+            "chronic_problem",
+            "architecture_erosion",
+        }
 
         # Keep non-SQL findings from original result
         kept_findings = [f for f in result.findings if f.finding_type not in sql_types]
@@ -350,8 +373,7 @@ def _overlay_sql_findings(
         sql_count = len(sql_findings)
         original_sql_count = sum(1 for f in result.findings if f.finding_type in sql_types)
         logger.info(
-            "TensorDB overlay: replaced %d findings with %d SQL findings "
-            "for types: %s",
+            "TensorDB overlay: replaced %d findings with %d SQL findings for types: %s",
             original_sql_count,
             sql_count,
             ", ".join(sorted(sql_types)),

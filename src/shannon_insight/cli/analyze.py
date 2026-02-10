@@ -105,6 +105,11 @@ def main(
         "--save",
         help="Save snapshot to .shannon/ for history tracking",
     ),
+    parquet: bool = typer.Option(
+        False,
+        "--parquet",
+        help="Also export snapshot as Parquet files (requires [tensordb] extra)",
+    ),
     fail_on: Optional[str] = typer.Option(
         None,
         "--fail-on",
@@ -217,6 +222,9 @@ def main(
             if save and settings.enable_history:
                 _save_snapshot(repo_path, snapshot, logger)
 
+            if parquet:
+                _save_parquet(repo_path, snapshot, logger)
+
             report = build_scoped_report(changed_files, snapshot)
 
             if json_output:
@@ -235,6 +243,9 @@ def main(
 
             if save and settings.enable_history:
                 _save_snapshot(str(target.resolve()), snapshot, logger)
+
+            if parquet:
+                _save_parquet(str(target.resolve()), snapshot, logger)
 
             if json_output:
                 _output_json(result)
@@ -282,6 +293,33 @@ def _save_snapshot(repo_path: str, snapshot: TensorSnapshot, logger) -> None:
             logger.info(f"Snapshot saved (id={sid})")
     except Exception as e:
         logger.warning(f"Failed to save snapshot: {e}")
+
+
+def _save_parquet(repo_path: str, snapshot: TensorSnapshot, logger) -> None:
+    """Export snapshot to Parquet files alongside SQLite.
+
+    Requires the [tensordb] optional dependency (pyarrow).
+    Writes to .shannon/parquet/ directory.
+    """
+    try:
+        from ..events.emitter import snapshot_to_events
+        from ..storage.writer import ParquetWriter
+
+        events = snapshot_to_events(snapshot)
+        writer = ParquetWriter(repo_path)
+        paths = writer.write_events(events)
+        logger.info(f"Parquet export: {len(paths)} tables written to .shannon/parquet/")
+    except ImportError:
+        logger.warning(
+            "Parquet export requires pyarrow. "
+            "Install with: pip install shannon-codebase-insight[tensordb]"
+        )
+        console.print(
+            "[yellow]--parquet requires pyarrow.[/yellow] "
+            "Install: pip install shannon-codebase-insight[tensordb]"
+        )
+    except Exception as e:
+        logger.warning(f"Failed to export Parquet: {e}")
 
 
 # ---------------------------------------------------------------------------

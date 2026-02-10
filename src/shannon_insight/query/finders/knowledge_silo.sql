@@ -5,8 +5,8 @@
 -- Severity: 0.70 (base)
 -- Hotspot-filtered: requires total_changes > median
 --
--- Criteria:
---   bus_factor <= 1.5 AND pctl(pagerank) > 0.75
+-- Criteria (tightened):
+--   bus_factor <= 1.5 AND pctl(pagerank) > 0.80
 --   AND total_changes > median(total_changes)
 --
 -- The $snapshot_id parameter filters to a specific snapshot.
@@ -16,6 +16,7 @@ WITH median_changes AS (
     FROM file_signals
     WHERE snapshot_id = $snapshot_id
       AND COALESCE(role, '') != 'TEST'
+      AND total_changes > 0
 ),
 ranked AS (
     SELECT
@@ -42,7 +43,7 @@ SELECT
 FROM ranked r
 CROSS JOIN median_changes m
 WHERE r.bus_factor <= 1.5
-  AND r.pagerank_pctl > 0.75
+  AND r.pagerank_pctl > 0.80
   AND r.total_changes > m.median_val
   -- Exclude test files
   AND COALESCE(r.role, '') != 'TEST'

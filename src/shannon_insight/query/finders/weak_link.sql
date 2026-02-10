@@ -4,11 +4,12 @@
 --
 -- Scope: FILE
 -- Severity: 0.75 (base)
--- Hotspot-filtered: requires total_changes > median
+-- Hotspot-filtered: requires total_changes > median AND total_changes > 0
 --
 -- Criteria:
 --   delta_h > 0.4 (file much worse than neighbors)
 --   AND total_changes > median(total_changes)
+--   AND total_changes > 0 (hotspot gate)
 --
 -- delta_h is pre-computed in file_signals (health Laplacian:
 -- difference between file's raw_risk and mean of neighbors' raw_risk)
@@ -20,6 +21,7 @@ WITH median_changes AS (
     FROM file_signals
     WHERE snapshot_id = $snapshot_id
       AND COALESCE(role, '') != 'TEST'
+      AND total_changes > 0
 )
 SELECT
     fs.file_path,
@@ -33,8 +35,11 @@ SELECT
 FROM file_signals fs
 CROSS JOIN median_changes m
 WHERE fs.snapshot_id = $snapshot_id
+  AND fs.total_changes > 0
   AND fs.delta_h > 0.4
   AND fs.total_changes > m.median_val
+  -- Exclude orphan files (delta_h = 0.0 by design)
+  AND COALESCE(fs.is_orphan, false) = false
   -- Exclude test files
   AND COALESCE(fs.role, '') != 'TEST'
   AND fs.file_path NOT LIKE '%test_%'

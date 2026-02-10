@@ -3,11 +3,12 @@
 --
 -- Scope: FILE
 -- Severity: 0.7 (base)
--- Hotspot-filtered: requires total_changes > median
+-- Hotspot-filtered: requires total_changes > median AND total_changes > 0
 --
 -- Criteria:
 --   churn_trajectory IN ('CHURNING', 'SPIKING')
 --   AND total_changes > median(total_changes)
+--   AND total_changes > 0 (hotspot gate)
 --
 -- The $snapshot_id parameter filters to a specific snapshot.
 
@@ -16,6 +17,7 @@ WITH median_changes AS (
     FROM file_signals
     WHERE snapshot_id = $snapshot_id
       AND COALESCE(role, '') != 'TEST'
+      AND total_changes > 0
 )
 SELECT
     fs.file_path,
@@ -24,10 +26,12 @@ SELECT
     fs.churn_slope,
     fs.churn_cv,
     fs.fix_ratio,
+    fs.change_entropy,
     m.median_val AS changes_median
 FROM file_signals fs
 CROSS JOIN median_changes m
 WHERE fs.snapshot_id = $snapshot_id
+  AND fs.total_changes > 0
   AND fs.churn_trajectory IN ('CHURNING', 'SPIKING')
   AND fs.total_changes > m.median_val
   -- Exclude test files

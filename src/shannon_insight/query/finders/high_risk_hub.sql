@@ -1,9 +1,10 @@
 -- high_risk_hub.sql
 -- Detects central + complex + churning files
 --
--- Criteria (v2 spec):
---   pctl(pagerank) >= 0.90 OR pctl(blast_radius_size) >= 0.90
---   AND (pctl(cognitive_load) >= 0.90 OR churn_trajectory IN ('CHURNING', 'SPIKING'))
+-- Criteria (tightened):
+--   pctl(pagerank) >= 0.95 OR pctl(blast_radius_size) >= 0.95
+--   AND (pctl(cognitive_load) >= 0.95 OR churn_trajectory IN ('CHURNING', 'SPIKING'))
+--   AND total_changes > 0 (hotspot gate)
 --
 -- Percentiles are computed on-the-fly via PERCENT_RANK().
 -- The $snapshot_id parameter filters to a specific snapshot.
@@ -34,24 +35,26 @@ SELECT
     in_degree,
     churn_trajectory,
     total_changes,
-    -- has_high_centrality: either percentile >= 0.90
-    (pagerank_pctl >= 0.90 OR blast_radius_pctl >= 0.90) AS has_high_centrality,
-    -- has_high_complexity: cognitive_load percentile >= 0.90
-    (cognitive_load_pctl >= 0.90) AS has_high_complexity,
+    -- has_high_centrality: either percentile >= 0.95
+    (pagerank_pctl >= 0.95 OR blast_radius_pctl >= 0.95) AS has_high_centrality,
+    -- has_high_complexity: cognitive_load percentile >= 0.95
+    (cognitive_load_pctl >= 0.95) AS has_high_complexity,
     -- has_high_churn: trajectory is CHURNING or SPIKING
     (churn_trajectory IN ('CHURNING', 'SPIKING')) AS has_high_churn
 FROM ranked
 WHERE
-    -- Must have high centrality
-    (pagerank_pctl >= 0.90 OR blast_radius_pctl >= 0.90)
+    -- Hotspot gate: must have change activity
+    total_changes > 0
+    -- Must have high centrality (top 5%)
+    AND (pagerank_pctl >= 0.95 OR blast_radius_pctl >= 0.95)
     -- AND must have high complexity OR high churn
-    AND (cognitive_load_pctl >= 0.90 OR churn_trajectory IN ('CHURNING', 'SPIKING'))
+    AND (cognitive_load_pctl >= 0.95 OR churn_trajectory IN ('CHURNING', 'SPIKING'))
 ORDER BY
     -- Sort by average of the qualifying percentiles descending
     (COALESCE(
-        CASE WHEN pagerank_pctl >= 0.90 THEN pagerank_pctl ELSE NULL END,
+        CASE WHEN pagerank_pctl >= 0.95 THEN pagerank_pctl ELSE NULL END,
         0
     ) + COALESCE(
-        CASE WHEN blast_radius_pctl >= 0.90 THEN blast_radius_pctl ELSE NULL END,
+        CASE WHEN blast_radius_pctl >= 0.95 THEN blast_radius_pctl ELSE NULL END,
         0
     )) DESC

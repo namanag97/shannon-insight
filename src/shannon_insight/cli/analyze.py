@@ -62,6 +62,39 @@ def _auto_detect_changed_ref(repo_path: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Auto-detect optional features
+# ---------------------------------------------------------------------------
+
+
+def _pyarrow_available() -> bool:
+    """Return True if pyarrow is importable."""
+    try:
+        import pyarrow  # noqa: F401
+
+        return True
+    except ImportError:
+        return False
+
+
+def _duckdb_available() -> bool:
+    """Return True if duckdb is importable."""
+    try:
+        import duckdb  # noqa: F401
+
+        return True
+    except ImportError:
+        return False
+
+
+def _parquet_data_exists(repo_path: str) -> bool:
+    """Return True if .shannon/parquet/ has any .parquet files."""
+    parquet_dir = Path(repo_path) / ".shannon" / "parquet"
+    if not parquet_dir.is_dir():
+        return False
+    return any(parquet_dir.glob("*.parquet"))
+
+
+# ---------------------------------------------------------------------------
 # Main callback
 # ---------------------------------------------------------------------------
 
@@ -104,16 +137,6 @@ def main(
         True,
         "--save/--no-save",
         help="Save snapshot to .shannon/ (default: yes)",
-    ),
-    parquet: bool = typer.Option(
-        False,
-        "--parquet",
-        help="Also export snapshot as Parquet files (requires [tensordb] extra)",
-    ),
-    use_tensordb: bool = typer.Option(
-        False,
-        "--use-tensordb",
-        help="Use DuckDB/Parquet SQL finders (requires [tensordb] extra and --parquet data)",
     ),
     fail_on: Optional[str] = typer.Option(
         None,
@@ -185,9 +208,9 @@ def main(
 
     logger = setup_logging(verbose=verbose)
 
-    # --use-tensordb implies --parquet (need data to query)
-    if use_tensordb:
-        parquet = True
+    # Auto-detect optional features (no flags needed)
+    parquet = _pyarrow_available()
+    use_tensordb = _duckdb_available()
 
     try:
         settings = resolve_settings(
@@ -234,7 +257,7 @@ def main(
             if parquet:
                 _save_parquet(repo_path, snapshot, logger)
 
-            if use_tensordb:
+            if use_tensordb and _parquet_data_exists(repo_path):
                 result = _overlay_sql_findings(str(target.resolve()), result, logger)
 
             report = build_scoped_report(changed_files, snapshot)
@@ -253,14 +276,16 @@ def main(
             # -- Full analysis path --
             result, snapshot = kernel.run(max_findings=max_findings)
 
+            repo_path_full = str(target.resolve())
+
             if save and settings.enable_history:
-                _save_snapshot(str(target.resolve()), snapshot, logger)
+                _save_snapshot(repo_path_full, snapshot, logger)
 
             if parquet:
-                _save_parquet(str(target.resolve()), snapshot, logger)
+                _save_parquet(repo_path_full, snapshot, logger)
 
-            if use_tensordb:
-                result = _overlay_sql_findings(str(target.resolve()), result, logger)
+            if use_tensordb and _parquet_data_exists(repo_path_full):
+                result = _overlay_sql_findings(repo_path_full, result, logger)
 
             if json_output:
                 _output_json(result)
@@ -329,7 +354,7 @@ def _overlay_sql_findings(
 
         engine = QueryEngine(repo_path)
         if not engine.available:
-            logger.warning("No Parquet data available for --use-tensordb")
+            logger.debug("No Parquet data available for TensorDB SQL finders")
             return result
 
         engine.load()
@@ -386,14 +411,7 @@ def _overlay_sql_findings(
         )
 
     except ImportError:
-        logger.warning(
-            "--use-tensordb requires duckdb. "
-            "Install with: pip install shannon-codebase-insight[tensordb]"
-        )
-        console.print(
-            "[yellow]--use-tensordb requires duckdb.[/yellow] "
-            "Install: pip install shannon-codebase-insight[tensordb]"
-        )
+        logger.debug("duckdb not available for SQL finders, skipping")
         return result
     except Exception as e:
         logger.warning("TensorDB overlay failed: %s", e)
@@ -415,14 +433,7 @@ def _save_parquet(repo_path: str, snapshot: TensorSnapshot, logger) -> None:
         paths = writer.write_events(events)
         logger.info(f"Parquet export: {len(paths)} tables written to .shannon/parquet/")
     except ImportError:
-        logger.warning(
-            "Parquet export requires pyarrow. "
-            "Install with: pip install shannon-codebase-insight[tensordb]"
-        )
-        console.print(
-            "[yellow]--parquet requires pyarrow.[/yellow] "
-            "Install: pip install shannon-codebase-insight[tensordb]"
-        )
+        logger.debug("pyarrow not available for Parquet export, skipping")
     except Exception as e:
         logger.warning(f"Failed to export Parquet: {e}")
 

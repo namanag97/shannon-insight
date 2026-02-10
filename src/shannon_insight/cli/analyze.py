@@ -101,9 +101,9 @@ def main(
         help="Show detailed evidence per finding",
     ),
     save: bool = typer.Option(
-        False,
-        "--save",
-        help="Save snapshot to .shannon/ for history tracking",
+        True,
+        "--save/--no-save",
+        help="Save snapshot to .shannon/ (default: yes)",
     ),
     parquet: bool = typer.Option(
         False,

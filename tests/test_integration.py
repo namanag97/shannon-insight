@@ -100,8 +100,8 @@ class TestSmokeTests:
         )
         assert result.returncode != 0
 
-    def test_no_save_by_default(self):
-        """Running without --save should not create .shannon/."""
+    def test_save_by_default(self):
+        """Running without --no-save should create .shannon/ (save is default)."""
         import shutil
 
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -113,6 +113,25 @@ class TestSmokeTests:
                 shutil.rmtree(shannon_dir)
             result = subprocess.run(
                 ["shannon-insight", "-C", str(code_dir)],
+                capture_output=True,
+                text=True,
+            )
+            assert result.returncode == 0
+            assert (code_dir / ".shannon").exists()
+
+    def test_no_save_flag(self):
+        """Running with --no-save should not create .shannon/."""
+        import shutil
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            code_dir = Path(tmpdir) / "code"
+            shutil.copytree("test_codebase", str(code_dir))
+            # Remove any pre-existing .shannon/ copied from source
+            shannon_dir = code_dir / ".shannon"
+            if shannon_dir.exists():
+                shutil.rmtree(shannon_dir)
+            result = subprocess.run(
+                ["shannon-insight", "-C", str(code_dir), "--no-save"],
                 capture_output=True,
                 text=True,
             )

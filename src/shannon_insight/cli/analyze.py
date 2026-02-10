@@ -261,8 +261,7 @@ def main(
 
                 if not changed_files:
                     console.print(
-                        "[yellow]No changed files detected.[/yellow] "
-                        "Check the ref or branch name."
+                        "[yellow]No changed files detected.[/yellow] Check the ref or branch name."
                     )
                     raise typer.Exit(0)
 
@@ -275,15 +274,13 @@ def main(
                     _on_progress("Saving snapshot...")
                     _save_snapshot(repo_path, snapshot, logger)
 
-                if parquet:
+                if save and parquet:
                     _on_progress("Exporting Parquet...")
                     _save_parquet(repo_path, snapshot, logger)
 
                 if use_tensordb and _parquet_data_exists(repo_path):
                     _on_progress("Running SQL finders...")
-                    result = _overlay_sql_findings(
-                        str(target.resolve()), result, logger
-                    )
+                    result = _overlay_sql_findings(str(target.resolve()), result, logger)
 
                 report = build_scoped_report(changed_files, snapshot)
 
@@ -300,7 +297,7 @@ def main(
                     _on_progress("Saving snapshot...")
                     _save_snapshot(repo_path_full, snapshot, logger)
 
-                if parquet:
+                if save and parquet:
                     _on_progress("Exporting Parquet...")
                     _save_parquet(repo_path_full, snapshot, logger)
 

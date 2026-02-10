@@ -10,9 +10,7 @@ these to Finding objects using finder-specific conversion functions.
 
 from __future__ import annotations
 
-import json
 import logging
-from importlib import resources
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -281,7 +279,6 @@ def _convert_hidden_coupling(rows: list[dict[str, Any]]) -> list[Finding]:
         lift = row.get("lift", 0) or 0
         conf_ab = row.get("confidence_a_b", 0) or 0
         conf_ba = row.get("confidence_b_a", 0) or 0
-        max_conf = row.get("max_confidence", max(conf_ab, conf_ba))
         count = row.get("cochange_count", 0) or 0
         severity = row.get("severity", 0.45) or 0.45
 

@@ -449,7 +449,7 @@ a:hover { text-decoration: underline; }
   color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px;
   border-bottom: 1px solid var(--border); cursor: pointer; user-select: none;
   white-space: nowrap;
-  position: sticky; top: 0; z-index: 10;
+  position: sticky; top: 40px; z-index: 10;
   background: var(--surface);
 }
 .file-table th:hover, .module-table th:hover { color: var(--text-secondary); }

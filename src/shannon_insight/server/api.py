@@ -226,7 +226,7 @@ def build_dashboard_state(
 
     # ── Dependency edges & architecture data ──────────────────────
     dependency_edges = [[src, tgt] for src, tgt in (snapshot.dependency_edges or [])]
-    delta_h = {html.escape(k): round(v, 4) for k, v in (snapshot.delta_h or {}).items()}
+    delta_h = {k: round(v, 4) for k, v in (snapshot.delta_h or {}).items()}
     violations = snapshot.violations or []
     layers = snapshot.layers or []
 

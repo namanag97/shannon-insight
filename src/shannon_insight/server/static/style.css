@@ -334,11 +334,7 @@ a:hover { text-decoration: underline; }
 .focus-finding {
   display: flex; align-items: flex-start; gap: 8px; padding: 5px 0;
 }
-.also-consider {
-  border-left: 2px solid var(--accent);
-  padding-left: var(--space-md);
-  margin-top: var(--space-sm);
-}
+
 .alt-item {
   font-family: var(--mono); font-size: 11px;
   padding: 3px 0;

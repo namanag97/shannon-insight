@@ -369,7 +369,7 @@
         bins[bi]++;
       }
       var maxBin = Math.max.apply(null, bins) || 1;
-      var hSvg = '<div class="section-title" style="margin-top:8px">Risk Distribution</div>';
+      var hSvg = '<div class="section-title risk-histogram-title">Risk Distribution</div>';
       hSvg += '<svg width="100%" height="100" viewBox="0 0 300 100" preserveAspectRatio="none">';
       for (var i = 0; i < 5; i++) {
         var bw = (bins[i] / maxBin) * 240;

@@ -91,7 +91,14 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-shannon_insight = ["py.typed", "storage/*.sql", "query/finders/*.sql"]
+shannon_insight = [
+    "py.typed",
+    "storage/*.sql",
+    "query/finders/*.sql",
+    "server/static/*.css",
+    "server/static/*.js",
+    "server/templates/*.html",
+]
 
 [tool.setuptools.dynamic]
 version = {attr = "shannon_insight.__version__"}

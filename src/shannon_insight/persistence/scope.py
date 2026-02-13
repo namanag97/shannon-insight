@@ -275,14 +275,13 @@ def _compute_file_percentiles(
     # For each metric, build a sorted list of values
     metric_sorted: dict[str, list[float]] = {}
     for m in metrics:
-        vals: list[float] = sorted(
-            float(v)
-            for sigs in all_signals.values()
-            if (v := sigs.get(m)) is not None
-            and isinstance(v, (int, float))
-            and not isinstance(v, bool)
-        )
-        metric_sorted[m] = vals
+        raw_vals: list[float] = []
+        for sigs in all_signals.values():
+            v = sigs.get(m)
+            if v is not None and isinstance(v, (int, float)) and not isinstance(v, bool):
+                raw_vals.append(float(v))
+        raw_vals.sort()
+        metric_sorted[m] = raw_vals
 
     # Compute percentiles per file
     result: dict[str, dict[str, float]] = {}

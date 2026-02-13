@@ -310,7 +310,7 @@ class DebugExporter:
 
     def export_semantic(self, store: AnalysisStore) -> None:
         """Export after SemanticAnalyzer (roles, concepts, naming drift)."""
-        data = {
+        data: dict[str, Any] = {
             "stage": "06_semantic",
             "description": "Semantic analysis (roles, concepts, naming drift)",
             "timestamp": self.timestamp,

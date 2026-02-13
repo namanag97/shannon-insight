@@ -27,7 +27,7 @@
     {key:"size",name:"Size & Complexity",signals:["lines","function_count","class_count","max_nesting","cognitive_load"]},
     {key:"structure",name:"Graph Position",signals:["pagerank","betweenness","in_degree","out_degree","blast_radius_size","depth"]},
     {key:"health",name:"Code Health",signals:["stub_ratio","is_orphan","phantom_import_count","compression_ratio","semantic_coherence"]},
-    {key:"temporal",name:"Change History",signals:["total_changes","churn_trajectory","churn_cv","bus_factor","fix_ratio","change_entropy"]},
+    {key:"temporal",name:"Change History",signals:["total_changes","churn_trajectory","churn_cv","fix_ratio","change_entropy"]},
     {key:"team",name:"Team Context",signals:["author_entropy","bus_factor"]},
     {key:"risk",name:"Computed Risk",signals:["risk_score","wiring_quality","file_health_score","raw_risk"]}
   ];

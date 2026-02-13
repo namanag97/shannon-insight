@@ -228,7 +228,7 @@ def format_file_signals(signals: FileSignals, show_all: bool = False) -> list[st
     lines = []
 
     # Convert signals to dict for easy access
-    sig_dict = {
+    sig_dict: dict[str, float | int | bool | str | None] = {
         "lines": signals.lines,
         "function_count": signals.function_count,
         "class_count": signals.class_count,

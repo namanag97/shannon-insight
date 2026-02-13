@@ -121,6 +121,7 @@ class QueryEngine:
             ),
         }
         schema = schemas.get(view_name, "dummy INTEGER")
+        assert self._con is not None
         self._con.execute(f"CREATE VIEW {view_name} AS SELECT * FROM (SELECT {schema}) WHERE 1=0")
 
     @property

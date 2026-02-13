@@ -566,7 +566,7 @@
     fbHtml += '<div class="treemap-toggle"><button class="' + (fileViewMode === "table" ? "active" : "") + '" data-mode="table">Table</button>';
     fbHtml += '<button class="' + (fileViewMode === "treemap" ? "active" : "") + '" data-mode="treemap">Treemap</button></div>';
     fbHtml += '</div>';
-    fbHtml += '<div style="font-size:11px;color:var(--text-tertiary);font-family:var(--mono);margin-bottom:8px">Showing ' + entries.length + ' of ' + totalCount + ' files</div>';
+    fbHtml += '<div class="file-count-summary">Showing ' + entries.length + ' of ' + totalCount + ' files</div>';
 
     if (fileViewMode === "treemap") {
       var tmItems = [];

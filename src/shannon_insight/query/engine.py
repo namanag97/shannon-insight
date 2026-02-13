@@ -188,7 +188,7 @@ class QueryEngine:
         """Return the most recent snapshot_id, or None if no snapshots exist."""
         rows = self.execute("SELECT snapshot_id FROM snapshots ORDER BY timestamp DESC LIMIT 1")
         if rows:
-            return rows[0][0]
+            return str(rows[0][0])
         return None
 
     def close(self) -> None:

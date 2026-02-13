@@ -275,8 +275,8 @@ def _compute_file_percentiles(
     # For each metric, build a sorted list of values
     metric_sorted: dict[str, list[float]] = {}
     for m in metrics:
-        vals = sorted(
-            v
+        vals: list[float] = sorted(
+            float(v)
             for sigs in all_signals.values()
             if (v := sigs.get(m)) is not None
             and isinstance(v, (int, float))

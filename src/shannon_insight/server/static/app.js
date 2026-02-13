@@ -1209,7 +1209,9 @@
     pt.classList.remove("active");
   }
 
-  /* ── Init ──────────────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: Init
+     ═══════════════════════════════════════════════════════════ */
 
   fetch("/api/state").then(function(r) { return r.json(); }).then(function(data) {
     if (data && data.health != null) { DATA = data; render(); }

@@ -198,7 +198,7 @@ def build_dashboard_state(
     # ── Module data ───────────────────────────────────────────────
     modules: dict[str, dict[str, Any]] = {}
     for mod_path, mod_dict in module_signals.items():
-        modules[html.escape(mod_path)] = {
+        modules[mod_path] = {
             "health_score": round(display_score(mod_dict.get("health_score", 0.5)), 1),
             "instability": mod_dict.get("instability"),
             "abstractness": round(mod_dict.get("abstractness", 0.0), 2),

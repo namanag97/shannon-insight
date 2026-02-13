@@ -166,7 +166,7 @@ def build_dashboard_state(
             "findings": [_finding_to_dict(f) for f in focus.findings],
             "alternatives": [
                 {
-                    "path": html.escape(a.path),
+                    "path": a.path,
                     "actionability": round(a.actionability, 3),
                     "why": a.why_summary(),
                 }

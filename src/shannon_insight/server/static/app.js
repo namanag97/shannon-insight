@@ -1060,6 +1060,13 @@
     }
   });
 
+  var exportBtn = $("#exportBtn");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", function() {
+      $(".export-dropdown-menu").classList.toggle("open");
+    });
+  }
+
   /* ── Keyboard ──────────────────────────────────────── */
 
   document.addEventListener("keydown", function(e) {

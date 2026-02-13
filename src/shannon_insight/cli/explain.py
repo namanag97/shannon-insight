@@ -3,7 +3,7 @@
 import difflib
 import json as json_mod
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import typer
 

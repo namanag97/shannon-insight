@@ -810,10 +810,10 @@
     for (var r = 0; r < entries.length; r++) {
       var p = entries[r][0];
       var m = entries[r][1];
-      var hc = hColor(m.health || 5);
+      var hc = hColor(m.health_score || 5);
       html += '<tr data-mod="' + esc(p) + '">';
       html += '<td class="td-path"><span>' + esc(p) + '</span></td>';
-      html += '<td class="td-risk" style="color:' + hc + '">' + fmtF(m.health, 1) + '</td>';
+      html += '<td class="td-risk" style="color:' + hc + '">' + fmtF(m.health_score, 1) + '</td>';
       html += '<td class="td-num">' + fmtF(m.instability, 2) + '</td>';
       html += '<td class="td-num">' + fmtF(m.abstractness, 2) + '</td>';
       html += '<td class="td-num">' + (m.file_count || 0) + '</td>';

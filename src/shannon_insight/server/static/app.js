@@ -4,7 +4,9 @@
 (function() {
   "use strict";
 
-  /* ── Constants ─────────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: Constants
+     ═══════════════════════════════════════════════════════════ */
 
   var SIGNAL_LABELS = {
     lines:"Lines of code",function_count:"Functions",class_count:"Classes/Structs",

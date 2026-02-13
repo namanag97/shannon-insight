@@ -157,6 +157,30 @@ a:hover { text-decoration: underline; }
 
 /* ═══ Overview ═══ */
 
+.hero {
+  display: flex; flex-direction: column; align-items: center;
+  padding: var(--space-xl) 0 var(--space-lg);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+.hero-score-area {
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.stat-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  width: 100%; max-width: 600px;
+  margin-left: auto; margin-right: auto;
+}
+.stat-card {
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md) var(--space-sm);
+}
+
 .overview-top {
   display: flex; flex-direction: column; align-items: center;
   padding: var(--space-xl) 0 var(--space-lg);

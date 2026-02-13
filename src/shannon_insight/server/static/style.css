@@ -476,7 +476,7 @@ a:hover { text-decoration: underline; }
   cursor: pointer; transition: background 0.08s ease;
 }
 .file-table tbody tr:hover, .module-table tbody tr:hover {
-  background: var(--surface);
+  background: rgba(255,255,255,0.04);
 }
 /* Row hover: left accent border shift */
 .file-table tbody tr:hover td:first-child,

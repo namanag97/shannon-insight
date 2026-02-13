@@ -893,7 +893,9 @@
     detailView.innerHTML = html;
   }
 
-  /* ── Screen: Health ────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: Screen — Health
+     ═══════════════════════════════════════════════════════════ */
 
   function renderHealth() {
     if (!DATA) return;

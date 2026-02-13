@@ -186,7 +186,7 @@ def _compute_percentiles(
 def _output_json(matched_file, file_signals, percentiles, related_findings, trends):
     """JSON output for explain."""
     # Filter and round numeric values, pass through strings/bools as-is, skip dicts
-    filtered_signals = {}
+    filtered_signals: dict[str, bool | int | float | str] = {}
     for k, v in file_signals.items():
         if isinstance(v, bool):
             filtered_signals[k] = v

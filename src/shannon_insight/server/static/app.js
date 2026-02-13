@@ -918,7 +918,7 @@
         var m = movers[i];
         var dc = m.delta > 0 ? "var(--red)" : "var(--green)";
         var ds = m.delta > 0 ? "+" + m.delta.toFixed(3) : m.delta.toFixed(3);
-        trendsHtml += '<div style="font-family:var(--mono);font-size:11px;padding:3px 0">' +
+        trendsHtml += '<div class="mover-item">' +
           '<a href="#files/' + encodeURIComponent(m.path) + '">' + esc(m.path) + '</a> ' +
           '<span style="color:' + dc + '">' + ds + '</span></div>';
       }

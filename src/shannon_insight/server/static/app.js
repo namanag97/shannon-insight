@@ -430,7 +430,7 @@
       }
       fp.innerHTML = html;
     } else {
-      fp.innerHTML = '<div style="color:var(--text-tertiary);font-size:12px;padding:8px 0">No actionable focus point identified.</div>';
+      fp.innerHTML = '<div class="focus-empty">No actionable focus point identified.</div>';
     }
   }
 

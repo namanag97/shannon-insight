@@ -404,12 +404,12 @@ a:hover { text-decoration: underline; }
 .finding-row:last-child { border-bottom: none; }
 .finding-row:hover { background: rgba(255,255,255,0.01); }
 
-/* Severity-based left border for finding rows */
-.finding-row[data-severity="critical"] { border-left-color: var(--red); }
-.finding-row[data-severity="high"] { border-left-color: var(--orange); }
-.finding-row[data-severity="medium"] { border-left-color: var(--yellow); }
-.finding-row[data-severity="low"] { border-left-color: var(--accent); }
-.finding-row[data-severity="info"] { border-left-color: var(--text-tertiary); }
+/* Severity-based left border for finding rows (attribute and class selectors) */
+.finding-row[data-severity="critical"], .finding-row.sev-critical { border-left-color: var(--red); }
+.finding-row[data-severity="high"], .finding-row.sev-high { border-left-color: var(--orange); }
+.finding-row[data-severity="medium"], .finding-row.sev-medium { border-left-color: var(--yellow); }
+.finding-row[data-severity="low"], .finding-row.sev-low { border-left-color: var(--accent); }
+.finding-row[data-severity="info"], .finding-row.sev-info { border-left-color: var(--text-tertiary); }
 
 .finding-head {
   display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-xs);

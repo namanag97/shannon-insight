@@ -173,6 +173,7 @@ class QueryEngine:
         """
         if not self._loaded:
             self.load()
+        assert self._con is not None
 
         if params:
             result = self._con.execute(sql, params)

@@ -1003,7 +1003,9 @@
     tbody.innerHTML = rows;
   }
 
-  /* ── Navigation ────────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: Navigation
+     ═══════════════════════════════════════════════════════════ */
 
   function navigate(screen, detail) {
     currentScreen = screen;

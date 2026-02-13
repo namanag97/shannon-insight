@@ -55,37 +55,35 @@ class ScannerFactory:
         return [self._mk(base_lang, language)], [language]
 
     def _auto_detect(self) -> tuple[list[tuple], list[str]]:
-        def _has_ext(ext: str) -> bool:
-            for p in self.root_dir.rglob(f"*{ext}"):
-                if not any(part in _SKIP_DIRS for part in p.parts):
-                    return True
-            return False
+        # Single tree walk to collect ALL extensions (was: multiple rglob calls per extension)
+        found_exts: set[str] = set()
+        known_exts = get_all_known_extensions()
 
+        for p in self.root_dir.rglob("*"):
+            if p.is_file() and not any(part in _SKIP_DIRS for part in p.parts):
+                ext = p.suffix.lower()
+                if ext:
+                    found_exts.add(ext)
+
+        # Now check which language configs match (O(1) set lookups)
         candidates = [
-            (_has_ext(".go"), "go", "go"),
-            (_has_ext(".ts") or _has_ext(".tsx"), "typescript", "typescript"),
-            (_has_ext(".py"), "python", "python"),
-            (_has_ext(".java"), "java", "java"),
-            (_has_ext(".rs"), "rust", "rust"),
-            (_has_ext(".c") or _has_ext(".cpp") or _has_ext(".cc") or _has_ext(".h"), "c/c++", "c"),
-            (_has_ext(".rb"), "ruby", "ruby"),
+            ({".go"}, "go", "go"),
+            ({".ts", ".tsx"}, "typescript", "typescript"),
+            ({".py"}, "python", "python"),
+            ({".java"}, "java", "java"),
+            ({".rs"}, "rust", "rust"),
+            ({".c", ".cpp", ".cc", ".h", ".hpp"}, "c/c++", "c"),
+            ({".rb"}, "ruby", "ruby"),
         ]
 
-        known_exts = get_all_known_extensions()
         scanners = []
-        for detected, display_name, config_name in candidates:
-            if detected:
+        for lang_exts, display_name, config_name in candidates:
+            if found_exts & lang_exts:  # Set intersection - any match?
                 logger.info(f"Auto-detected: {display_name} files")
                 scanners.append(self._mk(config_name, display_name))
 
         # Unknown extensions → universal scanner
-        unknown_exts: set[str] = set()
-        for p in self.root_dir.rglob("*"):
-            if p.is_file() and not any(part in _SKIP_DIRS for part in p.parts):
-                ext = p.suffix.lower()
-                if ext and ext not in known_exts and ext not in BINARY_EXTENSIONS:
-                    unknown_exts.add(ext)
-
+        unknown_exts = found_exts - known_exts - BINARY_EXTENSIONS
         if unknown_exts:
             logger.info(f"Auto-detected unknown extensions for universal scanner: {unknown_exts}")
             cfg = get_language_config("universal")

@@ -24,6 +24,12 @@ class FileSignals:
 
     path: str = ""
 
+    # Hierarchical context (computed from path)
+    parent_dir: str = ""  # Immediate parent directory (e.g., "src/api")
+    module_path: str = ""  # Which module this file belongs to (from architecture)
+    dir_depth: int = 0  # Nesting level from root (0 = root, 1 = one level deep, etc.)
+    siblings_count: int = 0  # Other files in same directory
+
     # IR1 (scanning) - signals #1-7
     lines: int = 0
     function_count: int = 0
@@ -115,6 +121,42 @@ class ModuleSignals:
 
 
 @dataclass
+class DirectorySignals:
+    """Per-directory aggregate signals.
+
+    Provides a middle layer between FileSignals and ModuleSignals.
+    Directories are filesystem-based (every unique parent_dir),
+    while Modules are logical groupings that may span multiple directories.
+    """
+
+    path: str = ""  # Directory path (e.g., "src/api", "tests/unit")
+
+    # Basic counts
+    file_count: int = 0
+    total_lines: int = 0
+    total_functions: int = 0
+
+    # Aggregate metrics (means across files in directory)
+    avg_complexity: float = 0.0  # Mean cognitive_load
+    avg_churn: float = 0.0  # Mean total_changes
+    avg_risk: float = 0.0  # Mean risk_score
+
+    # Cohesion: what % of imports stay within this directory
+    internal_import_ratio: float = 0.0  # internal_imports / total_imports
+
+    # Dominant characteristics
+    dominant_role: str = "UNKNOWN"  # Most common role among files
+    dominant_trajectory: str = "DORMANT"  # Most common churn trajectory
+
+    # Risk indicators
+    hotspot_file_count: int = 0  # Files with total_changes > median
+    high_risk_file_count: int = 0  # Files with risk_score > 0.7
+
+    # Module relationship
+    module_path: str = ""  # Which module this directory belongs to
+
+
+@dataclass
 class GlobalSignals:
     """All global signals from registry/signals.md #52-62.
 
@@ -151,10 +193,12 @@ class SignalField:
     """Unified signal container. One-stop shop for all signals.
 
     This is what finders read from. All 62 signals accessible here.
+    Hierarchy: per_file -> per_directory -> per_module -> global_signals
     """
 
     tier: str = "FULL"  # "ABSOLUTE" | "BAYESIAN" | "FULL"
     per_file: dict[str, FileSignals] = field(default_factory=dict)
+    per_directory: dict[str, DirectorySignals] = field(default_factory=dict)
     per_module: dict[str, ModuleSignals] = field(default_factory=dict)
     global_signals: GlobalSignals = field(default_factory=GlobalSignals)
     delta_h: dict[str, float] = field(default_factory=dict)  # Health Laplacian per file
@@ -162,6 +206,45 @@ class SignalField:
     def file(self, path: str) -> FileSignals | None:
         """Get FileSignals for a path, or None if not found."""
         return self.per_file.get(path)
+
+    def directory(self, path: str) -> DirectorySignals | None:
+        """Get DirectorySignals for a directory path, or None if not found."""
+        return self.per_directory.get(path)
+
+    def top_files_by_risk(self, n: int = 10) -> list[tuple[str, float]]:
+        """Get top N files by risk_score.
+
+        Returns list of (path, risk_score) tuples sorted descending.
+        """
+        files = [(path, fs.risk_score) for path, fs in self.per_file.items()]
+        return sorted(files, key=lambda x: x[1], reverse=True)[:n]
+
+    def top_files_by_delta_h(self, n: int = 10) -> list[tuple[str, float]]:
+        """Get top N files by delta_h (health Laplacian).
+
+        Returns list of (path, delta_h) tuples sorted descending.
+        Positive delta_h means worse than neighbors.
+        """
+        files = [(path, dh) for path, dh in self.delta_h.items()]
+        return sorted(files, key=lambda x: x[1], reverse=True)[:n]
+
+    def hotspot_files(self, min_changes: int | None = None) -> list[str]:
+        """Get files above median change activity.
+
+        Args:
+            min_changes: Override minimum change threshold. If None, uses median.
+
+        Returns:
+            List of file paths that are active hotspots.
+        """
+        if min_changes is None:
+            changes = [fs.total_changes for fs in self.per_file.values() if fs.total_changes > 0]
+            if not changes:
+                return []
+            changes_sorted = sorted(changes)
+            min_changes = changes_sorted[len(changes_sorted) // 2]
+
+        return [path for path, fs in self.per_file.items() if fs.total_changes > min_changes]
 
 
 # ── Backward Compatibility ────────────────────────────────────────────

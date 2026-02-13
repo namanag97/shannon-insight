@@ -91,7 +91,7 @@ class TestFunctionDef:
         stub = FunctionDef(
             name="stub",
             params=[],
-            body_tokens=3,  # < 5
+            body_tokens=2,  # < 3, definitely a stub
             signature_tokens=10,
             nesting_depth=0,
             start_line=1,
@@ -111,19 +111,42 @@ class TestFunctionDef:
         assert real.is_stub is False
 
     def test_stub_score_property(self):
-        """stub_score based on formula from spec."""
-        fn = FunctionDef(
-            name="foo",
+        """stub_score: empty=1.0, small=0.0, large scales by ratio."""
+        # Empty body is pure stub
+        empty = FunctionDef(
+            name="empty",
             params=[],
-            body_tokens=15,  # body = 15, sig = 10, sig*3 = 30
+            body_tokens=0,
+            signature_tokens=10,
+            nesting_depth=0,
+            start_line=1,
+            end_line=2,
+        )
+        assert empty.stub_score == pytest.approx(1.0)
+
+        # Small but non-trivial body (< 10 tokens) is NOT a stub
+        small = FunctionDef(
+            name="small",
+            params=[],
+            body_tokens=8,
+            signature_tokens=10,
+            nesting_depth=0,
+            start_line=1,
+            end_line=3,
+        )
+        assert small.stub_score == pytest.approx(0.0)
+
+        # Larger body with body >= signature is fully implemented
+        full = FunctionDef(
+            name="full",
+            params=[],
+            body_tokens=15,
             signature_tokens=10,
             nesting_depth=0,
             start_line=1,
             end_line=5,
         )
-        # stub_score = 1 - min(1, body_tokens / (signature_tokens * 3))
-        # = 1 - min(1, 15/30) = 1 - 0.5 = 0.5
-        assert fn.stub_score == pytest.approx(0.5)
+        assert full.stub_score == pytest.approx(0.0)
 
 
 class TestClassDef:
@@ -281,8 +304,8 @@ class TestFileSyntax:
 
     def test_stub_ratio_property(self):
         """stub_ratio returns mean stub_score."""
-        fn1 = FunctionDef("a", [], 3, 10, 0, 1, 2)  # stub (body < 5)
-        fn2 = FunctionDef("b", [], 60, 10, 0, 3, 10)  # not stub
+        fn1 = FunctionDef("a", [], 1, 10, 0, 1, 2)  # pure stub (body < 3, score=1.0)
+        fn2 = FunctionDef("b", [], 60, 10, 0, 3, 10)  # not stub (score=0.0)
         fs = FileSyntax(
             path="/foo.py",
             functions=[fn1, fn2],
@@ -290,10 +313,10 @@ class TestFileSyntax:
             imports=[],
             language="python",
         )
-        # stub_score(fn1) = 1 - min(1, 3/30) = 1 - 0.1 = 0.9
-        # stub_score(fn2) = 1 - min(1, 60/30) = 1 - 1 = 0
-        # mean = (0.9 + 0) / 2 = 0.45
-        assert fs.stub_ratio == pytest.approx(0.45)
+        # stub_score(fn1) = 1.0 (body < 3)
+        # stub_score(fn2) = 0.0 (body >= signature)
+        # mean = (1.0 + 0) / 2 = 0.5
+        assert fs.stub_ratio == pytest.approx(0.5)
 
     def test_stub_ratio_no_functions(self):
         """stub_ratio returns 0.0 if no functions."""

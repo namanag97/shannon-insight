@@ -19,6 +19,8 @@ if TYPE_CHECKING:
     from ..store_v2 import AnalysisStore
 
 _MIN_HISTORY_COMMITS = 50
+_MIN_CHANGES_PER_FILE = 3  # Require at least 3 changes to flag as dead
+_MAX_FINDINGS = 10  # Cap output to avoid flooding
 
 
 class DeadDependencyFinder:
@@ -58,10 +60,11 @@ class DeadDependencyFinder:
 
         for src, targets in graph.adjacency.items():
             for tgt in targets:
-                # Both files must have been changed at least once
+                # Both files must have been changed multiple times
+                # This filters out stable utility files that don't need co-change
                 src_changes = change_counts.get(src, 0)
                 tgt_changes = change_counts.get(tgt, 0)
-                if src_changes == 0 or tgt_changes == 0:
+                if src_changes < _MIN_CHANGES_PER_FILE or tgt_changes < _MIN_CHANGES_PER_FILE:
                     continue
 
                 # Check co-change count is 0
@@ -109,4 +112,6 @@ class DeadDependencyFinder:
                     )
                 )
 
-        return sorted(findings, key=lambda f: f.severity, reverse=True)
+        # Sort by severity and cap output
+        findings.sort(key=lambda f: f.severity, reverse=True)
+        return findings[:_MAX_FINDINGS]

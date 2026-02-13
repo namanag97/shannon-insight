@@ -39,14 +39,17 @@ def compute_health_laplacian(field: SignalField, graph: DependencyGraph) -> dict
     """
     delta_h: dict[str, float] = {}
 
-    for path, fs in field.per_file.items():
-        # Get neighbors: files that import this file OR that this file imports
-        importers = graph.reverse.get(path, [])  # files that import this one
-        imported = graph.adjacency.get(path, [])  # files this one imports
+    # Pre-compute neighbor sets for all files to avoid repeated set operations
+    neighbor_cache: dict[str, list[str]] = {}
+    for path in field.per_file:
+        importers = graph.reverse.get(path, [])
+        imported = graph.adjacency.get(path, [])
         neighbors = set(importers) | set(imported)
-
         # Filter to files we have signals for
-        neighbors_in_field = [n for n in neighbors if n in field.per_file]
+        neighbor_cache[path] = [n for n in neighbors if n in field.per_file]
+
+    for path, fs in field.per_file.items():
+        neighbors_in_field = neighbor_cache[path]
 
         if not neighbors_in_field:
             # Orphan: no neighbors, delta_h = 0.0

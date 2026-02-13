@@ -38,11 +38,12 @@ class GodFileFinder:
     def find(self, store: AnalysisStore) -> list[Finding]:
         """Detect god files.
 
-        Criteria (tightened):
-        - pctl(cognitive_load) >= 0.95
-        - pctl(semantic_coherence) < 0.20
-        - function_count >= 3 (minimum size)
-        - total_changes > 0 (hotspot gate)
+        A god file has high complexity AND low coherence - it does too much.
+
+        Criteria:
+        - High cognitive load (top 20%) OR many functions (>10)
+        - AND low semantic coherence (bottom 30%)
+        - AND has enough content (function_count >= 3)
         """
         if not store.signal_field.available:
             return []
@@ -72,8 +73,13 @@ class GodFileFinder:
             cog_pctl = pctl.get("cognitive_load", 0)
             coh_pctl = pctl.get("semantic_coherence", 1.0)
 
-            # Top 5% cognitive load AND bottom 20% coherence
-            if cog_pctl >= 0.95 and coh_pctl <= 0.20:
+            # High complexity: top 20% cognitive load OR many functions
+            has_high_complexity = cog_pctl >= 0.80 or fs.function_count > 10
+
+            # Low coherence: bottom 30%
+            has_low_coherence = coh_pctl <= 0.30
+
+            if has_high_complexity and has_low_coherence:
                 # Severity scales with how extreme the signals are
                 avg_pctl = (cog_pctl + (1 - coh_pctl)) / 2
                 severity = self.BASE_SEVERITY * max(0.5, avg_pctl)

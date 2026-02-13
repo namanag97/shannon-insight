@@ -21,3 +21,4 @@ WHERE snapshot_id = $snapshot_id
   AND boundary_alignment < 0.7
   AND file_count >= 3
 ORDER BY boundary_alignment ASC
+LIMIT 10

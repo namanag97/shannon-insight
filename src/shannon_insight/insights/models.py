@@ -27,13 +27,56 @@ def compute_confidence(
     for _signal, actual, threshold, polarity in triggered_conditions:
         if polarity == "high_is_bad":
             # Higher value = worse. Margin = how much above threshold.
-            margin = (actual - threshold) / (1.0 - threshold) if threshold < 1.0 else 0.0
+            # Handle edge case where threshold >= 1.0
+            if threshold >= 1.0:
+                margin = 0.0
+            else:
+                margin = (actual - threshold) / (1.0 - threshold)
         else:  # high_is_good
             # Lower value = worse. Margin = how much below threshold.
-            margin = (threshold - actual) / threshold if threshold > 0.0 else 0.0
+            # Handle edge case where threshold <= 0.0
+            if threshold <= 0.0:
+                margin = 0.0
+            else:
+                margin = (threshold - actual) / threshold
         margins.append(max(0.0, min(1.0, margin)))
 
     return sum(margins) / len(margins)
+
+
+def compute_severity_from_percentiles(
+    percentiles: dict[str, float],
+    weights: dict[str, float],
+    base_severity: float = 0.5,
+    max_severity: float = 1.0,
+) -> float:
+    """Compute severity from weighted percentiles.
+
+    Args:
+        percentiles: Dict of signal_name -> percentile (0-1)
+        weights: Dict of signal_name -> weight (should sum to 1.0)
+        base_severity: Minimum severity floor
+        max_severity: Maximum severity cap
+
+    Returns:
+        Severity in [base_severity, max_severity]
+    """
+    if not percentiles or not weights:
+        return base_severity
+
+    weighted_sum = 0.0
+    total_weight = 0.0
+
+    for signal, weight in weights.items():
+        if signal in percentiles:
+            weighted_sum += percentiles[signal] * weight
+            total_weight += weight
+
+    if total_weight == 0:
+        return base_severity
+
+    normalized = weighted_sum / total_weight
+    return base_severity + (max_severity - base_severity) * normalized
 
 
 @dataclass

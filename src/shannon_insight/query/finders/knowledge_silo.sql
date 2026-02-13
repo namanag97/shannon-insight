@@ -50,3 +50,4 @@ WHERE r.bus_factor <= 1.5
   AND r.file_path NOT LIKE '%test_%'
   AND r.file_path NOT LIKE '%_test.py'
 ORDER BY r.pagerank_pctl DESC, r.bus_factor ASC
+LIMIT 10

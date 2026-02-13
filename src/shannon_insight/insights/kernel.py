@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Callable, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from ..config import AnalysisSettings, default_settings
 from ..logging_config import get_logger
@@ -14,6 +14,9 @@ from .analyzers import get_default_analyzers, get_wave2_analyzers
 from .finders import get_default_finders, get_persistence_finders
 from .models import InsightResult, StoreSummary
 from .store_v2 import AnalysisStore
+
+if TYPE_CHECKING:
+    from ..debug_export import DebugExporter
 
 ProgressCallback = Optional[Callable[[str], None]]
 
@@ -29,6 +32,7 @@ class InsightKernel:
         language: str = "auto",
         settings: AnalysisSettings | None = None,
         enable_persistence_finders: bool = False,
+        debug_export_dir: str | Path | None = None,
     ):
         self.root_dir = str(Path(root_dir).resolve())
         self.language = language
@@ -37,6 +41,11 @@ class InsightKernel:
         self._wave2_analyzers = get_wave2_analyzers()
         self._finders = get_default_finders()
         self._persistence_finders = get_persistence_finders() if enable_persistence_finders else []
+        self._debug_exporter: DebugExporter | None = None
+        if debug_export_dir:
+            from ..debug_export import DebugExporter
+
+            self._debug_exporter = DebugExporter(debug_export_dir)
 
     def run(
         self,
@@ -71,6 +80,9 @@ class InsightKernel:
         store.file_metrics = self._scan()
         logger.info(f"Scanned {len(store.file_metrics)} files")
 
+        if self._debug_exporter:
+            self._debug_exporter.export_scanning(store)
+
         if not store.file_metrics:
             empty_result = InsightResult(
                 findings=[],
@@ -84,6 +96,9 @@ class InsightKernel:
         # Phase 1.5: Extract file_syntax for deep parsing
         self._extract_syntax(store)
 
+        if self._debug_exporter:
+            self._debug_exporter.export_syntax(store)
+
         # Phase 2a: Run Wave 1 analyzers (topologically sorted by requires/provides)
         _progress("Analyzing dependencies...")
         for analyzer in self._resolve_order():
@@ -92,8 +107,16 @@ class InsightKernel:
                     _progress(f"Running {analyzer.name}...")
                     analyzer.analyze(store)
                     logger.debug(f"Analyzer {analyzer.name} completed")
+
+                    # Debug export after each analyzer
+                    if self._debug_exporter:
+                        self._export_after_analyzer(analyzer.name, store)
+
                 except Exception as e:
                     logger.warning(f"Analyzer {analyzer.name} failed: {e}")
+
+        # Clear content cache to free memory (wave 2 doesn't need file content)
+        store.clear_content_cache()
 
         # Phase 2b: Run Wave 2 analyzers (signal fusion, after all Wave 1)
         _progress("Computing signals...")
@@ -102,6 +125,10 @@ class InsightKernel:
                 _progress(f"Running {analyzer.name}...")
                 analyzer.analyze(store)
                 logger.debug(f"Wave 2 analyzer {analyzer.name} completed")
+
+                if self._debug_exporter and "fusion" in analyzer.name.lower():
+                    self._debug_exporter.export_fusion(store)
+
             except Exception as e:
                 logger.warning(f"Wave 2 analyzer {analyzer.name} failed: {e}")
 
@@ -143,6 +170,12 @@ class InsightKernel:
         )
         result.diagnostic_report = diagnostic_report
 
+        # Debug export: findings and index
+        if self._debug_exporter:
+            self._debug_exporter.export_findings(capped)
+            self._debug_exporter.write_index(store, capped)
+            logger.info(f"Debug export written to {self._debug_exporter.output_dir}")
+
         # Phase 5: Capture v2 snapshot (includes module signals, delta_h, architecture)
         _progress("Capturing snapshot...")
         snapshot = capture_tensor_snapshot(store, result, self.settings)
@@ -166,6 +199,7 @@ class InsightKernel:
         """Extract FileSyntax for all scanned files.
 
         Populates store.file_syntax slot with dict[path, FileSyntax].
+        Also populates store._content_cache for later reuse (avoids re-reading files).
         Uses tree-sitter if available, falls back to regex.
         """
         root = Path(self.root_dir)
@@ -174,15 +208,16 @@ class InsightKernel:
         # Get file paths from file_metrics
         file_paths = [root / fm.path for fm in store.file_metrics]
 
-        # Extract syntax for all files
-        file_syntax = extractor.extract_all(file_paths, root)
+        # Extract syntax and cache content for later reuse (e.g., compression ratio)
+        file_syntax = extractor.extract_all(file_paths, root, content_cache=store._content_cache)
 
         # Store result
         store.file_syntax.set(file_syntax, produced_by="kernel")
         logger.debug(
             f"Extracted syntax for {len(file_syntax)} files "
             f"(tree-sitter: {extractor.treesitter_count}, "
-            f"fallback: {extractor.fallback_count})"
+            f"fallback: {extractor.fallback_count}, "
+            f"cached: {len(store._content_cache)})"
         )
 
     def _resolve_order(self) -> list:
@@ -220,6 +255,23 @@ class InsightKernel:
                         logger.warning(f"Persistence finder {finder.name} failed: {e}")
         except Exception as e:
             logger.debug(f"No history DB available for persistence finders: {e}")
+
+    def _export_after_analyzer(self, analyzer_name: str, store: AnalysisStore) -> None:
+        """Export debug data after specific analyzers run."""
+        if not self._debug_exporter:
+            return
+
+        name_lower = analyzer_name.lower()
+        if "structural" in name_lower:
+            self._debug_exporter.export_structural(store)
+        elif "temporal" in name_lower:
+            self._debug_exporter.export_temporal(store)
+        elif "spectral" in name_lower:
+            self._debug_exporter.export_spectral(store)
+        elif "semantic" in name_lower:
+            self._debug_exporter.export_semantic(store)
+        elif "architecture" in name_lower:
+            self._debug_exporter.export_architecture(store)
 
     def _summarize(self, store: AnalysisStore) -> StoreSummary:
         """Build summary from store state."""

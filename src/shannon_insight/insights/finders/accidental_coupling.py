@@ -25,7 +25,9 @@ if TYPE_CHECKING:
     from ..store_v2 import AnalysisStore
 
 # Roles that are DESIGNED for broad import — coupling to them is expected
-_INFRASTRUCTURE_ROLES = frozenset({"model", "config", "interface", "exception", "constant"})
+_INFRASTRUCTURE_ROLES = frozenset(
+    {"model", "config", "interface", "exception", "constant", "utility"}
+)
 
 # Filename stems that are infrastructure by convention
 _INFRASTRUCTURE_STEMS = frozenset(
@@ -40,6 +42,21 @@ _INFRASTRUCTURE_STEMS = frozenset(
         "constants",
         "protocols",
         "interfaces",
+        # Common utility/infrastructure files
+        "logging",
+        "logging_config",
+        "logger",
+        "log",
+        "config",
+        "settings",
+        "utils",
+        "util",
+        "helpers",
+        "helper",
+        "common",
+        "base",
+        "core",
+        "_common",
     }
 )
 

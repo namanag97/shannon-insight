@@ -26,7 +26,6 @@ SELECT
     fs.churn_slope,
     fs.churn_cv,
     fs.fix_ratio,
-    fs.change_entropy,
     m.median_val AS changes_median
 FROM file_signals fs
 CROSS JOIN median_changes m

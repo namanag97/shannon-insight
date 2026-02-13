@@ -52,6 +52,11 @@ class LayerViolationFinder:
             # Access violation attributes (adapt to actual model)
             source_module = violation.source_module
             target_module = violation.target_module
+
+            # Skip violations involving root module
+            if source_module in (".", "") or target_module in (".", ""):
+                continue
+
             source_layer = getattr(violation, "source_layer", 0)
             target_layer = getattr(violation, "target_layer", 0)
             violation_type = getattr(violation, "violation_type", "backward")
@@ -82,10 +87,10 @@ class LayerViolationFinder:
                 Finding(
                     finding_type=self.name,
                     severity=self.BASE_SEVERITY,
-                    title=f"Layer violation: {source_module} -> {target_module}",
-                    files=[],  # MODULE_PAIR scope
+                    title=f"Layer violation: {source_module}/ imports {target_module}/ (L{source_layer}→L{target_layer})",
+                    files=[source_module, target_module],  # Include modules for context
                     evidence=evidence,
-                    suggestion="Inject dependency or restructure to respect layer ordering.",
+                    suggestion=f"'{source_module}' at layer {source_layer} imports '{target_module}' at layer {target_layer}. Inject dependency or restructure.",
                     confidence=1.0,  # Violation detected = certain
                     effort="MEDIUM",
                     scope="MODULE_PAIR",

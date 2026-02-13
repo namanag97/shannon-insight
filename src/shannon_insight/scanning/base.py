@@ -44,52 +44,63 @@ class BaseScanner(ABC):
         files_skipped = 0
         files_errored = 0
 
-        for ext in self.extensions:
-            for filepath in self.root_dir.rglob(f"*{ext}"):
-                # Check file count limit
-                if files_scanned >= self.settings.max_files:
-                    logger.warning(f"Reached max files limit ({self.settings.max_files})")
-                    break
+        # Pre-compute extension set for O(1) lookups
+        ext_set = set(self.extensions)
 
-                # Skip based on custom logic
-                if self._should_skip(filepath):
+        # Single tree walk - much faster than multiple rglob() calls
+        for filepath in self.root_dir.rglob("*"):
+            # Skip directories
+            if not filepath.is_file():
+                continue
+
+            # Check extension match (O(1) set lookup)
+            if filepath.suffix not in ext_set:
+                continue
+
+            # Check file count limit
+            if files_scanned >= self.settings.max_files:
+                logger.warning(f"Reached max files limit ({self.settings.max_files})")
+                break
+
+            # Skip based on custom logic
+            if self._should_skip(filepath):
+                files_skipped += 1
+                logger.debug(f"Skipped (custom): {filepath}")
+                continue
+
+            # Skip based on exclusion patterns
+            if should_skip_file(filepath, self.settings.exclude_patterns):
+                files_skipped += 1
+                logger.debug(f"Skipped (pattern): {filepath}")
+                continue
+
+            # Check file size
+            try:
+                size = filepath.stat().st_size
+                if size > self.settings.max_file_size_bytes:
                     files_skipped += 1
-                    logger.debug(f"Skipped (custom): {filepath}")
+                    logger.debug(f"Skipped (size): {filepath} ({size} bytes)")
                     continue
+            except OSError as e:
+                files_errored += 1
+                logger.warning(f"Cannot stat {filepath}: {e}")
+                continue
 
-                # Skip based on exclusion patterns
-                if should_skip_file(filepath, self.settings.exclude_patterns):
-                    files_skipped += 1
-                    logger.debug(f"Skipped (pattern): {filepath}")
-                    continue
-
-                # Check file size
-                try:
-                    size = filepath.stat().st_size
-                    if size > self.settings.max_file_size_bytes:
-                        files_skipped += 1
-                        logger.debug(f"Skipped (size): {filepath} ({size} bytes)")
-                        continue
-                except OSError as e:
-                    files_errored += 1
-                    logger.warning(f"Cannot stat {filepath}: {e}")
-                    continue
-
-                # Analyze file
-                try:
-                    metrics = self._analyze_file(filepath)
-                    files.append(metrics)
-                    files_scanned += 1
-                    logger.debug(f"Analyzed: {filepath}")
-                except FileAccessError as e:
-                    files_errored += 1
-                    logger.warning(f"Access error for {filepath}: {e.reason}")
-                except ParsingError as e:
-                    files_errored += 1
-                    logger.warning(f"Parse error for {filepath}: {e.reason}")
-                except Exception as e:
-                    files_errored += 1
-                    logger.error(f"Unexpected error analyzing {filepath}: {e}")
+            # Analyze file
+            try:
+                metrics = self._analyze_file(filepath)
+                files.append(metrics)
+                files_scanned += 1
+                logger.debug(f"Analyzed: {filepath}")
+            except FileAccessError as e:
+                files_errored += 1
+                logger.warning(f"Access error for {filepath}: {e.reason}")
+            except ParsingError as e:
+                files_errored += 1
+                logger.warning(f"Parse error for {filepath}: {e.reason}")
+            except Exception as e:
+                files_errored += 1
+                logger.error(f"Unexpected error analyzing {filepath}: {e}")
 
         logger.info(
             f"Scan complete: {files_scanned} analyzed, {files_skipped} skipped, {files_errored} errors"

@@ -200,6 +200,7 @@ def _dict_to_file_signal_event(
         author_entropy=_get_float("author_entropy"),
         fix_ratio=_get_float("fix_ratio"),
         refactor_ratio=_get_float("refactor_ratio"),
+        change_entropy=_get_float("change_entropy"),
         raw_risk=_get_float("raw_risk"),
         risk_score=_get_float("risk_score"),
         wiring_quality=_get_float("wiring_quality"),

@@ -17,6 +17,9 @@ from .models import Role
 if TYPE_CHECKING:
     from ..scanning.models_v2 import FileSyntax
 
+# Cache for pyproject.toml entry points (computed once per session)
+_ENTRY_POINT_CACHE: dict[str, set[str]] | None = None
+
 
 # Test file patterns
 TEST_PATH_PATTERNS = (
@@ -81,13 +84,77 @@ MIGRATION_PATTERNS = (
 )
 
 
-def classify_role(syntax: FileSyntax) -> Role:
+def _get_pyproject_entry_points(root_dir: str = "") -> set[str]:
+    """Parse pyproject.toml to find script entry points.
+
+    Returns set of file paths that are CLI entry points.
+    Caches result for the session.
+    """
+    global _ENTRY_POINT_CACHE
+
+    if _ENTRY_POINT_CACHE is not None:
+        return _ENTRY_POINT_CACHE.get(root_dir, set())
+
+    _ENTRY_POINT_CACHE = {}
+    entry_points: set[str] = set()
+
+    try:
+        import tomllib
+    except ImportError:
+        try:
+            import tomli as tomllib  # type: ignore
+        except ImportError:
+            _ENTRY_POINT_CACHE[root_dir] = entry_points
+            return entry_points
+
+    pyproject_path = Path(root_dir) / "pyproject.toml" if root_dir else Path("pyproject.toml")
+    if not pyproject_path.exists():
+        _ENTRY_POINT_CACHE[root_dir] = entry_points
+        return entry_points
+
+    try:
+        with open(pyproject_path, "rb") as f:
+            data = tomllib.load(f)
+
+        # [project.scripts] and [project.gui-scripts]
+        for section in ("scripts", "gui-scripts"):
+            scripts = data.get("project", {}).get(section, {})
+            for _name, target in scripts.items():
+                # target is like "shannon_insight.cli:app"
+                module_path = target.split(":")[0]
+                # Convert to file path: "shannon_insight.cli" -> "shannon_insight/cli/__init__.py" or "shannon_insight/cli.py"
+                file_path = module_path.replace(".", "/")
+                entry_points.add(f"{file_path}.py")
+                entry_points.add(f"{file_path}/__init__.py")
+                entry_points.add(f"src/{file_path}.py")
+                entry_points.add(f"src/{file_path}/__init__.py")
+
+        # [project.entry-points] for plugins
+        eps = data.get("project", {}).get("entry-points", {})
+        for _group, entries in eps.items():
+            if isinstance(entries, dict):
+                for _name, target in entries.items():
+                    module_path = target.split(":")[0]
+                    file_path = module_path.replace(".", "/")
+                    entry_points.add(f"{file_path}.py")
+                    entry_points.add(f"{file_path}/__init__.py")
+                    entry_points.add(f"src/{file_path}.py")
+                    entry_points.add(f"src/{file_path}/__init__.py")
+    except Exception:
+        pass
+
+    _ENTRY_POINT_CACHE[root_dir] = entry_points
+    return entry_points
+
+
+def classify_role(syntax: FileSyntax, root_dir: str = "") -> Role:
     """Classify file into a semantic role.
 
     Priority-based decision tree. First matching rule wins.
 
     Args:
         syntax: FileSyntax from tree-sitter or regex parsing
+        root_dir: Project root directory for pyproject.toml lookup
 
     Returns:
         Role enum value
@@ -99,8 +166,13 @@ def classify_role(syntax: FileSyntax) -> Role:
     if _is_test_file(path_lower):
         return Role.TEST
 
-    # 2. ENTRY_POINT - __main__ guard or entry decorators
+    # 2. ENTRY_POINT - __main__ guard, entry decorators, or pyproject.toml scripts
     if syntax.has_main_guard or _has_entry_decorators(syntax):
+        return Role.ENTRY_POINT
+
+    # Check pyproject.toml entry points
+    entry_points = _get_pyproject_entry_points(root_dir)
+    if path in entry_points or any(path.endswith(ep) for ep in entry_points):
         return Role.ENTRY_POINT
 
     # 3. INTERFACE - ABC, Protocol, abstractmethod

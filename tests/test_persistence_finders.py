@@ -56,7 +56,7 @@ class TestChronicProblemFinder:
 
                 assert len(findings) == 2
                 assert findings[0].finding_type == "chronic_problem"
-                assert "persisted 5 snapshots" in findings[0].title
+                assert "5 snapshots" in findings[0].title
 
     def test_severity_multiplier(self):
         """Severity is multiplied for chronic problems."""

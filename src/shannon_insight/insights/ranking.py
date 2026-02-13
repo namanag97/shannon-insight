@@ -36,9 +36,30 @@ def compute_percentiles(values: dict[str, float]) -> dict[str, float]:
 
 # Subsumption rules: parent ⊃ child
 # If parent finding exists on same file, suppress child.
+# More specific findings suppress less specific ones.
 SUBSUMPTION_RULES: dict[str, set[str]] = {
-    "god_file": {"review_blindspot", "knowledge_silo"},
-    "high_risk_hub": {"bug_attractor"},
+    # god_file is the most severe structural issue
+    "god_file": {"review_blindspot", "knowledge_silo", "thrashing_code", "bug_magnet"},
+    # high_risk_hub subsumes simpler risk finders
+    "high_risk_hub": {"bug_attractor", "knowledge_silo", "bug_magnet", "thrashing_code"},
+    # review_blindspot is stricter (no tests)
+    "review_blindspot": {"knowledge_silo"},
+    # chronic_problem wraps any finding that persists
+    "chronic_problem": {
+        "god_file",
+        "high_risk_hub",
+        "unstable_file",
+        "hollow_code",
+        "truck_factor",
+        "thrashing_code",
+        "weak_link",
+    },
+    # truck_factor is a special case of knowledge_silo (single author)
+    "truck_factor": {"knowledge_silo"},
+    # weak_link is more specific than general high_risk
+    "weak_link": {"bug_attractor"},
+    # thrashing_code indicates deeper issues than simple instability
+    "thrashing_code": {"unstable_file"},
 }
 
 

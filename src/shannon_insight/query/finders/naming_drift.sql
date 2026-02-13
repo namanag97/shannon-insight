@@ -25,3 +25,4 @@ WHERE snapshot_id = $snapshot_id
   -- Exclude __init__.py (common to be unfocused)
   AND file_path NOT LIKE '%__init__.py'
 ORDER BY naming_drift DESC
+LIMIT 10

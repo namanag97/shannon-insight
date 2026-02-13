@@ -96,6 +96,12 @@ class FusionPipeline:
             self._fill_from_temporal(fs)
             self.field.per_file[fm.path] = fs
 
+        # Fill hierarchical context (parent_dir, module_path, etc.)
+        self._fill_hierarchy()
+
+        # Per-directory signals (aggregate from files)
+        self._collect_directories()
+
         # Per-module signals
         self._collect_modules()
 
@@ -148,10 +154,10 @@ class FusionPipeline:
 
         # Re-compute is_orphan with role awareness (structural runs before semantics,
         # so the initial orphan detection has no role info).
-        # Entry points and test files with in_degree=0 are NOT orphans.
+        # Entry points, test files, and utility files (plugins, finders) are NOT orphans.
         if fs.is_orphan and self.store.roles.available:
             role = self.store.roles.value.get(path, "unknown").upper()
-            if role in ("ENTRY_POINT", "TEST", "CONFIG", "INTERFACE", "EXCEPTION"):
+            if role in ("ENTRY_POINT", "TEST", "CONFIG", "INTERFACE", "EXCEPTION", "UTILITY"):
                 fs.is_orphan = False
 
     def _fill_from_semantics(self, fs: FileSignals) -> None:
@@ -204,6 +210,95 @@ class FusionPipeline:
         fs.fix_ratio = churn.fix_ratio
         fs.refactor_ratio = churn.refactor_ratio
         fs.change_entropy = getattr(churn, "change_entropy", 0.0)
+
+    def _fill_hierarchy(self) -> None:
+        """Fill hierarchical context fields for each file."""
+        from pathlib import Path
+
+        # Build directory -> files mapping
+        dir_files: dict[str, list[str]] = {}
+        for path in self.field.per_file:
+            parent = str(Path(path).parent)
+            if parent == ".":
+                parent = "."
+            dir_files.setdefault(parent, []).append(path)
+
+        # Build file -> module mapping from architecture
+        file_to_module: dict[str, str] = {}
+        if self.store.architecture.available:
+            arch = self.store.architecture.value
+            for mod_path in arch.modules:
+                for fpath in self.field.per_file:
+                    # Check if file belongs to this module
+                    if mod_path == ".":
+                        if "/" not in fpath:
+                            file_to_module[fpath] = mod_path
+                    elif fpath.startswith(mod_path + "/") or fpath == mod_path:
+                        # Only assign if not already assigned to a more specific module
+                        if fpath not in file_to_module or len(mod_path) > len(
+                            file_to_module[fpath]
+                        ):
+                            file_to_module[fpath] = mod_path
+
+        # Fill hierarchical fields
+        for path, fs in self.field.per_file.items():
+            parent = str(Path(path).parent)
+            if parent == ".":
+                parent = "."
+
+            fs.parent_dir = parent
+            fs.dir_depth = path.count("/")
+            fs.siblings_count = len(dir_files.get(parent, [])) - 1  # Exclude self
+            fs.module_path = file_to_module.get(path, parent)  # Default to parent dir
+
+    def _collect_directories(self) -> None:
+        """Aggregate file signals into per-directory signals."""
+        from collections import Counter
+
+        from .models import DirectorySignals
+
+        # Group files by directory
+        dir_files: dict[str, list[FileSignals]] = {}
+        for fs in self.field.per_file.values():
+            dir_files.setdefault(fs.parent_dir, []).append(fs)
+
+        # Compute median total_changes for hotspot threshold
+        all_changes = [fs.total_changes for fs in self.field.per_file.values()]
+        median_changes = sorted(all_changes)[len(all_changes) // 2] if all_changes else 0
+
+        # Create DirectorySignals for each directory
+        for dir_path, files in dir_files.items():
+            ds = DirectorySignals(path=dir_path)
+
+            ds.file_count = len(files)
+            ds.total_lines = sum(fs.lines for fs in files)
+            ds.total_functions = sum(fs.function_count for fs in files)
+
+            # Averages
+            if files:
+                ds.avg_complexity = sum(fs.cognitive_load for fs in files) / len(files)
+                ds.avg_churn = sum(fs.total_changes for fs in files) / len(files)
+                ds.avg_risk = sum(fs.risk_score for fs in files) / len(files)
+
+            # Dominant role and trajectory
+            roles = Counter(fs.role for fs in files)
+            if roles:
+                ds.dominant_role = roles.most_common(1)[0][0]
+
+            trajectories = Counter(fs.churn_trajectory for fs in files)
+            if trajectories:
+                ds.dominant_trajectory = trajectories.most_common(1)[0][0]
+
+            # Risk indicators
+            ds.hotspot_file_count = sum(1 for fs in files if fs.total_changes > median_changes)
+            ds.high_risk_file_count = sum(1 for fs in files if fs.risk_score > 0.7)
+
+            # Module relationship
+            modules = Counter(fs.module_path for fs in files)
+            if modules:
+                ds.module_path = modules.most_common(1)[0][0]
+
+            self.field.per_directory[dir_path] = ds
 
     def _collect_modules(self) -> None:
         """Collect per-module signals from architecture."""

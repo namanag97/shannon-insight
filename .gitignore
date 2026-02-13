@@ -78,3 +78,9 @@ install-log*.txt
 
 # Coverage
 coverage.xml
+
+# Shannon Insight working directory
+.shannon/
+
+# Debug output
+debug/

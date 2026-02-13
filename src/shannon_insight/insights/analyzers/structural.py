@@ -22,7 +22,12 @@ class StructuralAnalyzer:
         if not store.file_metrics:
             return
 
-        engine = AnalysisEngine(store.file_metrics, root_dir=store.root_dir)
+        # Pass content getter for cached file reads (avoids re-reading from disk)
+        engine = AnalysisEngine(
+            store.file_metrics,
+            root_dir=store.root_dir,
+            content_getter=store.get_content,
+        )
         result = engine.run()
         store.structural.set(result, produced_by=self.name)
         logger.debug(f"Structural analysis: {result.total_files} files, {result.total_edges} edges")
@@ -34,14 +39,20 @@ class StructuralAnalyzer:
         """Run NCD clone detection on file contents."""
         root = Path(store.root_dir) if store.root_dir else Path.cwd()
 
-        # Read file contents
+        # Get file contents from cache or disk
         file_contents: dict[str, bytes] = {}
         for fm in store.file_metrics:
-            try:
-                full_path = root / fm.path
-                file_contents[fm.path] = full_path.read_bytes()
-            except OSError:
-                pass
+            # Try cache first
+            content = store.get_content(fm.path)
+            if content is not None:
+                file_contents[fm.path] = content.encode("utf-8")
+            else:
+                # Fallback to disk read
+                try:
+                    full_path = root / fm.path
+                    file_contents[fm.path] = full_path.read_bytes()
+                except OSError:
+                    pass
 
         if len(file_contents) < 2:
             return

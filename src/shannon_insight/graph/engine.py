@@ -26,10 +26,23 @@ from .models import (
 class AnalysisEngine:
     """Executes the full analysis DAG on a set of parsed files."""
 
-    def __init__(self, file_metrics: list[FileMetrics], root_dir: str = ""):
+    def __init__(
+        self,
+        file_metrics: list[FileMetrics],
+        root_dir: str = "",
+        content_getter: Optional[callable] = None,
+    ):
+        """Initialize the analysis engine.
+
+        Args:
+            file_metrics: List of FileMetrics from scanning
+            root_dir: Root directory for file resolution
+            content_getter: Optional function(rel_path) -> str|None for cached content
+        """
         self.file_metrics = file_metrics
         self.root_dir = root_dir
         self._file_map: dict[str, FileMetrics] = {f.path: f for f in file_metrics}
+        self._content_getter = content_getter
 
     def run(self) -> CodebaseAnalysis:
         """Run the full analysis DAG and return structured results."""
@@ -128,19 +141,48 @@ class AnalysisEngine:
         return results
 
     def _compute_cognitive_load(self, fm: FileMetrics) -> float:
-        """Cognitive load with Gini-based concentration penalty."""
-        n_concepts = fm.functions + fm.structs + fm.interfaces
+        """Cognitive load: weighted sum of complexity factors.
 
+        Based on research on code comprehension difficulty:
+        - Lines of code (log-scaled, diminishing returns)
+        - Cyclomatic complexity (decision points to track)
+        - Nesting depth (working memory load)
+        - Function count (context switches)
+        - Gini inequality (god functions harder to understand)
+
+        Formula: log2(lines+1) * (1 + complexity/10) * (1 + nesting/5) * (1 + gini)
+
+        Output is typically 0-50 for normal files, 50-100 for complex files.
+        """
+        import math
+
+        # Log-scaled lines (1000 lines = ~10, 100 lines = ~7)
+        lines_factor = math.log2(fm.lines + 1) if fm.lines > 0 else 0
+
+        # Complexity factor: average cyclomatic complexity
+        # complexity_score is now average per function
+        complexity_factor = 1 + fm.complexity_score / 10
+
+        # Nesting penalty: deep nesting is hard to follow
+        nesting_factor = 1 + fm.nesting_depth / 5
+
+        # Gini penalty: unequal function sizes suggest god functions
         gini = 0.0
         if fm.function_sizes and len(fm.function_sizes) > 1:
             gini = Gini.gini_coefficient(fm.function_sizes)
+        gini_factor = 1 + gini
 
-        base = n_concepts * fm.complexity_score * (1 + fm.nesting_depth / 10)
-        concentration = 1 + gini
-        return base * concentration
+        return lines_factor * complexity_factor * nesting_factor * gini_factor
 
     def _read_file_content(self, rel_path: str) -> Optional[str]:
-        """Read file content from disk."""
+        """Read file content from cache or disk."""
+        # Try cache first (avoids disk I/O)
+        if self._content_getter is not None:
+            content = self._content_getter(rel_path)
+            if content is not None:
+                return content
+
+        # Fallback to disk read
         if self.root_dir:
             full_path = Path(self.root_dir) / rel_path
         else:

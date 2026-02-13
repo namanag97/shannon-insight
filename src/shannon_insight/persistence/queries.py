@@ -490,6 +490,7 @@ def get_finding_history(
 def get_chronic_findings(
     conn: sqlite3.Connection,
     min_persistence: int = 3,
+    max_findings: int = 10,
 ) -> list[FindingLifecycleInfo]:
     """Return findings persisting across min_persistence+ snapshots.
 
@@ -499,6 +500,8 @@ def get_chronic_findings(
         Open database connection.
     min_persistence:
         Minimum number of snapshots a finding must persist (default 3).
+    max_findings:
+        Maximum number of findings to return (default 10).
 
     Returns
     -------
@@ -512,8 +515,9 @@ def get_chronic_findings(
         FROM finding_lifecycle
         WHERE persistence_count >= ? AND current_status = 'active'
         ORDER BY persistence_count DESC, severity DESC
+        LIMIT ?
         """,
-        (min_persistence,),
+        (min_persistence, max_findings),
     ).fetchall()
 
     return [

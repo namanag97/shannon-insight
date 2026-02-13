@@ -26,3 +26,4 @@ WHERE snapshot_id = $snapshot_id
   AND layer_violation_count > 0
   AND file_count >= 2
 ORDER BY layer_violation_count DESC
+LIMIT 10

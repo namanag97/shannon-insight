@@ -12,7 +12,6 @@ Writes to store.semantics and store.roles slots.
 from __future__ import annotations
 
 import logging
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 from .completeness import compute_completeness
@@ -65,16 +64,11 @@ class SemanticAnalyzer:
             store.roles.set({}, self.name)
             return
 
-        # Read file contents for completeness analysis
+        # Get file contents from cache or disk
         file_contents: dict[str, str] = {}
-        root_dir = Path(store.root_dir) if store.root_dir else Path.cwd()
-
         for path in file_syntax:
-            try:
-                full_path = root_dir / path
-                file_contents[path] = full_path.read_text(encoding="utf-8", errors="replace")
-            except OSError:
-                file_contents[path] = ""
+            content = store.get_content(path)
+            file_contents[path] = content if content is not None else ""
 
         # Pass 1: Build corpus IDF
         logger.debug(f"SemanticAnalyzer: Pass 1 - building IDF for {len(file_syntax)} files")
@@ -93,6 +87,7 @@ class SemanticAnalyzer:
                 syntax,
                 file_contents.get(path, ""),
                 extractor,
+                store.root_dir,
             )
             semantics[path] = file_semantics
             roles[path] = file_semantics.role.value
@@ -111,6 +106,7 @@ class SemanticAnalyzer:
         syntax: FileSyntax,
         content: str,
         extractor: ConceptExtractor,
+        root_dir: str = "",
     ) -> FileSemantics:
         """Analyze a single file.
 
@@ -118,12 +114,13 @@ class SemanticAnalyzer:
             syntax: FileSyntax for the file
             content: Raw file content
             extractor: ConceptExtractor with IDF computed
+            root_dir: Project root directory
 
         Returns:
             FileSemantics for the file
         """
         # 1. Classify role
-        role = classify_role(syntax)
+        role = classify_role(syntax, root_dir)
 
         # 2. Extract concepts
         concepts, concept_entropy, tier = extractor.extract(syntax, role)

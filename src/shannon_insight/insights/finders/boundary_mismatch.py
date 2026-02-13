@@ -42,11 +42,15 @@ class BoundaryMismatchFinder:
         findings = []
 
         for bm in structural.boundary_mismatches:
+            # Skip root directory - not a meaningful module boundary
+            if bm.module_path == "." or bm.module_path == "":
+                continue
+
             # Only include mismatches with actionable suggestions
             useful_misplaced = [
                 (f, s)
                 for f, s in bm.misplaced_files
-                if s and s != bm.module_path and s != "unknown"
+                if s and s != bm.module_path and s != "unknown" and s != "."
             ]
             if not useful_misplaced:
                 continue

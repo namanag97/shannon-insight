@@ -20,6 +20,8 @@ from ..models import Evidence, Finding
 if TYPE_CHECKING:
     from ..store_v2 import AnalysisStore
 
+_MAX_FINDINGS = 10  # Cap output to avoid flooding
+
 
 class PhantomImportsFinder:
     """Detects files with unresolved imports."""
@@ -95,4 +97,5 @@ class PhantomImportsFinder:
                 )
             )
 
-        return sorted(findings, key=lambda f: f.severity, reverse=True)
+        findings.sort(key=lambda f: f.severity, reverse=True)
+        return findings[:_MAX_FINDINGS]

@@ -73,5 +73,35 @@ WHERE
     -- Exclude __init__.py
     AND s.source NOT LIKE '%__init__.py'
     AND s.target NOT LIKE '%__init__.py'
+    -- Exclude infrastructure files (models, config, logging, etc.)
+    AND s.source NOT LIKE '%models.py'
+    AND s.target NOT LIKE '%models.py'
+    AND s.source NOT LIKE '%config.py'
+    AND s.target NOT LIKE '%config.py'
+    AND s.source NOT LIKE '%logging%.py'
+    AND s.target NOT LIKE '%logging%.py'
+    AND s.source NOT LIKE '%_common.py'
+    AND s.target NOT LIKE '%_common.py'
+    AND s.source NOT LIKE '%utils.py'
+    AND s.target NOT LIKE '%utils.py'
+    AND s.source NOT LIKE '%helpers.py'
+    AND s.target NOT LIKE '%helpers.py'
+    AND s.source NOT LIKE '%constants.py'
+    AND s.target NOT LIKE '%constants.py'
+    AND s.source NOT LIKE '%types.py'
+    AND s.target NOT LIKE '%types.py'
+    AND s.source NOT LIKE '%schemas.py'
+    AND s.target NOT LIKE '%schemas.py'
+    AND s.source NOT LIKE '%exceptions.py'
+    AND s.target NOT LIKE '%exceptions.py'
+    -- Exclude base.py files (base classes are infrastructure)
+    AND s.source NOT LIKE '%base.py'
+    AND s.target NOT LIKE '%base.py'
+    -- Exclude registry files (registries are meant to import many things)
+    AND s.source NOT LIKE '%registry.py'
+    AND s.target NOT LIKE '%registry.py'
+    -- Exclude plugins (plugins are designed for registry import)
+    AND s.source NOT LIKE '%plugins/%'
+    AND s.target NOT LIKE '%plugins/%'
 ORDER BY concept_disparity DESC
 LIMIT 20

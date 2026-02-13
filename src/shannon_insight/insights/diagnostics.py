@@ -75,6 +75,9 @@ def run_diagnostics(
     _check_team_size(store, report)
     _check_finder_noise(findings, report)
     _check_signal_information_gain(store, report)
+    _check_codebase_size(store, report)
+    _check_git_history_depth(store, report)
+    _check_orphan_ratio(store, report)
 
     return report
 
@@ -242,3 +245,96 @@ def _estimate_information_gain(values: list[float]) -> float:
             entropy -= p * math.log2(p)
 
     return entropy
+
+
+def _check_codebase_size(store: AnalysisStore, report: DiagnosticReport) -> None:
+    """Check if codebase is large enough for meaningful analysis."""
+    n_files = len(store.file_metrics)
+
+    if n_files < 3:
+        report.issues.append(
+            DiagnosticIssue(
+                category="data",
+                severity="warning",
+                message=f"Very small codebase ({n_files} files): limited analysis value",
+                detail="Most finders need 5+ files to produce meaningful findings.",
+            )
+        )
+    elif n_files < 15:
+        report.issues.append(
+            DiagnosticIssue(
+                category="data",
+                severity="info",
+                message=f"Small codebase ({n_files} files): using ABSOLUTE tier (no percentiles)",
+                detail="Percentile-based findings disabled. Architecture-level findings may be limited.",
+            )
+        )
+
+
+def _check_git_history_depth(store: AnalysisStore, report: DiagnosticReport) -> None:
+    """Check if git history is deep enough for temporal analysis."""
+    if not store.git_history.available:
+        report.issues.append(
+            DiagnosticIssue(
+                category="data",
+                severity="warning",
+                message="No git history available: temporal analysis disabled",
+                detail="Churn, bus_factor, co-change findings will not be produced.",
+            )
+        )
+        return
+
+    git = store.git_history.value
+    if git.total_commits < 50:
+        report.issues.append(
+            DiagnosticIssue(
+                category="data",
+                severity="info",
+                message=f"Shallow git history ({git.total_commits} commits): temporal signals may be noisy",
+                detail="Consider using --since to focus on recent history if available.",
+            )
+        )
+
+    # Check if history spans enough time
+    if git.span_days < 30:
+        report.issues.append(
+            DiagnosticIssue(
+                category="data",
+                severity="info",
+                message=f"Short history span ({git.span_days} days): churn trajectory unreliable",
+                detail="Churn classification needs 30+ days to detect STABILIZING vs CHURNING.",
+            )
+        )
+
+
+def _check_orphan_ratio(store: AnalysisStore, report: DiagnosticReport) -> None:
+    """Check if too many files are orphans (possible resolution issues)."""
+    if not store.signal_field.available:
+        return
+
+    field = store.signal_field.value
+    if not field.per_file:
+        return
+
+    orphan_count = sum(1 for fs in field.per_file.values() if fs.is_orphan)
+    total = len(field.per_file)
+    ratio = orphan_count / total if total > 0 else 0
+
+    if ratio > 0.5:
+        report.issues.append(
+            DiagnosticIssue(
+                category="data",
+                severity="warning",
+                message=f"High orphan ratio ({orphan_count}/{total} = {ratio:.0%}): possible import resolution issues",
+                detail="Check if imports use dynamic paths, aliases, or non-standard patterns.",
+            )
+        )
+    elif ratio > 0.3:
+        report.issues.append(
+            DiagnosticIssue(
+                category="data",
+                severity="info",
+                message=f"Many orphan files ({orphan_count}/{total} = {ratio:.0%})",
+                detail="These files have no importers. May be entry points, utilities, or dead code.",
+            )
+        )

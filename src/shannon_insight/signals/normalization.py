@@ -47,16 +47,20 @@ NORMALIZABLE_SIGNALS = [
     "author_entropy",
     "fix_ratio",
     "refactor_ratio",
+    "change_entropy",
 ]
 
 # Absolute floors for percentile effectiveness
 # If raw value is below floor, percentile is forced to 0.0
-# This prevents 450 files with pagerank=0.001 from showing as "90th percentile"
+# This prevents trivial values from appearing as high percentiles
+#
+# Floors are set conservatively low to avoid masking real signals.
+# The goal is to filter out truly trivial values, not to gate findings.
 ABSOLUTE_FLOORS: dict[str, float] = {
-    "pagerank": 0.005,
-    "blast_radius_size": 5.0,
-    "cognitive_load": 10.0,
-    "lines": 100.0,
+    "pagerank": 0.001,  # Only filter near-zero pagerank
+    "blast_radius_size": 2.0,  # At least 2 files affected
+    "cognitive_load": 3.0,  # Very small files only
+    "lines": 20.0,  # Tiny files only
 }
 
 

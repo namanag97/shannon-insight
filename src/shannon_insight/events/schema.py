@@ -99,7 +99,7 @@ class FileSignalEvent:
     semantic_coherence: float | None = None
     cognitive_load: float | None = None
 
-    # IR5t (temporal) - signals #27-34
+    # IR5t (temporal) - signals #27-35
     total_changes: int | None = None
     churn_trajectory: str | None = None
     churn_slope: float | None = None
@@ -108,6 +108,7 @@ class FileSignalEvent:
     author_entropy: float | None = None
     fix_ratio: float | None = None
     refactor_ratio: float | None = None
+    change_entropy: float | None = None  # Signal #35: entropy across time windows
 
     # Pre-percentile risk
     raw_risk: float | None = None
@@ -170,6 +171,7 @@ class FileSignalEvent:
             author_entropy=fs.author_entropy if fs.author_entropy else None,
             fix_ratio=fs.fix_ratio if fs.fix_ratio else None,
             refactor_ratio=fs.refactor_ratio if fs.refactor_ratio else None,
+            change_entropy=fs.change_entropy if fs.change_entropy else None,
             raw_risk=fs.raw_risk if fs.raw_risk else None,
             risk_score=fs.risk_score if fs.risk_score else None,
             wiring_quality=fs.wiring_quality if fs.wiring_quality != 1.0 else None,

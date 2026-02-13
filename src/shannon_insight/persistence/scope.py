@@ -265,15 +265,23 @@ def _compute_file_percentiles(
     if not all_signals:
         return {}
 
-    # Gather all metric names
+    # Gather all numeric metric names (skip dicts, strings, bools)
     metrics: set = set()
     for sigs in all_signals.values():
-        metrics.update(sigs.keys())
+        for k, v in sigs.items():
+            if isinstance(v, (int, float)) and not isinstance(v, bool):
+                metrics.add(k)
 
     # For each metric, build a sorted list of values
     metric_sorted: dict[str, list[float]] = {}
     for m in metrics:
-        vals = sorted(v for sigs in all_signals.values() if (v := sigs.get(m)) is not None)
+        vals = sorted(
+            v
+            for sigs in all_signals.values()
+            if (v := sigs.get(m)) is not None
+            and isinstance(v, (int, float))
+            and not isinstance(v, bool)
+        )
         metric_sorted[m] = vals
 
     # Compute percentiles per file
@@ -281,6 +289,9 @@ def _compute_file_percentiles(
     for fp, sigs in all_signals.items():
         pcts: dict[str, float] = {}
         for m, v in sigs.items():
+            # Skip non-numeric values
+            if not isinstance(v, (int, float)) or isinstance(v, bool):
+                continue
             sorted_vals = metric_sorted.get(m, [])
             if sorted_vals:
                 rank = bisect_left(sorted_vals, v)

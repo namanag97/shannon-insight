@@ -17,7 +17,7 @@ remove+add pairs.
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from .diff_models import (
     FileDelta,
@@ -343,7 +343,7 @@ def _diff_codebase_signals(
 def diff_snapshots(
     old: Snapshot | TensorSnapshot,
     new: Snapshot | TensorSnapshot,
-    renames: Optional[dict[str, str]] = None,
+    renames: dict[str, str] | None = None,
     metric_threshold: float = 0.01,
 ) -> SnapshotDiff:
     """Compute a structured diff between two analysis snapshots.
@@ -480,7 +480,7 @@ def _classify_file_health(deltas: list[SignalDelta]) -> str:
 def _diff_tensor_findings(
     old_findings: list[FindingRecord],
     new_findings: list[FindingRecord],
-    finding_lifecycle: Optional[dict[str, dict]] = None,
+    finding_lifecycle: dict[str, dict] | None = None,
 ) -> tuple[list[FindingDelta], list[FindingRecord], list[FindingRecord]]:
     """Match findings by identity_key and classify lifecycle.
 
@@ -562,8 +562,8 @@ def _diff_tensor_findings(
 def diff_tensor_snapshots(
     old: TensorSnapshot,
     new: TensorSnapshot,
-    renames: Optional[dict[str, str]] = None,
-    finding_lifecycle: Optional[dict[str, dict]] = None,
+    renames: dict[str, str] | None = None,
+    finding_lifecycle: dict[str, dict] | None = None,
     metric_threshold: float = 0.01,
 ) -> TensorSnapshotDiff:
     """Compute a structured diff between two TensorSnapshots.

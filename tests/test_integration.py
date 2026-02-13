@@ -31,27 +31,27 @@ class TestSmokeTests:
         assert "Shannon Insight" in result.stdout
 
     def test_bare_command_works(self):
-        """shannon-insight with -C should analyze the given path."""
+        """shannon-insight with path argument should analyze the given path."""
         result = subprocess.run(
-            ["shannon-insight", "-C", "test_codebase"],
+            ["shannon-insight", "--no-tui", "--no-save", "test_codebase"],
             capture_output=True,
             text=True,
         )
         assert result.returncode == 0
 
     def test_path_option(self):
-        """shannon-insight -C <path> should work."""
+        """shannon-insight <path> should work."""
         result = subprocess.run(
-            ["shannon-insight", "-C", "test_codebase"],
+            ["shannon-insight", "--no-tui", "--no-save", "test_codebase"],
             capture_output=True,
             text=True,
         )
         assert result.returncode == 0
 
     def test_subcommand_help_explain(self):
-        """shannon-insight explain --help should show explain help."""
+        """shannon-insight . explain --help should show explain help."""
         result = subprocess.run(
-            ["shannon-insight", "explain", "--help"],
+            ["shannon-insight", ".", "explain", "--help"],
             capture_output=True,
             text=True,
         )
@@ -59,9 +59,9 @@ class TestSmokeTests:
         assert "file" in result.stdout.lower() or "explain" in result.stdout.lower()
 
     def test_subcommand_help_diff(self):
-        """shannon-insight diff --help should show diff help, not main help."""
+        """shannon-insight . diff --help should show diff help, not main help."""
         result = subprocess.run(
-            ["shannon-insight", "diff", "--help"],
+            ["shannon-insight", ".", "diff", "--help"],
             capture_output=True,
             text=True,
         )
@@ -71,7 +71,7 @@ class TestSmokeTests:
     def test_json_flag(self):
         """--json should produce valid JSON."""
         result = subprocess.run(
-            ["shannon-insight", "--json", "-C", "test_codebase"],
+            ["shannon-insight", "--json", "--no-tui", "--no-save", "test_codebase"],
             capture_output=True,
             text=True,
         )
@@ -94,7 +94,7 @@ class TestSmokeTests:
     def test_fail_on_validates_input(self):
         """--fail-on with invalid value should error."""
         result = subprocess.run(
-            ["shannon-insight", "--fail-on", "invalid", "-C", "test_codebase"],
+            ["shannon-insight", "--fail-on", "invalid", "--no-tui", "--no-save", "test_codebase"],
             capture_output=True,
             text=True,
         )
@@ -112,7 +112,7 @@ class TestSmokeTests:
             if shannon_dir.exists():
                 shutil.rmtree(shannon_dir)
             result = subprocess.run(
-                ["shannon-insight", "-C", str(code_dir)],
+                ["shannon-insight", "--no-tui", str(code_dir)],
                 capture_output=True,
                 text=True,
             )
@@ -131,7 +131,7 @@ class TestSmokeTests:
             if shannon_dir.exists():
                 shutil.rmtree(shannon_dir)
             result = subprocess.run(
-                ["shannon-insight", "-C", str(code_dir), "--no-save"],
+                ["shannon-insight", "--no-tui", "--no-save", str(code_dir)],
                 capture_output=True,
                 text=True,
             )
@@ -141,7 +141,7 @@ class TestSmokeTests:
     def test_default_output_is_quiet(self):
         """Default output should not contain INFO log lines."""
         result = subprocess.run(
-            ["shannon-insight", "-C", "test_codebase"],
+            ["shannon-insight", "--no-tui", "--no-save", "test_codebase"],
             capture_output=True,
             text=True,
         )

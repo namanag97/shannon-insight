@@ -103,8 +103,8 @@ def explain(
     settings = resolve_settings()
     kernel = InsightKernel(str(target.resolve()), language="auto", settings=settings)
 
-    max_findings = settings.insights_max_findings
-    result, snapshot = kernel.run(max_findings=max_findings)
+    # For explain, get more findings so we can show those related to the file
+    result, snapshot = kernel.run(max_findings=500)
 
     # Find matching files
     all_files = sorted(snapshot.file_signals.keys())
@@ -160,9 +160,21 @@ def _compute_percentiles(
         return {}
 
     # For each metric, build sorted values
+    # Skip non-numeric values (dicts like 'percentiles', strings like 'role', bools)
     result: dict[str, float] = {}
     for metric, value in file_sigs.items():
-        vals = sorted(v for sigs in all_signals.values() if (v := sigs.get(metric)) is not None)
+        # Only process numeric metrics
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
+            continue
+
+        # Collect values for this metric across all files
+        vals = sorted(
+            v
+            for sigs in all_signals.values()
+            if (v := sigs.get(metric)) is not None
+            and isinstance(v, (int, float))
+            and not isinstance(v, bool)
+        )
         if vals:
             rank = bisect_left(vals, value)
             result[metric] = 100.0 * rank / len(vals)
@@ -173,9 +185,20 @@ def _compute_percentiles(
 
 def _output_json(matched_file, file_signals, percentiles, related_findings, trends):
     """JSON output for explain."""
+    # Filter and round numeric values, pass through strings/bools as-is, skip dicts
+    filtered_signals = {}
+    for k, v in file_signals.items():
+        if isinstance(v, bool):
+            filtered_signals[k] = v
+        elif isinstance(v, (int, float)):
+            filtered_signals[k] = round(v, 4)
+        elif isinstance(v, str):
+            filtered_signals[k] = v
+        # Skip dicts like 'percentiles'
+
     output = {
         "file": matched_file,
-        "signals": {k: round(v, 4) for k, v in file_signals.items()},
+        "signals": filtered_signals,
         "percentiles": {k: round(v, 1) for k, v in percentiles.items()},
         "findings": [
             {
@@ -216,9 +239,11 @@ def _output_rich(matched_file, file_signals, percentiles, related_findings, tren
         console.print("  [bold]Signals:[/bold]")
         if verbose:
             # Show all signals: translated ones first, then raw ones
+            # Skip internal signals like 'percentiles', 'role' (strings)
+            skip = {"percentiles", "role", "churn_trajectory", "parent_dir", "module_path"}
             known = [s for s in VISIBLE_SIGNALS if s in file_signals]
             extra_known = [s for s in file_signals if s in SIGNAL_LABELS and s not in known]
-            unknown = [s for s in sorted(file_signals) if s not in SIGNAL_LABELS]
+            unknown = [s for s in sorted(file_signals) if s not in SIGNAL_LABELS and s not in skip]
             signals_to_show = known + extra_known + unknown
         else:
             signals_to_show = VISIBLE_SIGNALS
@@ -235,7 +260,12 @@ def _output_rich(matched_file, file_signals, percentiles, related_findings, tren
                 level = _interpret_percentile(pct)
                 console.print(f"    {label:<20s} {level} \u2014 {desc} (p{int(pct)})")
             else:
-                console.print(f"    [dim]{sig_name:<20s} {value:.4f} (p{int(pct)})[/dim]")
+                # Handle non-numeric values (strings, bools, dicts)
+                if isinstance(value, (int, float)) and not isinstance(value, bool):
+                    value_str = f"{value:.4f}"
+                else:
+                    value_str = str(value)
+                console.print(f"    [dim]{sig_name:<20s} {value_str} (p{int(pct)})[/dim]")
 
         if not verbose:
             hidden_count = len(file_signals) - len(

@@ -51,3 +51,4 @@ SELECT
 FROM finding_history fh
 JOIN current_findings cf ON fh.identity_key = cf.identity_key
 ORDER BY fh.snapshot_count DESC, chronic_severity DESC
+LIMIT 10

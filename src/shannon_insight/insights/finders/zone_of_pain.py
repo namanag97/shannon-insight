@@ -58,6 +58,10 @@ class ZoneOfPainFinder:
         findings: list[Finding] = []
 
         for mod_path, ms in sorted(field.per_module.items()):
+            # Skip root directory - not a meaningful module
+            if mod_path == "." or mod_path == "":
+                continue
+
             # CRITICAL: Guard against instability=None (isolated modules)
             if ms.instability is None:
                 continue  # Isolated module, skip
@@ -111,10 +115,10 @@ class ZoneOfPainFinder:
                 Finding(
                     finding_type=self.name,
                     severity=min(0.70, severity),  # Cap severity
-                    title=f"Zone of Pain: {mod_path} (A={ms.abstractness:.2f}, I={ms.instability:.2f})",
-                    files=[],  # MODULE scope
+                    title=f"Zone of Pain: {mod_path}/ (A={ms.abstractness:.2f}, I={ms.instability:.2f})",
+                    files=[mod_path],  # Include module path for context
                     evidence=evidence,
-                    suggestion="Concrete and stable — hard to change. Extract interfaces or reduce dependents.",
+                    suggestion=f"Module '{mod_path}' is concrete and stable — hard to change. Extract interfaces or reduce dependents.",
                     confidence=confidence,
                     effort="HIGH",
                     scope="MODULE",

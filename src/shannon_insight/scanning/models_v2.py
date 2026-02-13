@@ -44,22 +44,41 @@ class FunctionDef:
     def is_stub(self) -> bool:
         """True if function body is too small to be meaningful.
 
-        Hard threshold: body_tokens < 5 is definitely a stub.
+        Hard threshold: body_tokens < 3 is definitely a stub.
+        Single return statements, property getters are NOT stubs.
         """
-        return self.body_tokens < 5
+        # Empty or trivial (just pass/...)
+        return self.body_tokens < 3
 
     @property
     def stub_score(self) -> float:
-        """Stub score from spec: 1 - min(1, body_tokens / (signature_tokens * 3)).
+        """Stub score: how "stub-like" is this function?
 
         Range [0, 1]:
-            0 = fully implemented (body >= 3x signature)
+            0 = fully implemented
             1 = pure stub (empty body)
+
+        Logic:
+        - Empty body (< 3 tokens): 1.0 (pure stub)
+        - Property/one-liner (< 10 tokens): 0.0 (valid implementation)
+        - Otherwise: scale based on body/signature ratio
         """
+        # Empty or trivial body is a pure stub
+        if self.body_tokens < 3:
+            return 1.0
+
+        # Small but non-trivial body (property getters, one-liners) are NOT stubs
+        # These are valid implementations, just concise
+        if self.body_tokens < 10:
+            return 0.0
+
+        # For larger functions, use ratio-based scoring
+        # Require body >= signature (not 3x) for full implementation
         if self.signature_tokens <= 0:
-            return 0.0 if self.body_tokens > 0 else 1.0
-        ratio = self.body_tokens / (self.signature_tokens * 3)
-        return 1 - min(1.0, ratio)
+            return 0.0
+        ratio = self.body_tokens / self.signature_tokens
+        # body >= signature -> 0.0, body < signature/2 -> approaching 1.0
+        return max(0.0, min(1.0, 1 - ratio))
 
 
 @dataclass

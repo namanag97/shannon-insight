@@ -18,6 +18,8 @@ from ..models import Evidence, Finding
 if TYPE_CHECKING:
     from ..store_v2 import AnalysisStore
 
+_MAX_FINDINGS = 10  # Cap output to avoid flooding
+
 
 class OrphanCodeFinder:
     """Detects orphan files that no other code imports."""
@@ -102,7 +104,8 @@ class OrphanCodeFinder:
                 )
             )
 
-        return sorted(findings, key=lambda f: f.severity, reverse=True)
+        findings.sort(key=lambda f: f.severity, reverse=True)
+        return findings[:_MAX_FINDINGS]
 
     def _find_absolute_import_targets(self, store: AnalysisStore) -> set[str]:
         """Find files that are imported via absolute imports.

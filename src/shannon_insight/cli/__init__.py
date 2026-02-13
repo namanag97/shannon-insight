@@ -19,3 +19,4 @@ from .explain import explain as _explain  # noqa: F401, E402
 from .health import health as _health  # noqa: F401, E402
 from .history import history as _history  # noqa: F401, E402
 from .report import report as _report  # noqa: F401, E402
+from .serve import serve as _serve  # noqa: F401, E402

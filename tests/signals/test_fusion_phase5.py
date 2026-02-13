@@ -208,23 +208,23 @@ class TestEffectivePercentile:
     """Test percentile floor for small absolute values."""
 
     def test_pagerank_below_floor_returns_zero(self):
-        """Pagerank below 0.005 returns 0.0 percentile."""
-        pctl = effective_percentile("pagerank", 0.001, 0.9)
+        """Pagerank below 0.001 returns 0.0 percentile."""
+        pctl = effective_percentile("pagerank", 0.0005, 0.9)
         assert pctl == 0.0
 
     def test_pagerank_above_floor_unchanged(self):
-        """Pagerank above 0.005 keeps original percentile."""
+        """Pagerank above 0.001 keeps original percentile."""
         pctl = effective_percentile("pagerank", 0.01, 0.9)
         assert pctl == 0.9
 
     def test_blast_radius_below_floor(self):
-        """Blast radius below 5 returns 0.0."""
-        pctl = effective_percentile("blast_radius_size", 3, 0.8)
+        """Blast radius below 2 returns 0.0."""
+        pctl = effective_percentile("blast_radius_size", 1, 0.8)
         assert pctl == 0.0
 
     def test_cognitive_load_below_floor(self):
-        """Cognitive load below 10 returns 0.0."""
-        pctl = effective_percentile("cognitive_load", 5.0, 0.7)
+        """Cognitive load below 3 returns 0.0."""
+        pctl = effective_percentile("cognitive_load", 2.0, 0.7)
         assert pctl == 0.0
 
     def test_unknown_signal_unchanged(self):

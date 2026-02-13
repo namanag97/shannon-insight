@@ -72,3 +72,4 @@ WHERE r.bus_factor <= 1.5
         )
   )
 ORDER BY r.pagerank_pctl DESC, r.bus_factor ASC
+LIMIT 10

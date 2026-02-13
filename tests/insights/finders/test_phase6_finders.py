@@ -529,11 +529,11 @@ class TestFinderIntegration:
         assert not missing, f"Missing finders: {missing}"
 
     def test_finder_count(self):
-        """Should have 20 finders total (6 old + 14 new)."""
+        """Should have 26 finders total (6 old + 14 phase6 + 4 smart temporal + 2 incomplete/dead)."""
         from shannon_insight.insights.finders import get_default_finders
 
         finders = get_default_finders()
-        assert len(finders) == 20
+        assert len(finders) == 26
 
     def test_all_finders_have_name(self):
         """All finders should have a name attribute."""

@@ -217,12 +217,33 @@ class ConfigurableScanner(BaseScanner):
     # ── Complexity ─────────────────────────────────────────────
 
     def _estimate_complexity(self, content: str) -> float:
-        complexity = 1.0
+        """Estimate cyclomatic complexity.
+
+        McCabe complexity = E - N + 2P where:
+        - E = edges in control flow graph
+        - N = nodes in control flow graph
+        - P = connected components (functions)
+
+        Approximation: 1 + decision_points per function.
+        Each if/elif/for/while/case/catch/and/or adds 1.
+
+        Returns sum across all functions, or file-level if no functions found.
+        """
+        # Count decision points (each adds a branch)
+        decision_points = 0
         for kw in self.config.complexity_keywords:
-            complexity += len(re.findall(rf"\b{kw}\b", content))
+            decision_points += len(re.findall(rf"\b{kw}\b", content))
         for op in self.config.complexity_operators:
-            complexity += len(re.findall(op, content))
-        return complexity
+            decision_points += len(re.findall(op, content))
+
+        # Count functions - each function has base complexity 1
+        func_count = self._count_functions(content)
+        if func_count == 0:
+            func_count = 1  # Treat file as single unit
+
+        # McCabe approximation: base 1 per function + decision points
+        # Return average complexity per function (more meaningful for comparison)
+        return (func_count + decision_points) / func_count
 
     # ── Nesting ────────────────────────────────────────────────
 

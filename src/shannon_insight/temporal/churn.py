@@ -1,9 +1,17 @@
 """Build per-file churn time series from git history."""
 
-from collections import defaultdict
+from __future__ import annotations
+
+from collections import Counter, defaultdict
 from math import log2
 
 from .models import ChurnSeries, GitHistory
+
+# Keywords for fix_ratio and refactor_ratio computation
+FIX_KEYWORDS = frozenset({"fix", "bug", "patch", "hotfix", "bugfix", "repair", "issue"})
+REFACTOR_KEYWORDS = frozenset(
+    {"refactor", "cleanup", "clean up", "reorganize", "restructure", "rename"}
+)
 
 
 def build_churn_series(
@@ -33,14 +41,28 @@ def build_churn_series(
 
     num_windows = max(1, (max_ts - min_ts) // window_secs + 1)
 
-    # Count changes per file per window
+    # Count changes per file per window, track authors and commit types
     file_windows: dict[str, list[int]] = defaultdict(lambda: [0] * num_windows)
+    file_authors: dict[str, Counter[str]] = defaultdict(Counter)
+    file_fix_count: dict[str, int] = defaultdict(int)
+    file_refactor_count: dict[str, int] = defaultdict(int)
+    file_commit_count: dict[str, int] = defaultdict(int)
 
     for commit in history.commits:
         window_idx = min((commit.timestamp - min_ts) // window_secs, num_windows - 1)
+        subject_lower = commit.subject.lower()
+        is_fix = any(kw in subject_lower for kw in FIX_KEYWORDS)
+        is_refactor = any(kw in subject_lower for kw in REFACTOR_KEYWORDS)
+
         for f in commit.files:
             if f in analyzed_files:
                 file_windows[f][window_idx] += 1
+                file_authors[f][commit.author] += 1
+                file_commit_count[f] += 1
+                if is_fix:
+                    file_fix_count[f] += 1
+                if is_refactor:
+                    file_refactor_count[f] += 1
 
     # Build ChurnSeries for each file
     results: dict[str, ChurnSeries] = {}
@@ -48,8 +70,19 @@ def build_churn_series(
     for file_path, counts in file_windows.items():
         total = sum(counts)
         slope = _linear_slope(counts)
-        trajectory = _classify_trajectory(counts, total, slope)
+        cv = _compute_cv(counts, total)
+        trajectory = _classify_trajectory(counts, total, slope, cv)
         change_entropy = compute_change_entropy(counts)
+
+        # Compute author entropy and bus_factor
+        author_counts = file_authors[file_path]
+        author_entropy = _compute_author_entropy(author_counts)
+        bus_factor = 2**author_entropy  # Number of equivalent authors
+
+        # Compute fix and refactor ratios
+        commit_count = file_commit_count[file_path]
+        fix_ratio = file_fix_count[file_path] / commit_count if commit_count > 0 else 0.0
+        refactor_ratio = file_refactor_count[file_path] / commit_count if commit_count > 0 else 0.0
 
         results[file_path] = ChurnSeries(
             file_path=file_path,
@@ -57,6 +90,11 @@ def build_churn_series(
             total_changes=total,
             trajectory=trajectory,
             slope=slope,
+            cv=cv,
+            bus_factor=bus_factor,
+            author_entropy=author_entropy,
+            fix_ratio=fix_ratio,
+            refactor_ratio=refactor_ratio,
             change_entropy=change_entropy,
         )
 
@@ -80,20 +118,41 @@ def _linear_slope(values: list[int]) -> float:
     return numerator / denominator
 
 
-def _classify_trajectory(counts: list[int], total: int, slope: float) -> str:
-    """Classify churn trajectory."""
-    if total <= 1:
-        return "dormant"
-
-    # Coefficient of variation
+def _compute_cv(counts: list[int], total: int) -> float:
+    """Compute coefficient of variation for change counts."""
     n = len(counts)
-    mean = total / n if n > 0 else 0
+    if n == 0 or total == 0:
+        return 0.0
+
+    mean = total / n
     if mean == 0:
-        return "dormant"
+        return 0.0
 
     variance = sum((c - mean) ** 2 for c in counts) / n
     std = variance**0.5
-    cv = std / mean
+    return std / mean
+
+
+def _classify_trajectory(
+    counts: list[int], total: int, slope: float, cv: float | None = None
+) -> str:
+    """Classify churn trajectory.
+
+    Args:
+        counts: Changes per time window
+        total: Total change count
+        slope: Linear regression slope
+        cv: Coefficient of variation (computed if None for backward compat)
+    """
+    if total <= 1:
+        return "dormant"
+
+    # Compute CV if not provided (backward compat)
+    if cv is None:
+        cv = _compute_cv(counts, total)
+
+    if cv == 0:
+        return "dormant"
 
     if slope < -0.1:
         return "stabilizing"
@@ -103,6 +162,22 @@ def _classify_trajectory(counts: list[int], total: int, slope: float) -> str:
         return "churning"
     else:
         return "stabilizing"
+
+
+def _compute_author_entropy(author_counts: Counter[str]) -> float:
+    """Compute Shannon entropy of author commit distribution.
+
+    Higher entropy = more diverse authorship = better bus factor.
+    Single author = 0 entropy = bus_factor of 1.
+
+    Returns:
+        Entropy in bits.
+    """
+    total = sum(author_counts.values())
+    if total == 0:
+        return 0.0
+    probs = [count / total for count in author_counts.values() if count > 0]
+    return -sum(p * log2(p) for p in probs)
 
 
 def compute_change_entropy(commits_per_window: list[int]) -> float:

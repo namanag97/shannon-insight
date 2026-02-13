@@ -18,6 +18,8 @@ from ..models import Evidence, Finding, compute_confidence
 if TYPE_CHECKING:
     from ..store_v2 import AnalysisStore
 
+_MAX_FINDINGS = 10  # Cap output to avoid flooding
+
 
 class HollowCodeFinder:
     """Detects files with high stub ratio and uneven implementation."""
@@ -104,4 +106,5 @@ class HollowCodeFinder:
                 )
             )
 
-        return sorted(findings, key=lambda f: f.severity, reverse=True)
+        findings.sort(key=lambda f: f.severity, reverse=True)
+        return findings[:_MAX_FINDINGS]

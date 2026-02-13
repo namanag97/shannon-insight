@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ..models import Evidence, Finding
+from ..models import Evidence, Finding, compute_confidence
 
 if TYPE_CHECKING:
     from ..store_v2 import AnalysisStore
@@ -38,10 +38,14 @@ class HighRiskHubFinder:
     def find(self, store: AnalysisStore) -> list[Finding]:
         """Detect high-risk hub files.
 
-        Criteria (tightened):
-        - pctl(pagerank) >= 0.95 OR pctl(blast_radius_size) >= 0.95
-        - AND (pctl(cognitive_load) >= 0.95 OR trajectory in {CHURNING, SPIKING})
-        - AND total_changes > 0 (hotspot gate)
+        A high-risk hub is a file that is:
+        1. Central (high pagerank OR high blast radius) - top 20%
+        2. AND either complex (high cognitive load) OR actively changing
+
+        Thresholds:
+        - Centrality: 80th percentile (top 20%)
+        - Complexity: 80th percentile (top 20%)
+        - Churn: CHURNING or SPIKING trajectory
         """
         if not store.signal_field.available:
             return []
@@ -70,13 +74,13 @@ class HighRiskHubFinder:
             br_pctl = pctl.get("blast_radius_size", 0)
             cog_pctl = pctl.get("cognitive_load", 0)
 
-            # Need high centrality (pagerank OR blast_radius in top 5%)
-            has_high_centrality = pr_pctl >= 0.95 or br_pctl >= 0.95
+            # Need high centrality (pagerank OR blast_radius in top 20%)
+            has_high_centrality = pr_pctl >= 0.80 or br_pctl >= 0.80
             if not has_high_centrality:
                 continue
 
             # Need high complexity OR high churn
-            has_high_complexity = cog_pctl >= 0.95
+            has_high_complexity = cog_pctl >= 0.80
             has_high_churn = fs.churn_trajectory in {"CHURNING", "SPIKING"}
 
             if not (has_high_complexity or has_high_churn):
@@ -86,7 +90,7 @@ class HighRiskHubFinder:
             evidence_items: list[Evidence] = []
             pcts: list[float] = []
 
-            if pr_pctl >= 0.95:
+            if pr_pctl >= 0.80:
                 pcts.append(pr_pctl)
                 evidence_items.append(
                     Evidence(
@@ -97,7 +101,7 @@ class HighRiskHubFinder:
                     )
                 )
 
-            if br_pctl >= 0.95:
+            if br_pctl >= 0.80:
                 pcts.append(br_pctl)
                 evidence_items.append(
                     Evidence(
@@ -136,6 +140,17 @@ class HighRiskHubFinder:
             avg_pctl = sum(pcts) / len(pcts) if pcts else 0.9
             severity = self.BASE_SEVERITY * max(0.5, avg_pctl)
 
+            # Compute confidence from margins above thresholds
+            confidence_conditions = []
+            if pr_pctl >= 0.80:
+                confidence_conditions.append(("pagerank", pr_pctl, 0.80, "high_is_bad"))
+            if br_pctl >= 0.80:
+                confidence_conditions.append(("blast_radius_size", br_pctl, 0.80, "high_is_bad"))
+            if has_high_complexity:
+                confidence_conditions.append(("cognitive_load", cog_pctl, 0.80, "high_is_bad"))
+
+            confidence = compute_confidence(confidence_conditions) if confidence_conditions else 0.8
+
             findings.append(
                 Finding(
                     finding_type=self.name,
@@ -144,7 +159,7 @@ class HighRiskHubFinder:
                     files=[path],
                     evidence=evidence_items,
                     suggestion=self._build_suggestion(fs, has_high_complexity, has_high_churn),
-                    confidence=0.9,
+                    confidence=max(0.75, confidence),
                     effort="MEDIUM",
                     scope="FILE",
                 )

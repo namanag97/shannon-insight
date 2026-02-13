@@ -54,8 +54,10 @@ class Slot(Generic[T]):
         """
         if self._value is None:
             if self._error:
-                raise LookupError(f"Slot not populated: {self._error}")
-            raise LookupError("Slot not populated")
+                raise LookupError(
+                    f"Slot not populated (produced_by={self._produced_by}): {self._error}"
+                )
+            raise LookupError("Slot not populated. Check .available before accessing .value")
         return self._value
 
     def get(self, default: T | None = None) -> T | None:
@@ -111,6 +113,29 @@ class AnalysisStore:
     root_dir: str = ""
     file_metrics: list[Any] = field(default_factory=list)
 
+    # File content cache (populated during syntax extraction to avoid re-reads)
+    # Maps relative path -> file content. Cleared after graph analysis completes.
+    _content_cache: dict[str, str] = field(default_factory=dict, repr=False)
+
+    def get_content(self, rel_path: str) -> str | None:
+        """Get file content from cache or read from disk (caches result)."""
+        if rel_path in self._content_cache:
+            return self._content_cache[rel_path]
+        # Fallback to disk read (shouldn't happen if cache is populated correctly)
+        from pathlib import Path
+
+        full_path = Path(self.root_dir) / rel_path if self.root_dir else Path(rel_path)
+        try:
+            content = full_path.read_text(encoding="utf-8", errors="replace")
+            self._content_cache[rel_path] = content
+            return content
+        except OSError:
+            return None
+
+    def clear_content_cache(self) -> None:
+        """Clear content cache to free memory after graph analysis."""
+        self._content_cache.clear()
+
     # Typed slots — each knows if it's populated, why not, and who wrote it
     file_syntax: Slot[dict[str, Any]] = field(default_factory=Slot)
     structural: Slot[Any] = field(default_factory=Slot)
@@ -133,7 +158,16 @@ class AnalysisStore:
         (represents file_metrics which is never wrapped in Slot).
         """
         avail: set[str] = {"files"}
-        slot_names = [
+        for name in self._slot_names():
+            slot = getattr(self, name)
+            if isinstance(slot, Slot) and slot.available:
+                avail.add(name)
+        return avail
+
+    @staticmethod
+    def _slot_names() -> list[str]:
+        """Return all slot names in order."""
+        return [
             "file_syntax",
             "structural",
             "git_history",
@@ -147,8 +181,23 @@ class AnalysisStore:
             "architecture",
             "signal_field",
         ]
-        for name in slot_names:
+
+    def slot_status(self) -> dict[str, dict[str, Any]]:
+        """Get status of all slots for debugging.
+
+        Returns dict mapping slot name to:
+            - available: bool
+            - produced_by: str (if available or errored)
+            - error: str (if error)
+        """
+        status = {}
+        for name in self._slot_names():
             slot = getattr(self, name)
-            if isinstance(slot, Slot) and slot.available:
-                avail.add(name)
-        return avail
+            if isinstance(slot, Slot):
+                info: dict[str, Any] = {"available": slot.available}
+                if slot.produced_by:
+                    info["produced_by"] = slot.produced_by
+                if slot.error:
+                    info["error"] = slot.error
+                status[name] = info
+        return status

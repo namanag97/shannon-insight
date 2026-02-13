@@ -101,8 +101,13 @@
 
   function polarColor(key, val) {
     var p = SIGNAL_POLARITY[key];
-    if (p === true) return val > 0.5 ? "var(--red)" : val > 0.2 ? "var(--orange)" : "var(--text)";
-    if (p === false) return val > 0.7 ? "var(--green)" : val < 0.3 ? "var(--orange)" : "var(--text)";
+    if (p == null) return "var(--accent)";
+    // Normalize unbounded integer signals to 0-1 range for thresholding
+    var UNBOUNDED = {blast_radius_size:50, phantom_import_count:5, cognitive_load:25, max_nesting:10};
+    var v = val;
+    if (UNBOUNDED[key]) v = Math.min(val / UNBOUNDED[key], 1.0);
+    if (p === true) return v > 0.5 ? "var(--red)" : v > 0.2 ? "var(--orange)" : "var(--text)";
+    if (p === false) return v > 0.7 ? "var(--green)" : v < 0.3 ? "var(--orange)" : "var(--text)";
     return "var(--accent)";
   }
 

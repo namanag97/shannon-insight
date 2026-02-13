@@ -208,6 +208,50 @@
     return items;
   }
 
+  /* ── Shared Renderers ─────────────────────────────── */
+
+  function renderEvidence(evidence, maxItems) {
+    if (!evidence || !evidence.length) return "";
+    var html = '<div class="finding-evidence">';
+    var limit = Math.min(evidence.length, maxItems);
+    for (var ei = 0; ei < limit; ei++) {
+      var ev = evidence[ei];
+      var sigName = ev.signal.replace(/_/g, ' ');
+      var valStr = typeof ev.value === "number" ? (Number.isInteger(ev.value) ? String(ev.value) : ev.value.toFixed(2)) : String(ev.value);
+      html += sigName + ': <strong>' + esc(valStr) + '</strong>';
+      if (ev.percentile) html += ' <span class="pctl">(' + Math.round(ev.percentile) + 'th pctl)</span>';
+      if (ei < limit - 1) html += '&nbsp;&nbsp;&nbsp;';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function renderFindingRow(finding, opts) {
+    opts = opts || {};
+    var sk = sevKey(finding.severity);
+    var classes = 'finding-row sev-' + sk;
+    if (finding.confidence != null && finding.confidence < 0.5) classes += ' finding-low-confidence';
+    var html = '<div class="' + classes + '">';
+    html += '<div class="finding-head"><div class="sev-dot ' + sk + '"></div>';
+    html += '<span class="finding-type-label">' + esc(finding.label) + '</span>';
+    if (finding.effort) html += '<span class="effort-badge">' + esc(finding.effort) + '</span>';
+    if (opts.chronicSet && opts.chronicSet.has(finding.finding_type)) html += '<span class="chronic-badge">CHRONIC</span>';
+    html += '</div>';
+    if (opts.showFiles && finding.files && finding.files.length) {
+      html += '<div class="finding-files">';
+      for (var fi = 0; fi < finding.files.length; fi++) {
+        if (fi > 0) html += ', ';
+        html += '<a href="#files/' + encodeURIComponent(finding.files[fi]) + '">' + esc(finding.files[fi]) + '</a>';
+      }
+      html += '</div>';
+    }
+    html += renderEvidence(finding.evidence, opts.maxEvidence || 4);
+    if (finding.interpretation) html += '<div class="finding-interp">' + esc(finding.interpretation) + '</div>';
+    if (finding.suggestion) html += '<div class="finding-suggestion">' + esc(finding.suggestion) + '</div>';
+    html += '</div>';
+    return html;
+  }
+
   /* ── Screen: Overview ──────────────────────────────── */
 
   function renderOverview() {

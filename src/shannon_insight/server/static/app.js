@@ -886,7 +886,7 @@
     if (m.violations && m.violations.length) {
       html += '<div class="file-detail-section"><div class="file-detail-section-title">Violations (' + m.violations.length + ')</div>';
       for (var i = 0; i < m.violations.length; i++) {
-        html += '<div style="font-size:11px;color:var(--orange);padding:2px 0">' + esc(m.violations[i]) + '</div>';
+        html += '<div class="module-violation-item">' + esc(m.violations[i]) + '</div>';
       }
       html += '</div>';
     }

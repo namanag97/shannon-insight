@@ -1091,7 +1091,9 @@
     });
   }
 
-  /* ── Keyboard ──────────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: Keyboard
+     ═══════════════════════════════════════════════════════════ */
 
   document.addEventListener("keydown", function(e) {
     var tag = (e.target.tagName || "").toLowerCase();

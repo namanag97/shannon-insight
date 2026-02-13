@@ -317,7 +317,7 @@ a:hover { text-decoration: underline; }
   margin-bottom: var(--space-md);
   display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm);
 }
-.focus-score-item, .focus-score-breakdown span {
+.focus-score-item {
   white-space: nowrap;
   background: rgba(255,255,255,0.02);
   padding: var(--space-xs) var(--space-sm);

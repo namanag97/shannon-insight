@@ -1056,7 +1056,9 @@
     }
   }
 
-  /* ── Event Handlers ────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: Event Handlers
+     ═══════════════════════════════════════════════════════════ */
 
   $("#nav").addEventListener("click", function(e) {
     var a = e.target.closest("a[data-screen]");

@@ -793,7 +793,7 @@
 
     var cols = [
       {key:"path",label:"Module",cls:"td-path"},
-      {key:"health",label:"Health",cls:"td-risk"},
+      {key:"health_score",label:"Health",cls:"td-risk"},
       {key:"instability",label:"Instability",cls:"td-num"},
       {key:"abstractness",label:"Abstractness",cls:"td-num"},
       {key:"file_count",label:"Files",cls:"td-num"},

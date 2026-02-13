@@ -490,7 +490,7 @@ a:hover { text-decoration: underline; }
 }
 .file-table tbody tr:nth-child(even):hover,
 .module-table tbody tr:nth-child(even):hover {
-  background: var(--surface);
+  background: rgba(255,255,255,0.04);
 }
 
 .file-table .td-path, .module-table .td-path {

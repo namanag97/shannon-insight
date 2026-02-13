@@ -131,7 +131,9 @@
     return val.toFixed(2);
   }
 
-  /* ── SVG Renderers ─────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: SVG Renderers
+     ═══════════════════════════════════════════════════════════ */
 
   function renderSparkline(values, w, h, color) {
     if (!values || values.length < 2) return "";

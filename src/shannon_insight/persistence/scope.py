@@ -277,9 +277,9 @@ def _compute_file_percentiles(
     for m in metrics:
         raw_vals: list[float] = []
         for sigs in all_signals.values():
-            v = sigs.get(m)
-            if v is not None and isinstance(v, (int, float)) and not isinstance(v, bool):
-                raw_vals.append(float(v))
+            val = sigs.get(m)
+            if val is not None and isinstance(val, (int, float)) and not isinstance(val, bool):
+                raw_vals.append(float(val))
         raw_vals.sort()
         metric_sorted[m] = raw_vals
 

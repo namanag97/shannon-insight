@@ -57,7 +57,7 @@
   var issueSeverityFilter = new Set(["critical","high","medium","low","info"]);
   var selectedIndex = {};
   var moduleDetail = null;
-  var moduleSortKey = "health";
+  var moduleSortKey = "health_score";
   var moduleSortAsc = true;
   var fileViewMode = "table";
 

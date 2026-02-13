@@ -81,3 +81,48 @@ class TestServerState:
         result = state.get_state()
         assert result is not None
         assert "thread" in result
+
+    def test_previous_state_tracking(self):
+        """Update twice, verify get_previous_state returns the first state."""
+        state = ServerState()
+        first = {"health": 5.0, "version": 1}
+        second = {"health": 7.0, "version": 2}
+
+        state.update(first)
+        state.update(second)
+
+        previous = state.get_previous_state()
+        assert previous is not None
+        assert previous == first
+        assert previous["version"] == 1
+
+        current = state.get_state()
+        assert current is not None
+        assert current["version"] == 2
+
+    def test_recent_changes(self):
+        """set_recent_changes, verify get_recent_changes returns them."""
+        state = ServerState()
+        paths = ["src/foo.py", "src/bar.py", "tests/test_foo.py"]
+
+        state.set_recent_changes(paths)
+        result = state.get_recent_changes()
+
+        assert result == paths
+        # Verify it returns a copy, not the original list
+        result.append("extra.py")
+        assert state.get_recent_changes() == paths
+
+    def test_progress_with_percent(self):
+        """send_progress with percent parameter, verify it's in the message."""
+        state = ServerState()
+        q: queue.Queue = queue.Queue()
+        state.add_listener(q)
+
+        state.send_progress("Analyzing files...", phase="analyze", percent=42.5)
+
+        msg = q.get(timeout=1)
+        assert msg["type"] == "progress"
+        assert msg["message"] == "Analyzing files..."
+        assert msg["phase"] == "analyze"
+        assert msg["percent"] == 42.5

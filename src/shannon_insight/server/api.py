@@ -3,14 +3,20 @@
 from __future__ import annotations
 
 import html
+import logging
+import sqlite3
+from pathlib import Path
 from typing import Any
 
 from ..cli._common import display_score
 from ..cli._concerns import organize_by_concerns
 from ..cli._finding_display import get_display_config, get_severity_display
-from ..cli._focus import identify_focus_point
+from ..cli._focus import get_verdict, identify_focus_point
 from ..insights.models import Finding, InsightResult
 from ..persistence.models import TensorSnapshot
+from ..persistence.queries import HistoryQuery
+
+logger = logging.getLogger(__name__)
 
 # ── Category mapping (plan spec) ──────────────────────────────────────
 
@@ -104,11 +110,21 @@ def _finding_to_dict(f: Finding) -> dict[str, Any]:
 def build_dashboard_state(
     result: InsightResult,
     snapshot: TensorSnapshot,
+    db_path: str | None = None,
 ) -> dict[str, Any]:
     """Convert analysis results to the full dashboard JSON state.
 
     This is the single source of truth for ``GET /api/state`` and
     the WebSocket ``complete`` message.
+
+    Parameters
+    ----------
+    result:
+        The InsightResult from analysis.
+    snapshot:
+        The TensorSnapshot from analysis.
+    db_path:
+        Optional path to .shannon/history.db for trend data.
     """
     findings = result.findings
     file_signals = snapshot.file_signals or {}
@@ -118,6 +134,11 @@ def build_dashboard_state(
     # ── Health score ──────────────────────────────────────────────
     raw_health = global_signals.get("codebase_health", 0.5)
     health_display = display_score(raw_health)
+
+    # ── Verdict ───────────────────────────────────────────────────
+    total_findings = len(findings)
+    focus, alternatives = identify_focus_point(snapshot, findings, n_alternatives=5)
+    verdict_text, verdict_color = get_verdict(raw_health, focus, total_findings)
 
     # ── Categories ────────────────────────────────────────────────
     categories: dict[str, dict[str, Any]] = {}
@@ -133,12 +154,15 @@ def build_dashboard_state(
 
     # ── Focus point ───────────────────────────────────────────────
     focus_data = None
-    focus, alternatives = identify_focus_point(snapshot, findings, n_alternatives=5)
     if focus:
         focus_data = {
             "path": html.escape(focus.path),
             "actionability": round(focus.actionability, 3),
             "why": focus.why_summary(),
+            "risk_score": round(focus.risk_score, 3),
+            "impact_score": round(focus.impact_score, 3),
+            "tractability_score": round(focus.tractability_score, 3),
+            "confidence_score": round(focus.confidence_score, 3),
             "findings": [_finding_to_dict(f) for f in focus.findings],
             "alternatives": [
                 {
@@ -182,7 +206,7 @@ def build_dashboard_state(
             "velocity": round(mod_dict.get("velocity", 0.0), 2),
         }
 
-    # ── Concern reports (for trends screen) ───────────────────────
+    # ── Concern reports ───────────────────────────────────────────
     concern_reports = organize_by_concerns(findings, global_signals)
     concerns = [
         {
@@ -191,19 +215,39 @@ def build_dashboard_state(
             "score": round(r.score, 1),
             "status": r.status,
             "finding_count": len(r.findings),
+            "description": r.concern.description,
+            "attributes": {
+                k: round(v, 4) if isinstance(v, float) else v for k, v in r.attributes.items()
+            },
+            "file_count": r.file_count,
         }
         for r in concern_reports
     ]
 
+    # ── Dependency edges & architecture data ──────────────────────
+    dependency_edges = [[src, tgt] for src, tgt in (snapshot.dependency_edges or [])]
+    delta_h = {html.escape(k): round(v, 4) for k, v in (snapshot.delta_h or {}).items()}
+    violations = snapshot.violations or []
+    layers = snapshot.layers or []
+
+    # ── History / trend data (optional) ───────────────────────────
+    trends: dict[str, Any] | None = None
+    if db_path:
+        trends = _query_trends(db_path)
+
     # ── Assemble ──────────────────────────────────────────────────
-    return {
+    state: dict[str, Any] = {
         "health": health_display,
         "health_label": _health_label(health_display),
+        "verdict": verdict_text,
+        "verdict_color": _map_rich_color(verdict_color),
         "file_count": snapshot.file_count,
         "module_count": snapshot.module_count,
         "commits_analyzed": snapshot.commits_analyzed,
         "timestamp": snapshot.timestamp,
         "commit_sha": snapshot.commit_sha or "",
+        "analyzed_path": snapshot.analyzed_path or "",
+        "analyzers_ran": snapshot.analyzers_ran or [],
         "categories": categories,
         "focus": focus_data,
         "files": files,
@@ -212,4 +256,91 @@ def build_dashboard_state(
             k: round(v, 4) if isinstance(v, float) else v for k, v in global_signals.items()
         },
         "concerns": concerns,
+        "dependency_edges": dependency_edges,
+        "delta_h": delta_h,
+        "violations": violations,
+        "layers": layers,
     }
+    if trends:
+        state["trends"] = trends
+    return state
+
+
+def _map_rich_color(color: str) -> str:
+    """Map Rich color names to CSS color variables."""
+    mapping = {
+        "green": "var(--green)",
+        "yellow": "var(--yellow)",
+        "orange1": "var(--orange)",
+        "red": "var(--red)",
+    }
+    return mapping.get(color, "var(--text)")
+
+
+def _query_trends(db_path: str) -> dict[str, Any] | None:
+    """Query .shannon/history.db for trend data. Returns None on failure."""
+    path = Path(db_path)
+    if not path.exists():
+        return None
+
+    trends: dict[str, Any] = {}
+    try:
+        conn = sqlite3.connect(str(path))
+        conn.row_factory = sqlite3.Row
+        hq = HistoryQuery(conn)
+
+        # Health trend
+        try:
+            health_points = hq.codebase_health(last_n=20)
+            if health_points:
+                trends["health"] = [
+                    {
+                        "timestamp": hp.timestamp,
+                        "health": round(hp.metrics.get("codebase_health", 0.5), 4),
+                        "finding_count": int(hp.metrics.get("active_findings", 0)),
+                    }
+                    for hp in health_points
+                ]
+        except Exception:
+            logger.debug("Failed to query codebase health trend", exc_info=True)
+
+        # Top movers
+        try:
+            movers = hq.top_movers(last_n=5, metric="risk_score")
+            if movers:
+                trends["movers"] = [
+                    {
+                        "path": m["filepath"],
+                        "old_value": round(m["old_value"], 3),
+                        "new_value": round(m["new_value"], 3),
+                        "delta": round(m["delta"], 3),
+                    }
+                    for m in movers
+                ]
+        except Exception:
+            logger.debug("Failed to query top movers", exc_info=True)
+
+        # Chronic findings
+        try:
+            chronic = hq.persistent_findings(min_snapshots=3)
+            if chronic:
+                trends["chronic"] = [
+                    {
+                        "finding_type": c["finding_type"],
+                        "identity_key": c["identity_key"],
+                        "title": c["title"],
+                        "files": c["files"],
+                        "severity": round(c["severity"], 3),
+                        "count": c["count"],
+                    }
+                    for c in chronic
+                ]
+        except Exception:
+            logger.debug("Failed to query chronic findings", exc_info=True)
+
+        conn.close()
+    except Exception:
+        logger.debug("Failed to open history DB", exc_info=True)
+        return None
+
+    return trends if trends else None

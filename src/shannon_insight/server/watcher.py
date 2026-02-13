@@ -38,6 +38,30 @@ DEBOUNCE_SECONDS = 2.0
 # Cooldown: minimum gap between analysis runs
 COOLDOWN_SECONDS = 1.0
 
+# Map progress messages to percentages for determinate progress bar
+PHASE_MAP: dict[str, float] = {
+    "Scanning files": 0.10,
+    "Parsing": 0.15,
+    "Analyzing dependencies": 0.20,
+    "Running StructuralAnalyzer": 0.30,
+    "Running TemporalAnalyzer": 0.40,
+    "Running SpectralAnalyzer": 0.50,
+    "Computing signals": 0.60,
+    "Running SignalFusionAnalyzer": 0.65,
+    "Detecting issues": 0.75,
+    "Checking history": 0.80,
+    "Ranking findings": 0.90,
+    "Capturing snapshot": 0.95,
+}
+
+
+def _message_to_percent(message: str) -> float | None:
+    """Map a progress message to a percentage using prefix matching."""
+    for prefix, pct in PHASE_MAP.items():
+        if message.startswith(prefix):
+            return pct
+    return None
+
 
 class FileWatcher:
     """Watches source files and triggers re-analysis on changes.
@@ -84,7 +108,7 @@ class FileWatcher:
         """
         self._analyzing = True
         try:
-            self.state.send_progress("Scanning files...", phase="scan")
+            self.state.send_progress("Scanning files...", phase="scan", percent=0.05)
 
             kernel = InsightKernel(
                 root_dir=self.root_dir,
@@ -92,14 +116,34 @@ class FileWatcher:
             )
 
             def on_progress(msg: str) -> None:
-                self.state.send_progress(msg, phase="analyze")
+                pct = _message_to_percent(msg)
+                self.state.send_progress(msg, phase="analyze", percent=pct)
 
             result, snapshot = kernel.run(
                 max_findings=self.max_findings,
                 on_progress=on_progress,
             )
 
-            dashboard_state = build_dashboard_state(result, snapshot)
+            # Detect history DB for trend data
+            db_path: str | None = None
+            history_file = Path(self.root_dir) / ".shannon" / "history.db"
+            if history_file.exists():
+                db_path = str(history_file)
+
+            dashboard_state = build_dashboard_state(result, snapshot, db_path=db_path)
+
+            # Inject recent changes
+            recent = self.state.get_recent_changes()
+            if recent:
+                dashboard_state["recent_changes"] = recent
+
+            # Compute diff against previous state
+            prev = self.state.get_previous_state()
+            if prev:
+                changes = _compute_changes(prev, dashboard_state)
+                if changes:
+                    dashboard_state["changes"] = changes
+
             self.state.update(dashboard_state)
 
             logger.info(
@@ -143,11 +187,43 @@ class FileWatcher:
                 len(changed_files),
             )
 
+            # Track changed files in state
+            self.state.set_recent_changes(changed_files)
+
             self.run_analysis()
 
             # Cooldown to avoid rapid re-triggers
             if not self._stop_event.wait(COOLDOWN_SECONDS):
                 pass  # Normal: timeout expired, continue watching
+
+
+def _compute_changes(prev_state: dict, new_state: dict) -> dict | None:
+    """Compute delta between two dashboard states."""
+    changes: dict = {}
+
+    prev_files = prev_state.get("files", {})
+    new_files = new_state.get("files", {})
+
+    # File health deltas
+    file_deltas: dict[str, float] = {}
+    for path in set(prev_files) & set(new_files):
+        old_h = prev_files[path].get("health", 0)
+        new_h = new_files[path].get("health", 0)
+        delta = round(new_h - old_h, 1)
+        if abs(delta) >= 0.1:
+            file_deltas[path] = delta
+
+    if file_deltas:
+        changes["file_deltas"] = file_deltas
+
+    # Finding count changes
+    prev_total = sum(c.get("count", 0) for c in prev_state.get("categories", {}).values())
+    new_total = sum(c.get("count", 0) for c in new_state.get("categories", {}).values())
+    if new_total != prev_total:
+        changes["new_findings"] = max(0, new_total - prev_total)
+        changes["resolved_findings"] = max(0, prev_total - new_total)
+
+    return changes if changes else None
 
 
 class _SourceFilter:

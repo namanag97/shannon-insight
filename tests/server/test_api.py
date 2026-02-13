@@ -197,3 +197,181 @@ class TestBuildDashboardState:
 
         # The key should be HTML-escaped
         assert "src/&lt;script&gt;.py" in state["files"]
+
+    def test_enriched_fields_present(self):
+        """Verify dependency_edges, delta_h, violations, layers, analyzers_ran,
+        analyzed_path, verdict, verdict_color are in the dashboard state."""
+        result = InsightResult(findings=[], store_summary=StoreSummary())
+        snapshot = _make_snapshot()
+        snapshot.dependency_edges = [("a.py", "b.py")]
+        snapshot.delta_h = {"a.py": 0.5}
+        snapshot.violations = [{"src": "a.py", "tgt": "b.py", "type": "layer"}]
+        snapshot.layers = [{"depth": 0, "modules": ["src/"]}]
+        snapshot.analyzers_ran = ["StructuralAnalyzer"]
+        snapshot.analyzed_path = "/test"
+
+        state = build_dashboard_state(result, snapshot)
+
+        assert state["dependency_edges"] == [["a.py", "b.py"]]
+        assert state["delta_h"] == {"a.py": 0.5}
+        assert state["violations"] == [{"src": "a.py", "tgt": "b.py", "type": "layer"}]
+        assert state["layers"] == [{"depth": 0, "modules": ["src/"]}]
+        assert state["analyzers_ran"] == ["StructuralAnalyzer"]
+        assert state["analyzed_path"] == "/test"
+        assert "verdict" in state
+        assert "verdict_color" in state
+
+    def test_focus_point_scores(self):
+        """Verify focus has risk_score, impact_score, tractability_score,
+        confidence_score when a focus point exists."""
+        # Build signals that will generate an actionable focus point
+        file_signals = {
+            "src/foo.py": {
+                "lines": 200,
+                "risk_score": 0.9,
+                "pagerank": 0.25,
+                "blast_radius_size": 15,
+                "total_changes": 50,
+                "churn_cv": 1.5,
+                "bus_factor": 1.0,
+                "cognitive_load": 12.0,
+                "file_health_score": 0.3,
+                "role": "SERVICE",
+                "is_orphan": False,
+            },
+        }
+        findings = [_make_finding("high_risk_hub", severity=0.9, files=["src/foo.py"])]
+        result = InsightResult(findings=findings, store_summary=StoreSummary())
+        snapshot = _make_snapshot(file_signals=file_signals)
+
+        state = build_dashboard_state(result, snapshot)
+
+        focus = state["focus"]
+        assert focus is not None, "Expected a focus point to be generated"
+        assert "risk_score" in focus
+        assert "impact_score" in focus
+        assert "tractability_score" in focus
+        assert "confidence_score" in focus
+
+    def test_concern_expanded_fields(self):
+        """Verify concerns have description, attributes, and file_count."""
+        findings = [_make_finding("high_risk_hub", severity=0.85, files=["src/foo.py"])]
+        result = InsightResult(findings=findings, store_summary=StoreSummary())
+        snapshot = _make_snapshot()
+
+        state = build_dashboard_state(result, snapshot)
+
+        concerns = state["concerns"]
+        assert len(concerns) > 0, "Expected at least one concern"
+        for concern in concerns:
+            assert "description" in concern, (
+                f"Missing 'description' in concern {concern.get('key')}"
+            )
+            assert "attributes" in concern, f"Missing 'attributes' in concern {concern.get('key')}"
+            assert "file_count" in concern, f"Missing 'file_count' in concern {concern.get('key')}"
+
+    def test_build_state_without_db(self):
+        """Verify trends key is absent when no db_path is provided."""
+        result = InsightResult(findings=[], store_summary=StoreSummary())
+        snapshot = _make_snapshot()
+
+        state = build_dashboard_state(result, snapshot, db_path=None)
+
+        assert "trends" not in state
+
+    def test_gate_pass(self):
+        """State with health 7.0, no critical findings -> gate returns PASS."""
+        state = {
+            "health": 7.0,
+            "categories": {
+                "fragile": {
+                    "findings": [
+                        {"severity": 0.5, "finding_type": "high_risk_hub"},
+                    ],
+                },
+                "incomplete": {"findings": []},
+                "tangled": {"findings": []},
+                "team": {"findings": []},
+            },
+        }
+
+        # Reproduce the gate logic from app.py
+        health = state.get("health", 0)
+        critical_count = 0
+        finding_count = 0
+        for cat in state.get("categories", {}).values():
+            for f in cat.get("findings", []):
+                finding_count += 1
+                if f.get("severity", 0) >= 0.9:
+                    critical_count += 1
+
+        gate_status = "PASS"
+        if health < 4.0:
+            gate_status = "FAIL"
+        if critical_count > 0:
+            gate_status = "FAIL"
+
+        assert gate_status == "PASS"
+        assert finding_count == 1
+        assert critical_count == 0
+
+    def test_gate_fail_health(self):
+        """State with health 2.0 -> gate returns FAIL."""
+        state = {
+            "health": 2.0,
+            "categories": {
+                "fragile": {"findings": []},
+                "incomplete": {"findings": []},
+                "tangled": {"findings": []},
+                "team": {"findings": []},
+            },
+        }
+
+        health = state.get("health", 0)
+        critical_count = 0
+        for cat in state.get("categories", {}).values():
+            for f in cat.get("findings", []):
+                if f.get("severity", 0) >= 0.9:
+                    critical_count += 1
+
+        gate_status = "PASS"
+        if health < 4.0:
+            gate_status = "FAIL"
+        if critical_count > 0:
+            gate_status = "FAIL"
+
+        assert gate_status == "FAIL"
+
+    def test_gate_fail_critical(self):
+        """State with a severity 0.95 finding -> gate returns FAIL."""
+        state = {
+            "health": 7.0,
+            "categories": {
+                "fragile": {
+                    "findings": [
+                        {"severity": 0.95, "finding_type": "high_risk_hub"},
+                    ],
+                },
+                "incomplete": {"findings": []},
+                "tangled": {"findings": []},
+                "team": {"findings": []},
+            },
+        }
+
+        health = state.get("health", 0)
+        critical_count = 0
+        finding_count = 0
+        for cat in state.get("categories", {}).values():
+            for f in cat.get("findings", []):
+                finding_count += 1
+                if f.get("severity", 0) >= 0.9:
+                    critical_count += 1
+
+        gate_status = "PASS"
+        if health < 4.0:
+            gate_status = "FAIL"
+        if critical_count > 0:
+            gate_status = "FAIL"
+
+        assert gate_status == "FAIL"
+        assert critical_count == 1

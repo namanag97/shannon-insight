@@ -156,7 +156,7 @@ def build_dashboard_state(
     focus_data = None
     if focus:
         focus_data = {
-            "path": html.escape(focus.path),
+            "path": focus.path,
             "actionability": round(focus.actionability, 3),
             "why": focus.why_summary(),
             "risk_score": round(focus.risk_score, 3),

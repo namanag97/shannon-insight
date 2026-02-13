@@ -734,7 +734,7 @@ button, a, input, select,
 @media (max-width: 640px) {
   .file-detail-metrics { grid-template-columns: repeat(2, 1fr); }
   .signals-grid { grid-template-columns: 1fr; }
-  .stat-group { grid-template-columns: repeat(2, 1fr); }
+  .stat-group, .stat-strip { grid-template-columns: repeat(2, 1fr); }
   .main { padding: var(--space-md) var(--space-md) var(--space-xl); }
   .topbar { padding: 0 var(--space-md); gap: var(--space-md); }
   .health-big { font-size: 44px; }

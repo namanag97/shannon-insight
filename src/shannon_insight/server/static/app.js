@@ -426,7 +426,7 @@
       findings = findings.filter(function(f) { return issueSeverityFilter.has(sevKey(f.severity)); });
 
       // Sort
-      var chronicSet = (DATA.trends && DATA.trends.chronic) ? new Set(DATA.trends.chronic.map(function(c){return c.id||c.label})) : new Set();
+      var chronicSet = (DATA.trends && DATA.trends.chronic) ? new Set(DATA.trends.chronic.map(function(c){return c.finding_type||c.identity_key})) : new Set();
       if (issueSortKey === "severity_desc") findings.sort(function(a,b){ return b.severity - a.severity; });
       else if (issueSortKey === "severity_asc") findings.sort(function(a,b){ return a.severity - b.severity; });
       else if (issueSortKey === "effort_asc") {

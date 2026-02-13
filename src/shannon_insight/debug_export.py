@@ -214,7 +214,7 @@ class DebugExporter:
 
     def export_temporal(self, store: AnalysisStore) -> None:
         """Export after TemporalAnalyzer (git history, churn, co-change)."""
-        data = {
+        data: dict[str, Any] = {
             "stage": "04_temporal",
             "description": "Git history analysis (churn, co-change, author metrics)",
             "timestamp": self.timestamp,

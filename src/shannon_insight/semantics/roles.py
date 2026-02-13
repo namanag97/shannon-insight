@@ -102,7 +102,7 @@ def _get_pyproject_entry_points(root_dir: str = "") -> set[str]:
         import tomllib
     except ImportError:
         try:
-            import tomli as tomllib  # type: ignore[import-not-found]
+            import tomli as tomllib  # noqa: F811
         except ImportError:
             _ENTRY_POINT_CACHE[root_dir] = entry_points
             return entry_points

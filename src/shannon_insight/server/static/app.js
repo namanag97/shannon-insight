@@ -335,16 +335,16 @@
         '</div>';
     }
     if (DATA.recent_changes) {
-      catHtml += '<div style="margin-top:8px;font-size:11px;color:var(--accent);font-family:var(--mono)">' +
+      catHtml += '<div class="cat-delta-info" style="margin-top:8px;color:var(--accent)">' +
         DATA.recent_changes.length + ' files changed</div>';
     }
     if (DATA.changes) {
       var newF = DATA.changes.new_findings || 0;
       var resF = DATA.changes.resolved_findings || 0;
       if (newF || resF) {
-        catHtml += '<div style="font-size:11px;color:var(--text-secondary);font-family:var(--mono);margin-top:4px">';
-        if (newF) catHtml += '<span style="color:var(--red)">+' + newF + ' new</span> ';
-        if (resF) catHtml += '<span style="color:var(--green)">' + resF + ' resolved</span>';
+        catHtml += '<div class="cat-delta-info">';
+        if (newF) catHtml += '<span class="cat-delta-new">+' + newF + ' new</span> ';
+        if (resF) catHtml += '<span class="cat-delta-resolved">' + resF + ' resolved</span>';
         catHtml += '</div>';
       }
     }

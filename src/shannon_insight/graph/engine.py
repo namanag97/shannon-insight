@@ -30,7 +30,7 @@ class AnalysisEngine:
         self,
         file_metrics: list[FileMetrics],
         root_dir: str = "",
-        content_getter: Optional[callable] = None,
+        content_getter: Optional[Callable[[str], Optional[str]]] = None,
     ):
         """Initialize the analysis engine.
 

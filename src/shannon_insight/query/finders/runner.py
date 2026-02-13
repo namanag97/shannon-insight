@@ -121,7 +121,7 @@ class SQLFinderRunner:
             logger.warning("No converter for finder: %s", finder_name)
             return []
 
-        return converter(rows)
+        return list(converter(rows))
 
 
 # ---------------------------------------------------------------------------

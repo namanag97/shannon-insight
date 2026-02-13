@@ -1139,7 +1139,9 @@
   $("#kbdHint").onclick = function() { $("#kbdOverlay").classList.toggle("open"); };
   $("#kbdOverlay").onclick = function(e) { if (e.target === this) this.classList.remove("open"); };
 
-  /* ── WebSocket ─────────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: WebSocket
+     ═══════════════════════════════════════════════════════════ */
 
   var ws = null;
   var retryDelay = 1000;

@@ -419,7 +419,7 @@
 
       // Alternatives with accent border
       if (f.alternatives && f.alternatives.length > 0) {
-        html += '<div style="margin-top:10px;font-size:11px;color:var(--text-tertiary)">Also consider:</div>';
+        html += '<div class="also-consider-label">Also consider:</div>';
         for (var a = 0; a < Math.min(f.alternatives.length, 3); a++) {
           var alt = f.alternatives[a];
           html += '<div class="alt-item">';

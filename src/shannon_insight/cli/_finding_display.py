@@ -299,7 +299,7 @@ FINDING_DISPLAY: dict = {
 def get_display_config(finding_type: str) -> dict:
     """Get display config for a finding type, with sensible defaults."""
     if finding_type in FINDING_DISPLAY:
-        return FINDING_DISPLAY[finding_type]
+        return dict(FINDING_DISPLAY[finding_type])
 
     # Generate defaults for unknown types
     label = finding_type.replace("_", " ").title()

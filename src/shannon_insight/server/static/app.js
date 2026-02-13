@@ -885,7 +885,7 @@
 
     // Trend chart
     if (DATA.trends && DATA.trends.health) {
-      var vals = DATA.trends.health;
+      var vals = DATA.trends.health.map(function(h){ return typeof h === "object" ? h.health : h; });
       var tw = 600, th = 200;
       trendsHtml += '<div class="health-section"><div class="section-title">Health Trend</div>';
       trendsHtml += renderSparkline(vals, tw, th, "var(--accent)");

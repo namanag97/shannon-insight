@@ -97,7 +97,7 @@ def _finding_to_dict(f: Finding) -> dict[str, Any]:
         "severity": round(f.severity, 3),
         "severity_label": sev_label,
         "title": f.title,
-        "files": [html.escape(p) for p in f.files],
+        "files": list(f.files),
         "evidence": evidence,
         "suggestion": f.suggestion,
         "interpretation": display.get("interpretation", ""),

@@ -330,7 +330,7 @@
       catHtml += '<div class="cat-row" data-cat="' + key + '">' +
         '<span class="cat-name">' + esc(catLabels[key] || key) + '</span>' +
         '<span class="cat-count" style="color:' + (cat.count > 0 ? "var(--text)" : "var(--text-tertiary)") + '">' + cat.count + '</span>' +
-        '<span class="cat-file-count" style="color:var(--text-tertiary);font-size:10px;margin-left:4px">' + (fileCount > 0 ? fileCount + ' files' : '') + '</span>' +
+        '<span class="cat-file-count cat-changes-info">' + (fileCount > 0 ? fileCount + ' files' : '') + '</span>' +
         '<div class="cat-bar-track"><div class="cat-bar-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>' +
         '</div>';
     }

@@ -155,10 +155,10 @@ def infer_layers(
         layers.append(Layer(depth=depth, modules=mods, label=label))
 
     # Renumber depths contiguously (prune gaps from empty layers)
-    for i, layer in enumerate(layers):
-        layer.depth = i
-        for mod_path in layer.modules:
-            modules[mod_path].layer = i
+    for new_depth, layer_obj in enumerate(layers):
+        layer_obj.depth = new_depth
+        for mod_path in layer_obj.modules:
+            modules[mod_path].layer = new_depth
 
     # Detect violations
     violations = detect_violations(modules, module_graph)

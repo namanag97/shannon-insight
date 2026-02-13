@@ -483,41 +483,10 @@
         findings.sort(function(a,b){ return (eo[a.effort]||1) - (eo[b.effort]||1); });
       } else if (issueSortKey === "file_count") findings.sort(function(a,b){ return (b.files?b.files.length:0) - (a.files?a.files.length:0); });
 
-      // Render finding rows with severity class for left border coloring
+      // Render finding rows
       var html = "";
       for (var j = 0; j < findings.length; j++) {
-        var f = findings[j];
-        var sk = sevKey(f.severity);
-        var opStyle = f.confidence != null && f.confidence < 0.5 ? ' style="opacity:0.6"' : '';
-        html += '<div class="finding-row sev-' + sk + '"' + opStyle + '>';
-        html += '<div class="finding-head"><div class="sev-dot ' + sk + '"></div>';
-        html += '<span class="finding-type-label">' + esc(f.label) + '</span>';
-        if (f.effort) html += '<span class="effort-badge">' + esc(f.effort) + '</span>';
-        if (chronicSet.has(f.finding_type)) html += '<span class="chronic-badge">CHRONIC</span>';
-        html += '</div>';
-        if (f.files && f.files.length) {
-          html += '<div class="finding-files">';
-          for (var fi = 0; fi < f.files.length; fi++) {
-            if (fi > 0) html += ', ';
-            html += '<a href="#files/' + encodeURIComponent(f.files[fi]) + '">' + esc(f.files[fi]) + '</a>';
-          }
-          html += '</div>';
-        }
-        if (f.evidence && f.evidence.length) {
-          html += '<div class="finding-evidence">';
-          for (var ei = 0; ei < Math.min(f.evidence.length, 4); ei++) {
-            var ev = f.evidence[ei];
-            var sigName = ev.signal.replace(/_/g, ' ');
-            var valStr = typeof ev.value === "number" ? (Number.isInteger(ev.value) ? String(ev.value) : ev.value.toFixed(2)) : String(ev.value);
-            html += sigName + ': <strong>' + esc(valStr) + '</strong>';
-            if (ev.percentile) html += ' <span class="pctl">(' + Math.round(ev.percentile) + 'th pctl)</span>';
-            if (ei < Math.min(f.evidence.length, 4) - 1) html += '&nbsp;&nbsp;&nbsp;';
-          }
-          html += '</div>';
-        }
-        if (f.interpretation) html += '<div class="finding-interp">' + esc(f.interpretation) + '</div>';
-        if (f.suggestion) html += '<div class="finding-suggestion">' + esc(f.suggestion) + '</div>';
-        html += '</div>';
+        html += renderFindingRow(findings[j], { showFiles: true, chronicSet: chronicSet, maxEvidence: 4 });
       }
       $("#issueContent").innerHTML = html;
     }

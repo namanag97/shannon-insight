@@ -73,8 +73,8 @@ def snapshot_to_events(
     # ── Module signals ────────────────────────────────────────────
     module_signal_events: list[ModuleSignalEvent] = []
     for module_path, signals in snapshot.module_signals.items():
-        event = _dict_to_module_signal_event(sid, module_path, signals)
-        module_signal_events.append(event)
+        mod_event = _dict_to_module_signal_event(sid, module_path, signals)
+        module_signal_events.append(mod_event)
 
     # ── Global signals ────────────────────────────────────────────
     global_signal_event = _dict_to_global_signal_event(sid, snapshot.global_signals)

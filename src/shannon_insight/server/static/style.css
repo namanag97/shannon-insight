@@ -325,18 +325,24 @@ a:hover { text-decoration: underline; }
   font-size: 12px; color: var(--text-secondary); margin-bottom: var(--space-md);
   line-height: 1.4;
 }
-.focus-score-breakdown {
+.focus-scores, .focus-score-breakdown {
   font-family: var(--mono); font-size: 11px; color: var(--text-secondary);
   margin-bottom: var(--space-md);
   display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm);
 }
-.focus-score-breakdown span {
+.focus-score-item, .focus-score-breakdown span {
   white-space: nowrap;
   background: rgba(255,255,255,0.02);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-subtle);
   text-align: center;
+}
+.focus-score-val {
+  font-weight: 600; color: var(--text); font-size: 13px;
+}
+.focus-score-label {
+  font-size: 10px; color: var(--text-tertiary); margin-top: 1px;
 }
 .focus-finding {
   display: flex; align-items: flex-start; gap: 8px; padding: 5px 0;

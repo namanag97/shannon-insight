@@ -148,12 +148,13 @@ class QueryEngine:
         """
         if not self._loaded:
             self.load()
+        assert self._con is not None
 
         if params:
             result = self._con.execute(sql, params)
         else:
             result = self._con.execute(sql)
-        return result.fetchall()
+        return list(result.fetchall())
 
     def execute_dict(self, sql: str, params: list | dict | None = None) -> list[dict[str, Any]]:
         """Execute SQL and return results as list of dicts.

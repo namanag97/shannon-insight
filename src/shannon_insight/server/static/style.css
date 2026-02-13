@@ -685,6 +685,66 @@ a:hover { text-decoration: underline; }
 
 /* ═══ Utilities ═══ */
 
+/* Adjacent card spacing */
+.card + .card { margin-top: 20px; }
+
+/* Risk histogram container */
+#riskHistogram { margin-top: 20px; }
+
+/* Category file-change count */
+.cat-changes-info {
+  color: var(--text-tertiary); font-size: 10px; margin-left: 4px;
+}
+
+/* Category delta badges */
+.cat-delta-info {
+  font-size: 11px; color: var(--text-secondary); font-family: var(--mono); margin-top: 4px;
+}
+.cat-delta-new { color: var(--red); }
+.cat-delta-resolved { color: var(--green); }
+
+/* Risk histogram section title */
+.risk-histogram-title { margin-top: 8px; }
+
+/* Also-consider label */
+.also-consider-label {
+  margin-top: 10px; font-size: 11px; color: var(--text-tertiary);
+}
+
+/* Empty focus state */
+.focus-empty {
+  color: var(--text-tertiary); font-size: 12px; padding: 8px 0;
+}
+
+/* File count summary */
+.file-count-summary {
+  font-size: 11px; color: var(--text-tertiary); font-family: var(--mono); margin-bottom: 8px;
+}
+
+/* Low-confidence finding */
+.finding-low-confidence { opacity: 0.6; }
+
+/* Module detail file list items */
+.module-file-item {
+  font-family: var(--mono); font-size: 11px; padding: 2px 0;
+}
+
+/* Module detail violation items */
+.module-violation-item {
+  font-size: 11px; color: var(--orange); padding: 2px 0;
+}
+
+/* Health screen mover items */
+.mover-item {
+  font-family: var(--mono); font-size: 11px; padding: 3px 0;
+}
+
+/* Health screen chronic finding items */
+.chronic-item {
+  font-size: 11px; padding: 3px 0; color: var(--orange);
+}
+.chronic-snapshots { color: var(--text-tertiary); }
+
 /* Transition blanket: apply to all interactive elements */
 button, a, input, select,
 .cat-row, .concern-row, .sig-row, .finding-row,

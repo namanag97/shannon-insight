@@ -879,7 +879,7 @@
     if (m.files && m.files.length) {
       html += '<div class="file-detail-section"><div class="file-detail-section-title">Files (' + m.files.length + ')</div>';
       for (var i = 0; i < m.files.length; i++) {
-        html += '<div style="font-family:var(--mono);font-size:11px;padding:2px 0"><a href="#files/' + encodeURIComponent(m.files[i]) + '">' + esc(m.files[i]) + '</a></div>';
+        html += '<div class="module-file-item"><a href="#files/' + encodeURIComponent(m.files[i]) + '">' + esc(m.files[i]) + '</a></div>';
       }
       html += '</div>';
     }

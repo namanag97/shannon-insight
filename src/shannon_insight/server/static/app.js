@@ -1007,6 +1007,7 @@
       currentFileDetail = null;
       showFileList();
     }
+    if (screen === "overview") renderOverview();
     if (screen === "issues") renderIssues();
     if (screen === "health") renderHealth();
     if (screen === "modules" && detail) {

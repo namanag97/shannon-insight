@@ -917,8 +917,8 @@
       var chronic = DATA.trends.chronic;
       trendsHtml += '<div class="health-section"><div class="section-title">Chronic Findings</div>';
       for (var i = 0; i < chronic.length; i++) {
-        trendsHtml += '<div style="font-size:11px;padding:3px 0;color:var(--orange)">' + esc(chronic[i].label || chronic[i].id) +
-          ' <span style="color:var(--text-tertiary)">(' + (chronic[i].snapshots || '?') + ' snapshots)</span></div>';
+        trendsHtml += '<div style="font-size:11px;padding:3px 0;color:var(--orange)">' + esc(chronic[i].title || chronic[i].finding_type) +
+          ' <span style="color:var(--text-tertiary)">(' + (chronic[i].count || '?') + ' snapshots)</span></div>';
       }
       trendsHtml += '</div>';
     }

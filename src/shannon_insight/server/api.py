@@ -179,7 +179,7 @@ def build_dashboard_state(
     for path, sig_dict in file_signals.items():
         # Collect findings for this file
         file_findings = [f for f in findings if path in f.files]
-        files[html.escape(path)] = {
+        files[path] = {
             "health": round(display_score(sig_dict.get("file_health_score", 0.5)), 1),
             "role": sig_dict.get("role", "UNKNOWN"),
             "lines": sig_dict.get("lines", 0),

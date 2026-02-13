@@ -375,4 +375,4 @@ def get_finding_interpretation(finding_type: str) -> str:
 def get_finding_data_points(finding_type: str) -> list[str]:
     """Get the list of relevant signal names for a finding type."""
     display = get_display_config(finding_type)
-    return display.get("data_points", [])
+    return list(display.get("data_points", []))

@@ -337,7 +337,7 @@ def render_hotspots_table(
 def get_hotspot_summary(
     snapshot: TensorSnapshot,
     findings: list[Finding],
-) -> dict[str, int | float]:
+) -> dict[str, int | float | str]:
     """Get summary statistics for hotspots.
 
     Returns dict with:

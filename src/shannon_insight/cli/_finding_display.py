@@ -369,7 +369,7 @@ def format_finding_detail(finding: Finding) -> list[str]:
 def get_finding_interpretation(finding_type: str) -> str:
     """Get the interpretation text for a finding type."""
     display = get_display_config(finding_type)
-    return display.get("interpretation", "")
+    return str(display.get("interpretation", ""))
 
 
 def get_finding_data_points(finding_type: str) -> list[str]:

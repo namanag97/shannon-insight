@@ -65,7 +65,9 @@
   var moduleSortAsc = true;
   var fileViewMode = "table";
 
-  /* ── Helpers ───────────────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: Helpers & Formatters
+     ═══════════════════════════════════════════════════════════ */
 
   function $(sel) { return document.querySelector(sel); }
   function $$(sel) { return document.querySelectorAll(sel); }

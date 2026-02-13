@@ -695,27 +695,7 @@
     if (fileFindings.length > 0) {
       html += '<div class="file-detail-section"><div class="file-detail-section-title">Issues (' + fileFindings.length + ')</div>';
       for (var j = 0; j < fileFindings.length; j++) {
-        var ff = fileFindings[j];
-        var sk = sevKey(ff.severity);
-        html += '<div class="finding-row sev-' + sk + '"><div class="finding-head"><div class="sev-dot ' + sk + '"></div>' +
-          '<span class="finding-type-label">' + esc(ff.label) + '</span>';
-        if (ff.effort) html += '<span class="effort-badge">' + esc(ff.effort) + '</span>';
-        html += '</div>';
-        if (ff.evidence && ff.evidence.length) {
-          html += '<div class="finding-evidence">';
-          for (var ei = 0; ei < Math.min(ff.evidence.length, 3); ei++) {
-            var ev = ff.evidence[ei];
-            var sigName = ev.signal.replace(/_/g, ' ');
-            var valStr = typeof ev.value === "number" ? (Number.isInteger(ev.value) ? String(ev.value) : ev.value.toFixed(2)) : String(ev.value);
-            html += sigName + ': <strong>' + esc(valStr) + '</strong>';
-            if (ev.percentile) html += ' <span class="pctl">(' + Math.round(ev.percentile) + 'th pctl)</span>';
-            if (ei < Math.min(ff.evidence.length, 3) - 1) html += '&nbsp;&nbsp;&nbsp;';
-          }
-          html += '</div>';
-        }
-        if (ff.interpretation) html += '<div class="finding-interp">' + esc(ff.interpretation) + '</div>';
-        if (ff.suggestion) html += '<div class="finding-suggestion">' + esc(ff.suggestion) + '</div>';
-        html += '</div>';
+        html += renderFindingRow(fileFindings[j], { showFiles: false, maxEvidence: 3 });
       }
       html += '</div>';
     }

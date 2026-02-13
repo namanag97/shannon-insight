@@ -721,8 +721,8 @@ button, a, input, select,
 
 @media (max-width: 860px) {
   .overview-cols { grid-template-columns: 1fr; }
-  .overview-top { padding: var(--space-lg) 0 var(--space-md); }
-  .stat-group {
+  .overview-top, .hero { padding: var(--space-lg) 0 var(--space-md); }
+  .stat-group, .stat-strip {
     grid-template-columns: repeat(2, 1fr);
     max-width: 100%;
   }

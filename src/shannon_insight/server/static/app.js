@@ -848,11 +848,11 @@
       return;
     }
     var m = DATA.modules[path];
-    var color = hColor(m.health || 5);
+    var color = hColor(m.health_score || 5);
     var html = '<a class="file-detail-back" href="#modules">&larr; Modules</a>';
     html += '<div class="file-detail-header">';
     html += '<span class="file-detail-path">' + esc(path) + '</span>';
-    html += '<span class="file-detail-health" style="color:' + color + '">' + fmtF(m.health, 1) + '</span>';
+    html += '<span class="file-detail-health" style="color:' + color + '">' + fmtF(m.health_score, 1) + '</span>';
     html += '</div>';
     html += '<div class="file-detail-metrics">';
     var stats = [["Files",m.file_count],["Instability",fmtF(m.instability,2)],["Abstractness",fmtF(m.abstractness,2)],["Velocity",fmtF(m.velocity,1)]];

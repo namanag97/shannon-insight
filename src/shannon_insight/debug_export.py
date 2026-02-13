@@ -319,7 +319,7 @@ class DebugExporter:
         # Roles
         if store.roles.available:
             roles = store.roles.value
-            role_counts = {}
+            role_counts: dict[str, int] = {}
             for role in roles.values():
                 role_counts[role] = role_counts.get(role, 0) + 1
             data["roles"] = {

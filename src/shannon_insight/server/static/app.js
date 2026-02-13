@@ -444,7 +444,7 @@
         html += '<div class="finding-head"><div class="sev-dot ' + sk + '"></div>';
         html += '<span class="finding-type-label">' + esc(f.label) + '</span>';
         if (f.effort) html += '<span class="effort-badge">' + esc(f.effort) + '</span>';
-        if (chronicSet.has(f.id || f.label)) html += '<span class="chronic-badge">CHRONIC</span>';
+        if (chronicSet.has(f.finding_type)) html += '<span class="chronic-badge">CHRONIC</span>';
         html += '</div>';
         if (f.files && f.files.length) {
           html += '<div class="finding-files">';

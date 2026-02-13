@@ -162,7 +162,12 @@ def create_app(state: ServerState) -> Starlette:
                 await websocket.send_json({"type": "complete", "state": current})
 
             while True:
-                msg = await asyncio.wait_for(queue.get(), timeout=60)
+                try:
+                    msg = await asyncio.wait_for(queue.get(), timeout=60)
+                except asyncio.TimeoutError:
+                    # Send ping on timeout, keep connection alive
+                    await websocket.send_json({"type": "ping"})
+                    continue
                 if isinstance(msg, dict) and "type" in msg:
                     # Progress message
                     await websocket.send_json(msg)
@@ -171,12 +176,6 @@ def create_app(state: ServerState) -> Starlette:
                     await websocket.send_json({"type": "complete", "state": msg})
         except (WebSocketDisconnect, asyncio.CancelledError):
             pass
-        except asyncio.TimeoutError:
-            # Send ping on timeout, keep connection alive
-            try:
-                await websocket.send_json({"type": "ping"})
-            except Exception:
-                pass
         except Exception as exc:
             logger.debug(f"WebSocket error: {exc}")
         finally:

@@ -56,7 +56,7 @@ class QueryEngine:
 
     def __init__(self, project_root: str) -> None:
         self.parquet_dir = Path(project_root) / ".shannon" / "parquet"
-        self._con = None
+        self._con: Optional[Any] = None  # duckdb.DuckDBPyConnection (lazy import)
         self._loaded = False
 
     @property

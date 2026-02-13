@@ -44,7 +44,7 @@ class AnalysisProgress:
         self.console = console or Console()
         self._current_phase = 0
         self._progress: Progress | None = None
-        self._task_id = None
+        self._task_id: TaskID | None = None
         self._file_count = 0
 
     def start(self) -> None:

@@ -130,7 +130,7 @@ def _compute_cv(counts: list[int], total: int) -> float:
 
     variance = sum((c - mean) ** 2 for c in counts) / n
     std = variance**0.5
-    return std / mean
+    return float(std / mean)
 
 
 def _classify_trajectory(

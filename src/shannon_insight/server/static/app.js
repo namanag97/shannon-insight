@@ -216,7 +216,9 @@
     return items;
   }
 
-  /* ── Shared Renderers ─────────────────────────────── */
+  /* ═══════════════════════════════════════════════════════════
+     SECTION: Shared Renderers
+     ═══════════════════════════════════════════════════════════ */
 
   function renderEvidence(evidence, maxItems) {
     if (!evidence || !evidence.length) return "";

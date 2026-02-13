@@ -180,8 +180,8 @@ class TestBuildDashboardState:
         assert len(f["evidence"]) == 1
         assert f["evidence"][0]["signal"] == "pagerank"
 
-    def test_html_escaping_in_paths(self):
-        """Paths with special chars should be escaped."""
+    def test_paths_not_double_escaped(self):
+        """Paths should be raw in JSON; the frontend handles HTML escaping."""
         snapshot = _make_snapshot(
             file_signals={
                 "src/<script>.py": {
@@ -195,8 +195,8 @@ class TestBuildDashboardState:
         result = InsightResult(findings=[], store_summary=StoreSummary())
         state = build_dashboard_state(result, snapshot)
 
-        # The key should be HTML-escaped
-        assert "src/&lt;script&gt;.py" in state["files"]
+        # The key should be raw (not HTML-escaped) — frontend escapes at render time
+        assert "src/<script>.py" in state["files"]
 
     def test_enriched_fields_present(self):
         """Verify dependency_edges, delta_h, violations, layers, analyzers_ran,

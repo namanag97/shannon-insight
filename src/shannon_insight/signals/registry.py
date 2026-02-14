@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from typing import Callable
 
 from .base import PrimitivePlugin
-from .plugins.centrality import CentralityPrimitive
 from .plugins.cognitive_load import CognitiveLoadPrimitive
 from .plugins.coherence import CoherencePrimitive
 from .plugins.compression import CompressionPrimitive

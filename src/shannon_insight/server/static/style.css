@@ -681,31 +681,7 @@ a:hover { text-decoration: underline; }
   background: rgba(59,130,246,0.08); padding: 1px 5px; border-radius: 3px;
 }
 
-/* Top movers table */
-.movers-table {
-  width: 100%; border-collapse: collapse; font-size: 12px;
-}
-.movers-table th {
-  text-align: left; padding: var(--space-xs) var(--space-sm);
-  font-size: 10px; font-weight: 600; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border);
-}
-.movers-table th.num { text-align: right; }
-.movers-table td {
-  padding: var(--space-sm) var(--space-sm);
-  border-bottom: 1px solid var(--border-subtle);
-  vertical-align: middle;
-}
-.movers-table tr:last-child td { border-bottom: none; }
-.movers-table tr:hover { background: rgba(255,255,255,0.02); }
-.movers-table .td-path {
-  font-family: var(--mono); font-size: 11px; max-width: 400px;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.movers-table .td-num {
-  font-family: var(--mono); font-size: 11px; text-align: right; white-space: nowrap;
-}
+/* (movers-table styles removed — now uses canonical .data-table) */
 
 /* Chronic findings */
 .chronic-finding-row {

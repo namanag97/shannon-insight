@@ -3,7 +3,10 @@
 from collections import Counter
 
 from shannon_insight.graph.algorithms import (
+    _coarsen_graph,
+    _phase1_local_moving,
     compute_blast_radius,
+    compute_modularity,
     louvain,
     run_graph_algorithms,
     tarjan_scc,

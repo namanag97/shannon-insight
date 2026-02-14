@@ -13,19 +13,12 @@ import atexit
 import logging
 import os
 import signal
-import sys
 import threading
-import time
 import webbrowser
-from datetime import datetime
 from pathlib import Path
-from typing import Optional
-
 from rich.console import Console
-from rich.live import Live
 from rich.panel import Panel
 from rich.table import Table
-from rich.text import Text
 
 from .process import (
     check_port_ownership,
@@ -112,7 +105,9 @@ class ShutdownManager:
         # 5. Report active threads
         active = threading.active_count()
         if active > 1:
-            thread_names = [t.name for t in threading.enumerate() if t != threading.current_thread()]
+            thread_names = [
+                t.name for t in threading.enumerate() if t != threading.current_thread()
+            ]
             logger.debug("Active threads at shutdown: %s", thread_names)
 
         # Print shutdown summary
@@ -147,9 +142,7 @@ def _format_status_display(
     if current is not None:
         health = current.get("health", "?")
         health_label = current.get("health_label", "")
-        total_findings = sum(
-            c["count"] for c in current.get("categories", {}).values()
-        )
+        total_findings = sum(c["count"] for c in current.get("categories", {}).values())
         table.add_row("Health:", f"{health} ({health_label})")
         table.add_row("Issues:", f"{total_findings} findings")
     else:
@@ -218,13 +211,9 @@ def launch_server(
     else:
         # Port in use by something else - find next available
         try:
-            actual_port = find_available_port(
-                host, port, project_root=project_root
-            )
+            actual_port = find_available_port(host, port, project_root=project_root)
             if actual_port != port:
-                console.print(
-                    f"[yellow]Port {port} in use, using {actual_port} instead[/yellow]"
-                )
+                console.print(f"[yellow]Port {port} in use, using {actual_port} instead[/yellow]")
         except RuntimeError as exc:
             console.print(f"[red]{exc}[/red]")
             return
@@ -276,7 +265,7 @@ def launch_server(
     console.print(f"[bold]Dashboard[/bold] -> [link={url}]{url}[/link]")
     console.print(f"[dim]Project:  {project_root}[/dim]")
     console.print(f"[dim]PID:      {os.getpid()}[/dim]")
-    console.print(f"[dim]Watching for changes... (Ctrl+C to stop)[/dim]")
+    console.print("[dim]Watching for changes... (Ctrl+C to stop)[/dim]")
     console.print()
 
     # ── Step 10: Start ASGI server ────────────────────────────────

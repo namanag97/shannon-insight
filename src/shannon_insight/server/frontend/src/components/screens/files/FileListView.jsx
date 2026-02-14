@@ -9,6 +9,7 @@ import { hColor } from "../../../utils/helpers.js";
 import { FilterChip } from "../../ui/FilterChip.jsx";
 import { Badge } from "../../ui/Badge.jsx";
 import { Treemap } from "../../charts/Treemap.jsx";
+import { Table } from "../../ui/Table.jsx";
 
 const FILE_FILTER_CHIPS = [
   ["has_issues", "Has Issues"],
@@ -17,15 +18,6 @@ const FILE_FILTER_CHIPS = [
   ["SERVICE", "Service"],
   ["ENTRY_POINT", "Entry Point"],
   ["TEST", "Test"],
-];
-
-const FILE_COLUMNS = [
-  { key: "path", label: "File", numeric: false },
-  { key: "risk_score", label: "Risk Score", numeric: true },
-  { key: "total_changes", label: "Commits", numeric: true },
-  { key: "cognitive_load", label: "Complexity", numeric: true },
-  { key: "blast_radius", label: "Impact Size", numeric: true },
-  { key: "finding_count", label: "Issues", numeric: true },
 ];
 
 export function FileListView() {
@@ -51,22 +43,22 @@ export function FileListView() {
 
   // Build entries array
   let entries = [];
-  for (const p in data.files) entries.push([p, data.files[p]]);
+  for (const p in data.files) entries.push({ path: p, ...data.files[p] });
   const totalCount = entries.length;
   const changedSet = data.recent_changes ? new Set(data.recent_changes) : new Set();
 
   // Apply search
   if (fileSearch) {
     const q = fileSearch.toLowerCase();
-    entries = entries.filter((e) => e[0].toLowerCase().indexOf(q) !== -1);
+    entries = entries.filter((e) => e.path.toLowerCase().indexOf(q) !== -1);
   }
 
   // Apply filters
   if (fileFilters.has("has_issues")) {
-    entries = entries.filter((e) => (e[1].finding_count || 0) > 0);
+    entries = entries.filter((e) => (e.finding_count || 0) > 0);
   }
   if (fileFilters.has("orphans")) {
-    entries = entries.filter((e) => e[1].signals && e[1].signals.is_orphan);
+    entries = entries.filter((e) => e.signals && e.signals.is_orphan);
   }
   const roleFilters = [];
   fileFilters.forEach((f) => {
@@ -74,24 +66,81 @@ export function FileListView() {
   });
   if (roleFilters.length > 0) {
     const rs = new Set(roleFilters);
-    entries = entries.filter((e) => rs.has(e[1].role));
+    entries = entries.filter((e) => rs.has(e.role));
   }
 
   // Sort
   entries.sort((a, b) => {
     if (fileSortKey === "path") {
-      return fileSortAsc ? a[0].localeCompare(b[0]) : b[0].localeCompare(a[0]);
+      return fileSortAsc ? a.path.localeCompare(b.path) : b.path.localeCompare(a.path);
     }
-    const va = a[1][fileSortKey] != null ? a[1][fileSortKey] : 0;
-    const vb = b[1][fileSortKey] != null ? b[1][fileSortKey] : 0;
+    const va = a[fileSortKey] != null ? a[fileSortKey] : 0;
+    const vb = b[fileSortKey] != null ? b[fileSortKey] : 0;
     return fileSortAsc ? va - vb : vb - va;
   });
 
-  function handleFileClick(path) {
-    location.hash = "files/" + encodeURIComponent(path);
+  function handleFileClick(row) {
+    location.hash = "files/" + encodeURIComponent(row.path);
   }
 
   const sel = selectedIndex.files || 0;
+
+  const FILE_COLUMNS = [
+    {
+      key: "path",
+      label: "File",
+      align: "left",
+      format: (v, row) => (
+        <>
+          <span>{v}</span>
+          {changedSet.has(v) && <Badge variant="changed">changed</Badge>}
+        </>
+      ),
+      cellClass: () => "td-path",
+    },
+    {
+      key: "risk_score",
+      label: "Risk Score",
+      align: "right",
+      format: (v) => fmtF(v, 3),
+      cellClass: () => "td-risk",
+      cellStyle: (v) => {
+        const score = v || 0;
+        if (score > 0.05) {
+          return { color: hColor(10 - score * 10) };
+        }
+        return undefined;
+      },
+    },
+    {
+      key: "total_changes",
+      label: "Commits",
+      align: "right",
+      format: (v) => v || 0,
+      cellClass: () => "td-num",
+    },
+    {
+      key: "cognitive_load",
+      label: "Complexity",
+      align: "right",
+      format: (v) => fmtF(v, 1),
+      cellClass: () => "td-num",
+    },
+    {
+      key: "blast_radius",
+      label: "Impact Size",
+      align: "right",
+      format: (v) => v || 0,
+      cellClass: () => "td-num",
+    },
+    {
+      key: "finding_count",
+      label: "Issues",
+      align: "right",
+      format: (v) => v || 0,
+      cellClass: () => "td-issues",
+    },
+  ];
 
   return (
     <div>
@@ -135,59 +184,21 @@ export function FileListView() {
       </div>
 
       {fileViewMode === "treemap" ? (
-        <Treemap entries={entries} onFileClick={handleFileClick} />
+        <Treemap entries={entries.map((e) => [e.path, e])} onFileClick={(path) => { location.hash = "files/" + encodeURIComponent(path); }} />
       ) : (
         <div>
-          <table class="file-table">
-            <thead>
-              <tr>
-                {FILE_COLUMNS.map((col) => {
-                  const arrow =
-                    fileSortKey === col.key
-                      ? fileSortAsc
-                        ? <span class="sort-arrow">&#9650;</span>
-                        : <span class="sort-arrow">&#9660;</span>
-                      : null;
-                  return (
-                    <th
-                      key={col.key}
-                      class={col.numeric ? "num" : undefined}
-                      data-sort={col.key}
-                      onClick={() => setFileSortKey(col.key)}
-                    >
-                      {col.label}
-                      {arrow}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {entries.slice(0, 200).map(([path, f], r) => {
-                const riskColor = hColor(10 - (f.risk_score || 0) * 10);
-                const riskStyle =
-                  (f.risk_score || 0) > 0.05 ? { color: riskColor } : undefined;
-                return (
-                  <tr
-                    key={path}
-                    data-path={path}
-                    class={r === sel ? "kbd-selected" : undefined}
-                    onClick={() => handleFileClick(path)}
-                  >
-                    <td class="td-path" title={path}>
-                      <span>{path}</span>
-                      {changedSet.has(path) && <Badge variant="changed">changed</Badge>}
-                    </td>
-                    <td class="td-risk" style={riskStyle}>{fmtF(f.risk_score, 3)}</td>
-                    <td class="td-num">{f.total_changes || 0}</td>
-                    <td class="td-num">{fmtF(f.cognitive_load, 1)}</td>
-                    <td class="td-num">{f.blast_radius || 0}</td>
-                    <td class="td-issues">{f.finding_count || 0}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <Table
+            columns={FILE_COLUMNS}
+            data={entries}
+            rowKey={(row) => row.path}
+            sortable={true}
+            sortKey={fileSortKey}
+            sortAsc={fileSortAsc}
+            onSort={setFileSortKey}
+            onRowClick={handleFileClick}
+            selectedIndex={sel}
+            maxRows={200}
+          />
           {entries.length > 200 && (
             <div class="file-count-note">
               Showing 200 of {entries.length} files (filtered)

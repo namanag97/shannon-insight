@@ -1,0 +1,2 @@
+# Exclude archived experiment scripts from GitHub language statistics
+experiments/* linguist-vendored

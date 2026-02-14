@@ -92,7 +92,7 @@ export function HealthScreen() {
       {/* Top Movers Section */}
       {data.trends && data.trends.movers && data.trends.movers.length > 0 && (
         <div class="health-section">
-          <div class="section-title">Top Movers</div>
+          <div class="section-title">Biggest Risk Changes Since Last Snapshot</div>
           <div class="card">
             <table class="movers-table">
               <thead>

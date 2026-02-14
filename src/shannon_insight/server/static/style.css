@@ -606,8 +606,8 @@ a:hover { text-decoration: underline; }
 
 /* ═══ Modules ═══ */
 
-/* Module tables reuse .module-table rules from File Table section.
-   Module detail view shares layout with file detail. */
+/* Module detail view shares layout with file detail.
+   Module list uses canonical .data-table component. */
 
 
 /* ═══ Health ═══ */

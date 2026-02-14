@@ -491,20 +491,6 @@ def main(
                 "Install with: pip install shannon-codebase-insight[server][/yellow]"
             )
             console.print("[dim]Falling back to CLI mode...[/dim]\n")
-        console.print(
-            f"[bold cyan]Shannon Insight[/bold cyan] version [green]{__version__}[/green]"
-        )
-        raise typer.Exit(0)
-
-    # Preview mode: show what would be analyzed without running
-    if preview:
-        _output_preview(target, changed, since, save)
-        raise typer.Exit(0)
-
-    # Signals mode: show raw signals table
-    if signals is not None:
-        _output_signals_mode(target, signals, changed, since)
-        raise typer.Exit(0)
 
     logger = setup_logging(verbose=verbose)
 

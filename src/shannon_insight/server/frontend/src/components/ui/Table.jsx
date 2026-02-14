@@ -73,7 +73,7 @@ export function Table({
       </thead>
       <tbody>
         {displayData.map((row, idx) => {
-          const key = rowKey ? rowKey(row) : idx;
+          const key = rowKey ? rowKey(row, idx) : idx;
           return (
             <tr
               key={key}

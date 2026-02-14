@@ -427,18 +427,28 @@ def main(
 
             _check_deps()
 
-            # Import and call serve command directly
-            from .serve import serve as serve_cmd
+            from ..server.lifecycle import launch_server
 
-            # Call serve with context and default parameters
-            # Use no_browser=False to open browser by default
-            serve_cmd(
-                ctx=ctx,
-                port=8765,
+            settings = resolve_settings(
+                config=config, workers=workers, verbose=verbose
+            )
+
+            if verbose:
+                import logging as _logging
+
+                _logging.basicConfig(level=_logging.DEBUG)
+            else:
+                import logging as _logging
+
+                _logging.basicConfig(level=_logging.WARNING)
+
+            launch_server(
+                root_dir=str(target),
+                settings=settings,
+                console=console,
                 host="127.0.0.1",
+                port=8765,
                 no_browser=False,
-                config=config,
-                workers=workers,
                 verbose=verbose,
             )
             return

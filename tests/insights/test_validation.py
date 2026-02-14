@@ -8,8 +8,6 @@ Tests cover:
     - PhaseValidationError: basic exception behavior
 """
 
-import math
-
 import pytest
 
 from shannon_insight.insights.store_v2 import AnalysisStore

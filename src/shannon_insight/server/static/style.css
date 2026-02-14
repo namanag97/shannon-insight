@@ -1446,9 +1446,12 @@ button, a, input, select,
 
 /* ═══ Responsive ═══ */
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
   .overview-evolution-section {
     grid-template-columns: 1fr;
+  }
+  .metadata-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

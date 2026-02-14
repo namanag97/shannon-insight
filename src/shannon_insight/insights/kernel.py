@@ -174,12 +174,19 @@ class InsightKernel:
         for analyzer in self._wave2_analyzers:
             try:
                 _progress(f"Running {analyzer.name}...")
-                analyzer.analyze(store)
+                # Run with timeout to prevent hangs
+                _run_with_timeout(
+                    lambda a=analyzer: a.analyze(store),
+                    _ANALYZER_TIMEOUT_SECONDS,
+                    analyzer.name,
+                )
                 logger.debug(f"Wave 2 analyzer {analyzer.name} completed")
 
                 if self._debug_exporter and "fusion" in analyzer.name.lower():
                     self._debug_exporter.export_fusion(store)
 
+            except AnalyzerTimeoutError as e:
+                logger.warning(str(e))
             except Exception as e:
                 logger.warning(f"Wave 2 analyzer {analyzer.name} failed: {e}")
 

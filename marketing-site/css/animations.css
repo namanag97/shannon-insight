@@ -1,0 +1,159 @@
+/* ============================================================
+   Shannon Insight Marketing Site - animations.css
+   Scroll-triggered animations and hover effects
+   ============================================================ */
+
+/* --- Fade-in base class --- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Staggered delays for grid children --- */
+.fade-in-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in-stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-stagger.visible > *:nth-child(1) { transition-delay: 0ms; }
+.fade-in-stagger.visible > *:nth-child(2) { transition-delay: 80ms; }
+.fade-in-stagger.visible > *:nth-child(3) { transition-delay: 160ms; }
+.fade-in-stagger.visible > *:nth-child(4) { transition-delay: 240ms; }
+.fade-in-stagger.visible > *:nth-child(5) { transition-delay: 320ms; }
+.fade-in-stagger.visible > *:nth-child(6) { transition-delay: 400ms; }
+.fade-in-stagger.visible > *:nth-child(7) { transition-delay: 480ms; }
+.fade-in-stagger.visible > *:nth-child(8) { transition-delay: 560ms; }
+
+/* --- Slide-in variants --- */
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.slide-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* --- Scale-in --- */
+.scale-in {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scale-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* --- Terminal typing effect --- */
+.terminal__line {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.terminal.visible .terminal__line {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.terminal.visible .terminal__line:nth-child(1) { transition-delay: 200ms; }
+.terminal.visible .terminal__line:nth-child(2) { transition-delay: 400ms; }
+.terminal.visible .terminal__line:nth-child(3) { transition-delay: 500ms; }
+.terminal.visible .terminal__line:nth-child(4) { transition-delay: 600ms; }
+.terminal.visible .terminal__line:nth-child(5) { transition-delay: 700ms; }
+.terminal.visible .terminal__line:nth-child(6) { transition-delay: 800ms; }
+.terminal.visible .terminal__line:nth-child(7) { transition-delay: 900ms; }
+.terminal.visible .terminal__line:nth-child(8) { transition-delay: 1000ms; }
+.terminal.visible .terminal__line:nth-child(9) { transition-delay: 1100ms; }
+.terminal.visible .terminal__line:nth-child(10) { transition-delay: 1200ms; }
+.terminal.visible .terminal__line:nth-child(11) { transition-delay: 1300ms; }
+.terminal.visible .terminal__line:nth-child(12) { transition-delay: 1400ms; }
+.terminal.visible .terminal__line:nth-child(13) { transition-delay: 1500ms; }
+.terminal.visible .terminal__line:nth-child(14) { transition-delay: 1600ms; }
+.terminal.visible .terminal__line:nth-child(15) { transition-delay: 1700ms; }
+.terminal.visible .terminal__line:nth-child(16) { transition-delay: 1800ms; }
+.terminal.visible .terminal__line:nth-child(17) { transition-delay: 1900ms; }
+.terminal.visible .terminal__line:nth-child(18) { transition-delay: 2000ms; }
+.terminal.visible .terminal__line:nth-child(19) { transition-delay: 2100ms; }
+.terminal.visible .terminal__line:nth-child(20) { transition-delay: 2200ms; }
+
+/* --- Pipeline stage animation --- */
+.pipeline__stage {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.pipeline__flow.visible .pipeline__stage:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
+.pipeline__flow.visible .pipeline__arrow:nth-child(2) { opacity: 1; transition-delay: 80ms; }
+.pipeline__flow.visible .pipeline__stage:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 120ms; }
+.pipeline__flow.visible .pipeline__arrow:nth-child(4) { opacity: 1; transition-delay: 200ms; }
+.pipeline__flow.visible .pipeline__stage:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
+.pipeline__flow.visible .pipeline__arrow:nth-child(6) { opacity: 1; transition-delay: 320ms; }
+.pipeline__flow.visible .pipeline__stage:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 360ms; }
+.pipeline__flow.visible .pipeline__arrow:nth-child(8) { opacity: 1; transition-delay: 440ms; }
+.pipeline__flow.visible .pipeline__stage:nth-child(9) { opacity: 1; transform: translateY(0); transition-delay: 480ms; }
+.pipeline__flow.visible .pipeline__arrow:nth-child(10) { opacity: 1; transition-delay: 560ms; }
+.pipeline__flow.visible .pipeline__stage:nth-child(11) { opacity: 1; transform: translateY(0); transition-delay: 600ms; }
+.pipeline__flow.visible .pipeline__arrow:nth-child(12) { opacity: 1; transition-delay: 680ms; }
+.pipeline__flow.visible .pipeline__stage:nth-child(13) { opacity: 1; transform: translateY(0); transition-delay: 720ms; }
+.pipeline__flow.visible .pipeline__arrow:nth-child(14) { opacity: 1; transition-delay: 800ms; }
+.pipeline__flow.visible .pipeline__stage:nth-child(15) { opacity: 1; transform: translateY(0); transition-delay: 840ms; }
+
+.pipeline__arrow {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* --- Hover: card glow --- */
+.feature-card,
+.doc-card,
+.usecase-card,
+.math-card,
+.stat-card,
+.dimension-card {
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* --- Reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in,
+  .fade-in-stagger > *,
+  .slide-in-left,
+  .slide-in-right,
+  .scale-in,
+  .terminal__line,
+  .pipeline__stage,
+  .pipeline__arrow {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

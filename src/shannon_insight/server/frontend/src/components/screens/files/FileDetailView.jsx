@@ -99,10 +99,11 @@ export function FileDetailView({ path }) {
 
       {/* Key metrics grid */}
       <div class="file-detail-metrics">
-        {metrics.map(([label, value]) => (
-          <div class="fdm-cell" key={label}>
-            <div class="fdm-value">{value != null ? value : "--"}</div>
-            <div class="fdm-label">{label}</div>
+        {metrics.map((m) => (
+          <div class="fdm-cell" key={m.label}>
+            <div class="fdm-value">{m.value != null ? m.value : "--"}</div>
+            <div class="fdm-label">{m.label}</div>
+            {m.interp && <div class="fdm-interp">{m.interp}</div>}
           </div>
         ))}
       </div>

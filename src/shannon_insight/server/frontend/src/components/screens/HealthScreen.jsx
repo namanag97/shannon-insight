@@ -11,6 +11,44 @@ import { interpretSignal } from "../../utils/interpretations.js";
 import { TrendChart } from "../charts/TrendChart.jsx";
 import { RadarChart } from "../charts/RadarChart.jsx";
 import { ConcernBar } from "../cards/ConcernCard.jsx";
+import { Table } from "../ui/Table.jsx";
+
+/* ── Column definitions for reusable Table component ── */
+
+const MOVERS_COLUMNS = [
+  {
+    key: "path",
+    label: "File",
+    align: "left",
+    format: (v) => <a href={"#files/" + encodeURIComponent(v)}>{v}</a>,
+    cellClass: () => "td-path",
+  },
+  {
+    key: "old_value",
+    label: "Previous Risk",
+    align: "right",
+    format: (v) => v != null ? v.toFixed(3) : "--",
+    cellClass: () => "td-num",
+  },
+  {
+    key: "new_value",
+    label: "Current Risk",
+    align: "right",
+    format: (v) => v != null ? v.toFixed(3) : "--",
+    cellClass: () => "td-num",
+  },
+  {
+    key: "delta",
+    label: "Change",
+    align: "right",
+    format: (v) => v > 0 ? "+" + v.toFixed(3) : v.toFixed(3),
+    cellClass: () => "td-num",
+    cellStyle: (v) => ({
+      color: v > 0 ? "var(--red)" : "var(--green)",
+      fontWeight: 600,
+    }),
+  },
+];
 
 export function HealthScreen() {
   const data = useStore((s) => s.data);
@@ -29,16 +67,54 @@ export function HealthScreen() {
   if (hasTrends) {
     for (const h of data.trends.health) {
       if (typeof h === "object") {
-        trendValues.push(h.health);
+        trendValues.push(h.health * 9 + 1);
         trendLabels.push(fmtDate(h.timestamp));
         trendTimestamps.push(h.timestamp);
       } else {
-        trendValues.push(h);
+        trendValues.push(h * 9 + 1);
         trendLabels.push("");
         trendTimestamps.push(null);
       }
     }
   }
+
+  // Build global signals data for the Table component
+  const gsData = gsKeys
+    .map((key) => {
+      const v = gs[key];
+      if (v == null) return null;
+      const display =
+        typeof v === "number"
+          ? Number.isInteger(v)
+            ? String(v)
+            : v.toFixed(4)
+          : String(v);
+      const label = SIGNAL_LABELS[key] || key.replace(/_/g, " ");
+      const interp = typeof v === "number" ? interpretSignal(key, v) : null;
+      return { _key: key, name: label, value: display, interp: interp || "" };
+    })
+    .filter(Boolean);
+
+  const GS_COLUMNS = [
+    {
+      key: "name",
+      label: "Signal",
+      align: "left",
+      cellClass: () => "gs-name",
+    },
+    {
+      key: "value",
+      label: "Value",
+      align: "right",
+      cellClass: () => "gs-val",
+    },
+    {
+      key: "interp",
+      label: "",
+      align: "left",
+      cellClass: () => "gs-interp",
+    },
+  ];
 
   return (
     <div class="health-screen-layout">
@@ -94,32 +170,12 @@ export function HealthScreen() {
         <div class="health-section">
           <div class="section-title">Biggest Risk Changes Since Last Snapshot</div>
           <div class="card">
-            <table class="movers-table">
-              <thead>
-                <tr>
-                  <th>File</th>
-                  <th class="num">Previous Risk</th>
-                  <th class="num">Current Risk</th>
-                  <th class="num">Change</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.trends.movers.map((m, i) => {
-                  const dc = m.delta > 0 ? "var(--red)" : "var(--green)";
-                  const ds = m.delta > 0 ? "+" + m.delta.toFixed(3) : m.delta.toFixed(3);
-                  return (
-                    <tr key={i}>
-                      <td class="td-path">
-                        <a href={"#files/" + encodeURIComponent(m.path)}>{m.path}</a>
-                      </td>
-                      <td class="td-num">{m.old_value != null ? m.old_value.toFixed(3) : "--"}</td>
-                      <td class="td-num">{m.new_value != null ? m.new_value.toFixed(3) : "--"}</td>
-                      <td class="td-num" style={{ color: dc, fontWeight: 600 }}>{ds}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <Table
+              columns={MOVERS_COLUMNS}
+              data={data.trends.movers}
+              rowKey={(row, i) => i}
+              stickyHeader={false}
+            />
           </div>
         </div>
       )}
@@ -175,34 +231,16 @@ export function HealthScreen() {
       </div>
 
       {/* Global Signals */}
-      {gsKeys.length > 0 && (
+      {gsData.length > 0 && (
         <div class="health-section">
           <div class="section-title">Codebase-Wide Metrics</div>
           <div class="card">
-            <table class="global-signals-table">
-              <tbody>
-                {gsKeys.map((key) => {
-                  const v = gs[key];
-                  if (v == null) return null;
-                  const display =
-                    typeof v === "number"
-                      ? Number.isInteger(v)
-                        ? String(v)
-                        : v.toFixed(4)
-                      : String(v);
-                  const label = SIGNAL_LABELS[key] || key.replace(/_/g, " ");
-                  const interp = typeof v === "number" ? interpretSignal(key, v) : null;
-                  return (
-                    <tr key={key}>
-                      <td class="gs-name">{label}</td>
-                      <td class="gs-val">{display}</td>
-                      {interp && <td class="gs-interp">{interp}</td>}
-                      {!interp && <td class="gs-interp"></td>}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <Table
+              columns={GS_COLUMNS}
+              data={gsData}
+              rowKey={(row) => row._key}
+              stickyHeader={false}
+            />
           </div>
         </div>
       )}

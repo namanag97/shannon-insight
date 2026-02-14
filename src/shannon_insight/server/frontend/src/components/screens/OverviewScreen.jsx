@@ -112,7 +112,7 @@ export function OverviewScreen() {
         </div>
 
         <div class="card">
-          <div class="card-title">Focus Point</div>
+          <div class="card-title">Recommended Starting Point</div>
           <FocusPoint focus={data.focus} />
         </div>
       </div>

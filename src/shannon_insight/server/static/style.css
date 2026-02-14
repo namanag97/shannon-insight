@@ -1329,7 +1329,114 @@ button, a, input, select,
 }
 
 
+/* ═══ Evolution & Metadata ═══ */
+
+.overview-evolution-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.evolution-charts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.evolution-chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.evolution-chart-label {
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.metadata-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.metadata-value {
+  font-size: 24px;
+  font-weight: 600;
+  font-family: var(--mono);
+  color: var(--accent);
+}
+
+.metadata-label {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.metadata-analyzers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.analyzer-badge {
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 3px 8px;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--accent);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.trend-chart-tooltip {
+  position: absolute;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.trend-chart-tooltip-value {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--mono);
+  color: var(--text);
+}
+
+.trend-chart-tooltip-label {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
 /* ═══ Responsive ═══ */
+
+@media (max-width: 1200px) {
+  .overview-evolution-section {
+    grid-template-columns: 1fr;
+  }
+}
 
 @media (max-width: 860px) {
   .overview-cols { grid-template-columns: 1fr; }

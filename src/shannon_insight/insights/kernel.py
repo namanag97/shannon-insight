@@ -153,6 +153,13 @@ class InsightKernel:
             except Exception as e:
                 logger.warning(f"Wave 2 analyzer {analyzer.name} failed: {e}")
 
+        # Phase validation: after signal fusion
+        if self.settings.enable_validation:
+            try:
+                validate_signal_field(store)
+            except PhaseValidationError as e:
+                logger.warning(f"Signal field validation failed: {e}")
+
         # Phase 3: Run finders (skip if required signals unavailable)
         _progress("Detecting issues...")
         findings = []

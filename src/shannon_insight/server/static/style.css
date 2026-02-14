@@ -235,7 +235,7 @@ a:hover { text-decoration: underline; }
 .stat-label { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
 
 .overview-cols {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg);
 }
 .overview-cols > div {
   background: var(--surface);

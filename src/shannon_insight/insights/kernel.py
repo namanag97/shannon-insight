@@ -142,13 +142,20 @@ class InsightKernel:
             if analyzer.requires.issubset(store.available):
                 try:
                     _progress(f"Running {analyzer.name}...")
-                    analyzer.analyze(store)
+                    # Run with timeout to prevent hangs
+                    _run_with_timeout(
+                        lambda a=analyzer: a.analyze(store),
+                        _ANALYZER_TIMEOUT_SECONDS,
+                        analyzer.name,
+                    )
                     logger.debug(f"Analyzer {analyzer.name} completed")
 
                     # Debug export after each analyzer
                     if self._debug_exporter:
                         self._export_after_analyzer(analyzer.name, store)
 
+                except AnalyzerTimeoutError as e:
+                    logger.warning(str(e))
                 except Exception as e:
                     logger.warning(f"Analyzer {analyzer.name} failed: {e}")
 

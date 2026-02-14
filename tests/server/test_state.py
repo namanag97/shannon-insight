@@ -126,3 +126,49 @@ class TestServerState:
         assert msg["message"] == "Analyzing files..."
         assert msg["phase"] == "analyze"
         assert msg["percent"] == 42.5
+
+
+class TestQueueOverflowHandling:
+    """Verify graceful degradation when client queues fill up."""
+
+    def test_update_handles_full_queue_gracefully(self):
+        """update() handles full queue without raising (drops message)."""
+        import asyncio
+
+        state = ServerState()
+        # Create a small bounded queue
+        q: asyncio.Queue = asyncio.Queue(maxsize=2)
+        state.add_listener(q)
+
+        # Fill the queue
+        try:
+            q.put_nowait({"msg": 1})
+            q.put_nowait({"msg": 2})
+        except asyncio.QueueFull:
+            pass
+
+        # This should not raise even though queue is full
+        state.update({"health": 7.0})
+
+        # State should still be updated
+        assert state.get_state() == {"health": 7.0}
+
+    def test_send_progress_handles_full_queue_gracefully(self):
+        """send_progress() handles full queue without raising."""
+        import asyncio
+
+        state = ServerState()
+        q: asyncio.Queue = asyncio.Queue(maxsize=2)
+        state.add_listener(q)
+
+        # Fill the queue
+        try:
+            q.put_nowait({"msg": 1})
+            q.put_nowait({"msg": 2})
+        except asyncio.QueueFull:
+            pass
+
+        # This should not raise even though queue is full
+        state.send_progress("Testing...", phase="test")
+
+        # No exception means success

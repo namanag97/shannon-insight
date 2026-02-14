@@ -39,6 +39,14 @@ const useStore = create((set, get) => ({
   moduleSortKey: "health_score",
   moduleSortAsc: true,
 
+  // ── Churn explorer state ────────────────────────────────
+  churnTrajectoryFilter: "all",
+  churnSortKey: "total_changes",
+  churnSortAsc: false,
+
+  // ── Signal inspector state ─────────────────────────────
+  inspectedSignal: "risk_score",
+
   // ── UI state ────────────────────────────────────────────
   selectedIndex: {},
   connectionStatus: "disconnected",

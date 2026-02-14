@@ -50,7 +50,7 @@ class ShutdownManager:
         self._shutdown_lock = threading.Lock()
         self._shutdown_complete = False
         self._watcher = None
-        self._state: Optional[ServerState] = None
+        self._state: ServerState | None = None
         self._uvicorn_server = None
 
     def register_watcher(self, watcher) -> None:

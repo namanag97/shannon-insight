@@ -133,6 +133,9 @@ export function FileDetailView({ path }) {
                   onClick={() => toggleCat(cat.key)}
                 >
                   {cat.name} ({catSigs.length})
+                  {cat.description && isOpen && (
+                    <span class="sig-cat-desc">{cat.description}</span>
+                  )}
                 </div>
                 <div
                   class="signals-grid sig-cat-grid"

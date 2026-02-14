@@ -50,6 +50,7 @@ export function Header() {
     <div class="topbar">
       <div class="topbar-brand">
         SHANNON<span> INSIGHT</span>
+        {data?.version && <span class="version-badge">v{data.version}</span>}
       </div>
       <nav class="topbar-nav" id="nav">
         {SCREENS.map((screen) => (

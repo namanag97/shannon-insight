@@ -1338,6 +1338,8 @@ button, a, input, select,
     grid-template-columns: repeat(2, 1fr);
     max-width: 100%;
   }
+  .graph-legend { display: none; }
+  .graph-info-panel { width: 240px; }
 }
 
 @media (max-width: 640px) {

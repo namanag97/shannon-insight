@@ -459,7 +459,7 @@ a:hover { text-decoration: underline; }
   font-size: 10px; margin-left: 3px; color: var(--accent);
 }
 .file-table td, .module-table td {
-  padding: 5px 10px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle;
+  padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border-subtle); vertical-align: middle;
   transition: background 0.08s ease;
 }
 .file-table tr, .module-table tr {

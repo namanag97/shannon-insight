@@ -16,7 +16,6 @@ import signal
 import socket
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -148,9 +147,7 @@ def validate_existing_server(project_root: str, host: str) -> Optional[ServerInf
 
     # Check if the recorded process is still alive
     if not _is_process_alive(info.pid):
-        logger.info(
-            "Stale PID file found (process %d is dead), cleaning up", info.pid
-        )
+        logger.info("Stale PID file found (process %d is dead), cleaning up", info.pid)
         remove_pid_file(project_root)
         return None
 
@@ -200,8 +197,7 @@ def find_available_port(
             return port
 
     raise RuntimeError(
-        f"No available ports in range {preferred_port}-{MAX_PORT}. "
-        "Stop some servers and try again."
+        f"No available ports in range {preferred_port}-{MAX_PORT}. Stop some servers and try again."
     )
 
 
@@ -257,7 +253,5 @@ def graceful_shutdown_existing(project_root: str, host: str) -> bool:
         remove_pid_file(project_root)
         return False
     except PermissionError:
-        logger.warning(
-            "Cannot signal process %d (permission denied)", info.pid
-        )
+        logger.warning("Cannot signal process %d (permission denied)", info.pid)
         return False

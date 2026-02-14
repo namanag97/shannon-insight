@@ -410,7 +410,7 @@ a:hover { text-decoration: underline; }
 .issue-tab.active .issue-tab-count { color: var(--text-secondary); }
 
 .finding-row {
-  padding: 14px var(--space-md);
+  padding: var(--space-md) var(--space-md);
   border-bottom: 1px solid var(--border-subtle);
   border-left: 3px solid transparent;
   transition: border-color 0.15s ease, background 0.15s ease;

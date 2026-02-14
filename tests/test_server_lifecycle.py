@@ -8,7 +8,6 @@ import json
 import os
 import socket
 import threading
-import time
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -16,7 +15,6 @@ import pytest
 
 from shannon_insight.server.process import (
     DEFAULT_PORT,
-    MAX_PORT,
     ServerInfo,
     _is_port_in_use,
     _is_process_alive,
@@ -29,7 +27,6 @@ from shannon_insight.server.process import (
     validate_existing_server,
     write_pid_file,
 )
-
 
 # ── ServerInfo ────────────────────────────────────────────────────
 
@@ -213,7 +210,6 @@ class TestFindAvailablePort:
     def test_preferred_port_in_use_finds_next(self):
         # Mock _is_port_in_use: first call (preferred) returns True, rest return False
         call_count = [0]
-        original_check = _is_port_in_use
 
         def mock_port_check(host, port):
             call_count[0] += 1

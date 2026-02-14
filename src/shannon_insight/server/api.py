@@ -352,3 +352,56 @@ def _query_trends(db_path: str) -> dict[str, Any] | None:
         return None
 
     return trends if trends else None
+
+
+def _query_file_signal_trends(db_path: str, file_paths: list[str], last_n: int = 10) -> dict[str, dict[str, list[float]]]:
+    """Query per-file signal trends from .shannon/history.db.
+
+    Returns dict mapping file_path → {signal_name → [values oldest-to-newest]}
+    Limited to last N snapshots for performance.
+    """
+    path = Path(db_path)
+    if not path.exists() or not file_paths:
+        return {}
+
+    try:
+        conn = sqlite3.connect(str(path))
+        cur = conn.cursor()
+
+        # Get last N snapshot IDs
+        cur.execute("SELECT id FROM snapshots ORDER BY id DESC LIMIT ?", (last_n,))
+        snapshot_ids = [row[0] for row in cur.fetchall()]
+        if not snapshot_ids:
+            return {}
+
+        # Reverse to get oldest-to-newest
+        snapshot_ids.reverse()
+
+        # Query all signal values for these files in these snapshots
+        # Using placeholder for IN clause
+        placeholders = ','.join('?' * len(snapshot_ids))
+        file_placeholders = ','.join('?' * len(file_paths))
+
+        cur.execute(f"""
+            SELECT file_path, signal_name, value, snapshot_id
+            FROM signal_history
+            WHERE snapshot_id IN ({placeholders})
+            AND file_path IN ({file_placeholders})
+            ORDER BY snapshot_id ASC
+        """, snapshot_ids + file_paths)
+
+        # Build nested dict: {file_path: {signal_name: [values]}}
+        trends: dict[str, dict[str, list[float]]] = {}
+        for file_path, signal_name, value, _snapshot_id in cur.fetchall():
+            if file_path not in trends:
+                trends[file_path] = {}
+            if signal_name not in trends[file_path]:
+                trends[file_path][signal_name] = []
+            trends[file_path][signal_name].append(float(value) if value is not None else 0.0)
+
+        conn.close()
+        return trends
+
+    except Exception:
+        logger.debug("Failed to query file signal trends", exc_info=True)
+        return {}

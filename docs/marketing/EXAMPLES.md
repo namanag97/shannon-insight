@@ -91,15 +91,16 @@ After iteration 2: PR(A)=0.454, PR(B)=0.192, PR(C)=0.355
 
 **Step 4: Continue iterating until convergence...**
 
-After convergence (approximately 15 iterations):
+After convergence (approximately 35 iterations):
 
 ```
-PR(C) ~ 0.43  (highest -- C receives imports from both A and B)
-PR(A) ~ 0.39  (second -- A receives from C)
-PR(B) ~ 0.18  (lowest -- B only receives from A)
+PR(C) = 0.397  (highest -- C receives imports from both A and B)
+PR(A) = 0.388  (second -- A receives from C via the cycle)
+PR(B) = 0.215  (lowest -- B only receives from A)
+Sum   = 1.000
 ```
 
-**Interpretation**: C is the most important file in this dependency graph. Both A and B depend on it, and A depends on it through a cycle. A change to C has the highest potential impact.
+**Interpretation**: C is the most important file in this dependency graph. Both A and B depend on it. A is almost as important because it receives PageRank from C through the cycle (C -> A). B has the lowest PageRank because it only receives from A (which splits its contribution between B and C). A change to C has the highest potential ripple effect.
 
 ---
 

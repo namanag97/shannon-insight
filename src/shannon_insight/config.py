@@ -217,7 +217,11 @@ class AnalysisSettings(BaseSettings):
         # Convert to absolute path
         cache_path = Path(v)
         if not cache_path.is_absolute():
-            cache_path = Path.cwd() / cache_path
+            try:
+                cache_path = Path.cwd() / cache_path
+            except (FileNotFoundError, OSError):
+                # Fallback to home directory if cwd doesn't exist
+                cache_path = Path.home() / v
         return str(cache_path)
 
     @field_validator("parallel_workers")

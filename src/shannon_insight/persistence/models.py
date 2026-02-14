@@ -127,6 +127,15 @@ class TensorSnapshot:
     # ── Health Laplacian delta_h (NEW) ────────────────────────────
     delta_h: dict[str, float] = field(default_factory=dict)  # file -> delta_h value
 
+    # ── Community detection (graph visualization) ──────────────────
+    communities: list[dict[str, Any]] = field(
+        default_factory=list
+    )  # [{id, members, size}]
+    node_community: dict[str, int] = field(
+        default_factory=dict
+    )  # file -> community_id
+    modularity_score: float = 0.0
+
 
 def snapshot_to_tensor(v1: Snapshot) -> TensorSnapshot:
     """Convert a V1 Snapshot to TensorSnapshot.

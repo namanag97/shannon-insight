@@ -129,6 +129,13 @@ class InsightKernel:
                 except Exception as e:
                     logger.warning(f"Analyzer {analyzer.name} failed: {e}")
 
+        # Phase validation: after structural analysis
+        if self.settings.enable_validation:
+            try:
+                validate_after_structural(store)
+            except PhaseValidationError as e:
+                logger.warning(f"Structural validation failed: {e}")
+
         # Clear content cache to free memory (wave 2 doesn't need file content)
         store.clear_content_cache()
 

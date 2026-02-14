@@ -138,21 +138,7 @@ class SignalFusion:
 
         for i in range(1, len(mass_functions)):
             m2 = mass_functions[i]
-            new_combined: dict[frozenset, float] = {}
-            total_conflict = 0.0
-
-            for a, ma in combined.items():
-                for b, mb in m2.items():
-                    intersection = a & b  # proper set intersection
-                    if intersection:
-                        new_combined[intersection] = new_combined.get(intersection, 0.0) + ma * mb
-                    else:
-                        total_conflict += ma * mb
-
-            normalization = 1.0 - total_conflict
-            if normalization > 0:
-                new_combined = {k: v / normalization for k, v in new_combined.items()}
-
-            combined = new_combined
+            new_combined, total_conflict = _compute_pairwise_combination(combined, m2)
+            combined = _normalize_mass_function(new_combined, total_conflict)
 
         return combined

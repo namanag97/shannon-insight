@@ -23,25 +23,25 @@ export function FocusPoint({ focus }) {
           {focus.risk_score != null && (
             <div class="focus-score-item">
               <div class="focus-score-val">{fmtF(focus.risk_score, 2)}</div>
-              <div class="focus-score-label">risk</div>
+              <div class="focus-score-label">Risk Level</div>
             </div>
           )}
           {focus.impact_score != null && (
             <div class="focus-score-item">
               <div class="focus-score-val">{fmtF(focus.impact_score, 2)}</div>
-              <div class="focus-score-label">impact</div>
+              <div class="focus-score-label">Change Impact</div>
             </div>
           )}
           {focus.tractability_score != null && (
             <div class="focus-score-item">
               <div class="focus-score-val">{fmtF(focus.tractability_score, 2)}</div>
-              <div class="focus-score-label">tractability</div>
+              <div class="focus-score-label">Ease of Fix</div>
             </div>
           )}
           {focus.confidence_score != null && (
             <div class="focus-score-item">
               <div class="focus-score-val">{fmtF(focus.confidence_score, 2)}</div>
-              <div class="focus-score-label">confidence</div>
+              <div class="focus-score-label">Confidence</div>
             </div>
           )}
         </div>

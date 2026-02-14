@@ -132,9 +132,24 @@ def build_dashboard_state(
     global_signals = snapshot.global_signals or {}
     module_signals = snapshot.module_signals or {}
 
-    # ── Health score ──────────────────────────────────────────────
+    # ── Use serializer for consistent transformation ──────────────
+    serializer = None
+    if db_path:
+        project_root = Path(db_path).parent.parent
+        try:
+            db = HistoryDB(str(project_root))
+            db.connect()
+            serializer = DashboardSerializer(db)
+        except Exception as e:
+            logger.debug(f"Failed to create serializer: {e}")
+
+    # ── Health score (via serializer for consistency) ─────────────
     raw_health = global_signals.get("codebase_health", 0.5)
-    health_display = display_score(raw_health)
+    if serializer:
+        health_data = serializer.serialize_health(snapshot)
+        health_display = health_data["score"]
+    else:
+        health_display = display_score(raw_health)
 
     # ── Verdict ───────────────────────────────────────────────────
     total_findings = len(findings)

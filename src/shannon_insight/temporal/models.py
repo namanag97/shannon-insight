@@ -28,8 +28,8 @@ class CoChangePair:
     file_a: str
     file_b: str
     cochange_count: int  # times in same commit (raw count)
-    total_a: int  # times file_a changed
-    total_b: int  # times file_b changed
+    total_a: int | float  # times file_a changed (weighted, may be float)
+    total_b: int | float  # times file_b changed (weighted, may be float)
     confidence_a_b: float  # P(B | A changed)
     confidence_b_a: float  # P(A | B changed)
     lift: float  # observed / expected

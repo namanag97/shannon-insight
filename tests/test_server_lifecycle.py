@@ -211,19 +211,21 @@ class TestFindAvailablePort:
         assert result == port
 
     def test_preferred_port_in_use_finds_next(self):
-        # Bind a specific port in our range, should find next
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(("127.0.0.1", DEFAULT_PORT))
-        sock.listen(1)
+        # Mock _is_port_in_use: first call (preferred) returns True, rest return False
+        call_count = [0]
+        original_check = _is_port_in_use
 
-        try:
-            result = find_available_port("127.0.0.1", preferred_port=DEFAULT_PORT)
-            assert result != DEFAULT_PORT
-            assert result > DEFAULT_PORT
-            assert result <= MAX_PORT
-        finally:
-            sock.close()
+        def mock_port_check(host, port):
+            call_count[0] += 1
+            if call_count[0] == 1:
+                return True  # Preferred port "in use"
+            return False  # Next port is "free"
+
+        with patch("shannon_insight.server.process._is_port_in_use", side_effect=mock_port_check):
+            with patch("shannon_insight.server.process.read_pid_file", return_value=None):
+                result = find_available_port("127.0.0.1", preferred_port=DEFAULT_PORT)
+
+        assert result == DEFAULT_PORT + 1
 
     def test_all_ports_in_use_raises(self):
         # Mock _is_port_in_use to always return True

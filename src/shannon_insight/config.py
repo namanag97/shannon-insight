@@ -92,6 +92,7 @@ class AnalysisSettings(BaseSettings):
             "*.min.js",
             "*.bundle.js",
             "*.generated.*",
+            "experiments/*",
         ],
         description="File patterns to exclude from analysis",
     )

@@ -106,7 +106,7 @@ class TestFileSignals:
     def test_blast_radius_signal(self, latest_snapshot_signals):
         """blast_radius_size: Should be non-negative integer"""
         file_signals, _ = latest_snapshot_signals
-        for file_path, signals in file_signals.items():
+        for _file_path, signals in file_signals.items():
             if "blast_radius_size" in signals:
                 assert signals["blast_radius_size"] >= 0
                 assert signals["blast_radius_size"] <= len(file_signals), (

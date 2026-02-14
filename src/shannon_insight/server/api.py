@@ -331,6 +331,15 @@ def build_dashboard_state(
     }
     if trends:
         state["trends"] = trends
+    if evolution:
+        state["evolution"] = evolution
+    if metadata:
+        state["metadata"] = metadata
+
+    # Clean up serializer DB connection
+    if serializer:
+        serializer.db.close()
+
     return state
 
 

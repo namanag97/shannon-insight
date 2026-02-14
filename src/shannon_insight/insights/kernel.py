@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import concurrent.futures
+import threading
 from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Optional
 
@@ -28,6 +30,27 @@ if TYPE_CHECKING:
 ProgressCallback = Optional[Callable[[str], None]]
 
 logger = get_logger(__name__)
+
+# Default timeout for individual analyzers (5 minutes)
+_ANALYZER_TIMEOUT_SECONDS = 300
+
+
+class AnalyzerTimeoutError(Exception):
+    """Raised when an analyzer exceeds its time limit."""
+
+    pass
+
+
+def _run_with_timeout(func: Callable, timeout: float, name: str) -> None:
+    """Run a function with a timeout. Raises AnalyzerTimeoutError if exceeded."""
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+        future = executor.submit(func)
+        try:
+            future.result(timeout=timeout)
+        except concurrent.futures.TimeoutError:
+            raise AnalyzerTimeoutError(
+                f"Analyzer '{name}' exceeded {timeout}s timeout"
+            )
 
 
 class InsightKernel:

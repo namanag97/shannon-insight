@@ -68,33 +68,60 @@ export const SIGNAL_LABELS = {
  * to explain what each metric actually measures.
  */
 export const SIGNAL_DESCRIPTIONS = {
+  // Size & Complexity
   lines: "Total lines in the file",
   function_count: "Number of functions / methods defined",
   class_count: "Number of classes or structs defined",
   max_nesting: "Deepest level of nested blocks (if/for/while)",
-  cognitive_load: "How hard this file is to understand",
+  nesting_depth: "Average nesting depth across all blocks",
+  cognitive_load: "How hard this file is to understand (cyclomatic complexity)",
+  todo_density: "Number of TODO/FIXME comments per 100 LOC",
+
+  // Structural / Graph
   pagerank: "How central this file is in the import graph",
   betweenness: "How often this file bridges between other files",
   in_degree: "Number of files that import this file",
   out_degree: "Number of files this file imports",
+  import_count: "Total number of import statements",
   blast_radius_size: "How many files could be affected by a change here",
   depth: "Longest chain of imports from this file to a leaf",
+  community: "Louvain modularity community this file belongs to",
+  network_centrality: "Combined centrality score in dependency network",
+  structural_entropy: "Dependency pattern complexity (information-theoretic)",
+
+  // Code Health / Quality
   stub_ratio: "Fraction of functions that are empty or trivial",
   is_orphan: "This file is not imported by any other file",
   phantom_import_count: "Imports that point to files that do not exist",
+  broken_call_count: "Function calls that cannot be resolved",
   compression_ratio: "Lower means more repetitive / duplicated code",
   semantic_coherence: "How focused this file is on a single concept",
+  docstring_coverage: "Fraction of functions with documentation",
+  naming_drift: "Naming pattern inconsistency across identifiers",
+  impl_gini: "How evenly code is distributed across functions (Gini coefficient)",
+
+  // Temporal / Churn
   total_changes: "How many times this file has been committed",
   churn_trajectory: "Whether changes are increasing or decreasing over time",
-  churn_cv: "How erratic the change pattern is (high = unstable)",
+  trajectory: "Change pattern classification (STABILIZING, SURGING, etc.)",
+  churn_cv: "How erratic the change pattern is (coefficient of variation)",
+  churn_slope: "Rate of change increase/decrease over time",
+  churn_volatility: "Standard deviation of changes over time",
+  fix_ratio: "Fraction of commits that were bug fixes",
+  refactor_ratio: "Fraction of commits that were refactors",
+  change_entropy: "How evenly changes are spread across the file",
+
+  // Team / Ownership
   bus_factor: "How many people understand this code (higher = safer)",
   author_entropy: "How evenly distributed authorship is",
-  fix_ratio: "Fraction of commits that were bug fixes",
-  change_entropy: "How evenly changes are spread across the file",
+
+  // Composite / Scores
   risk_score: "Combined risk from complexity, churn, and coupling",
   wiring_quality: "How clean the file's import/export structure is",
   file_health_score: "Overall health combining all signals (1-10)",
   raw_risk: "Risk score before percentile normalization",
+  concept_count: "Number of distinct semantic concepts identified",
+  concept_entropy: "Diversity of semantic concepts in the file",
 };
 
 export const SIGNAL_CATEGORIES = [

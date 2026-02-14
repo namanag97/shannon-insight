@@ -8,6 +8,7 @@
 import { SeverityDot } from "../ui/SeverityDot.jsx";
 import { Badge } from "../ui/Badge.jsx";
 import { sevKey } from "../../utils/helpers.js";
+import { SIGNAL_LABELS } from "../../utils/constants.js";
 
 function Evidence({ evidence, maxItems = 4 }) {
   if (!evidence || !evidence.length) return null;

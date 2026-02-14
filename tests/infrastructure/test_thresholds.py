@@ -14,7 +14,6 @@ Tests cover:
 from __future__ import annotations
 
 import pytest
-
 from shannon_insight.infrastructure.thresholds import (
     ThresholdCheck,
     compute_hotspot_median,

@@ -206,8 +206,13 @@ def build_dashboard_state(
 
     # ── Module data ───────────────────────────────────────────────
     modules: dict[str, dict[str, Any]] = {}
+    # Query per-module signal trends if db available
+    module_trends: dict[str, dict[str, list[float]]] = {}
+    if db_path:
+        module_trends = _query_module_signal_trends(db_path, list(module_signals.keys()))
+
     for mod_path, mod_dict in module_signals.items():
-        modules[mod_path] = {
+        module_data = {
             "health_score": round(display_score(mod_dict.get("health_score", 0.5)), 1),
             "instability": mod_dict.get("instability"),
             "abstractness": round(mod_dict.get("abstractness", 0.0), 2),
@@ -219,7 +224,12 @@ def build_dashboard_state(
                 if str(v.get("src", "")).startswith(mod_path)
                 or str(v.get("tgt", "")).startswith(mod_path)
             ],
+            "signals": {k: round(v, 4) if isinstance(v, float) else v for k, v in mod_dict.items()},
         }
+        # Add trends if available
+        if mod_path in module_trends:
+            module_data["trends"] = module_trends[mod_path]
+        modules[mod_path] = module_data
 
     # ── Concern reports ───────────────────────────────────────────
     concern_reports = organize_by_concerns(findings, global_signals)

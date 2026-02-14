@@ -183,30 +183,53 @@ export const SIGNAL_CATEGORIES = [
  * Signal polarity: true = higher is worse, false = higher is better, null = neutral.
  */
 export const SIGNAL_POLARITY = {
+  // Higher is WORSE
   risk_score: true,
   raw_risk: true,
   churn_cv: true,
+  churn_volatility: true,
   cognitive_load: true,
   max_nesting: true,
+  nesting_depth: true,
   stub_ratio: true,
   phantom_import_count: true,
+  broken_call_count: true,
   fix_ratio: true,
   blast_radius_size: true,
+  todo_density: true,
+  naming_drift: true,
+  impl_gini: true,
+  structural_entropy: true,
+
+  // Higher is BETTER
   wiring_quality: false,
   file_health_score: false,
   semantic_coherence: false,
   bus_factor: false,
   compression_ratio: false,
+  docstring_coverage: false,
+  network_centrality: false,
+
+  // NEUTRAL (context-dependent)
   pagerank: null,
   betweenness: null,
   in_degree: null,
   out_degree: null,
+  import_count: null,
   depth: null,
   lines: null,
   function_count: null,
   class_count: null,
   total_changes: null,
   author_entropy: null,
+  churn_trajectory: null,
+  trajectory: null,
+  churn_slope: null,
+  refactor_ratio: null,
+  change_entropy: null,
+  community: null,
+  concept_count: null,
+  concept_entropy: null,
 };
 
 /** Category display order and labels. */

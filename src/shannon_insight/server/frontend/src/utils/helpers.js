@@ -49,7 +49,8 @@ export function sevKey(sev) {
  * @returns {string} CSS variable reference
  */
 export function polarColor(key, val) {
-  const p = SIGNAL_POLARITY[key];
+  // Check both file and module signal polarities
+  const p = SIGNAL_POLARITY[key] !== undefined ? SIGNAL_POLARITY[key] : MODULE_SIGNAL_POLARITY[key];
   if (p == null) return "var(--accent)";
 
   let v = val;

@@ -91,7 +91,10 @@ export function FileDetailView({ path }) {
       <div class="file-detail-header">
         <span class="file-detail-path">{path}</span>
         {f.role && f.role !== "UNKNOWN" && <Badge variant="role">{f.role}</Badge>}
-        <span class="file-detail-health" style={{ color }}>{fmtF(f.health, 1)}</span>
+        <span class="file-detail-health" style={{ color }}>
+          {fmtF(f.health, 1)}
+          <span class="file-detail-health-label"> {healthInfo.label}</span>
+        </span>
       </div>
 
       {/* Key metrics grid */}

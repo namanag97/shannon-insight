@@ -128,15 +128,156 @@ def compute_blast_radius(reverse_adj: dict[str, list[str]]) -> dict[str, set[str
     return blast
 
 
+def _phase1_local_moving(
+    nodes: list[str],
+    edge_weights: dict[tuple[str, str], float],
+    degree: dict[str, float],
+    m: float,
+    max_passes: int = 20,
+) -> tuple[dict[str, int], bool]:
+    """Phase 1 of Louvain: greedily move nodes to maximize modularity.
+
+    Each node is moved to the neighboring community that yields the
+    largest positive modularity gain.  Iterates until no more moves
+    improve modularity or *max_passes* is reached.
+
+    Args:
+        nodes: Sorted list of node identifiers in the current graph.
+        edge_weights: Canonical (min,max) -> weight for undirected edges.
+        degree: Weighted degree per node (sum(degrees) = 2*m).
+        m: Total edge weight (sum of canonical edge weights).
+        max_passes: Safety limit on iteration count.
+
+    Returns:
+        (node_comm, improved) where *node_comm* maps each node to its
+        community id and *improved* is True if any node was moved.
+    """
+    two_m = 2.0 * m
+
+    # Initialize: each node in its own community
+    node_comm: dict[str, int] = {n: i for i, n in enumerate(nodes)}
+
+    # Precompute: sum of degrees per community
+    sigma_tot: dict[int, float] = {i: degree.get(n, 0) for i, n in enumerate(nodes)}
+
+    # Build neighbor adjacency (node -> {neighbor: weight})
+    neighbors: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
+    for (a, b), w in edge_weights.items():
+        neighbors[a][b] += w
+        neighbors[b][a] += w
+
+    any_moved = False
+    for _pass in range(max_passes):
+        moved = False
+        for node in nodes:
+            current_comm = node_comm[node]
+            ki = degree.get(node, 0)
+
+            # Weights from node to each neighboring community
+            comm_edge_weights: dict[int, float] = defaultdict(float)
+            for neighbor, w in neighbors[node].items():
+                comm_edge_weights[node_comm[neighbor]] += w
+
+            # Weight from node to its own community
+            ki_in_current = comm_edge_weights.get(current_comm, 0.0)
+
+            # Cost of removing node from current community
+            sigma_current = sigma_tot.get(current_comm, 0) - ki
+            remove_cost = ki_in_current / two_m - (sigma_current * ki) / (two_m * two_m)
+
+            best_comm = current_comm
+            best_gain = 0.0
+
+            for comm_id, ki_in_target in comm_edge_weights.items():
+                if comm_id == current_comm:
+                    continue
+
+                sigma_target = sigma_tot.get(comm_id, 0)
+                add_gain = ki_in_target / two_m - (sigma_target * ki) / (two_m * two_m)
+                net_gain = add_gain - remove_cost
+
+                if net_gain > best_gain:
+                    best_gain = net_gain
+                    best_comm = comm_id
+
+            if best_comm != current_comm:
+                # Update sigma_tot
+                sigma_tot[current_comm] = sigma_tot.get(current_comm, 0) - ki
+                sigma_tot[best_comm] = sigma_tot.get(best_comm, 0) + ki
+
+                # Move node
+                node_comm[node] = best_comm
+                moved = True
+                any_moved = True
+
+        if not moved:
+            break
+
+    return node_comm, any_moved
+
+
+def _coarsen_graph(
+    edge_weights: dict[tuple[str, str], float],
+    degree: dict[str, float],
+    node_comm: dict[str, int],
+) -> tuple[dict[tuple[str, str], float], dict[str, float], list[str], dict[str, set[str]]]:
+    """Phase 2 of Louvain: collapse communities into super-nodes.
+
+    Each community becomes a single super-node.  Edge weights between
+    communities are summed.  Self-loops (edges within a community) are
+    kept as canonical self-loop entries (c, c) so that Phase 1 can
+    account for internal density on the next round.
+
+    Args:
+        edge_weights: Canonical undirected edge weights from current level.
+        degree: Weighted degree per node at current level.
+        node_comm: Mapping of node -> community id from Phase 1.
+
+    Returns:
+        (new_edge_weights, new_degree, new_nodes, super_members)
+        where super_members maps super-node name -> set of member nodes.
+    """
+    # Collect unique community ids
+    communities: dict[int, set[str]] = defaultdict(set)
+    for node, comm in node_comm.items():
+        communities[comm].add(node)
+
+    # Name super-nodes by their community id (as string for consistency)
+    comm_name: dict[int, str] = {cid: f"__super_{cid}" for cid in communities}
+
+    # Build super-graph edge weights
+    new_edge_weights: dict[tuple[str, str], float] = defaultdict(float)
+    for (a, b), w in edge_weights.items():
+        ca = comm_name[node_comm[a]]
+        cb = comm_name[node_comm[b]]
+        key = (min(ca, cb), max(ca, cb))
+        new_edge_weights[key] += w
+
+    # Degree of super-node = sum of degrees of its members
+    new_degree: dict[str, float] = {}
+    for cid, members in communities.items():
+        name = comm_name[cid]
+        new_degree[name] = sum(degree.get(n, 0) for n in members)
+
+    # Super-node members mapping
+    super_members: dict[str, set[str]] = {comm_name[cid]: members for cid, members in communities.items()}
+
+    new_nodes = sorted(super_members.keys())
+
+    return dict(new_edge_weights), new_degree, new_nodes, super_members
+
+
 def louvain(
     adjacency: dict[str, list[str]],
     all_nodes: set[str],
 ) -> tuple[list[Community], dict[str, int], float]:
-    """Louvain community detection.
+    """Louvain community detection (Phase 1 + Phase 2).
 
-    Maximizes modularity Q = (1/2m) * sum[(A_ij - k_i*k_j/2m) * delta(c_i, c_j)]
-    Uses the correct two-part gain: cost of removal + benefit of insertion.
+    Two-phase algorithm:
+      Phase 1 — Local moving: greedily move nodes to maximize modularity.
+      Phase 2 — Coarsening: collapse communities into super-nodes.
 
+    Repeats both phases until no further improvement is possible.
     Returns (communities, node->community_id, modularity_score).
     """
     # Sort nodes for deterministic iteration across runs
@@ -163,82 +304,83 @@ def louvain(
         node_community = {n: i for i, n in enumerate(nodes)}
         return communities, node_community, 0.0
 
-    two_m = 2.0 * m
+    # Track which original nodes each current-level node represents.
+    # Initially each node represents only itself.
+    original_members: dict[str, set[str]] = {n: {n} for n in nodes}
 
-    # Initialize: each node in its own community
-    node_comm: dict[str, int] = {n: i for i, n in enumerate(nodes)}
-    comm_members: dict[int, set[str]] = {i: {n} for i, n in enumerate(nodes)}
+    max_coarsen = 10  # Prevent infinite coarsening loops
 
-    # Precompute: sum of degrees per community
-    sigma_tot: dict[int, float] = {i: degree.get(n, 0) for i, n in enumerate(nodes)}
+    for _coarsen_iter in range(max_coarsen):
+        # Phase 1: Local moving on current graph
+        node_comm, improved = _phase1_local_moving(nodes, edge_weights, degree, m)
 
-    # Neighbor edges per node
-    neighbors: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
-    for (a, b), w in edge_weights.items():
-        neighbors[a][b] += w
-        neighbors[b][a] += w
-
-    max_passes = 20  # Safety limit
-    for _pass in range(max_passes):
-        moved = False
-        for node in nodes:
-            current_comm = node_comm[node]
-            ki = degree.get(node, 0)
-
-            # Weights from node to each neighboring community
-            comm_edge_weights: dict[int, float] = defaultdict(float)
-            for neighbor, w in neighbors[node].items():
-                comm_edge_weights[node_comm[neighbor]] += w
-
-            # Weight from node to its own community (excluding self-loops)
-            ki_in_current = comm_edge_weights.get(current_comm, 0.0)
-
-            # Cost of removing node from current community
-            # sigma_tot of current community MINUS node's own degree
-            sigma_current = sigma_tot.get(current_comm, 0) - ki
-            remove_cost = ki_in_current / two_m - (sigma_current * ki) / (two_m * two_m)
-
-            best_comm = current_comm
-            best_gain = 0.0
-
-            for comm_id, ki_in_target in comm_edge_weights.items():
-                if comm_id == current_comm:
-                    continue
-
-                sigma_target = sigma_tot.get(comm_id, 0)
-                # Gain of adding node to target community
-                add_gain = ki_in_target / two_m - (sigma_target * ki) / (two_m * two_m)
-
-                # Net gain = add_gain - remove_cost
-                net_gain = add_gain - remove_cost
-
-                if net_gain > best_gain:
-                    best_gain = net_gain
-                    best_comm = comm_id
-
-            if best_comm != current_comm:
-                # Update sigma_tot
-                sigma_tot[current_comm] = sigma_tot.get(current_comm, 0) - ki
-                sigma_tot[best_comm] = sigma_tot.get(best_comm, 0) + ki
-
-                # Move node
-                comm_members[current_comm].discard(node)
-                if not comm_members[current_comm]:
-                    del comm_members[current_comm]
-                    if current_comm in sigma_tot:
-                        del sigma_tot[current_comm]
-                comm_members.setdefault(best_comm, set()).add(node)
-                node_comm[node] = best_comm
-                moved = True
-
-        if not moved:
+        if not improved:
             break
 
-    # Build result
-    communities = [Community(id=cid, members=members) for cid, members in comm_members.items()]
-    modularity = compute_modularity(edge_weights, degree, node_comm, m)
+        # Count distinct communities after Phase 1
+        active_communities = set(node_comm.values())
+        if len(active_communities) == len(nodes):
+            # No merges happened — each node stayed in its own community
+            break
 
-    return communities, node_comm, modularity
+        # Phase 2: Coarsen graph
+        new_edge_weights, new_degree, new_nodes, super_members = _coarsen_graph(
+            edge_weights, degree, node_comm
+        )
+
+        if len(new_nodes) == len(nodes):
+            # Coarsening made no progress
+            break
+
+        # Update original_members: each super-node maps to the union of
+        # original nodes from its constituent current-level nodes.
+        new_original_members: dict[str, set[str]] = {}
+        for super_node, level_members in super_members.items():
+            orig: set[str] = set()
+            for level_node in level_members:
+                orig.update(original_members[level_node])
+            new_original_members[super_node] = orig
+
+        # Move to next level
+        original_members = new_original_members
+        edge_weights = new_edge_weights
+        degree = new_degree
+        nodes = new_nodes
+
+    # Final Phase 1 result: node_comm maps current-level nodes to community ids.
+    # We need to run Phase 1 one more time if we entered the loop but broke out
+    # due to no improvement in coarsening (the last node_comm is already set).
+    # But if we never entered the loop body, node_comm is from the first Phase 1.
+
+    # Map back to original nodes: each current-level community -> original nodes
+    comm_original: dict[int, set[str]] = defaultdict(set)
+    for node, comm_id in node_comm.items():
+        comm_original[comm_id].update(original_members[node])
+
+    # Build result with renumbered community ids
+    result_communities: list[Community] = []
+    node_community: dict[str, int] = {}
+    for new_id, (_, members) in enumerate(sorted(comm_original.items())):
+        result_communities.append(Community(id=new_id, members=members))
+        for orig_node in members:
+            node_community[orig_node] = new_id
+
+    # Compute modularity on the ORIGINAL graph
+    # Rebuild original edge weights and degree for modularity calculation
+    orig_edge_weights: dict[tuple[str, str], float] = {}
+    orig_degree: dict[str, float] = defaultdict(float)
+    for src, targets in adjacency.items():
+        for tgt in targets:
+            if tgt not in all_nodes:
+                continue
+            key = (min(src, tgt), max(src, tgt))
+            orig_edge_weights[key] = orig_edge_weights.get(key, 0) + 1
+            orig_degree[src] += 1
+            orig_degree[tgt] += 1
+
+    modularity = compute_modularity(orig_edge_weights, orig_degree, node_community, m)
+
+    return result_communities, node_community, modularity
 
 
 def compute_modularity(

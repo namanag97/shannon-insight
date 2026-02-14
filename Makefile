@@ -1,4 +1,4 @@
-.PHONY: help install test lint format type-check clean run all package check-package publish-test publish
+.PHONY: help install test lint format type-check clean run all build-frontend package check-package publish-test publish
 
 help:  ## Show this help message
 	@echo "Available commands:"

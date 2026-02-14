@@ -833,7 +833,7 @@ a:hover { text-decoration: underline; }
 
 /* Also-consider label */
 .also-consider-label {
-  margin-top: 10px; font-size: 11px; color: var(--text-tertiary);
+  margin-top: var(--space-md); font-size: 11px; color: var(--text-tertiary);
 }
 
 /* Empty focus state */

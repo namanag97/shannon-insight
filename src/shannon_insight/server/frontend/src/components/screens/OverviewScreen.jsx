@@ -73,7 +73,7 @@ export function OverviewScreen() {
       {/* Two-column content */}
       <div class="overview-cols">
         <div class="card">
-          <div class="card-title">Issue Summary</div>
+          <div class="card-title">Issues by Category</div>
           <div>
             {CATEGORY_ORDER.map((key) => {
               const cat = cats[key];

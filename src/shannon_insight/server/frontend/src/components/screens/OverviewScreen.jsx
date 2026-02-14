@@ -49,8 +49,11 @@ export function OverviewScreen() {
             </div>
           )}
           <div class="health-big" style={{ color }}>{score.toFixed(1)}</div>
-          <div class="health-label" style={{ color: "var(--text-secondary)" }}>
-            {data.health_label || ""}
+          <div class="health-label-primary" style={{ color }}>
+            {healthInfo.label}
+          </div>
+          <div class="health-explanation">
+            {healthInfo.description}
           </div>
         </div>
       </div>

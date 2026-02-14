@@ -2,10 +2,18 @@
  * Modules screen - sortable table list and module detail view.
  */
 
+import { useState } from "preact/hooks";
 import useStore from "../../state/store.js";
-import { fmtF } from "../../utils/formatters.js";
-import { hColor } from "../../utils/helpers.js";
+import { fmtF, fmtSigVal } from "../../utils/formatters.js";
+import { hColor, polarColor } from "../../utils/helpers.js";
 import { Table } from "../ui/Table.jsx";
+import {
+  MODULE_SIGNAL_LABELS,
+  MODULE_SIGNAL_DESCRIPTIONS,
+  MODULE_SIGNAL_CATEGORIES,
+} from "../../utils/constants.js";
+import { interpretSignal } from "../../utils/interpretations.js";
+import { Sparkline } from "../charts/Sparkline.jsx";
 
 const MODULE_COLUMNS = [
   {

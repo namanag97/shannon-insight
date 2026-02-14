@@ -47,8 +47,18 @@ class BaseScanner(ABC):
         # Pre-compute extension set for O(1) lookups
         ext_set = set(self.extensions)
 
+        # Track visited inodes to detect symlink loops
+        visited_inodes: set[tuple[int, int]] = set()
+
         # Single tree walk - much faster than multiple rglob() calls
-        for filepath in self.root_dir.rglob("*"):
+        # Wrap in try to catch RecursionError from symlink loops
+        try:
+            file_iterator = self.root_dir.rglob("*")
+        except RecursionError:
+            logger.error("Symlink loop detected during directory traversal")
+            return files
+
+        for filepath in file_iterator:
             # Skip directories
             if not filepath.is_file():
                 continue

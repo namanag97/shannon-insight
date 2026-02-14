@@ -811,7 +811,7 @@ a:hover { text-decoration: underline; }
 /* ═══ Utilities ═══ */
 
 /* Adjacent card spacing */
-.card + .card { margin-top: 20px; }
+.card + .card { margin-top: var(--space-lg); }
 
 /* Risk histogram container */
 #riskHistogram { margin-top: 20px; }

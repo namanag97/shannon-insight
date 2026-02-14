@@ -79,12 +79,18 @@ def build_cochange_matrix(
         else:
             lift = 0.0
 
+        # Store weighted totals consistently — confidence was computed from these,
+        # so consumers can recompute if needed. Round to int if very close to avoid
+        # float precision artifacts (e.g., 12.000000001 → 12).
+        stored_total_a = round(total_a) if abs(total_a - round(total_a)) < 1e-9 else total_a
+        stored_total_b = round(total_b) if abs(total_b - round(total_b)) < 1e-9 else total_b
+
         pairs[(a, b)] = CoChangePair(
             file_a=a,
             file_b=b,
             cochange_count=raw_count,
-            total_a=int(total_a) if total_a == int(total_a) else raw_count,
-            total_b=int(total_b) if total_b == int(total_b) else raw_count,
+            total_a=stored_total_a,
+            total_b=stored_total_b,
             confidence_a_b=conf_a_b,
             confidence_b_a=conf_b_a,
             lift=lift,

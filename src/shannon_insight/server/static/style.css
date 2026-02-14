@@ -814,7 +814,7 @@ a:hover { text-decoration: underline; }
 .card + .card { margin-top: var(--space-lg); }
 
 /* Risk histogram container */
-#riskHistogram { margin-top: 20px; }
+#riskHistogram { margin-top: var(--space-lg); }
 
 /* Category file-change count */
 .cat-changes-info {

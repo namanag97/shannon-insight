@@ -109,6 +109,17 @@ function ModuleListView() {
 
 function ModuleDetailView({ path }) {
   const data = useStore((s) => s.data);
+  const [openCats, setOpenCats] = useState(() => {
+    // First 2 categories start open
+    const initial = new Set();
+    let count = 0;
+    for (const cat of MODULE_SIGNAL_CATEGORIES) {
+      if (count >= 2) break;
+      initial.add(cat.key);
+      count++;
+    }
+    return initial;
+  });
 
   if (!data || !data.modules || !data.modules[path]) {
     return (
@@ -125,12 +136,31 @@ function ModuleDetailView({ path }) {
   const m = data.modules[path];
   const color = hColor(m.health_score || 5);
 
-  const stats = [
-    ["File Count", m.file_count],
-    ["Change Sensitivity", fmtF(m.instability, 2)],
-    ["Abstraction Level", fmtF(m.abstractness, 2)],
-    ["Change Velocity", fmtF(m.velocity, 1)],
+  // Key metrics shown at top
+  const topMetrics = [
+    { label: "File Count", value: m.file_count, interp: interpretSignal("file_count", m.file_count) },
+    { label: "Health Score", value: fmtF(m.health_score, 1), interp: interpretSignal("health_score", m.health_score) },
+    { label: "Change Sensitivity", value: fmtF(m.instability, 2), interp: interpretSignal("instability", m.instability) },
+    { label: "Abstraction Level", value: fmtF(m.abstractness, 2), interp: interpretSignal("abstractness", m.abstractness) },
   ];
+
+  // All module signals with trends
+  const sigs = m.signals || {};
+  const sigKeys = Object.keys(sigs);
+
+  // Build categorized set for detecting uncategorized signals
+  const categorized = new Set();
+  MODULE_SIGNAL_CATEGORIES.forEach((c) => c.signals.forEach((s) => categorized.add(s)));
+  const uncatSigs = sigKeys.filter((s) => !categorized.has(s) && sigs[s] != null).sort();
+
+  function toggleCat(catKey) {
+    setOpenCats((prev) => {
+      const next = new Set(prev);
+      if (next.has(catKey)) next.delete(catKey);
+      else next.add(catKey);
+      return next;
+    });
+  }
 
   return (
     <div>
@@ -141,26 +171,111 @@ function ModuleDetailView({ path }) {
         <span class="file-detail-health" style={{ color }}>{fmtF(m.health_score, 1)}</span>
       </div>
 
+      {/* Top metrics grid */}
       <div class="file-detail-metrics">
-        {stats.map(([label, value]) => (
-          <div class="fdm-cell" key={label}>
-            <div class="fdm-value">{value != null ? value : "--"}</div>
-            <div class="fdm-label">{label}</div>
+        {topMetrics.map((met) => (
+          <div class="fdm-cell" key={met.label}>
+            <div class="fdm-value">{met.value != null ? met.value : "--"}</div>
+            <div class="fdm-label">{met.label}</div>
+            {met.interp && <div class="fdm-interp">{met.interp}</div>}
           </div>
         ))}
       </div>
 
-      {m.files && m.files.length > 0 && (
+      {/* Module signals grouped by category */}
+      {sigKeys.length > 0 && (
         <div class="file-detail-section">
-          <div class="file-detail-section-title">Files ({m.files.length})</div>
-          {m.files.map((f) => (
-            <div class="module-file-item" key={f}>
-              <a href={"#files/" + encodeURIComponent(f)}>{f}</a>
+          {MODULE_SIGNAL_CATEGORIES.map((cat) => {
+            const catSigs = cat.signals.filter((s) => sigs[s] != null);
+            if (!catSigs.length) return null;
+
+            const isOpen = openCats.has(cat.key);
+            return (
+              <div key={cat.key}>
+                <div
+                  class={`file-detail-section-title signals-collapsible sig-cat-toggle${isOpen ? " sig-cat-open open" : ""}`}
+                  onClick={() => toggleCat(cat.key)}
+                >
+                  {cat.name} ({catSigs.length})
+                  {cat.description && isOpen && (
+                    <span class="sig-cat-desc">{cat.description}</span>
+                  )}
+                </div>
+                <div
+                  class="signals-grid sig-cat-grid"
+                  style={{ display: isOpen ? "grid" : "none" }}
+                >
+                  {catSigs.map((sk) => {
+                    const sv = sigs[sk];
+                    const label = MODULE_SIGNAL_LABELS[sk] || sk.replace(/_/g, " ");
+                    const display = fmtSigVal(sk, sv);
+                    const valColor = typeof sv === "number" ? polarColor(sk, sv) : "var(--text)";
+                    const trendData = m.trends && m.trends[sk];
+                    const interp = interpretSignal(sk, sv);
+
+                    return (
+                      <div class="sig-row" key={sk}>
+                        <span class="sig-name">
+                          {label}
+                          {MODULE_SIGNAL_DESCRIPTIONS[sk] && (
+                            <span class="sig-desc">{MODULE_SIGNAL_DESCRIPTIONS[sk]}</span>
+                          )}
+                        </span>
+                        <span class="sig-val-group">
+                          <span class="sig-val" style={{ color: valColor }}>
+                            {display}
+                            {trendData && (
+                              <>
+                                {" "}
+                                <Sparkline values={trendData} width={48} height={14} color={valColor} />
+                              </>
+                            )}
+                          </span>
+                          {interp && <span class="sig-interp">{interp}</span>}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Uncategorized signals */}
+          {uncatSigs.length > 0 && (
+            <div>
+              <div
+                class={`file-detail-section-title signals-collapsible sig-cat-toggle${openCats.has("other") ? " sig-cat-open open" : ""}`}
+                onClick={() => toggleCat("other")}
+              >
+                Other ({uncatSigs.length})
+              </div>
+              <div
+                class="signals-grid sig-cat-grid"
+                style={{ display: openCats.has("other") ? "grid" : "none" }}
+              >
+                {uncatSigs.map((sk) => {
+                  const sv = sigs[sk];
+                  const display =
+                    typeof sv === "number"
+                      ? Number.isInteger(sv)
+                        ? String(sv)
+                        : sv.toFixed(4)
+                      : String(sv);
+                  return (
+                    <div class="sig-row" key={sk}>
+                      <span class="sig-name">{sk.replace(/_/g, " ")}</span>
+                      <span class="sig-val">{display}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          ))}
+          )}
         </div>
       )}
 
+      {/* Violations */}
       {m.violations && m.violations.length > 0 && (
         <div class="file-detail-section">
           <div class="file-detail-section-title">Violations ({m.violations.length})</div>

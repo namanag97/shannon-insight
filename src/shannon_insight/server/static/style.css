@@ -226,6 +226,14 @@ a:hover { text-decoration: underline; }
 .health-label {
   font-size: 11px; color: var(--text-secondary); margin-top: var(--space-sm);
 }
+.health-label-primary {
+  font-size: 14px; font-weight: 600; margin-top: var(--space-sm);
+  letter-spacing: 0.5px;
+}
+.health-explanation {
+  font-size: 12px; color: var(--text-secondary); margin-top: var(--space-xs);
+  max-width: 400px; text-align: center; line-height: 1.5;
+}
 
 
 .stat-value {

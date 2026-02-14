@@ -247,6 +247,93 @@ export const CATEGORY_DESCRIPTIONS = {
   team: "Single-author files, knowledge silos, and bus factor risks",
 };
 
+/** Module signal labels and descriptions */
+export const MODULE_SIGNAL_LABELS = {
+  abstractness: "Abstraction Level",
+  boundary_alignment: "Boundary Alignment",
+  cohesion: "Internal Cohesion",
+  coordination_cost: "Team Coordination Cost",
+  coupling: "External Coupling",
+  file_count: "File Count",
+  health_score: "Module Health Score",
+  instability: "Change Sensitivity",
+  knowledge_gini: "Knowledge Concentration",
+  layer_violation_count: "Layer Violations",
+  main_seq_distance: "Distance from Main Sequence",
+  mean_cognitive_load: "Average Complexity",
+  module_bus_factor: "Module Bus Factor",
+  role_consistency: "Role Consistency",
+  velocity: "Change Velocity",
+};
+
+export const MODULE_SIGNAL_DESCRIPTIONS = {
+  abstractness: "Ratio of abstract types to total types (0=concrete, 1=abstract)",
+  boundary_alignment: "How well module boundaries align with coupling patterns",
+  cohesion: "How tightly related the files within the module are",
+  coordination_cost: "Team coordination overhead for this module",
+  coupling: "Average coupling to other modules",
+  file_count: "Number of files in this module",
+  health_score: "Overall module health score (1-10)",
+  instability: "Change sensitivity (0=stable, 1=unstable)",
+  knowledge_gini: "Knowledge distribution inequality (higher = more concentrated)",
+  layer_violation_count: "Number of architectural layer violations",
+  main_seq_distance: "Distance from ideal abstraction/stability balance",
+  mean_cognitive_load: "Average cognitive complexity across module files",
+  module_bus_factor: "How many people understand this module",
+  role_consistency: "How consistent file roles are within the module",
+  velocity: "Rate of change over time",
+};
+
+export const MODULE_SIGNAL_CATEGORIES = [
+  {
+    key: "architecture",
+    name: "Architecture Metrics",
+    description: "Martin metrics and architectural properties",
+    signals: ["abstractness", "instability", "coupling", "cohesion", "main_seq_distance", "layer_violation_count"],
+  },
+  {
+    key: "quality",
+    name: "Quality Indicators",
+    description: "Code quality and organizational health",
+    signals: ["health_score", "boundary_alignment", "role_consistency", "mean_cognitive_load"],
+  },
+  {
+    key: "team",
+    name: "Team Dynamics",
+    description: "Ownership and coordination patterns",
+    signals: ["module_bus_factor", "knowledge_gini", "coordination_cost"],
+  },
+  {
+    key: "temporal",
+    name: "Change Patterns",
+    description: "How the module evolves over time",
+    signals: ["velocity", "file_count"],
+  },
+];
+
+export const MODULE_SIGNAL_POLARITY = {
+  // Higher is WORSE
+  coupling: true,
+  coordination_cost: true,
+  knowledge_gini: true,
+  layer_violation_count: true,
+  main_seq_distance: true,
+  mean_cognitive_load: true,
+
+  // Higher is BETTER
+  abstractness: false,
+  boundary_alignment: false,
+  cohesion: false,
+  health_score: false,
+  module_bus_factor: false,
+  role_consistency: false,
+
+  // NEUTRAL
+  instability: null,
+  velocity: null,
+  file_count: null,
+};
+
 /** Screen identifiers for navigation. */
 export const SCREENS = ["overview", "issues", "files", "modules", "health", "graph"];
 

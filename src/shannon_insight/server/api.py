@@ -276,9 +276,27 @@ def build_dashboard_state(
     node_community = snapshot.node_community or {}
     modularity_score_val = snapshot.modularity_score or 0.0
 
-    # ── History / trend data (optional) ───────────────────────────
+    # ── History / trend data (via serializer for consistency) ────
     trends: dict[str, Any] | None = None
-    if db_path:
+    evolution: dict[str, Any] | None = None
+    metadata: dict[str, Any] | None = None
+
+    if serializer:
+        # Use serializer for consistent transformations
+        health_data = serializer.serialize_health(snapshot)
+        evolution = serializer.serialize_evolution()
+        metadata = serializer.serialize_metadata(snapshot)
+
+        # Rebuild trends with top_movers from serializer
+        trends = {
+            "health": health_data["trend"],
+            "movers": serializer.serialize_top_movers(),
+        }
+        # Add chronic findings if old query still works
+        old_trends = _query_trends(db_path) if db_path else None
+        if old_trends and "chronic" in old_trends:
+            trends["chronic"] = old_trends["chronic"]
+    elif db_path:
         trends = _query_trends(db_path)
 
     # ── Assemble ──────────────────────────────────────────────────

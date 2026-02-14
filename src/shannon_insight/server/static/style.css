@@ -613,7 +613,7 @@ a:hover { text-decoration: underline; }
 /* ═══ Health ═══ */
 
 .health-screen-layout {
-  display: flex; flex-direction: column; gap: var(--space-xl);
+  display: flex; flex-direction: column; gap: var(--space-2xl);
 }
 
 .health-section {

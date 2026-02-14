@@ -11,10 +11,10 @@
  *   ui          - Keyboard selection indices, connection status
  */
 
-import { createStore } from "zustand/vanilla";
+import { create } from "zustand";
 import { SEVERITY_LEVELS } from "../utils/constants.js";
 
-export const store = createStore((set, get) => ({
+const useStore = create((set, get) => ({
   // ── Server data ─────────────────────────────────────────
   data: null,
 
@@ -113,7 +113,8 @@ export const store = createStore((set, get) => ({
     set({ selectedIndex: { ...state.selectedIndex, [screen]: index } });
   },
 
-  setConnectionStatus: (status, text) => set({ connectionStatus: status, statusText: text || "" }),
+  setConnectionStatus: (status, text) =>
+    set({ connectionStatus: status, statusText: text || "" }),
 
   setProgress: (active, percent, message) =>
     set({ progressActive: active, progressPercent: percent, progressMessage: message || "" }),
@@ -121,21 +122,4 @@ export const store = createStore((set, get) => ({
   setReconnectActive: (active) => set({ reconnectActive: active }),
 }));
 
-/**
- * React/Preact hook wrapper for subscribing to store slices.
- * Usage: const data = useStore(s => s.data);
- */
-export function useStore(selector) {
-  // Implemented via Preact hooks in the hook wrapper below
-  const { useState, useEffect } = require("preact/hooks");
-  const [state, setState] = useState(() => selector(store.getState()));
-
-  useEffect(() => {
-    return store.subscribe((newState) => {
-      const next = selector(newState);
-      setState(next);
-    });
-  }, []);
-
-  return state;
-}
+export default useStore;

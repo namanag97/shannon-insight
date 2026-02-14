@@ -98,9 +98,9 @@ export function HealthScreen() {
               <thead>
                 <tr>
                   <th>File</th>
-                  <th class="num">Previous</th>
-                  <th class="num">Current</th>
-                  <th class="num">Delta</th>
+                  <th class="num">Previous Risk</th>
+                  <th class="num">Current Risk</th>
+                  <th class="num">Change</th>
                 </tr>
               </thead>
               <tbody>

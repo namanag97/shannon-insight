@@ -1,0 +1,588 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ * Shannon Insight Design System
+ *
+ * A comprehensive design system for data-dense dashboard UIs.
+ * Built on an 8px baseline grid with 12-column layout system.
+ *
+ * Design Principles:
+ * 1. Mathematical precision - All spacing is multiples of 8px
+ * 2. Grid-based layout - Components snap to 12-column grid
+ * 3. Clear hierarchy - Visual weight correlates to information priority
+ * 4. Intentional spacing - Every gap has a reason
+ * 5. Responsive by design - Graceful degradation on all screens
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Grid System ────────────────────────────────────────────────── */
+
+  /* Container widths */
+  --container-max: 1440px;        /* Up from 1280px - dashboards need breathing room */
+  --container-padding: 32px;      /* Horizontal padding at max width */
+  --container-padding-mobile: 16px;
+
+  /* Grid columns */
+  --grid-columns: 12;             /* 12-column system (industry standard) */
+  --grid-gutter: 24px;            /* Space between columns */
+  --grid-gutter-mobile: 16px;
+
+  /* ── Spacing Scale (8px baseline) ──────────────────────────────── */
+
+  --space-0: 0;
+  --space-1: 4px;                 /* Micro gaps (icon spacing, badge padding) */
+  --space-2: 8px;                 /* Baseline unit - minimum spacing */
+  --space-3: 12px;                /* Compact padding (buttons, chips) */
+  --space-4: 16px;                /* Standard padding (cards, inputs) */
+  --space-5: 20px;                /* Medium gaps */
+  --space-6: 24px;                /* Component gaps (card spacing) */
+  --space-8: 32px;                /* Section spacing (between major groups) */
+  --space-10: 40px;               /* Large section spacing */
+  --space-12: 48px;               /* Major section breaks */
+  --space-16: 64px;               /* Screen section breaks */
+  --space-20: 80px;               /* Rare - very large breaks */
+
+  /* ── Typography Scale ──────────────────────────────────────────── */
+
+  /* Font families */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+
+  /* Font sizes (16px base) */
+  --text-xs: 10px;                /* Labels, captions */
+  --text-sm: 11px;                /* Secondary text, metadata */
+  --text-base: 13px;              /* Body text, table cells */
+  --text-md: 14px;                /* Card titles, emphasized text */
+  --text-lg: 16px;                /* Section headers */
+  --text-xl: 20px;                /* Page headers */
+  --text-2xl: 24px;               /* Metric values */
+  --text-3xl: 32px;               /* Large metrics */
+  --text-4xl: 40px;               /* Hero metrics */
+  --text-5xl: 56px;               /* Health score (hero) */
+
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.2;           /* Large headings, metrics */
+  --leading-snug: 1.4;            /* Section headers */
+  --leading-normal: 1.5;          /* Body text */
+  --leading-relaxed: 1.6;         /* Reading text */
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;      /* Large headings */
+  --tracking-normal: 0;
+  --tracking-wide: 0.03em;        /* Section labels */
+  --tracking-wider: 0.1em;        /* Uppercase labels */
+
+  /* ── Component Sizing (16px baseline) ──────────────────────────── */
+
+  --height-xs: 24px;              /* Compact button, badge */
+  --height-sm: 32px;              /* Standard button, input */
+  --height-md: 40px;              /* Large button, nav item */
+  --height-lg: 48px;              /* Stat card min-height */
+
+  --component-xs: 48px;           /* Micro stat card */
+  --component-sm: 80px;           /* Compact chart, mini card */
+  --component-md: 160px;          /* Standard card min-height */
+  --component-lg: 240px;          /* Chart card, data panel */
+  --component-xl: 320px;          /* Hero section, large viz */
+  --component-2xl: 400px;         /* Full-height panels */
+
+  /* ── Border Radius ─────────────────────────────────────────────── */
+
+  --radius-sm: 6px;               /* Buttons, badges */
+  --radius-md: 8px;               /* Cards, inputs */
+  --radius-lg: 12px;              /* Large cards, panels */
+  --radius-xl: 16px;              /* Hero sections */
+  --radius-full: 9999px;          /* Pills, circular elements */
+
+  /* ── Shadows ───────────────────────────────────────────────────── */
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.2);
+
+  /* ── Z-Index Scale ─────────────────────────────────────────────── */
+
+  --z-base: 0;
+  --z-sticky: 10;                 /* Sticky headers */
+  --z-dropdown: 100;              /* Dropdowns, tooltips */
+  --z-modal: 1000;                /* Modals, overlays */
+  --z-toast: 9000;                /* Toast notifications */
+  --z-tooltip: 9999;              /* Tooltips (always on top) */
+
+  /* ── Transitions ───────────────────────────────────────────────── */
+
+  --transition-fast: 100ms ease;
+  --transition-base: 150ms ease;
+  --transition-slow: 300ms ease;
+
+  /* ── Colors (keep existing palette) ────────────────────────────── */
+
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-elevated: #1a1a1a;
+  --border: #2a2a2a;
+  --border-subtle: #1f1f1f;
+  --text: #f0f0f0;
+  --text-secondary: #b8b8b8;
+  --text-tertiary: #888888;
+  --text-muted: #666666;
+  --green: #22c55e;
+  --yellow: #eab308;
+  --orange: #f97316;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --accent: #3b82f6;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. GRID SYSTEM
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * 12-column grid system with 24px gutters.
+ * Components use .span-* classes to occupy columns.
+ *
+ * Usage:
+ *   <div class="grid">
+ *     <div class="span-6">Half width</div>
+ *     <div class="span-6">Half width</div>
+ *   </div>
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--grid-gutter);
+  width: 100%;
+}
+
+/* Grid spans */
+.span-1 { grid-column: span 1; }
+.span-2 { grid-column: span 2; }
+.span-3 { grid-column: span 3; }
+.span-4 { grid-column: span 4; }
+.span-5 { grid-column: span 5; }
+.span-6 { grid-column: span 6; }
+.span-7 { grid-column: span 7; }
+.span-8 { grid-column: span 8; }
+.span-9 { grid-column: span 9; }
+.span-10 { grid-column: span 10; }
+.span-11 { grid-column: span 11; }
+.span-12 { grid-column: span 12; }
+
+/* Full-width grid (no gutters) */
+.grid--flush {
+  gap: 0;
+}
+
+/* Compact grid (16px gutters) */
+.grid--compact {
+  gap: var(--space-4);
+}
+
+/* Dense grid (8px gutters) */
+.grid--dense {
+  gap: var(--space-2);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. LAYOUT UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Container wraps all page content and constrains max-width.
+ * Use .container-wide for dashboard-style layouts.
+ */
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.container-wide {
+  max-width: 1680px;              /* Wider for data-dense dashboards */
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.container-full {
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ── Stack Layout ────────────────────────────────────────────────── */
+
+/**
+ * Vertical stack with consistent spacing.
+ * Use for card interiors, form fields, etc.
+ */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack--xs { gap: var(--space-1); }  /* 4px */
+.stack--sm { gap: var(--space-2); }  /* 8px */
+.stack--md { gap: var(--space-4); }  /* 16px */
+.stack--lg { gap: var(--space-6); }  /* 24px */
+.stack--xl { gap: var(--space-8); }  /* 32px */
+.stack--2xl { gap: var(--space-12); } /* 48px */
+
+/* ── Cluster Layout ─────────────────────────────────────────────── */
+
+/**
+ * Horizontal cluster with wrapping.
+ * Use for tags, badges, filter chips.
+ */
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cluster--xs { gap: var(--space-1); }
+.cluster--sm { gap: var(--space-2); }
+.cluster--md { gap: var(--space-3); }
+.cluster--lg { gap: var(--space-4); }
+
+/* ── Sidebar Layout ─────────────────────────────────────────────── */
+
+/**
+ * Two-column layout with fixed sidebar.
+ * Use for file detail view, settings panels.
+ */
+
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--grid-gutter);
+}
+
+.sidebar-layout--wide {
+  grid-template-columns: 320px 1fr;
+}
+
+.sidebar-layout--narrow {
+  grid-template-columns: 200px 1fr;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. SPACING UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Margin and padding utilities following the 8px spacing scale.
+ * Use sparingly - prefer layout components (grid, stack, cluster).
+ */
+
+/* Padding */
+.p-0 { padding: var(--space-0); }
+.p-1 { padding: var(--space-1); }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
+.p-12 { padding: var(--space-12); }
+
+/* Padding X (horizontal) */
+.px-2 { padding-left: var(--space-2); padding-right: var(--space-2); }
+.px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+.px-8 { padding-left: var(--space-8); padding-right: var(--space-8); }
+
+/* Padding Y (vertical) */
+.py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+.py-8 { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+
+/* Margin */
+.m-0 { margin: var(--space-0); }
+.m-2 { margin: var(--space-2); }
+.m-4 { margin: var(--space-4); }
+.m-6 { margin: var(--space-6); }
+.m-8 { margin: var(--space-8); }
+
+/* Margin top */
+.mt-2 { margin-top: var(--space-2); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mt-12 { margin-top: var(--space-12); }
+
+/* Margin bottom */
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+.mb-12 { margin-bottom: var(--space-12); }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. TYPOGRAPHY UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Type scale following clear hierarchy:
+ * - Display: Hero numbers, health scores
+ * - Heading: Section titles, page headers
+ * - Body: Table data, descriptions
+ * - Label: Captions, metadata
+ */
+
+/* Display (Hero) */
+.text-display {
+  font-size: var(--text-5xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Heading 1 */
+.text-h1 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+}
+
+/* Heading 2 */
+.text-h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+}
+
+/* Heading 3 */
+.text-h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+}
+
+/* Heading 4 (Section labels) */
+.text-h4 {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--text-tertiary);
+}
+
+/* Body */
+.text-body {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.text-body-sm {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+/* Label */
+.text-label {
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--text-tertiary);
+}
+
+/* Mono */
+.text-mono {
+  font-family: var(--font-mono);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. COMPONENT PRIMITIVES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Base card component with consistent padding and styling.
+ * All cards follow the same visual language.
+ */
+
+.ds-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+}
+
+.ds-card--compact {
+  padding: var(--space-4);
+}
+
+.ds-card--spacious {
+  padding: var(--space-8);
+}
+
+.ds-card--bordered {
+  border: 2px solid var(--border);
+}
+
+/* Card header */
+.ds-card__header {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.ds-card__title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--text-tertiary);
+}
+
+.ds-card__body {
+  /* No default styles - content-dependent */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Breakpoint system optimized for dashboard layouts.
+ * Mobile-first approach with graceful degradation.
+ */
+
+/* Tablet (768px) - 2-column layouts become single column */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);  /* 6-column grid on tablet */
+    gap: var(--grid-gutter-mobile);
+  }
+
+  .container {
+    padding: 0 var(--container-padding-mobile);
+  }
+
+  /* Force full width on tablet */
+  .span-7, .span-8, .span-9, .span-10, .span-11 {
+    grid-column: span 6;
+  }
+
+  /* Sidebar layouts stack */
+  .sidebar-layout,
+  .sidebar-layout--wide,
+  .sidebar-layout--narrow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile (640px) - All layouts become single column */
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;  /* Single column on mobile */
+    gap: var(--space-4);
+  }
+
+  /* All spans become full width */
+  .span-1, .span-2, .span-3, .span-4, .span-5, .span-6,
+  .span-7, .span-8, .span-9, .span-10, .span-11, .span-12 {
+    grid-column: span 1;
+  }
+
+  /* Reduce text sizes */
+  .text-display {
+    font-size: var(--text-4xl);
+  }
+
+  .text-h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .text-h2 {
+    font-size: var(--text-xl);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. VISUAL HIERARCHY PATTERNS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Priority system for establishing visual hierarchy.
+ * Higher priority = larger, bolder, more prominent.
+ */
+
+.priority-hero {
+  /* Health score, critical metrics */
+  font-size: var(--text-5xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  padding: var(--space-12);
+  text-align: center;
+}
+
+.priority-primary {
+  /* Focus point, recommended actions */
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  padding: var(--space-8);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-md);
+}
+
+.priority-secondary {
+  /* Section headers, key insights */
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  padding: var(--space-6);
+}
+
+.priority-tertiary {
+  /* Card titles, metadata */
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--text-tertiary);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

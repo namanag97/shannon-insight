@@ -412,7 +412,11 @@ def main(
       shannon-insight -C /path/to/project --json --fail-on high
     """
     # Store resolved path in context for subcommands
-    target = Path(path).resolve()
+    try:
+        target = Path(path).resolve()
+    except (FileNotFoundError, OSError):
+        # If current directory doesn't exist, use absolute path
+        target = Path(path).absolute()
     ctx.ensure_object(dict)
     ctx.obj["path"] = target
 

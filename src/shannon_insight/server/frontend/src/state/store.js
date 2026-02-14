@@ -39,6 +39,14 @@ const useStore = create((set, get) => ({
   moduleSortKey: "health_score",
   moduleSortAsc: true,
 
+  // ── Churn explorer state ────────────────────────────────
+  churnTrajectoryFilter: "all",
+  churnSortKey: "total_changes",
+  churnSortAsc: false,
+
+  // ── Signal inspector state ─────────────────────────────
+  inspectedSignal: "risk_score",
+
   // ── UI state ────────────────────────────────────────────
   selectedIndex: {},
   connectionStatus: "disconnected",
@@ -106,6 +114,20 @@ const useStore = create((set, get) => ({
       set({ moduleSortKey: key, moduleSortAsc: key === "path" });
     }
   },
+
+  // Churn actions
+  setChurnTrajectoryFilter: (filter) => set({ churnTrajectoryFilter: filter }),
+  setChurnSortKey: (key) => {
+    const state = get();
+    if (state.churnSortKey === key) {
+      set({ churnSortAsc: !state.churnSortAsc });
+    } else {
+      set({ churnSortKey: key, churnSortAsc: key === "path" });
+    }
+  },
+
+  // Signal inspector actions
+  setInspectedSignal: (signal) => set({ inspectedSignal: signal }),
 
   // UI actions
   setSelectedIndex: (screen, index) => {

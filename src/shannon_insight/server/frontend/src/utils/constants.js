@@ -335,7 +335,7 @@ export const MODULE_SIGNAL_POLARITY = {
 };
 
 /** Screen identifiers for navigation. */
-export const SCREENS = ["overview", "issues", "files", "modules", "health", "graph"];
+export const SCREENS = ["overview", "issues", "files", "modules", "health", "graph", "churn", "signals"];
 
 /** Severity levels for filter chips. */
 export const SEVERITY_LEVELS = ["critical", "high", "medium", "low", "info"];

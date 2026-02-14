@@ -17,6 +17,8 @@ import { FilesScreen } from "../screens/FilesScreen.jsx";
 import { ModulesScreen } from "../screens/ModulesScreen.jsx";
 import { HealthScreen } from "../screens/HealthScreen.jsx";
 import { GraphScreen } from "../screens/GraphScreen.jsx";
+import { ChurnScreen } from "../screens/ChurnScreen.jsx";
+import { SignalInspectorScreen } from "../screens/SignalInspectorScreen.jsx";
 
 export function App() {
   const currentScreen = useStore((s) => s.currentScreen);
@@ -61,6 +63,12 @@ export function App() {
         </div>
         <div class={`screen${currentScreen === "graph" ? " active" : ""}`} id="screen-graph">
           {currentScreen === "graph" && <GraphScreen />}
+        </div>
+        <div class={`screen${currentScreen === "churn" ? " active" : ""}`} id="screen-churn">
+          {currentScreen === "churn" && <ChurnScreen />}
+        </div>
+        <div class={`screen${currentScreen === "signals" ? " active" : ""}`} id="screen-signals">
+          {currentScreen === "signals" && <SignalInspectorScreen />}
         </div>
       </div>
       <KeyboardOverlay />

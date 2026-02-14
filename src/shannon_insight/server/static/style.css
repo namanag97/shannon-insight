@@ -437,7 +437,7 @@ a:hover { text-decoration: underline; }
 .finding-files a:hover { text-decoration: underline; }
 .finding-evidence {
   font-family: var(--mono); font-size: 11px; color: var(--text-secondary);
-  margin-bottom: 3px;
+  margin-bottom: var(--space-xs); line-height: 1.6;
 }
 .finding-evidence strong { color: var(--text); font-weight: 500; }
 .finding-evidence .pctl { color: var(--text-tertiary); }

@@ -829,7 +829,7 @@ a:hover { text-decoration: underline; }
 .cat-delta-resolved { color: var(--green); }
 
 /* Risk histogram section title */
-.risk-histogram-title { margin-top: 8px; }
+.risk-histogram-title { margin-top: var(--space-sm); }
 
 /* Also-consider label */
 .also-consider-label {

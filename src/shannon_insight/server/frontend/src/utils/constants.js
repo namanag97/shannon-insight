@@ -161,7 +161,7 @@ export const CATEGORY_DESCRIPTIONS = {
 };
 
 /** Screen identifiers for navigation. */
-export const SCREENS = ["overview", "issues", "files", "modules", "health"];
+export const SCREENS = ["overview", "issues", "files", "modules", "health", "graph"];
 
 /** Severity levels for filter chips. */
 export const SEVERITY_LEVELS = ["critical", "high", "medium", "low", "info"];

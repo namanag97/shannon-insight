@@ -201,9 +201,10 @@ const INTERPRETERS = {
     return "Poor dependency structure";
   },
   file_health_score(v) {
-    if (v >= 8) return "Healthy file";
-    if (v >= 6) return "Some concerns";
-    if (v >= 4) return "Needs attention";
+    // Note: v is on [0,1] scale, NOT display scale
+    if (v >= 0.75) return "Healthy file";
+    if (v >= 0.55) return "Some concerns";
+    if (v >= 0.35) return "Needs attention";
     return "Significant problems";
   },
 };

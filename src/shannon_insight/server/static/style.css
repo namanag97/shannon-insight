@@ -536,7 +536,7 @@ a:hover { text-decoration: underline; }
   margin-bottom: var(--space-lg); border-radius: var(--radius-sm); overflow: hidden;
 }
 .fdm-cell {
-  background: var(--surface); padding: 10px 12px;
+  background: var(--surface); padding: var(--space-md) var(--space-md);
 }
 .fdm-value {
   font-family: var(--mono); font-size: 16px; font-weight: 500; color: var(--text);

@@ -79,7 +79,7 @@ def _is_port_in_use(host: str, port: int) -> bool:
         return False
 
 
-def read_pid_file(project_root: str) -> Optional[ServerInfo]:
+def read_pid_file(project_root: str) -> ServerInfo | None:
     """Read and parse the PID file for a project.
 
     Returns None if the file doesn't exist or is malformed.
@@ -130,7 +130,7 @@ def remove_pid_file(project_root: str) -> bool:
         return False
 
 
-def validate_existing_server(project_root: str, host: str) -> Optional[ServerInfo]:
+def validate_existing_server(project_root: str, host: str) -> ServerInfo | None:
     """Check if a server is already running for this project.
 
     Validates that:

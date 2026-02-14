@@ -82,11 +82,11 @@ class TestFileSignals:
             assert signals["function_count"] >= 0
 
     def test_cognitive_load_signal(self, latest_snapshot_signals):
-        """cognitive_load: Should be positive float"""
+        """cognitive_load: Should be non-negative float (can be 0 for empty files)"""
         file_signals, _ = latest_snapshot_signals
         for file_path, signals in file_signals.items():
             assert "cognitive_load" in signals, f"{file_path} missing 'cognitive_load'"
-            assert signals["cognitive_load"] > 0
+            assert signals["cognitive_load"] >= 0
 
     def test_risk_score_signal(self, latest_snapshot_signals):
         """risk_score: Should be in [0, 1] range"""

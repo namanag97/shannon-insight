@@ -29,7 +29,6 @@ class PrimitiveDefinition:
 
 _ALL_PLUGINS: list[PrimitivePlugin] = [
     CompressionPrimitive(),
-    CentralityPrimitive(),
     VolatilityPrimitive(),
     CoherencePrimitive(),
     CognitiveLoadPrimitive(),

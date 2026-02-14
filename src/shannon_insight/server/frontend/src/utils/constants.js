@@ -73,17 +73,20 @@ export const SIGNAL_DESCRIPTIONS = {
 export const SIGNAL_CATEGORIES = [
   {
     key: "size",
-    name: "Size & Complexity",
+    name: "Size and Complexity",
+    description: "How large and complex the file is",
     signals: ["lines", "function_count", "class_count", "max_nesting", "cognitive_load"],
   },
   {
     key: "structure",
-    name: "Graph Position",
+    name: "Position in Dependency Graph",
+    description: "How this file relates to other files through imports",
     signals: ["pagerank", "betweenness", "in_degree", "out_degree", "blast_radius_size", "depth"],
   },
   {
     key: "health",
-    name: "Code Health",
+    name: "Code Quality Indicators",
+    description: "Signs of code health or decay",
     signals: [
       "stub_ratio",
       "is_orphan",
@@ -94,17 +97,20 @@ export const SIGNAL_CATEGORIES = [
   },
   {
     key: "temporal",
-    name: "Change History",
+    name: "Change History and Patterns",
+    description: "How this file has been changing over time",
     signals: ["total_changes", "churn_trajectory", "churn_cv", "fix_ratio", "change_entropy"],
   },
   {
     key: "team",
-    name: "Team Context",
+    name: "Team and Ownership",
+    description: "Who works on this file and how spread out the knowledge is",
     signals: ["author_entropy", "bus_factor"],
   },
   {
     key: "risk",
-    name: "Computed Risk",
+    name: "Computed Risk Scores",
+    description: "Combined risk metrics from all signals above",
     signals: ["risk_score", "wiring_quality", "file_health_score", "raw_risk"],
   },
 ];

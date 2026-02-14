@@ -12,6 +12,7 @@ import { MetricCard } from "../cards/MetricCard.jsx";
 import { CategoryRow } from "../cards/CategoryRow.jsx";
 import { FocusPoint } from "../cards/FocusPoint.jsx";
 import { RiskHistogram } from "../charts/RiskHistogram.jsx";
+import { TrendChart } from "../charts/TrendChart.jsx";
 
 export function OverviewScreen() {
   const data = useStore((s) => s.data);

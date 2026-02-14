@@ -12,7 +12,7 @@ import { Treemap } from "../../charts/Treemap.jsx";
 
 const FILE_FILTER_CHIPS = [
   ["has_issues", "Has Issues"],
-  ["orphans", "Orphans"],
+  ["orphans", "Orphans (no importers)"],
   ["MODEL", "Model"],
   ["SERVICE", "Service"],
   ["ENTRY_POINT", "Entry Point"],
@@ -21,10 +21,10 @@ const FILE_FILTER_CHIPS = [
 
 const FILE_COLUMNS = [
   { key: "path", label: "File", numeric: false },
-  { key: "risk_score", label: "Risk", numeric: true },
-  { key: "total_changes", label: "Churn", numeric: true },
+  { key: "risk_score", label: "Risk Score", numeric: true },
+  { key: "total_changes", label: "Commits", numeric: true },
   { key: "cognitive_load", label: "Complexity", numeric: true },
-  { key: "blast_radius", label: "Blast R.", numeric: true },
+  { key: "blast_radius", label: "Impact Size", numeric: true },
   { key: "finding_count", label: "Issues", numeric: true },
 ];
 

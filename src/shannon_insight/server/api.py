@@ -15,6 +15,7 @@ from ..insights.models import Finding, InsightResult
 from ..persistence import HistoryDB
 from ..persistence.models import TensorSnapshot
 from ..persistence.queries import HistoryQuery
+from .serializers import DashboardSerializer
 
 logger = logging.getLogger(__name__)
 

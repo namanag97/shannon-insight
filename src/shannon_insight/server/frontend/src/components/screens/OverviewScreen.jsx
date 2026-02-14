@@ -60,12 +60,12 @@ export function OverviewScreen() {
 
       {/* Stat strip */}
       <div class="stat-strip">
-        <MetricCard value={fmtN(data.file_count)} label="files" />
-        <MetricCard value={fmtN(data.module_count)} label="modules" />
-        <MetricCard value={fmtN(data.commits_analyzed)} label="commits" />
+        <MetricCard value={fmtN(data.file_count)} label="Files Analyzed" />
+        <MetricCard value={fmtN(data.module_count)} label="Modules" />
+        <MetricCard value={fmtN(data.commits_analyzed)} label="Commits Scanned" />
         <MetricCard
           value={fmtN(totalIssues)}
-          label="issues"
+          label="Issues Found"
           style={totalIssues > 0 ? { color: "var(--orange)" } : undefined}
         />
       </div>

@@ -187,6 +187,41 @@ export function GraphScreen() {
             </div>
           </div>
         )}
+
+        {/* Community legend */}
+        {!loading && nodeCount > 0 && communityCount > 0 && (
+          <div class="graph-legend">
+            <div class="graph-legend-title">Communities</div>
+            {(data.communities || []).slice(0, 8).map((comm, i) => (
+              <div key={i} class="graph-legend-item">
+                <span class="graph-legend-dot" style={{ background: COMMUNITY_COLORS[i % COMMUNITY_COLORS.length] }} />
+                <span>{typeof comm === "object" ? (comm.label || `Community ${i}`) : `Community ${i}`}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Zoom controls */}
+        {!loading && nodeCount > 0 && (
+          <div class="graph-zoom-controls">
+            <button
+              title="Zoom in"
+              onClick={() => { if (cyRef.current) cyRef.current.zoom(cyRef.current.zoom() * 1.3); }}
+            >+</button>
+            <button
+              title="Zoom out"
+              onClick={() => { if (cyRef.current) cyRef.current.zoom(cyRef.current.zoom() * 0.7); }}
+            >-</button>
+            <button
+              title="Fit to viewport"
+              onClick={() => { if (cyRef.current) cyRef.current.fit(undefined, 40); }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

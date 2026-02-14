@@ -127,7 +127,7 @@ export function HealthScreen() {
       {/* Chronic Findings Section */}
       {data.trends && data.trends.chronic && data.trends.chronic.length > 0 && (
         <div class="health-section">
-          <div class="section-title">Chronic Findings</div>
+          <div class="section-title">Persistent Issues (Across Multiple Snapshots)</div>
           <div class="card">
             {data.trends.chronic.map((c, i) => (
               <div class="chronic-finding-row" key={i}>

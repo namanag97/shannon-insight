@@ -63,6 +63,22 @@ class BaseScanner(ABC):
             if not filepath.is_file():
                 continue
 
+            # Skip symlinks if configured (default: skip)
+            if filepath.is_symlink() and not self.settings.follow_symlinks:
+                continue
+
+            # Detect symlink loops via inode tracking
+            try:
+                stat_info = filepath.stat()
+                inode_key = (stat_info.st_dev, stat_info.st_ino)
+                if inode_key in visited_inodes:
+                    logger.debug(f"Skipped (symlink loop): {filepath}")
+                    continue
+                visited_inodes.add(inode_key)
+            except OSError:
+                # Can't stat - will be caught later
+                pass
+
             # Check extension match (O(1) set lookup)
             if filepath.suffix not in ext_set:
                 continue

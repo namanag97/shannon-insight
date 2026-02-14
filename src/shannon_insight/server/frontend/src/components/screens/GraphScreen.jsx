@@ -652,13 +652,13 @@ function getCytoscapeStyles() {
     {
       selector: "edge",
       style: {
-        width: 1,
-        "line-color": "#333",
-        "target-arrow-color": "#444",
+        width: 2,
+        "line-color": "#555555",
+        "target-arrow-color": "#666666",
         "target-arrow-shape": "triangle",
         "curve-style": "bezier",
-        opacity: 0.3,
-        "arrow-scale": 0.6,
+        opacity: 0.6,
+        "arrow-scale": 0.8,
       },
     },
     {

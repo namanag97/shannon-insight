@@ -25,7 +25,6 @@ from shannon_insight.infrastructure.signals import (
     signals_by_scope,
 )
 
-
 # ---------------------------------------------------------------------------
 # Enum completeness
 # ---------------------------------------------------------------------------
@@ -48,8 +47,7 @@ class TestSignalEnum:
         """No two Signal members share the same string value."""
         values = [s.value for s in Signal]
         assert len(values) == len(set(values)), (
-            f"Duplicate values found: "
-            f"{[v for v in values if values.count(v) > 1]}"
+            f"Duplicate values found: {[v for v in values if values.count(v) > 1]}"
         )
 
     def test_values_are_snake_case(self) -> None:
@@ -58,9 +56,7 @@ class TestSignalEnum:
             assert signal.value == signal.value.lower(), (
                 f"{signal.name} has non-lowercase value '{signal.value}'"
             )
-            assert " " not in signal.value, (
-                f"{signal.name} has spaces in value '{signal.value}'"
-            )
+            assert " " not in signal.value, f"{signal.name} has spaces in value '{signal.value}'"
 
     def test_names_are_uppercase(self) -> None:
         """All Signal member names are UPPER_CASE."""
@@ -72,8 +68,12 @@ class TestSignalEnum:
     def test_known_ir1_signals_exist(self) -> None:
         """IR1 (syntactic scanning) signals are present."""
         ir1 = {
-            Signal.LINES, Signal.FUNCTION_COUNT, Signal.CLASS_COUNT,
-            Signal.MAX_NESTING, Signal.IMPL_GINI, Signal.STUB_RATIO,
+            Signal.LINES,
+            Signal.FUNCTION_COUNT,
+            Signal.CLASS_COUNT,
+            Signal.MAX_NESTING,
+            Signal.IMPL_GINI,
+            Signal.STUB_RATIO,
             Signal.IMPORT_COUNT,
         }
         assert len(ir1) == 7
@@ -81,19 +81,30 @@ class TestSignalEnum:
     def test_known_ir2_signals_exist(self) -> None:
         """IR2 (semantic) signals are present."""
         ir2 = {
-            Signal.ROLE, Signal.CONCEPT_COUNT, Signal.CONCEPT_ENTROPY,
-            Signal.NAMING_DRIFT, Signal.TODO_DENSITY, Signal.DOCSTRING_COVERAGE,
+            Signal.ROLE,
+            Signal.CONCEPT_COUNT,
+            Signal.CONCEPT_ENTROPY,
+            Signal.NAMING_DRIFT,
+            Signal.TODO_DENSITY,
+            Signal.DOCSTRING_COVERAGE,
         }
         assert len(ir2) == 6
 
     def test_known_ir3_signals_exist(self) -> None:
         """IR3 (graph) signals are present."""
         ir3 = {
-            Signal.PAGERANK, Signal.BETWEENNESS, Signal.IN_DEGREE,
-            Signal.OUT_DEGREE, Signal.BLAST_RADIUS_SIZE, Signal.DEPTH,
-            Signal.IS_ORPHAN, Signal.PHANTOM_IMPORT_COUNT,
-            Signal.BROKEN_CALL_COUNT, Signal.COMMUNITY,
-            Signal.COMPRESSION_RATIO, Signal.SEMANTIC_COHERENCE,
+            Signal.PAGERANK,
+            Signal.BETWEENNESS,
+            Signal.IN_DEGREE,
+            Signal.OUT_DEGREE,
+            Signal.BLAST_RADIUS_SIZE,
+            Signal.DEPTH,
+            Signal.IS_ORPHAN,
+            Signal.PHANTOM_IMPORT_COUNT,
+            Signal.BROKEN_CALL_COUNT,
+            Signal.COMMUNITY,
+            Signal.COMPRESSION_RATIO,
+            Signal.SEMANTIC_COHERENCE,
             Signal.COGNITIVE_LOAD,
         }
         assert len(ir3) == 13
@@ -101,9 +112,14 @@ class TestSignalEnum:
     def test_known_temporal_signals_exist(self) -> None:
         """IR5t (temporal) signals are present."""
         temporal = {
-            Signal.TOTAL_CHANGES, Signal.CHURN_TRAJECTORY, Signal.CHURN_SLOPE,
-            Signal.CHURN_CV, Signal.BUS_FACTOR, Signal.AUTHOR_ENTROPY,
-            Signal.FIX_RATIO, Signal.REFACTOR_RATIO,
+            Signal.TOTAL_CHANGES,
+            Signal.CHURN_TRAJECTORY,
+            Signal.CHURN_SLOPE,
+            Signal.CHURN_CV,
+            Signal.BUS_FACTOR,
+            Signal.AUTHOR_ENTROPY,
+            Signal.FIX_RATIO,
+            Signal.REFACTOR_RATIO,
         }
         assert len(temporal) == 8
 
@@ -115,23 +131,38 @@ class TestSignalEnum:
     def test_known_module_signals_exist(self) -> None:
         """Per-module signals are present."""
         module = {
-            Signal.COHESION, Signal.COUPLING, Signal.INSTABILITY,
-            Signal.ABSTRACTNESS, Signal.MAIN_SEQ_DISTANCE,
-            Signal.BOUNDARY_ALIGNMENT, Signal.LAYER_VIOLATION_COUNT,
-            Signal.ROLE_CONSISTENCY, Signal.VELOCITY,
-            Signal.COORDINATION_COST, Signal.KNOWLEDGE_GINI,
-            Signal.MODULE_BUS_FACTOR, Signal.MEAN_COGNITIVE_LOAD,
-            Signal.FILE_COUNT, Signal.HEALTH_SCORE,
+            Signal.COHESION,
+            Signal.COUPLING,
+            Signal.INSTABILITY,
+            Signal.ABSTRACTNESS,
+            Signal.MAIN_SEQ_DISTANCE,
+            Signal.BOUNDARY_ALIGNMENT,
+            Signal.LAYER_VIOLATION_COUNT,
+            Signal.ROLE_CONSISTENCY,
+            Signal.VELOCITY,
+            Signal.COORDINATION_COST,
+            Signal.KNOWLEDGE_GINI,
+            Signal.MODULE_BUS_FACTOR,
+            Signal.MEAN_COGNITIVE_LOAD,
+            Signal.FILE_COUNT,
+            Signal.HEALTH_SCORE,
         }
         assert len(module) == 15
 
     def test_known_global_signals_exist(self) -> None:
         """Global signals are present."""
         global_sigs = {
-            Signal.MODULARITY, Signal.FIEDLER_VALUE, Signal.SPECTRAL_GAP,
-            Signal.CYCLE_COUNT, Signal.CENTRALITY_GINI, Signal.ORPHAN_RATIO,
-            Signal.PHANTOM_RATIO, Signal.GLUE_DEFICIT, Signal.WIRING_SCORE,
-            Signal.ARCHITECTURE_HEALTH, Signal.CODEBASE_HEALTH,
+            Signal.MODULARITY,
+            Signal.FIEDLER_VALUE,
+            Signal.SPECTRAL_GAP,
+            Signal.CYCLE_COUNT,
+            Signal.CENTRALITY_GINI,
+            Signal.ORPHAN_RATIO,
+            Signal.PHANTOM_RATIO,
+            Signal.GLUE_DEFICIT,
+            Signal.WIRING_SCORE,
+            Signal.ARCHITECTURE_HEALTH,
+            Signal.CODEBASE_HEALTH,
         }
         assert len(global_sigs) == 11
 
@@ -154,9 +185,7 @@ class TestRegistry:
     def test_all_signals_registered(self) -> None:
         """Every Signal enum member has a corresponding entry in REGISTRY."""
         for signal in Signal:
-            assert signal in REGISTRY, (
-                f"Signal '{signal.value}' is not registered in REGISTRY"
-            )
+            assert signal in REGISTRY, f"Signal '{signal.value}' is not registered in REGISTRY"
 
     def test_registry_count(self) -> None:
         """REGISTRY has exactly 62 entries."""
@@ -170,9 +199,7 @@ class TestRegistry:
     def test_signal_meta_signal_matches_key(self) -> None:
         """Every SignalMeta.signal matches its key in REGISTRY."""
         for signal, meta in REGISTRY.items():
-            assert meta.signal is signal, (
-                f"REGISTRY key {signal} has meta.signal={meta.signal}"
-            )
+            assert meta.signal is signal, f"REGISTRY key {signal} has meta.signal={meta.signal}"
 
 
 # ---------------------------------------------------------------------------
@@ -187,9 +214,7 @@ class TestSignalMeta:
         """Every signal has a valid scope."""
         valid_scopes = {"file", "module", "global"}
         for signal, meta in REGISTRY.items():
-            assert meta.scope in valid_scopes, (
-                f"{signal.value} has invalid scope '{meta.scope}'"
-            )
+            assert meta.scope in valid_scopes, f"{signal.value} has invalid scope '{meta.scope}'"
 
     def test_all_polarities_valid(self) -> None:
         """Every signal has a valid polarity."""
@@ -202,9 +227,7 @@ class TestSignalMeta:
     def test_all_phases_in_range(self) -> None:
         """Every signal has a phase between 0 and 5."""
         for signal, meta in REGISTRY.items():
-            assert 0 <= meta.phase <= 5, (
-                f"{signal.value} has phase {meta.phase}, expected 0-5"
-            )
+            assert 0 <= meta.phase <= 5, f"{signal.value} has phase {meta.phase}, expected 0-5"
 
     def test_all_dtypes_are_types(self) -> None:
         """Every signal has a valid Python type for dtype."""
@@ -219,16 +242,13 @@ class TestSignalMeta:
         for signal, meta in REGISTRY.items():
             if meta.absolute_threshold is not None:
                 assert isinstance(meta.absolute_threshold, (int, float)), (
-                    f"{signal.value} has non-numeric threshold "
-                    f"{meta.absolute_threshold}"
+                    f"{signal.value} has non-numeric threshold {meta.absolute_threshold}"
                 )
 
     def test_produced_by_is_nonempty(self) -> None:
         """Every signal has a non-empty produced_by string."""
         for signal, meta in REGISTRY.items():
-            assert len(meta.produced_by) > 0, (
-                f"{signal.value} has empty produced_by"
-            )
+            assert len(meta.produced_by) > 0, f"{signal.value} has empty produced_by"
 
     def test_frozen_dataclass(self) -> None:
         """SignalMeta instances are immutable."""
@@ -362,9 +382,7 @@ class TestHelperFunctions:
         pctl = percentileable_signals()
         global_signals = signals_by_scope("global")
         for sig in global_signals:
-            assert sig not in pctl, (
-                f"Global signal {sig.value} should not be percentileable"
-            )
+            assert sig not in pctl, f"Global signal {sig.value} should not be percentileable"
 
     def test_percentileable_signals_excludes_module_composites(self) -> None:
         """Module composite (health_score) is not percentileable."""
@@ -380,55 +398,83 @@ class TestHelperFunctions:
         """Standard numeric file signals are percentileable."""
         pctl = percentileable_signals()
         expected_pctl = {
-            Signal.LINES, Signal.FUNCTION_COUNT, Signal.CLASS_COUNT,
-            Signal.MAX_NESTING, Signal.IMPL_GINI, Signal.STUB_RATIO,
-            Signal.IMPORT_COUNT, Signal.CONCEPT_COUNT, Signal.CONCEPT_ENTROPY,
-            Signal.NAMING_DRIFT, Signal.TODO_DENSITY, Signal.DOCSTRING_COVERAGE,
-            Signal.PAGERANK, Signal.BETWEENNESS, Signal.IN_DEGREE,
-            Signal.OUT_DEGREE, Signal.BLAST_RADIUS_SIZE,
-            Signal.PHANTOM_IMPORT_COUNT, Signal.BROKEN_CALL_COUNT,
-            Signal.COMPRESSION_RATIO, Signal.SEMANTIC_COHERENCE,
-            Signal.COGNITIVE_LOAD, Signal.TOTAL_CHANGES, Signal.CHURN_SLOPE,
-            Signal.CHURN_CV, Signal.BUS_FACTOR, Signal.AUTHOR_ENTROPY,
-            Signal.FIX_RATIO, Signal.REFACTOR_RATIO,
+            Signal.LINES,
+            Signal.FUNCTION_COUNT,
+            Signal.CLASS_COUNT,
+            Signal.MAX_NESTING,
+            Signal.IMPL_GINI,
+            Signal.STUB_RATIO,
+            Signal.IMPORT_COUNT,
+            Signal.CONCEPT_COUNT,
+            Signal.CONCEPT_ENTROPY,
+            Signal.NAMING_DRIFT,
+            Signal.TODO_DENSITY,
+            Signal.DOCSTRING_COVERAGE,
+            Signal.PAGERANK,
+            Signal.BETWEENNESS,
+            Signal.IN_DEGREE,
+            Signal.OUT_DEGREE,
+            Signal.BLAST_RADIUS_SIZE,
+            Signal.PHANTOM_IMPORT_COUNT,
+            Signal.BROKEN_CALL_COUNT,
+            Signal.COMPRESSION_RATIO,
+            Signal.SEMANTIC_COHERENCE,
+            Signal.COGNITIVE_LOAD,
+            Signal.TOTAL_CHANGES,
+            Signal.CHURN_SLOPE,
+            Signal.CHURN_CV,
+            Signal.BUS_FACTOR,
+            Signal.AUTHOR_ENTROPY,
+            Signal.FIX_RATIO,
+            Signal.REFACTOR_RATIO,
         }
         for sig in expected_pctl:
-            assert sig in pctl, (
-                f"Signal {sig.value} should be percentileable"
-            )
+            assert sig in pctl, f"Signal {sig.value} should be percentileable"
 
     def test_percentileable_signals_includes_module_metrics(self) -> None:
         """Module-level Martin metrics and aggregates are percentileable."""
         pctl = percentileable_signals()
         expected = {
-            Signal.COHESION, Signal.COUPLING, Signal.INSTABILITY,
-            Signal.ABSTRACTNESS, Signal.MAIN_SEQ_DISTANCE,
-            Signal.BOUNDARY_ALIGNMENT, Signal.LAYER_VIOLATION_COUNT,
-            Signal.ROLE_CONSISTENCY, Signal.VELOCITY,
-            Signal.COORDINATION_COST, Signal.KNOWLEDGE_GINI,
-            Signal.MODULE_BUS_FACTOR, Signal.MEAN_COGNITIVE_LOAD,
+            Signal.COHESION,
+            Signal.COUPLING,
+            Signal.INSTABILITY,
+            Signal.ABSTRACTNESS,
+            Signal.MAIN_SEQ_DISTANCE,
+            Signal.BOUNDARY_ALIGNMENT,
+            Signal.LAYER_VIOLATION_COUNT,
+            Signal.ROLE_CONSISTENCY,
+            Signal.VELOCITY,
+            Signal.COORDINATION_COST,
+            Signal.KNOWLEDGE_GINI,
+            Signal.MODULE_BUS_FACTOR,
+            Signal.MEAN_COGNITIVE_LOAD,
             Signal.FILE_COUNT,
         }
         for sig in expected:
-            assert sig in pctl, (
-                f"Module signal {sig.value} should be percentileable"
-            )
+            assert sig in pctl, f"Module signal {sig.value} should be percentileable"
 
     def test_signals_by_phase_0(self) -> None:
         """Phase 0 includes scanning + graph basics + global graph metrics."""
         phase0 = signals_by_phase(0)
         expected_in_phase0 = {
-            Signal.LINES, Signal.FUNCTION_COUNT, Signal.CLASS_COUNT,
-            Signal.IMPORT_COUNT, Signal.PAGERANK, Signal.BETWEENNESS,
-            Signal.IN_DEGREE, Signal.OUT_DEGREE, Signal.BLAST_RADIUS_SIZE,
-            Signal.COMMUNITY, Signal.COMPRESSION_RATIO,
-            Signal.MODULARITY, Signal.FIEDLER_VALUE, Signal.SPECTRAL_GAP,
+            Signal.LINES,
+            Signal.FUNCTION_COUNT,
+            Signal.CLASS_COUNT,
+            Signal.IMPORT_COUNT,
+            Signal.PAGERANK,
+            Signal.BETWEENNESS,
+            Signal.IN_DEGREE,
+            Signal.OUT_DEGREE,
+            Signal.BLAST_RADIUS_SIZE,
+            Signal.COMMUNITY,
+            Signal.COMPRESSION_RATIO,
+            Signal.MODULARITY,
+            Signal.FIEDLER_VALUE,
+            Signal.SPECTRAL_GAP,
             Signal.CYCLE_COUNT,
         }
         for sig in expected_in_phase0:
-            assert sig in phase0, (
-                f"Signal {sig.value} should be in phase 0"
-            )
+            assert sig in phase0, f"Signal {sig.value} should be in phase 0"
 
     def test_signals_by_phase_5_is_all(self) -> None:
         """Phase 5 includes all 62 signals."""
@@ -441,8 +487,7 @@ class TestHelperFunctions:
         for p in range(6):
             current = signals_by_phase(p)
             assert prev.issubset(current), (
-                f"Phase {p} is not a superset of phase {p-1}: "
-                f"missing {prev - current}"
+                f"Phase {p} is not a superset of phase {p - 1}: missing {prev - current}"
             )
             prev = current
 
@@ -665,8 +710,7 @@ class TestPolarityCorrectness:
         }
         good = signals_by_polarity("high_is_good")
         assert good == expected_good, (
-            f"Extra in actual: {good - expected_good}, "
-            f"Missing from actual: {expected_good - good}"
+            f"Extra in actual: {good - expected_good}, Missing from actual: {expected_good - good}"
         )
 
     def test_neutral_signals(self) -> None:
@@ -716,8 +760,7 @@ class TestSingleOwner:
             if meta.signal.value in values:
                 other = values[meta.signal.value]
                 pytest.fail(
-                    f"Duplicate value '{meta.signal.value}': "
-                    f"{signal.name} and {other.name}"
+                    f"Duplicate value '{meta.signal.value}': {signal.name} and {other.name}"
                 )
             values[meta.signal.value] = signal
 
@@ -736,6 +779,4 @@ class TestSingleOwner:
         }
         actual_producers = {m.produced_by for m in REGISTRY.values()}
         unknown = actual_producers - known_producers
-        assert not unknown, (
-            f"Unknown producers: {unknown}. If intentional, add to known_producers."
-        )
+        assert not unknown, f"Unknown producers: {unknown}. If intentional, add to known_producers."

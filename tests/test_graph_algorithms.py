@@ -4,7 +4,6 @@ from collections import Counter
 
 from shannon_insight.graph.algorithms import (
     _coarsen_graph,
-    _phase1_local_moving,
     compute_blast_radius,
     compute_modularity,
     louvain,
@@ -292,9 +291,7 @@ class TestCoarsenGraph:
         edge_weights = {("a", "b"): 1}
         degree = {"a": 1, "b": 1}
         node_comm = {"a": 0, "b": 1}
-        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(
-            edge_weights, degree, node_comm
-        )
+        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(edge_weights, degree, node_comm)
         assert len(new_nodes) == 2
         assert len(super_members) == 2
 
@@ -303,9 +300,7 @@ class TestCoarsenGraph:
         edge_weights = {("a", "b"): 2, ("a", "c"): 2, ("b", "c"): 2}
         degree = {"a": 4, "b": 4, "c": 4}
         node_comm = {"a": 0, "b": 0, "c": 0}
-        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(
-            edge_weights, degree, node_comm
-        )
+        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(edge_weights, degree, node_comm)
         assert len(new_nodes) == 1
         # Single super-node with self-loop
         super_node = new_nodes[0]
@@ -323,9 +318,7 @@ class TestCoarsenGraph:
         edge_weights = {("a", "b"): 2, ("a", "c"): 1, ("c", "d"): 2}
         degree = {"a": 3, "b": 2, "c": 3, "d": 2}
         node_comm = {"a": 0, "b": 0, "c": 1, "d": 1}
-        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(
-            edge_weights, degree, node_comm
-        )
+        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(edge_weights, degree, node_comm)
         assert len(new_nodes) == 2
         s0 = [n for n in new_nodes if super_members[n] == {"a", "b"}][0]
         s1 = [n for n in new_nodes if super_members[n] == {"c", "d"}][0]
@@ -345,9 +338,7 @@ class TestCoarsenGraph:
         edge_weights = {("a", "b"): 3, ("b", "c"): 1, ("c", "d"): 2}
         degree = {"a": 3, "b": 4, "c": 3, "d": 2}
         node_comm = {"a": 0, "b": 0, "c": 1, "d": 1}
-        new_ew, new_deg, new_nodes, _ = _coarsen_graph(
-            edge_weights, degree, node_comm
-        )
+        new_ew, new_deg, new_nodes, _ = _coarsen_graph(edge_weights, degree, node_comm)
         # Total edge weight preserved
         assert sum(new_ew.values()) == sum(edge_weights.values())
         # Total degree preserved
@@ -402,9 +393,7 @@ class TestLouvainExtended:
             "e": ["d", "f"],
             "f": ["d", "e"],
         }
-        communities, node_comm, modularity = louvain(
-            adj, {"a", "b", "c", "d", "e", "f"}
-        )
+        communities, node_comm, modularity = louvain(adj, {"a", "b", "c", "d", "e", "f"})
         # Should find 2 communities
         assert len(communities) == 2
         # a, b, c in same community

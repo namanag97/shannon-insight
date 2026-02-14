@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import concurrent.futures
-import threading
 from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Optional
 
@@ -48,9 +47,7 @@ def _run_with_timeout(func: Callable, timeout: float, name: str) -> None:
         try:
             future.result(timeout=timeout)
         except concurrent.futures.TimeoutError:
-            raise AnalyzerTimeoutError(
-                f"Analyzer '{name}' exceeded {timeout}s timeout"
-            )
+            raise AnalyzerTimeoutError(f"Analyzer '{name}' exceeded {timeout}s timeout")
 
 
 class InsightKernel:

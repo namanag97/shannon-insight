@@ -11,7 +11,6 @@ All transformations happen HERE, not scattered across the codebase.
 from __future__ import annotations
 
 import os
-from pathlib import Path
 from typing import Any
 
 from ..persistence.database import HistoryDB
@@ -244,7 +243,7 @@ class DashboardSerializer:
 
         # Compare metric values between baseline and latest
         rows = cur.execute(
-            f"""
+            """
             SELECT
                 latest.file_path,
                 baseline.value as old_value,

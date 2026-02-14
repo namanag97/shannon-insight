@@ -260,7 +260,9 @@ def _coarsen_graph(
         new_degree[name] = sum(degree.get(n, 0) for n in members)
 
     # Super-node members mapping
-    super_members: dict[str, set[str]] = {comm_name[cid]: members for cid, members in communities.items()}
+    super_members: dict[str, set[str]] = {
+        comm_name[cid]: members for cid, members in communities.items()
+    }
 
     new_nodes = sorted(super_members.keys())
 

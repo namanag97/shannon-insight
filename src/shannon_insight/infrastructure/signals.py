@@ -31,7 +31,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Optional, Set
 
-
 # ---------------------------------------------------------------------------
 # Signal Enum
 # ---------------------------------------------------------------------------
@@ -54,80 +53,80 @@ class Signal(Enum):
     """
 
     # ── IR1: Syntactic scanning (per-file, phase 0-1) ────────────────
-    LINES = "lines"                                  # 1
-    FUNCTION_COUNT = "function_count"                # 2
-    CLASS_COUNT = "class_count"                      # 3
-    MAX_NESTING = "max_nesting"                      # 4
-    IMPL_GINI = "impl_gini"                          # 5
-    STUB_RATIO = "stub_ratio"                        # 6
-    IMPORT_COUNT = "import_count"                    # 7
+    LINES = "lines"  # 1
+    FUNCTION_COUNT = "function_count"  # 2
+    CLASS_COUNT = "class_count"  # 3
+    MAX_NESTING = "max_nesting"  # 4
+    IMPL_GINI = "impl_gini"  # 5
+    STUB_RATIO = "stub_ratio"  # 6
+    IMPORT_COUNT = "import_count"  # 7
 
     # ── IR2: Semantic analysis (per-file, phase 2) ───────────────────
-    ROLE = "role"                                    # 8
-    CONCEPT_COUNT = "concept_count"                  # 9
-    CONCEPT_ENTROPY = "concept_entropy"              # 10
-    NAMING_DRIFT = "naming_drift"                    # 11
-    TODO_DENSITY = "todo_density"                    # 12
-    DOCSTRING_COVERAGE = "docstring_coverage"        # 13
+    ROLE = "role"  # 8
+    CONCEPT_COUNT = "concept_count"  # 9
+    CONCEPT_ENTROPY = "concept_entropy"  # 10
+    NAMING_DRIFT = "naming_drift"  # 11
+    TODO_DENSITY = "todo_density"  # 12
+    DOCSTRING_COVERAGE = "docstring_coverage"  # 13
 
     # ── IR3: Graph analysis (per-file, phase 0-3) ───────────────────
-    PAGERANK = "pagerank"                            # 14
-    BETWEENNESS = "betweenness"                      # 15
-    IN_DEGREE = "in_degree"                          # 16
-    OUT_DEGREE = "out_degree"                        # 17
-    BLAST_RADIUS_SIZE = "blast_radius_size"          # 18
-    DEPTH = "depth"                                  # 19
-    IS_ORPHAN = "is_orphan"                          # 20
-    PHANTOM_IMPORT_COUNT = "phantom_import_count"    # 21
-    BROKEN_CALL_COUNT = "broken_call_count"          # 22
-    COMMUNITY = "community"                          # 23
-    COMPRESSION_RATIO = "compression_ratio"          # 24
-    SEMANTIC_COHERENCE = "semantic_coherence"        # 25
-    COGNITIVE_LOAD = "cognitive_load"                # 26
+    PAGERANK = "pagerank"  # 14
+    BETWEENNESS = "betweenness"  # 15
+    IN_DEGREE = "in_degree"  # 16
+    OUT_DEGREE = "out_degree"  # 17
+    BLAST_RADIUS_SIZE = "blast_radius_size"  # 18
+    DEPTH = "depth"  # 19
+    IS_ORPHAN = "is_orphan"  # 20
+    PHANTOM_IMPORT_COUNT = "phantom_import_count"  # 21
+    BROKEN_CALL_COUNT = "broken_call_count"  # 22
+    COMMUNITY = "community"  # 23
+    COMPRESSION_RATIO = "compression_ratio"  # 24
+    SEMANTIC_COHERENCE = "semantic_coherence"  # 25
+    COGNITIVE_LOAD = "cognitive_load"  # 26
 
     # ── IR5t: Temporal / git history (per-file, phase 3) ─────────────
-    TOTAL_CHANGES = "total_changes"                  # 27
-    CHURN_TRAJECTORY = "churn_trajectory"            # 28
-    CHURN_SLOPE = "churn_slope"                      # 29
-    CHURN_CV = "churn_cv"                            # 30
-    BUS_FACTOR = "bus_factor"                        # 31
-    AUTHOR_ENTROPY = "author_entropy"                # 32
-    FIX_RATIO = "fix_ratio"                          # 33
-    REFACTOR_RATIO = "refactor_ratio"                # 34
+    TOTAL_CHANGES = "total_changes"  # 27
+    CHURN_TRAJECTORY = "churn_trajectory"  # 28
+    CHURN_SLOPE = "churn_slope"  # 29
+    CHURN_CV = "churn_cv"  # 30
+    BUS_FACTOR = "bus_factor"  # 31
+    AUTHOR_ENTROPY = "author_entropy"  # 32
+    FIX_RATIO = "fix_ratio"  # 33
+    REFACTOR_RATIO = "refactor_ratio"  # 34
 
     # ── IR5s: Per-file composites (phase 5) ──────────────────────────
-    RISK_SCORE = "risk_score"                        # 35
-    WIRING_QUALITY = "wiring_quality"                # 36
+    RISK_SCORE = "risk_score"  # 35
+    WIRING_QUALITY = "wiring_quality"  # 36
 
     # ── IR4: Per-module signals (phase 4-5) ──────────────────────────
-    COHESION = "cohesion"                            # 37
-    COUPLING = "coupling"                            # 38
-    INSTABILITY = "instability"                      # 39
-    ABSTRACTNESS = "abstractness"                    # 40
-    MAIN_SEQ_DISTANCE = "main_seq_distance"          # 41
-    BOUNDARY_ALIGNMENT = "boundary_alignment"        # 42
+    COHESION = "cohesion"  # 37
+    COUPLING = "coupling"  # 38
+    INSTABILITY = "instability"  # 39
+    ABSTRACTNESS = "abstractness"  # 40
+    MAIN_SEQ_DISTANCE = "main_seq_distance"  # 41
+    BOUNDARY_ALIGNMENT = "boundary_alignment"  # 42
     LAYER_VIOLATION_COUNT = "layer_violation_count"  # 43
-    ROLE_CONSISTENCY = "role_consistency"             # 44
-    VELOCITY = "velocity"                            # 45
-    COORDINATION_COST = "coordination_cost"          # 46
-    KNOWLEDGE_GINI = "knowledge_gini"                # 47
-    MODULE_BUS_FACTOR = "module_bus_factor"           # 48
-    MEAN_COGNITIVE_LOAD = "mean_cognitive_load"       # 49
-    FILE_COUNT = "file_count"                        # 50
-    HEALTH_SCORE = "health_score"                    # 51
+    ROLE_CONSISTENCY = "role_consistency"  # 44
+    VELOCITY = "velocity"  # 45
+    COORDINATION_COST = "coordination_cost"  # 46
+    KNOWLEDGE_GINI = "knowledge_gini"  # 47
+    MODULE_BUS_FACTOR = "module_bus_factor"  # 48
+    MEAN_COGNITIVE_LOAD = "mean_cognitive_load"  # 49
+    FILE_COUNT = "file_count"  # 50
+    HEALTH_SCORE = "health_score"  # 51
 
     # ── S6: Global signals (phase 0-5) ───────────────────────────────
-    MODULARITY = "modularity"                        # 52
-    FIEDLER_VALUE = "fiedler_value"                  # 53
-    SPECTRAL_GAP = "spectral_gap"                    # 54
-    CYCLE_COUNT = "cycle_count"                      # 55
-    CENTRALITY_GINI = "centrality_gini"              # 56
-    ORPHAN_RATIO = "orphan_ratio"                    # 57
-    PHANTOM_RATIO = "phantom_ratio"                  # 58
-    GLUE_DEFICIT = "glue_deficit"                    # 59
-    WIRING_SCORE = "wiring_score"                    # 60
-    ARCHITECTURE_HEALTH = "architecture_health"      # 61
-    CODEBASE_HEALTH = "codebase_health"              # 62
+    MODULARITY = "modularity"  # 52
+    FIEDLER_VALUE = "fiedler_value"  # 53
+    SPECTRAL_GAP = "spectral_gap"  # 54
+    CYCLE_COUNT = "cycle_count"  # 55
+    CENTRALITY_GINI = "centrality_gini"  # 56
+    ORPHAN_RATIO = "orphan_ratio"  # 57
+    PHANTOM_RATIO = "phantom_ratio"  # 58
+    GLUE_DEFICIT = "glue_deficit"  # 59
+    WIRING_SCORE = "wiring_score"  # 60
+    ARCHITECTURE_HEALTH = "architecture_health"  # 61
+    CODEBASE_HEALTH = "codebase_health"  # 62
 
 
 # ---------------------------------------------------------------------------
@@ -179,10 +178,7 @@ class SignalMeta:
                 f"Must be 'high_is_bad', 'high_is_good', or 'neutral'."
             )
         if not 0 <= self.phase <= 5:
-            raise ValueError(
-                f"Invalid phase {self.phase} for {self.signal.value}. "
-                f"Must be 0-5."
-            )
+            raise ValueError(f"Invalid phase {self.phase} for {self.signal.value}. Must be 0-5.")
 
 
 # ---------------------------------------------------------------------------
@@ -229,8 +225,7 @@ def get_signal_meta(signal: Signal) -> SignalMeta:
         return REGISTRY[signal]
     except KeyError:
         raise KeyError(
-            f"Signal '{signal.value}' not found in registry. "
-            f"Did you forget to register it?"
+            f"Signal '{signal.value}' not found in registry. Did you forget to register it?"
         ) from None
 
 
@@ -274,704 +269,829 @@ def signals_by_polarity(polarity: str) -> Set[Signal]:
 
 # ── Per-File: IR1 Syntactic (scanning/) ──────────────────────────────────
 
-register(SignalMeta(
-    signal=Signal.LINES,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=500.0,
-    produced_by="scanning",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.LINES,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=500.0,
+        produced_by="scanning",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.FUNCTION_COUNT,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=30.0,
-    produced_by="scanning",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.FUNCTION_COUNT,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=30.0,
+        produced_by="scanning",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CLASS_COUNT,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="scanning",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.CLASS_COUNT,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="scanning",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.MAX_NESTING,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=4.0,
-    produced_by="scanning",
-    phase=1,
-))
+register(
+    SignalMeta(
+        signal=Signal.MAX_NESTING,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=4.0,
+        produced_by="scanning",
+        phase=1,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.IMPL_GINI,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=0.6,
-    produced_by="scanning",
-    phase=1,
-))
+register(
+    SignalMeta(
+        signal=Signal.IMPL_GINI,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=0.6,
+        produced_by="scanning",
+        phase=1,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.STUB_RATIO,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=0.5,
-    produced_by="scanning",
-    phase=1,
-))
+register(
+    SignalMeta(
+        signal=Signal.STUB_RATIO,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=0.5,
+        produced_by="scanning",
+        phase=1,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.IMPORT_COUNT,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="scanning",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.IMPORT_COUNT,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="scanning",
+        phase=0,
+    )
+)
 
 # ── Per-File: IR2 Semantic (semantics/) ──────────────────────────────────
 
-register(SignalMeta(
-    signal=Signal.ROLE,
-    dtype=str,
-    scope="file",
-    percentileable=False,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="semantics/roles",
-    phase=2,
-))
+register(
+    SignalMeta(
+        signal=Signal.ROLE,
+        dtype=str,
+        scope="file",
+        percentileable=False,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="semantics/roles",
+        phase=2,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CONCEPT_COUNT,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="semantics",
-    phase=2,
-))
+register(
+    SignalMeta(
+        signal=Signal.CONCEPT_COUNT,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="semantics",
+        phase=2,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CONCEPT_ENTROPY,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=1.5,
-    produced_by="semantics",
-    phase=2,
-))
+register(
+    SignalMeta(
+        signal=Signal.CONCEPT_ENTROPY,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=1.5,
+        produced_by="semantics",
+        phase=2,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.NAMING_DRIFT,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=0.7,
-    produced_by="semantics",
-    phase=2,
-))
+register(
+    SignalMeta(
+        signal=Signal.NAMING_DRIFT,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=0.7,
+        produced_by="semantics",
+        phase=2,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.TODO_DENSITY,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=0.05,
-    produced_by="scanning",
-    phase=1,
-))
+register(
+    SignalMeta(
+        signal=Signal.TODO_DENSITY,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=0.05,
+        produced_by="scanning",
+        phase=1,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.DOCSTRING_COVERAGE,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="semantics",
-    phase=2,
-))
+register(
+    SignalMeta(
+        signal=Signal.DOCSTRING_COVERAGE,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="semantics",
+        phase=2,
+    )
+)
 
 # ── Per-File: IR3 Graph (graph/) ─────────────────────────────────────────
 
-register(SignalMeta(
-    signal=Signal.PAGERANK,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.PAGERANK,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.BETWEENNESS,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.BETWEENNESS,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.IN_DEGREE,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.IN_DEGREE,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.OUT_DEGREE,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.OUT_DEGREE,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.BLAST_RADIUS_SIZE,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.BLAST_RADIUS_SIZE,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.DEPTH,
-    dtype=int,
-    scope="file",
-    percentileable=False,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.DEPTH,
+        dtype=int,
+        scope="file",
+        percentileable=False,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.IS_ORPHAN,
-    dtype=bool,
-    scope="file",
-    percentileable=False,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.IS_ORPHAN,
+        dtype=bool,
+        scope="file",
+        percentileable=False,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.PHANTOM_IMPORT_COUNT,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=0.0,
-    produced_by="graph/algorithms",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.PHANTOM_IMPORT_COUNT,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=0.0,
+        produced_by="graph/algorithms",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.BROKEN_CALL_COUNT,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=0.0,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.BROKEN_CALL_COUNT,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=0.0,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.COMMUNITY,
-    dtype=int,
-    scope="file",
-    percentileable=False,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.COMMUNITY,
+        dtype=int,
+        scope="file",
+        percentileable=False,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.COMPRESSION_RATIO,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="scanning",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.COMPRESSION_RATIO,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="scanning",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.SEMANTIC_COHERENCE,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="graph/measurements",
-    phase=2,
-))
+register(
+    SignalMeta(
+        signal=Signal.SEMANTIC_COHERENCE,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="graph/measurements",
+        phase=2,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.COGNITIVE_LOAD,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="signals",
-    phase=1,
-))
+register(
+    SignalMeta(
+        signal=Signal.COGNITIVE_LOAD,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="signals",
+        phase=1,
+    )
+)
 
 # ── Per-File: IR5t Temporal (temporal/) ──────────────────────────────────
 
-register(SignalMeta(
-    signal=Signal.TOTAL_CHANGES,
-    dtype=int,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="temporal/churn",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.TOTAL_CHANGES,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CHURN_TRAJECTORY,
-    dtype=str,
-    scope="file",
-    percentileable=False,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="temporal/churn",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.CHURN_TRAJECTORY,
+        dtype=str,
+        scope="file",
+        percentileable=False,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CHURN_SLOPE,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="temporal/churn",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.CHURN_SLOPE,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CHURN_CV,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=1.0,
-    produced_by="temporal/churn",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.CHURN_CV,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=1.0,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.BUS_FACTOR,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=1.0,
-    produced_by="temporal/churn",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.BUS_FACTOR,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=1.0,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.AUTHOR_ENTROPY,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="temporal/churn",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.AUTHOR_ENTROPY,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.FIX_RATIO,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=0.4,
-    produced_by="temporal/churn",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.FIX_RATIO,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=0.4,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.REFACTOR_RATIO,
-    dtype=float,
-    scope="file",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="temporal/churn",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.REFACTOR_RATIO,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
 
 # ── Per-File: Composites (signals/) ──────────────────────────────────────
 
-register(SignalMeta(
-    signal=Signal.RISK_SCORE,
-    dtype=float,
-    scope="file",
-    percentileable=False,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.RISK_SCORE,
+        dtype=float,
+        scope="file",
+        percentileable=False,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.WIRING_QUALITY,
-    dtype=float,
-    scope="file",
-    percentileable=False,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.WIRING_QUALITY,
+        dtype=float,
+        scope="file",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
 # ── Per-Module: IR4 Architecture (architecture/) ─────────────────────────
 
-register(SignalMeta(
-    signal=Signal.COHESION,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.COHESION,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.COUPLING,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.COUPLING,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.INSTABILITY,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.INSTABILITY,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.ABSTRACTNESS,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.ABSTRACTNESS,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.MAIN_SEQ_DISTANCE,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.MAIN_SEQ_DISTANCE,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.BOUNDARY_ALIGNMENT,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.BOUNDARY_ALIGNMENT,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.LAYER_VIOLATION_COUNT,
-    dtype=int,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.LAYER_VIOLATION_COUNT,
+        dtype=int,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.ROLE_CONSISTENCY,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.ROLE_CONSISTENCY,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.VELOCITY,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.VELOCITY,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.COORDINATION_COST,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.COORDINATION_COST,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.KNOWLEDGE_GINI,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.KNOWLEDGE_GINI,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.MODULE_BUS_FACTOR,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.MODULE_BUS_FACTOR,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.MEAN_COGNITIVE_LOAD,
-    dtype=float,
-    scope="module",
-    percentileable=True,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.MEAN_COGNITIVE_LOAD,
+        dtype=float,
+        scope="module",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.FILE_COUNT,
-    dtype=int,
-    scope="module",
-    percentileable=True,
-    polarity="neutral",
-    absolute_threshold=None,
-    produced_by="architecture",
-    phase=4,
-))
+register(
+    SignalMeta(
+        signal=Signal.FILE_COUNT,
+        dtype=int,
+        scope="module",
+        percentileable=True,
+        polarity="neutral",
+        absolute_threshold=None,
+        produced_by="architecture",
+        phase=4,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.HEALTH_SCORE,
-    dtype=float,
-    scope="module",
-    percentileable=False,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.HEALTH_SCORE,
+        dtype=float,
+        scope="module",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
 # ── Global: S6 (graph/, architecture/, signals/) ─────────────────────────
 
-register(SignalMeta(
-    signal=Signal.MODULARITY,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.MODULARITY,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.FIEDLER_VALUE,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.FIEDLER_VALUE,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.SPECTRAL_GAP,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.SPECTRAL_GAP,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CYCLE_COUNT,
-    dtype=int,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=0,
-))
+register(
+    SignalMeta(
+        signal=Signal.CYCLE_COUNT,
+        dtype=int,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=0,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CENTRALITY_GINI,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.CENTRALITY_GINI,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.ORPHAN_RATIO,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.ORPHAN_RATIO,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.PHANTOM_RATIO,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.PHANTOM_RATIO,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.GLUE_DEFICIT,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_bad",
-    absolute_threshold=None,
-    produced_by="graph/algorithms",
-    phase=3,
-))
+register(
+    SignalMeta(
+        signal=Signal.GLUE_DEFICIT,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_bad",
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=3,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.WIRING_SCORE,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.WIRING_SCORE,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.ARCHITECTURE_HEALTH,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.ARCHITECTURE_HEALTH,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
-register(SignalMeta(
-    signal=Signal.CODEBASE_HEALTH,
-    dtype=float,
-    scope="global",
-    percentileable=False,
-    polarity="high_is_good",
-    absolute_threshold=None,
-    produced_by="signals/fusion",
-    phase=5,
-))
+register(
+    SignalMeta(
+        signal=Signal.CODEBASE_HEALTH,
+        dtype=float,
+        scope="global",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
 
 
 # ---------------------------------------------------------------------------
 # Post-registration validation — runs at import time
 # ---------------------------------------------------------------------------
+
 
 def _validate_registry() -> None:
     """Verify every Signal enum member is registered. Runs once at import."""
@@ -980,9 +1100,7 @@ def _validate_registry() -> None:
     missing = all_signals - registered
     if missing:
         names = sorted(s.value for s in missing)
-        raise RuntimeError(
-            f"Signal registry incomplete! Missing registrations for: {names}"
-        )
+        raise RuntimeError(f"Signal registry incomplete! Missing registrations for: {names}")
 
 
 _validate_registry()

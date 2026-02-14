@@ -331,10 +331,13 @@ class TestEdgeCases:
         check = ThresholdCheck(absolute_field)
         # Test several signals that have absolute thresholds
         signals_with_thresholds = {
-            s: m for s, m in REGISTRY.items()
+            s: m
+            for s, m in REGISTRY.items()
             if m.absolute_threshold is not None and m.scope == "file"
         }
-        assert len(signals_with_thresholds) > 0, "Registry should have signals with absolute thresholds"
+        assert len(signals_with_thresholds) > 0, (
+            "Registry should have signals with absolute thresholds"
+        )
 
         # Every signal with an absolute threshold should be evaluable
         for signal, _meta in signals_with_thresholds.items():

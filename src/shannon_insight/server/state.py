@@ -95,6 +95,19 @@ class ServerState:
             listeners = list(self._listeners)
         for queue in listeners:
             try:
+                # Check queue fullness (higher threshold for progress - it's more frequent)
+                if hasattr(queue, "qsize") and hasattr(queue, "maxsize"):
+                    size = queue.qsize()
+                    maxsize = queue.maxsize
+                    if maxsize and size > maxsize * 0.75:
+                        logger.warning(
+                            "WebSocket queue filling up: %d/%d (%.0f%% full) - progress may be delayed",
+                            size,
+                            maxsize,
+                            100 * size / maxsize,
+                        )
                 queue.put_nowait(msg)
-            except Exception:
-                pass
+            except asyncio.QueueFull:
+                logger.debug("WebSocket queue full, dropping progress message: %s", message)
+            except Exception as exc:
+                logger.debug("Failed to send progress to listener: %s", exc)

@@ -60,6 +60,9 @@ class GitExtractor:
         except (FileNotFoundError, subprocess.TimeoutExpired):
             return False
 
+    # Maximum git log output size (50MB) to prevent OOM on huge repos
+    _MAX_OUTPUT_BYTES = 50 * 1024 * 1024
+
     def _run_git_log(self) -> Optional[str]:
         try:
             cmd = [
@@ -71,18 +74,42 @@ class GitExtractor:
                 "--name-only",
                 f"-n{self.max_commits}",
             ]
-            result = subprocess.run(
+            # Use Popen for streaming to avoid loading unbounded output into memory
+            proc = subprocess.Popen(
                 cmd,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                timeout=30,
             )
-            if result.returncode != 0:
-                logger.warning(f"git log failed: {result.stderr.strip()}")
-                return None
-            return result.stdout
+            try:
+                # Read with size limit to prevent OOM
+                chunks = []
+                total_size = 0
+                while True:
+                    chunk = proc.stdout.read(1024 * 1024)  # 1MB chunks
+                    if not chunk:
+                        break
+                    total_size += len(chunk)
+                    if total_size > self._MAX_OUTPUT_BYTES:
+                        logger.warning(
+                            "git log output exceeded %dMB limit, truncating",
+                            self._MAX_OUTPUT_BYTES // (1024 * 1024),
+                        )
+                        proc.kill()
+                        break
+                    chunks.append(chunk)
+
+                proc.wait(timeout=30)
+                if proc.returncode != 0 and proc.returncode != -9:  # -9 = killed
+                    stderr = proc.stderr.read() if proc.stderr else ""
+                    logger.warning("git log failed: %s", stderr.strip())
+                    return None
+                return "".join(chunks)
+            finally:
+                proc.stdout.close()
+                proc.stderr.close()
         except (FileNotFoundError, subprocess.TimeoutExpired) as e:
-            logger.warning(f"git log error: {e}")
+            logger.warning("git log error: %s", e)
             return None
 
     # Matches: 40-char hex hash | unix timestamp | author email | subject

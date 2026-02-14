@@ -176,4 +176,7 @@ def snapshot_to_tensor(v1: Snapshot) -> TensorSnapshot:
         layers=[],
         violations=[],
         delta_h={},
+        communities=[],
+        node_community={},
+        modularity_score=0.0,
     )

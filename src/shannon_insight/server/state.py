@@ -34,9 +34,24 @@ class ServerState:
         # Notify all WebSocket listeners
         for queue in listeners:
             try:
+                # Check queue fullness and log warnings
+                if hasattr(queue, "qsize") and hasattr(queue, "maxsize"):
+                    size = queue.qsize()
+                    maxsize = queue.maxsize
+                    if maxsize and size > maxsize * 0.5:
+                        logger.warning(
+                            "WebSocket queue filling up: %d/%d (%.0f%% full)",
+                            size,
+                            maxsize,
+                            100 * size / maxsize,
+                        )
                 queue.put_nowait(state)
-            except Exception:
-                pass  # Queue full or closed — skip
+            except asyncio.QueueFull:
+                logger.error(
+                    "WebSocket queue full, dropping state update (client may be slow or stuck)"
+                )
+            except Exception as exc:
+                logger.debug("Failed to notify listener: %s", exc)
 
     def get_state(self) -> dict[str, Any] | None:
         """Return the latest dashboard state (called from async handlers)."""

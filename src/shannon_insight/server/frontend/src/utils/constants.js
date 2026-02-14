@@ -7,33 +7,60 @@
  */
 
 export const SIGNAL_LABELS = {
+  // Size & Complexity
   lines: "Lines of Code",
   function_count: "Function Count",
   class_count: "Classes / Structs",
   max_nesting: "Deepest Nesting Level",
+  nesting_depth: "Average Nesting Depth",
   cognitive_load: "Cognitive Complexity",
+  todo_density: "TODO / FIXME Density",
+
+  // Structural / Graph
   pagerank: "Import Centrality (PageRank)",
   betweenness: "Bridge Score (Betweenness)",
   in_degree: "Imported By (in-degree)",
   out_degree: "Depends On (out-degree)",
+  import_count: "Total Import Statements",
   blast_radius_size: "Change Impact Size",
   depth: "Dependency Chain Depth",
+  community: "Graph Community ID",
+  network_centrality: "Network Centrality Score",
+  structural_entropy: "Dependency Entropy",
+
+  // Code Health / Quality
   stub_ratio: "Stub / Empty Function Ratio",
   is_orphan: "Orphan (no imports or importers)",
   phantom_import_count: "Broken Imports",
+  broken_call_count: "Broken Function Calls",
   compression_ratio: "Code Uniqueness (compression)",
   semantic_coherence: "Code Focus (coherence)",
+  docstring_coverage: "Documentation Coverage",
+  naming_drift: "Naming Inconsistency",
+  impl_gini: "Implementation Distribution",
+
+  // Temporal / Churn
   total_changes: "Total Commits",
   churn_trajectory: "Change Trend (rising / falling)",
+  trajectory: "Change Trajectory Classification",
   churn_cv: "Change Volatility (CV)",
+  churn_slope: "Change Rate Slope",
+  churn_volatility: "Churn Volatility",
+  fix_ratio: "Bug-Fix Commit Ratio",
+  refactor_ratio: "Refactor Commit Ratio",
+  change_entropy: "Change Distribution",
+
+  // Team / Ownership
   bus_factor: "Team Knowledge Spread",
   author_entropy: "Author Diversity",
-  fix_ratio: "Bug-Fix Commit Ratio",
-  change_entropy: "Change Distribution",
+
+  // Composite / Scores
   risk_score: "Overall Risk Score",
   wiring_quality: "Dependency Health",
   file_health_score: "File Health Score",
   raw_risk: "Raw Risk (pre-normalization)",
+  concept_count: "Semantic Concept Count",
+  concept_entropy: "Concept Diversity",
 };
 
 /**

@@ -152,7 +152,7 @@ def create_app(state: ServerState) -> Starlette:
 
     async def websocket_endpoint(websocket: WebSocket) -> None:
         await websocket.accept()
-        queue: asyncio.Queue[Any] = asyncio.Queue(maxsize=8)
+        queue: asyncio.Queue[Any] = asyncio.Queue(maxsize=32)
         state.add_listener(queue)
         ping_task = asyncio.create_task(_ping_loop(websocket))
         try:

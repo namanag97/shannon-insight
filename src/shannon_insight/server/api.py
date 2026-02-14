@@ -12,6 +12,7 @@ from ..cli._concerns import organize_by_concerns
 from ..cli._finding_display import get_display_config, get_severity_display
 from ..cli._focus import get_verdict, identify_focus_point
 from ..insights.models import Finding, InsightResult
+from ..persistence import HistoryDB
 from ..persistence.models import TensorSnapshot
 from ..persistence.queries import HistoryQuery
 
@@ -212,7 +213,12 @@ def build_dashboard_state(
             "abstractness": round(mod_dict.get("abstractness", 0.0), 2),
             "file_count": mod_dict.get("file_count", 0),
             "velocity": round(mod_dict.get("velocity", 0.0), 2),
-            "violations": [v for v in (snapshot.violations or []) if str(v.get("src", "")).startswith(mod_path) or str(v.get("tgt", "")).startswith(mod_path)],
+            "violations": [
+                v
+                for v in (snapshot.violations or [])
+                if str(v.get("src", "")).startswith(mod_path)
+                or str(v.get("tgt", "")).startswith(mod_path)
+            ],
         }
 
     # ── Concern reports ───────────────────────────────────────────

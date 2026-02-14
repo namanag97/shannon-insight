@@ -7,6 +7,7 @@ import useStore from "../../state/store.js";
 import { fmtN } from "../../utils/formatters.js";
 import { hColor } from "../../utils/helpers.js";
 import { CATEGORY_ORDER, CATEGORY_LABELS } from "../../utils/constants.js";
+import { interpretHealth } from "../../utils/interpretations.js";
 import { MetricCard } from "../cards/MetricCard.jsx";
 import { CategoryRow } from "../cards/CategoryRow.jsx";
 import { FocusPoint } from "../cards/FocusPoint.jsx";

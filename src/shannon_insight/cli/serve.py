@@ -1,8 +1,6 @@
-"""``shannon-insight serve`` — live dashboard with file watching."""
+"""``shannon-insight serve`` -- live dashboard with file watching."""
 
 import logging
-import threading
-import webbrowser
 from pathlib import Path
 from typing import Optional
 
@@ -38,12 +36,6 @@ def serve(
         console.print(f"[red]{exc}[/red]")
         raise typer.Exit(1)
 
-    import uvicorn
-
-    from ..server.app import create_app
-    from ..server.state import ServerState
-    from ..server.watcher import FileWatcher
-
     # Get path from parent callback (shannon-insight [PATH] serve)
     root_dir = str(ctx.obj.get("path", Path.cwd()).resolve())
     settings = resolve_settings(config=config, workers=workers, verbose=verbose)
@@ -53,44 +45,15 @@ def serve(
     else:
         logging.basicConfig(level=logging.WARNING)
 
-    state = ServerState()
-    watcher = FileWatcher(root_dir=root_dir, settings=settings, state=state)
+    # Delegate to the lifecycle manager
+    from ..server.lifecycle import launch_server
 
-    # Run initial analysis with spinner
-    console.print(f"[bold]Analyzing[/bold] {root_dir}")
-    with console.status("[cyan]Running initial analysis..."):
-        watcher.run_analysis()
-
-    initial = state.get_state()
-    if initial:
-        health = initial.get("health", "?")
-        n_issues = sum(c["count"] for c in initial.get("categories", {}).values())
-        console.print(f"[green]Ready[/green] — health {health}, {n_issues} issue(s)")
-    else:
-        console.print("[yellow]Analysis produced no results[/yellow]")
-
-    # Start file watcher
-    watcher.start()
-
-    # Open browser
-    url = f"http://{host}:{port}"
-    if not no_browser:
-        threading.Timer(1.0, lambda: webbrowser.open(url)).start()
-
-    console.print(f"[bold]Dashboard[/bold] → [link={url}]{url}[/link]")
-    console.print("[dim]Press Ctrl+C to stop[/dim]")
-
-    # Start ASGI server (blocks until Ctrl+C)
-    asgi_app = create_app(state)
-    try:
-        uvicorn.run(
-            asgi_app,
-            host=host,
-            port=port,
-            log_level="warning" if not verbose else "info",
-        )
-    except KeyboardInterrupt:
-        pass
-    finally:
-        watcher.stop()
-        console.print("\n[dim]Stopped.[/dim]")
+    launch_server(
+        root_dir=root_dir,
+        settings=settings,
+        console=console,
+        host=host,
+        port=port,
+        no_browser=no_browser,
+        verbose=verbose,
+    )

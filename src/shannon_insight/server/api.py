@@ -245,6 +245,11 @@ def build_dashboard_state(
     violations = snapshot.violations or []
     layers = snapshot.layers or []
 
+    # ── Graph / community data (for graph visualization) ─────────
+    communities = snapshot.communities or []
+    node_community = snapshot.node_community or {}
+    modularity_score_val = snapshot.modularity_score or 0.0
+
     # ── History / trend data (optional) ───────────────────────────
     trends: dict[str, Any] | None = None
     if db_path:

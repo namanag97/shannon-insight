@@ -838,7 +838,7 @@ a:hover { text-decoration: underline; }
 
 /* Empty focus state */
 .focus-empty {
-  color: var(--text-tertiary); font-size: 12px; padding: 8px 0;
+  color: var(--text-tertiary); font-size: 12px; padding: var(--space-sm) 0;
 }
 
 /* File count summary */

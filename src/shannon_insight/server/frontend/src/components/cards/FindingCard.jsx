@@ -17,7 +17,7 @@ function Evidence({ evidence, maxItems = 4 }) {
   return (
     <div class="finding-evidence">
       {evidence.slice(0, limit).map((ev, i) => {
-        const sigName = ev.signal.replace(/_/g, " ");
+        const sigName = SIGNAL_LABELS[ev.signal] || ev.signal.replace(/_/g, " ");
         const valStr =
           typeof ev.value === "number"
             ? Number.isInteger(ev.value)
@@ -28,7 +28,7 @@ function Evidence({ evidence, maxItems = 4 }) {
           <span key={i}>
             {sigName}: <strong>{valStr}</strong>
             {ev.percentile ? (
-              <span class="pctl"> ({Math.round(ev.percentile)}th pctl)</span>
+              <span class="pctl"> ({Math.round(ev.percentile)}th percentile)</span>
             ) : null}
             {i < limit - 1 ? "\u00a0\u00a0\u00a0" : null}
           </span>

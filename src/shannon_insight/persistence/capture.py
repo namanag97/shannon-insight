@@ -246,9 +246,11 @@ def _serialize_file_signals(fs: FileSignals) -> dict[str, Any]:
         "author_entropy",
         "fix_ratio",
         "refactor_ratio",
+        "change_entropy",
         "raw_risk",
         "risk_score",
         "wiring_quality",
+        "file_health_score",
     ]:
         val = getattr(fs, field_name, None)
         if val is not None:

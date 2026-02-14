@@ -108,10 +108,10 @@ function ModuleDetailView({ path }) {
   const color = hColor(m.health_score || 5);
 
   const stats = [
-    ["Files", m.file_count],
-    ["Instability", fmtF(m.instability, 2)],
-    ["Abstractness", fmtF(m.abstractness, 2)],
-    ["Velocity", fmtF(m.velocity, 1)],
+    ["File Count", m.file_count],
+    ["Change Sensitivity", fmtF(m.instability, 2)],
+    ["Abstraction Level", fmtF(m.abstractness, 2)],
+    ["Change Velocity", fmtF(m.velocity, 1)],
   ];
 
   return (

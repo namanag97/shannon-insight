@@ -168,7 +168,7 @@ def validate_existing_server(project_root: str, host: str) -> ServerInfo | None:
 def find_available_port(
     host: str,
     preferred_port: int = DEFAULT_PORT,
-    project_root: Optional[str] = None,
+    project_root: str | None = None,
 ) -> int:
     """Find an available port, starting from preferred_port.
 

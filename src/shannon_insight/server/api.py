@@ -212,6 +212,7 @@ def build_dashboard_state(
             "abstractness": round(mod_dict.get("abstractness", 0.0), 2),
             "file_count": mod_dict.get("file_count", 0),
             "velocity": round(mod_dict.get("velocity", 0.0), 2),
+            "violations": [v for v in (snapshot.violations or []) if str(v.get("src", "")).startswith(mod_path) or str(v.get("tgt", "")).startswith(mod_path)],
         }
 
     # ── Concern reports ───────────────────────────────────────────
@@ -354,7 +355,9 @@ def _query_trends(db_path: str) -> dict[str, Any] | None:
     return trends if trends else None
 
 
-def _query_file_signal_trends(db_path: str, file_paths: list[str], last_n: int = 10) -> dict[str, dict[str, list[float]]]:
+def _query_file_signal_trends(
+    db_path: str, file_paths: list[str], last_n: int = 10
+) -> dict[str, dict[str, list[float]]]:
     """Query per-file signal trends from .shannon/history.db.
 
     Returns dict mapping file_path → {signal_name → [values oldest-to-newest]}
@@ -379,16 +382,19 @@ def _query_file_signal_trends(db_path: str, file_paths: list[str], last_n: int =
 
         # Query all signal values for these files in these snapshots
         # Using placeholder for IN clause
-        placeholders = ','.join('?' * len(snapshot_ids))
-        file_placeholders = ','.join('?' * len(file_paths))
+        placeholders = ",".join("?" * len(snapshot_ids))
+        file_placeholders = ",".join("?" * len(file_paths))
 
-        cur.execute(f"""
+        cur.execute(
+            f"""
             SELECT file_path, signal_name, value, snapshot_id
             FROM signal_history
             WHERE snapshot_id IN ({placeholders})
             AND file_path IN ({file_placeholders})
             ORDER BY snapshot_id ASC
-        """, snapshot_ids + file_paths)
+        """,
+            snapshot_ids + file_paths,
+        )
 
         # Build nested dict: {file_path: {signal_name: [values]}}
         trends: dict[str, dict[str, list[float]]] = {}

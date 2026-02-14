@@ -1333,36 +1333,50 @@ button, a, input, select,
 
 .overview-evolution-section {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-lg);
   margin-bottom: var(--space-lg);
 }
 
+.overview-evolution-section > .card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+}
+
 .evolution-charts {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-md);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
   margin-top: var(--space-md);
+  flex: 1;
 }
 
 .evolution-chart-wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
+  min-height: 0;
 }
 
 .evolution-chart-label {
-  font-size: 12px;
+  font-size: 11px;
   font-family: var(--mono);
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .metadata-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-md);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
   margin-top: var(--space-md);
+  flex: 1;
 }
 
 .metadata-item {

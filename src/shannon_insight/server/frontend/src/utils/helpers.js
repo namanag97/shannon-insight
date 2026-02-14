@@ -3,7 +3,7 @@
  * and HTML escaping.
  */
 
-import { SIGNAL_POLARITY, UNBOUNDED_SIGNAL_CAPS } from "./constants.js";
+import { SIGNAL_POLARITY, MODULE_SIGNAL_POLARITY, UNBOUNDED_SIGNAL_CAPS } from "./constants.js";
 
 /**
  * Escape a string for safe HTML insertion.

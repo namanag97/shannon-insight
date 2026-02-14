@@ -10,7 +10,7 @@
  *                    - cellClass: (value, row) => string (optional class)
  *                    - cellStyle: (value, row) => object (optional inline style)
  *   data:          Array of row objects
- *   rowKey:        (row) => string — unique key for each row
+ *   rowKey:        (row, index) => string — unique key for each row
  *   sortable:      boolean — enable column header click sorting (default false)
  *   sortKey:       current sort column key (controlled)
  *   sortAsc:       current sort direction (controlled)

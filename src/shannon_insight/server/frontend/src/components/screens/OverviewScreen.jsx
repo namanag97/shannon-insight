@@ -1,17 +1,52 @@
 /**
  * Overview screen - health score hero, stat strip, category summary,
  * risk histogram, and focus point.
+ *
+ * v2: Improved visual hierarchy, added health ring visualization,
+ * enhanced stat cards with hover states, cleaner category layout.
  */
 
 import useStore from "../../state/store.js";
 import { fmtN } from "../../utils/formatters.js";
 import { hColor } from "../../utils/helpers.js";
-import { CATEGORY_ORDER, CATEGORY_LABELS } from "../../utils/constants.js";
+import { CATEGORY_ORDER, CATEGORY_LABELS, CATEGORY_DESCRIPTIONS } from "../../utils/constants.js";
 import { interpretHealth } from "../../utils/interpretations.js";
 import { MetricCard } from "../cards/MetricCard.jsx";
 import { CategoryRow } from "../cards/CategoryRow.jsx";
 import { FocusPoint } from "../cards/FocusPoint.jsx";
 import { RiskHistogram } from "../charts/RiskHistogram.jsx";
+
+/**
+ * SVG ring visualization for the health score.
+ * Shows a circular progress indicator around the numeric score.
+ */
+function HealthRing({ score, color, size = 120 }) {
+  const r = (size - 8) / 2;
+  const circumference = 2 * Math.PI * r;
+  const progress = Math.max(0, Math.min(score / 10, 1));
+  const dashOffset = circumference * (1 - progress);
+
+  return (
+    <svg width={size} height={size} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+      {/* Background ring */}
+      <circle
+        cx={size / 2} cy={size / 2} r={r}
+        fill="none" stroke="var(--border)" stroke-width="2"
+      />
+      {/* Progress ring */}
+      <circle
+        cx={size / 2} cy={size / 2} r={r}
+        fill="none" stroke={color} stroke-width="2"
+        stroke-dasharray={circumference}
+        stroke-dashoffset={dashOffset}
+        stroke-linecap="round"
+        transform={`rotate(-90 ${size / 2} ${size / 2})`}
+        style={{ transition: "stroke-dashoffset 0.8s ease-out" }}
+        opacity="0.6"
+      />
+    </svg>
+  );
+}
 
 export function OverviewScreen() {
   const data = useStore((s) => s.data);
@@ -48,7 +83,10 @@ export function OverviewScreen() {
               {data.verdict}
             </div>
           )}
-          <div class="health-big" style={{ color }}>{score.toFixed(1)}</div>
+          <div style={{ position: "relative", display: "inline-block" }}>
+            <HealthRing score={score} color={color} />
+            <div class="health-big" style={{ color }}>{score.toFixed(1)}</div>
+          </div>
           <div class="health-label-primary" style={{ color }}>
             {healthInfo.label}
           </div>
@@ -72,7 +110,7 @@ export function OverviewScreen() {
 
       {/* Two-column content */}
       <div class="overview-cols">
-        <div class="card">
+        <div>
           <div class="card-title">Issues by Category</div>
           <div>
             {CATEGORY_ORDER.map((key) => {
@@ -111,7 +149,7 @@ export function OverviewScreen() {
           <RiskHistogram files={data.files} />
         </div>
 
-        <div class="card">
+        <div>
           <div class="card-title">Recommended Starting Point</div>
           <FocusPoint focus={data.focus} />
         </div>

@@ -281,6 +281,9 @@ def build_dashboard_state(
         "delta_h": delta_h,
         "violations": violations,
         "layers": layers,
+        "communities": communities,
+        "node_community": node_community,
+        "modularity_score": round(modularity_score_val, 4),
     }
     if trends:
         state["trends"] = trends

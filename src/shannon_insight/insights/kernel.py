@@ -106,6 +106,13 @@ class InsightKernel:
         if self._debug_exporter:
             self._debug_exporter.export_syntax(store)
 
+        # Phase validation: after scanning
+        if self.settings.enable_validation:
+            try:
+                validate_after_scanning(store)
+            except PhaseValidationError as e:
+                logger.warning(f"Scanning validation failed: {e}")
+
         # Phase 2a: Run Wave 1 analyzers (topologically sorted by requires/provides)
         _progress("Analyzing dependencies...")
         for analyzer in self._resolve_order():

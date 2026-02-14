@@ -13,6 +13,7 @@ const SCREEN_LABELS = {
   files: "Files",
   modules: "Modules",
   health: "Health",
+  graph: "Graph",
 };
 
 export function Header() {

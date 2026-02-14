@@ -151,7 +151,7 @@ export function HealthScreen() {
 
       {/* Health Dimensions (Concern Chart) */}
       <div class="health-section">
-        <div class="section-title">Health Dimensions</div>
+        <div class="section-title">Health Breakdown by Dimension</div>
         <div class="card">
           {concerns.length >= 3 ? (
             <div class="radar-chart-container">

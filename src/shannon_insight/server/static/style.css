@@ -549,7 +549,7 @@ a:hover { text-decoration: underline; }
 .file-detail-health-label {
   font-size: 13px; font-weight: 500;
 }
-.file-detail-section { margin-bottom: var(--space-lg); }
+.file-detail-section { margin-bottom: var(--space-xl); }
 .file-detail-section-title {
   font-size: 11px; font-weight: 600; color: var(--text-tertiary);
   text-transform: uppercase; letter-spacing: 0.8px; padding-bottom: var(--space-sm);

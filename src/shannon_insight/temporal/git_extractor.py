@@ -85,8 +85,11 @@ class GitExtractor:
                 # Read with size limit to prevent OOM
                 chunks = []
                 total_size = 0
+                stdout = proc.stdout
+                if stdout is None:
+                    return None
                 while True:
-                    chunk = proc.stdout.read(1024 * 1024)  # 1MB chunks
+                    chunk = stdout.read(1024 * 1024)  # 1MB chunks
                     if not chunk:
                         break
                     total_size += len(chunk)
@@ -106,8 +109,10 @@ class GitExtractor:
                     return None
                 return "".join(chunks)
             finally:
-                proc.stdout.close()
-                proc.stderr.close()
+                if proc.stdout:
+                    proc.stdout.close()
+                if proc.stderr:
+                    proc.stderr.close()
         except (FileNotFoundError, subprocess.TimeoutExpired) as e:
             logger.warning("git log error: %s", e)
             return None

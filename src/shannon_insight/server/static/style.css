@@ -843,7 +843,7 @@ a:hover { text-decoration: underline; }
 
 /* File count summary */
 .file-count-summary {
-  font-size: 11px; color: var(--text-tertiary); font-family: var(--mono); margin-bottom: 8px;
+  font-size: 11px; color: var(--text-tertiary); font-family: var(--mono); margin-bottom: var(--space-sm);
 }
 
 /* Low-confidence finding */

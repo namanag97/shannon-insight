@@ -177,7 +177,7 @@ export function HealthScreen() {
       {/* Global Signals */}
       {gsKeys.length > 0 && (
         <div class="health-section">
-          <div class="section-title">Global Signals</div>
+          <div class="section-title">Codebase-Wide Metrics</div>
           <div class="card">
             <table class="global-signals-table">
               <tbody>

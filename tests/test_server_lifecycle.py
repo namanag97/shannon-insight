@@ -211,17 +211,17 @@ class TestFindAvailablePort:
         assert result == port
 
     def test_preferred_port_in_use_finds_next(self):
-        # Bind the preferred port, should find next
+        # Bind a specific port in our range, should find next
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(("127.0.0.1", 0))
+        sock.bind(("127.0.0.1", DEFAULT_PORT))
         sock.listen(1)
-        _, port = sock.getsockname()
 
         try:
-            result = find_available_port("127.0.0.1", preferred_port=port)
-            assert result != port
-            assert result > port
+            result = find_available_port("127.0.0.1", preferred_port=DEFAULT_PORT)
+            assert result != DEFAULT_PORT
+            assert result > DEFAULT_PORT
+            assert result <= MAX_PORT
         finally:
             sock.close()
 

@@ -222,3 +222,294 @@ class TestRunGraphAlgorithms:
         analysis = run_graph_algorithms(graph)
         assert len(analysis.cycles) == 1
         assert analysis.cycles[0].nodes == {"a", "b"}
+
+
+# ── compute_modularity ──────────────────────────────────────────
+
+
+class TestComputeModularity:
+    def test_zero_edges(self):
+        """Modularity of a graph with no edges is 0."""
+        assert compute_modularity({}, {}, {}, 0.0) == 0.0
+
+    def test_all_in_one_community(self):
+        """All nodes in one community: Q = 0 (no better than random)."""
+        # Triangle: a-b, b-c, a-c (bidirectional -> weight 2 each)
+        edge_weights = {("a", "b"): 2, ("a", "c"): 2, ("b", "c"): 2}
+        degree = {"a": 4, "b": 4, "c": 4}
+        node_comm = {"a": 0, "b": 0, "c": 0}
+        m = 6.0
+        q = compute_modularity(edge_weights, degree, node_comm, m)
+        # e_in = 6, sigma_0 = 12, Q = 6/6 - 144/144 = 1 - 1 = 0
+        assert abs(q) < 1e-10
+
+    def test_disconnected_pairs(self):
+        """Two disconnected pairs: optimal partition gives Q = 0.5."""
+        edge_weights = {("a", "b"): 2, ("c", "d"): 2}
+        degree = {"a": 2, "b": 2, "c": 2, "d": 2}
+        node_comm = {"a": 0, "b": 0, "c": 1, "d": 1}
+        m = 4.0
+        q = compute_modularity(edge_weights, degree, node_comm, m)
+        assert abs(q - 0.5) < 1e-10
+
+    def test_worst_partition(self):
+        """Putting connected nodes in different communities gives negative Q."""
+        # Single edge a-b, put them in different communities
+        edge_weights = {("a", "b"): 2}
+        degree = {"a": 2, "b": 2}
+        node_comm = {"a": 0, "b": 1}
+        m = 2.0
+        q = compute_modularity(edge_weights, degree, node_comm, m)
+        # e_in = 0, sigma_0=2, sigma_1=2
+        # Q = 0/2 - (4+4)/16 = 0 - 0.5 = -0.5
+        assert abs(q - (-0.5)) < 1e-10
+
+    def test_degree_invariant(self):
+        """sum(degrees) = 2*m must hold for correct modularity."""
+        # Build a random-ish graph and verify invariant
+        edge_weights = {("a", "b"): 1, ("b", "c"): 1, ("a", "c"): 1}
+        degree = {"a": 2, "b": 2, "c": 2}
+        m = 3.0
+        assert abs(sum(degree.values()) - 2 * m) < 1e-10
+
+    def test_single_edge_optimal(self):
+        """Single edge with both endpoints in same community."""
+        edge_weights = {("a", "b"): 1}
+        degree = {"a": 1, "b": 1}
+        node_comm = {"a": 0, "b": 0}
+        m = 1.0
+        q = compute_modularity(edge_weights, degree, node_comm, m)
+        # e_in = 1, sigma_0 = 2, Q = 1/1 - 4/4 = 0
+        assert abs(q) < 1e-10
+
+
+# ── _coarsen_graph ───────────────────────────────────────────────
+
+
+class TestCoarsenGraph:
+    def test_no_merges(self):
+        """If every node is its own community, coarsening produces same-size graph."""
+        edge_weights = {("a", "b"): 1}
+        degree = {"a": 1, "b": 1}
+        node_comm = {"a": 0, "b": 1}
+        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(
+            edge_weights, degree, node_comm
+        )
+        assert len(new_nodes) == 2
+        assert len(super_members) == 2
+
+    def test_full_merge(self):
+        """All nodes in one community -> one super-node with self-loop."""
+        edge_weights = {("a", "b"): 2, ("a", "c"): 2, ("b", "c"): 2}
+        degree = {"a": 4, "b": 4, "c": 4}
+        node_comm = {"a": 0, "b": 0, "c": 0}
+        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(
+            edge_weights, degree, node_comm
+        )
+        assert len(new_nodes) == 1
+        # Single super-node with self-loop
+        super_node = new_nodes[0]
+        assert (super_node, super_node) in new_ew
+        # Self-loop weight = sum of all internal edges = 2+2+2 = 6
+        assert new_ew[(super_node, super_node)] == 6
+        # Degree = sum of all degrees = 12
+        assert new_deg[super_node] == 12
+        # Members = all original nodes
+        assert super_members[super_node] == {"a", "b", "c"}
+
+    def test_two_communities(self):
+        """Two communities connected by a bridge edge."""
+        # a-b in comm 0, c-d in comm 1, bridge a-c
+        edge_weights = {("a", "b"): 2, ("a", "c"): 1, ("c", "d"): 2}
+        degree = {"a": 3, "b": 2, "c": 3, "d": 2}
+        node_comm = {"a": 0, "b": 0, "c": 1, "d": 1}
+        new_ew, new_deg, new_nodes, super_members = _coarsen_graph(
+            edge_weights, degree, node_comm
+        )
+        assert len(new_nodes) == 2
+        s0 = [n for n in new_nodes if super_members[n] == {"a", "b"}][0]
+        s1 = [n for n in new_nodes if super_members[n] == {"c", "d"}][0]
+        # Self-loop for comm 0: edge (a,b) weight 2
+        assert new_ew.get((s0, s0), 0) == 2
+        # Self-loop for comm 1: edge (c,d) weight 2
+        assert new_ew.get((s1, s1), 0) == 2
+        # Bridge edge between communities: weight 1
+        bridge_key = (min(s0, s1), max(s0, s1))
+        assert new_ew[bridge_key] == 1
+        # Degrees
+        assert new_deg[s0] == 5  # 3+2
+        assert new_deg[s1] == 5  # 3+2
+
+    def test_preserves_total_edge_weight(self):
+        """Total edge weight must be preserved after coarsening."""
+        edge_weights = {("a", "b"): 3, ("b", "c"): 1, ("c", "d"): 2}
+        degree = {"a": 3, "b": 4, "c": 3, "d": 2}
+        node_comm = {"a": 0, "b": 0, "c": 1, "d": 1}
+        new_ew, new_deg, new_nodes, _ = _coarsen_graph(
+            edge_weights, degree, node_comm
+        )
+        # Total edge weight preserved
+        assert sum(new_ew.values()) == sum(edge_weights.values())
+        # Total degree preserved
+        assert sum(new_deg.values()) == sum(degree.values())
+
+
+# ── louvain (extended tests) ─────────────────────────────────────
+
+
+class TestLouvainExtended:
+    def test_disconnected_pairs_modularity(self):
+        """Two disconnected pairs should give Q = 0.5 and 2 communities."""
+        adj = {"a": ["b"], "b": ["a"], "c": ["d"], "d": ["c"]}
+        communities, node_comm, modularity = louvain(adj, {"a", "b", "c", "d"})
+        assert len(communities) == 2
+        assert abs(modularity - 0.5) < 0.01
+        # a and b in same community
+        assert node_comm["a"] == node_comm["b"]
+        # c and d in same community
+        assert node_comm["c"] == node_comm["d"]
+        # Different communities
+        assert node_comm["a"] != node_comm["c"]
+
+    def test_single_node(self):
+        """Single node with no edges."""
+        communities, node_comm, modularity = louvain({"a": []}, {"a"})
+        assert len(communities) == 1
+        assert modularity == 0.0
+        assert "a" in node_comm
+
+    def test_two_nodes_connected(self):
+        """Two connected nodes should be in the same community."""
+        adj = {"a": ["b"], "b": ["a"]}
+        communities, node_comm, modularity = louvain(adj, {"a", "b"})
+        assert len(communities) == 1
+        assert node_comm["a"] == node_comm["b"]
+        # Single community = Q = 0
+        assert abs(modularity) < 1e-10
+
+    def test_bridged_graph(self):
+        """Two dense clusters with a single bridge edge.
+
+        Cluster 1: a-b-c (triangle)
+        Cluster 2: d-e-f (triangle)
+        Bridge: c-d
+        """
+        adj = {
+            "a": ["b", "c"],
+            "b": ["a", "c"],
+            "c": ["a", "b", "d"],
+            "d": ["c", "e", "f"],
+            "e": ["d", "f"],
+            "f": ["d", "e"],
+        }
+        communities, node_comm, modularity = louvain(
+            adj, {"a", "b", "c", "d", "e", "f"}
+        )
+        # Should find 2 communities
+        assert len(communities) == 2
+        # a, b, c in same community
+        assert node_comm["a"] == node_comm["b"] == node_comm["c"]
+        # d, e, f in same community
+        assert node_comm["d"] == node_comm["e"] == node_comm["f"]
+        # Different clusters
+        assert node_comm["a"] != node_comm["d"]
+        # Modularity should be positive and substantial
+        assert modularity > 0.3
+
+    def test_complete_graph(self):
+        """Complete graph: all nodes equally connected, Q should be near 0."""
+        nodes = {"a", "b", "c", "d"}
+        adj = {n: [m for m in nodes if m != n] for n in nodes}
+        communities, node_comm, modularity = louvain(adj, nodes)
+        # For a complete graph, any partition gives Q <= 0
+        # Optimal is all in one community with Q = 0
+        assert modularity >= -0.01  # Allow tiny floating point error
+
+    def test_three_disconnected_clusters(self):
+        """Three disconnected triangles should give Q ~ 0.667."""
+        adj = {
+            "a": ["b", "c"],
+            "b": ["a", "c"],
+            "c": ["a", "b"],
+            "d": ["e", "f"],
+            "e": ["d", "f"],
+            "f": ["d", "e"],
+            "g": ["h", "i"],
+            "h": ["g", "i"],
+            "i": ["g", "h"],
+        }
+        all_nodes = {"a", "b", "c", "d", "e", "f", "g", "h", "i"}
+        communities, node_comm, modularity = louvain(adj, all_nodes)
+        assert len(communities) == 3
+        # Q for 3 equal disconnected clusters = 1 - 3*(1/3)^2 = 1 - 1/3 = 2/3
+        assert abs(modularity - 2 / 3) < 0.01
+
+    def test_modularity_non_negative_for_good_partition(self):
+        """Louvain should produce non-negative modularity for non-trivial graphs."""
+        adj = {
+            "a": ["b"],
+            "b": ["a", "c"],
+            "c": ["b", "d"],
+            "d": ["c"],
+        }
+        communities, node_comm, modularity = louvain(adj, {"a", "b", "c", "d"})
+        assert modularity >= 0.0
+
+    def test_all_nodes_assigned(self):
+        """Every node in all_nodes must appear in exactly one community."""
+        adj = {
+            "a": ["b", "c"],
+            "b": ["a"],
+            "c": ["a", "d"],
+            "d": ["c"],
+        }
+        all_nodes = {"a", "b", "c", "d"}
+        communities, node_comm, modularity = louvain(adj, all_nodes)
+        # Every node has a community
+        assert set(node_comm.keys()) == all_nodes
+        # Every node appears in exactly one community
+        all_members = set()
+        for comm in communities:
+            assert not (all_members & comm.members), "Overlap between communities"
+            all_members.update(comm.members)
+        assert all_members == all_nodes
+
+    def test_coarsening_reduces_fragmentation(self):
+        """Graph where coarsening helps merge initially fragmented communities.
+
+        Ring of 6 nodes: a-b-c-d-e-f-a with extra internal edges
+        to create two groups: {a,b,c} and {d,e,f}.
+        """
+        adj = {
+            # Group 1: dense triangle
+            "a": ["b", "c", "f"],  # f is bridge to group 2
+            "b": ["a", "c"],
+            "c": ["a", "b", "d"],  # d is bridge to group 2
+            # Group 2: dense triangle
+            "d": ["e", "f", "c"],
+            "e": ["d", "f"],
+            "f": ["d", "e", "a"],
+        }
+        all_nodes = {"a", "b", "c", "d", "e", "f"}
+        communities, node_comm, modularity = louvain(adj, all_nodes)
+        # Should find 2 communities, not 6 singletons
+        assert len(communities) <= 3
+        assert modularity > 0.0
+
+    def test_deterministic_output(self):
+        """Running Louvain twice on same input produces same result."""
+        adj = {
+            "a": ["b", "c"],
+            "b": ["a", "d"],
+            "c": ["a", "d"],
+            "d": ["b", "c"],
+        }
+        all_nodes = {"a", "b", "c", "d"}
+        r1 = louvain(adj, all_nodes)
+        r2 = louvain(adj, all_nodes)
+        # Same communities (by membership)
+        assert len(r1[0]) == len(r2[0])
+        for c1 in r1[0]:
+            assert any(c1.members == c2.members for c2 in r2[0])
+        # Same modularity
+        assert abs(r1[2] - r2[2]) < 1e-10

@@ -17,8 +17,8 @@ describe("SIGNAL_LABELS", () => {
   it("maps all signal keys to human labels", () => {
     expect(typeof SIGNAL_LABELS).toBe("object");
     expect(Object.keys(SIGNAL_LABELS).length).toBeGreaterThan(20);
-    expect(SIGNAL_LABELS.risk_score).toBe("Risk score");
-    expect(SIGNAL_LABELS.lines).toBe("Lines of code");
+    expect(SIGNAL_LABELS.risk_score).toBe("Overall Risk Score");
+    expect(SIGNAL_LABELS.lines).toBe("Lines of Code");
   });
 });
 

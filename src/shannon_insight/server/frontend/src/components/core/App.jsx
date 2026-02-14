@@ -16,6 +16,7 @@ import { IssuesScreen } from "../screens/IssuesScreen.jsx";
 import { FilesScreen } from "../screens/FilesScreen.jsx";
 import { ModulesScreen } from "../screens/ModulesScreen.jsx";
 import { HealthScreen } from "../screens/HealthScreen.jsx";
+import { GraphScreen } from "../screens/GraphScreen.jsx";
 
 export function App() {
   const currentScreen = useStore((s) => s.currentScreen);

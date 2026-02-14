@@ -222,26 +222,13 @@ class InsightKernel:
         )
 
     def _resolve_order(self) -> list:
-        """Topologically sort analyzers by requires/provides."""
-        # Simple topological sort: analyzers with fewer requirements go first
-        remaining = list(self._analyzers)
-        ordered = []
-        provided = {"files"}  # always available
+        """Topologically sort analyzers by requires/provides.
 
-        max_iterations = len(remaining) * 2
-        iteration = 0
-        while remaining and iteration < max_iterations:
-            iteration += 1
-            for analyzer in list(remaining):
-                if analyzer.requires.issubset(provided):
-                    ordered.append(analyzer)
-                    remaining.remove(analyzer)
-                    provided.update(analyzer.provides)
-
-        # Append any remaining (their requirements might never be met,
-        # but the kernel will skip them based on store.available)
-        ordered.extend(remaining)
-        return ordered
+        Uses graphlib.TopologicalSorter (via kernel_toposort) to order
+        analyzers. Detects cycles and slot collisions at startup time
+        instead of silently appending unresolvable analyzers.
+        """
+        return resolve_analyzer_order(self._analyzers)
 
     def _run_persistence_finders(self, findings: list) -> None:
         """Run persistence-based finders with a temporary DB connection."""

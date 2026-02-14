@@ -96,8 +96,7 @@ def validate_after_scanning(store: AnalysisStore) -> None:
     if len(paths) != len(path_set):
         dupes = [p for p in path_set if paths.count(p) > 1]
         raise PhaseValidationError(
-            f"Duplicate paths in file_metrics: "
-            f"{dupes[:5]}{'...' if len(dupes) > 5 else ''}"
+            f"Duplicate paths in file_metrics: {dupes[:5]}{'...' if len(dupes) > 5 else ''}"
         )
 
     if store.file_syntax.available:
@@ -196,9 +195,7 @@ def validate_signal_field(store: AnalysisStore) -> None:
             if val is None:
                 continue
             if isinstance(val, (int, float)) and (math.isnan(val) or math.isinf(val)):
-                raise PhaseValidationError(
-                    f"NaN/Inf detected: {path}.{attr_name} = {val}"
-                )
+                raise PhaseValidationError(f"NaN/Inf detected: {path}.{attr_name} = {val}")
 
     # Check for NaN/Inf in percentile values
     for path, fs in field.per_file.items():

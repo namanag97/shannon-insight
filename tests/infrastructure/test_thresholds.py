@@ -14,6 +14,7 @@ Tests cover:
 from __future__ import annotations
 
 import pytest
+
 from shannon_insight.infrastructure.thresholds import (
     ThresholdCheck,
     compute_hotspot_median,
@@ -21,7 +22,6 @@ from shannon_insight.infrastructure.thresholds import (
 )
 from shannon_insight.signals.models import FileSignals, SignalField
 from shannon_insight.signals.registry_v2 import REGISTRY, Signal
-
 
 # ── Fixtures ──────────────────────────────────────────────────────────
 

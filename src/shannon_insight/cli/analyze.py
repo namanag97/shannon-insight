@@ -462,9 +462,7 @@ def main(
 
             from ..server.lifecycle import launch_server
 
-            settings = resolve_settings(
-                config=config, workers=workers, verbose=verbose
-            )
+            settings = resolve_settings(config=config, workers=workers, verbose=verbose)
 
             if verbose:
                 import logging as _logging

@@ -8,11 +8,11 @@ import { hColor } from "../../utils/helpers.js";
 
 const MODULE_COLUMNS = [
   { key: "path", label: "Module", numeric: false },
-  { key: "health_score", label: "Health", numeric: true },
-  { key: "instability", label: "Instability", numeric: true },
-  { key: "abstractness", label: "Abstractness", numeric: true },
-  { key: "file_count", label: "Files", numeric: true },
-  { key: "velocity", label: "Velocity", numeric: true },
+  { key: "health_score", label: "Health Score", numeric: true },
+  { key: "instability", label: "Change Sensitivity", numeric: true },
+  { key: "abstractness", label: "Abstraction Level", numeric: true },
+  { key: "file_count", label: "File Count", numeric: true },
+  { key: "velocity", label: "Change Velocity", numeric: true },
 ];
 
 function ModuleListView() {

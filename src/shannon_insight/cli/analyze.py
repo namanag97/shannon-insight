@@ -385,6 +385,11 @@ def main(
         "--concerns",
         help="Show concerns view (findings grouped by category) instead of focus point",
     ),
+    cli_mode: bool = typer.Option(
+        False,
+        "--cli",
+        help="Force CLI output instead of opening dashboard",
+    ),
 ):
     """
     Analyze codebase quality using structural, temporal, and spectral analysis.
@@ -413,6 +418,37 @@ def main(
 
     if ctx.invoked_subcommand is not None:
         return
+
+    # Launch dashboard by default (unless --cli flag is set)
+    if not cli_mode:
+        # Check if serve dependencies are available
+        try:
+            from ..server import _check_deps
+
+            _check_deps()
+
+            # Import and call serve command directly
+            from .serve import serve as serve_cmd
+
+            # Call serve with context and default parameters
+            # Use no_browser=False to open browser by default
+            serve_cmd(
+                ctx=ctx,
+                port=8765,
+                host="127.0.0.1",
+                no_browser=False,
+                config=config,
+                workers=workers,
+                verbose=verbose,
+            )
+            return
+        except ImportError:
+            # If serve dependencies not available, fall back to CLI mode
+            console.print(
+                "[yellow]Dashboard dependencies not installed. "
+                "Install with: pip install shannon-codebase-insight[server][/yellow]"
+            )
+            console.print("[dim]Falling back to CLI mode...[/dim]\n")
 
     from .. import __version__
 

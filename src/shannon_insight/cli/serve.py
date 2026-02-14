@@ -25,6 +25,10 @@ def serve(
     verbose: bool = typer.Option(False, "-v", "--verbose", help="Verbose logging"),
 ) -> None:
     """Start a live dashboard that watches for file changes."""
+    console.print(
+        "[yellow]Note: 'shannon-insight serve' is deprecated. "
+        "Use 'shannon-insight' to open dashboard or 'shannon-insight --cli' for terminal output.[/yellow]\n"
+    )
     # Check dependencies
     try:
         from ..server import _check_deps

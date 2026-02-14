@@ -252,6 +252,7 @@ def build_dashboard_state(
 
     # ── Assemble ──────────────────────────────────────────────────
     state: dict[str, Any] = {
+        "version": __version__,
         "health": health_display,
         "health_label": _health_label(health_display),
         "verdict": verdict_text,

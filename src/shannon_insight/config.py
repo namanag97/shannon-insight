@@ -163,6 +163,11 @@ class AnalysisSettings(BaseSettings):
         description="Max findings to show in insights command",
     )
 
+    enable_validation: bool = Field(
+        default=True,
+        description="Enable phase validation contracts between pipeline stages",
+    )
+
     # ==================== History ====================
 
     enable_history: bool = Field(default=True, description="Auto-save snapshots to .shannon/")

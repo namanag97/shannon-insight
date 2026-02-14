@@ -39,7 +39,7 @@ class BaseScanner(ABC):
         Returns:
             List of file metrics for analyzed files
         """
-        files = []
+        files: list[FileMetrics] = []
         files_scanned = 0
         files_skipped = 0
         files_errored = 0

@@ -681,7 +681,7 @@ a:hover { text-decoration: underline; }
 }
 .movers-table th.num { text-align: right; }
 .movers-table td {
-  padding: var(--space-xs) var(--space-sm);
+  padding: var(--space-sm) var(--space-sm);
   border-bottom: 1px solid var(--border-subtle);
   vertical-align: middle;
 }

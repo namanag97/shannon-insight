@@ -748,9 +748,10 @@ a:hover { text-decoration: underline; }
 /* Global signals table */
 .global-signals-table { width: 100%; border-collapse: collapse; }
 .global-signals-table td {
-  padding: var(--space-xs) var(--space-sm); font-size: 11px;
+  padding: var(--space-sm) var(--space-sm); font-size: 11px;
   border-bottom: 1px solid var(--border-subtle);
   transition: background 0.08s ease;
+  line-height: 1.5;
 }
 .global-signals-table tr:nth-child(odd) { background: rgba(20,20,20,0.5); }
 .global-signals-table tr:hover { background: rgba(255,255,255,0.02); }

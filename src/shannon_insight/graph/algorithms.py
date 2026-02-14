@@ -247,15 +247,38 @@ def compute_modularity(
     node_comm: dict[str, int],
     m: float,
 ) -> float:
-    """Compute modularity Q = (1/2m) * sum[(A_ij - ki*kj/2m) * delta(ci,cj)]."""
+    """Compute modularity Q = sum_c [L_c/m - (sigma_c/2m)^2].
+
+    Where:
+      L_c = total weight of edges within community c
+      sigma_c = sum of degrees of nodes in community c
+      m = total edge weight (sum of canonical edge weights)
+
+    Edge weights are stored canonically as (min, max) keys for undirected
+    edges.  Each canonical entry represents one undirected edge.
+    The degree dict already double-counts (each undirected edge adds 1
+    to both endpoints), so sum(degrees) = 2*m.
+    """
     if m == 0:
         return 0.0
-    two_m = 2.0 * m
-    q = 0.0
+
+    # L_c totals: sum of edge weights within each community
+    e_in = 0.0
     for (a, b), w in edge_weights.items():
         if node_comm.get(a) == node_comm.get(b):
-            q += w - (degree.get(a, 0) * degree.get(b, 0)) / two_m
-    return q / two_m
+            e_in += w
+
+    # sigma_c: sum of degrees per community
+    sigma: dict[int, float] = defaultdict(float)
+    for node, deg in degree.items():
+        comm = node_comm.get(node)
+        if comm is not None:
+            sigma[comm] += deg
+
+    # Q = e_in/m - sum(sigma_c^2) / (4*m^2)
+    four_m_sq = 4.0 * m * m
+    null_term = sum(s * s for s in sigma.values()) / four_m_sq
+    return e_in / m - null_term
 
 
 # ── Phase 3: DAG depth, orphans, centrality Gini ──────────────────────

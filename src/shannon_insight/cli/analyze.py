@@ -419,8 +419,40 @@ def main(
     if ctx.invoked_subcommand is not None:
         return
 
-    # Launch dashboard by default (unless --cli flag is set)
-    if not cli_mode:
+    from .. import __version__
+
+    # Handle flags that should always use CLI mode (before dashboard check)
+    if version:
+        console.print(
+            f"[bold cyan]Shannon Insight[/bold cyan] version [green]{__version__}[/green]"
+        )
+        raise typer.Exit(0)
+
+    # Preview mode: show what would be analyzed without running
+    if preview:
+        _output_preview(target, changed, since, save)
+        raise typer.Exit(0)
+
+    # Signals mode: show raw signals table
+    if signals is not None:
+        _output_signals_mode(target, signals, changed, since)
+        raise typer.Exit(0)
+
+    # Launch dashboard by default (unless --cli flag is set or other CLI-only flags)
+    # These flags force CLI mode regardless of --cli
+    force_cli = (
+        json_output
+        or hotspots
+        or journey
+        or concerns
+        or changed
+        or since is not None
+        or fail_on is not None
+        or output_format is not None
+        or debug_export is not None
+    )
+
+    if not cli_mode and not force_cli:
         # Check if serve dependencies are available
         try:
             from ..server import _check_deps
@@ -459,10 +491,6 @@ def main(
                 "Install with: pip install shannon-codebase-insight[server][/yellow]"
             )
             console.print("[dim]Falling back to CLI mode...[/dim]\n")
-
-    from .. import __version__
-
-    if version:
         console.print(
             f"[bold cyan]Shannon Insight[/bold cyan] version [green]{__version__}[/green]"
         )

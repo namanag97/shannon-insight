@@ -14,6 +14,8 @@ const SCREEN_LABELS = {
   modules: "Modules",
   health: "Health",
   graph: "Graph",
+  churn: "Churn",
+  signals: "Signals",
 };
 
 export function Header() {

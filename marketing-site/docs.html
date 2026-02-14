@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation - Shannon Insight</title>
+  <meta name="description" content="Shannon Insight documentation: user guide, mathematical foundations, worked examples, tool comparison, and system architecture.">
+  <meta name="author" content="Naman Agarwal">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Shannon Insight Documentation">
+  <meta property="og:description" content="Comprehensive documentation covering usage, mathematical foundations, worked examples, and system architecture.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+
+  <style>
+    .docs-hero {
+      padding: 140px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .docs-hero::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: -30%;
+      width: 160%;
+      height: 160%;
+      background: radial-gradient(ellipse at 50% 30%, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .docs-hero h1 {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 16px;
+    }
+
+    .docs-hero p {
+      position: relative;
+      z-index: 1;
+      color: var(--text-secondary);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .docs-hero .btn-group {
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .docs-page__grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 0 0 var(--section-gap);
+    }
+
+    .docs-page__sidebar {
+      position: sticky;
+      top: 100px;
+      align-self: start;
+    }
+
+    .docs-page__sidebar h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      margin-top: 28px;
+    }
+
+    .docs-page__sidebar h3:first-child {
+      margin-top: 0;
+    }
+
+    .docs-page__sidebar ul {
+      list-style: none;
+    }
+
+    .docs-page__sidebar ul li {
+      margin-bottom: 8px;
+    }
+
+    .docs-page__sidebar ul a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: color var(--transition-fast);
+      display: block;
+      padding: 4px 0;
+    }
+
+    .docs-page__sidebar ul a:hover {
+      color: var(--accent-blue-light);
+    }
+
+    .docs-page__main {
+      min-width: 0;
+    }
+
+    .doc-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 40px;
+      margin-bottom: 32px;
+      transition: all var(--transition-normal);
+    }
+
+    .doc-section:hover {
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+
+    .doc-section__badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .doc-section__badge--guide {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-blue-light);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+    }
+
+    .doc-section__badge--theory {
+      background: rgba(139, 92, 246, 0.1);
+      color: var(--accent-purple-light);
+      border: 1px solid rgba(139, 92, 246, 0.15);
+    }
+
+    .doc-section__badge--examples {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--signal-green);
+      border: 1px solid rgba(34, 197, 94, 0.15);
+    }
+
+    .doc-section__badge--compare {
+      background: rgba(249, 115, 22, 0.1);
+      color: var(--signal-orange);
+      border: 1px solid rgba(249, 115, 22, 0.15);
+    }
+
+    .doc-section__badge--arch {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--signal-red);
+      border: 1px solid rgba(239, 68, 68, 0.15);
+    }
+
+    .doc-section h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .doc-section p {
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .doc-section__toc {
+      list-style: none;
+      margin: 20px 0;
+      padding: 20px 24px;
+      background: var(--bg-primary);
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .doc-section__toc li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .doc-section__toc li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      margin-right: 10px;
+      vertical-align: middle;
+      opacity: 0.5;
+    }
+
+    .doc-section__meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .doc-section__meta span {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 1024px) {
+      .docs-page__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .docs-page__sidebar {
+        position: static;
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .doc-section {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== Navigation ==================== -->
+  <nav class="nav nav--scrolled" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand" aria-label="Shannon Insight home">
+        <svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true">
+          <defs><linearGradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#3b82f6"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient></defs>
+          <rect width="40" height="40" rx="8" fill="url(#navLogoGrad)"/>
+          <text x="20" y="27" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="white" text-anchor="middle">S</text>
+        </svg>
+        <span class="nav__brand-name">Shannon Insight</span>
+      </a>
+
+      <ul class="nav__links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#pipeline">How It Works</a></li>
+        <li><a href="index.html#math">The Math</a></li>
+        <li><a href="index.html#comparison">Compare</a></li>
+        <li><a href="docs.html" style="color: var(--accent-blue-light);">Docs</a></li>
+      </ul>
+
+      <div class="nav__actions">
+        <a href="https://github.com/namanag97/shannon-insight" class="btn btn--ghost" target="_blank" rel="noopener" aria-label="GitHub repository">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href="index.html#quickstart" class="btn btn--primary">Install Now</a>
+      </div>
+
+      <button class="nav__mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==================== Hero ==================== -->
+  <section class="docs-hero">
+    <div class="container">
+      <h1 class="fade-in">Documentation</h1>
+      <p class="fade-in">
+        Comprehensive documentation covering usage, mathematical foundations, 13 worked examples, tool comparisons, and system architecture.
+      </p>
+      <div class="btn-group fade-in">
+        <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/README.md" class="btn btn--primary" target="_blank" rel="noopener">
+          Start with the User Guide
+        </a>
+        <a href="https://github.com/namanag97/shannon-insight" class="btn btn--secondary" target="_blank" rel="noopener">
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Docs Grid ==================== -->
+  <div class="container">
+    <div class="docs-page__grid">
+
+      <!-- Sidebar -->
+      <aside class="docs-page__sidebar">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="#user-guide">User Guide</a></li>
+          <li><a href="#math-foundations">Mathematical Foundations</a></li>
+          <li><a href="#worked-examples">Worked Examples</a></li>
+          <li><a href="#tool-comparison">Tool Comparison</a></li>
+          <li><a href="#architecture">System Architecture</a></li>
+        </ul>
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="https://github.com/namanag97/shannon-insight" target="_blank" rel="noopener">GitHub Repository</a></li>
+          <li><a href="https://pypi.org/project/shannon-codebase-insight/" target="_blank" rel="noopener">PyPI Package</a></li>
+          <li><a href="https://github.com/namanag97/shannon-insight/issues" target="_blank" rel="noopener">Issue Tracker</a></li>
+        </ul>
+        <h3>Quick Start</h3>
+        <ul>
+          <li><a href="index.html#quickstart">Installation</a></li>
+          <li><a href="index.html#demo">CLI Demo</a></li>
+          <li><a href="index.html#usecases">Use Cases</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="docs-page__main">
+
+        <!-- User Guide -->
+        <div class="doc-section fade-in" id="user-guide">
+          <span class="doc-section__badge doc-section__badge--guide">USER GUIDE</span>
+          <h2>Shannon Insight User Guide</h2>
+          <p>
+            The complete reference for Shannon Insight. Covers installation, first analysis, CLI options, all 62 signals, all 22 finding types, dashboard usage, CI/CD integration, and frequently asked questions.
+          </p>
+          <ul class="doc-section__toc">
+            <li>Introduction and key benefits</li>
+            <li>Quick start and installation</li>
+            <li>How It Works (6-stage pipeline)</li>
+            <li>The math behind each analysis</li>
+            <li>Signals reference (62 signals across 8 dimensions)</li>
+            <li>Finders reference (22 finding types)</li>
+            <li>Use cases and workflows</li>
+            <li>CLI reference and all flags</li>
+            <li>Dashboard guide</li>
+            <li>FAQ</li>
+          </ul>
+          <div class="doc-section__meta">
+            <span>1,168 lines</span>
+            <span>README.md</span>
+            <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/README.md" class="btn btn--secondary" style="margin-left:auto; padding: 8px 20px; font-size: 13px;" target="_blank" rel="noopener">Read on GitHub &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Mathematical Foundations -->
+        <div class="doc-section fade-in" id="math-foundations">
+          <span class="doc-section__badge doc-section__badge--theory">MATHEMATICAL THEORY</span>
+          <h2>Mathematical Foundations</h2>
+          <p>
+            Rigorous mathematical definitions for the techniques underlying Shannon Insight. Intended for researchers, advanced practitioners, and contributors who want to understand the theoretical basis of each computation.
+          </p>
+          <ul class="doc-section__toc">
+            <li>Information Theory (entropy, Kolmogorov complexity, NCD, TF-IDF)</li>
+            <li>Graph Theory (PageRank, betweenness, Louvain modularity, Tarjan SCC)</li>
+            <li>Spectral Graph Theory (Laplacian, Fiedler value, spectral gap)</li>
+            <li>Temporal Analysis (trajectory classification, co-change lift)</li>
+            <li>Signal Fusion and Normalization (three-tier degradation, composites)</li>
+            <li>Statistical Methods (Gini coefficient, Bayesian percentiles)</li>
+            <li>References</li>
+          </ul>
+          <div class="doc-section__meta">
+            <span>647 lines</span>
+            <span>THEORY.md</span>
+            <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/THEORY.md" class="btn btn--secondary" style="margin-left:auto; padding: 8px 20px; font-size: 13px;" target="_blank" rel="noopener">Read on GitHub &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Worked Examples -->
+        <div class="doc-section fade-in" id="worked-examples">
+          <span class="doc-section__badge doc-section__badge--examples">WORKED EXAMPLES</span>
+          <h2>Worked Examples</h2>
+          <p>
+            13 step-by-step calculations with real numbers, showing exactly how Shannon Insight's algorithms produce their results. Each example includes the input data, every intermediate computation, and the final output.
+          </p>
+          <ul class="doc-section__toc">
+            <li>PageRank computation (4-file dependency graph)</li>
+            <li>Shannon entropy and bus factor</li>
+            <li>Gini coefficient (implementation inequality)</li>
+            <li>Semantic coherence (TF-IDF cosine similarity)</li>
+            <li>NCD clone detection</li>
+            <li>God file detection (multi-signal condition)</li>
+            <li>Risk score computation (weighted composite)</li>
+            <li>Health Laplacian and weak link detection</li>
+            <li>Martin metrics and zone of pain</li>
+            <li>Co-change lift and hidden coupling</li>
+            <li>Louvain modularity optimization</li>
+            <li>Confidence score calculation</li>
+            <li>Churn trajectory classification</li>
+          </ul>
+          <div class="doc-section__meta">
+            <span>806 lines</span>
+            <span>EXAMPLES.md</span>
+            <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/EXAMPLES.md" class="btn btn--secondary" style="margin-left:auto; padding: 8px 20px; font-size: 13px;" target="_blank" rel="noopener">Read on GitHub &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Tool Comparison -->
+        <div class="doc-section fade-in" id="tool-comparison">
+          <span class="doc-section__badge doc-section__badge--compare">COMPARISON</span>
+          <h2>Tool Comparison</h2>
+          <p>
+            Detailed, fair comparison of Shannon Insight with established code analysis tools. Covers where each tool excels and where Shannon Insight adds unique value.
+          </p>
+          <ul class="doc-section__toc">
+            <li>Feature comparison matrix (6 tools, 16 capabilities)</li>
+            <li>Shannon Insight vs. SonarQube</li>
+            <li>Shannon Insight vs. CodeClimate</li>
+            <li>Shannon Insight vs. CodeScene</li>
+            <li>Shannon Insight vs. Sourcegraph</li>
+            <li>Shannon Insight vs. Understand (SciTools)</li>
+            <li>Unique capabilities table</li>
+            <li>When to use what (decision guide)</li>
+            <li>Integration strategy (5-layer model)</li>
+          </ul>
+          <div class="doc-section__meta">
+            <span>220 lines</span>
+            <span>COMPARISON.md</span>
+            <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/COMPARISON.md" class="btn btn--secondary" style="margin-left:auto; padding: 8px 20px; font-size: 13px;" target="_blank" rel="noopener">Read on GitHub &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Architecture -->
+        <div class="doc-section fade-in" id="architecture">
+          <span class="doc-section__badge doc-section__badge--arch">ARCHITECTURE</span>
+          <h2>System Architecture</h2>
+          <p>
+            Internal architecture documentation for contributors, integrators, and anyone who wants to understand how the system works at the code level. Covers the blackboard pattern, intermediate representations, and extension points.
+          </p>
+          <ul class="doc-section__toc">
+            <li>High-level architecture (pipeline diagram)</li>
+            <li>Module structure (8 packages)</li>
+            <li>Data flow (IR0 through IR6)</li>
+            <li>The blackboard pattern (AnalysisStore)</li>
+            <li>Intermediate representations</li>
+            <li>Extension points (scanners, primitives, finders)</li>
+            <li>Testing strategy</li>
+            <li>Key design decisions</li>
+          </ul>
+          <div class="doc-section__meta">
+            <span>531 lines</span>
+            <span>ARCHITECTURE.md</span>
+            <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/ARCHITECTURE.md" class="btn btn--secondary" style="margin-left:auto; padding: 8px 20px; font-size: 13px;" target="_blank" rel="noopener">Read on GitHub &rarr;</a>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ==================== Footer ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="nav__brand" aria-label="Shannon Insight home">
+            <svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true">
+              <defs><linearGradient id="footerLogoGrad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#3b82f6"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient></defs>
+              <rect width="40" height="40" rx="8" fill="url(#footerLogoGrad2)"/>
+              <text x="20" y="27" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="white" text-anchor="middle">S</text>
+            </svg>
+            <span class="nav__brand-name">Shannon Insight</span>
+          </a>
+          <p>Multi-signal codebase analysis using information theory, graph algorithms, and spectral analysis.</p>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Product</h4>
+          <ul class="footer__links">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#pipeline">How It Works</a></li>
+            <li><a href="index.html#comparison">Comparison</a></li>
+            <li><a href="index.html#quickstart">Quick Start</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Documentation</h4>
+          <ul class="footer__links">
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/README.md" target="_blank" rel="noopener">User Guide</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/THEORY.md" target="_blank" rel="noopener">Math Foundations</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/EXAMPLES.md" target="_blank" rel="noopener">Worked Examples</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/ARCHITECTURE.md" target="_blank" rel="noopener">Architecture</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Links</h4>
+          <ul class="footer__links">
+            <li><a href="https://github.com/namanag97/shannon-insight" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="https://pypi.org/project/shannon-codebase-insight/" target="_blank" rel="noopener">PyPI</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/issues" target="_blank" rel="noopener">Issues</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>Created by <a href="https://github.com/namanag97" target="_blank" rel="noopener">Naman Agarwal</a></span>
+        <div class="footer__badges">
+          <a href="https://pypi.org/project/shannon-codebase-insight/" target="_blank" rel="noopener">
+            <img src="https://img.shields.io/pypi/v/shannon-codebase-insight?color=3b82f6&style=flat-square" alt="PyPI version" loading="lazy">
+          </a>
+          <a href="https://github.com/namanag97/shannon-insight/blob/main/LICENSE" target="_blank" rel="noopener">
+            <img src="https://img.shields.io/badge/license-MIT-8b5cf6?style=flat-square" alt="MIT License" loading="lazy">
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -904,4 +904,8 @@ button, a, input, select,
   .topbar { padding: 0 var(--space-md); gap: var(--space-md); }
   .health-big { font-size: 44px; }
   .health-big::after { width: 76px; height: 76px; }
+  .trend-chart-card { padding: var(--space-sm); }
+  .trend-chart-card svg { max-width: 100%; height: auto; }
+  .movers-table .td-path { max-width: 200px; }
+  .empty-state-inline { flex-direction: column; align-items: center; text-align: center; }
 }

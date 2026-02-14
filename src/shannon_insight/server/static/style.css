@@ -889,7 +889,7 @@ a:hover { text-decoration: underline; }
 /* Transition blanket: apply to all interactive elements */
 button, a, input, select,
 .cat-row, .concern-row, .sig-row, .finding-row,
-.file-table tr, .module-table tr, .global-signals-table tr {
+.data-table tr {
   transition: all 0.15s ease;
 }
 

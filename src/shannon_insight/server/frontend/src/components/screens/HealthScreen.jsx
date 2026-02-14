@@ -190,10 +190,14 @@ export function HealthScreen() {
                         ? String(v)
                         : v.toFixed(4)
                       : String(v);
+                  const label = SIGNAL_LABELS[key] || key.replace(/_/g, " ");
+                  const interp = typeof v === "number" ? interpretSignal(key, v) : null;
                   return (
                     <tr key={key}>
-                      <td class="gs-name">{key.replace(/_/g, " ")}</td>
+                      <td class="gs-name">{label}</td>
                       <td class="gs-val">{display}</td>
+                      {interp && <td class="gs-interp">{interp}</td>}
+                      {!interp && <td class="gs-interp"></td>}
                     </tr>
                   );
                 })}

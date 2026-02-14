@@ -148,10 +148,16 @@ export const SIGNAL_POLARITY = {
 /** Category display order and labels. */
 export const CATEGORY_ORDER = ["incomplete", "fragile", "tangled", "team"];
 export const CATEGORY_LABELS = {
-  incomplete: "Incomplete",
-  fragile: "Fragile",
-  tangled: "Tangled",
-  team: "Team",
+  incomplete: "Incomplete Code",
+  fragile: "Fragile / Risky Code",
+  tangled: "Tangled Dependencies",
+  team: "Team / Ownership Risks",
+};
+export const CATEGORY_DESCRIPTIONS = {
+  incomplete: "Stubs, dead code, and missing implementations",
+  fragile: "Code that breaks easily due to complexity or tight coupling",
+  tangled: "Circular dependencies, hidden coupling, and messy imports",
+  team: "Single-author files, knowledge silos, and bus factor risks",
 };
 
 /** Screen identifiers for navigation. */

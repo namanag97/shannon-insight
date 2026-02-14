@@ -373,46 +373,48 @@ def _query_file_signal_trends(
     if not path.exists() or not file_paths:
         return {}
 
+    # Derive project root from db_path (.shannon/history.db)
+    project_root = path.parent.parent
+
     try:
-        conn = sqlite3.connect(str(path))
-        cur = conn.cursor()
+        with HistoryDB(str(project_root)) as db:
+            cur = db.conn.cursor()
 
-        # Get last N snapshot IDs
-        cur.execute("SELECT id FROM snapshots ORDER BY id DESC LIMIT ?", (last_n,))
-        snapshot_ids = [row[0] for row in cur.fetchall()]
-        if not snapshot_ids:
-            return {}
+            # Get last N snapshot IDs
+            cur.execute("SELECT id FROM snapshots ORDER BY id DESC LIMIT ?", (last_n,))
+            snapshot_ids = [row[0] for row in cur.fetchall()]
+            if not snapshot_ids:
+                return {}
 
-        # Reverse to get oldest-to-newest
-        snapshot_ids.reverse()
+            # Reverse to get oldest-to-newest
+            snapshot_ids.reverse()
 
-        # Query all signal values for these files in these snapshots
-        # Using placeholder for IN clause
-        placeholders = ",".join("?" * len(snapshot_ids))
-        file_placeholders = ",".join("?" * len(file_paths))
+            # Query all signal values for these files in these snapshots
+            # Using placeholder for IN clause
+            placeholders = ",".join("?" * len(snapshot_ids))
+            file_placeholders = ",".join("?" * len(file_paths))
 
-        cur.execute(
-            f"""
-            SELECT file_path, signal_name, value, snapshot_id
-            FROM signal_history
-            WHERE snapshot_id IN ({placeholders})
-            AND file_path IN ({file_placeholders})
-            ORDER BY snapshot_id ASC
-        """,
-            snapshot_ids + file_paths,
-        )
+            cur.execute(
+                f"""
+                SELECT file_path, signal_name, value, snapshot_id
+                FROM signal_history
+                WHERE snapshot_id IN ({placeholders})
+                AND file_path IN ({file_placeholders})
+                ORDER BY snapshot_id ASC
+            """,
+                snapshot_ids + file_paths,
+            )
 
-        # Build nested dict: {file_path: {signal_name: [values]}}
-        trends: dict[str, dict[str, list[float]]] = {}
-        for file_path, signal_name, value, _snapshot_id in cur.fetchall():
-            if file_path not in trends:
-                trends[file_path] = {}
-            if signal_name not in trends[file_path]:
-                trends[file_path][signal_name] = []
-            trends[file_path][signal_name].append(float(value) if value is not None else 0.0)
+            # Build nested dict: {file_path: {signal_name: [values]}}
+            trends: dict[str, dict[str, list[float]]] = {}
+            for file_path, signal_name, value, _snapshot_id in cur.fetchall():
+                if file_path not in trends:
+                    trends[file_path] = {}
+                if signal_name not in trends[file_path]:
+                    trends[file_path][signal_name] = []
+                trends[file_path][signal_name].append(float(value) if value is not None else 0.0)
 
-        conn.close()
-        return trends
+            return trends
 
     except Exception:
         logger.debug("Failed to query file signal trends", exc_info=True)

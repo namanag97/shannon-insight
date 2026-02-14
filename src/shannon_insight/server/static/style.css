@@ -10,11 +10,11 @@
   /* Colors — improved contrast for readability */
   --bg: #0a0a0a;
   --surface: #141414;
-  --border: #1e1e1e;
-  --border-subtle: #181818;
-  --text: #e5e5e5;
-  --text-secondary: #999999;
-  --text-tertiary: #666666;
+  --border: #2a2a2a;
+  --border-subtle: #1f1f1f;
+  --text: #f0f0f0;
+  --text-secondary: #b8b8b8;
+  --text-tertiary: #888888;
   --green: #22c55e;
   --yellow: #eab308;
   --orange: #f97316;

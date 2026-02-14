@@ -19,6 +19,7 @@ export function OverviewScreen() {
 
   const score = data.health;
   const color = hColor(score);
+  const healthInfo = interpretHealth(score);
   const cats = data.categories || {};
 
   // Total issues

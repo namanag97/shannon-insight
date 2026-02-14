@@ -1,6 +1,63 @@
 """Evidence fusion: Bayesian combination, Dempster-Shafer theory."""
 
 
+def _compute_pairwise_combination(
+    m1: dict[frozenset, float], m2: dict[frozenset, float]
+) -> tuple[dict[frozenset, float], float]:
+    """
+    Compute pairwise Dempster-Shafer combination of two mass functions.
+
+    Iterates over all focal sets in m1 and m2, computing their intersection.
+    If the intersection is non-empty, accumulates the product of masses.
+    If empty, accumulates to conflict coefficient.
+
+    Args:
+        m1: First mass function {frozenset(hypotheses): mass}
+        m2: Second mass function {frozenset(hypotheses): mass}
+
+    Returns:
+        Tuple of (combined_mass, total_conflict)
+        - combined_mass: Unnormalized combined mass function
+        - total_conflict: Sum of masses for conflicting focal sets (empty intersection)
+    """
+    combined: dict[frozenset, float] = {}
+    total_conflict = 0.0
+
+    for a, ma in m1.items():
+        for b, mb in m2.items():
+            intersection = a & b
+            if intersection:
+                combined[intersection] = combined.get(intersection, 0.0) + ma * mb
+            else:
+                total_conflict += ma * mb
+
+    return combined, total_conflict
+
+
+def _normalize_mass_function(
+    combined: dict[frozenset, float], conflict: float
+) -> dict[frozenset, float]:
+    """
+    Normalize a mass function by the conflict coefficient.
+
+    In Dempster-Shafer theory, after combining two mass functions,
+    we normalize by (1 - K) where K is the total conflict mass.
+    This redistributes the conflicting mass among the remaining focal sets.
+
+    Args:
+        combined: Unnormalized mass function
+        conflict: Total conflict coefficient K
+
+    Returns:
+        Normalized mass function where masses sum to 1.0
+        If normalization factor is 0 (total conflict), returns empty dict.
+    """
+    normalization = 1.0 - conflict
+    if normalization > 0:
+        return {k: v / normalization for k, v in combined.items()}
+    return {}
+
+
 class SignalFusion:
     """Evidence-theoretic signal fusion methods."""
 

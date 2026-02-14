@@ -1,39 +1,51 @@
 /**
  * Finding card - renders a single finding with severity indicator,
- * evidence, interpretation, and suggestion.
+ * collapsible evidence, interpretation, and actionable suggestion.
  *
- * Extracted from renderFindingRow() and renderEvidence() in old app.js.
+ * v2: Added collapsible evidence sections, improved typography hierarchy,
+ * cleaner severity indicators.
  */
 
+import { useState } from "preact/hooks";
 import { SeverityDot } from "../ui/SeverityDot.jsx";
 import { Badge } from "../ui/Badge.jsx";
 import { sevKey } from "../../utils/helpers.js";
 import { SIGNAL_LABELS } from "../../utils/constants.js";
 
 function Evidence({ evidence, maxItems = 4 }) {
+  const [expanded, setExpanded] = useState(false);
   if (!evidence || !evidence.length) return null;
 
-  const limit = Math.min(evidence.length, maxItems);
+  const showToggle = evidence.length > maxItems;
+  const displayed = expanded ? evidence : evidence.slice(0, maxItems);
+
   return (
-    <div class="finding-evidence">
-      {evidence.slice(0, limit).map((ev, i) => {
-        const sigName = SIGNAL_LABELS[ev.signal] || ev.signal.replace(/_/g, " ");
-        const valStr =
-          typeof ev.value === "number"
-            ? Number.isInteger(ev.value)
-              ? String(ev.value)
-              : ev.value.toFixed(2)
-            : String(ev.value);
-        return (
-          <span key={i}>
-            {sigName}: <strong>{valStr}</strong>
-            {ev.percentile ? (
-              <span class="pctl"> ({Math.round(ev.percentile)}th percentile)</span>
-            ) : null}
-            {i < limit - 1 ? "\u00a0\u00a0\u00a0" : null}
-          </span>
-        );
-      })}
+    <div>
+      <div class="finding-evidence">
+        {displayed.map((ev, i) => {
+          const sigName = SIGNAL_LABELS[ev.signal] || ev.signal.replace(/_/g, " ");
+          const valStr =
+            typeof ev.value === "number"
+              ? Number.isInteger(ev.value)
+                ? String(ev.value)
+                : ev.value.toFixed(2)
+              : String(ev.value);
+          return (
+            <span key={i}>
+              {sigName}: <strong>{valStr}</strong>
+              {ev.percentile ? (
+                <span class="pctl"> ({Math.round(ev.percentile)}th pctl)</span>
+              ) : null}
+              {i < displayed.length - 1 ? "\u00a0\u00a0\u00b7\u00a0\u00a0" : null}
+            </span>
+          );
+        })}
+      </div>
+      {showToggle && (
+        <div class="finding-evidence-toggle" onClick={() => setExpanded(!expanded)}>
+          {expanded ? "Show less" : `Show ${evidence.length - maxItems} more...`}
+        </div>
+      )}
     </div>
   );
 }

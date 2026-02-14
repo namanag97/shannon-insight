@@ -438,3 +438,62 @@ def _query_file_signal_trends(
     except Exception:
         logger.debug("Failed to query file signal trends", exc_info=True)
         return {}
+
+
+def _query_module_signal_trends(
+    db_path: str, module_paths: list[str], last_n: int = 10
+) -> dict[str, dict[str, list[float]]]:
+    """Query per-module signal trends from .shannon/history.db.
+
+    Returns dict mapping module_path → {signal_name → [values oldest-to-newest]}
+    Limited to last N snapshots for performance.
+    """
+    path = Path(db_path)
+    if not path.exists() or not module_paths:
+        return {}
+
+    # Derive project root from db_path (.shannon/history.db)
+    project_root = path.parent.parent
+
+    try:
+        with HistoryDB(str(project_root)) as db:
+            cur = db.conn.cursor()
+
+            # Get last N snapshot IDs
+            cur.execute("SELECT id FROM snapshots ORDER BY id DESC LIMIT ?", (last_n,))
+            snapshot_ids = [row[0] for row in cur.fetchall()]
+            if not snapshot_ids:
+                return {}
+
+            # Reverse to get oldest-to-newest
+            snapshot_ids.reverse()
+
+            # Query all signal values for these modules in these snapshots
+            placeholders = ",".join("?" * len(snapshot_ids))
+            module_placeholders = ",".join("?" * len(module_paths))
+
+            cur.execute(
+                f"""
+                SELECT module_path, signal_name, value, snapshot_id
+                FROM module_signal_history
+                WHERE snapshot_id IN ({placeholders})
+                AND module_path IN ({module_placeholders})
+                ORDER BY snapshot_id ASC
+            """,
+                snapshot_ids + module_paths,
+            )
+
+            # Build nested dict: {module_path: {signal_name: [values]}}
+            trends: dict[str, dict[str, list[float]]] = {}
+            for module_path, signal_name, value, _snapshot_id in cur.fetchall():
+                if module_path not in trends:
+                    trends[module_path] = {}
+                if signal_name not in trends[module_path]:
+                    trends[module_path][signal_name] = []
+                trends[module_path][signal_name].append(float(value) if value is not None else 0.0)
+
+            return trends
+
+    except Exception:
+        logger.debug("Failed to query module signal trends", exc_info=True)
+        return {}

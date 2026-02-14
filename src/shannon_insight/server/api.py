@@ -175,10 +175,15 @@ def build_dashboard_state(
 
     # ── File data ─────────────────────────────────────────────────
     files: dict[str, dict[str, Any]] = {}
+    # Query per-file signal trends if db available
+    file_trends: dict[str, dict[str, list[float]]] = {}
+    if db_path:
+        file_trends = _query_file_signal_trends(db_path, list(file_signals.keys()))
+
     for path, sig_dict in file_signals.items():
         # Collect findings for this file
         file_findings = [f for f in findings if path in f.files]
-        files[path] = {
+        file_data = {
             "health": round(display_score(sig_dict.get("file_health_score", 0.5)), 1),
             "role": sig_dict.get("role", "UNKNOWN"),
             "lines": sig_dict.get("lines", 0),
@@ -193,6 +198,10 @@ def build_dashboard_state(
             "finding_count": len(file_findings),
             "signals": {k: round(v, 4) if isinstance(v, float) else v for k, v in sig_dict.items()},
         }
+        # Add trends if available
+        if path in file_trends:
+            file_data["trends"] = file_trends[path]
+        files[path] = file_data
 
     # ── Module data ───────────────────────────────────────────────
     modules: dict[str, dict[str, Any]] = {}

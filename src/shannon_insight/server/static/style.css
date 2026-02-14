@@ -7,14 +7,14 @@
 /* ═══ Reset & Variables ═══ */
 
 :root {
-  /* Colors (existing) */
+  /* Colors — improved contrast for readability */
   --bg: #0a0a0a;
   --surface: #141414;
   --border: #1e1e1e;
   --border-subtle: #181818;
-  --text: #d4d4d4;
-  --text-secondary: #737373;
-  --text-tertiary: #525252;
+  --text: #e5e5e5;
+  --text-secondary: #999999;
+  --text-tertiary: #666666;
   --green: #22c55e;
   --yellow: #eab308;
   --orange: #f97316;

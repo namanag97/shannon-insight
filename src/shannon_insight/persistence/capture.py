@@ -154,6 +154,22 @@ def capture_tensor_snapshot(
                 for v in arch.violations
             ]
 
+    # Serialize community data from structural analysis if available
+    communities: list[dict[str, Any]] = []
+    node_community: dict[str, int] = {}
+    modularity_score: float = 0.0
+
+    if store.structural.available:
+        structural = store.structural.value
+        if hasattr(structural, "graph_analysis"):
+            ga = structural.graph_analysis
+            communities = [
+                {"id": c.id, "members": list(c.members), "size": len(c.members)}
+                for c in ga.communities
+            ]
+            node_community = dict(ga.node_community)
+            modularity_score = ga.modularity_score
+
     # Convert findings with v2 fields
     findings = _convert_findings_v2(result)
 

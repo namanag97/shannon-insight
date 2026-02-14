@@ -1,5 +1,6 @@
 /**
  * Keyboard shortcuts overlay panel.
+ * v2: Updated with new screen shortcuts.
  */
 
 export function KeyboardOverlay() {
@@ -19,7 +20,7 @@ export function KeyboardOverlay() {
       <div class="kbd-overlay" id="kbdOverlay" onClick={handleOverlayClick}>
         <div class="kbd-overlay-panel">
           <h3>Keyboard Shortcuts</h3>
-          <div><span>Switch tabs</span><kbd>1</kbd>-<kbd>5</kbd></div>
+          <div><span>Switch tabs</span><kbd>1</kbd>-<kbd>8</kbd></div>
           <div><span>Search files</span><kbd>/</kbd></div>
           <div><span>Move selection</span><kbd>j</kbd> / <kbd>k</kbd></div>
           <div><span>Open selected</span><kbd>Enter</kbd></div>

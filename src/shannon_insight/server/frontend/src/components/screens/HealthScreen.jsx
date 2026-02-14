@@ -44,7 +44,7 @@ export function HealthScreen() {
     <div class="health-screen-layout">
       {/* Health Trend Section */}
       <div class="health-section">
-        <div class="section-title">Health Trend</div>
+        <div class="section-title">Health Score Over Time</div>
         {hasTrends ? (
           <div class="card trend-chart-card">
             <TrendChart

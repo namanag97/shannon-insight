@@ -144,18 +144,27 @@ export function FileDetailView({ path }) {
                     const display = fmtSigVal(sk, sv);
                     const valColor = typeof sv === "number" ? polarColor(sk, sv) : "var(--text)";
                     const trendData = f.trends && f.trends[sk];
+                    const interp = interpretSignal(sk, sv);
 
                     return (
                       <div class="sig-row" key={sk}>
-                        <span class="sig-name">{label}</span>
-                        <span class="sig-val" style={{ color: valColor }}>
-                          {display}
-                          {trendData && (
-                            <>
-                              {" "}
-                              <Sparkline values={trendData} width={48} height={14} color={valColor} />
-                            </>
+                        <span class="sig-name">
+                          {label}
+                          {SIGNAL_DESCRIPTIONS[sk] && (
+                            <span class="sig-desc">{SIGNAL_DESCRIPTIONS[sk]}</span>
                           )}
+                        </span>
+                        <span class="sig-val-group">
+                          <span class="sig-val" style={{ color: valColor }}>
+                            {display}
+                            {trendData && (
+                              <>
+                                {" "}
+                                <Sparkline values={trendData} width={48} height={14} color={valColor} />
+                              </>
+                            )}
+                          </span>
+                          {interp && <span class="sig-interp">{interp}</span>}
                         </span>
                       </div>
                     );

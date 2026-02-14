@@ -3,6 +3,49 @@
  * Each function transforms a value into a display string.
  */
 
+const SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/**
+ * Format an ISO timestamp string to a short date label.
+ * Chooses the most useful format based on time span:
+ *   - Same day: "14:30"
+ *   - Same year: "Jan 15"
+ *   - Different year: "Jan 15 '24"
+ * @param {string} ts - ISO 8601 timestamp
+ * @returns {string}
+ */
+export function fmtDate(ts) {
+  if (!ts) return "--";
+  const d = new Date(ts);
+  if (isNaN(d.getTime())) return "--";
+  const mon = SHORT_MONTHS[d.getMonth()];
+  const day = d.getDate();
+  const year = d.getFullYear();
+  const now = new Date();
+  if (year !== now.getFullYear()) {
+    return mon + " " + day + " '" + String(year).slice(2);
+  }
+  return mon + " " + day;
+}
+
+/**
+ * Format an ISO timestamp for tooltip display (more verbose).
+ * Output: "Jan 15, 2024 at 14:30"
+ * @param {string} ts - ISO 8601 timestamp
+ * @returns {string}
+ */
+export function fmtDateFull(ts) {
+  if (!ts) return "--";
+  const d = new Date(ts);
+  if (isNaN(d.getTime())) return "--";
+  const mon = SHORT_MONTHS[d.getMonth()];
+  const day = d.getDate();
+  const year = d.getFullYear();
+  const h = String(d.getHours()).padStart(2, "0");
+  const m = String(d.getMinutes()).padStart(2, "0");
+  return mon + " " + day + ", " + year + " at " + h + ":" + m;
+}
+
 /**
  * Format a number for compact display (e.g., 1200 -> "1.2k").
  * @param {number|null|undefined} n

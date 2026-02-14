@@ -51,11 +51,11 @@ class ShutdownManager:
 
         self._shutdown_lock = threading.Lock()
         self._shutdown_complete = False
-        self._watcher = None
+        self._watcher: Any = None
         self._state: ServerState | None = None
-        self._uvicorn_server = None
+        self._uvicorn_server: Any = None
 
-    def register_watcher(self, watcher) -> None:
+    def register_watcher(self, watcher: Any) -> None:
         """Register the file watcher for cleanup."""
         self._watcher = watcher
 
@@ -63,7 +63,7 @@ class ShutdownManager:
         """Register the server state for cleanup."""
         self._state = state
 
-    def register_uvicorn(self, server) -> None:
+    def register_uvicorn(self, server: Any) -> None:
         """Register the uvicorn server for shutdown."""
         self._uvicorn_server = server
 

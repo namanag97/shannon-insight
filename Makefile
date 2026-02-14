@@ -36,7 +36,10 @@ clean:  ## Clean up cache and build artifacts
 run:  ## Run analyzer on test codebase
 	shannon-insight test_codebase/complexity_demo --language python --top 10
 
-package:  ## Build distribution packages
+build-frontend:  ## Build frontend for production
+	@bash scripts/build-frontend.sh
+
+package: build-frontend  ## Build distribution packages (includes frontend)
 	rm -rf dist/
 	python3 -m build
 

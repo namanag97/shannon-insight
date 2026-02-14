@@ -48,7 +48,7 @@ export function useKeyboard() {
       }
 
       // Number keys: switch screens
-      if (e.key >= "1" && e.key <= "5") {
+      if (e.key >= "1" && e.key <= String(SCREENS.length)) {
         location.hash = SCREENS[parseInt(e.key) - 1];
         e.preventDefault();
         return;

@@ -709,6 +709,19 @@ def main(
     except KeyboardInterrupt:
         logger.info("Analysis interrupted by user")
         console.print("\n[yellow]Analysis interrupted[/yellow]")
+        # Clean up any partial snapshot data to avoid corruption
+        try:
+            shannon_dir = target / ".shannon"
+            if shannon_dir.exists():
+                # Remove partial parquet files (they may be incomplete)
+                parquet_dir = shannon_dir / "parquet"
+                if parquet_dir.exists():
+                    for partial in parquet_dir.glob("*.parquet.tmp"):
+                        partial.unlink(missing_ok=True)
+                        logger.debug("Removed partial file: %s", partial)
+                # Note: SQLite handles interrupted writes via WAL/rollback
+        except Exception as cleanup_err:
+            logger.debug("Cleanup after interrupt failed: %s", cleanup_err)
         raise typer.Exit(130)
 
     except Exception as e:

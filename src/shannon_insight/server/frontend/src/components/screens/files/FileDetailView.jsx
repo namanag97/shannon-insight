@@ -42,16 +42,17 @@ export function FileDetailView({ path }) {
   const f = data.files[path];
   const color = hColor(f.health);
 
-  // Key metrics
+  // Key metrics with clear names and interpretation
+  const healthInfo = interpretHealth(f.health);
   const metrics = [
-    ["Lines", f.lines],
-    ["Functions", f.signals ? f.signals.function_count : null],
-    ["Risk Score", fmtF(f.risk_score, 3)],
-    ["PageRank", fmtF(f.pagerank, 4)],
-    ["Churn", f.total_changes],
-    ["Bus Factor", fmtF(f.bus_factor, 1)],
-    ["Blast Radius", f.blast_radius],
-    ["Cognitive Load", fmtF(f.cognitive_load, 1)],
+    { label: "Lines of Code", value: f.lines, interp: interpretSignal("lines", f.lines) },
+    { label: "Functions", value: f.signals ? f.signals.function_count : null, interp: interpretSignal("function_count", f.signals ? f.signals.function_count : null) },
+    { label: "Risk Score", value: fmtF(f.risk_score, 3), interp: interpretSignal("risk_score", f.risk_score) },
+    { label: "Import Centrality", value: fmtF(f.pagerank, 4), interp: interpretSignal("pagerank", f.pagerank) },
+    { label: "Total Commits", value: f.total_changes, interp: interpretSignal("total_changes", f.total_changes) },
+    { label: "Team Knowledge Spread", value: fmtF(f.bus_factor, 1), interp: interpretSignal("bus_factor", f.bus_factor) },
+    { label: "Change Impact Size", value: f.blast_radius, interp: interpretSignal("blast_radius_size", f.blast_radius) },
+    { label: "Cognitive Complexity", value: fmtF(f.cognitive_load, 1), interp: interpretSignal("cognitive_load", f.cognitive_load) },
   ];
 
   // Collect findings for this file

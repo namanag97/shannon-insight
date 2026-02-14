@@ -868,7 +868,7 @@ a:hover { text-decoration: underline; }
 /* ═══ Utilities ═══ */
 
 /* Adjacent card spacing */
-.card + .card { margin-top: var(--space-xl); }
+.card + .card { margin-top: var(--space-2xl); }
 
 /* Risk histogram container */
 #riskHistogram { margin-top: var(--space-lg); }

@@ -97,9 +97,16 @@ class FileWatcher:
 
     def stop(self) -> None:
         """Signal the watcher to stop."""
+        logger.debug("Stopping watcher thread...")
         self._stop_event.set()
         if self._thread is not None:
             self._thread.join(timeout=5)
+            if self._thread.is_alive():
+                logger.warning(
+                    "Watcher thread did not exit cleanly within 5 seconds (may be stuck in analysis)"
+                )
+            else:
+                logger.debug("Watcher thread stopped successfully")
 
     def run_analysis(self) -> None:
         """Run one analysis cycle and update state.

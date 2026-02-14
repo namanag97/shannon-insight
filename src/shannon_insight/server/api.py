@@ -298,62 +298,62 @@ def _query_trends(db_path: str) -> dict[str, Any] | None:
     if not path.exists():
         return None
 
+    # Derive project root from db_path (.shannon/history.db)
+    project_root = path.parent.parent
+
     trends: dict[str, Any] = {}
     try:
-        conn = sqlite3.connect(str(path))
-        conn.row_factory = sqlite3.Row
-        hq = HistoryQuery(conn)
+        with HistoryDB(str(project_root)) as db:
+            hq = HistoryQuery(db.conn)
 
-        # Health trend
-        try:
-            health_points = hq.codebase_health(last_n=20)
-            if health_points:
-                trends["health"] = [
-                    {
-                        "timestamp": hp.timestamp,
-                        "health": round(hp.metrics.get("codebase_health", 0.5), 4),
-                        "finding_count": int(hp.metrics.get("active_findings", 0)),
-                    }
-                    for hp in health_points
-                ]
-        except Exception:
-            logger.debug("Failed to query codebase health trend", exc_info=True)
+            # Health trend
+            try:
+                health_points = hq.codebase_health(last_n=20)
+                if health_points:
+                    trends["health"] = [
+                        {
+                            "timestamp": hp.timestamp,
+                            "health": round(hp.metrics.get("codebase_health", 0.5), 4),
+                            "finding_count": int(hp.metrics.get("active_findings", 0)),
+                        }
+                        for hp in health_points
+                    ]
+            except Exception:
+                logger.debug("Failed to query codebase health trend", exc_info=True)
 
-        # Top movers
-        try:
-            movers = hq.top_movers(last_n=5, metric="risk_score")
-            if movers:
-                trends["movers"] = [
-                    {
-                        "path": m["filepath"],
-                        "old_value": round(m["old_value"], 3),
-                        "new_value": round(m["new_value"], 3),
-                        "delta": round(m["delta"], 3),
-                    }
-                    for m in movers
-                ]
-        except Exception:
-            logger.debug("Failed to query top movers", exc_info=True)
+            # Top movers
+            try:
+                movers = hq.top_movers(last_n=5, metric="risk_score")
+                if movers:
+                    trends["movers"] = [
+                        {
+                            "path": m["filepath"],
+                            "old_value": round(m["old_value"], 3),
+                            "new_value": round(m["new_value"], 3),
+                            "delta": round(m["delta"], 3),
+                        }
+                        for m in movers
+                    ]
+            except Exception:
+                logger.debug("Failed to query top movers", exc_info=True)
 
-        # Chronic findings
-        try:
-            chronic = hq.persistent_findings(min_snapshots=3)
-            if chronic:
-                trends["chronic"] = [
-                    {
-                        "finding_type": c["finding_type"],
-                        "identity_key": c["identity_key"],
-                        "title": c["title"],
-                        "files": c["files"],
-                        "severity": round(c["severity"], 3),
-                        "count": c["count"],
-                    }
-                    for c in chronic
-                ]
-        except Exception:
-            logger.debug("Failed to query chronic findings", exc_info=True)
-
-        conn.close()
+            # Chronic findings
+            try:
+                chronic = hq.persistent_findings(min_snapshots=3)
+                if chronic:
+                    trends["chronic"] = [
+                        {
+                            "finding_type": c["finding_type"],
+                            "identity_key": c["identity_key"],
+                            "title": c["title"],
+                            "files": c["files"],
+                            "severity": round(c["severity"], 3),
+                            "count": c["count"],
+                        }
+                        for c in chronic
+                    ]
+            except Exception:
+                logger.debug("Failed to query chronic findings", exc_info=True)
     except Exception:
         logger.debug("Failed to open history DB", exc_info=True)
         return None

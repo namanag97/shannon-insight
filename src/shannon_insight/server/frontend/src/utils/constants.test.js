@@ -65,8 +65,8 @@ describe("CATEGORY_ORDER", () => {
 });
 
 describe("SCREENS", () => {
-  it("has 5 screens in order", () => {
-    expect(SCREENS).toEqual(["overview", "issues", "files", "modules", "health"]);
+  it("has 6 screens in order", () => {
+    expect(SCREENS).toEqual(["overview", "issues", "files", "modules", "health", "graph"]);
   });
 });
 

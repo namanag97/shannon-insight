@@ -447,64 +447,76 @@ a:hover { text-decoration: underline; }
 }
 
 
-/* ═══ File Table ═══ */
+/* ═══ Canonical Data Table ═══ */
 
-.file-table, .module-table {
+.data-table {
   width: 100%; border-collapse: collapse; font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.8;
 }
-.file-table th, .module-table th {
-  text-align: left; padding: var(--space-sm) var(--space-md); font-size: 11px; font-weight: 600;
+.data-table th {
+  text-align: left; padding: var(--space-md) var(--space-md); font-size: 11px; font-weight: 600;
   color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border); cursor: pointer; user-select: none;
+  border-bottom: 1px solid var(--border); user-select: none;
   white-space: nowrap;
-  position: sticky; top: 40px; z-index: 10;
   background: var(--surface);
 }
-.file-table th:hover, .module-table th:hover { color: var(--text-secondary); }
-.file-table th.num, .module-table th.num { text-align: right; }
-.file-table th .sort-arrow, .module-table th .sort-arrow {
+.data-table th.sticky-header {
+  position: sticky; top: 40px; z-index: 10;
+}
+.data-table th.sortable { cursor: pointer; }
+.data-table th.sortable:hover { color: var(--text-secondary); }
+.data-table th.num { text-align: right; }
+.data-table th .sort-arrow {
   font-size: 10px; margin-left: 3px; color: var(--accent);
 }
-.file-table td, .module-table td {
-  padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border-subtle); vertical-align: middle;
+.data-table td {
+  padding: var(--space-md) var(--space-md); border-bottom: 1px solid var(--border-subtle); vertical-align: middle;
   transition: background 0.08s ease;
+  line-height: 1.8;
 }
-.file-table tr, .module-table tr {
+.data-table--clickable tr {
   cursor: pointer; transition: background 0.08s ease;
 }
-.file-table tbody tr:hover, .module-table tbody tr:hover {
+.data-table--clickable tbody tr:hover {
   background: rgba(255,255,255,0.04);
 }
 /* Row hover: left accent border shift */
-.file-table tbody tr:hover td:first-child,
-.module-table tbody tr:hover td:first-child {
+.data-table--clickable tbody tr:hover td:first-child {
   box-shadow: inset 3px 0 0 var(--accent);
 }
 /* Alternating row striping */
-.file-table tbody tr:nth-child(even),
-.module-table tbody tr:nth-child(even) {
+.data-table--striped tbody tr:nth-child(even) {
   background: rgba(20,20,20,0.3);
 }
-.file-table tbody tr:nth-child(even):hover,
-.module-table tbody tr:nth-child(even):hover {
+.data-table--striped tbody tr:nth-child(even):hover {
   background: rgba(255,255,255,0.04);
 }
+/* Non-clickable table hover (lighter) */
+.data-table:not(.data-table--clickable) tbody tr:hover {
+  background: rgba(255,255,255,0.02);
+}
 
-.file-table .td-path, .module-table .td-path {
+/* Shared cell classes used by Table component consumers */
+.data-table .td-path {
   font-family: var(--mono); font-size: 11px; max-width: 500px; overflow: hidden;
   text-overflow: ellipsis; white-space: nowrap; direction: rtl; text-align: left;
 }
-.file-table .td-path span, .module-table .td-path span {
+.data-table .td-path span {
   direction: ltr; unicode-bidi: bidi-override;
 }
-.file-table .td-num, .module-table .td-num {
+.data-table .td-num {
   font-family: var(--mono); font-size: 11px; text-align: right; white-space: nowrap;
 }
-.file-table .td-risk, .module-table .td-risk {
-  font-family: var(--mono); font-size: 11px; text-align: right; white-space: nowrap; padding: 3px 10px;
+.data-table .td-risk {
+  font-family: var(--mono); font-size: 11px; text-align: right; white-space: nowrap;
 }
-.file-table .td-issues { font-family: var(--mono); font-size: 11px; text-align: right; }
+.data-table .td-issues { font-family: var(--mono); font-size: 11px; text-align: right; }
+.data-table .gs-name { color: var(--text-secondary); }
+.data-table .gs-val { font-family: var(--mono); text-align: right; color: var(--text); }
+.data-table .gs-interp {
+  font-size: 10px; color: var(--text-tertiary); font-style: italic;
+  padding-left: var(--space-md);
+}
 .file-count-note {
   font-size: 11px; color: var(--text-tertiary); padding: var(--space-sm) 10px; font-family: var(--mono);
 }

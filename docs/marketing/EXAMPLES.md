@@ -658,16 +658,31 @@ A_DF = 1, k_D*k_F/14 = 3*2/14 = 0.429  -> contribution = 1 - 0.429 = 0.571
 A_EF = 1, k_E*k_F/14 = 2*2/14 = 0.286  -> contribution = 1 - 0.286 = 0.714
 ```
 
-Each pair contributes twice (both orderings), so sum each once and multiply by 2:
+Each pair (i,j) where i != j contributes twice in the full sum (once as (i,j), once as (j,i)). The formula also includes diagonal terms (i=i), where A_ii = 0 but the expected term k_i^2/(2m) is subtracted.
+
+**Off-diagonal contributions** (same-community pairs, both orderings):
 
 ```
-Q = (1/14) * 2 * (0.571 + 0.714 + 0.571 + 0.571 + 0.571 + 0.714)
-  = (1/14) * 2 * 3.712
-  = (1/14) * 7.424
-  = 0.530
+Sum of off-diagonal = 2 * (0.571 + 0.714 + 0.571 + 0.571 + 0.571 + 0.714) = 2 * 3.712 = 7.424
 ```
 
-**Interpretation**: Q = 0.530 > 0.3, indicating strong community structure. The codebase naturally separates into two clusters with minimal cross-cluster dependency. Shannon Insight would report modularity = 0.53.
+**Diagonal contributions** (self-terms, A_ii = 0):
+
+```
+Community 1 diag: -(2^2 + 3^2 + 2^2)/14 = -(4+9+4)/14 = -17/14 = -1.214
+Community 2 diag: -(3^2 + 2^2 + 2^2)/14 = -(9+4+4)/14 = -17/14 = -1.214
+Total diag = -2.429
+```
+
+**Final Q**:
+
+```
+Q = (1/14) * (7.424 + (-2.429))
+  = (1/14) * 4.995
+  = 0.357
+```
+
+**Interpretation**: Q = 0.357 > 0.3, indicating meaningful community structure. The codebase naturally separates into two clusters with only one cross-cluster edge (B -> D). Shannon Insight would report modularity = 0.36.
 
 ---
 

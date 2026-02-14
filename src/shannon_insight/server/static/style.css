@@ -733,24 +733,7 @@ a:hover { text-decoration: underline; }
   min-width: 32px; text-align: right;
 }
 
-/* Global signals table */
-.global-signals-table { width: 100%; border-collapse: collapse; }
-.global-signals-table td {
-  padding: var(--space-sm) var(--space-sm); font-size: 11px;
-  border-bottom: 1px solid var(--border-subtle);
-  transition: background 0.08s ease;
-  line-height: 1.5;
-}
-.global-signals-table tr:nth-child(odd) { background: rgba(20,20,20,0.5); }
-.global-signals-table tr:hover { background: rgba(255,255,255,0.02); }
-.global-signals-table .gs-name {
-  color: var(--text-secondary);
-}
-.global-signals-table .gs-val { font-family: var(--mono); text-align: right; color: var(--text); }
-.global-signals-table .gs-interp {
-  font-size: 10px; color: var(--text-tertiary); font-style: italic;
-  padding-left: var(--space-md);
-}
+/* (global-signals-table styles removed — now uses canonical .data-table) */
 
 /* Risk histogram: taller viewBox, thicker bars, mono labels */
 #riskHistogram svg {

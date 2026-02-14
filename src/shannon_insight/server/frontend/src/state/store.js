@@ -115,6 +115,20 @@ const useStore = create((set, get) => ({
     }
   },
 
+  // Churn actions
+  setChurnTrajectoryFilter: (filter) => set({ churnTrajectoryFilter: filter }),
+  setChurnSortKey: (key) => {
+    const state = get();
+    if (state.churnSortKey === key) {
+      set({ churnSortAsc: !state.churnSortAsc });
+    } else {
+      set({ churnSortKey: key, churnSortAsc: key === "path" });
+    }
+  },
+
+  // Signal inspector actions
+  setInspectedSignal: (signal) => set({ inspectedSignal: signal }),
+
   // UI actions
   setSelectedIndex: (screen, index) => {
     const state = get();

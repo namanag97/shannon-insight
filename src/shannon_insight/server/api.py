@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 from typing import Any
 
+from .. import __version__
 from ..cli._common import display_score
 from ..cli._concerns import organize_by_concerns
 from ..cli._finding_display import get_display_config, get_severity_display

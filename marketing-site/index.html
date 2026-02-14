@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shannon Insight - Understand Your Codebase with Math</title>
+  <meta name="description" content="Find architectural issues, technical debt, and risky code using information theory, graph algorithms, and spectral analysis. 62 quantitative signals across 8 dimensions.">
+  <meta name="keywords" content="codebase analysis, information theory, technical debt, code quality, static analysis, graph algorithms, spectral analysis, shannon entropy">
+  <meta name="author" content="Naman Agarwal">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Shannon Insight - Understand Your Codebase with Math">
+  <meta property="og:description" content="Multi-signal codebase analysis using information theory, graph algorithms, and spectral analysis. 62 signals. 8 dimensions. 22 finding types.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://github.com/namanag97/shannon-insight">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shannon Insight - Understand Your Codebase with Math">
+  <meta name="twitter:description" content="Multi-signal codebase analysis using information theory, graph algorithms, and spectral analysis.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- ==================== Navigation ==================== -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand" aria-label="Shannon Insight home">
+        <svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true">
+          <defs><linearGradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#3b82f6"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient></defs>
+          <rect width="40" height="40" rx="8" fill="url(#navLogoGrad)"/>
+          <text x="20" y="27" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="white" text-anchor="middle">S</text>
+        </svg>
+        <span class="nav__brand-name">Shannon Insight</span>
+      </a>
+
+      <ul class="nav__links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pipeline">How It Works</a></li>
+        <li><a href="#math">The Math</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#comparison">Compare</a></li>
+        <li><a href="#docs">Docs</a></li>
+      </ul>
+
+      <div class="nav__actions">
+        <a href="https://github.com/namanag97/shannon-insight" class="btn btn--ghost" target="_blank" rel="noopener" aria-label="GitHub repository">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href="#quickstart" class="btn btn--primary">Install Now</a>
+      </div>
+
+      <button class="nav__mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==================== Hero Section ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero__content">
+      <div class="hero__text fade-in">
+        <span class="badge hero__badge">Open Source &middot; MIT License</span>
+        <h1 class="hero__title">
+          Understand Your<br>Codebase with <span class="text-gradient">Math</span>
+        </h1>
+        <p class="hero__subtitle">
+          Find architectural issues, technical debt, and risky code using information theory, graph algorithms, and spectral analysis. 62 quantitative signals across 8 irreducible dimensions.
+        </p>
+        <div class="btn-group">
+          <a href="#quickstart" class="btn btn--primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            Install Now
+          </a>
+          <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/README.md" class="btn btn--secondary" target="_blank" rel="noopener">
+            View Documentation
+          </a>
+        </div>
+      </div>
+      <div class="hero__visual slide-in-right">
+        <img src="images/hero-diagram.svg" alt="Shannon Insight dependency graph visualization showing PageRank scores, health metrics, and spectral analysis" class="hero__diagram" width="800" height="400" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== What Is It ==================== -->
+  <section class="intro" id="about">
+    <div class="container">
+      <div class="intro__grid">
+        <div class="intro__text slide-in-left">
+          <span class="section-label">What is Shannon Insight?</span>
+          <h2 class="section-title">Code is a signal. Measure it like one.</h2>
+          <p>
+            Named after Claude Shannon, the father of information theory, Shannon Insight treats source code as a measurable physical system. It computes 62 quantitative signals for every file, module, and codebase -- then surfaces actionable findings backed by mathematical evidence.
+          </p>
+          <p>
+            Traditional tools check syntax rules. Shannon Insight measures the information content, dependency topology, spectral properties, and temporal evolution of your codebase. It finds what linters, complexity analyzers, and coverage tools cannot see.
+          </p>
+          <p>
+            A file can pass every lint rule yet be architecturally dangerous -- imported by 47 files, modified 200 times, maintained by a single developer. No single-dimension tool flags this. Shannon Insight does.
+          </p>
+        </div>
+        <div class="intro__stats fade-in-stagger">
+          <div class="stat-card">
+            <div class="stat-card__number">62</div>
+            <div class="stat-card__label">Quantitative signals</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__number">8</div>
+            <div class="stat-card__label">Irreducible dimensions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__number">22</div>
+            <div class="stat-card__label">Finding types</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__number">8</div>
+            <div class="stat-card__label">Languages supported</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 8 Dimensions ==================== -->
+  <section class="dimensions" id="dimensions">
+    <div class="container">
+      <div class="dimensions__header fade-in">
+        <span class="section-label">8 Irreducible Dimensions</span>
+        <h2 class="section-title">Every dimension tells a different story</h2>
+        <p class="section-desc">
+          Size tells you nothing about authorship. Change frequency tells you nothing about dependency structure. Each dimension requires a separate data source and a separate mathematical treatment.
+        </p>
+      </div>
+      <div class="dimensions__grid fade-in-stagger">
+        <div class="dimension-card">
+          <div class="dimension-card__id">D1</div>
+          <div class="dimension-card__name">Size</div>
+          <div class="dimension-card__question">How much code?</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-card__id">D2</div>
+          <div class="dimension-card__name">Shape</div>
+          <div class="dimension-card__question">How is it structured?</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-card__id">D3</div>
+          <div class="dimension-card__name">Naming</div>
+          <div class="dimension-card__question">What concepts does it contain?</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-card__id">D4</div>
+          <div class="dimension-card__name">Reference</div>
+          <div class="dimension-card__question">What depends on what?</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-card__id">D5</div>
+          <div class="dimension-card__name">Information</div>
+          <div class="dimension-card__question">How dense and ordered?</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-card__id">D6</div>
+          <div class="dimension-card__name">Change</div>
+          <div class="dimension-card__question">How does it evolve?</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-card__id">D7</div>
+          <div class="dimension-card__name">Authorship</div>
+          <div class="dimension-card__question">Who touches it?</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-card__id">D8</div>
+          <div class="dimension-card__name">Intent</div>
+          <div class="dimension-card__question">Why was it changed?</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Features ==================== -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="features__header fade-in">
+        <span class="section-label">Capabilities</span>
+        <h2 class="section-title">Six analysis engines, one unified result</h2>
+        <p class="section-desc">
+          Each engine operates at a different abstraction level. Together, they reveal systemic properties invisible to any single-dimension tool.
+        </p>
+      </div>
+      <div class="features__grid fade-in-stagger">
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><polyline points="18 9 12 15 9 12 3 18"/></svg>
+          </div>
+          <h3 class="feature-card__title">Information Theory</h3>
+          <p class="feature-card__desc">
+            Shannon entropy measures how "spread out" information is. Compression ratio proxies Kolmogorov complexity. NCD detects copy-paste clones without token parsing.
+          </p>
+          <div class="feature-card__signals">
+            <span class="signal-tag">entropy</span>
+            <span class="signal-tag">compression</span>
+            <span class="signal-tag">NCD</span>
+            <span class="signal-tag">TF-IDF</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><line x1="6" y1="6.5" x2="10" y2="10.5"/><line x1="18" y1="6.5" x2="14" y2="10.5"/><line x1="6" y1="17.5" x2="10" y2="13.5"/><line x1="18" y1="17.5" x2="14" y2="13.5"/></svg>
+          </div>
+          <h3 class="feature-card__title">Graph Algorithms</h3>
+          <p class="feature-card__desc">
+            PageRank identifies structural hubs. Betweenness finds bridges. Louvain discovers natural communities. Tarjan detects circular dependencies.
+          </p>
+          <div class="feature-card__signals">
+            <span class="signal-tag">PageRank</span>
+            <span class="signal-tag">betweenness</span>
+            <span class="signal-tag">blast radius</span>
+            <span class="signal-tag">Louvain</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M2 12C2 6.5 6.5 2 12 2s10 4.5 10 10-4.5 10-10 10S2 17.5 2 12z"/><path d="M12 2c-4 4-4 14 0 20"/><path d="M12 2c4 4 4 14 0 20"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          </div>
+          <h3 class="feature-card__title">Spectral Analysis</h3>
+          <p class="feature-card__desc">
+            The graph Laplacian's eigenvalues reveal structural properties invisible to standard metrics. The Fiedler value measures bottleneck connectivity. The spectral gap quantifies community quality.
+          </p>
+          <div class="feature-card__signals">
+            <span class="signal-tag">Fiedler value</span>
+            <span class="signal-tag">spectral gap</span>
+            <span class="signal-tag">Laplacian</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--orange">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="feature-card__title">Temporal Patterns</h3>
+          <p class="feature-card__desc">
+            Git history becomes data. Churn trajectory classification detects files that are stabilizing, churning, or spiking. Co-change lift reveals hidden coupling between files that have no structural dependency.
+          </p>
+          <div class="feature-card__signals">
+            <span class="signal-tag">churn CV</span>
+            <span class="signal-tag">trajectory</span>
+            <span class="signal-tag">co-change lift</span>
+            <span class="signal-tag">velocity</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 3h-8l-2 4h12l-2-4z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+          </div>
+          <h3 class="feature-card__title">Architecture Detection</h3>
+          <p class="feature-card__desc">
+            Automatically discover modules, infer layers via topological sort, and compute Martin metrics (Instability, Abstractness, Distance from main sequence). No configuration needed.
+          </p>
+          <div class="feature-card__signals">
+            <span class="signal-tag">instability</span>
+            <span class="signal-tag">abstractness</span>
+            <span class="signal-tag">layers</span>
+            <span class="signal-tag">violations</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon feature-card__icon--purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="feature-card__title">Authorship &amp; Team Risk</h3>
+          <p class="feature-card__desc">
+            Bus factor via Shannon entropy. Knowledge Gini measures concentration. Author distance space detects Conway violations -- team boundaries misaligned with architectural boundaries.
+          </p>
+          <div class="feature-card__signals">
+            <span class="signal-tag">bus factor</span>
+            <span class="signal-tag">author entropy</span>
+            <span class="signal-tag">knowledge Gini</span>
+            <span class="signal-tag">Conway</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Pipeline ==================== -->
+  <section class="pipeline" id="pipeline">
+    <div class="container">
+      <div class="pipeline__header fade-in">
+        <span class="section-label">Architecture</span>
+        <h2 class="section-title">An 8-stage analysis pipeline</h2>
+        <p class="section-desc">
+          Each stage produces intermediate representations that feed the next, building progressively richer understanding of your codebase.
+        </p>
+      </div>
+      <div class="pipeline__flow">
+        <div class="pipeline__stage">
+          <div class="pipeline__stage-number">PHASE 0</div>
+          <div class="pipeline__stage-icon pipeline__stage-icon--scan">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <div class="pipeline__stage-name">Triage</div>
+          <div class="pipeline__stage-detail">Detect tier, languages, git</div>
+        </div>
+        <div class="pipeline__arrow">&rarr;</div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__stage-number">PHASE 1</div>
+          <div class="pipeline__stage-icon pipeline__stage-icon--parse">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="pipeline__stage-name">Parse</div>
+          <div class="pipeline__stage-detail">tree-sitter or regex</div>
+        </div>
+        <div class="pipeline__arrow">&rarr;</div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__stage-number">PHASE 2</div>
+          <div class="pipeline__stage-icon pipeline__stage-icon--semantics">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </div>
+          <div class="pipeline__stage-name">Semantics</div>
+          <div class="pipeline__stage-detail">Roles, concepts, TF-IDF</div>
+        </div>
+        <div class="pipeline__arrow">&rarr;</div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__stage-number">PHASE 3</div>
+          <div class="pipeline__stage-icon pipeline__stage-icon--graph">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><line x1="8.5" y1="7.5" x2="15.5" y2="16.5"/><line x1="15.5" y1="6" x2="8.5" y2="6"/></svg>
+          </div>
+          <div class="pipeline__stage-name">Graph</div>
+          <div class="pipeline__stage-detail">PageRank, Louvain, NCD</div>
+        </div>
+        <div class="pipeline__arrow">&rarr;</div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__stage-number">PHASE 4</div>
+          <div class="pipeline__stage-icon pipeline__stage-icon--arch">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </div>
+          <div class="pipeline__stage-name">Architecture</div>
+          <div class="pipeline__stage-detail">Modules, layers, Martin</div>
+        </div>
+        <div class="pipeline__arrow">&rarr;</div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__stage-number">PHASE 5</div>
+          <div class="pipeline__stage-icon pipeline__stage-icon--fusion">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="pipeline__stage-name">Fusion</div>
+          <div class="pipeline__stage-detail">Normalize, composites</div>
+        </div>
+        <div class="pipeline__arrow">&rarr;</div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__stage-number">PHASE 6</div>
+          <div class="pipeline__stage-icon pipeline__stage-icon--find">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="pipeline__stage-name">Findings</div>
+          <div class="pipeline__stage-detail">22 finders, hotspot filter</div>
+        </div>
+        <div class="pipeline__arrow">&rarr;</div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__stage-number">PHASE 7</div>
+          <div class="pipeline__stage-icon pipeline__stage-icon--history">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="pipeline__stage-name">History</div>
+          <div class="pipeline__stage-detail">Snapshots, trends, diff</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Math Section ==================== -->
+  <section class="math" id="math">
+    <div class="container">
+      <div class="math__header fade-in">
+        <span class="section-label">Mathematical Foundations</span>
+        <h2 class="section-title">Rigorous math, not heuristics</h2>
+        <p class="section-desc">
+          Every finding is backed by quantitative signals with defined formulas, explicit thresholds, and computed confidence scores.
+        </p>
+      </div>
+      <div class="math__grid fade-in-stagger">
+
+        <div class="math-card">
+          <div class="math-card__label">Information Theory</div>
+          <h3 class="math-card__title">Shannon Entropy</h3>
+          <div class="math-card__formula">H(X) = -&#x2211; p(x) &middot; log&#x2082;(p(x))</div>
+          <p class="math-card__desc">
+            Measures the average information content. Applied to authorship distributions: H=0 means one person wrote everything. H=log&#x2082;(k) means k authors contributed equally. Bus factor = 2<sup>H</sup>.
+          </p>
+        </div>
+
+        <div class="math-card">
+          <div class="math-card__label">Graph Theory</div>
+          <h3 class="math-card__title">PageRank</h3>
+          <div class="math-card__formula">PR(v) = (1-d)/N + d &middot; &#x2211; PR(u)/deg(u)</div>
+          <p class="math-card__desc">
+            Computes importance in the dependency network. Files imported by many important files get high PageRank. Damping factor d=0.85, power iteration convergence at 10<sup>-6</sup>.
+          </p>
+        </div>
+
+        <div class="math-card">
+          <div class="math-card__label">Spectral Theory</div>
+          <h3 class="math-card__title">Health Laplacian</h3>
+          <div class="math-card__formula">&Delta;h(v) = h(v) - (1/|N(v)|) &middot; &#x2211; h(u)</div>
+          <p class="math-card__desc">
+            The discrete Laplacian applied to the risk scalar field. Positive &Delta;h means the file is a local weak point -- much worse than its graph neighbors. Unique to Shannon Insight.
+          </p>
+        </div>
+
+        <div class="math-card">
+          <div class="math-card__label">Compression</div>
+          <h3 class="math-card__title">Normalized Compression Distance</h3>
+          <div class="math-card__formula">NCD(x,y) = (C(xy) - min(C(x),C(y))) / max(C(x),C(y))</div>
+          <p class="math-card__desc">
+            Information-theoretic clone detection. NCD approximates the Normalized Information Distance using a real compressor. Pairs with NCD &lt; 0.3 are flagged as copy-paste clones.
+          </p>
+        </div>
+
+      </div>
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/THEORY.md" class="btn btn--secondary" target="_blank" rel="noopener">
+          Read Full Mathematical Foundations &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Terminal Demo ==================== -->
+  <section class="demo" id="demo">
+    <div class="container">
+      <div class="demo__header fade-in">
+        <span class="section-label">Live Output</span>
+        <h2 class="section-title">See it in action</h2>
+        <p class="section-desc">
+          Run a single command. Get multi-dimensional findings with mathematical evidence.
+        </p>
+      </div>
+
+      <div class="terminal scale-in">
+        <div class="terminal__bar">
+          <div class="terminal__dot terminal__dot--red"></div>
+          <div class="terminal__dot terminal__dot--yellow"></div>
+          <div class="terminal__dot terminal__dot--green"></div>
+          <span class="terminal__title">Terminal</span>
+        </div>
+        <div class="terminal__body">
+          <div class="terminal__line"><span class="terminal__prompt">$ </span><span class="terminal__cmd">shannon-insight /path/to/project</span></div>
+          <div class="terminal__line">&nbsp;</div>
+          <div class="terminal__line"><span class="terminal__output">Shannon Insight v1.x - Multi-Signal Codebase Quality Analyzer</span></div>
+          <div class="terminal__line">&nbsp;</div>
+          <div class="terminal__line"><span class="terminal__output">Scanned </span><span class="terminal__highlight">127 files</span><span class="terminal__output"> across </span><span class="terminal__highlight">8 modules</span><span class="terminal__output"> in 2.3s</span></div>
+          <div class="terminal__line">&nbsp;</div>
+          <div class="terminal__line"><span class="terminal__output">Codebase Health: </span><span class="terminal__highlight" style="font-size:15px;font-weight:700;">6.4/10</span></div>
+          <div class="terminal__line">&nbsp;</div>
+          <div class="terminal__line"><span class="terminal__output">Top Findings:</span></div>
+          <div class="terminal__line"><span class="terminal__critical">&nbsp;&nbsp;CRITICAL</span><span class="terminal__output">&nbsp;&nbsp;HIGH_RISK_HUB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="terminal__muted">src/core/engine.py</span></div>
+          <div class="terminal__line"><span class="terminal__muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageRank p99, blast radius 43, cognitive load p95</span></div>
+          <div class="terminal__line">&nbsp;</div>
+          <div class="terminal__line"><span class="terminal__high">&nbsp;&nbsp;HIGH</span><span class="terminal__output">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KNOWLEDGE_SILO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="terminal__muted">src/auth/session.py</span></div>
+          <div class="terminal__line"><span class="terminal__muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bus factor: 1.0, PageRank p82</span></div>
+          <div class="terminal__line">&nbsp;</div>
+          <div class="terminal__line"><span class="terminal__high">&nbsp;&nbsp;HIGH</span><span class="terminal__output">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HIDDEN_COUPLING&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="terminal__muted">src/api/routes.py &lt;-&gt; src/db/queries.py</span></div>
+          <div class="terminal__line"><span class="terminal__muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Co-change lift: 4.2, no structural dependency</span></div>
+          <div class="terminal__line">&nbsp;</div>
+          <div class="terminal__line"><span class="terminal__medium">&nbsp;&nbsp;MEDIUM</span><span class="terminal__output">&nbsp;&nbsp;&nbsp;&nbsp;HOLLOW_CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="terminal__muted">src/utils/helpers.py</span></div>
+          <div class="terminal__line"><span class="terminal__muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stub ratio: 0.67, impl Gini: 0.71</span></div>
+          <div class="terminal__line">&nbsp;</div>
+          <div class="terminal__line"><span class="terminal__success">5 findings</span><span class="terminal__output"> (1 critical, 2 high, 2 medium)</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Quick Start ==================== -->
+  <section class="quickstart" id="quickstart">
+    <div class="container">
+      <div class="quickstart__grid">
+        <div class="slide-in-left">
+          <span class="section-label">Quick Start</span>
+          <h2 class="section-title">Up and running in 60 seconds</h2>
+          <ul class="quickstart__steps">
+            <li class="quickstart__step">
+              <div class="quickstart__step-number">1</div>
+              <div class="quickstart__step-content">
+                <h3>Install</h3>
+                <p>One pip command. No server. No cloud. Everything runs locally.</p>
+              </div>
+            </li>
+            <li class="quickstart__step">
+              <div class="quickstart__step-number">2</div>
+              <div class="quickstart__step-content">
+                <h3>Analyze</h3>
+                <p>Point it at any project. 8 languages supported out of the box.</p>
+              </div>
+            </li>
+            <li class="quickstart__step">
+              <div class="quickstart__step-number">3</div>
+              <div class="quickstart__step-content">
+                <h3>Track</h3>
+                <p>Save snapshots, compare diffs, and monitor health trends over time.</p>
+              </div>
+            </li>
+            <li class="quickstart__step">
+              <div class="quickstart__step-number">4</div>
+              <div class="quickstart__step-content">
+                <h3>Automate</h3>
+                <p>JSON output and exit codes integrate directly into CI/CD pipelines.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="slide-in-right">
+          <div class="quickstart__code" data-copy="pip install shannon-codebase-insight">
+            <div><span class="comment"># Install</span></div>
+            <div><span class="cmd">$ </span><span class="arg">pip install shannon-codebase-insight</span></div>
+            <div>&nbsp;</div>
+            <div><span class="comment"># For enhanced parsing (recommended)</span></div>
+            <div><span class="cmd">$ </span><span class="arg">pip install shannon-codebase-insight[parsing]</span></div>
+            <div>&nbsp;</div>
+            <div><span class="comment"># Analyze a project</span></div>
+            <div><span class="cmd">$ </span><span class="arg">shannon-insight /path/to/project</span></div>
+            <div>&nbsp;</div>
+            <div><span class="comment"># Save snapshot for trend tracking</span></div>
+            <div><span class="cmd">$ </span><span class="arg">shannon-insight /path/to/project --save</span></div>
+            <div>&nbsp;</div>
+            <div><span class="comment"># CI/CD quality gate</span></div>
+            <div><span class="cmd">$ </span><span class="arg">shannon-insight . --json --fail-on high</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Use Cases ==================== -->
+  <section class="usecases" id="usecases">
+    <div class="container">
+      <div class="usecases__header fade-in">
+        <span class="section-label">Use Cases</span>
+        <h2 class="section-title">Built for real engineering workflows</h2>
+        <p class="section-desc">
+          Shannon Insight integrates into the way your team already works.
+        </p>
+      </div>
+      <div class="usecases__grid fade-in-stagger">
+
+        <div class="usecase-card">
+          <div class="usecase-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h3 class="usecase-card__title">Code Review Automation</h3>
+          <p class="usecase-card__desc">
+            Run on changed files with <code>--changed</code> to focus review attention on structurally risky changes, not just formatting issues.
+          </p>
+          <div class="usecase-card__cmd">shannon-insight . --changed --json</div>
+        </div>
+
+        <div class="usecase-card">
+          <div class="usecase-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+          </div>
+          <h3 class="usecase-card__title">Technical Debt Tracking</h3>
+          <p class="usecase-card__desc">
+            Save snapshots over time and track codebase health trends. See which modules are improving, which are eroding, and where to invest effort.
+          </p>
+          <div class="usecase-card__cmd">shannon-insight health /path/to/project</div>
+        </div>
+
+        <div class="usecase-card">
+          <div class="usecase-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="usecase-card__title">Onboarding New Developers</h3>
+          <p class="usecase-card__desc">
+            Knowledge silos, critical hubs, and community structure maps give new team members a structural understanding of the codebase in minutes.
+          </p>
+          <div class="usecase-card__cmd">shannon-insight explain src/core/engine.py</div>
+        </div>
+
+        <div class="usecase-card">
+          <div class="usecase-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </div>
+          <h3 class="usecase-card__title">Architectural Governance</h3>
+          <p class="usecase-card__desc">
+            Detect layer violations, zones of pain, and boundary mismatches automatically. Enforce architecture decisions without manual review.
+          </p>
+          <div class="usecase-card__cmd">shannon-insight . --fail-on high</div>
+        </div>
+
+        <div class="usecase-card">
+          <div class="usecase-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h3 class="usecase-card__title">CI/CD Quality Gates</h3>
+          <p class="usecase-card__desc">
+            Fail builds when high-severity findings appear. JSON output integrates with any CI system. Exit codes signal pass/fail.
+          </p>
+          <div class="usecase-card__cmd">shannon-insight . --json --fail-on any</div>
+        </div>
+
+        <div class="usecase-card">
+          <div class="usecase-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </div>
+          <h3 class="usecase-card__title">AI Code Quality Audit</h3>
+          <p class="usecase-card__desc">
+            Detect patterns common in AI-generated codebases: orphan files, hollow code, phantom imports, flat architecture, copy-paste clones. The wiring score captures this signature.
+          </p>
+          <div class="usecase-card__cmd">shannon-insight . --verbose</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Comparison ==================== -->
+  <section class="comparison" id="comparison">
+    <div class="container">
+      <div class="comparison__header fade-in">
+        <span class="section-label">Comparison</span>
+        <h2 class="section-title">How Shannon Insight compares</h2>
+        <p class="section-desc">
+          Shannon Insight complements existing tools by operating at a different abstraction level -- systemic health rather than syntax rules.
+        </p>
+      </div>
+      <div class="comparison__table-wrap scale-in">
+        <table class="comparison__table" role="table">
+          <thead>
+            <tr>
+              <th scope="col">Capability</th>
+              <th scope="col" class="highlight">Shannon Insight</th>
+              <th scope="col">SonarQube</th>
+              <th scope="col">CodeClimate</th>
+              <th scope="col">CodeScene</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Information theory (entropy, NCD)</td>
+              <td class="highlight"><span class="check">Yes</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+            <tr>
+              <td>Graph centrality (PageRank, betweenness)</td>
+              <td class="highlight"><span class="check">Yes</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="partial">Limited</span></td>
+            </tr>
+            <tr>
+              <td>Spectral analysis (Laplacian, Fiedler)</td>
+              <td class="highlight"><span class="check">Yes</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+            <tr>
+              <td>Temporal / churn analysis</td>
+              <td class="highlight"><span class="check">Yes</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="check">Yes</span></td>
+            </tr>
+            <tr>
+              <td>Bus factor / authorship</td>
+              <td class="highlight"><span class="check">Yes</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="check">Yes</span></td>
+            </tr>
+            <tr>
+              <td>Co-change / hidden coupling</td>
+              <td class="highlight"><span class="check">Yes</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="check">Yes</span></td>
+            </tr>
+            <tr>
+              <td>Community detection (Louvain)</td>
+              <td class="highlight"><span class="check">Yes</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+            <tr>
+              <td>Health Laplacian (weak link detection)</td>
+              <td class="highlight"><span class="check">Unique</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+            <tr>
+              <td>AI code quality (wiring score)</td>
+              <td class="highlight"><span class="check">Unique</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+            <tr>
+              <td>Open source &amp; local-only</td>
+              <td class="highlight"><span class="check">MIT</span></td>
+              <td><span class="partial">Community</span></td>
+              <td><span class="cross">Commercial</span></td>
+              <td><span class="cross">Commercial</span></td>
+            </tr>
+            <tr>
+              <td>No server required</td>
+              <td class="highlight"><span class="check">Yes</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="comparison__note">
+        Shannon Insight operates at Layer 4 (systemic health), complementing Layer 1-3 tools.
+        <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/COMPARISON.md" target="_blank" rel="noopener">Read the full comparison &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== Docs Section ==================== -->
+  <section class="docs" id="docs">
+    <div class="container">
+      <div class="docs__header fade-in">
+        <span class="section-label">Documentation</span>
+        <h2 class="section-title">Everything you need to know</h2>
+        <p class="section-desc">
+          Comprehensive documentation covering usage, mathematical foundations, worked examples, and system architecture.
+        </p>
+      </div>
+      <div class="docs__grid fade-in-stagger">
+
+        <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/README.md" class="doc-card" target="_blank" rel="noopener">
+          <div class="doc-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </div>
+          <h3 class="doc-card__title">User Guide</h3>
+          <p class="doc-card__desc">Complete guide covering installation, CLI reference, signals, finders, dashboard, and FAQ.</p>
+          <div class="doc-card__meta">README.md &middot; 1,168 lines</div>
+        </a>
+
+        <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/THEORY.md" class="doc-card" target="_blank" rel="noopener">
+          <div class="doc-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><polyline points="18 9 12 15 9 12 3 18"/></svg>
+          </div>
+          <h3 class="doc-card__title">Mathematical Foundations</h3>
+          <p class="doc-card__desc">Rigorous definitions for information theory, graph theory, spectral analysis, temporal analysis, and signal fusion.</p>
+          <div class="doc-card__meta">THEORY.md &middot; 647 lines</div>
+        </a>
+
+        <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/EXAMPLES.md" class="doc-card" target="_blank" rel="noopener">
+          <div class="doc-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3 class="doc-card__title">Worked Examples</h3>
+          <p class="doc-card__desc">13 step-by-step calculations with real numbers: PageRank, entropy, Gini, NCD, Louvain, and more.</p>
+          <div class="doc-card__meta">EXAMPLES.md &middot; 806 lines</div>
+        </a>
+
+        <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/COMPARISON.md" class="doc-card" target="_blank" rel="noopener">
+          <div class="doc-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          </div>
+          <h3 class="doc-card__title">Tool Comparison</h3>
+          <p class="doc-card__desc">Detailed comparison vs SonarQube, CodeClimate, CodeScene, Sourcegraph, and Understand.</p>
+          <div class="doc-card__meta">COMPARISON.md &middot; 220 lines</div>
+        </a>
+
+        <a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/ARCHITECTURE.md" class="doc-card" target="_blank" rel="noopener">
+          <div class="doc-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3h-8l-2 4h12l-2-4z"/></svg>
+          </div>
+          <h3 class="doc-card__title">System Architecture</h3>
+          <p class="doc-card__desc">Internal design: blackboard pattern, intermediate representations, extension points, and testing strategy.</p>
+          <div class="doc-card__meta">ARCHITECTURE.md &middot; 531 lines</div>
+        </a>
+
+        <a href="https://github.com/namanag97/shannon-insight" class="doc-card" target="_blank" rel="noopener">
+          <div class="doc-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="color: #94a3b8;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </div>
+          <h3 class="doc-card__title">GitHub Repository</h3>
+          <p class="doc-card__desc">Source code, issue tracker, and contribution guide. Star the repo to stay updated.</p>
+          <div class="doc-card__meta">github.com/namanag97/shannon-insight</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Footer ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="#" class="nav__brand" aria-label="Shannon Insight home">
+            <svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true">
+              <defs><linearGradient id="footerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#3b82f6"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient></defs>
+              <rect width="40" height="40" rx="8" fill="url(#footerLogoGrad)"/>
+              <text x="20" y="27" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="white" text-anchor="middle">S</text>
+            </svg>
+            <span class="nav__brand-name">Shannon Insight</span>
+          </a>
+          <p>Multi-signal codebase analysis using information theory, graph algorithms, and spectral analysis.</p>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Product</h4>
+          <ul class="footer__links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pipeline">How It Works</a></li>
+            <li><a href="#comparison">Comparison</a></li>
+            <li><a href="#quickstart">Quick Start</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Documentation</h4>
+          <ul class="footer__links">
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/README.md" target="_blank" rel="noopener">User Guide</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/THEORY.md" target="_blank" rel="noopener">Math Foundations</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/EXAMPLES.md" target="_blank" rel="noopener">Worked Examples</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/docs/marketing/ARCHITECTURE.md" target="_blank" rel="noopener">Architecture</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__col-title">Links</h4>
+          <ul class="footer__links">
+            <li><a href="https://github.com/namanag97/shannon-insight" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="https://pypi.org/project/shannon-codebase-insight/" target="_blank" rel="noopener">PyPI</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/issues" target="_blank" rel="noopener">Issues</a></li>
+            <li><a href="https://github.com/namanag97/shannon-insight/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>Created by <a href="https://github.com/namanag97" target="_blank" rel="noopener">Naman Agarwal</a></span>
+        <div class="footer__badges">
+          <a href="https://pypi.org/project/shannon-codebase-insight/" target="_blank" rel="noopener">
+            <img src="https://img.shields.io/pypi/v/shannon-codebase-insight?color=3b82f6&style=flat-square" alt="PyPI version" loading="lazy">
+          </a>
+          <a href="https://github.com/namanag97/shannon-insight/blob/main/LICENSE" target="_blank" rel="noopener">
+            <img src="https://img.shields.io/badge/license-MIT-8b5cf6?style=flat-square" alt="MIT License" loading="lazy">
+          </a>
+          <a href="https://github.com/namanag97/shannon-insight" target="_blank" rel="noopener">
+            <img src="https://img.shields.io/github/stars/namanag97/shannon-insight?style=flat-square&color=22c55e" alt="GitHub stars" loading="lazy">
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

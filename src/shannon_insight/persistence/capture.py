@@ -194,6 +194,9 @@ def capture_tensor_snapshot(
         layers=layers,
         violations=violations,
         delta_h=delta_h,
+        communities=communities,
+        node_community=node_community,
+        modularity_score=modularity_score,
     )
 
 

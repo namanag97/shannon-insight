@@ -209,6 +209,13 @@ export function GraphScreen() {
       });
 
       cyRef.current = cy;
+
+      // Auto-fit the graph to viewport on load
+      setTimeout(() => {
+        cy.fit(null, 50); // 50px padding
+        cy.center();
+      }, 100);
+
       setLoading(false);
     });
   }, [data, filter, otherCommunityIds, getNodeColor]);

@@ -140,8 +140,9 @@ def build_dashboard_state(
             db = HistoryDB(str(project_root))
             db.connect()
             serializer = DashboardSerializer(db)
+            logger.debug(f"Serializer created successfully for {project_root}")
         except Exception as e:
-            logger.debug(f"Failed to create serializer: {e}")
+            logger.warning(f"Failed to create serializer: {e}", exc_info=True)
 
     # ── Health score (via serializer for consistency) ─────────────
     raw_health = global_signals.get("codebase_health", 0.5)

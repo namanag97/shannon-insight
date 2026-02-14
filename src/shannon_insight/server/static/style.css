@@ -561,14 +561,129 @@ a:hover { text-decoration: underline; }
 
 /* ═══ Health ═══ */
 
-.health-section {
-  margin-bottom: var(--space-lg);
-}
-/* Wrap health sub-sections (concerns + global signals) in card styling */
-.health-section > .section-title {
-  margin-bottom: var(--space-md);
+.health-screen-layout {
+  display: flex; flex-direction: column; gap: var(--space-lg);
 }
 
+.health-section {
+  margin-bottom: 0;
+}
+.health-section > .section-title {
+  margin-bottom: var(--space-sm);
+}
+
+/* Trend chart card */
+.trend-chart-card {
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+  overflow-x: auto;
+}
+.trend-chart-subtitle {
+  font-family: var(--mono); font-size: 10px; color: var(--text-tertiary);
+  text-align: right; margin-top: var(--space-xs); padding-right: var(--space-xs);
+}
+
+/* TrendChart tooltip */
+.trend-chart-container {
+  position: relative;
+}
+.trend-chart-tooltip {
+  position: absolute; pointer-events: none; z-index: 20;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: var(--space-xs) var(--space-sm);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+.trend-chart-tooltip-value {
+  font-family: var(--mono); font-size: 13px; font-weight: 600;
+  color: var(--text);
+}
+.trend-chart-tooltip-label {
+  font-family: var(--mono); font-size: 10px; color: var(--text-tertiary);
+  margin-top: 1px;
+}
+
+/* Empty state card (inline variant for health screen) */
+.empty-state-card {
+  padding: var(--space-xl) var(--space-lg);
+}
+.empty-state-inline {
+  display: flex; align-items: flex-start; gap: var(--space-md);
+  color: var(--text-tertiary);
+}
+.empty-state-icon {
+  flex-shrink: 0; padding-top: 2px;
+  opacity: 0.6;
+}
+.empty-state-message {
+  display: flex; flex-direction: column; gap: var(--space-xs);
+}
+.empty-state-inline .empty-state-title {
+  font-family: var(--mono); font-size: 13px; font-weight: 600;
+  color: var(--text-secondary); margin-bottom: 0;
+}
+.empty-state-hint {
+  font-size: 12px; color: var(--text-tertiary); line-height: 1.5;
+}
+.empty-state-hint code {
+  font-family: var(--mono); font-size: 11px; color: var(--accent);
+  background: rgba(59,130,246,0.08); padding: 1px 5px; border-radius: 3px;
+}
+
+/* Top movers table */
+.movers-table {
+  width: 100%; border-collapse: collapse; font-size: 12px;
+}
+.movers-table th {
+  text-align: left; padding: var(--space-xs) var(--space-sm);
+  font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+}
+.movers-table th.num { text-align: right; }
+.movers-table td {
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+.movers-table tr:last-child td { border-bottom: none; }
+.movers-table tr:hover { background: rgba(255,255,255,0.02); }
+.movers-table .td-path {
+  font-family: var(--mono); font-size: 11px; max-width: 400px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.movers-table .td-num {
+  font-family: var(--mono); font-size: 11px; text-align: right; white-space: nowrap;
+}
+
+/* Chronic findings */
+.chronic-finding-row {
+  display: flex; align-items: center; gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 12px;
+}
+.chronic-finding-row:last-child { border-bottom: none; }
+.chronic-finding-row:hover { background: rgba(255,255,255,0.02); }
+.chronic-finding-type {
+  flex: 1; color: var(--text); font-weight: 500;
+}
+.chronic-finding-count {
+  font-family: var(--mono); font-size: 11px; color: var(--text-tertiary);
+  white-space: nowrap;
+}
+.chronic-finding-severity {
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  min-width: 36px; text-align: right;
+}
+
+/* Radar chart centering */
+.radar-chart-container {
+  display: flex; justify-content: center; align-items: center;
+  padding: var(--space-sm) 0;
+}
+
+/* Concern bar rows */
 .concern-row {
   display: flex; align-items: center; gap: 12px; padding: var(--space-sm) 0;
   border-bottom: 1px solid var(--border-subtle); transition: background 0.15s ease;
@@ -590,14 +705,18 @@ a:hover { text-decoration: underline; }
   min-width: 32px; text-align: right;
 }
 
+/* Global signals table */
 .global-signals-table { width: 100%; border-collapse: collapse; }
 .global-signals-table td {
-  padding: 4px 10px; font-size: 11px; border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-xs) var(--space-sm); font-size: 11px;
+  border-bottom: 1px solid var(--border-subtle);
   transition: background 0.08s ease;
 }
 .global-signals-table tr:nth-child(odd) { background: rgba(20,20,20,0.5); }
 .global-signals-table tr:hover { background: rgba(255,255,255,0.02); }
-.global-signals-table .gs-name { color: var(--text-secondary); }
+.global-signals-table .gs-name {
+  color: var(--text-secondary); text-transform: capitalize;
+}
 .global-signals-table .gs-val { font-family: var(--mono); text-align: right; color: var(--text); }
 
 /* Risk histogram: taller viewBox, thicker bars, mono labels */

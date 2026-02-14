@@ -59,6 +59,9 @@ export function App() {
         <div class={`screen${currentScreen === "health" ? " active" : ""}`} id="screen-health">
           {currentScreen === "health" && <HealthScreen />}
         </div>
+        <div class={`screen${currentScreen === "graph" ? " active" : ""}`} id="screen-graph">
+          {currentScreen === "graph" && <GraphScreen />}
+        </div>
       </div>
       <KeyboardOverlay />
     </>

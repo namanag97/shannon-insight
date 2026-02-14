@@ -442,6 +442,7 @@ def main(
     # These flags force CLI mode regardless of --cli
     force_cli = (
         json_output
+        or no_tui
         or hotspots
         or journey
         or concerns

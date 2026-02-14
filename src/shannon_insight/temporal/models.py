@@ -1,5 +1,7 @@
 """Data models for temporal (git-based) analysis."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 

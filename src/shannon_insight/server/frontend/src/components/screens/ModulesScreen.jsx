@@ -5,14 +5,52 @@
 import useStore from "../../state/store.js";
 import { fmtF } from "../../utils/formatters.js";
 import { hColor } from "../../utils/helpers.js";
+import { Table } from "../ui/Table.jsx";
 
 const MODULE_COLUMNS = [
-  { key: "path", label: "Module", numeric: false },
-  { key: "health_score", label: "Health Score", numeric: true },
-  { key: "instability", label: "Change Sensitivity", numeric: true },
-  { key: "abstractness", label: "Abstraction Level", numeric: true },
-  { key: "file_count", label: "File Count", numeric: true },
-  { key: "velocity", label: "Change Velocity", numeric: true },
+  {
+    key: "path",
+    label: "Module",
+    align: "left",
+    format: (v) => <span class="td-path"><span>{v}</span></span>,
+    cellClass: () => "td-path",
+  },
+  {
+    key: "health_score",
+    label: "Health Score",
+    align: "right",
+    format: (v, row) => fmtF(v, 1),
+    cellClass: () => "td-risk",
+    cellStyle: (v, row) => ({ color: hColor(row.health_score || 5) }),
+  },
+  {
+    key: "instability",
+    label: "Change Sensitivity",
+    align: "right",
+    format: (v) => fmtF(v, 2),
+    cellClass: () => "td-num",
+  },
+  {
+    key: "abstractness",
+    label: "Abstraction Level",
+    align: "right",
+    format: (v) => fmtF(v, 2),
+    cellClass: () => "td-num",
+  },
+  {
+    key: "file_count",
+    label: "File Count",
+    align: "right",
+    format: (v) => v || 0,
+    cellClass: () => "td-num",
+  },
+  {
+    key: "velocity",
+    label: "Change Velocity",
+    align: "right",
+    format: (v) => fmtF(v, 1),
+    cellClass: () => "td-num",
+  },
 ];
 
 function ModuleListView() {
@@ -30,62 +68,34 @@ function ModuleListView() {
   }
 
   const entries = [];
-  for (const p in data.modules) entries.push([p, data.modules[p]]);
+  for (const p in data.modules) {
+    entries.push({ path: p, ...data.modules[p] });
+  }
 
   entries.sort((a, b) => {
     if (moduleSortKey === "path") {
-      return moduleSortAsc ? a[0].localeCompare(b[0]) : b[0].localeCompare(a[0]);
+      return moduleSortAsc ? a.path.localeCompare(b.path) : b.path.localeCompare(a.path);
     }
-    const va = a[1][moduleSortKey] != null ? a[1][moduleSortKey] : 0;
-    const vb = b[1][moduleSortKey] != null ? b[1][moduleSortKey] : 0;
+    const va = a[moduleSortKey] != null ? a[moduleSortKey] : 0;
+    const vb = b[moduleSortKey] != null ? b[moduleSortKey] : 0;
     return moduleSortAsc ? va - vb : vb - va;
   });
 
-  function handleClick(path) {
-    location.hash = "modules/" + encodeURIComponent(path);
+  function handleRowClick(row) {
+    location.hash = "modules/" + encodeURIComponent(row.path);
   }
 
   return (
-    <table class="module-table">
-      <thead>
-        <tr>
-          {MODULE_COLUMNS.map((col) => {
-            const arrow =
-              moduleSortKey === col.key
-                ? moduleSortAsc
-                  ? <span class="sort-arrow">&#9650;</span>
-                  : <span class="sort-arrow">&#9660;</span>
-                : null;
-            return (
-              <th
-                key={col.key}
-                class={col.numeric ? "num" : undefined}
-                data-sort={col.key}
-                onClick={() => setModuleSortKey(col.key)}
-              >
-                {col.label}
-                {arrow}
-              </th>
-            );
-          })}
-        </tr>
-      </thead>
-      <tbody>
-        {entries.map(([p, m]) => {
-          const hc = hColor(m.health_score || 5);
-          return (
-            <tr key={p} data-mod={p} onClick={() => handleClick(p)}>
-              <td class="td-path"><span>{p}</span></td>
-              <td class="td-risk" style={{ color: hc }}>{fmtF(m.health_score, 1)}</td>
-              <td class="td-num">{fmtF(m.instability, 2)}</td>
-              <td class="td-num">{fmtF(m.abstractness, 2)}</td>
-              <td class="td-num">{m.file_count || 0}</td>
-              <td class="td-num">{fmtF(m.velocity, 1)}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <Table
+      columns={MODULE_COLUMNS}
+      data={entries}
+      rowKey={(row) => row.path}
+      sortable={true}
+      sortKey={moduleSortKey}
+      sortAsc={moduleSortAsc}
+      onSort={setModuleSortKey}
+      onRowClick={handleRowClick}
+    />
   );
 }
 

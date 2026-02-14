@@ -1336,15 +1336,13 @@ button, a, input, select,
   grid-template-columns: 1fr 1fr;
   gap: var(--space-lg);
   margin-bottom: var(--space-lg);
+  align-items: stretch;
 }
 
 .overview-evolution-section > .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: var(--space-xl);
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .evolution-charts {
@@ -1353,13 +1351,13 @@ button, a, input, select,
   gap: var(--space-lg);
   margin-top: var(--space-md);
   flex: 1;
+  align-items: start;
 }
 
 .evolution-chart-wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  min-height: 0;
 }
 
 .evolution-chart-label {
@@ -1376,7 +1374,7 @@ button, a, input, select,
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-lg);
   margin-top: var(--space-md);
-  flex: 1;
+  align-content: start;
 }
 
 .metadata-item {

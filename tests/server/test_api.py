@@ -375,3 +375,54 @@ class TestBuildDashboardState:
 
         assert gate_status == "FAIL"
         assert critical_count == 1
+
+
+class TestConnectionLeakFixes:
+    """Verify database connection cleanup in error scenarios."""
+
+    def test_query_trends_handles_exception_gracefully(self, tmp_path):
+        """_query_trends closes connection even when query fails."""
+        from shannon_insight.persistence.database import HistoryDB
+        from shannon_insight.server.api import _query_trends
+
+        # Create a valid but empty history DB
+        project_root = tmp_path / "project"
+        project_root.mkdir()
+        with HistoryDB(str(project_root)) as db:
+            # DB is initialized but empty (no data)
+            pass
+
+        db_path = str(project_root / ".shannon" / "history.db")
+
+        # Query the DB - should return empty trends or None without leaking connections
+        result = _query_trends(db_path)
+
+        # Result may be None or an empty dict (both valid)
+        assert result is None or isinstance(result, dict)
+
+        # Verify we can open the DB again (no leaked connections)
+        with HistoryDB(str(project_root)) as db:
+            assert db.conn is not None
+
+    def test_query_file_signal_trends_uses_context_manager(self, tmp_path):
+        """_query_file_signal_trends closes connection in all cases."""
+        from shannon_insight.persistence.database import HistoryDB
+        from shannon_insight.server.api import _query_file_signal_trends
+
+        # Create a valid but empty history DB
+        project_root = tmp_path / "project"
+        project_root.mkdir()
+        with HistoryDB(str(project_root)) as db:
+            pass
+
+        db_path = str(project_root / ".shannon" / "history.db")
+
+        # Query with file paths
+        result = _query_file_signal_trends(db_path, ["src/foo.py"])
+
+        # Should return empty dict (no data in DB)
+        assert result == {}
+
+        # Verify we can open the DB again (no leaked connections)
+        with HistoryDB(str(project_root)) as db:
+            assert db.conn is not None

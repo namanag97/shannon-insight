@@ -698,9 +698,10 @@ a:hover { text-decoration: underline; }
 /* Chronic findings */
 .chronic-finding-row {
   display: flex; align-items: center; gap: var(--space-md);
-  padding: var(--space-sm) 0;
+  padding: var(--space-sm) var(--space-xs);
   border-bottom: 1px solid var(--border-subtle);
   font-size: 12px;
+  line-height: 1.6;
 }
 .chronic-finding-row:last-child { border-bottom: none; }
 .chronic-finding-row:hover { background: rgba(255,255,255,0.02); }

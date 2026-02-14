@@ -337,7 +337,7 @@ class TestEdgeCases:
         assert len(signals_with_thresholds) > 0, "Registry should have signals with absolute thresholds"
 
         # Every signal with an absolute threshold should be evaluable
-        for signal, meta in signals_with_thresholds.items():
+        for signal, _meta in signals_with_thresholds.items():
             fs = _make_fs()
             # Should not raise
             check.above(fs, signal, 0.90)

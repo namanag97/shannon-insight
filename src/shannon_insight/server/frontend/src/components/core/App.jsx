@@ -11,11 +11,12 @@ import { useHashRouter } from "../../hooks/useHashRouter.js";
 import { Header } from "./Header.jsx";
 import { ProgressBar } from "./ProgressBar.jsx";
 import { KeyboardOverlay } from "./KeyboardOverlay.jsx";
-import { OverviewScreen } from "../screens/OverviewScreen.jsx";
-import { IssuesScreen } from "../screens/IssuesScreen.jsx";
+// Import v2 redesigned screens
+import { OverviewScreenV2 as OverviewScreen } from "../screens/OverviewScreen.v2.jsx";
+import { IssuesScreenV2 as IssuesScreen } from "../screens/IssuesScreen.v2.jsx";
 import { FilesScreen } from "../screens/FilesScreen.jsx";
-import { ModulesScreen } from "../screens/ModulesScreen.jsx";
-import { HealthScreen } from "../screens/HealthScreen.jsx";
+import { ModulesScreenV2 as ModulesScreen } from "../screens/ModulesScreen.v2.jsx";
+import { HealthScreenV2 as HealthScreen } from "../screens/HealthScreen.v2.jsx";
 import { GraphScreen } from "../screens/GraphScreen.jsx";
 import { ChurnScreen } from "../screens/ChurnScreen.jsx";
 import { SignalInspectorScreen } from "../screens/SignalInspectorScreen.jsx";

@@ -2,10 +2,11 @@
  * HealthScreen v2 - Redesigned with proper information architecture
  *
  * Information Priority:
- * 1. Hero - Health trend chart (is the codebase improving?)
- * 2. Movers + Chronic Issues - What changed? What's persistent?
- * 3. Evolution Charts - Historical trends (4 charts in 2x2 grid)
- * 4. Snapshot History - Table of past snapshots
+ * 1. Health Trend - Large prominent chart (is it getting better or worse?)
+ * 2. Top Movers + Chronic Issues - What changed? What's stuck?
+ * 3. Health Dimensions - Radar/bar breakdown by dimension
+ * 4. Evolution Charts - Detailed metric trends (2x2 grid)
+ * 5. Codebase-Wide Metrics - Supporting data (collapsible)
  *
  * Design System:
  * - 12-column grid with proper gutters
@@ -17,7 +18,7 @@
 import React from "preact/compat";
 import useStore from "../../state/store.js";
 import { hColor } from "../../utils/helpers.js";
-import { fmtDate, fmtDateFull, fmtN } from "../../utils/formatters.js";
+import { fmtDate, fmtDateFull } from "../../utils/formatters.js";
 import { SIGNAL_LABELS } from "../../utils/constants.js";
 import { interpretSignal } from "../../utils/interpretations.js";
 import { TrendChart } from "../charts/TrendChart.jsx";
@@ -25,14 +26,13 @@ import { RadarChart } from "../charts/RadarChart.jsx";
 import { ConcernBar } from "../cards/ConcernCard.jsx";
 import { Table } from "../ui/Table.jsx";
 
+
 export function HealthScreenV2() {
   const data = useStore((s) => s.data);
+
   if (!data) return null;
 
-  const concerns = data.concerns || [];
-  const gs = data.global_signals || {};
-
-  // Extract health trend data
+  // ── Extract health trend data ────────────────────────────────────
   const hasTrends = data.trends && data.trends.health && data.trends.health.length > 0;
   let trendValues = [];
   let trendLabels = [];
@@ -52,86 +52,127 @@ export function HealthScreenV2() {
     }
   }
 
-  // Calculate trend direction
-  const trendDirection = hasTrends && trendValues.length >= 2
-    ? trendValues[trendValues.length - 1] - trendValues[trendValues.length - 2]
-    : 0;
+  // Current, previous, and delta for the summary strip
+  const currentHealth = trendValues.length > 0
+    ? trendValues[trendValues.length - 1]
+    : null;
+  const previousHealth = trendValues.length > 1
+    ? trendValues[trendValues.length - 2]
+    : null;
+  const healthDelta = currentHealth != null && previousHealth != null
+    ? currentHealth - previousHealth
+    : null;
 
-  const currentHealth = hasTrends ? trendValues[trendValues.length - 1] : data.health;
-  const healthColor = hColor(currentHealth);
+  // ── Health dimensions (concern breakdown) ────────────────────────
+  const concerns = data.concerns || [];
+
+  // ── Global signals ──────────────────────────────────────────────
+  const gs = data.global_signals || {};
 
   return (
     <div className="stack stack--2xl">
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 1: HEALTH TREND CHART
-          Answer: "Is my codebase improving or degrading?"
-          ══════════════════════════════════════════════════════════ */}
+      {/* ================================================================
+          PRIORITY 1: HEALTH TREND (Large, Prominent)
+          Answer: "Is my codebase getting better or worse?"
+          ================================================================ */}
       <section>
         <div className="grid">
           <div className="span-12">
-            <div className="ds-card">
+            <div className="ds-card ds-card--spacious">
               <div className="ds-card__header">
                 <div className="ds-card__title">Health Score Over Time</div>
               </div>
               <div className="ds-card__body">
                 {hasTrends ? (
-                  <div className="stack stack--md">
-                    {/* Trend summary */}
-                    <div className="grid grid--compact">
-                      <div className="span-4">
-                        <div className="text-center">
-                          <div className="text-2xl text-mono" style={{ color: healthColor }}>
+                  <div className="stack stack--lg">
+                    {/* Large trend chart */}
+                    <TrendChart
+                      values={trendValues}
+                      xLabels={trendLabels}
+                      width={1200}
+                      height={300}
+                      color="var(--accent)"
+                      yMin={1}
+                      yMax={10}
+                      ySteps={9}
+                      yFormat={(v) => v.toFixed(0)}
+                      tooltipFormat={(v) => v.toFixed(1)}
+                      showDots={true}
+                      showGrid={true}
+                      showFill={true}
+                    />
+
+                    {/* Summary stats below chart */}
+                    {currentHealth != null && (
+                      <div className="cluster cluster--lg" style={{ justifyContent: 'center' }}>
+                        <div style={{ textAlign: 'center' }}>
+                          <div className="text-label">CURRENT</div>
+                          <div
+                            className="text-mono"
+                            style={{
+                              fontSize: 'var(--text-2xl)',
+                              fontWeight: 'var(--font-semibold)',
+                              color: hColor(currentHealth),
+                              marginTop: 'var(--space-1)',
+                            }}
+                          >
                             {currentHealth.toFixed(1)}
                           </div>
-                          <div className="text-label mt-2">Current Health</div>
                         </div>
-                      </div>
-                      <div className="span-4">
-                        <div className="text-center">
-                          <div
-                            className="text-2xl text-mono"
-                            style={{ color: trendDirection > 0 ? 'var(--green)' : trendDirection < 0 ? 'var(--red)' : 'var(--text-tertiary)' }}
-                          >
-                            {trendDirection > 0 ? '↑' : trendDirection < 0 ? '↓' : '–'} {Math.abs(trendDirection).toFixed(1)}
-                          </div>
-                          <div className="text-label mt-2">Since Last Snapshot</div>
-                        </div>
-                      </div>
-                      <div className="span-4">
-                        <div className="text-center">
-                          <div className="text-2xl text-mono" style={{ color: 'var(--text)' }}>
-                            {trendValues.length}
-                          </div>
-                          <div className="text-label mt-2">Snapshots Tracked</div>
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* Chart */}
-                    <div style={{ paddingTop: 'var(--space-4)' }}>
-                      <TrendChart
-                        values={trendValues}
-                        xLabels={trendLabels}
-                        width={800}
-                        height={280}
-                        color="var(--accent)"
-                        yMin={1}
-                        yMax={10}
-                        ySteps={9}
-                        yFormat={(v) => v.toFixed(0)}
-                        tooltipFormat={(v) => v.toFixed(1)}
-                        showDots={true}
-                        showGrid={true}
-                        showFill={true}
-                      />
+                        {previousHealth != null && (
+                          <>
+                            <div style={{ color: 'var(--border)', fontSize: 'var(--text-2xl)' }}>|</div>
+                            <div style={{ textAlign: 'center' }}>
+                              <div className="text-label">PREVIOUS</div>
+                              <div
+                                className="text-mono"
+                                style={{
+                                  fontSize: 'var(--text-xl)',
+                                  fontWeight: 'var(--font-medium)',
+                                  color: 'var(--text-secondary)',
+                                  marginTop: 'var(--space-1)',
+                                }}
+                              >
+                                {previousHealth.toFixed(1)}
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+                        {healthDelta != null && (
+                          <>
+                            <div style={{ color: 'var(--border)', fontSize: 'var(--text-2xl)' }}>|</div>
+                            <div style={{ textAlign: 'center' }}>
+                              <div className="text-label">CHANGE</div>
+                              <div
+                                className="text-mono"
+                                style={{
+                                  fontSize: 'var(--text-xl)',
+                                  fontWeight: 'var(--font-medium)',
+                                  color: healthDelta > 0
+                                    ? 'var(--green)'
+                                    : healthDelta < 0
+                                      ? 'var(--red)'
+                                      : 'var(--text-tertiary)',
+                                  marginTop: 'var(--space-1)',
+                                }}
+                              >
+                                {healthDelta > 0 ? '\u2191' : healthDelta < 0 ? '\u2193' : '='}{' '}
+                                {Math.abs(healthDelta).toFixed(1)}
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="text-label" style={{ textAlign: 'center' }}>
+                      {trendValues.length} snapshot{trendValues.length !== 1 ? 's' : ''} tracked
                     </div>
                   </div>
                 ) : (
-                  <EmptyStateInline
-                    icon={<TrendIcon />}
-                    title="No trend data yet"
-                    message="Run analysis with --save to track health over time. Each saved snapshot adds a data point."
-                  />
+                  <EmptyTrendState />
                 )}
               </div>
             </div>
@@ -139,40 +180,53 @@ export function HealthScreenV2() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 2: TOP MOVERS + CHRONIC ISSUES
-          Answer: "What changed? What's persistently broken?"
-          ══════════════════════════════════════════════════════════ */}
-      {(data.trends?.movers?.length > 0 || data.trends?.chronic?.length > 0) && (
+      {/* ================================================================
+          PRIORITY 2: TOP MOVERS + CHRONIC ISSUES (2-column)
+          Answer: "What changed? What's stuck?"
+          ================================================================ */}
+      {(hasMovers(data) || hasChronic(data)) && (
         <section>
           <div className="grid">
-            {/* 2a. Top Movers */}
+            {/* Top Movers */}
             <div className="span-6">
               <div className="ds-card">
                 <div className="ds-card__header">
-                  <div className="ds-card__title">Top Movers</div>
+                  <div className="ds-card__title">Biggest Risk Changes</div>
                 </div>
                 <div className="ds-card__body">
-                  {data.trends?.movers?.length > 0 ? (
-                    <MoversTable movers={data.trends.movers} />
+                  {hasMovers(data) ? (
+                    <Table
+                      columns={MOVERS_COLUMNS}
+                      data={data.trends.movers}
+                      rowKey={(row, i) => i}
+                      stickyHeader={false}
+                    />
                   ) : (
-                    <EmptyStateCompact message="No changes since last snapshot" />
+                    <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', padding: 'var(--space-4)', textAlign: 'center' }}>
+                      No significant risk changes detected
+                    </div>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* 2b. Chronic Issues */}
+            {/* Chronic Issues */}
             <div className="span-6">
               <div className="ds-card">
                 <div className="ds-card__header">
-                  <div className="ds-card__title">Chronic Issues</div>
+                  <div className="ds-card__title">Persistent Issues</div>
                 </div>
                 <div className="ds-card__body">
-                  {data.trends?.chronic?.length > 0 ? (
-                    <ChronicIssuesList chronic={data.trends.chronic} />
+                  {hasChronic(data) ? (
+                    <div className="stack stack--sm">
+                      {data.trends.chronic.map((c, i) => (
+                        <ChronicRow key={i} item={c} />
+                      ))}
+                    </div>
                   ) : (
-                    <EmptyStateCompact message="No persistent issues detected" />
+                    <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', padding: 'var(--space-4)', textAlign: 'center' }}>
+                      No chronic issues detected
+                    </div>
                   )}
                 </div>
               </div>
@@ -181,10 +235,41 @@ export function HealthScreenV2() {
         </section>
       )}
 
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 3: EVOLUTION CHARTS
-          Answer: "How have key metrics changed over time?"
-          ══════════════════════════════════════════════════════════ */}
+      {/* ================================================================
+          PRIORITY 3: HEALTH DIMENSIONS (Radar / Bar Chart)
+          Answer: "Which dimensions are healthy vs struggling?"
+          ================================================================ */}
+      {concerns.length > 0 && (
+        <section>
+          <div className="grid">
+            <div className="span-12">
+              <div className="ds-card">
+                <div className="ds-card__header">
+                  <div className="ds-card__title">Health Breakdown by Dimension</div>
+                </div>
+                <div className="ds-card__body">
+                  {concerns.length >= 3 ? (
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <RadarChart items={concerns} />
+                    </div>
+                  ) : (
+                    <div className="stack stack--sm">
+                      {concerns.map((c, i) => (
+                        <ConcernBar key={i} concern={c} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ================================================================
+          PRIORITY 4: EVOLUTION CHARTS (2x2 grid)
+          Answer: "How are key metrics trending?"
+          ================================================================ */}
       {data.evolution && (
         <section>
           <div className="grid">
@@ -202,67 +287,45 @@ export function HealthScreenV2() {
         </section>
       )}
 
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 4: SNAPSHOT HISTORY
-          Answer: "What's the full history of snapshots?"
-          ══════════════════════════════════════════════════════════ */}
-      {hasTrends && (
-        <section>
-          <div className="grid">
-            <div className="span-12">
-              <div className="ds-card">
-                <div className="ds-card__header">
-                  <div className="ds-card__title">Snapshot History</div>
-                </div>
-                <div className="ds-card__body">
-                  <SnapshotHistoryTable snapshots={data.trends.health} timestamps={trendTimestamps} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ══════════════════════════════════════════════════════════
-          SUPPORTING DATA: HEALTH DIMENSIONS + GLOBAL SIGNALS
-          Lower priority - useful for power users
-          ══════════════════════════════════════════════════════════ */}
-      {(concerns.length > 0 || Object.keys(gs).length > 0) && (
-        <CollapsibleSection title="Health Dimensions & Global Metrics" defaultOpen={false}>
-          <div className="grid">
-            {/* Health Dimensions */}
-            {concerns.length > 0 && (
-              <div className="span-6">
-                <div className="ds-card">
-                  <div className="ds-card__header">
-                    <div className="ds-card__title">Health Breakdown by Dimension</div>
-                  </div>
-                  <div className="ds-card__body">
-                    {concerns.length >= 3 ? (
-                      <div style={{ minHeight: '240px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <RadarChart items={concerns} />
+      {/* ================================================================
+          PRIORITY 5: SNAPSHOT HISTORY + GLOBAL SIGNALS (Collapsible)
+          Supporting data for power users
+          ================================================================ */}
+      {(hasTrends || Object.keys(gs).length > 0) && (
+        <CollapsibleSection title="Snapshot History & Global Metrics" defaultOpen={false}>
+          <div className="stack stack--lg">
+            {/* Snapshot History Table */}
+            {hasTrends && (
+              <div className="grid">
+                <div className="span-12">
+                  <div className="ds-card">
+                    <div className="ds-card__header">
+                      <div className="ds-card__title">
+                        Snapshot History ({trendValues.length})
                       </div>
-                    ) : (
-                      <div className="stack stack--sm">
-                        {concerns.map((c, i) => (
-                          <ConcernBar key={i} concern={c} />
-                        ))}
-                      </div>
-                    )}
+                    </div>
+                    <div className="ds-card__body">
+                      <SnapshotHistoryTable
+                        snapshots={data.trends.health}
+                        timestamps={trendTimestamps}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Global Signals */}
+            {/* Global Signals Table */}
             {Object.keys(gs).length > 0 && (
-              <div className="span-6">
-                <div className="ds-card">
-                  <div className="ds-card__header">
-                    <div className="ds-card__title">Codebase-Wide Metrics</div>
-                  </div>
-                  <div className="ds-card__body">
-                    <GlobalSignalsTable signals={gs} />
+              <div className="grid">
+                <div className="span-12">
+                  <div className="ds-card">
+                    <div className="ds-card__header">
+                      <div className="ds-card__title">Codebase-Wide Metrics</div>
+                    </div>
+                    <div className="ds-card__body">
+                      <GlobalSignalsTable signals={gs} />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -280,96 +343,86 @@ export function HealthScreenV2() {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /**
- * Movers Table - Shows files with biggest risk changes
+ * Empty state shown when no trend data is available.
+ * Encourages user to run analysis with --save flag.
  */
-function MoversTable({ movers }) {
-  const MOVERS_COLUMNS = [
-    {
-      key: "path",
-      label: "File",
-      align: "left",
-      format: (v) => <a href={"#files/" + encodeURIComponent(v)} className="text-mono">{v}</a>,
-      cellClass: () => "td-path",
-    },
-    {
-      key: "old_value",
-      label: "Previous",
-      align: "right",
-      format: (v) => v != null ? v.toFixed(3) : "--",
-      cellClass: () => "td-num",
-    },
-    {
-      key: "new_value",
-      label: "Current",
-      align: "right",
-      format: (v) => v != null ? v.toFixed(3) : "--",
-      cellClass: () => "td-num",
-    },
-    {
-      key: "delta",
-      label: "Change",
-      align: "right",
-      format: (v) => (v > 0 ? "+" : "") + v.toFixed(3),
-      cellClass: () => "td-num",
-      cellStyle: (v) => ({
-        color: v > 0 ? "var(--red)" : "var(--green)",
-        fontWeight: 600,
-      }),
-    },
-  ];
-
+function EmptyTrendState() {
   return (
-    <Table
-      columns={MOVERS_COLUMNS}
-      data={movers}
-      rowKey={(row, i) => i}
-      stickyHeader={false}
-    />
-  );
-}
-
-/**
- * Chronic Issues List - Shows persistent findings across snapshots
- */
-function ChronicIssuesList({ chronic }) {
-  return (
-    <div className="stack stack--sm">
-      {chronic.map((c, i) => (
-        <div
-          key={i}
-          className="cluster cluster--sm"
-          style={{
-            padding: 'var(--space-3)',
-            background: 'rgba(255,255,255,0.02)',
-            borderRadius: 'var(--radius-sm)',
-            borderLeft: `3px solid ${c.severity >= 0.8 ? 'var(--red)' : c.severity >= 0.6 ? 'var(--orange)' : 'var(--yellow)'}`
-          }}
-        >
-          <div className="text-body" style={{ flex: 1, fontWeight: 500 }}>
-            {c.title || c.finding_type}
-          </div>
-          <div className="text-body-sm text-mono" style={{ color: 'var(--text-tertiary)' }}>
-            {c.count || "?"} snapshots
-          </div>
-          {c.severity != null && (
-            <div
-              className="text-body-sm text-mono"
-              style={{
-                color: c.severity >= 0.8 ? "var(--red)" : c.severity >= 0.6 ? "var(--orange)" : "var(--yellow)",
-                fontWeight: 600
-              }}
-            >
-              {c.severity.toFixed(2)}
-            </div>
-          )}
-        </div>
-      ))}
+    <div style={{ padding: 'var(--space-12)', textAlign: 'center' }}>
+      <div style={{ marginBottom: 'var(--space-4)' }}>
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path
+            d="M4 24L11 17L17 21L28 8"
+            stroke="var(--text-tertiary)"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle cx="11" cy="17" r="2" fill="var(--border)" />
+          <circle cx="17" cy="21" r="2" fill="var(--border)" />
+          <circle cx="28" cy="8" r="2" fill="var(--border)" />
+        </svg>
+      </div>
+      <div className="text-body" style={{ color: 'var(--text-secondary)', fontWeight: 'var(--font-medium)' }}>
+        No trend data yet
+      </div>
+      <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', marginTop: 'var(--space-2)' }}>
+        Run analysis with <code>--save</code> to track health over time.
+        Each saved snapshot adds a data point.
+      </div>
     </div>
   );
 }
 
 /**
- * Evolution Charts Grid - 2x2 grid of small trend charts
+ * Chronic Row - Displays a persistent finding that recurs across snapshots.
+ * Shows finding type, snapshot count, and severity indicator.
+ */
+function ChronicRow({ item }) {
+  const sevColor =
+    item.severity != null
+      ? item.severity >= 0.8
+        ? 'var(--red)'
+        : item.severity >= 0.6
+          ? 'var(--orange)'
+          : 'var(--yellow)'
+      : 'var(--text-tertiary)';
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 'var(--space-3)',
+        background: 'rgba(255,255,255,0.02)',
+        borderRadius: 'var(--radius-sm)',
+        borderLeft: `3px solid ${sevColor}`,
+      }}
+    >
+      <div className="stack stack--xs" style={{ flex: 1 }}>
+        <div className="text-body-sm" style={{ color: 'var(--text)', fontWeight: 'var(--font-medium)' }}>
+          {item.title || item.finding_type}
+        </div>
+        <div className="text-label">
+          {item.count || '?'} snapshots - Never resolved
+        </div>
+      </div>
+      {item.severity != null && (
+        <div
+          className="text-body-sm text-mono"
+          style={{ color: sevColor, fontWeight: 'var(--font-semibold)' }}
+        >
+          {item.severity.toFixed(2)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Evolution Charts Grid - 2x2 grid of trend charts showing
+ * file count, LOC, complexity, and risk over time.
  */
 function EvolutionChartsGrid({ evolution }) {
   const charts = [
@@ -379,30 +432,44 @@ function EvolutionChartsGrid({ evolution }) {
     { key: 'avg_risk', label: 'Avg Risk', color: 'var(--red)', format: (v) => v.toFixed(3) },
   ];
 
+  const renderable = charts.filter(({ key }) => {
+    const d = evolution[key];
+    return d && d.length >= 2;
+  });
+
+  if (renderable.length === 0) {
+    return (
+      <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', padding: 'var(--space-8)', textAlign: 'center' }}>
+        Not enough data points for evolution charts (need at least 2 snapshots)
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid--compact">
-      {charts.map(({ key, label, color, format }) => {
-        const data = evolution[key];
-        if (!data || data.length < 2) return null;
-
+      {renderable.map(({ key, label, color, format }) => {
+        const chartData = evolution[key];
         return (
           <div key={key} className="span-6">
-            <div className="stack stack--sm">
-              <div className="text-label text-center" style={{ color: 'var(--text-secondary)' }}>
-                {label}
-              </div>
+            <div className="stack stack--xs" style={{ padding: 'var(--space-2)' }}>
               <TrendChart
-                values={data.map((d) => d.value)}
-                xLabels={data.map((d) => new Date(d.timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }))}
+                values={chartData.map((d) => d.value)}
+                xLabels={chartData.map((d) =>
+                  new Date(d.timestamp).toLocaleDateString(undefined, {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                )}
                 color={color}
                 yFormat={format}
                 tooltipFormat={format}
-                width={360}
-                height={160}
+                width={500}
+                height={180}
                 showDots={true}
                 showGrid={true}
                 showFill={true}
               />
+              <div className="text-label" style={{ textAlign: 'center' }}>{label}</div>
             </div>
           </div>
         );
@@ -412,16 +479,17 @@ function EvolutionChartsGrid({ evolution }) {
 }
 
 /**
- * Snapshot History Table - Shows all snapshots with key metrics
+ * Snapshot History Table - Lists all snapshots with health scores,
+ * sorted most-recent-first.
  */
 function SnapshotHistoryTable({ snapshots, timestamps }) {
   const tableData = snapshots.map((h, i) => {
     const healthValue = typeof h === "object" ? h.health : h;
-    const timestamp = timestamps[i];
+    const ts = timestamps[i];
     return {
-      date: timestamp ? fmtDateFull(timestamp) : `Snapshot ${i + 1}`,
+      date: ts ? fmtDateFull(ts) : `Snapshot ${i + 1}`,
       health: (healthValue * 9 + 1).toFixed(1),
-      healthColor: hColor(healthValue * 9 + 1),
+      _healthNum: healthValue * 9 + 1,
     };
   }).reverse(); // Most recent first
 
@@ -430,18 +498,17 @@ function SnapshotHistoryTable({ snapshots, timestamps }) {
       key: "date",
       label: "Date",
       align: "left",
-      cellClass: () => "text-body-sm",
     },
     {
       key: "health",
       label: "Health Score",
       align: "right",
-      format: (v, row) => (
-        <span className="text-mono" style={{ color: row.healthColor, fontWeight: 600 }}>
-          {v}
-        </span>
-      ),
       cellClass: () => "td-num",
+      cellStyle: (v, row) => ({
+        color: hColor(row._healthNum),
+        fontWeight: 600,
+        fontFamily: 'var(--font-mono)',
+      }),
     },
   ];
 
@@ -451,12 +518,14 @@ function SnapshotHistoryTable({ snapshots, timestamps }) {
       data={tableData}
       rowKey={(row, i) => i}
       stickyHeader={false}
+      striped={true}
     />
   );
 }
 
 /**
- * Global Signals Table - Shows codebase-wide metrics
+ * Global Signals Table - Shows codebase-wide metrics with
+ * human-readable labels and interpretations.
  */
 function GlobalSignalsTable({ signals }) {
   const gsKeys = Object.keys(signals).sort();
@@ -476,28 +545,6 @@ function GlobalSignalsTable({ signals }) {
     })
     .filter(Boolean);
 
-  const GS_COLUMNS = [
-    {
-      key: "name",
-      label: "Signal",
-      align: "left",
-      cellClass: () => "gs-name",
-    },
-    {
-      key: "value",
-      label: "Value",
-      align: "right",
-      cellClass: () => "gs-val text-mono",
-    },
-    {
-      key: "interp",
-      label: "",
-      align: "left",
-      cellClass: () => "gs-interp text-body-sm",
-      cellStyle: () => ({ color: 'var(--text-tertiary)' }),
-    },
-  ];
-
   return (
     <Table
       columns={GS_COLUMNS}
@@ -509,7 +556,8 @@ function GlobalSignalsTable({ signals }) {
 }
 
 /**
- * Collapsible Section - For low-priority content
+ * Collapsible Section - For low-priority content that can be
+ * expanded by interested users.
  */
 function CollapsibleSection({ title, children, defaultOpen = false }) {
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
@@ -528,15 +576,15 @@ function CollapsibleSection({ title, children, defaultOpen = false }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          transition: 'background var(--transition-base)'
+          transition: 'background var(--transition-base)',
         }}
         onClick={() => setIsOpen(!isOpen)}
-        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--surface-elevated)'}
-        onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface)'}
+        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--surface-elevated)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface)'; }}
       >
         <span>{title}</span>
         <span style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', fontSize: '14px' }}>
-          {isOpen ? '−' : '+'}
+          {isOpen ? '\u2212' : '+'}
         </span>
       </div>
       {isOpen && (
@@ -548,48 +596,89 @@ function CollapsibleSection({ title, children, defaultOpen = false }) {
   );
 }
 
-/**
- * Empty State - Inline with icon
- */
-function EmptyStateInline({ icon, title, message }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)', padding: 'var(--space-6)' }}>
-      <div style={{ flexShrink: 0 }}>
-        {icon}
-      </div>
-      <div className="stack stack--xs">
-        <div className="text-body" style={{ fontWeight: 500 }}>
-          {title}
-        </div>
-        <div className="text-body-sm" style={{ color: 'var(--text-tertiary)' }}>
-          {message}
-        </div>
-      </div>
-    </div>
-  );
-}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COLUMN DEFINITIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 /**
- * Empty State - Compact for cards
+ * Column definitions for the Top Movers table.
+ * Shows file path, old risk, new risk, and delta.
  */
-function EmptyStateCompact({ message }) {
-  return (
-    <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', padding: 'var(--space-4)', textAlign: 'center' }}>
-      {message}
-    </div>
-  );
-}
+const MOVERS_COLUMNS = [
+  {
+    key: "path",
+    label: "File",
+    align: "left",
+    format: (v) => (
+      <a href={"#files/" + encodeURIComponent(v)} className="text-mono" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+        {v}
+      </a>
+    ),
+    cellClass: () => "td-path",
+  },
+  {
+    key: "old_value",
+    label: "Previous",
+    align: "right",
+    format: (v) => v != null ? v.toFixed(3) : "--",
+    cellClass: () => "td-num",
+  },
+  {
+    key: "new_value",
+    label: "Current",
+    align: "right",
+    format: (v) => v != null ? v.toFixed(3) : "--",
+    cellClass: () => "td-num",
+  },
+  {
+    key: "delta",
+    label: "Change",
+    align: "right",
+    format: (v) => (v > 0 ? "+" : "") + v.toFixed(3),
+    cellClass: () => "td-num",
+    cellStyle: (v) => ({
+      color: v > 0 ? "var(--red)" : "var(--green)",
+      fontWeight: 600,
+    }),
+  },
+];
 
 /**
- * Trend Icon - SVG for empty state
+ * Column definitions for the Global Signals table.
  */
-function TrendIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-      <path d="M4 24L11 17L17 21L28 8" stroke="var(--text-tertiary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="11" cy="17" r="2" fill="var(--border)" />
-      <circle cx="17" cy="21" r="2" fill="var(--border)" />
-      <circle cx="28" cy="8" r="2" fill="var(--border)" />
-    </svg>
-  );
+const GS_COLUMNS = [
+  {
+    key: "name",
+    label: "Signal",
+    align: "left",
+    cellClass: () => "gs-name",
+  },
+  {
+    key: "value",
+    label: "Value",
+    align: "right",
+    cellClass: () => "gs-val",
+  },
+  {
+    key: "interp",
+    label: "",
+    align: "left",
+    cellClass: () => "gs-interp",
+  },
+];
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HELPERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/** Check if data has movers data */
+function hasMovers(data) {
+  return data.trends && data.trends.movers && data.trends.movers.length > 0;
+}
+
+/** Check if data has chronic findings */
+function hasChronic(data) {
+  return data.trends && data.trends.chronic && data.trends.chronic.length > 0;
 }

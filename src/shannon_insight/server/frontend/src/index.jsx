@@ -5,7 +5,10 @@
 import { render } from "preact";
 import { App } from "./components/core/App.jsx";
 
-// Import design system
+// Import legacy styles FIRST (for existing components)
+import "./styles/legacy.css";
+
+// Import design system SECOND (for v2 components, can override legacy)
 import "./styles/design-system.css";
 
 // Global error handlers

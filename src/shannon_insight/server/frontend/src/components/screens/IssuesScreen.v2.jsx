@@ -2,9 +2,9 @@
  * IssuesScreen v2 - Redesigned with proper information architecture
  *
  * Information Priority:
- * 1. Severity Overview Bar - Visual distribution (CRITICAL | HIGH | MEDIUM | LOW)
+ * 1. Severity Overview Bar - Visual distribution (CRITICAL | HIGH | MEDIUM | LOW | INFO)
  * 2. Critical Findings - Always expanded, all critical issues visible
- * 3. High/Medium Findings - Collapsible sections
+ * 3. High/Medium/Low/Info Findings - Collapsible sections
  * 4. Tools - Sort + filter below insights
  * 5. Category Tabs - Alternative view
  *
@@ -13,6 +13,13 @@
  * - Mathematical spacing (8px baseline)
  * - Clear visual hierarchy
  * - Insights before tools
+ *
+ * Severity scale: findings use 0-1 float
+ * - >= 0.9 = critical
+ * - >= 0.8 = high
+ * - >= 0.6 = medium
+ * - >= 0.4 = low
+ * - < 0.4  = info
  */
 
 import { useState } from "preact/hooks";
@@ -20,7 +27,7 @@ import useStore from "../../state/store.js";
 import { FindingCard } from "../cards/FindingCard.jsx";
 import { CATEGORY_ORDER, CATEGORY_LABELS, SEVERITY_LEVELS } from "../../utils/constants.js";
 import { sevKey } from "../../utils/helpers.js";
-import { hColor } from "../../utils/helpers.js";
+
 
 export function IssuesScreenV2() {
   const data = useStore((s) => s.data);
@@ -35,6 +42,7 @@ export function IssuesScreenV2() {
   const [highExpanded, setHighExpanded] = useState(false);
   const [mediumExpanded, setMediumExpanded] = useState(false);
   const [lowExpanded, setLowExpanded] = useState(false);
+  const [infoExpanded, setInfoExpanded] = useState(false);
 
   if (!data) return null;
 
@@ -48,51 +56,50 @@ export function IssuesScreenV2() {
       : new Set();
 
   // Get all findings across all categories
-  const allFindings = [];
-  for (const catKey in cats) {
-    const cat = cats[catKey];
-    if (cat && cat.findings && cat.findings.length > 0) {
-      cat.findings.forEach((f) => {
-        allFindings.push({ ...f, category: catKey });
-      });
-    }
-  }
+  const allFindings = getAllFindings(cats);
+
+  // Apply severity filter
+  const filteredFindings = allFindings.filter((f) =>
+    issueSeverityFilter.has(sevKey(f.severity))
+  );
 
   // Sort findings
-  const sortedFindings = sortFindings(allFindings, issueSortKey, chronicSet);
+  const sortedFindings = sortFindings(filteredFindings, issueSortKey);
 
-  // Group by severity
-  const critical = sortedFindings.filter((f) => f.severity >= 8);
-  const high = sortedFindings.filter((f) => f.severity >= 6 && f.severity < 8);
-  const medium = sortedFindings.filter((f) => f.severity >= 4 && f.severity < 6);
-  const low = sortedFindings.filter((f) => f.severity < 4);
+  // Group by severity using sevKey (0-1 float scale)
+  const critical = sortedFindings.filter((f) => sevKey(f.severity) === "critical");
+  const high = sortedFindings.filter((f) => sevKey(f.severity) === "high");
+  const medium = sortedFindings.filter((f) => sevKey(f.severity) === "medium");
+  const low = sortedFindings.filter((f) => sevKey(f.severity) === "low");
+  const info = sortedFindings.filter((f) => sevKey(f.severity) === "info");
 
-  // Calculate severity distribution for overview bar
-  const severityCounts = {
-    critical: critical.length,
-    high: high.length,
-    medium: medium.length,
-    low: low.length,
+  // Unfiltered counts for the overview bar (always show full picture)
+  const unfilteredCounts = {
+    critical: allFindings.filter((f) => sevKey(f.severity) === "critical").length,
+    high: allFindings.filter((f) => sevKey(f.severity) === "high").length,
+    medium: allFindings.filter((f) => sevKey(f.severity) === "medium").length,
+    low: allFindings.filter((f) => sevKey(f.severity) === "low").length,
+    info: allFindings.filter((f) => sevKey(f.severity) === "info").length,
   };
 
   return (
     <div className="stack stack--2xl">
-      {/* ══════════════════════════════════════════════════════════
+      {/* ================================================================
           PRIORITY 1: SEVERITY OVERVIEW BAR
           Answer: "What's the severity distribution?"
-          ══════════════════════════════════════════════════════════ */}
+          ================================================================ */}
       <section>
         <div className="grid">
           <div className="span-12">
-            <SeverityOverviewBar counts={severityCounts} total={allFindings.length} />
+            <SeverityOverviewBar counts={unfilteredCounts} total={allFindings.length} />
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════
+      {/* ================================================================
           PRIORITY 2: CRITICAL FINDINGS (Always Expanded)
           Answer: "What are the critical issues?"
-          ══════════════════════════════════════════════════════════ */}
+          ================================================================ */}
       {critical.length > 0 && (
         <section>
           <div className="grid">
@@ -100,7 +107,7 @@ export function IssuesScreenV2() {
               <div className="ds-card">
                 <div className="ds-card__header">
                   <div className="ds-card__title" style={{ color: 'var(--red)' }}>
-                    🔥 CRITICAL FINDINGS ({critical.length})
+                    CRITICAL FINDINGS ({critical.length})
                   </div>
                 </div>
                 <div className="ds-card__body">
@@ -122,53 +129,62 @@ export function IssuesScreenV2() {
         </section>
       )}
 
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 3: HIGH/MEDIUM/LOW FINDINGS (Collapsible)
+      {/* ================================================================
+          PRIORITY 3: HIGH/MEDIUM/LOW/INFO FINDINGS (Collapsible)
           Answer: "What are the other issues?"
-          ══════════════════════════════════════════════════════════ */}
-      {high.length > 0 && (
-        <section>
-          <CollapsibleFindingSection
-            title={`⚠️ HIGH PRIORITY (${high.length})`}
-            findings={high}
-            chronicSet={chronicSet}
-            isExpanded={highExpanded}
-            onToggle={() => setHighExpanded(!highExpanded)}
-            color="var(--orange)"
-          />
-        </section>
-      )}
+          ================================================================ */}
+      <section>
+        <div className="stack stack--md">
+          {high.length > 0 && (
+            <CollapsibleFindingSection
+              title={`HIGH PRIORITY (${high.length})`}
+              findings={high}
+              chronicSet={chronicSet}
+              isExpanded={highExpanded}
+              onToggle={() => setHighExpanded(!highExpanded)}
+              color="var(--orange)"
+            />
+          )}
 
-      {medium.length > 0 && (
-        <section>
-          <CollapsibleFindingSection
-            title={`🟡 MEDIUM PRIORITY (${medium.length})`}
-            findings={medium}
-            chronicSet={chronicSet}
-            isExpanded={mediumExpanded}
-            onToggle={() => setMediumExpanded(!mediumExpanded)}
-            color="var(--yellow)"
-          />
-        </section>
-      )}
+          {medium.length > 0 && (
+            <CollapsibleFindingSection
+              title={`MEDIUM PRIORITY (${medium.length})`}
+              findings={medium}
+              chronicSet={chronicSet}
+              isExpanded={mediumExpanded}
+              onToggle={() => setMediumExpanded(!mediumExpanded)}
+              color="var(--yellow)"
+            />
+          )}
 
-      {low.length > 0 && (
-        <section>
-          <CollapsibleFindingSection
-            title={`🟢 LOW PRIORITY (${low.length})`}
-            findings={low}
-            chronicSet={chronicSet}
-            isExpanded={lowExpanded}
-            onToggle={() => setLowExpanded(!lowExpanded)}
-            color="var(--green)"
-          />
-        </section>
-      )}
+          {low.length > 0 && (
+            <CollapsibleFindingSection
+              title={`LOW PRIORITY (${low.length})`}
+              findings={low}
+              chronicSet={chronicSet}
+              isExpanded={lowExpanded}
+              onToggle={() => setLowExpanded(!lowExpanded)}
+              color="var(--green)"
+            />
+          )}
 
-      {/* ══════════════════════════════════════════════════════════
+          {info.length > 0 && (
+            <CollapsibleFindingSection
+              title={`INFORMATIONAL (${info.length})`}
+              findings={info}
+              chronicSet={chronicSet}
+              isExpanded={infoExpanded}
+              onToggle={() => setInfoExpanded(!infoExpanded)}
+              color="var(--blue)"
+            />
+          )}
+        </div>
+      </section>
+
+      {/* ================================================================
           PRIORITY 4: TOOLS (Sort + Filter)
           Below insights, not above
-          ══════════════════════════════════════════════════════════ */}
+          ================================================================ */}
       <section>
         <div className="grid">
           <div className="span-12">
@@ -186,10 +202,10 @@ export function IssuesScreenV2() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════
+      {/* ================================================================
           PRIORITY 5: CATEGORY TABS (Alternative View)
           For users who want to tackle one category at a time
-          ══════════════════════════════════════════════════════════ */}
+          ================================================================ */}
       <section>
         <div className="grid">
           <div className="span-12">
@@ -227,12 +243,13 @@ export function IssuesScreenV2() {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* =====================================================================
    SUB-COMPONENTS
-   ═══════════════════════════════════════════════════════════════════════════ */
+   ===================================================================== */
 
 /**
- * Severity Overview Bar - Visual distribution of issues by severity
+ * Severity Overview Bar - Visual distribution of issues by severity.
+ * Shows a proportional color bar and legend with counts.
  */
 function SeverityOverviewBar({ counts, total }) {
   if (total === 0) return null;
@@ -242,6 +259,7 @@ function SeverityOverviewBar({ counts, total }) {
     { key: 'high', label: 'HIGH', color: 'var(--orange)', count: counts.high },
     { key: 'medium', label: 'MEDIUM', color: 'var(--yellow)', count: counts.medium },
     { key: 'low', label: 'LOW', color: 'var(--green)', count: counts.low },
+    { key: 'info', label: 'INFO', color: 'var(--blue)', count: counts.info },
   ];
 
   return (
@@ -252,7 +270,15 @@ function SeverityOverviewBar({ counts, total }) {
       <div className="ds-card__body">
         <div className="stack stack--md">
           {/* Visual bar */}
-          <div style={{ display: 'flex', height: '48px', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border)' }}>
+          <div
+            style={{
+              display: 'flex',
+              height: 'var(--height-lg)',
+              borderRadius: 'var(--radius-md)',
+              overflow: 'hidden',
+              border: '1px solid var(--border)',
+            }}
+          >
             {segments.map((seg) => {
               if (seg.count === 0) return null;
               const percent = (seg.count / total) * 100;
@@ -265,11 +291,14 @@ function SeverityOverviewBar({ counts, total }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    minWidth: percent < 15 ? '80px' : 'auto',
+                    minWidth: percent < 12 ? '64px' : 'auto',
                   }}
                   title={`${seg.label}: ${seg.count} issues`}
                 >
-                  <div className="text-body-sm" style={{ color: 'var(--bg)', fontWeight: 600 }}>
+                  <div
+                    className="text-body-sm"
+                    style={{ color: 'var(--bg)', fontWeight: 600 }}
+                  >
                     {seg.count}
                   </div>
                 </div>
@@ -281,9 +310,19 @@ function SeverityOverviewBar({ counts, total }) {
           <div className="cluster cluster--md">
             {segments.map((seg) => (
               <div key={seg.key} className="cluster cluster--xs" style={{ alignItems: 'center' }}>
-                <div style={{ width: '12px', height: '12px', borderRadius: '2px', background: seg.color }} />
+                <div
+                  style={{
+                    width: 'var(--space-3)',
+                    height: 'var(--space-3)',
+                    borderRadius: '2px',
+                    background: seg.color,
+                  }}
+                />
                 <div className="text-body-sm">
-                  {seg.label} <span className="text-mono" style={{ color: 'var(--text-secondary)' }}>({seg.count})</span>
+                  {seg.label}{' '}
+                  <span className="text-mono" style={{ color: 'var(--text-secondary)' }}>
+                    ({seg.count})
+                  </span>
                 </div>
               </div>
             ))}
@@ -295,7 +334,8 @@ function SeverityOverviewBar({ counts, total }) {
 }
 
 /**
- * Collapsible Finding Section - For high/medium/low priority findings
+ * Collapsible Finding Section - For high/medium/low/info priority findings.
+ * Shows a clickable header that expands to reveal all findings.
  */
 function CollapsibleFindingSection({ title, findings, chronicSet, isExpanded, onToggle, color }) {
   return (
@@ -304,13 +344,27 @@ function CollapsibleFindingSection({ title, findings, chronicSet, isExpanded, on
         <div className="ds-card">
           <div
             className="ds-card__header"
-            style={{ cursor: 'pointer', userSelect: 'none' }}
+            style={{ cursor: 'pointer', userSelect: 'none', marginBottom: isExpanded ? undefined : 0, paddingBottom: isExpanded ? undefined : 0, borderBottom: isExpanded ? undefined : 'none' }}
             onClick={onToggle}
           >
-            <div className="ds-card__title" style={{ color, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div
+              className="ds-card__title"
+              style={{
+                color,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
               <span>{title}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--text-tertiary)' }}>
-                {isExpanded ? '−' : '+'}
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 'var(--text-md)',
+                  color: 'var(--text-tertiary)',
+                }}
+              >
+                {isExpanded ? '\u2212' : '+'}
               </span>
             </div>
           </div>
@@ -336,7 +390,7 @@ function CollapsibleFindingSection({ title, findings, chronicSet, isExpanded, on
 }
 
 /**
- * Sort and Filter Controls
+ * Sort and Filter Controls - sort dropdown and severity filter chips.
  */
 function SortAndFilter({ sortKey, setSortKey, severityFilter, toggleSeverity }) {
   return (
@@ -345,7 +399,6 @@ function SortAndFilter({ sortKey, setSortKey, severityFilter, toggleSeverity }) 
       <div className="cluster cluster--sm" style={{ alignItems: 'center' }}>
         <div className="text-label">SORT BY:</div>
         <select
-          className="sort-select"
           value={sortKey}
           onChange={(e) => setSortKey(e.target.value)}
           style={{
@@ -371,7 +424,6 @@ function SortAndFilter({ sortKey, setSortKey, severityFilter, toggleSeverity }) 
         {SEVERITY_LEVELS.map((sl) => (
           <button
             key={sl}
-            className={`sev-filter${severityFilter.has(sl) ? " active" : ""}`}
             onClick={() => toggleSeverity(sl)}
             style={{
               padding: 'var(--space-2) var(--space-3)',
@@ -395,7 +447,8 @@ function SortAndFilter({ sortKey, setSortKey, severityFilter, toggleSeverity }) 
 }
 
 /**
- * Category Tab View - Alternative view grouped by category
+ * Category Tab View - Alternative view grouped by finding category.
+ * Shows tabs for each category with findings below.
  */
 function CategoryTabView({ categories, activeTab, setActiveTab, chronicSet, sortKey, severityFilter }) {
   return (
@@ -414,7 +467,6 @@ function CategoryTabView({ categories, activeTab, setActiveTab, chronicSet, sort
               return (
                 <button
                   key={key}
-                  className={`issue-tab${isActive ? " active" : ""}`}
                   onClick={() => setActiveTab(key)}
                   style={{
                     padding: 'var(--space-3) var(--space-4)',
@@ -452,29 +504,32 @@ function CategoryTabView({ categories, activeTab, setActiveTab, chronicSet, sort
 }
 
 /**
- * Category Tab Content - Shows findings for a single category
+ * Category Tab Content - Shows findings for a single category,
+ * respecting the current severity filter and sort order.
  */
 function CategoryTabContent({ category, categoryKey, chronicSet, sortKey, severityFilter }) {
   if (!category || category.count === 0) {
     return (
-      <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', padding: 'var(--space-8) 0', textAlign: 'center' }}>
+      <div
+        className="text-body-sm"
+        style={{ color: 'var(--text-tertiary)', padding: 'var(--space-8) 0', textAlign: 'center' }}
+      >
         No {CATEGORY_LABELS[categoryKey] || categoryKey} issues found
       </div>
     );
   }
 
-  // Get and filter findings
+  // Get, filter, and sort findings
   let findings = (category.findings || []).slice();
-
-  // Filter by severity
   findings = findings.filter((f) => severityFilter.has(sevKey(f.severity)));
-
-  // Sort
-  findings = sortFindings(findings, sortKey, chronicSet);
+  findings = sortFindings(findings, sortKey);
 
   if (findings.length === 0) {
     return (
-      <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', padding: 'var(--space-8) 0', textAlign: 'center' }}>
+      <div
+        className="text-body-sm"
+        style={{ color: 'var(--text-tertiary)', padding: 'var(--space-8) 0', textAlign: 'center' }}
+      >
         No issues match current filters
       </div>
     );
@@ -496,14 +551,32 @@ function CategoryTabContent({ category, categoryKey, chronicSet, sortKey, severi
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* =====================================================================
    HELPERS
-   ═══════════════════════════════════════════════════════════════════════════ */
+   ===================================================================== */
 
 /**
- * Sort findings based on sort key
+ * Collect all findings from all categories into a flat array.
+ * Each finding gets a `category` field added for tracking.
  */
-function sortFindings(findings, sortKey, chronicSet) {
+function getAllFindings(categories) {
+  const all = [];
+  for (const catKey in categories) {
+    const cat = categories[catKey];
+    if (cat && cat.findings && cat.findings.length > 0) {
+      cat.findings.forEach((f) => {
+        all.push({ ...f, category: catKey });
+      });
+    }
+  }
+  return all;
+}
+
+/**
+ * Sort findings based on the current sort key.
+ * Returns a new array (does not mutate input).
+ */
+function sortFindings(findings, sortKey) {
   const sorted = findings.slice();
 
   if (sortKey === "severity_desc") {
@@ -521,7 +594,7 @@ function sortFindings(findings, sortKey, chronicSet) {
 }
 
 /**
- * Get color for severity level
+ * Map a severity keyword to its CSS color variable.
  */
 function getSeverityColor(severity) {
   const colors = {

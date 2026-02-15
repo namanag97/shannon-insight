@@ -16,6 +16,63 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   BASE STYLES & RESET
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 13px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0a0a;
+  color: #f0f0f0;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+::selection {
+  background: rgba(59,130,246,0.25);
+}
+
+/* Main container */
+.main {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-6, 24px);
+}
+
+/* Screen routing */
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
    1. DESIGN TOKENS
    ═══════════════════════════════════════════════════════════════════════════ */
 

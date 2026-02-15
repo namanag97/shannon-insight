@@ -2,20 +2,20 @@
  * FileListView v2 - Redesigned with proper information architecture
  *
  * Information Priority:
- * 1. Summary Cards - Risk distribution (high/medium/low/none)
- * 2. Top 10 Files Needing Attention - Action items
- * 3. Tools - Search and filters BELOW insights
- * 4. Full File Table - Grouped by risk tier, sortable
+ * 1. Summary Cards - Risk distribution at a glance (how many high/medium/low?)
+ * 2. Top 10 Files - Actionable list of worst files (what should I fix?)
+ * 3. Search + Filters - Tools for exploration (below insights, not above)
+ * 4. Full File Table - Comprehensive grouped view (all data, organized by tier)
  *
  * Design System:
  * - 12-column grid with proper gutters
  * - Mathematical spacing (8px baseline)
- * - Insights before tools
  * - Clear visual hierarchy
+ * - Every component intentionally placed
  */
 
 import useStore from "../../../state/store.js";
-import { fmtF, fmtN } from "../../../utils/formatters.js";
+import { fmtF } from "../../../utils/formatters.js";
 import { hColor } from "../../../utils/helpers.js";
 import { FilterChip } from "../../ui/FilterChip.jsx";
 import { Badge } from "../../ui/Badge.jsx";
@@ -46,20 +46,35 @@ export function FileListViewV2() {
 
   if (!data || !data.files) {
     return (
-      <div class="empty-state">
-        <div class="empty-state-title">No file data</div>
+      <div className="empty-state">
+        <div className="empty-state-title">No file data</div>
       </div>
     );
   }
 
-  // Build entries array
+  // Build entries array (preserving all existing logic)
   let entries = [];
   for (const p in data.files) entries.push({ path: p, ...data.files[p] });
   const totalCount = entries.length;
   const changedSet = data.recent_changes ? new Set(data.recent_changes) : new Set();
 
-  // Calculate risk distribution BEFORE filtering
-  const riskDistribution = calculateRiskDistribution(entries);
+  // Compute risk tiers BEFORE filtering (for summary cards showing full picture)
+  const allHighRisk = entries.filter((e) => (e.risk_score || 0) > 0.07);
+  const allMediumRisk = entries.filter((e) => {
+    const s = e.risk_score || 0;
+    return s > 0.03 && s <= 0.07;
+  });
+  const allLowRisk = entries.filter((e) => {
+    const s = e.risk_score || 0;
+    return s > 0 && s <= 0.03;
+  });
+  const allNoRisk = entries.filter((e) => !e.risk_score || e.risk_score === 0);
+
+  // Top 10 files by risk (before filtering, excluding zero-risk)
+  const top10 = [...entries]
+    .sort((a, b) => (b.risk_score || 0) - (a.risk_score || 0))
+    .slice(0, 10)
+    .filter((e) => (e.risk_score || 0) > 0);
 
   // Apply search
   if (fileSearch) {
@@ -93,8 +108,17 @@ export function FileListViewV2() {
     return fileSortAsc ? va - vb : vb - va;
   });
 
-  // Get top 10 files needing attention (highest risk, has issues)
-  const top10Files = getTop10Files(entries);
+  // Group filtered entries by risk tier for grouped table view
+  const highRisk = entries.filter((e) => (e.risk_score || 0) > 0.07);
+  const mediumRisk = entries.filter((e) => {
+    const s = e.risk_score || 0;
+    return s > 0.03 && s <= 0.07;
+  });
+  const lowRisk = entries.filter((e) => {
+    const s = e.risk_score || 0;
+    return s > 0 && s <= 0.03;
+  });
+  const noRisk = entries.filter((e) => !e.risk_score || e.risk_score === 0);
 
   function handleFileClick(row) {
     location.hash = "files/" + encodeURIComponent(row.path);
@@ -162,45 +186,41 @@ export function FileListViewV2() {
   return (
     <div className="stack stack--2xl">
       {/* ══════════════════════════════════════════════════════════
-          PRIORITY 1: SUMMARY CARDS - Risk Distribution
-          Answer: "How many files are at risk?"
+          PRIORITY 1: SUMMARY CARDS - Risk Distribution at a Glance
+          Answer: "How are my files distributed by risk?"
           ══════════════════════════════════════════════════════════ */}
       <section>
         <div className="grid grid--compact">
           <div className="span-3">
             <RiskSummaryCard
               level="HIGH"
-              count={riskDistribution.high}
+              count={allHighRisk.length}
               total={totalCount}
               color="var(--red)"
-              icon="🔴"
             />
           </div>
           <div className="span-3">
             <RiskSummaryCard
               level="MEDIUM"
-              count={riskDistribution.medium}
+              count={allMediumRisk.length}
               total={totalCount}
               color="var(--orange)"
-              icon="🟡"
             />
           </div>
           <div className="span-3">
             <RiskSummaryCard
               level="LOW"
-              count={riskDistribution.low}
+              count={allLowRisk.length}
               total={totalCount}
               color="var(--yellow)"
-              icon="🟢"
             />
           </div>
           <div className="span-3">
             <RiskSummaryCard
               level="NO ISSUES"
-              count={riskDistribution.none}
+              count={allNoRisk.length}
               total={totalCount}
               color="var(--text-tertiary)"
-              icon="⚪"
             />
           </div>
         </div>
@@ -208,78 +228,70 @@ export function FileListViewV2() {
 
       {/* ══════════════════════════════════════════════════════════
           PRIORITY 2: TOP 10 FILES NEEDING ATTENTION
-          Answer: "What should I fix first?"
+          Answer: "Which files should I fix first?"
           ══════════════════════════════════════════════════════════ */}
-      {top10Files.length > 0 && (
+      {top10.length > 0 && (
         <section>
-          <div className="grid">
-            <div className="span-12">
-              <div className="ds-card">
-                <div className="ds-card__header">
-                  <div className="ds-card__title">🎯 FILES NEEDING ATTENTION (Top 10)</div>
-                </div>
-                <div className="ds-card__body">
-                  <Top10FilesTable files={top10Files} onFileClick={handleFileClick} />
-                </div>
-              </div>
+          <div className="ds-card">
+            <div className="ds-card__header">
+              <div className="ds-card__title">Files Needing Attention (Top 10)</div>
+            </div>
+            <div className="ds-card__body">
+              <CompactFileTable files={top10} onFileClick={handleFileClick} />
             </div>
           </div>
         </section>
       )}
 
       {/* ══════════════════════════════════════════════════════════
-          PRIORITY 3: TOOLS - Search and Filters
-          Tools BELOW insights (insight-first UX)
+          PRIORITY 3: SEARCH + FILTERS
+          Tools below insights (insight-first UX)
           ══════════════════════════════════════════════════════════ */}
       <section>
-        <div className="grid">
-          <div className="span-12">
-            <div className="ds-card ds-card--compact">
-              <div className="ds-card__body">
-                <div className="stack stack--md">
-                  {/* Search */}
-                  <input
-                    className="search-input"
-                    type="text"
-                    id="fileSearchInput"
-                    placeholder="Search files..."
-                    value={fileSearch}
-                    onInput={(e) => setFileSearch(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === "Escape") e.target.blur(); }}
+        <div className="ds-card ds-card--compact">
+          <div className="ds-card__body">
+            <div className="stack stack--md">
+              {/* Search input */}
+              <input
+                className="search-input"
+                type="text"
+                id="fileSearchInput"
+                placeholder="Search files..."
+                value={fileSearch}
+                onInput={(e) => setFileSearch(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Escape") e.target.blur(); }}
+              />
+
+              {/* Filter chips */}
+              <div className="cluster cluster--sm">
+                {FILE_FILTER_CHIPS.map(([key, label]) => (
+                  <FilterChip
+                    key={key}
+                    label={label}
+                    active={fileFilters.has(key)}
+                    onClick={() => toggleFileFilter(key)}
                   />
+                ))}
+              </div>
 
-                  {/* Filters */}
-                  <div className="cluster cluster--sm">
-                    {FILE_FILTER_CHIPS.map(([key, label]) => (
-                      <FilterChip
-                        key={key}
-                        label={label}
-                        active={fileFilters.has(key)}
-                        onClick={() => toggleFileFilter(key)}
-                      />
-                    ))}
-                  </div>
-
-                  {/* View mode toggle */}
-                  <div className="cluster cluster--sm" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div className="text-body-sm" style={{ color: 'var(--text-secondary)' }}>
-                      Showing {entries.length} of {totalCount} files
-                    </div>
-                    <div className="treemap-toggle">
-                      <button
-                        className={fileViewMode === "table" ? "active" : ""}
-                        onClick={() => setFileViewMode("table")}
-                      >
-                        Table
-                      </button>
-                      <button
-                        className={fileViewMode === "treemap" ? "active" : ""}
-                        onClick={() => setFileViewMode("treemap")}
-                      >
-                        Treemap
-                      </button>
-                    </div>
-                  </div>
+              {/* File count + view mode toggle */}
+              <div className="cluster cluster--sm" style={{ justifyContent: 'space-between' }}>
+                <div className="text-body-sm" style={{ color: 'var(--text-secondary)' }}>
+                  Showing {entries.length} of {totalCount} files
+                </div>
+                <div className="treemap-toggle">
+                  <button
+                    className={fileViewMode === "table" ? "active" : ""}
+                    onClick={() => setFileViewMode("table")}
+                  >
+                    Table
+                  </button>
+                  <button
+                    className={fileViewMode === "treemap" ? "active" : ""}
+                    onClick={() => setFileViewMode("treemap")}
+                  >
+                    Treemap
+                  </button>
                 </div>
               </div>
             </div>
@@ -288,42 +300,33 @@ export function FileListViewV2() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════
-          PRIORITY 4: FULL FILE TABLE
-          Grouped by risk tier, sortable
+          PRIORITY 4: FULL FILE TABLE (or Treemap)
+          Comprehensive view grouped by risk tier
           ══════════════════════════════════════════════════════════ */}
       <section>
-        <div className="grid">
-          <div className="span-12">
-            {fileViewMode === "treemap" ? (
-              <Treemap
-                entries={entries.map((e) => [e.path, e])}
-                onFileClick={(path) => { location.hash = "files/" + encodeURIComponent(path); }}
-              />
-            ) : (
-              <div className="ds-card">
-                <div className="ds-card__header">
-                  <div className="ds-card__title">ALL FILES ({entries.length})</div>
-                </div>
-                <div className="ds-card__body">
-                  <GroupedFileTable
-                    entries={entries}
-                    columns={FILE_COLUMNS}
-                    sortKey={fileSortKey}
-                    sortAsc={fileSortAsc}
-                    onSort={setFileSortKey}
-                    onRowClick={handleFileClick}
-                    selectedIndex={sel}
-                  />
-                  {entries.length > 200 && (
-                    <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', marginTop: 'var(--space-4)', textAlign: 'center' }}>
-                      Showing first 200 of {entries.length} files (use search/filters to narrow)
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        {fileViewMode === "treemap" ? (
+          <Treemap
+            entries={entries.map((e) => [e.path, e])}
+            onFileClick={(path) => {
+              location.hash = "files/" + encodeURIComponent(path);
+            }}
+          />
+        ) : (
+          <GroupedFileTable
+            highRisk={highRisk}
+            mediumRisk={mediumRisk}
+            lowRisk={lowRisk}
+            noRisk={noRisk}
+            columns={FILE_COLUMNS}
+            sortKey={fileSortKey}
+            sortAsc={fileSortAsc}
+            onSort={setFileSortKey}
+            onFileClick={handleFileClick}
+            selectedIndex={sel}
+            maxRows={200}
+            totalFiltered={entries.length}
+          />
+        )}
       </section>
     </div>
   );
@@ -335,20 +338,43 @@ export function FileListViewV2() {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /**
- * Risk Summary Card - Shows count and percentage for a risk tier
+ * Risk Summary Card - Displays count of files in a risk tier.
+ * Uses design system card and typography patterns.
  */
-function RiskSummaryCard({ level, count, total, color, icon }) {
+function RiskSummaryCard({ level, count, total, color }) {
   const percent = total > 0 ? ((count / total) * 100).toFixed(0) : 0;
 
   return (
-    <div className="ds-card ds-card--compact text-center">
-      <div className="text-label" style={{ marginBottom: 'var(--space-2)' }}>
-        {icon} {level}
+    <div className="ds-card ds-card--compact" style={{ textAlign: 'center' }}>
+      <div
+        className="text-label"
+        style={{
+          color,
+          letterSpacing: 'var(--tracking-wider)',
+          fontWeight: 'var(--font-semibold)',
+        }}
+      >
+        {level}
       </div>
-      <div className="text-3xl text-mono" style={{ color, fontWeight: 600 }}>
+      <div
+        className="text-mono"
+        style={{
+          color,
+          marginTop: 'var(--space-1)',
+          fontSize: 'var(--text-2xl)',
+          fontWeight: 'var(--font-semibold)',
+          lineHeight: 'var(--leading-tight)',
+        }}
+      >
         {count}
       </div>
-      <div className="text-label" style={{ marginTop: 'var(--space-1)', color: 'var(--text-tertiary)' }}>
+      <div
+        className="text-label"
+        style={{
+          marginTop: 'var(--space-1)',
+          color: 'var(--text-tertiary)',
+        }}
+      >
         {percent}% of files
       </div>
     </div>
@@ -356,9 +382,11 @@ function RiskSummaryCard({ level, count, total, color, icon }) {
 }
 
 /**
- * Top 10 Files Table - Compact table showing files needing attention
+ * Compact File Table - Shows top N files in a dense, clickable table.
+ * Used for the "Files Needing Attention" priority section.
+ * Columns: Path | Risk | Issues | Complexity
  */
-function Top10FilesTable({ files, onFileClick }) {
+function CompactFileTable({ files, onFileClick }) {
   const columns = [
     {
       key: "path",
@@ -371,7 +399,7 @@ function Top10FilesTable({ files, onFileClick }) {
       key: "risk_score",
       label: "Risk",
       align: "right",
-      format: (v) => fmtF(v, 2),
+      format: (v) => fmtF(v, 3),
       cellClass: () => "td-risk",
       cellStyle: (v) => {
         const score = v || 0;
@@ -407,119 +435,101 @@ function Top10FilesTable({ files, onFileClick }) {
 }
 
 /**
- * Grouped File Table - Table with risk tier groupings
+ * Grouped File Table - Full file table with visual separators between risk tiers.
+ * Shows HIGH, MEDIUM, LOW, and NO RISK groups with clear headers.
  */
-function GroupedFileTable({ entries, columns, sortKey, sortAsc, onSort, onRowClick, selectedIndex }) {
-  // Group entries by risk tier
-  const grouped = {
-    high: entries.filter(e => getRiskTier(e.risk_score) === 'high'),
-    medium: entries.filter(e => getRiskTier(e.risk_score) === 'medium'),
-    low: entries.filter(e => getRiskTier(e.risk_score) === 'low'),
-    none: entries.filter(e => getRiskTier(e.risk_score) === 'none'),
-  };
+function GroupedFileTable({
+  highRisk,
+  mediumRisk,
+  lowRisk,
+  noRisk,
+  columns,
+  sortKey,
+  sortAsc,
+  onSort,
+  onFileClick,
+  selectedIndex,
+  maxRows,
+  totalFiltered,
+}) {
+  // Track how many rows we have rendered for maxRows limit
+  let rowsRendered = 0;
+  const limit = maxRows || Infinity;
 
-  const tiers = [
-    { key: 'high', label: '🔴 HIGH RISK', color: 'var(--red)', files: grouped.high },
-    { key: 'medium', label: '🟡 MEDIUM RISK', color: 'var(--orange)', files: grouped.medium },
-    { key: 'low', label: '🟢 LOW RISK', color: 'var(--yellow)', files: grouped.low },
-    { key: 'none', label: '⚪ NO ISSUES', color: 'var(--text-tertiary)', files: grouped.none },
+  const groups = [
+    { key: "high", label: "HIGH RISK", data: highRisk, color: "var(--red)" },
+    { key: "medium", label: "MEDIUM RISK", data: mediumRisk, color: "var(--orange)" },
+    { key: "low", label: "LOW RISK", data: lowRisk, color: "var(--yellow)" },
+    { key: "none", label: "NO RISK", data: noRisk, color: "var(--text-tertiary)" },
   ];
 
   return (
     <div className="stack stack--lg">
-      {tiers.map(tier => {
-        if (tier.files.length === 0) return null;
+      {groups.map((group) => {
+        if (group.data.length === 0) return null;
+
+        const remaining = limit - rowsRendered;
+        if (remaining <= 0) return null;
+
+        const slicedData = group.data.slice(0, remaining);
+        rowsRendered += slicedData.length;
 
         return (
-          <div key={tier.key}>
-            {/* Tier header */}
+          <div key={group.key}>
+            {/* Tier header with colored underline */}
             <div
               className="text-h4"
               style={{
-                color: tier.color,
+                color: group.color,
                 marginBottom: 'var(--space-4)',
                 paddingBottom: 'var(--space-2)',
-                borderBottom: `2px solid ${tier.color}`,
+                borderBottom: `2px solid ${group.color}`,
               }}
             >
-              {tier.label} ({tier.files.length})
+              {group.label} ({group.data.length})
             </div>
 
             {/* Tier table */}
             <Table
               columns={columns}
-              data={tier.files}
+              data={slicedData}
               rowKey={(row) => row.path}
               sortable={true}
               sortKey={sortKey}
               sortAsc={sortAsc}
               onSort={onSort}
-              onRowClick={onRowClick}
-              selectedIndex={selectedIndex}
-              maxRows={50}
+              onRowClick={onFileClick}
+              selectedIndex={-1}
+              stickyHeader={false}
             />
 
-            {tier.files.length > 50 && (
-              <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', marginTop: 'var(--space-2)' }}>
-                Showing first 50 of {tier.files.length} files in this tier
+            {group.data.length > remaining && (
+              <div
+                className="text-body-sm"
+                style={{
+                  color: 'var(--text-tertiary)',
+                  marginTop: 'var(--space-2)',
+                }}
+              >
+                Showing {slicedData.length} of {group.data.length} files in this tier
               </div>
             )}
           </div>
         );
       })}
+
+      {totalFiltered > limit && (
+        <div
+          className="text-body-sm"
+          style={{
+            color: 'var(--text-tertiary)',
+            textAlign: 'center',
+            marginTop: 'var(--space-4)',
+          }}
+        >
+          Showing first {Math.min(limit, totalFiltered)} of {totalFiltered} files (use search/filters to narrow)
+        </div>
+      )}
     </div>
   );
-}
-
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   HELPERS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/**
- * Calculate risk distribution across all files
- */
-function calculateRiskDistribution(entries) {
-  const distribution = {
-    high: 0,
-    medium: 0,
-    low: 0,
-    none: 0,
-  };
-
-  entries.forEach(e => {
-    const tier = getRiskTier(e.risk_score);
-    distribution[tier]++;
-  });
-
-  return distribution;
-}
-
-/**
- * Get risk tier for a given risk score
- */
-function getRiskTier(riskScore) {
-  const score = riskScore || 0;
-  if (score >= 0.7) return 'high';
-  if (score >= 0.4) return 'medium';
-  if (score >= 0.1) return 'low';
-  return 'none';
-}
-
-/**
- * Get top 10 files needing attention
- * Criteria: High risk score OR has issues, sorted by risk score descending
- */
-function getTop10Files(entries) {
-  // Filter to files with issues or high risk
-  const needsAttention = entries.filter(e => {
-    const hasIssues = (e.finding_count || 0) > 0;
-    const highRisk = (e.risk_score || 0) > 0.3;
-    return hasIssues || highRisk;
-  });
-
-  // Sort by risk score descending
-  needsAttention.sort((a, b) => (b.risk_score || 0) - (a.risk_score || 0));
-
-  return needsAttention.slice(0, 10);
 }

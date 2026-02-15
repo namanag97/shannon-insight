@@ -5,6 +5,9 @@
 import { render } from "preact";
 import { App } from "./components/core/App.jsx";
 
+// Import design system
+import "./styles/design-system.css";
+
 // Global error handlers
 window.addEventListener("error", (e) => {
   console.error("[shannon-insight] Global error:", e.error || e.message);

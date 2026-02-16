@@ -1,5 +1,5 @@
 /**
- * FileDetailView v2 - Redesigned with proper information architecture
+ * FileDetailView - Redesigned with proper information architecture
  *
  * Information Priority:
  * 1. Header - File identity (path, role, health score)

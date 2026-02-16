@@ -377,11 +377,128 @@ ORPHAN_CODE = Pattern(
 )
 
 
+def _hollow_code_predicate(store: FactStore, entity: EntityId) -> bool:
+    """File with many stub functions."""
+    stub_ratio = store.get_signal(entity, Signal.STUB_RATIO, 0)
+    impl_gini = store.get_signal(entity, Signal.IMPL_GINI, 0)
+
+    return stub_ratio > 0.5 and impl_gini > 0.6
+
+
+def _hollow_code_severity(store: FactStore, entity: EntityId) -> float:
+    """Fixed severity."""
+    return 0.71
+
+
+def _hollow_code_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
+    """Build evidence for HOLLOW_CODE."""
+    return {
+        "stub_ratio": store.get_signal(entity, Signal.STUB_RATIO, 0),
+        "impl_gini": store.get_signal(entity, Signal.IMPL_GINI, 0),
+        "function_count": store.get_signal(entity, Signal.FUNCTION_COUNT, 0),
+    }
+
+
+HOLLOW_CODE = Pattern(
+    name="hollow_code",
+    scope=PatternScope.FILE,
+    severity=0.71,
+    requires={Signal.STUB_RATIO.name, Signal.IMPL_GINI.name},
+    condition="stub_ratio > 0.5 AND impl_gini > 0.6",
+    predicate=_hollow_code_predicate,
+    severity_fn=_hollow_code_severity,
+    evidence_fn=_hollow_code_evidence,
+    description="File with many stub functions",
+    remediation="Implement the stub functions. Priority: functions called by other files.",
+    category="ai_quality",
+    hotspot_filtered=False,
+    phase=1,
+)
+
+
+def _phantom_imports_predicate(store: FactStore, entity: EntityId) -> bool:
+    """File has unresolved imports."""
+    phantom_count = store.get_signal(entity, Signal.PHANTOM_IMPORT_COUNT, 0)
+    return phantom_count > 0
+
+
+def _phantom_imports_severity(store: FactStore, entity: EntityId) -> float:
+    """Fixed severity."""
+    return 0.65
+
+
+def _phantom_imports_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
+    """Build evidence for PHANTOM_IMPORTS."""
+    return {
+        "phantom_import_count": store.get_signal(entity, Signal.PHANTOM_IMPORT_COUNT, 0),
+        "import_count": store.get_signal(entity, Signal.IMPORT_COUNT, 0),
+    }
+
+
+PHANTOM_IMPORTS = Pattern(
+    name="phantom_imports",
+    scope=PatternScope.FILE,
+    severity=0.65,
+    requires={Signal.PHANTOM_IMPORT_COUNT.name},
+    condition="phantom_import_count > 0",
+    predicate=_phantom_imports_predicate,
+    severity_fn=_phantom_imports_severity,
+    evidence_fn=_phantom_imports_evidence,
+    description="File with unresolved imports",
+    remediation="Create missing module or replace with existing library.",
+    category="ai_quality",
+    hotspot_filtered=False,
+    phase=3,
+)
+
+
+def _knowledge_silo_predicate(store: FactStore, entity: EntityId) -> bool:
+    """Central file owned by one person."""
+    bus_factor = store.get_signal(entity, Signal.BUS_FACTOR, 0)
+    pr_pctl = compute_percentile(store, entity, Signal.PAGERANK)
+
+    return bus_factor <= 1.5 and pr_pctl > 0.75
+
+
+def _knowledge_silo_severity(store: FactStore, entity: EntityId) -> float:
+    """Fixed severity."""
+    return 0.70
+
+
+def _knowledge_silo_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
+    """Build evidence for KNOWLEDGE_SILO."""
+    return {
+        "bus_factor": store.get_signal(entity, Signal.BUS_FACTOR, 0),
+        "author_entropy": store.get_signal(entity, Signal.AUTHOR_ENTROPY, 0),
+        "pagerank": store.get_signal(entity, Signal.PAGERANK, 0),
+        "pagerank_pctl": compute_percentile(store, entity, Signal.PAGERANK),
+    }
+
+
+KNOWLEDGE_SILO = Pattern(
+    name="knowledge_silo",
+    scope=PatternScope.FILE,
+    severity=0.70,
+    requires={Signal.BUS_FACTOR.name, Signal.PAGERANK.name},
+    condition="bus_factor <= 1.5 AND pctl(pagerank) > 0.75",
+    predicate=_knowledge_silo_predicate,
+    severity_fn=_knowledge_silo_severity,
+    evidence_fn=_knowledge_silo_evidence,
+    description="Central file owned by one person",
+    remediation="Pair-program to spread knowledge. Document the code.",
+    category="social_team",
+    hotspot_filtered=True,
+    phase=0,
+)
+
+
 # ==============================================================================
 # Pattern Registry
 # ==============================================================================
 
-# All 22 patterns (7 existing + 15 new)
+# All 22 patterns (implemented: 8, remaining: 14)
+# This registry demonstrates the pattern structure. Remaining patterns
+# follow the same structure with their specific predicates/severity/evidence.
 ALL_PATTERNS: list[Pattern] = [
     # Existing (v1 upgraded)
     HIGH_RISK_HUB,
@@ -390,7 +507,11 @@ ALL_PATTERNS: list[Pattern] = [
     UNSTABLE_FILE,
     # AI Quality
     ORPHAN_CODE,
-    # TODO: Add remaining 17 patterns
+    HOLLOW_CODE,
+    PHANTOM_IMPORTS,
+    # Social/Team
+    KNOWLEDGE_SILO,
+    # TODO: Add remaining 14 patterns following same structure
 ]
 
 

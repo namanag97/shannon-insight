@@ -82,7 +82,7 @@ def _check_requirements(store: FactStore, pattern: Pattern) -> bool:
     for req in pattern.requires:
         # Check if it's a signal
         try:
-            signal = Signal[req]
+            Signal[req]  # Just check if signal exists
             # Check if at least one entity has this signal
             # For now, assume available if signal enum exists
             # Full implementation would check store.signals

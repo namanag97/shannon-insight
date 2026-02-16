@@ -14,9 +14,7 @@ app: typer.Typer = typer.Typer(
 
 # Import subcommands to register them
 from .analyze import main as _main_callback  # noqa: F401, E402
-from .diff import diff_cmd as _diff_cmd  # noqa: F401, E402
-from .explain import explain as _explain  # noqa: F401, E402
 from .health import health as _health  # noqa: F401, E402
 from .history import history as _history  # noqa: F401, E402
-from .report import report as _report  # noqa: F401, E402
 from .serve import serve as _serve  # noqa: F401, E402
+# Note: explain, diff, report removed - use UI instead (shannon-insight serve)

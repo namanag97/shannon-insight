@@ -310,8 +310,12 @@ class InsightKernel:
 
     def _scan(self) -> list:
         """Scan files using ScannerFactory."""
+        # Use detected languages from environment, fallback to Python
+        languages = list(self.session.env.detected_languages) if self.session.env.detected_languages else ["python"]
+        language = languages[0] if len(languages) == 1 else "auto"
+
         factory = ScannerFactory(Path(self.root_dir), self.session.config)
-        scanners, detected = factory.create(self.language)
+        scanners, detected = factory.create(language)
 
         all_files = []
         for scanner, lang in scanners:

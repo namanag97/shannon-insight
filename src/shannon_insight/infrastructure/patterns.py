@@ -31,26 +31,36 @@ class PatternScope(Enum):
 class Pattern:
     """A declarative rule that detects a finding.
 
+    Canonical v2 pattern model per docs/v2/architecture/06-patterns/.
+
     Attributes:
-        name:        Unique pattern identifier (e.g. "god_file").
-        scope:       What kind of entity this pattern targets.
-        requires:    Set of slot/signal names that must be available.
-        predicate:   Callable (store, target) -> bool.
-        severity:    Base severity in [0, 1].
-        description: Human-readable explanation of what this detects.
-        remediation: Suggested fix.
-        category:    Pattern category (structural, coupling, architecture, team).
-        phase:       Phase in which this pattern becomes available.
+        name:             Unique pattern identifier (e.g. "high_risk_hub").
+        scope:            What kind of entity this pattern targets.
+        severity:         Base severity in [0, 1].
+        requires:         Set of Signal/RelationType that must be available.
+        condition:        Human-readable condition string.
+        predicate:        Callable (store, target) -> bool. Returns True if condition met.
+        severity_fn:      Callable (store, target) -> float. Dynamic severity [0, 1].
+        evidence_fn:      Callable (store, target) -> dict. Build evidence dictionary.
+        description:      Human-readable explanation of what this detects.
+        remediation:      Suggested fix.
+        category:         Pattern category (structural, coupling, architecture, team).
+        hotspot_filtered: If True, only fire on files with total_changes > median.
+        phase:            Phase in which this pattern becomes available (0-7).
     """
 
     name: str
     scope: PatternScope
-    requires: set[str]
-    predicate: Callable[..., bool]
     severity: float
+    requires: set[str]
+    condition: str
+    predicate: Callable[..., bool]
+    severity_fn: Callable[..., float]
+    evidence_fn: Callable[..., dict]
     description: str
     remediation: str
     category: str = ""
+    hotspot_filtered: bool = False
     phase: int = 0
 
 

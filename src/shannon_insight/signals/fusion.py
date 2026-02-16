@@ -62,20 +62,18 @@ def _gini(values: list[float]) -> float:
 class FusionPipeline:
     """Entry point for signal fusion. Each step returns the next stage type."""
 
-    def __init__(self, store: AnalysisStore) -> None:
-        self.store = store
-        self.field = SignalField()
-        self._determine_tier()
+    def __init__(self, store: AnalysisStore, session: AnalysisSession) -> None:
+        """Initialize fusion pipeline with store and session.
 
-    def _determine_tier(self) -> None:
-        """Set tier based on file count."""
-        n = len(self.store.file_metrics)
-        if n < 15:
-            self.field.tier = "ABSOLUTE"
-        elif n < 50:
-            self.field.tier = "BAYESIAN"
-        else:
-            self.field.tier = "FULL"
+        Args:
+            store: Analysis store with all intermediate results
+            session: Analysis session with tier and configuration
+        """
+        self.store = store
+        self.session = session
+        self.field = SignalField()
+        # Set tier from session (already computed)
+        self.field.tier = session.tier.value.upper()  # Convert "full" -> "FULL"
 
     def step1_collect(self) -> _Collected:
         """Gather raw signals from all store slots into SignalField.

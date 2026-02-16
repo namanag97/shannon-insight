@@ -137,28 +137,40 @@ class AnalysisStore:
         return self._fact_store
 
     def _sync_entities(self) -> None:
-        """Sync file_metrics to FactStore entities.
+        """Sync file_syntax to FactStore entities.
 
-        Creates a FILE entity for each FileMetrics and sets the basic
+        Creates a FILE entity for each FileSyntax and sets the basic
         scanning signals (LINES, FUNCTION_COUNT, CLASS_COUNT, IMPORT_COUNT).
 
-        This bridge enables v2 analyzers/finders to read from FactStore
-        while v1 code continues using the slot-based AnalysisStore.
+        This bridge enables finders to read from FactStore while
+        analyzers continue using the slot-based AnalysisStore.
 
-        Uses the actual FileMetrics field names:
-            - fm.functions  (not function_count)
-            - fm.structs    (not class_count)
-            - fm.imports    (list, len() for count)
+        Uses FileSyntax computed properties:
+            - syntax.lines
+            - syntax.function_count
+            - syntax.class_count
+            - syntax.import_count
         """
-        for fm in self.file_metrics:
-            entity_id = EntityId(EntityType.FILE, fm.path)
-            entity = Entity(id=entity_id, metadata={})
-            self._fact_store.add_entity(entity)
-            # Set basic signals using actual FileMetrics field names
-            self._fact_store.set_signal(entity_id, Signal.LINES, fm.lines)
-            self._fact_store.set_signal(entity_id, Signal.FUNCTION_COUNT, fm.functions)
-            self._fact_store.set_signal(entity_id, Signal.CLASS_COUNT, fm.structs)
-            self._fact_store.set_signal(entity_id, Signal.IMPORT_COUNT, len(fm.imports))
+        # Prefer file_syntax (FileSyntax objects with computed properties)
+        if self.file_syntax.available:
+            for path, syntax in self.file_syntax.value.items():
+                entity_id = EntityId(EntityType.FILE, path)
+                entity = Entity(id=entity_id, metadata={})
+                self._fact_store.add_entity(entity)
+                self._fact_store.set_signal(entity_id, Signal.LINES, syntax.lines)
+                self._fact_store.set_signal(entity_id, Signal.FUNCTION_COUNT, syntax.function_count)
+                self._fact_store.set_signal(entity_id, Signal.CLASS_COUNT, syntax.class_count)
+                self._fact_store.set_signal(entity_id, Signal.IMPORT_COUNT, syntax.import_count)
+        # Fallback to file_metrics for backward compatibility
+        elif self.file_metrics:
+            for fm in self.file_metrics:
+                entity_id = EntityId(EntityType.FILE, fm.path)
+                entity = Entity(id=entity_id, metadata={})
+                self._fact_store.add_entity(entity)
+                self._fact_store.set_signal(entity_id, Signal.LINES, fm.lines)
+                self._fact_store.set_signal(entity_id, Signal.FUNCTION_COUNT, fm.functions)
+                self._fact_store.set_signal(entity_id, Signal.CLASS_COUNT, fm.structs)
+                self._fact_store.set_signal(entity_id, Signal.IMPORT_COUNT, len(fm.imports))
 
     def get_content(self, rel_path: str) -> str | None:
         """Get file content from cache or read from disk (caches result)."""

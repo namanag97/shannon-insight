@@ -88,11 +88,13 @@ class ConfigurableScanner(BaseScanner):
         config: LanguageConfig,
         extensions: Optional[list[str]] = None,
         settings: Optional[AnalysisConfig] = None,
+        file_paths: Optional[tuple[Path, ...]] = None,
     ):
         super().__init__(
             root_dir,
             extensions=extensions or list(config.extensions),
             settings=settings,
+            file_paths=file_paths,
         )
         self.config = config
 

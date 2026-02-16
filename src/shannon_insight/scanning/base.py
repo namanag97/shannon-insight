@@ -17,7 +17,11 @@ class BaseScanner(ABC):
     """Abstract base class for language-specific scanners"""
 
     def __init__(
-        self, root_dir: str, extensions: list[str], settings: Optional[AnalysisConfig] = None
+        self,
+        root_dir: str,
+        extensions: list[str],
+        settings: Optional[AnalysisConfig] = None,
+        file_paths: Optional[tuple[Path, ...]] = None,
     ):
         """
         Initialize scanner.
@@ -26,10 +30,13 @@ class BaseScanner(ABC):
             root_dir: Root directory to scan
             extensions: File extensions to include (e.g., ['.go', '.py'])
             settings: Analysis settings
+            file_paths: Optional pre-discovered file paths (relative to root).
+                        If provided, avoids redundant filesystem walks in scan().
         """
         self.root_dir = Path(root_dir)
         self.extensions = extensions
         self.settings = settings or AnalysisConfig()
+        self.file_paths = file_paths
         logger.debug(f"Initialized {self.__class__.__name__} for {self.root_dir}")
 
     def scan(self) -> list[FileMetrics]:

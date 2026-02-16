@@ -198,49 +198,49 @@ class TestTierDetection:
     def test_absolute_tier_under_15_files(self):
         """< 15 files -> ABSOLUTE tier."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(10)]
+        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(10)]
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "ABSOLUTE"
 
     def test_bayesian_tier_15_to_49_files(self):
         """15-49 files -> BAYESIAN tier."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(30)]
+        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(30)]
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "BAYESIAN"
 
     def test_full_tier_50_plus_files(self):
         """50+ files -> FULL tier."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(60)]
+        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(60)]
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "FULL"
 
     def test_boundary_14_is_absolute(self):
         """14 files is still ABSOLUTE."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(14)]
+        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(14)]
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "ABSOLUTE"
 
     def test_boundary_15_is_bayesian(self):
         """15 files is BAYESIAN."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(15)]
+        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(15)]
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "BAYESIAN"
 
     def test_boundary_49_is_bayesian(self):
         """49 files is still BAYESIAN."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(49)]
+        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(49)]
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "BAYESIAN"
 
     def test_boundary_50_is_full(self):
         """50 files is FULL."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(50)]
+        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(50)]
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "FULL"
 
@@ -709,7 +709,7 @@ class TestBuildFunction:
     def test_build_returns_signal_field(self):
         """build() returns SignalField with all attributes."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_metrics = [MockFileSyntax("/a.py")]
 
         field = build(store, _make_session(store))
 
@@ -722,7 +722,7 @@ class TestBuildFunction:
     def test_build_collects_scanning_signals(self):
         """build() collects signals from file_metrics."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py", lines=200, functions=10)]
+        store.file_metrics = [MockFileSyntax("/a.py", lines=200, functions=10)]
 
         field = build(store, _make_session(store))
 
@@ -734,8 +734,8 @@ class TestBuildFunction:
         """build() computes raw_risk for all files."""
         store = AnalysisStore()
         store.file_metrics = [
-            MockFileMetrics("/a.py"),
-            MockFileMetrics("/b.py"),
+            MockFileSyntax("/a.py"),
+            MockFileSyntax("/b.py"),
         ]
 
         field = build(store, _make_session(store))
@@ -811,7 +811,7 @@ class TestModuleSignalsCollection:
         from shannon_insight.architecture.models import Architecture, Module
 
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/mod/a.py")]
+        store.file_metrics = [MockFileSyntax("/mod/a.py")]
 
         # Create architecture with a module
         arch = Architecture()
@@ -847,10 +847,10 @@ class TestGlobalSignalsCollection:
         """orphan_ratio computed correctly."""
         store = AnalysisStore()
         store.file_metrics = [
-            MockFileMetrics("/a.py"),
-            MockFileMetrics("/b.py"),
-            MockFileMetrics("/c.py"),
-            MockFileMetrics("/d.py"),
+            MockFileSyntax("/a.py"),
+            MockFileSyntax("/b.py"),
+            MockFileSyntax("/c.py"),
+            MockFileSyntax("/d.py"),
         ]
 
         # Mock structural with some orphans

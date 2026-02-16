@@ -119,9 +119,15 @@ def _linear_slope(values: list[int]) -> float:
 
 
 def _compute_cv(counts: list[int], total: int) -> float:
-    """Compute coefficient of variation for change counts."""
+    """Compute coefficient of variation for change counts.
+
+    Returns 0.0 if:
+    - No changes (total=0)
+    - Only 1 time window (CV undefined for single data point)
+    - Mean is 0
+    """
     n = len(counts)
-    if n == 0 or total == 0:
+    if n < 2 or total == 0:
         return 0.0
 
     mean = total / n

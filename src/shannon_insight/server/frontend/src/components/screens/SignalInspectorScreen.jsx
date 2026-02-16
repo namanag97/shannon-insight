@@ -149,15 +149,26 @@ export function SignalInspectorScreen() {
           value={inspectedSignal}
           onChange={(e) => setInspectedSignal(e.target.value)}
         >
-          {SIGNAL_CATEGORIES.map((cat) => (
-            <optgroup key={cat.key} label={cat.name}>
-              {cat.signals.map((sig) => (
-                <option key={sig} value={sig}>
-                  {SIGNAL_LABELS[sig] || sig}
-                </option>
-              ))}
-            </optgroup>
-          ))}
+          {(() => {
+            // Group signals by category
+            const grouped = {};
+            for (const sig of inspectable) {
+              const cat = sig.category;
+              if (!grouped[cat]) grouped[cat] = [];
+              grouped[cat].push(sig);
+            }
+
+            // Render optgroups
+            return Object.entries(grouped).map(([catName, signals]) => (
+              <optgroup key={catName} label={catName}>
+                {signals.map((sig) => (
+                  <option key={sig.key} value={sig.key}>
+                    {sig.label}
+                  </option>
+                ))}
+              </optgroup>
+            ));
+          })()}
         </select>
         {description && (
           <span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>

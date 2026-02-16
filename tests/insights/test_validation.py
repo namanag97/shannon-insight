@@ -108,7 +108,7 @@ class TestValidateAfterStructural:
         validate_after_structural(store)  # Should not raise
 
     def test_passes_with_empty_graph(self):
-        """Passes when graph has no nodes (subset of file_metrics)."""
+        """Passes when graph has no nodes (subset of files)."""
         store = AnalysisStore()
         store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         graph = MockGraph(set())

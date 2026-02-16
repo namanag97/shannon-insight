@@ -10,7 +10,10 @@ Tests for:
 7. Backward compat: Primitives.from_file_signals()
 """
 
+from shannon_insight.config import AnalysisConfig
+from shannon_insight.environment import Environment
 from shannon_insight.insights.store_v2 import AnalysisStore
+from shannon_insight.session import AnalysisSession
 from shannon_insight.signals.composites import compute_composites
 from shannon_insight.signals.display import to_display_scale
 from shannon_insight.signals.fusion import FusionPipeline, _gini, build
@@ -29,6 +32,17 @@ from shannon_insight.signals.normalization import (
     effective_percentile,
     normalize,
 )
+
+
+def _make_session(store):
+    """Helper to create a test session."""
+    config = AnalysisConfig()
+    env = Environment(
+        root=store.root_dir or ".",
+        file_count=len(store.file_metrics),
+        is_git_repo=False,
+    )
+    return AnalysisSession(config=config, env=env)
 
 
 class MockFileMetrics:

@@ -492,3 +492,103 @@ class TestSpectralAnalyzerFactStoreSync:
 
         assert store.fact_store.get_signal(codebase_id, Signal.FIEDLER_VALUE) == 0.42
         assert store.fact_store.get_signal(codebase_id, Signal.SPECTRAL_GAP) == 0.28
+
+
+class TestSemanticAnalyzerFactStoreSync:
+    """Test that SemanticAnalyzer syncs semantic signals to FactStore."""
+
+    def test_semantic_sync_writes_file_signals(self):
+        """SemanticAnalyzer writes CONCEPT_COUNT, CONCEPT_ENTROPY, NAMING_DRIFT, etc."""
+        from shannon_insight.semantics.analyzer import SemanticAnalyzer
+        from shannon_insight.semantics.models import Completeness, Concept, FileSemantics, Role
+
+        store = AnalysisStore(root_dir="/test")
+        store.file_metrics = [_make_file_metrics("src/main.py")]
+        store._sync_entities()
+
+        # Create test semantic data
+        semantics = {
+            "src/main.py": FileSemantics(
+                path="src/main.py",
+                role=Role.UTILITY,
+                concepts=[
+                    Concept(topic="processing", weight=0.6, keywords=["process", "parse"]),
+                    Concept(topic="validation", weight=0.4, keywords=["validate", "check"]),
+                ],
+                concept_count=2,
+                concept_entropy=0.97,
+                naming_drift=0.15,
+                completeness=Completeness(
+                    todo_density=0.5, docstring_coverage=0.8, todo_count=1
+                ),
+                tier=3,
+                import_fingerprint={"os": 0.5, "sys": 0.3},
+            ),
+        }
+
+        analyzer = SemanticAnalyzer()
+        analyzer._sync_to_fact_store(store, semantics)
+
+        entity_id = EntityId(EntityType.FILE, "src/main.py")
+        assert store.fact_store.get_signal(entity_id, Signal.CONCEPT_COUNT) == 2
+        assert store.fact_store.get_signal(entity_id, Signal.CONCEPT_ENTROPY) == 0.97
+        assert store.fact_store.get_signal(entity_id, Signal.NAMING_DRIFT) == 0.15
+        assert store.fact_store.get_signal(entity_id, Signal.TODO_DENSITY) == 0.5
+        assert store.fact_store.get_signal(entity_id, Signal.DOCSTRING_COVERAGE) == 0.8
+        assert store.fact_store.get_signal(entity_id, Signal.ROLE) == "utility"
+
+    def test_semantic_sync_writes_similar_to_relations(self):
+        """SemanticAnalyzer writes SIMILAR_TO relations for similar files."""
+        from shannon_insight.semantics.analyzer import SemanticAnalyzer
+        from shannon_insight.semantics.models import FileSemantics, Role
+
+        store = AnalysisStore(root_dir="/test")
+
+        # Create files with similar import fingerprints
+        semantics = {
+            "src/file_a.py": FileSemantics(
+                path="src/file_a.py",
+                role=Role.UTILITY,
+                concepts=[],
+                concept_count=0,
+                concept_entropy=0.0,
+                naming_drift=0.0,
+                tier=1,
+                import_fingerprint={"os": 1.0, "sys": 0.8, "json": 0.5},
+            ),
+            "src/file_b.py": FileSemantics(
+                path="src/file_b.py",
+                role=Role.UTILITY,
+                concepts=[],
+                concept_count=0,
+                concept_entropy=0.0,
+                naming_drift=0.0,
+                tier=1,
+                import_fingerprint={"os": 0.9, "sys": 0.9, "json": 0.4},
+            ),
+            "src/file_c.py": FileSemantics(
+                path="src/file_c.py",
+                role=Role.UTILITY,
+                concepts=[],
+                concept_count=0,
+                concept_entropy=0.0,
+                naming_drift=0.0,
+                tier=1,
+                import_fingerprint={"requests": 1.0},  # Completely different
+            ),
+        }
+
+        analyzer = SemanticAnalyzer()
+        analyzer._sync_to_fact_store(store, semantics)
+
+        # Check that file_a and file_b are marked as similar (high overlap)
+        file_a = EntityId(EntityType.FILE, "src/file_a.py")
+        file_b = EntityId(EntityType.FILE, "src/file_b.py")
+        file_c = EntityId(EntityType.FILE, "src/file_c.py")
+
+        # Should have SIMILAR_TO relation between a and b
+        assert store.fact_store.has_relation(file_a, RelationType.SIMILAR_TO, file_b)
+
+        # Should NOT have relation with file_c (different imports)
+        assert not store.fact_store.has_relation(file_a, RelationType.SIMILAR_TO, file_c)
+        assert not store.fact_store.has_relation(file_b, RelationType.SIMILAR_TO, file_c)

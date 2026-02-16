@@ -122,6 +122,7 @@ class AnalysisStore:
     # Always-available inputs (set by kernel before analyzers run)
     root_dir: str = ""
     file_metrics: list[Any] = field(default_factory=list)
+    session: AnalysisSession | None = None  # Analysis session with config and tier
 
     # File content cache (populated during syntax extraction to avoid re-reads)
     # Maps relative path -> file content. Cleared after graph analysis completes.

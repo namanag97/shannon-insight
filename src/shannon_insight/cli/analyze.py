@@ -153,7 +153,7 @@ def _output_json(result, snapshot):
             for f in result.findings
         ],
         "summary": {
-            "total_files": snapshot.metadata.total_files,
+            "total_files": snapshot.file_count,
             "total_findings": len(result.findings),
         },
     }

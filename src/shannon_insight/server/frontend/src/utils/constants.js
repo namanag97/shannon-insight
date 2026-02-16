@@ -365,3 +365,12 @@ export const UNBOUNDED_SIGNAL_CAPS = {
   cognitive_load: 25,
   max_nesting: 10,
 };
+
+/** Severity level mapping for findings. */
+export const SEVERITY_MAP = {
+  0.9: "critical",
+  0.8: "high",
+  0.6: "medium",
+  0.4: "low",
+  0: "info",
+};

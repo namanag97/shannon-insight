@@ -69,15 +69,20 @@ class Pattern:
 class Finding:
     """A concrete finding produced by a pattern match.
 
+    Canonical v2 finding model per docs/v2/architecture/06-patterns/.
+
     Attributes:
-        pattern:     Name of the pattern that fired.
-        scope:       Scope of the finding.
-        target:      The entity (or pair of entities) involved.
-        severity:    Severity in [0, 1].
-        confidence:  Confidence in [0, 1].
-        evidence:    Dictionary of evidence that triggered this finding.
-        description: Human-readable description.
-        remediation: Suggested fix.
+        pattern:        Name of the pattern that fired.
+        scope:          Scope of the finding.
+        target:         The entity (or pair of entities) involved.
+        severity:       Severity in [0, 1].
+        confidence:     Confidence in [0, 1].
+        evidence:       Dictionary of evidence that triggered this finding.
+        description:    Human-readable description.
+        remediation:    Suggested fix.
+        impact:         Centrality-weighted impact for ranking (default 1.0).
+        first_seen:     When this finding was first detected (for persistence).
+        snapshot_count: How many snapshots this finding has persisted across.
     """
 
     pattern: str
@@ -88,6 +93,9 @@ class Finding:
     evidence: dict[str, Any] = field(default_factory=dict)
     description: str = ""
     remediation: str = ""
+    impact: float = 1.0
+    first_seen: datetime | None = None
+    snapshot_count: int = 1
 
     @property
     def id(self) -> str:

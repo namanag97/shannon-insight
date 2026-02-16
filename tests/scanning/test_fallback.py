@@ -1,7 +1,7 @@
 """Tests for regex fallback scanner."""
 
 from shannon_insight.scanning.fallback import RegexFallbackScanner
-from shannon_insight.scanning.models_v2 import FileSyntax
+from shannon_insight.scanning.syntax import FileSyntax
 
 SAMPLE_PYTHON = '''
 """A sample Python file."""

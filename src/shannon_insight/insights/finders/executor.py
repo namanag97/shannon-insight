@@ -16,8 +16,8 @@ from typing import TYPE_CHECKING
 
 from shannon_insight.infrastructure.entities import EntityId, EntityType
 from shannon_insight.infrastructure.patterns import Finding, Pattern, PatternScope
-from shannon_insight.session import Tier
 from shannon_insight.infrastructure.signals import Signal
+from shannon_insight.session import Tier
 
 from .helpers import compute_median
 from .registry import ALL_PATTERNS

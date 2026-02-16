@@ -27,7 +27,6 @@ from shannon_insight.infrastructure.relations import (
     RelationGraph,
     RelationType,
 )
-from shannon_insight.session import Tier  # Re-export Tier for backward compat
 from shannon_insight.infrastructure.signals import (
     SIGNAL_REGISTRY,
     Polarity,
@@ -50,6 +49,7 @@ from shannon_insight.infrastructure.validation import (
     validate_after_structural,
     validate_signal_field,
 )
+from shannon_insight.session import Tier  # Re-export Tier for backward compat
 
 __all__ = [
     "Entity",

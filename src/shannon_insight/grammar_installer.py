@@ -7,12 +7,10 @@ and only downloaded once.
 
 from __future__ import annotations
 
-import os
 import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Optional
 
 from .logging_config import get_logger
 
@@ -120,7 +118,9 @@ def install_grammars(console=None, verbose: bool = False) -> bool:
 
     if success_count > 0:
         if console:
-            console.print(f"\n✅ [green]Installed {success_count}/{len(LANGUAGES)} grammars[/green]\n")
+            console.print(
+                f"\n✅ [green]Installed {success_count}/{len(LANGUAGES)} grammars[/green]\n"
+            )
         else:
             logger.info(f"Installed {success_count}/{len(LANGUAGES)} grammars")
         return True

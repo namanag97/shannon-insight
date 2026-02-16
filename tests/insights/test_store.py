@@ -7,7 +7,7 @@ import pytest
 from shannon_insight.infrastructure.entities import EntityId, EntityType
 from shannon_insight.infrastructure.relations import RelationType
 from shannon_insight.infrastructure.signals import Signal
-from shannon_insight.insights.store_v2 import AnalysisStore, Slot
+from shannon_insight.insights.store import AnalysisStore, Slot
 from shannon_insight.scanning.models import FileMetrics
 
 

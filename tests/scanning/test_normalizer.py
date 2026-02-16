@@ -2,8 +2,8 @@
 
 import pytest
 
-from shannon_insight.scanning.syntax import FileSyntax
 from shannon_insight.scanning.normalizer import TreeSitterNormalizer
+from shannon_insight.scanning.syntax import FileSyntax
 from shannon_insight.scanning.treesitter_parser import TREE_SITTER_AVAILABLE
 
 SAMPLE_PYTHON = '''

@@ -9,7 +9,7 @@ Tests all 14 new finders added in Phase 6:
 import pytest
 
 from shannon_insight.insights.models import compute_confidence
-from shannon_insight.insights.store_v2 import AnalysisStore, Slot
+from shannon_insight.insights.store import AnalysisStore, Slot
 from shannon_insight.signals.models import (
     FileSignals,
     GlobalSignals,

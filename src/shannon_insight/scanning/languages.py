@@ -8,29 +8,30 @@ Adding a new language:
 import re as _re
 from dataclasses import dataclass, field
 
-
 # ── Canonical skip directories (shared across scanning and environment) ─────
 # This is THE single source of truth for directories to skip during file discovery.
 # Used by: factory.py, environment.py, and as default for LanguageConfig.skip_dirs
 
-SKIP_DIRS: frozenset[str] = frozenset({
-    "vendor",
-    "node_modules",
-    "venv",
-    ".venv",
-    "__pycache__",
-    ".git",
-    ".tox",
-    ".mypy_cache",
-    ".pytest_cache",
-    ".ruff_cache",
-    "dist",
-    "build",
-    "target",
-    ".eggs",
-    "third_party",
-    "cmake-build",
-})
+SKIP_DIRS: frozenset[str] = frozenset(
+    {
+        "vendor",
+        "node_modules",
+        "venv",
+        ".venv",
+        "__pycache__",
+        ".git",
+        ".tox",
+        ".mypy_cache",
+        ".pytest_cache",
+        ".ruff_cache",
+        "dist",
+        "build",
+        "target",
+        ".eggs",
+        "third_party",
+        "cmake-build",
+    }
+)
 
 
 @dataclass(frozen=True)

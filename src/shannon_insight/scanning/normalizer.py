@@ -9,8 +9,8 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, Any
 
-from .syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 from .queries import get_query
+from .syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 from .treesitter_parser import TREE_SITTER_AVAILABLE, TreeSitterParser
 
 if TYPE_CHECKING:

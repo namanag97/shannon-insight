@@ -83,6 +83,7 @@ def main(
     # Handle version
     if version:
         from .. import __version__
+
         console.print(f"Shannon Insight v{__version__}")
         raise typer.Exit(0)
 
@@ -130,6 +131,7 @@ def main(
         console.print(f"[red]Error:[/red] {e}")
         if verbose:
             import traceback
+
             console.print(traceback.format_exc())
         raise typer.Exit(1)
 
@@ -160,12 +162,10 @@ def _output_json(result, snapshot):
 
 def _output_rich(result, snapshot, verbose: bool = False):
     """Output results in rich text format."""
-    from rich.table import Table
 
     console.print()
     console.print(
-        f"[bold cyan]Analysis Complete[/bold cyan] - "
-        f"{snapshot.file_count} files analyzed"
+        f"[bold cyan]Analysis Complete[/bold cyan] - {snapshot.file_count} files analyzed"
     )
     console.print()
 
@@ -177,9 +177,7 @@ def _output_rich(result, snapshot, verbose: bool = False):
 
     for i, finding in enumerate(result.findings, 1):
         severity_color = "red" if finding.severity > 0.7 else "yellow"
-        console.print(
-            f"[{severity_color}]{i}. {finding.title}[/{severity_color}]"
-        )
+        console.print(f"[{severity_color}]{i}. {finding.title}[/{severity_color}]")
         console.print(f"   Files: {', '.join(finding.files[:3])}")
         if len(finding.files) > 3:
             console.print(f"   ... and {len(finding.files) - 3} more")

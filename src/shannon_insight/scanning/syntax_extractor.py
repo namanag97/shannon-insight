@@ -27,8 +27,8 @@ from typing import TYPE_CHECKING
 
 from .fallback import RegexFallbackScanner
 from .languages import detect_language
-from .syntax import FileSyntax
 from .normalizer import TreeSitterNormalizer
+from .syntax import FileSyntax
 from .treesitter_parser import TREE_SITTER_AVAILABLE
 
 if TYPE_CHECKING:

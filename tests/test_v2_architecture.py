@@ -437,13 +437,12 @@ class TestPipeline:
     """Pipeline must execute stages in order."""
 
     def test_runtime_context_exists(self):
-        from shannon_insight.session import AnalysisSession
 
         ctx = RuntimeContext(root="/repo")
         assert ctx.root == "/repo"
 
     def test_runtime_context_has_tier(self):
-        from shannon_insight.session import AnalysisSession, Tier
+        from shannon_insight.session import Tier
 
         ctx = RuntimeContext(root="/repo")
         assert ctx.tier in Tier
@@ -547,7 +546,6 @@ class TestFullPipeline:
 
     def test_pipeline_produces_fact_store(self, sample_codebase):
         """Pipeline should produce a populated FactStore."""
-        from shannon_insight.api import analyze
 
         result = run_pipeline(str(sample_codebase))
 
@@ -556,7 +554,6 @@ class TestFullPipeline:
 
     def test_pipeline_computes_signals(self, sample_codebase):
         """Pipeline should compute signals for all files."""
-        from shannon_insight.api import analyze
         from shannon_insight.infrastructure.signals import Signal
 
         result = run_pipeline(str(sample_codebase))
@@ -568,7 +565,6 @@ class TestFullPipeline:
 
     def test_pipeline_detects_findings(self, sample_codebase):
         """Pipeline should produce findings."""
-        from shannon_insight.api import analyze
 
         result = run_pipeline(str(sample_codebase))
 

@@ -2,7 +2,7 @@
 
 import pytest
 
-from shannon_insight.scanning.models_v2 import (
+from shannon_insight.scanning.syntax import (
     ClassDef,
     FileSyntax,
     FunctionDef,

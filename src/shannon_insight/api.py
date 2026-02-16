@@ -109,8 +109,7 @@ def analyze(
     result, snapshot = kernel.run(max_findings=config.max_findings)
 
     logger.info(
-        f"Analysis complete: {len(result.findings)} findings, "
-        f"{snapshot.file_count} files analyzed"
+        f"Analysis complete: {len(result.findings)} findings, {snapshot.file_count} files analyzed"
     )
 
     return result, snapshot

@@ -6,7 +6,7 @@ from shannon_insight.insights.finders import (
     DuplicateIncompleteFinder,
     IncompleteImplementationFinder,
 )
-from shannon_insight.insights.store_v2 import AnalysisStore, Slot
+from shannon_insight.insights.store import AnalysisStore, Slot
 from shannon_insight.signals.models import FileSignals, SignalField
 
 

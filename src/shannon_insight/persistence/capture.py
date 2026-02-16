@@ -10,9 +10,9 @@ from typing import Any, Optional
 
 from .. import __version__
 from ..cache import compute_config_hash
-from ..session import AnalysisSession
 from ..insights.models import InsightResult
 from ..insights.store import AnalysisStore
+from ..session import AnalysisSession
 from ..signals.models import FileSignals, GlobalSignals, ModuleSignals
 from .identity import compute_identity_key
 from .models import EvidenceRecord, FindingRecord, Snapshot, TensorSnapshot
@@ -495,6 +495,7 @@ def _get_commit_sha(repo_path: str) -> Optional[str]:
 def _compute_config_hash(session: AnalysisSession) -> str:
     """Compute a config hash from the session config for cache-key purposes."""
     from dataclasses import asdict
+
     config_dict = asdict(session.config)
     return compute_config_hash(config_dict)
 

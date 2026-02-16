@@ -120,6 +120,7 @@ class ScannerFactory:
                 config=cfg,
                 extensions=sorted(unknown_exts),
                 settings=self.settings,
+                file_paths=self.file_paths,
             )
             scanners.append((scanner, "universal"))
 
@@ -131,6 +132,7 @@ class ScannerFactory:
                 config=cfg,
                 extensions=list(DEFAULT_SOURCE_EXTENSIONS),
                 settings=self.settings,
+                file_paths=self.file_paths,
             )
             scanners.append((scanner, "universal"))
 

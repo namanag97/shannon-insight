@@ -6,6 +6,11 @@ fusion pipeline builder, threshold strategy, error taxonomy.
 These patterns are the foundation -- all feature code depends on them.
 """
 
+from shannon_insight.infrastructure.entities import (
+    Entity,
+    EntityId,
+    EntityType,
+)
 from shannon_insight.infrastructure.thresholds import (
     ThresholdCheck,
     compute_hotspot_median,
@@ -20,6 +25,9 @@ from shannon_insight.infrastructure.validation import (
 )
 
 __all__ = [
+    "Entity",
+    "EntityId",
+    "EntityType",
     "ThresholdCheck",
     "compute_hotspot_median",
     "is_hotspot",

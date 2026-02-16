@@ -78,7 +78,7 @@ def capture_snapshot(
 def capture_tensor_snapshot(
     store: AnalysisStore,
     result: InsightResult,
-    settings: AnalysisSettings,
+    session: AnalysisSession,
 ) -> TensorSnapshot:
     """Build an immutable V2 TensorSnapshot from the analysis store and result.
 
@@ -95,8 +95,8 @@ def capture_tensor_snapshot(
         The populated ``AnalysisStore`` blackboard.
     result:
         The ``InsightResult`` returned by the kernel.
-    settings:
-        The ``AnalysisSettings`` used for this run.
+    session:
+        The ``AnalysisSession`` with config and environment for this run.
 
     Returns
     -------

@@ -126,6 +126,45 @@ class AnalysisStore:
     # Maps relative path -> file content. Cleared after graph analysis completes.
     _content_cache: dict[str, str] = field(default_factory=dict, repr=False)
 
+    def __post_init__(self) -> None:
+        """Initialize the underlying FactStore for v2 bridge."""
+        self._fact_store = FactStore(root=self.root_dir)
+
+    @property
+    def fact_store(self) -> FactStore:
+        """Expose the underlying FactStore for v2 consumers."""
+        return self._fact_store
+
+    def _sync_entities(self) -> None:
+        """Sync file_metrics to FactStore entities.
+
+        Creates a FILE entity for each FileMetrics and sets the basic
+        scanning signals (LINES, FUNCTION_COUNT, CLASS_COUNT, IMPORT_COUNT).
+
+        This bridge enables v2 analyzers/finders to read from FactStore
+        while v1 code continues using the slot-based AnalysisStore.
+
+        Uses the actual FileMetrics field names:
+            - fm.functions  (not function_count)
+            - fm.structs    (not class_count)
+            - fm.imports    (list, len() for count)
+        """
+        for fm in self.file_metrics:
+            entity_id = EntityId(EntityType.FILE, fm.path)
+            entity = Entity(id=entity_id, metadata={})
+            self._fact_store.add_entity(entity)
+            # Set basic signals using actual FileMetrics field names
+            self._fact_store.set_signal(entity_id, Signal.LINES, fm.lines)
+            self._fact_store.set_signal(
+                entity_id, Signal.FUNCTION_COUNT, fm.functions
+            )
+            self._fact_store.set_signal(
+                entity_id, Signal.CLASS_COUNT, fm.structs
+            )
+            self._fact_store.set_signal(
+                entity_id, Signal.IMPORT_COUNT, len(fm.imports)
+            )
+
     def get_content(self, rel_path: str) -> str | None:
         """Get file content from cache or read from disk (caches result)."""
         if rel_path in self._content_cache:

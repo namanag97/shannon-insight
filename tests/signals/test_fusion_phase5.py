@@ -198,10 +198,10 @@ class TestPercentileFormula:
         assert pctl == 0.0
 
     def test_percentile_all_same_values(self):
-        """All same values gives 1.0 percentile."""
+        """All same values gives 100.0 percentile."""
         values = [3.0, 3.0, 3.0, 3.0]
         pctl = _standard_percentile(3.0, values)
-        assert pctl == 1.0
+        assert pctl == 100.0
 
 
 class TestEffectivePercentile:

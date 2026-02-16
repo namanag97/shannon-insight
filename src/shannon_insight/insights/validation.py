@@ -74,12 +74,11 @@ class PhaseValidationError(Exception):
 
 
 def validate_after_scanning(store: AnalysisStore) -> None:
-    """Validate store after scanner phase, before analyzers.
+    """Validate store after scanning phase, before analyzers.
 
     Checks:
-        - file_metrics has at least one file
-        - No duplicate paths in file_metrics
-        - file_syntax (if available) is subset of file_metrics paths
+        - file_syntax has at least one file
+        - No duplicate paths in file_syntax (dict keys guarantee this)
 
     Args:
         store: The analysis store after scanning
@@ -87,27 +86,12 @@ def validate_after_scanning(store: AnalysisStore) -> None:
     Raises:
         PhaseValidationError: If validation fails
     """
-    if not store.file_metrics:
+    if not store.file_syntax.available or not store.files:
         raise PhaseValidationError("Scanner produced 0 files")
 
-    # Check for duplicate paths
-    paths = [fm.path for fm in store.file_metrics]
-    path_set = set(paths)
-    if len(paths) != len(path_set):
-        dupes = [p for p in path_set if paths.count(p) > 1]
-        raise PhaseValidationError(
-            f"Duplicate paths in file_metrics: {dupes[:5]}{'...' if len(dupes) > 5 else ''}"
-        )
-
-    if store.file_syntax.available:
-        syntax_paths = set(store.file_syntax.value.keys())
-        extra = syntax_paths - path_set
-        if extra:
-            raise PhaseValidationError(
-                f"file_syntax has {len(extra)} paths not in file_metrics: "
-                f"{list(extra)[:5]}{'...' if len(extra) > 5 else ''}"
-            )
-        # Missing is OK -- some files may fail to parse
+    # Dict keys guarantee no duplicates, so we just verify count is positive
+    if store.file_count == 0:
+        raise PhaseValidationError("Scanner produced 0 files")
 
 
 def validate_after_structural(store: AnalysisStore) -> None:

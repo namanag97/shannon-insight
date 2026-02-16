@@ -98,45 +98,45 @@ class AnalysisEngine:
     def _measure_files(self, graph, ga: GraphAnalysis) -> dict[str, FileAnalysis]:
         results: dict[str, FileAnalysis] = {}
 
-        for fm in self.file_metrics:
-            fa = FileAnalysis(path=fm.path, lines=fm.lines)
+        for fs in self.file_syntax:
+            fa = FileAnalysis(path=fs.path, lines=fs.lines)
 
             # Construct-level measurements
-            fa.function_count = fm.functions
-            fa.nesting_depth = fm.nesting_depth
-            fa.max_function_size = max(fm.function_sizes) if fm.function_sizes else 0
+            fa.function_count = fs.function_count
+            fa.nesting_depth = fs.max_nesting
+            fa.max_function_size = max(fs.function_sizes) if fs.function_sizes else 0
 
             # Compression ratio (read file content)
-            content = self._read_file_content(fm.path)
+            content = self._read_file_content(fs.path)
             if content:
                 fa.compression_ratio = Compression.compression_ratio(content.encode("utf-8"))
 
             # Cognitive load with Gini
-            fa.cognitive_load = self._compute_cognitive_load(fm)
-            if fm.function_sizes and len(fm.function_sizes) > 1:
-                fa.function_size_gini = Gini.gini_coefficient(fm.function_sizes)
+            fa.cognitive_load = self._compute_cognitive_load(fs)
+            if fs.function_sizes and len(fs.function_sizes) > 1:
+                fa.function_size_gini = Gini.gini_coefficient(fs.function_sizes)
 
             # Graph-level measurements
-            fa.pagerank = ga.pagerank.get(fm.path, 0.0)
-            fa.betweenness = ga.betweenness.get(fm.path, 0.0)
-            fa.in_degree = ga.in_degree.get(fm.path, 0)
-            fa.out_degree = ga.out_degree.get(fm.path, 0)
-            fa.blast_radius_size = len(ga.blast_radius.get(fm.path, set()))
-            fa.community_id = ga.node_community.get(fm.path, -1)
+            fa.pagerank = ga.pagerank.get(fs.path, 0.0)
+            fa.betweenness = ga.betweenness.get(fs.path, 0.0)
+            fa.in_degree = ga.in_degree.get(fs.path, 0)
+            fa.out_degree = ga.out_degree.get(fs.path, 0)
+            fa.blast_radius_size = len(ga.blast_radius.get(fs.path, set()))
+            fa.community_id = ga.node_community.get(fs.path, -1)
 
             # Cycle membership
-            fa.cycle_member = any(fm.path in cycle.nodes for cycle in ga.cycles)
+            fa.cycle_member = any(fs.path in cycle.nodes for cycle in ga.cycles)
 
             # Direct dependencies
-            fa.depends_on = graph.adjacency.get(fm.path, [])
-            fa.depended_on_by = graph.reverse.get(fm.path, [])
+            fa.depends_on = graph.adjacency.get(fs.path, [])
+            fa.depended_on_by = graph.reverse.get(fs.path, [])
 
             # Phase 3 additions
-            fa.depth = ga.depth.get(fm.path, -1)
-            fa.is_orphan = ga.is_orphan.get(fm.path, False)
-            fa.phantom_import_count = len(graph.unresolved_imports.get(fm.path, []))
+            fa.depth = ga.depth.get(fs.path, -1)
+            fa.is_orphan = ga.is_orphan.get(fs.path, False)
+            fa.phantom_import_count = len(graph.unresolved_imports.get(fs.path, []))
 
-            results[fm.path] = fa
+            results[fs.path] = fa
 
         return results
 

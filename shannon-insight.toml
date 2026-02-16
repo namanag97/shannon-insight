@@ -1,37 +1,27 @@
 # Shannon Insight Configuration
-# This is an example configuration file showing all available settings
-
-# ==================== Anomaly Detection ====================
-
-# Z-score threshold for anomaly detection (0.0 - 10.0)
-# Higher values = fewer anomalies detected
-z_score_threshold = 1.5
+# Clean, simplified configuration matching new architecture
 
 # ==================== PageRank ====================
 
-# PageRank damping factor (0.0 - 1.0)
-# Standard value is 0.85
 pagerank_damping = 0.85
-
-# Maximum PageRank iterations (1 - 100)
 pagerank_iterations = 20
-
-# PageRank convergence tolerance
 pagerank_tolerance = 1e-6
 
-# ==================== Signal Fusion ====================
+# ==================== Performance ====================
 
-# Signal fusion weights [entropy, centrality, churn, coherence, cognitive]
-# Must have exactly 5 values that are non-negative
-# Will be automatically normalized to sum to 1.0
-fusion_weights = [0.2, 0.25, 0.2, 0.15, 0.2]
+# Parallel workers (omit to auto-detect from CPU cores)
+# workers = 4
 
-# Whether to normalize fusion weights
-fusion_normalize = true
+timeout_seconds = 10
+
+# ==================== Cache ====================
+
+cache_enabled = true
+cache_dir = ".shannon-cache"
+cache_ttl_hours = 24
 
 # ==================== File Filtering ====================
 
-# File patterns to exclude from analysis
 exclude_patterns = [
     "*_test.go",
     "*_test.ts",
@@ -41,53 +31,31 @@ exclude_patterns = [
     "node_modules/*",
     "dist/*",
     "build/*",
-    ".git/*"
+    ".git/*",
+    "venv/*",
+    ".venv/*",
+    "__pycache__/*",
 ]
 
-# Maximum file size in MB (0.0 - 100.0)
 max_file_size_mb = 10.0
-
-# Maximum number of files to analyze (1 - 100000)
 max_files = 10000
 
-# ==================== Performance ====================
+# ==================== Git Integration ====================
 
-# Number of parallel workers (auto-detect if not set, 1-32)
-# Comment out or omit to auto-detect from CPU cores
-# workers = 4
+git_max_commits = 5000
+git_min_commits = 10
 
-# Timeout for file operations in seconds (1 - 300)
-timeout_seconds = 10
+# ==================== Output ====================
 
-# ==================== Cache ====================
+max_findings = 50
+verbosity = "normal"  # quiet | normal | verbose
 
-# Enable caching for faster repeated analysis
-enable_cache = true
+# ==================== Features ====================
 
-# Cache directory path
-cache_dir = ".shannon-cache"
-
-# Cache time-to-live in hours (0 - 720)
-cache_ttl_hours = 24
-
-# ==================== Logging ====================
-
-# Enable verbose (DEBUG) logging
-verbose = false
-
-# Suppress all but ERROR logging
-quiet = false
-
-# Log file path (optional)
-# log_file = "shannon-insight.log"
+enable_validation = true
+enable_history = true
 
 # ==================== Security ====================
 
-# Allow analysis of hidden files (starting with .)
 allow_hidden_files = false
-
-# Block access to system directories (/etc, /sys, etc.)
-block_system_dirs = true
-
-# Follow symbolic links during scanning
 follow_symlinks = false

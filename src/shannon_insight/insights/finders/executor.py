@@ -109,9 +109,7 @@ def _pattern_available_in_tier(pattern: Pattern, tier: Tier) -> bool:
     """
     # Patterns that require percentiles skip in ABSOLUTE tier
     # These patterns check "pctl(X) > threshold"
-    requires_percentiles = any(
-        "pctl(" in pattern.condition or "percentile" in pattern.condition
-    )
+    requires_percentiles = "pctl(" in pattern.condition or "percentile" in pattern.condition
 
     if tier == Tier.ABSOLUTE and requires_percentiles:
         return False

@@ -137,39 +137,6 @@ class AnalysisEngine:
 
         return results
 
-    def _compute_cognitive_load(self, fs: FileSyntax) -> float:
-        """Cognitive load: weighted sum of complexity factors.
-
-        Based on research on code comprehension difficulty:
-        - Lines of code (log-scaled, diminishing returns)
-        - Cyclomatic complexity (decision points to track)
-        - Nesting depth (working memory load)
-        - Function count (context switches)
-        - Gini inequality (god functions harder to understand)
-
-        Formula: log2(lines+1) * (1 + complexity/10) * (1 + nesting/5) * (1 + gini)
-
-        Output is typically 0-50 for normal files, 50-100 for complex files.
-        """
-        import math
-
-        # Log-scaled lines (1000 lines = ~10, 100 lines = ~7)
-        lines_factor = math.log2(fs.lines + 1) if fs.lines > 0 else 0
-
-        # Complexity factor: average cyclomatic complexity
-        # complexity is average per function
-        complexity_factor = 1 + fs.complexity / 10
-
-        # Nesting penalty: deep nesting is hard to follow
-        nesting_factor = 1 + fs.max_nesting / 5
-
-        # Gini penalty: unequal function sizes suggest god functions
-        gini = 0.0
-        if fs.function_sizes and len(fs.function_sizes) > 1:
-            gini = Gini.gini_coefficient(fs.function_sizes)
-        gini_factor = 1 + gini
-
-        return lines_factor * complexity_factor * nesting_factor * gini_factor
 
     def _read_file_content(self, rel_path: str) -> Optional[str]:
         """Read file content from cache or disk."""

@@ -29,7 +29,7 @@ import { CATEGORY_ORDER, CATEGORY_LABELS, SEVERITY_LEVELS } from "../../utils/co
 import { sevKey } from "../../utils/helpers.js";
 
 
-export function IssuesScreenV2() {
+export function IssuesScreen() {
   const data = useStore((s) => s.data);
   const issueTab = useStore((s) => s.issueTab);
   const issueSortKey = useStore((s) => s.issueSortKey);

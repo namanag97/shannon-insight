@@ -7,6 +7,9 @@ from pathlib import Path
 
 from ...graph.clone_detection import detect_clones
 from ...graph.engine import AnalysisEngine
+from ...infrastructure.entities import EntityId, EntityType
+from ...infrastructure.relations import Relation, RelationType
+from ...infrastructure.signals import Signal
 from ...logging_config import get_logger
 from ..store_v2 import AnalysisStore
 
@@ -31,6 +34,9 @@ class StructuralAnalyzer:
         result = engine.run()
         store.structural.set(result, produced_by=self.name)
         logger.debug(f"Structural analysis: {result.total_files} files, {result.total_edges} edges")
+
+        # Sync structural signals to FactStore
+        self._sync_to_fact_store(store, result)
 
         # Phase 3: Clone detection via NCD
         self._detect_clones(store)

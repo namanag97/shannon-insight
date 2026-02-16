@@ -135,7 +135,7 @@ LANGUAGES = {
         complexity_keywords=["if", "elif", "else", "for", "while", "except", "and", "or", "with"],
         complexity_operators=[],
         nesting_mode="indent",
-        struct_patterns=[r"\bclass\s+\w+"],
+        struct_patterns=[r"^\s*class\s+\w+"],
         skip_dirs=(
             "venv",
             ".venv",

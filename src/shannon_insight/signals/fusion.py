@@ -94,7 +94,7 @@ class FusionPipeline:
         for path, syntax in file_syntax.items():
             fs = FileSignals(path=path)
             self._fill_from_syntax(fs, syntax)
-            self._fill_from_graph(fs)
+            self._fill_from_graph(fs, syntax)  # Pass syntax for cognitive_load
             self._fill_from_semantics(fs)
             self._fill_from_temporal(fs)
             self.field.per_file[path] = fs

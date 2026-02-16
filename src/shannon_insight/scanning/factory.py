@@ -1,6 +1,7 @@
 """Scanner factory — resolves language setting to scanner instances."""
 
 from pathlib import Path
+from typing import Optional
 
 from ..config import AnalysisConfig
 from ..logging_config import get_logger

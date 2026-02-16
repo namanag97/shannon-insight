@@ -437,13 +437,13 @@ class TestPipeline:
     """Pipeline must execute stages in order."""
 
     def test_runtime_context_exists(self):
-        from shannon_insight.infrastructure.runtime import RuntimeContext
+        from shannon_insight.session import AnalysisSession
 
         ctx = RuntimeContext(root="/repo")
         assert ctx.root == "/repo"
 
     def test_runtime_context_has_tier(self):
-        from shannon_insight.infrastructure.runtime import RuntimeContext, Tier
+        from shannon_insight.session import AnalysisSession, Tier
 
         ctx = RuntimeContext(root="/repo")
         assert ctx.tier in Tier

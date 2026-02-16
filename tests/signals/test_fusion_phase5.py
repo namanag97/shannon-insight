@@ -198,7 +198,7 @@ class TestTierDetection:
     def test_absolute_tier_under_15_files(self):
         """< 15 files -> ABSOLUTE tier."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(10)]
+        _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(10)])
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "ABSOLUTE"
 

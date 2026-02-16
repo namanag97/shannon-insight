@@ -175,22 +175,22 @@ class TestPercentileFormula:
         """Percentile formula uses <= not <."""
         # Values: [1, 2, 3, 4, 5]
         # For value 3: count of values <= 3 is 3
-        # pctl = 3/5 = 0.6
+        # pctl = (3/5) * 100 = 60.0
         values = [1.0, 2.0, 3.0, 4.0, 5.0]
         pctl = _standard_percentile(3.0, values)
-        assert pctl == 0.6
+        assert pctl == 60.0
 
     def test_percentile_minimum_value(self):
         """Minimum value has non-zero percentile."""
         values = [1.0, 2.0, 3.0, 4.0, 5.0]
         pctl = _standard_percentile(1.0, values)
-        assert pctl == 0.2  # 1/5
+        assert pctl == 20.0  # (1/5) * 100
 
     def test_percentile_maximum_value(self):
-        """Maximum value has 1.0 percentile."""
+        """Maximum value has 100.0 percentile."""
         values = [1.0, 2.0, 3.0, 4.0, 5.0]
         pctl = _standard_percentile(5.0, values)
-        assert pctl == 1.0
+        assert pctl == 100.0
 
     def test_percentile_empty_list(self):
         """Empty list returns 0.0."""

@@ -226,7 +226,7 @@ class TestTierDetection:
     def test_boundary_15_is_bayesian(self):
         """15 files is BAYESIAN."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(15)]
+        _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(15)])
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "BAYESIAN"
 

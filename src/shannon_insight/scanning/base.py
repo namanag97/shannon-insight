@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Optional
 
-from ..config import AnalysisConfig, default_settings
+from ..config import AnalysisConfig, AnalysisConfig()
 from ..exceptions import FileAccessError, ParsingError
 from ..file_ops import should_skip_file
 from ..logging_config import get_logger
@@ -29,7 +29,7 @@ class BaseScanner(ABC):
         """
         self.root_dir = Path(root_dir)
         self.extensions = extensions
-        self.settings = settings or default_settings
+        self.settings = settings or AnalysisConfig()
         logger.debug(f"Initialized {self.__class__.__name__} for {self.root_dir}")
 
     def scan(self) -> list[FileMetrics]:

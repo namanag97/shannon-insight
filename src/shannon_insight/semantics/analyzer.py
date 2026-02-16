@@ -7,6 +7,7 @@ Produces FileSemantics for each file in the codebase:
 - Completeness metrics
 
 Writes to store.semantics and store.roles slots.
+Also writes semantic signals to FactStore.
 """
 
 from __future__ import annotations
@@ -14,10 +15,13 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
+from ..infrastructure.entities import EntityId, EntityType
+from ..infrastructure.relations import Relation, RelationType
+from ..infrastructure.signals import Signal
 from .completeness import compute_completeness
 from .concepts import ConceptExtractor
 from .models import FileSemantics
-from .naming import compute_naming_drift
+from .naming import compute_naming_drift, cosine_similarity
 from .roles import classify_role
 
 if TYPE_CHECKING:

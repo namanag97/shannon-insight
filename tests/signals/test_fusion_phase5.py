@@ -12,7 +12,7 @@ Tests for:
 
 from shannon_insight.config import AnalysisConfig
 from shannon_insight.environment import Environment
-from shannon_insight.insights.store_v2 import AnalysisStore
+from shannon_insight.insights.store import AnalysisStore
 from shannon_insight.session import AnalysisSession
 from shannon_insight.signals.composites import compute_composites
 from shannon_insight.signals.display import to_display_scale
@@ -39,32 +39,95 @@ def _make_session(store):
     config = AnalysisConfig()
     env = Environment(
         root=store.root_dir or ".",
-        file_count=len(store.file_metrics),
+        file_count=store.file_count,
         is_git_repo=False,
     )
     return AnalysisSession(config=config, env=env)
 
 
-class MockFileMetrics:
-    """Mock FileMetrics for testing."""
+class MockFileSyntax:
+    """Mock FileSyntax for testing (has same interface as real FileSyntax)."""
 
     def __init__(
         self,
         path: str,
         lines: int = 100,
-        functions: int = 5,
-        structs: int = 1,
-        nesting_depth: int = 2,
+        function_count: int = 5,
+        class_count: int = 1,
+        max_nesting: int = 2,
         imports: list = None,
         function_sizes: list = None,
+        stub_ratio: float = 0.0,
+        impl_gini: float = 0.0,
+        tokens: int = 500,
+        complexity: float = 1.5,
+        import_count: int = 0,
     ):
         self.path = path
-        self.lines = lines
-        self.functions = functions
-        self.structs = structs
-        self.nesting_depth = nesting_depth
+        self._lines = lines
+        self._tokens = tokens
+        self._complexity = complexity
+        # Set as properties to match real FileSyntax
+        self.functions = []  # Empty list, function_count is property
+        self.classes = []    # Empty list, class_count is property
         self.imports = imports or []
-        self.function_sizes = function_sizes or [10, 20, 30]
+        self._function_count = function_count
+        self._class_count = class_count
+        self._max_nesting = max_nesting
+        self._function_sizes = function_sizes or [10, 20, 30]
+        self._stub_ratio = stub_ratio
+        self._impl_gini = impl_gini
+        self._import_count = import_count
+
+    @property
+    def lines(self) -> int:
+        return self._lines
+
+    @property
+    def tokens(self) -> int:
+        return self._tokens
+
+    @property
+    def complexity(self) -> float:
+        return self._complexity
+
+    @property
+    def function_count(self) -> int:
+        return self._function_count
+
+    @property
+    def class_count(self) -> int:
+        return self._class_count
+
+    @property
+    def max_nesting(self) -> int:
+        return self._max_nesting
+
+    @property
+    def function_sizes(self) -> list:
+        return self._function_sizes
+
+    @property
+    def stub_ratio(self) -> float:
+        return self._stub_ratio
+
+    @property
+    def impl_gini(self) -> float:
+        return self._impl_gini
+
+    @property
+    def import_count(self) -> int:
+        return self._import_count
+
+    @property
+    def import_sources(self) -> list:
+        return [i.source if hasattr(i, 'source') else str(i) for i in self.imports]
+
+
+def _set_file_syntax(store, mocks):
+    """Helper to set file_syntax from mock objects."""
+    d = {m.path: m for m in mocks}
+    store.file_syntax.set(d, "test")
 
 
 class MockFileAnalysis:

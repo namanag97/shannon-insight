@@ -11,6 +11,12 @@ from shannon_insight.infrastructure.entities import (
     EntityId,
     EntityType,
 )
+from shannon_insight.infrastructure.math import (
+    compute_bus_factor,
+    compute_entropy,
+    compute_gini,
+    compute_percentile,
+)
 from shannon_insight.infrastructure.thresholds import (
     ThresholdCheck,
     compute_hotspot_median,
@@ -28,6 +34,10 @@ __all__ = [
     "Entity",
     "EntityId",
     "EntityType",
+    "compute_bus_factor",
+    "compute_entropy",
+    "compute_gini",
+    "compute_percentile",
     "ThresholdCheck",
     "compute_hotspot_median",
     "is_hotspot",

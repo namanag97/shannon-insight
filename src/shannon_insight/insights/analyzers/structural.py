@@ -104,16 +104,16 @@ class StructuralAnalyzer:
 
         # Get file contents from cache or disk
         file_contents: dict[str, bytes] = {}
-        for fm in store.file_metrics:
+        for path in store.files:
             # Try cache first
-            content = store.get_content(fm.path)
+            content = store.get_content(path)
             if content is not None:
-                file_contents[fm.path] = content.encode("utf-8")
+                file_contents[path] = content.encode("utf-8")
             else:
                 # Fallback to disk read
                 try:
-                    full_path = root / fm.path
-                    file_contents[fm.path] = full_path.read_bytes()
+                    full_path = root / path
+                    file_contents[path] = full_path.read_bytes()
                 except OSError:
                     pass
 

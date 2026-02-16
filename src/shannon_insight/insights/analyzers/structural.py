@@ -41,6 +41,62 @@ class StructuralAnalyzer:
         # Phase 3: Clone detection via NCD
         self._detect_clones(store)
 
+    def _sync_to_fact_store(self, store: AnalysisStore, result) -> None:
+        """Sync structural analysis results to FactStore.
+
+        Writes per-file graph signals (PAGERANK, BETWEENNESS, IN_DEGREE,
+        OUT_DEGREE, BLAST_RADIUS_SIZE, COMMUNITY, DEPTH, IS_ORPHAN,
+        PHANTOM_IMPORT_COUNT, COMPRESSION_RATIO, COGNITIVE_LOAD) and
+        global signals (MODULARITY, CYCLE_COUNT, CENTRALITY_GINI).
+
+        Also writes IMPORTS relations for every dependency edge.
+        """
+        if not hasattr(store, "fact_store"):
+            return
+
+        fs = store.fact_store
+        ga = result.graph_analysis
+        graph = result.graph
+
+        # Per-file signals from graph analysis
+        for path, fa in result.files.items():
+            entity_id = EntityId(EntityType.FILE, path)
+            fs.set_signal(entity_id, Signal.PAGERANK, fa.pagerank)
+            fs.set_signal(entity_id, Signal.BETWEENNESS, fa.betweenness)
+            fs.set_signal(entity_id, Signal.IN_DEGREE, fa.in_degree)
+            fs.set_signal(entity_id, Signal.OUT_DEGREE, fa.out_degree)
+            fs.set_signal(entity_id, Signal.BLAST_RADIUS_SIZE, fa.blast_radius_size)
+            fs.set_signal(entity_id, Signal.COMMUNITY, fa.community_id)
+            fs.set_signal(entity_id, Signal.DEPTH, fa.depth)
+            fs.set_signal(entity_id, Signal.IS_ORPHAN, fa.is_orphan)
+            fs.set_signal(entity_id, Signal.PHANTOM_IMPORT_COUNT, fa.phantom_import_count)
+            fs.set_signal(entity_id, Signal.COMPRESSION_RATIO, fa.compression_ratio)
+            fs.set_signal(entity_id, Signal.COGNITIVE_LOAD, fa.cognitive_load)
+
+        # Global signals
+        codebase_id = EntityId(EntityType.CODEBASE, store.root_dir)
+        fs.set_signal(codebase_id, Signal.MODULARITY, result.modularity)
+        fs.set_signal(codebase_id, Signal.CYCLE_COUNT, result.cycle_count)
+        fs.set_signal(codebase_id, Signal.CENTRALITY_GINI, ga.centrality_gini)
+
+        # IMPORTS relations from dependency graph
+        for src, targets in graph.adjacency.items():
+            src_id = EntityId(EntityType.FILE, src)
+            for tgt in targets:
+                tgt_id = EntityId(EntityType.FILE, tgt)
+                fs.add_relation(
+                    Relation(
+                        type=RelationType.IMPORTS,
+                        source=src_id,
+                        target=tgt_id,
+                    )
+                )
+
+        logger.debug(
+            f"FactStore sync: {len(result.files)} files, "
+            f"{sum(len(t) for t in graph.adjacency.values())} IMPORTS relations"
+        )
+
     def _detect_clones(self, store: AnalysisStore) -> None:
         """Run NCD clone detection on file contents."""
         root = Path(store.root_dir) if store.root_dir else Path.cwd()

@@ -4,9 +4,8 @@
  */
 
 import useStore from "../../state/store.js";
-// Import v2 redesigned views
-import { FileListViewV2 as FileListView } from "./files/FileListView.v2.jsx";
-import { FileDetailViewV2 as FileDetailView } from "./files/FileDetailView.v2.jsx";
+import { FileListView } from "./files/FileListView.jsx";
+import { FileDetailView } from "./files/FileDetailView.jsx";
 
 export function FilesScreen() {
   const currentFileDetail = useStore((s) => s.currentFileDetail);

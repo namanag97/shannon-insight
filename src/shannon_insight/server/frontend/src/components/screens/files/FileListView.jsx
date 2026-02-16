@@ -31,7 +31,7 @@ const FILE_FILTER_CHIPS = [
   ["TEST", "Test"],
 ];
 
-export function FileListViewV2() {
+export function FileListView() {
   const data = useStore((s) => s.data);
   const fileSortKey = useStore((s) => s.fileSortKey);
   const fileSortAsc = useStore((s) => s.fileSortAsc);

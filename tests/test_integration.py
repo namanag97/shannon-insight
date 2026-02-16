@@ -15,7 +15,7 @@ def _make_kernel(path: str, **overrides) -> InsightKernel:
     config = AnalysisConfig(**overrides)
     env = discover_environment(Path(path))
     session = AnalysisSession(config=config, env=env)
-    return InsightKernel(session=session)
+    return _make_kernel(session=session)
 
 
 class TestSmokeTests:
@@ -23,7 +23,7 @@ class TestSmokeTests:
 
     def test_analyze_test_codebase(self):
         """Test analysis runs without errors on test codebase"""
-        kernel = InsightKernel("test_codebase", language="go")
+        kernel = _make_kernel("test_codebase", language="go")
         result, snapshot = kernel.run()
         assert result is not None
         assert snapshot is not None
@@ -208,13 +208,13 @@ class TestMultiLanguage:
                 "def save():\n    if True:\n        return\n"
             )
 
-            kernel = InsightKernel(tmpdir, language="auto")
+            kernel = _make_kernel(tmpdir, language="auto")
             result, snapshot = kernel.run()
             assert snapshot.file_count >= 6
 
     def test_explicit_language_still_works(self):
         """Specifying language should work"""
-        kernel = InsightKernel("test_codebase", language="go")
+        kernel = _make_kernel("test_codebase", language="go")
         result, snapshot = kernel.run()
         assert snapshot.file_count > 0
 
@@ -224,7 +224,7 @@ class TestInsightFindings:
 
     def test_findings_have_evidence(self):
         """Test that findings include evidence"""
-        kernel = InsightKernel("test_codebase", language="go")
+        kernel = _make_kernel("test_codebase", language="go")
         result, snapshot = kernel.run()
 
         for finding in result.findings:
@@ -235,7 +235,7 @@ class TestInsightFindings:
 
     def test_findings_are_ranked_by_severity(self):
         """Test findings are ordered by severity (descending)"""
-        kernel = InsightKernel("test_codebase", language="go")
+        kernel = _make_kernel("test_codebase", language="go")
         result, snapshot = kernel.run()
 
         if len(result.findings) >= 2:
@@ -244,7 +244,7 @@ class TestInsightFindings:
 
     def test_max_findings_respected(self):
         """Test max_findings parameter caps output"""
-        kernel = InsightKernel("test_codebase", language="go")
+        kernel = _make_kernel("test_codebase", language="go")
         result, snapshot = kernel.run(max_findings=3)
         assert len(result.findings) <= 3
 
@@ -254,7 +254,7 @@ class TestSnapshotCapture:
 
     def test_snapshot_has_metadata(self):
         """Test snapshot captures metadata"""
-        kernel = InsightKernel("test_codebase", language="go")
+        kernel = _make_kernel("test_codebase", language="go")
         result, snapshot = kernel.run()
 
         assert snapshot.file_count > 0
@@ -264,14 +264,14 @@ class TestSnapshotCapture:
 
     def test_snapshot_has_file_signals(self):
         """Test snapshot contains per-file signals"""
-        kernel = InsightKernel("test_codebase", language="go")
+        kernel = _make_kernel("test_codebase", language="go")
         result, snapshot = kernel.run()
 
         assert len(snapshot.file_signals) > 0
 
     def test_snapshot_findings_match_result(self):
         """Test snapshot findings correspond to result findings"""
-        kernel = InsightKernel("test_codebase", language="go")
+        kernel = _make_kernel("test_codebase", language="go")
         result, snapshot = kernel.run()
 
         assert len(snapshot.findings) == len(result.findings)
@@ -286,7 +286,7 @@ class TestErrorHandling:
             empty_dir = Path(tmpdir) / "empty"
             empty_dir.mkdir()
 
-            kernel = InsightKernel(str(empty_dir), language="go")
+            kernel = _make_kernel(str(empty_dir), language="go")
             result, snapshot = kernel.run()
             assert len(result.findings) == 0
             assert snapshot.file_count == 0

@@ -84,9 +84,7 @@ class FactStore:
         """Set a signal value for an entity."""
         self._signals.set(entity, signal, value)
 
-    def get_signal(
-        self, entity: EntityId, signal: Signal, default: Any = None
-    ) -> Any:
+    def get_signal(self, entity: EntityId, signal: Signal, default: Any = None) -> Any:
         """Get the latest signal value for an entity."""
         return self._signals.get(entity, signal, default)
 
@@ -102,20 +100,14 @@ class FactStore:
         """Add a relation to the graph."""
         self._relations.add(relation)
 
-    def has_relation(
-        self, source: EntityId, type: RelationType, target: EntityId
-    ) -> bool:
+    def has_relation(self, source: EntityId, type: RelationType, target: EntityId) -> bool:
         """Check if a specific relation exists."""
         return self._relations.has(source, type, target)
 
-    def outgoing(
-        self, entity: EntityId, type: Optional[RelationType] = None
-    ) -> list[Relation]:
+    def outgoing(self, entity: EntityId, type: Optional[RelationType] = None) -> list[Relation]:
         """Get outgoing relations from an entity."""
         return self._relations.outgoing(entity, type)
 
-    def incoming(
-        self, entity: EntityId, type: Optional[RelationType] = None
-    ) -> list[Relation]:
+    def incoming(self, entity: EntityId, type: RelationType | None = None) -> list[Relation]:
         """Get incoming relations to an entity."""
         return self._relations.incoming(entity, type)

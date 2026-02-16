@@ -73,7 +73,7 @@ __all__ = [
     "FunctionDef",
     "ClassDef",
     "ImportDecl",
-    # v2: Parsers
+    # Parsers
     "TREE_SITTER_AVAILABLE",
     "TreeSitterParser",
     "RegexFallbackScanner",

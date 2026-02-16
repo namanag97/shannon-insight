@@ -238,11 +238,13 @@ def load_config(config_file: Optional[Path] = None, **overrides) -> AnalysisConf
 
     # 4. CLI overrides (highest priority)
     # Convert verbosity boolean flags to string
-    if "verbose" in overrides and overrides["verbose"]:
-        overrides["verbosity"] = "verbose"
+    if "verbose" in overrides:
+        if overrides["verbose"]:
+            overrides["verbosity"] = "verbose"
         del overrides["verbose"]
-    if "quiet" in overrides and overrides["quiet"]:
-        overrides["verbosity"] = "quiet"
+    if "quiet" in overrides:
+        if overrides["quiet"]:
+            overrides["verbosity"] = "quiet"
         del overrides["quiet"]
 
     merged.update(overrides)

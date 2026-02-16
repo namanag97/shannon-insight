@@ -13,7 +13,7 @@ Usage in kernel:
         validate_signal_field,
     )
 
-    store.file_metrics = self._scan()
+    self._extract_syntax(store)  # Populates file_syntax
     validate_after_scanning(store)
 
     self._run_wave1_analyzers()

@@ -55,5 +55,9 @@ class SignalFusionAnalyzer:
         """
         from shannon_insight.signals.fusion import build
 
-        signal_field = build(store)
+        # Session is required for tier information
+        if store.session is None:
+            raise ValueError("AnalysisStore.session must be set before signal fusion")
+
+        signal_field = build(store, store.session)
         store.signal_field.set(signal_field, produced_by=self.name)

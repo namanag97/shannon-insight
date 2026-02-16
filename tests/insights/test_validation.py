@@ -96,7 +96,7 @@ class TestValidateAfterStructural:
     def test_passes_when_structural_not_available(self):
         """Passes when structural slot is not populated (graceful skip)."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         validate_after_structural(store)  # Should not raise
 
     def test_passes_with_consistent_graph(self):
@@ -110,7 +110,7 @@ class TestValidateAfterStructural:
     def test_passes_with_empty_graph(self):
         """Passes when graph has no nodes (subset of file_metrics)."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         graph = MockGraph(set())
         store.structural.set(MockCodebaseAnalysis(graph), "structural_analyzer")
         validate_after_structural(store)  # Should not raise
@@ -118,7 +118,7 @@ class TestValidateAfterStructural:
     def test_fails_with_orphan_nodes(self):
         """Fails when graph has nodes not in scanned files."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         graph = MockGraph({"/a.py", "/orphan.py"})
         store.structural.set(MockCodebaseAnalysis(graph), "structural_analyzer")
         with pytest.raises(PhaseValidationError, match="nodes not in scanned files"):
@@ -127,7 +127,7 @@ class TestValidateAfterStructural:
     def test_fails_with_multiple_orphan_nodes(self):
         """Reports count of orphan nodes."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         graph = MockGraph({"/a.py", "/orphan1.py", "/orphan2.py", "/orphan3.py"})
         store.structural.set(MockCodebaseAnalysis(graph), "structural_analyzer")
         with pytest.raises(PhaseValidationError, match="3 nodes"):
@@ -163,7 +163,7 @@ class TestValidateSignalField:
     def test_passes_when_signal_field_not_available(self):
         """Passes when signal_field slot is not populated."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         validate_signal_field(store)  # Should not raise
 
     def test_passes_with_matching_paths(self):
@@ -191,7 +191,7 @@ class TestValidateSignalField:
     def test_fails_with_extra_paths(self):
         """Fails when SignalField has extra files."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         sf = SignalField(
             per_file={
                 "/a.py": FileSignals(path="/a.py"),
@@ -205,7 +205,7 @@ class TestValidateSignalField:
     def test_fails_with_invalid_tier(self):
         """Fails when tier is not a valid value."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         sf = SignalField(tier="INVALID", per_file={"/a.py": FileSignals(path="/a.py")})
         store.signal_field.set(sf, "signal_fusion")
         with pytest.raises(PhaseValidationError, match="tier.*not valid"):
@@ -215,7 +215,7 @@ class TestValidateSignalField:
         """Passes with each valid tier value."""
         for tier in ("ABSOLUTE", "BAYESIAN", "FULL"):
             store = AnalysisStore()
-            store.file_metrics = [MockFileMetrics("/a.py")]
+            store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
             sf = SignalField(tier=tier, per_file={"/a.py": FileSignals(path="/a.py")})
             store.signal_field.set(sf, "signal_fusion")
             validate_signal_field(store)  # Should not raise
@@ -223,7 +223,7 @@ class TestValidateSignalField:
     def test_fails_with_nan_signal(self):
         """Fails when a signal has NaN value."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         fs = FileSignals(path="/a.py", pagerank=float("nan"))
         sf = SignalField(per_file={"/a.py": fs})
         store.signal_field.set(sf, "signal_fusion")
@@ -233,7 +233,7 @@ class TestValidateSignalField:
     def test_fails_with_inf_signal(self):
         """Fails when a signal has Inf value."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         fs = FileSignals(path="/a.py", cognitive_load=float("inf"))
         sf = SignalField(per_file={"/a.py": fs})
         store.signal_field.set(sf, "signal_fusion")
@@ -243,7 +243,7 @@ class TestValidateSignalField:
     def test_fails_with_negative_inf_signal(self):
         """Fails when a signal has -Inf value."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         fs = FileSignals(path="/a.py", risk_score=float("-inf"))
         sf = SignalField(per_file={"/a.py": fs})
         store.signal_field.set(sf, "signal_fusion")
@@ -253,7 +253,7 @@ class TestValidateSignalField:
     def test_fails_with_nan_percentile(self):
         """Fails when a percentile value is NaN."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         fs = FileSignals(path="/a.py", percentiles={"pagerank": float("nan")})
         sf = SignalField(per_file={"/a.py": fs})
         store.signal_field.set(sf, "signal_fusion")
@@ -263,7 +263,7 @@ class TestValidateSignalField:
     def test_fails_with_inf_percentile(self):
         """Fails when a percentile value is Inf."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         fs = FileSignals(path="/a.py", percentiles={"betweenness": float("inf")})
         sf = SignalField(per_file={"/a.py": fs})
         store.signal_field.set(sf, "signal_fusion")
@@ -273,7 +273,7 @@ class TestValidateSignalField:
     def test_passes_with_valid_numeric_signals(self):
         """Passes when all numeric signals are valid finite values."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         fs = FileSignals(
             path="/a.py",
             pagerank=0.05,
@@ -289,7 +289,7 @@ class TestValidateSignalField:
     def test_passes_with_zero_values(self):
         """Passes when signals are zero (valid finite value)."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         fs = FileSignals(path="/a.py")  # All defaults are 0
         sf = SignalField(per_file={"/a.py": fs})
         store.signal_field.set(sf, "signal_fusion")
@@ -316,7 +316,7 @@ class TestRunAllValidations:
     def test_returns_empty_for_valid_store(self):
         """Returns empty list when all validations pass."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py")}, "parser")
         errors = run_all_validations(store)
         assert errors == []
 

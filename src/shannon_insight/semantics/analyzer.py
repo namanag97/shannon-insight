@@ -161,3 +161,112 @@ class SemanticAnalyzer:
         counter = Counter(roles.values())
         parts = [f"{role}={count}" for role, count in counter.most_common(5)]
         return ", ".join(parts)
+
+    def _sync_to_fact_store(
+        self, store: AnalysisStore, semantics: dict[str, FileSemantics]
+    ) -> None:
+        """Sync semantic analysis results to FactStore.
+
+        Writes per-file semantic signals (CONCEPT_COUNT, CONCEPT_ENTROPY,
+        NAMING_DRIFT, TODO_DENSITY, DOCSTRING_COVERAGE, ROLE) and
+        SIMILAR_TO relations between semantically similar files.
+        """
+        if not hasattr(store, "fact_store"):
+            return
+
+        fs = store.fact_store
+
+        # Per-file semantic signals
+        for path, sem in semantics.items():
+            entity_id = EntityId(EntityType.FILE, path)
+            fs.set_signal(entity_id, Signal.CONCEPT_COUNT, sem.concept_count)
+            fs.set_signal(entity_id, Signal.CONCEPT_ENTROPY, sem.concept_entropy)
+            fs.set_signal(entity_id, Signal.NAMING_DRIFT, sem.naming_drift)
+            fs.set_signal(entity_id, Signal.TODO_DENSITY, sem.todo_density)
+            fs.set_signal(entity_id, Signal.DOCSTRING_COVERAGE, sem.docstring_coverage)
+            fs.set_signal(entity_id, Signal.ROLE, sem.role.value)
+
+        # SIMILAR_TO relations based on import fingerprint similarity
+        self._compute_similarity_relations(store, semantics)
+
+        logger.debug(f"FactStore sync: {len(semantics)} files with semantic signals")
+
+    def _compute_similarity_relations(
+        self, store: AnalysisStore, semantics: dict[str, FileSemantics]
+    ) -> None:
+        """Compute SIMILAR_TO relations between semantically similar files.
+
+        Uses import fingerprint cosine similarity. Only creates relations
+        for pairs with similarity >= 0.5.
+        """
+        fs = store.fact_store
+        paths = list(semantics.keys())
+
+        # Minimum similarity threshold for creating a relation
+        MIN_SIMILARITY = 0.5
+
+        # Compare all pairs (only compute once per pair)
+        for i, path_a in enumerate(paths):
+            sem_a = semantics[path_a]
+            if not sem_a.import_fingerprint:
+                continue
+
+            for path_b in paths[i + 1 :]:
+                sem_b = semantics[path_b]
+                if not sem_b.import_fingerprint:
+                    continue
+
+                # Compute cosine similarity between import fingerprints
+                similarity = self._fingerprint_similarity(
+                    sem_a.import_fingerprint, sem_b.import_fingerprint
+                )
+
+                if similarity >= MIN_SIMILARITY:
+                    file_a = EntityId(EntityType.FILE, path_a)
+                    file_b = EntityId(EntityType.FILE, path_b)
+
+                    # SIMILAR_TO is symmetric, but we only add it in one direction
+                    # to avoid duplicates
+                    fs.add_relation(
+                        Relation(
+                            type=RelationType.SIMILAR_TO,
+                            source=file_a,
+                            target=file_b,
+                            weight=similarity,
+                        )
+                    )
+
+    def _fingerprint_similarity(
+        self, fp_a: dict[str, float], fp_b: dict[str, float]
+    ) -> float:
+        """Compute cosine similarity between two import fingerprints.
+
+        Args:
+            fp_a: First import fingerprint (module -> weight)
+            fp_b: Second import fingerprint (module -> weight)
+
+        Returns:
+            Cosine similarity [0, 1]
+        """
+        if not fp_a or not fp_b:
+            return 0.0
+
+        # Get all unique modules
+        all_modules = set(fp_a.keys()) | set(fp_b.keys())
+
+        # Compute dot product and magnitudes
+        dot_product = 0.0
+        mag_a = 0.0
+        mag_b = 0.0
+
+        for module in all_modules:
+            a_val = fp_a.get(module, 0.0)
+            b_val = fp_b.get(module, 0.0)
+            dot_product += a_val * b_val
+            mag_a += a_val * a_val
+            mag_b += b_val * b_val
+
+        if mag_a == 0 or mag_b == 0:
+            return 0.0
+
+        return dot_product / (math.sqrt(mag_a) * math.sqrt(mag_b))

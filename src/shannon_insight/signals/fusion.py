@@ -133,8 +133,12 @@ class FusionPipeline:
         fs.impl_gini = syntax.impl_gini
         fs.stub_ratio = syntax.stub_ratio
 
-    def _fill_from_graph(self, fs: FileSignals) -> None:
-        """Fill IR3 graph signals from structural analysis."""
+    def _fill_from_graph(self, fs: FileSignals, syntax) -> None:
+        """Fill IR3 graph signals from structural analysis.
+
+        Also computes compression_ratio and cognitive_load here (signal layer)
+        instead of in graph layer.
+        """
         if not self.store.structural.available:
             return
 
@@ -153,8 +157,15 @@ class FusionPipeline:
             fs.is_orphan = fa.is_orphan
             fs.phantom_import_count = fa.phantom_import_count
             fs.community = fa.community_id
-            fs.compression_ratio = fa.compression_ratio
-            fs.cognitive_load = fa.cognitive_load
+
+        # Compute compression_ratio from cached content
+        content = self.store.get_content(path)
+        if content:
+            from shannon_insight.math.compression import Compression
+            fs.compression_ratio = Compression.compression_ratio(content.encode("utf-8"))
+
+        # Compute cognitive_load from syntax
+        fs.cognitive_load = self._compute_cognitive_load(syntax)
 
         # Re-compute is_orphan with role awareness (structural runs before semantics,
         # so the initial orphan detection has no role info).

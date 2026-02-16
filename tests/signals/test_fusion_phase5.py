@@ -219,7 +219,7 @@ class TestTierDetection:
     def test_boundary_14_is_absolute(self):
         """14 files is still ABSOLUTE."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(14)]
+        _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(14)])
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "ABSOLUTE"
 

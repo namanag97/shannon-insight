@@ -304,7 +304,7 @@ class InsightKernel:
 
         # Phase 5: Capture v2 snapshot (includes module signals, delta_h, architecture)
         _progress("Capturing snapshot...")
-        snapshot = capture_tensor_snapshot(store, result, self.session.config)
+        snapshot = capture_tensor_snapshot(store, result, self.session)
 
         return result, snapshot
 

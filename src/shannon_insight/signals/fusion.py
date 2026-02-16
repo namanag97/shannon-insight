@@ -79,21 +79,25 @@ class FusionPipeline:
         """Gather raw signals from all store slots into SignalField.
 
         Reads from:
-        - store.file_metrics (IR1 scanning)
+        - store.file_syntax (IR1 parsing via tree-sitter/regex)
         - store.structural (IR3 graph)
         - store.roles (IR2 role classification)
         - store.semantics (IR2 semantics)
         - store.churn (IR5t temporal)
         - store.architecture (IR4 modules)
         """
-        # Per-file signals
-        for fm in self.store.file_metrics:
-            fs = FileSignals(path=fm.path)
-            self._fill_from_scanning(fs, fm)
+        # Per-file signals from FileSyntax
+        if not self.store.file_syntax.available:
+            return _Collected(self.field, self.store)
+
+        file_syntax = self.store.file_syntax.value
+        for path, syntax in file_syntax.items():
+            fs = FileSignals(path=path)
+            self._fill_from_syntax(fs, syntax)
             self._fill_from_graph(fs)
             self._fill_from_semantics(fs)
             self._fill_from_temporal(fs)
-            self.field.per_file[fm.path] = fs
+            self.field.per_file[path] = fs
 
         # Fill hierarchical context (parent_dir, module_path, etc.)
         self._fill_hierarchy()

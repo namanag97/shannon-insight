@@ -111,10 +111,10 @@ def validate_after_structural(store: AnalysisStore) -> None:
         return  # Structural might have failed -- that's OK, finders will skip
 
     graph = store.structural.value.graph
-    metric_paths = {fm.path for fm in store.file_metrics}
+    file_paths = set(store.files.keys())
 
     # Every graph node must be a scanned file
-    orphan_nodes = graph.all_nodes - metric_paths
+    orphan_nodes = graph.all_nodes - file_paths
     if orphan_nodes:
         raise PhaseValidationError(
             f"Graph has {len(orphan_nodes)} nodes not in scanned files: "

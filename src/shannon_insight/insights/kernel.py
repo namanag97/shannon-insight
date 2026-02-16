@@ -51,19 +51,27 @@ def _run_with_timeout(func: Callable, timeout: float, name: str) -> None:
 
 
 class InsightKernel:
-    """Orchestrate analysis: scan -> analyze -> find -> rank."""
+    """Orchestrate analysis: scan -> analyze -> find -> rank.
+
+    The kernel executes the full analysis pipeline using an AnalysisSession
+    as the single source of truth for configuration and derived strategy.
+    """
 
     def __init__(
         self,
-        root_dir: str,
-        language: str = "auto",
-        settings: AnalysisSettings | None = None,
+        session: AnalysisSession,
         enable_persistence_finders: bool = False,
         debug_export_dir: str | Path | None = None,
     ):
-        self.root_dir = str(Path(root_dir).resolve())
-        self.language = language
-        self.session.config = settings or default_settings
+        """Initialize kernel with analysis session.
+
+        Args:
+            session: Analysis session with config, environment, and strategy
+            enable_persistence_finders: Enable database-backed finders
+            debug_export_dir: Optional debug export directory
+        """
+        self.session = session
+        self.root_dir = str(session.env.root)
         self._analyzers = get_default_analyzers()
         self._wave2_analyzers = get_wave2_analyzers()
         self._finders = get_default_finders()

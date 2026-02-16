@@ -107,3 +107,65 @@ class ArchitectureAnalyzer:
 
         # Sync to FactStore
         self._sync_to_fact_store(store, architecture)
+
+    def _sync_to_fact_store(self, store: AnalysisStore, architecture: Architecture) -> None:
+        """Sync architecture analysis results to FactStore.
+
+        Writes per-module signals (COHESION, COUPLING, INSTABILITY,
+        ABSTRACTNESS, MAIN_SEQ_DISTANCE, BOUNDARY_ALIGNMENT, FILE_COUNT),
+        global signal (VIOLATION_RATE), and relations (IN_MODULE, DEPENDS_ON).
+        """
+        if not hasattr(store, "fact_store"):
+            return
+
+        fs = store.fact_store
+
+        # Per-module signals
+        for module_name, module in architecture.modules.items():
+            mod_id = EntityId(EntityType.MODULE, module_name)
+
+            fs.set_signal(mod_id, Signal.COHESION, module.cohesion)
+            fs.set_signal(mod_id, Signal.COUPLING, module.coupling)
+            if module.instability is not None:
+                fs.set_signal(mod_id, Signal.INSTABILITY, module.instability)
+            fs.set_signal(mod_id, Signal.ABSTRACTNESS, module.abstractness)
+            fs.set_signal(mod_id, Signal.MAIN_SEQ_DISTANCE, module.main_seq_distance)
+            fs.set_signal(mod_id, Signal.BOUNDARY_ALIGNMENT, module.boundary_alignment)
+            fs.set_signal(mod_id, Signal.FILE_COUNT, float(module.file_count))
+
+        # Global signal: VIOLATION_RATE
+        codebase_id = EntityId(EntityType.CODEBASE, store.root_dir)
+        fs.set_signal(codebase_id, Signal.VIOLATION_RATE, architecture.violation_rate)
+
+        # IN_MODULE relations (File -> Module)
+        for module_name, module in architecture.modules.items():
+            mod_id = EntityId(EntityType.MODULE, module_name)
+            for file_path in module.files:
+                file_id = EntityId(EntityType.FILE, file_path)
+                fs.add_relation(
+                    Relation(
+                        type=RelationType.IN_MODULE,
+                        source=file_id,
+                        target=mod_id,
+                    )
+                )
+
+        # DEPENDS_ON relations (Module -> Module)
+        for src_module, targets in architecture.module_graph.items():
+            src_id = EntityId(EntityType.MODULE, src_module)
+            for tgt_module, edge_count in targets.items():
+                tgt_id = EntityId(EntityType.MODULE, tgt_module)
+                fs.add_relation(
+                    Relation(
+                        type=RelationType.DEPENDS_ON,
+                        source=src_id,
+                        target=tgt_id,
+                        weight=float(edge_count),
+                    )
+                )
+
+        logger.debug(
+            f"FactStore sync: {len(architecture.modules)} modules, "
+            f"{sum(len(module.files) for module in architecture.modules.values())} IN_MODULE relations, "
+            f"{sum(len(targets) for targets in architecture.module_graph.values())} DEPENDS_ON relations"
+        )

@@ -100,6 +100,9 @@ class SemanticAnalyzer:
         store.semantics.set(semantics, self.name)
         store.roles.set(roles, self.name)
 
+        # Sync semantic signals to FactStore
+        self._sync_to_fact_store(store, semantics)
+
         logger.info(
             f"SemanticAnalyzer: analyzed {len(semantics)} files, "
             f"roles: {self._summarize_roles(roles)}"

@@ -1,7 +1,5 @@
 """Unit tests for graph/builder.py and graph/algorithms.py."""
 
-from collections import Counter
-
 from shannon_insight.graph.algorithms import (
     _coarsen_graph,
     compute_blast_radius,
@@ -12,24 +10,18 @@ from shannon_insight.graph.algorithms import (
 )
 from shannon_insight.graph.builder import build_dependency_graph
 from shannon_insight.graph.models import DependencyGraph
-from shannon_insight.scanning.models import FileMetrics
+from shannon_insight.scanning.syntax import FileSyntax, ImportDecl
 
 
-def _fm(path: str, imports: list[str] | None = None) -> FileMetrics:
-    """Shortcut to build a minimal FileMetrics."""
-    return FileMetrics(
+def _fs(path: str, imports: list[str] | None = None) -> FileSyntax:
+    """Shortcut to build a minimal FileSyntax."""
+    import_decls = [ImportDecl(source=imp, names=[]) for imp in (imports or [])]
+    return FileSyntax(
         path=path,
-        lines=10,
-        tokens=50,
-        imports=imports or [],
-        exports=[],
-        functions=1,
-        interfaces=0,
-        structs=0,
-        complexity_score=1.0,
-        nesting_depth=1,
-        ast_node_types=Counter(),
-        last_modified=0.0,
+        functions=[],
+        classes=[],
+        imports=import_decls,
+        language="python",
     )
 
 

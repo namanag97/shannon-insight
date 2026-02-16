@@ -110,10 +110,12 @@ class InsightKernel:
 
         store = AnalysisStore(root_dir=self.root_dir, session=self.session)
 
-        # Phase 1: Scan files
+        # Phase 1: Extract syntax (reads files once, caches content)
+        # This replaces the old separate _scan() + _extract_syntax() steps.
+        # The SyntaxExtractor reads files once and caches content for later reuse.
         _progress("Scanning files...")
-        store.file_metrics = self._scan()
-        logger.info(f"Scanned {len(store.file_metrics)} files")
+        self._extract_syntax(store)
+        logger.info(f"Scanned {store.file_count} files")
 
         # Sync scanned files to FactStore as entities with basic signals
         store._sync_entities()
@@ -121,7 +123,7 @@ class InsightKernel:
         if self._debug_exporter:
             self._debug_exporter.export_scanning(store)
 
-        if not store.file_metrics:
+        if store.file_count == 0:
             empty_result = InsightResult(
                 findings=[],
                 store_summary=StoreSummary(),
@@ -129,10 +131,7 @@ class InsightKernel:
             empty_snapshot = capture_tensor_snapshot(store, empty_result, self.session)
             return empty_result, empty_snapshot
 
-        _progress(f"Parsing {len(store.file_metrics)} files...")
-
-        # Phase 1.5: Extract file_syntax for deep parsing
-        self._extract_syntax(store)
+        _progress(f"Parsing {store.file_count} files...")
 
         if self._debug_exporter:
             self._debug_exporter.export_syntax(store)

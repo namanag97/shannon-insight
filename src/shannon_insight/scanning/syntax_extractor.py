@@ -27,7 +27,7 @@ from typing import TYPE_CHECKING
 
 from .fallback import RegexFallbackScanner
 from .languages import detect_language
-from .models_v2 import FileSyntax
+from .syntax import FileSyntax
 from .normalizer import TreeSitterNormalizer
 from .treesitter_parser import TREE_SITTER_AVAILABLE
 

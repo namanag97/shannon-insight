@@ -99,7 +99,7 @@ export function SignalInspectorScreen() {
     );
   }
 
-  const inspectable = getInspectableSignals();
+  const inspectable = getInspectableSignals(data);
 
   // Extract values for the selected signal
   const entries = [];

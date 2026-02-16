@@ -22,12 +22,13 @@ class StructuralAnalyzer:
     provides: set[str] = {"structural", "clone_pairs"}
 
     def analyze(self, store: AnalysisStore) -> None:
-        if not store.file_metrics:
+        if not store.files:
             return
 
-        # Pass content getter for cached file reads (avoids re-reading from disk)
+        # Pass FileSyntax objects (store.files returns dict[path, FileSyntax])
+        # and content getter for cached file reads (avoids re-reading from disk)
         engine = AnalysisEngine(
-            store.file_metrics,
+            list(store.files.values()),
             root_dir=store.root_dir,
             content_getter=store.get_content,
         )

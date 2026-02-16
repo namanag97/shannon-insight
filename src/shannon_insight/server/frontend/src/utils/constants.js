@@ -131,6 +131,11 @@ export const SIGNAL_DESCRIPTIONS = {
   raw_risk: "Risk score before percentile normalization",
   concept_count: "Number of distinct semantic concepts identified",
   concept_entropy: "Diversity of semantic concepts in the file",
+
+  // API-level fields
+  health: "Display health score (1-10 scale, transformed from file_health_score)",
+  blast_radius: "How many files would be affected by changes to this file",
+  finding_count: "Total number of code quality findings for this file",
 };
 
 export const SIGNAL_CATEGORIES = [

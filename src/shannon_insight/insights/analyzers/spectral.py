@@ -82,6 +82,12 @@ class SpectralAnalyzer:
         )
         store.spectral.set(result, produced_by=self.name)
 
+        # Sync spectral signals to FactStore
+        if hasattr(store, "fact_store"):
+            codebase_id = EntityId(EntityType.CODEBASE, store.root_dir)
+            store.fact_store.set_signal(codebase_id, Signal.FIEDLER_VALUE, fiedler_value)
+            store.fact_store.set_signal(codebase_id, Signal.SPECTRAL_GAP, spectral_gap)
+
         logger.debug(f"Spectral analysis: Fiedler={fiedler_value:.4f}, components={num_components}")
 
     def _fiedler_largest_component(self, adjacency, all_nodes, np):

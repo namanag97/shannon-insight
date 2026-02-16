@@ -335,7 +335,8 @@ class InsightKernel:
         # Get file paths from environment (pre-discovered) or discover now
         if self.session.env.file_paths:
             # Use pre-discovered paths from environment (avoids redundant walk)
-            file_paths = [Path(p) for p in self.session.env.file_paths]
+            # Environment stores relative paths, convert to absolute for file reading
+            file_paths = [root / p for p in self.session.env.file_paths]
         else:
             # Fall back to factory-based discovery
             file_paths = self._discover_files()

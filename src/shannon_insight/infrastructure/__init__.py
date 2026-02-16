@@ -43,6 +43,9 @@ from shannon_insight.infrastructure.patterns import (
     Pattern,
     PatternScope,
 )
+from shannon_insight.infrastructure.store import (
+    FactStore,
+)
 from shannon_insight.infrastructure.validation import (
     PhaseValidationError,
     run_all_validations,

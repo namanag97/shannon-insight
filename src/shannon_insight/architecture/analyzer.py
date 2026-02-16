@@ -133,9 +133,9 @@ class ArchitectureAnalyzer:
             fs.set_signal(mod_id, Signal.BOUNDARY_ALIGNMENT, module.boundary_alignment)
             fs.set_signal(mod_id, Signal.FILE_COUNT, float(module.file_count))
 
-        # Global signal: VIOLATION_RATE
-        codebase_id = EntityId(EntityType.CODEBASE, store.root_dir)
-        fs.set_signal(codebase_id, Signal.VIOLATION_RATE, architecture.violation_rate)
+        # Note: violation_rate is stored in Architecture object and used by
+        # SignalFusionAnalyzer to compute architecture_health composite.
+        # It is NOT a standalone signal in the Signal enum.
 
         # IN_MODULE relations (File -> Module)
         for module_name, module in architecture.modules.items():

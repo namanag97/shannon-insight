@@ -9,7 +9,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Optional
 
-from ..config import AnalysisSettings
+from ..config import AnalysisConfig
 from ..exceptions import FileAccessError
 from ..logging_config import get_logger
 from .base import BaseScanner
@@ -87,7 +87,7 @@ class ConfigurableScanner(BaseScanner):
         root_dir: str,
         config: LanguageConfig,
         extensions: Optional[list[str]] = None,
-        settings: Optional[AnalysisSettings] = None,
+        settings: Optional[AnalysisConfig] = None,
     ):
         super().__init__(
             root_dir,

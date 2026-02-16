@@ -6,7 +6,7 @@ from typing import Callable, Optional
 
 from ..math.compression import Compression
 from ..math.gini import Gini
-from ..scanning.models import FileMetrics
+from ..scanning.syntax import FileSyntax
 from .algorithms import (
     compute_centrality_gini,
     compute_dag_depth,

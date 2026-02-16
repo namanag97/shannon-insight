@@ -121,14 +121,14 @@ class TestBuildFunction:
         """build() returns SignalField."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
-        result = build(store)
+        result = build(store, _make_session(store))
         assert isinstance(result, SignalField)
 
     def test_build_chains_all_steps(self):
         """build() chains all 6 steps correctly."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
-        field = build(store)
+        field = build(store, _make_session(store))
         # Should have the standard attributes
         assert hasattr(field, "tier")
         assert hasattr(field, "per_file")

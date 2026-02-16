@@ -9,7 +9,7 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, Any
 
-from .models_v2 import ClassDef, FileSyntax, FunctionDef, ImportDecl
+from .syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 from .queries import get_query
 from .treesitter_parser import TREE_SITTER_AVAILABLE, TreeSitterParser
 

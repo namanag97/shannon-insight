@@ -315,44 +315,30 @@ class InsightKernel:
 
         return result, snapshot
 
-    def _scan(self) -> list:
-        """Scan files using ScannerFactory."""
-        # Use detected languages from environment, fallback to Python
-        languages = (
-            list(self.session.env.detected_languages)
-            if self.session.env.detected_languages
-            else ["python"]
-        )
-        language = languages[0] if len(languages) == 1 else "auto"
-
-        # Pass pre-discovered file paths from environment to avoid redundant walks
-        factory = ScannerFactory(
-            Path(self.root_dir),
-            self.session.config,
-            file_paths=self.session.env.file_paths if self.session.env.file_paths else None,
-        )
-        scanners, detected = factory.create(language)
-
-        all_files = []
-        for scanner, lang in scanners:
-            if lang == "universal":
-                continue
-            all_files.extend(scanner.scan())
-
-        return all_files
-
     def _extract_syntax(self, store: AnalysisStore) -> None:
-        """Extract FileSyntax for all scanned files.
+        """Extract FileSyntax for all source files (single read pass).
 
-        Populates store.file_syntax slot with dict[path, FileSyntax].
-        Also populates store._content_cache for later reuse (avoids re-reading files).
+        This is the primary scanning phase. Files are:
+        1. Discovered using file paths from environment (or factory walk)
+        2. Read once and parsed into FileSyntax objects
+        3. Content cached for later reuse (compression ratio, clone detection)
+
+        Populates:
+        - store.file_syntax slot with dict[path, FileSyntax]
+        - store._content_cache for later reuse
+
         Uses tree-sitter if available, falls back to regex.
         """
         root = Path(self.root_dir)
         extractor = SyntaxExtractor()
 
-        # Get file paths from file_metrics
-        file_paths = [root / fm.path for fm in store.file_metrics]
+        # Get file paths from environment (pre-discovered) or discover now
+        if self.session.env.file_paths:
+            # Use pre-discovered paths from environment (avoids redundant walk)
+            file_paths = [Path(p) for p in self.session.env.file_paths]
+        else:
+            # Fall back to factory-based discovery
+            file_paths = self._discover_files()
 
         # Extract syntax and cache content for later reuse (e.g., compression ratio)
         file_syntax = extractor.extract_all(file_paths, root, content_cache=store._content_cache)
@@ -365,6 +351,55 @@ class InsightKernel:
             f"fallback: {extractor.fallback_count}, "
             f"cached: {len(store._content_cache)})"
         )
+
+    def _discover_files(self) -> list[Path]:
+        """Discover source files using ScannerFactory logic.
+
+        This is a fallback when environment doesn't have pre-discovered paths.
+        Returns absolute paths to source files.
+        """
+        from ..scanning import get_all_known_extensions
+        from ..scanning.languages import SKIP_DIRS
+
+        root = Path(self.root_dir)
+        known_exts = get_all_known_extensions()
+        file_paths: list[Path] = []
+        config = self.session.config
+
+        for p in root.rglob("*"):
+            if not p.is_file():
+                continue
+
+            # Skip excluded directories
+            if any(part in SKIP_DIRS for part in p.parts):
+                continue
+
+            # Skip based on exclusion patterns
+            from ..file_ops import should_skip_file
+
+            if should_skip_file(p, config.exclude_patterns):
+                continue
+
+            # Check extension
+            ext = p.suffix.lower()
+            if ext not in known_exts:
+                continue
+
+            # Check file size
+            try:
+                if p.stat().st_size > config.max_file_size_bytes:
+                    continue
+            except OSError:
+                continue
+
+            file_paths.append(p)
+
+            # Check file limit
+            if len(file_paths) >= config.max_files:
+                logger.warning(f"Reached max files limit ({config.max_files})")
+                break
+
+        return file_paths
 
     def _resolve_order(self) -> list:
         """Topologically sort analyzers by requires/provides.

@@ -78,6 +78,7 @@ class SyntaxExtractor:
         """
         try:
             content = file_path.read_text(encoding="utf-8", errors="replace")
+            mtime = file_path.stat().st_mtime
         except OSError as e:
             logger.debug(f"Cannot read {file_path}: {e}")
             return None
@@ -95,7 +96,7 @@ class SyntaxExtractor:
 
         # Try tree-sitter first
         if self._normalizer is not None:
-            syntax = self._normalizer.parse_file(content, rel_path, language)
+            syntax = self._normalizer.parse_file(content, rel_path, language, mtime)
             if syntax is not None:
                 with self._lock:
                     self.treesitter_count += 1
@@ -104,7 +105,7 @@ class SyntaxExtractor:
         # Fall back to regex
         with self._lock:
             self.fallback_count += 1
-        return self._fallback.parse(content, rel_path, language)
+        return self._fallback.parse(content, rel_path, language, mtime)
 
     def extract_all(
         self,

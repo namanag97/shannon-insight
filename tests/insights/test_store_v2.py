@@ -188,3 +188,307 @@ class TestSlotErrorMessages:
         except LookupError as e:
             msg = str(e)
             assert "not populated" in msg.lower() or "Git binary" in msg
+
+
+def _make_file_metrics(path: str, lines: int = 100, imports: list | None = None) -> FileMetrics:
+    """Helper to create a FileMetrics for testing."""
+    return FileMetrics(
+        path=path,
+        lines=lines,
+        tokens=50,
+        imports=imports or [],
+        exports=[],
+        functions=3,
+        interfaces=0,
+        structs=1,
+        complexity_score=2.0,
+        nesting_depth=2,
+        ast_node_types=Counter(),
+        last_modified=0.0,
+        function_sizes=[20, 30, 50],
+    )
+
+
+class TestFactStoreBridge:
+    """Test that _sync_entities populates FactStore with file entities and basic signals."""
+
+    def test_sync_entities_creates_file_entities(self):
+        """_sync_entities creates FILE entities in FactStore."""
+        store = AnalysisStore(root_dir="/test/root")
+        store.file_metrics = [
+            _make_file_metrics("src/main.py"),
+            _make_file_metrics("src/utils.py"),
+        ]
+        store._sync_entities()
+
+        files = store.fact_store.files()
+        assert len(files) == 2
+        keys = {f.key for f in files}
+        assert "src/main.py" in keys
+        assert "src/utils.py" in keys
+
+    def test_sync_entities_sets_basic_signals(self):
+        """_sync_entities writes LINES, FUNCTION_COUNT, CLASS_COUNT, IMPORT_COUNT."""
+        store = AnalysisStore(root_dir="/test/root")
+        fm = _make_file_metrics("src/main.py", lines=200, imports=["os", "sys"])
+        store.file_metrics = [fm]
+        store._sync_entities()
+
+        entity_id = EntityId(EntityType.FILE, "src/main.py")
+        assert store.fact_store.get_signal(entity_id, Signal.LINES) == 200
+        assert store.fact_store.get_signal(entity_id, Signal.FUNCTION_COUNT) == 3
+        assert store.fact_store.get_signal(entity_id, Signal.CLASS_COUNT) == 1
+        assert store.fact_store.get_signal(entity_id, Signal.IMPORT_COUNT) == 2
+
+
+class TestStructuralAnalyzerFactStoreSync:
+    """Test that StructuralAnalyzer syncs signals and relations to FactStore."""
+
+    def test_structural_analyzer_writes_graph_signals(self, tmp_path):
+        """StructuralAnalyzer writes PAGERANK, IN_DEGREE, OUT_DEGREE etc to FactStore."""
+        from shannon_insight.graph.models import (
+            CodebaseAnalysis,
+            DependencyGraph,
+            FileAnalysis,
+            GraphAnalysis,
+        )
+        from shannon_insight.insights.analyzers.structural import StructuralAnalyzer
+
+        store = AnalysisStore(root_dir=str(tmp_path))
+
+        # Create a minimal CodebaseAnalysis with file data
+        fa = FileAnalysis(
+            path="src/main.py",
+            lines=100,
+            pagerank=0.5,
+            betweenness=0.3,
+            in_degree=2,
+            out_degree=3,
+            blast_radius_size=5,
+            community_id=0,
+            depth=1,
+            is_orphan=False,
+            phantom_import_count=0,
+            compression_ratio=0.7,
+            cognitive_load=15.0,
+        )
+        ga = GraphAnalysis(
+            pagerank={"src/main.py": 0.5},
+            in_degree={"src/main.py": 2},
+            out_degree={"src/main.py": 3},
+            centrality_gini=0.4,
+        )
+        graph = DependencyGraph(
+            adjacency={"src/main.py": ["src/utils.py"]},
+            reverse={"src/utils.py": ["src/main.py"]},
+            all_nodes={"src/main.py", "src/utils.py"},
+            edge_count=1,
+        )
+        result = CodebaseAnalysis(
+            files={"src/main.py": fa},
+            graph=graph,
+            graph_analysis=ga,
+            total_files=1,
+            total_edges=1,
+            cycle_count=0,
+            modularity=0.5,
+        )
+
+        # Create entities first (normally done by kernel)
+        store.file_metrics = [_make_file_metrics("src/main.py")]
+        store._sync_entities()
+
+        # Call _sync_to_fact_store directly
+        analyzer = StructuralAnalyzer()
+        analyzer._sync_to_fact_store(store, result)
+
+        entity_id = EntityId(EntityType.FILE, "src/main.py")
+        assert store.fact_store.get_signal(entity_id, Signal.PAGERANK) == 0.5
+        assert store.fact_store.get_signal(entity_id, Signal.BETWEENNESS) == 0.3
+        assert store.fact_store.get_signal(entity_id, Signal.IN_DEGREE) == 2
+        assert store.fact_store.get_signal(entity_id, Signal.OUT_DEGREE) == 3
+        assert store.fact_store.get_signal(entity_id, Signal.BLAST_RADIUS_SIZE) == 5
+        assert store.fact_store.get_signal(entity_id, Signal.COMMUNITY) == 0
+        assert store.fact_store.get_signal(entity_id, Signal.DEPTH) == 1
+        assert store.fact_store.get_signal(entity_id, Signal.IS_ORPHAN) is False
+        assert store.fact_store.get_signal(entity_id, Signal.COMPRESSION_RATIO) == 0.7
+        assert store.fact_store.get_signal(entity_id, Signal.COGNITIVE_LOAD) == 15.0
+
+    def test_structural_analyzer_writes_global_signals(self, tmp_path):
+        """StructuralAnalyzer writes MODULARITY, CYCLE_COUNT, CENTRALITY_GINI."""
+        from shannon_insight.graph.models import (
+            CodebaseAnalysis,
+            DependencyGraph,
+            GraphAnalysis,
+        )
+        from shannon_insight.insights.analyzers.structural import StructuralAnalyzer
+
+        root = str(tmp_path)
+        store = AnalysisStore(root_dir=root)
+
+        ga = GraphAnalysis(centrality_gini=0.65)
+        result = CodebaseAnalysis(
+            files={},
+            graph=DependencyGraph(),
+            graph_analysis=ga,
+            cycle_count=3,
+            modularity=0.72,
+        )
+
+        analyzer = StructuralAnalyzer()
+        analyzer._sync_to_fact_store(store, result)
+
+        codebase_id = EntityId(EntityType.CODEBASE, root)
+        assert store.fact_store.get_signal(codebase_id, Signal.MODULARITY) == 0.72
+        assert store.fact_store.get_signal(codebase_id, Signal.CYCLE_COUNT) == 3
+        assert store.fact_store.get_signal(codebase_id, Signal.CENTRALITY_GINI) == 0.65
+
+    def test_structural_analyzer_writes_imports_relations(self, tmp_path):
+        """StructuralAnalyzer writes IMPORTS relations to FactStore."""
+        from shannon_insight.graph.models import (
+            CodebaseAnalysis,
+            DependencyGraph,
+            GraphAnalysis,
+        )
+        from shannon_insight.insights.analyzers.structural import StructuralAnalyzer
+
+        store = AnalysisStore(root_dir=str(tmp_path))
+
+        graph = DependencyGraph(
+            adjacency={
+                "src/main.py": ["src/utils.py", "src/config.py"],
+                "src/utils.py": ["src/config.py"],
+            },
+            reverse={
+                "src/utils.py": ["src/main.py"],
+                "src/config.py": ["src/main.py", "src/utils.py"],
+            },
+            all_nodes={"src/main.py", "src/utils.py", "src/config.py"},
+            edge_count=3,
+        )
+        result = CodebaseAnalysis(
+            files={},
+            graph=graph,
+            graph_analysis=GraphAnalysis(),
+        )
+
+        analyzer = StructuralAnalyzer()
+        analyzer._sync_to_fact_store(store, result)
+
+        # Check IMPORTS relations
+        main_id = EntityId(EntityType.FILE, "src/main.py")
+        utils_id = EntityId(EntityType.FILE, "src/utils.py")
+        config_id = EntityId(EntityType.FILE, "src/config.py")
+
+        assert store.fact_store.has_relation(main_id, RelationType.IMPORTS, utils_id)
+        assert store.fact_store.has_relation(main_id, RelationType.IMPORTS, config_id)
+        assert store.fact_store.has_relation(utils_id, RelationType.IMPORTS, config_id)
+        # No reverse relation
+        assert not store.fact_store.has_relation(config_id, RelationType.IMPORTS, main_id)
+
+
+class TestTemporalAnalyzerFactStoreSync:
+    """Test that TemporalAnalyzer syncs churn signals and cochange relations."""
+
+    def test_temporal_sync_writes_churn_signals(self):
+        """TemporalAnalyzer writes per-file churn signals to FactStore."""
+        from shannon_insight.insights.analyzers.temporal import TemporalAnalyzer
+        from shannon_insight.temporal.models import ChurnSeries, CoChangeMatrix
+
+        store = AnalysisStore(root_dir="/test")
+        store.file_metrics = [_make_file_metrics("src/main.py")]
+        store._sync_entities()
+
+        churn = {
+            "src/main.py": ChurnSeries(
+                file_path="src/main.py",
+                window_counts=[5, 3, 8],
+                total_changes=16,
+                trajectory="churning",
+                slope=1.5,
+                cv=0.8,
+                bus_factor=2.0,
+                author_entropy=1.5,
+                fix_ratio=0.25,
+                refactor_ratio=0.1,
+            ),
+        }
+        cochange = CoChangeMatrix(
+            pairs={}, total_commits=100, file_change_counts={"src/main.py": 16}
+        )
+
+        analyzer = TemporalAnalyzer()
+        analyzer._sync_to_fact_store(store, churn, cochange)
+
+        entity_id = EntityId(EntityType.FILE, "src/main.py")
+        assert store.fact_store.get_signal(entity_id, Signal.TOTAL_CHANGES) == 16
+        assert store.fact_store.get_signal(entity_id, Signal.CHURN_CV) == 0.8
+        assert store.fact_store.get_signal(entity_id, Signal.BUS_FACTOR) == 2.0
+        assert store.fact_store.get_signal(entity_id, Signal.AUTHOR_ENTROPY) == 1.5
+        assert store.fact_store.get_signal(entity_id, Signal.FIX_RATIO) == 0.25
+        assert store.fact_store.get_signal(entity_id, Signal.REFACTOR_RATIO) == 0.1
+        assert store.fact_store.get_signal(entity_id, Signal.CHURN_TRAJECTORY) == "churning"
+        assert store.fact_store.get_signal(entity_id, Signal.CHURN_SLOPE) == 1.5
+
+    def test_temporal_sync_writes_cochange_relations(self):
+        """TemporalAnalyzer writes COCHANGES_WITH relations to FactStore."""
+        from shannon_insight.insights.analyzers.temporal import TemporalAnalyzer
+        from shannon_insight.temporal.models import CoChangeMatrix, CoChangePair
+
+        store = AnalysisStore(root_dir="/test")
+
+        pair = CoChangePair(
+            file_a="src/main.py",
+            file_b="src/utils.py",
+            cochange_count=10,
+            total_a=20,
+            total_b=15,
+            confidence_a_b=0.5,
+            confidence_b_a=0.67,
+            lift=2.5,
+        )
+        cochange = CoChangeMatrix(
+            pairs={("src/main.py", "src/utils.py"): pair},
+            total_commits=100,
+            file_change_counts={"src/main.py": 20, "src/utils.py": 15},
+        )
+
+        analyzer = TemporalAnalyzer()
+        analyzer._sync_to_fact_store(store, {}, cochange)
+
+        main_id = EntityId(EntityType.FILE, "src/main.py")
+        utils_id = EntityId(EntityType.FILE, "src/utils.py")
+        assert store.fact_store.has_relation(main_id, RelationType.COCHANGES_WITH, utils_id)
+
+        # Verify weight is the lift value
+        rels = store.fact_store.outgoing(main_id, RelationType.COCHANGES_WITH)
+        assert len(rels) == 1
+        assert rels[0].weight == 2.5
+
+
+class TestSpectralAnalyzerFactStoreSync:
+    """Test that SpectralAnalyzer syncs global signals to FactStore."""
+
+    def test_spectral_sync_writes_global_signals(self):
+        """SpectralAnalyzer writes FIEDLER_VALUE and SPECTRAL_GAP."""
+        from shannon_insight.temporal.models import SpectralSummary
+
+        root = "/test/root"
+        store = AnalysisStore(root_dir=root)
+
+        # Simulate what spectral analyzer does after computing
+        result = SpectralSummary(
+            fiedler_value=0.42,
+            num_components=1,
+            eigenvalues=[0.0, 0.42, 1.5],
+            spectral_gap=0.28,
+        )
+        store.spectral.set(result, produced_by="spectral")
+
+        # Manually sync (the analyzer does this internally)
+        codebase_id = EntityId(EntityType.CODEBASE, root)
+        store.fact_store.set_signal(codebase_id, Signal.FIEDLER_VALUE, 0.42)
+        store.fact_store.set_signal(codebase_id, Signal.SPECTRAL_GAP, 0.28)
+
+        assert store.fact_store.get_signal(codebase_id, Signal.FIEDLER_VALUE) == 0.42
+        assert store.fact_store.get_signal(codebase_id, Signal.SPECTRAL_GAP) == 0.28

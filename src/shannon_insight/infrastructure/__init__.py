@@ -58,6 +58,7 @@ __all__ = [
     "Entity",
     "EntityId",
     "EntityType",
+    "FactStore",
     "compute_bus_factor",
     "compute_entropy",
     "compute_gini",

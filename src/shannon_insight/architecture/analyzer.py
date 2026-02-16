@@ -112,8 +112,11 @@ class ArchitectureAnalyzer:
         """Sync architecture analysis results to FactStore.
 
         Writes per-module signals (COHESION, COUPLING, INSTABILITY,
-        ABSTRACTNESS, MAIN_SEQ_DISTANCE, BOUNDARY_ALIGNMENT, FILE_COUNT),
-        global signal (VIOLATION_RATE), and relations (IN_MODULE, DEPENDS_ON).
+        ABSTRACTNESS, MAIN_SEQ_DISTANCE, BOUNDARY_ALIGNMENT, FILE_COUNT)
+        and relations (IN_MODULE, DEPENDS_ON).
+
+        Note: violation_rate is an intermediate term (not a standalone signal)
+        stored in Architecture.violation_rate for use in architecture_health composite.
         """
         if not hasattr(store, "fact_store"):
             return

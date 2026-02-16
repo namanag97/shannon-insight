@@ -1,5 +1,5 @@
 /**
- * ModulesScreen v2 - Redesigned with proper information architecture
+ * ModulesScreen - Redesigned with proper information architecture
  *
  * Information Priority:
  * 1. Summary Cards - Module health + architectural metrics (2-column grid)

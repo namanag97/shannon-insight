@@ -2,7 +2,7 @@
 
 import pytest
 
-from shannon_insight.signals.registry_v2 import (
+from shannon_insight.signals.registry import (
     REGISTRY,
     Signal,
     SignalMeta,

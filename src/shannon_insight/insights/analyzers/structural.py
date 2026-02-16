@@ -11,7 +11,7 @@ from ...infrastructure.entities import EntityId, EntityType
 from ...infrastructure.relations import Relation, RelationType
 from ...infrastructure.signals import Signal
 from ...logging_config import get_logger
-from ..store_v2 import AnalysisStore
+from ..store import AnalysisStore
 
 logger = get_logger(__name__)
 

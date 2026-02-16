@@ -31,7 +31,7 @@ from typing import TYPE_CHECKING
 from ..logging_config import get_logger
 
 if TYPE_CHECKING:
-    from shannon_insight.insights.store_v2 import AnalysisStore
+    from shannon_insight.insights.store import AnalysisStore
 
 logger = get_logger(__name__)
 

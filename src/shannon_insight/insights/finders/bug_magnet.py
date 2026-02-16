@@ -20,7 +20,7 @@ from ..helpers import compute_hotspot_median
 from ..models import Evidence, Finding, compute_confidence
 
 if TYPE_CHECKING:
-    from ..store_v2 import AnalysisStore
+    from ..store import AnalysisStore
 
 
 class BugMagnetFinder:

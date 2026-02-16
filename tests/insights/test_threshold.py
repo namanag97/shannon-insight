@@ -1,7 +1,7 @@
 """Tests for ThresholdCheck tier-aware threshold strategy."""
 
 from shannon_insight.insights.threshold import ThresholdCheck
-from shannon_insight.signals.registry_v2 import Signal
+from shannon_insight.signals.registry import Signal
 
 
 class MockFileSignals:

@@ -30,7 +30,7 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .insights.models import Finding
-    from .insights.store_v2 import AnalysisStore
+    from .insights.store import AnalysisStore
 
 
 def _safe_serialize(obj: Any) -> Any:

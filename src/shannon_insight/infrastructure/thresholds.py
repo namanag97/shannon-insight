@@ -24,7 +24,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from shannon_insight.signals.registry_v2 import REGISTRY, Signal
+from shannon_insight.signals.registry import REGISTRY, Signal
 
 if TYPE_CHECKING:
     from shannon_insight.signals.models import FileSignals, SignalField

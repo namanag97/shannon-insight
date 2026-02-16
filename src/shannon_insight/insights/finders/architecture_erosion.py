@@ -13,7 +13,7 @@ from ...persistence.queries import get_global_signal_time_series
 from ..models import Evidence, Finding
 
 if TYPE_CHECKING:
-    from ..store_v2 import AnalysisStore
+    from ..store import AnalysisStore
 
 
 class ArchitectureErosionFinder:

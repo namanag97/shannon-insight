@@ -22,7 +22,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from shannon_insight.insights.store_v2 import AnalysisStore
+    from shannon_insight.insights.store import AnalysisStore
 
 
 class SignalFusionAnalyzer:

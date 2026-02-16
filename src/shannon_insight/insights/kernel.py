@@ -15,7 +15,7 @@ from .analyzers import get_default_analyzers, get_wave2_analyzers
 from .finders import get_default_finders, get_persistence_finders
 from .kernel_toposort import resolve_analyzer_order
 from .models import InsightResult, StoreSummary
-from .store_v2 import AnalysisStore
+from .store import AnalysisStore
 from .validation import (
     PhaseValidationError,
     validate_after_scanning,

@@ -22,7 +22,7 @@ from .models import Architecture
 from .modules import detect_modules
 
 if TYPE_CHECKING:
-    from ..insights.store_v2 import AnalysisStore
+    from ..insights.store import AnalysisStore
 
 logger = get_logger(__name__)
 

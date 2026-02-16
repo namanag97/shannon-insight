@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 from ..models import Evidence, Finding, compute_confidence
 
 if TYPE_CHECKING:
-    from ..store_v2 import AnalysisStore
+    from ..store import AnalysisStore
 
 
 class FlatArchitectureFinder:

@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .models import Finding
-    from .store_v2 import AnalysisStore
+    from .store import AnalysisStore
 
 
 @dataclass

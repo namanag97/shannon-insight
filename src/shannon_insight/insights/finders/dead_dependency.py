@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 from ..models import Evidence, Finding
 
 if TYPE_CHECKING:
-    from ..store_v2 import AnalysisStore
+    from ..store import AnalysisStore
 
 _MIN_HISTORY_COMMITS = 50
 _MIN_CHANGES_PER_FILE = 3  # Require at least 3 changes to flag as dead

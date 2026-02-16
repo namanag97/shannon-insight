@@ -21,7 +21,7 @@ from shannon_insight.infrastructure.thresholds import (
     is_hotspot,
 )
 from shannon_insight.signals.models import FileSignals, SignalField
-from shannon_insight.signals.registry_v2 import REGISTRY, Signal
+from shannon_insight.signals.registry import REGISTRY, Signal
 
 # ── Fixtures ──────────────────────────────────────────────────────────
 

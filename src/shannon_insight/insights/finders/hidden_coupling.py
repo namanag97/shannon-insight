@@ -17,7 +17,7 @@ from ...math.statistics import Statistics
 from ..models import Evidence, Finding
 
 if TYPE_CHECKING:
-    from ..store_v2 import AnalysisStore
+    from ..store import AnalysisStore
 
 _MIN_LIFT = 2.0
 _MIN_CONFIDENCE = 0.5

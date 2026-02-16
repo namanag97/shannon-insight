@@ -1,10 +1,10 @@
-"""Protocol classes for v2 Analyzer and Finder plugins.
+"""Protocol classes for Analyzer and Finder plugins.
 
 Enhanced protocols with enterprise metadata for orchestration and graceful degradation.
 
 Analyzer Protocol:
     - name: Unique identifier
-    - api_version: "2.0" for v2 compatibility
+    - api_version: "2.0" for compatibility
     - requires: Slots that must be in store.available
     - provides: Slots this analyzer adds to store.available
     - run_last: If True, runs in Wave 2 (after all Wave 1 analyzers)
@@ -13,7 +13,7 @@ Analyzer Protocol:
 
 Finder Protocol:
     - name: Unique identifier
-    - api_version: "2.0" for v2 compatibility
+    - api_version: "2.0" for compatibility
     - requires: Signals/slots that must be available
     - error_mode: "fail" | "skip" | "degrade"
     - hotspot_filtered: If True, must also check total_changes > median
@@ -27,7 +27,7 @@ from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
     from shannon_insight.insights.models import Finding
-    from shannon_insight.insights.store_v2 import AnalysisStore
+    from shannon_insight.insights.store import AnalysisStore
 
 
 class Analyzer(Protocol):

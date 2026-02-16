@@ -35,7 +35,7 @@ from shannon_insight.signals.models import FileSignals, ModuleSignals, SignalFie
 from shannon_insight.signals.normalization import normalize
 
 if TYPE_CHECKING:
-    from shannon_insight.insights.store_v2 import AnalysisStore
+    from shannon_insight.insights.store import AnalysisStore
     from shannon_insight.session import AnalysisSession
 
 

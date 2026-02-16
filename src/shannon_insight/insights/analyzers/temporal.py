@@ -10,7 +10,7 @@ from ...infrastructure.signals import Signal
 from ...logging_config import get_logger
 from ...temporal import GitExtractor, build_churn_series, build_cochange_matrix
 from ...temporal.models import GitHistory
-from ..store_v2 import AnalysisStore
+from ..store import AnalysisStore
 
 logger = get_logger(__name__)
 

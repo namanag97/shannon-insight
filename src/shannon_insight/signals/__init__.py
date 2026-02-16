@@ -1,17 +1,24 @@
-"""Per-file quality signal computation (the 5 primitives)."""
+"""Signal registry and computation for Shannon Insight.
+
+Exports the Signal enum (62+ signals) and REGISTRY with metadata.
+"""
 
 from .registry import (
-    PRIMITIVE_REGISTRY,
-    PrimitiveDefinition,
-    default_weights,
-    get_definition,
-    get_registry,
+    REGISTRY,
+    Signal,
+    SignalMeta,
+    percentileable_signals,
+    register,
+    signals_by_phase,
+    signals_by_scope,
 )
 
 __all__ = [
-    "PrimitiveDefinition",
-    "PRIMITIVE_REGISTRY",
-    "get_registry",
-    "get_definition",
-    "default_weights",
+    "REGISTRY",
+    "Signal",
+    "SignalMeta",
+    "percentileable_signals",
+    "register",
+    "signals_by_phase",
+    "signals_by_scope",
 ]

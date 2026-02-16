@@ -12,7 +12,7 @@ from .. import __version__
 from ..cache import compute_config_hash
 from ..session import AnalysisSession
 from ..insights.models import InsightResult
-from ..insights.store_v2 import AnalysisStore
+from ..insights.store import AnalysisStore
 from ..signals.models import FileSignals, GlobalSignals, ModuleSignals
 from .identity import compute_identity_key
 from .models import EvidenceRecord, FindingRecord, Snapshot, TensorSnapshot

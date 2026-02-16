@@ -13,7 +13,7 @@ from ...persistence.queries import get_chronic_findings
 from ..models import Evidence, Finding
 
 if TYPE_CHECKING:
-    from ..store_v2 import AnalysisStore
+    from ..store import AnalysisStore
 
 
 class ChronicProblemFinder:

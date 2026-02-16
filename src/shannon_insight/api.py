@@ -110,7 +110,7 @@ def analyze(
 
     logger.info(
         f"Analysis complete: {len(result.findings)} findings, "
-        f"{snapshot.metadata.total_files} files analyzed"
+        f"{snapshot.file_count} files analyzed"
     )
 
     return result, snapshot

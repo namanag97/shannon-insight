@@ -47,9 +47,9 @@ class TemporalAnalyzer:
             )
             return
 
-        analyzed_files = {fm.path for fm in store.file_metrics}
+        analyzed_files = set(store.files.keys())
 
-        # Git log returns paths relative to repo root, but file_metrics paths
+        # Git log returns paths relative to repo root, but file paths
         # are relative to root_dir. Normalize git paths so they match.
         self._normalize_git_paths(history, store.root_dir)
 

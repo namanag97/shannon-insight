@@ -13,11 +13,9 @@ Structure:
 6. Pattern Tests
 """
 
-import pytest
 from enum import Enum
-from dataclasses import dataclass
-from typing import Optional, Any
 
+import pytest
 
 # =============================================================================
 # PART 1: ENTITY MODEL TESTS
@@ -103,17 +101,42 @@ class TestSignalEnum:
         from shannon_insight.infrastructure.signals import Signal
 
         per_file = [
-            "LINES", "FUNCTION_COUNT", "CLASS_COUNT", "MAX_NESTING",
-            "IMPL_GINI", "STUB_RATIO", "IMPORT_COUNT",
-            "ROLE", "CONCEPT_COUNT", "CONCEPT_ENTROPY", "NAMING_DRIFT",
-            "TODO_DENSITY", "DOCSTRING_COVERAGE",
-            "PAGERANK", "BETWEENNESS", "IN_DEGREE", "OUT_DEGREE",
-            "BLAST_RADIUS_SIZE", "DEPTH", "IS_ORPHAN",
-            "PHANTOM_IMPORT_COUNT", "BROKEN_CALL_COUNT", "COMMUNITY",
-            "COMPRESSION_RATIO", "SEMANTIC_COHERENCE", "COGNITIVE_LOAD",
-            "TOTAL_CHANGES", "CHURN_TRAJECTORY", "CHURN_SLOPE", "CHURN_CV",
-            "BUS_FACTOR", "AUTHOR_ENTROPY", "FIX_RATIO", "REFACTOR_RATIO",
-            "RISK_SCORE", "WIRING_QUALITY",
+            "LINES",
+            "FUNCTION_COUNT",
+            "CLASS_COUNT",
+            "MAX_NESTING",
+            "IMPL_GINI",
+            "STUB_RATIO",
+            "IMPORT_COUNT",
+            "ROLE",
+            "CONCEPT_COUNT",
+            "CONCEPT_ENTROPY",
+            "NAMING_DRIFT",
+            "TODO_DENSITY",
+            "DOCSTRING_COVERAGE",
+            "PAGERANK",
+            "BETWEENNESS",
+            "IN_DEGREE",
+            "OUT_DEGREE",
+            "BLAST_RADIUS_SIZE",
+            "DEPTH",
+            "IS_ORPHAN",
+            "PHANTOM_IMPORT_COUNT",
+            "BROKEN_CALL_COUNT",
+            "COMMUNITY",
+            "COMPRESSION_RATIO",
+            "SEMANTIC_COHERENCE",
+            "COGNITIVE_LOAD",
+            "TOTAL_CHANGES",
+            "CHURN_TRAJECTORY",
+            "CHURN_SLOPE",
+            "CHURN_CV",
+            "BUS_FACTOR",
+            "AUTHOR_ENTROPY",
+            "FIX_RATIO",
+            "REFACTOR_RATIO",
+            "RISK_SCORE",
+            "WIRING_QUALITY",
         ]
         for name in per_file:
             assert hasattr(Signal, name), f"Missing signal: {name}"
@@ -123,11 +146,21 @@ class TestSignalEnum:
         from shannon_insight.infrastructure.signals import Signal
 
         per_module = [
-            "COHESION", "COUPLING", "INSTABILITY", "ABSTRACTNESS",
-            "MAIN_SEQ_DISTANCE", "BOUNDARY_ALIGNMENT", "LAYER_VIOLATION_COUNT",
-            "ROLE_CONSISTENCY", "VELOCITY", "COORDINATION_COST",
-            "KNOWLEDGE_GINI", "MODULE_BUS_FACTOR", "MEAN_COGNITIVE_LOAD",
-            "FILE_COUNT", "HEALTH_SCORE",
+            "COHESION",
+            "COUPLING",
+            "INSTABILITY",
+            "ABSTRACTNESS",
+            "MAIN_SEQ_DISTANCE",
+            "BOUNDARY_ALIGNMENT",
+            "LAYER_VIOLATION_COUNT",
+            "ROLE_CONSISTENCY",
+            "VELOCITY",
+            "COORDINATION_COST",
+            "KNOWLEDGE_GINI",
+            "MODULE_BUS_FACTOR",
+            "MEAN_COGNITIVE_LOAD",
+            "FILE_COUNT",
+            "HEALTH_SCORE",
         ]
         for name in per_module:
             assert hasattr(Signal, name), f"Missing signal: {name}"
@@ -137,9 +170,17 @@ class TestSignalEnum:
         from shannon_insight.infrastructure.signals import Signal
 
         global_signals = [
-            "MODULARITY", "FIEDLER_VALUE", "SPECTRAL_GAP", "CYCLE_COUNT",
-            "CENTRALITY_GINI", "ORPHAN_RATIO", "PHANTOM_RATIO", "GLUE_DEFICIT",
-            "WIRING_SCORE", "ARCHITECTURE_HEALTH", "CODEBASE_HEALTH",
+            "MODULARITY",
+            "FIEDLER_VALUE",
+            "SPECTRAL_GAP",
+            "CYCLE_COUNT",
+            "CENTRALITY_GINI",
+            "ORPHAN_RATIO",
+            "PHANTOM_RATIO",
+            "GLUE_DEFICIT",
+            "WIRING_SCORE",
+            "ARCHITECTURE_HEALTH",
+            "CODEBASE_HEALTH",
         ]
         for name in global_signals:
             assert hasattr(Signal, name), f"Missing signal: {name}"
@@ -154,17 +195,22 @@ class TestSignalRegistry:
         assert isinstance(SIGNAL_REGISTRY, dict)
 
     def test_all_signals_registered(self):
-        from shannon_insight.infrastructure.signals import Signal, SIGNAL_REGISTRY
+        from shannon_insight.infrastructure.signals import SIGNAL_REGISTRY, Signal
 
         for signal in Signal:
             assert signal in SIGNAL_REGISTRY, f"Signal {signal} not in registry"
 
     def test_signal_spec_has_required_fields(self):
-        from shannon_insight.infrastructure.signals import Signal, SIGNAL_REGISTRY, SignalSpec
+        from shannon_insight.infrastructure.signals import SIGNAL_REGISTRY, SignalSpec
 
         required_fields = {
-            "signal", "scope", "dtype", "polarity", "phase",
-            "source", "percentileable",
+            "signal",
+            "scope",
+            "dtype",
+            "polarity",
+            "phase",
+            "source",
+            "percentileable",
         }
 
         for signal, spec in SIGNAL_REGISTRY.items():
@@ -180,11 +226,14 @@ class TestSignalRegistry:
 
     def test_percentileable_signals_correct(self):
         """Non-percentileable signals: role, churn_trajectory, is_orphan, community, depth."""
-        from shannon_insight.infrastructure.signals import Signal, SIGNAL_REGISTRY
+        from shannon_insight.infrastructure.signals import SIGNAL_REGISTRY, Signal
 
         non_percentileable = {
-            Signal.ROLE, Signal.CHURN_TRAJECTORY, Signal.IS_ORPHAN,
-            Signal.COMMUNITY, Signal.DEPTH,
+            Signal.ROLE,
+            Signal.CHURN_TRAJECTORY,
+            Signal.IS_ORPHAN,
+            Signal.COMMUNITY,
+            Signal.DEPTH,
         }
         for signal, spec in SIGNAL_REGISTRY.items():
             if signal in non_percentileable:
@@ -201,8 +250,8 @@ class TestSignalStore:
         assert store is not None
 
     def test_set_and_get(self):
-        from shannon_insight.infrastructure.signals import SignalStore, Signal
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.signals import Signal, SignalStore
 
         store = SignalStore()
         entity = EntityId(EntityType.FILE, "src/foo.py")
@@ -211,8 +260,8 @@ class TestSignalStore:
         assert store.get(entity, Signal.LINES) == 100
 
     def test_has_signal(self):
-        from shannon_insight.infrastructure.signals import SignalStore, Signal
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.signals import Signal, SignalStore
 
         store = SignalStore()
         entity = EntityId(EntityType.FILE, "src/foo.py")
@@ -222,8 +271,8 @@ class TestSignalStore:
         assert store.has(entity, Signal.LINES)
 
     def test_all_values_for_signal(self):
-        from shannon_insight.infrastructure.signals import SignalStore, Signal
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.signals import Signal, SignalStore
 
         store = SignalStore()
         e1 = EntityId(EntityType.FILE, "a.py")
@@ -256,8 +305,14 @@ class TestRelationTypes:
         from shannon_insight.infrastructure.relations import RelationType
 
         expected = {
-            "IMPORTS", "COCHANGES_WITH", "SIMILAR_TO", "AUTHORED_BY",
-            "IN_MODULE", "CONTAINS", "DEPENDS_ON", "CLONED_FROM",
+            "IMPORTS",
+            "COCHANGES_WITH",
+            "SIMILAR_TO",
+            "AUTHORED_BY",
+            "IN_MODULE",
+            "CONTAINS",
+            "DEPENDS_ON",
+            "CLONED_FROM",
         }
         actual = {r.name for r in RelationType}
         assert actual == expected, f"Missing: {expected - actual}, Extra: {actual - expected}"
@@ -267,8 +322,8 @@ class TestRelation:
     """Relation dataclass must work correctly."""
 
     def test_relation_creation(self):
-        from shannon_insight.infrastructure.relations import Relation, RelationType
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.relations import Relation, RelationType
 
         rel = Relation(
             type=RelationType.IMPORTS,
@@ -290,8 +345,8 @@ class TestRelationGraph:
         assert graph is not None
 
     def test_add_and_query(self):
-        from shannon_insight.infrastructure.relations import RelationGraph, Relation, RelationType
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.relations import Relation, RelationGraph, RelationType
 
         graph = RelationGraph()
         e1 = EntityId(EntityType.FILE, "a.py")
@@ -304,8 +359,8 @@ class TestRelationGraph:
         assert not graph.has(e2, RelationType.IMPORTS, e1)
 
     def test_outgoing_incoming(self):
-        from shannon_insight.infrastructure.relations import RelationGraph, Relation, RelationType
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.relations import Relation, RelationGraph, RelationType
 
         graph = RelationGraph()
         e1 = EntityId(EntityType.FILE, "a.py")
@@ -338,8 +393,8 @@ class TestFactStore:
         assert store is not None
 
     def test_fact_store_has_entities(self):
-        from shannon_insight.infrastructure.store import FactStore
         from shannon_insight.infrastructure.entities import Entity, EntityId, EntityType
+        from shannon_insight.infrastructure.store import FactStore
 
         store = FactStore(root="/repo")
         entity = Entity(EntityId(EntityType.FILE, "a.py"))
@@ -348,9 +403,9 @@ class TestFactStore:
         assert store.get_entity(entity.id) == entity
 
     def test_fact_store_has_signals(self):
-        from shannon_insight.infrastructure.store import FactStore
-        from shannon_insight.infrastructure.signals import Signal
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.signals import Signal
+        from shannon_insight.infrastructure.store import FactStore
 
         store = FactStore(root="/repo")
         entity = EntityId(EntityType.FILE, "a.py")
@@ -359,9 +414,9 @@ class TestFactStore:
         assert store.get_signal(entity, Signal.LINES) == 100
 
     def test_fact_store_has_relations(self):
-        from shannon_insight.infrastructure.store import FactStore
-        from shannon_insight.infrastructure.relations import Relation, RelationType
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.relations import Relation, RelationType
+        from shannon_insight.infrastructure.store import FactStore
 
         store = FactStore(root="/repo")
         e1 = EntityId(EntityType.FILE, "a.py")
@@ -419,26 +474,32 @@ class TestPatternModel:
     def test_pattern_has_required_fields(self):
         from shannon_insight.infrastructure.patterns import Pattern, PatternScope
 
-        # Pattern should be creatable with required fields
+        # Pattern should be creatable with required fields (canonical v2 model)
         pattern = Pattern(
             name="test_pattern",
             scope=PatternScope.FILE,
-            requires={"signals"},
-            predicate=lambda store, entity: True,
             severity=0.5,
+            requires={"signals"},
+            condition="test_signal > 0.5",
+            predicate=lambda store, entity: True,
+            severity_fn=lambda store, entity: 0.5,
+            evidence_fn=lambda store, entity: {"test": "evidence"},
             description="Test pattern",
             remediation="Fix it",
         )
         assert pattern.name == "test_pattern"
         assert pattern.scope == PatternScope.FILE
+        assert pattern.severity == 0.5
+        assert pattern.condition == "test_signal > 0.5"
+        assert pattern.hotspot_filtered is False  # default
 
 
 class TestFindingModel:
     """Finding model."""
 
     def test_finding_creation(self):
-        from shannon_insight.infrastructure.patterns import Finding, PatternScope
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.patterns import Finding, PatternScope
 
         finding = Finding(
             pattern="test_pattern",
@@ -452,8 +513,8 @@ class TestFindingModel:
         assert finding.confidence == 0.9
 
     def test_finding_has_stable_id(self):
-        from shannon_insight.infrastructure.patterns import Finding, PatternScope
         from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.patterns import Finding, PatternScope
 
         finding = Finding(
             pattern="god_file",
@@ -538,8 +599,8 @@ class TestMathFormulas:
         assert compute_gini([0, 0, 0]) == 0.0
 
     def test_shannon_entropy(self):
+
         from shannon_insight.infrastructure.math import compute_entropy
-        import math
 
         # Single value (certainty)
         assert compute_entropy({"a": 10}) == 0.0
@@ -597,9 +658,9 @@ class TestBackwardCompatibility:
     def test_old_finders_still_work(self):
         """Existing finders should still be importable."""
         from shannon_insight.insights.finders import (
-            HighRiskHubFinder,
-            HiddenCouplingFinder,
             GodFileFinder,
+            HiddenCouplingFinder,
+            HighRiskHubFinder,
         )
 
         assert HighRiskHubFinder is not None

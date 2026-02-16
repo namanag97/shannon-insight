@@ -16,6 +16,7 @@ from .languages import (
     get_all_known_extensions,
     get_language_config,
 )
+from .scanner import BINARY_EXTENSIONS, ConfigurableScanner
 from .syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 from .syntax_extractor import SyntaxExtractor
 from .treesitter_parser import TREE_SITTER_AVAILABLE, TreeSitterParser
@@ -29,6 +30,9 @@ __all__ = [
     "get_language_config",
     "get_all_known_extensions",
     "detect_language",
+    # Scanners
+    "ConfigurableScanner",
+    "BINARY_EXTENSIONS",
     # FileSyntax models
     "FileSyntax",
     "FunctionDef",

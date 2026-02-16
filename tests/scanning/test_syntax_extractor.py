@@ -5,9 +5,11 @@ from pathlib import Path
 
 import pytest
 
-from shannon_insight.scanning.models_v2 import FileSyntax
+from shannon_insight.scanning.syntax import FileSyntax
 from shannon_insight.scanning.syntax_extractor import SyntaxExtractor
-from shannon_insight.scanning.treesitter_parser import TREE_SITTER_AVAILABLE
+from shannon_insight.scanning.treesitter_parser import TREE_SITTER_AVAILABLE, get_supported_languages
+
+_PYTHON_SUPPORTED = TREE_SITTER_AVAILABLE and "python" in get_supported_languages()
 
 SAMPLE_PYTHON = '''
 """A sample Python module."""

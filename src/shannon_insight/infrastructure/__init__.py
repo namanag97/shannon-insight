@@ -31,6 +31,11 @@ from shannon_insight.infrastructure.runtime import (
     RuntimeContext,
     Tier,
 )
+from shannon_insight.infrastructure.patterns import (
+    Finding,
+    Pattern,
+    PatternScope,
+)
 from shannon_insight.infrastructure.validation import (
     PhaseValidationError,
     run_all_validations,
@@ -47,6 +52,9 @@ __all__ = [
     "compute_entropy",
     "compute_gini",
     "compute_percentile",
+    "Finding",
+    "Pattern",
+    "PatternScope",
     "Relation",
     "RelationGraph",
     "RelationType",

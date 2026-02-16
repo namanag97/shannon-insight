@@ -28,20 +28,20 @@ class AnalysisEngine:
 
     def __init__(
         self,
-        file_metrics: list[FileMetrics],
+        file_syntax: list[FileSyntax],
         root_dir: str = "",
         content_getter: Optional[Callable[[str], Optional[str]]] = None,
     ):
         """Initialize the analysis engine.
 
         Args:
-            file_metrics: List of FileMetrics from scanning
+            file_syntax: List of FileSyntax from scanning
             root_dir: Root directory for file resolution
             content_getter: Optional function(rel_path) -> str|None for cached content
         """
-        self.file_metrics = file_metrics
+        self.file_syntax = file_syntax
         self.root_dir = root_dir
-        self._file_map: dict[str, FileMetrics] = {f.path: f for f in file_metrics}
+        self._file_map: dict[str, FileSyntax] = {f.path: f for f in file_syntax}
         self._content_getter = content_getter
 
     def run(self) -> CodebaseAnalysis:

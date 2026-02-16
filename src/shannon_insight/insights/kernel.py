@@ -199,9 +199,9 @@ class InsightKernel:
 
         # Phase 3: Run patterns against FactStore
         _progress("Detecting issues...")
+        from shannon_insight.infrastructure.runtime import determine_tier
         from shannon_insight.insights.finders.executor import execute_patterns
         from shannon_insight.insights.finders.registry import ALL_PATTERNS
-        from shannon_insight.infrastructure.runtime import Tier, determine_tier
 
         # Determine tier from file count
         tier = determine_tier(len(store.file_metrics))
@@ -216,7 +216,8 @@ class InsightKernel:
         )
 
         # Convert v2 findings to v1 format for backward compatibility
-        from shannon_insight.insights.models import Evidence, Finding as V1Finding
+        from shannon_insight.insights.models import Evidence
+        from shannon_insight.insights.models import Finding as V1Finding
 
         findings = []
         for v2_f in v2_findings:
@@ -227,10 +228,18 @@ class InsightKernel:
                 files = [v2_f.target.key]
 
             # Convert evidence dict to Evidence objects
-            evidence = [
-                Evidence(signal=k, value=v, percentile=0.0, description=str(v))
-                for k, v in v2_f.evidence.items()
-            ]
+            # Handle both numeric and string values
+            evidence = []
+            for k, v in v2_f.evidence.items():
+                # Convert to float if possible, otherwise use 0.0 as placeholder
+                try:
+                    numeric_value = float(v) if not isinstance(v, str) else 0.0
+                except (ValueError, TypeError):
+                    numeric_value = 0.0
+
+                evidence.append(
+                    Evidence(signal=k, value=numeric_value, percentile=0.0, description=str(v))
+                )
 
             # Convert v2 Finding to v1 Finding
             v1_f = V1Finding(

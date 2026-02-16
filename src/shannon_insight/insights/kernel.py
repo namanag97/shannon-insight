@@ -6,7 +6,7 @@ import concurrent.futures
 from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Optional
 
-from ..config import AnalysisSettings, default_settings
+from ..session import AnalysisSession
 from ..logging_config import get_logger
 from ..persistence.models import TensorSnapshot
 from ..scanning.factory import ScannerFactory

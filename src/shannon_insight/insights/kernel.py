@@ -6,11 +6,11 @@ import concurrent.futures
 from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Optional
 
-from ..session import AnalysisSession
 from ..logging_config import get_logger
 from ..persistence.models import TensorSnapshot
 from ..scanning.factory import ScannerFactory
 from ..scanning.syntax_extractor import SyntaxExtractor
+from ..session import AnalysisSession
 from .analyzers import get_default_analyzers, get_wave2_analyzers
 from .finders import get_default_finders, get_persistence_finders
 from .kernel_toposort import resolve_analyzer_order
@@ -319,10 +319,19 @@ class InsightKernel:
     def _scan(self) -> list:
         """Scan files using ScannerFactory."""
         # Use detected languages from environment, fallback to Python
-        languages = list(self.session.env.detected_languages) if self.session.env.detected_languages else ["python"]
+        languages = (
+            list(self.session.env.detected_languages)
+            if self.session.env.detected_languages
+            else ["python"]
+        )
         language = languages[0] if len(languages) == 1 else "auto"
 
-        factory = ScannerFactory(Path(self.root_dir), self.session.config)
+        # Pass pre-discovered file paths from environment to avoid redundant walks
+        factory = ScannerFactory(
+            Path(self.root_dir),
+            self.session.config,
+            file_paths=self.session.env.file_paths if self.session.env.file_paths else None,
+        )
         scanners, detected = factory.create(language)
 
         all_files = []

@@ -52,7 +52,6 @@ from shannon_insight.infrastructure.validation import (
 )
 
 __all__ = [
-    "AnalysisResult",
     "Entity",
     "EntityId",
     "EntityType",
@@ -70,8 +69,7 @@ __all__ = [
     "ThresholdCheck",
     "compute_hotspot_median",
     "is_hotspot",
-    "RuntimeContext",
-    "Tier",
+    "Tier",  # Re-exported from session.py
     "Polarity",
     "Signal",
     "SignalSpec",
@@ -81,6 +79,5 @@ __all__ = [
     "run_all_validations",
     "validate_after_scanning",
     "validate_after_structural",
-    "run_pipeline",
     "validate_signal_field",
 ]

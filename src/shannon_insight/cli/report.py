@@ -5,9 +5,10 @@ from typing import Optional
 
 import typer
 
+from ..api import analyze
 from ..logging_config import setup_logging
 from . import app
-from ._common import console, resolve_settings
+from ._common import console
 
 
 @app.command()

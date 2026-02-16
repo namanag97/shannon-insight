@@ -60,7 +60,7 @@ class FactStore:
         """Register an entity in the store."""
         self._entities[entity.id] = entity
 
-    def get_entity(self, id: EntityId) -> Optional[Entity]:
+    def get_entity(self, id: EntityId) -> Entity | None:
         """Look up an entity by its EntityId. Returns None if not found."""
         return self._entities.get(id)
 

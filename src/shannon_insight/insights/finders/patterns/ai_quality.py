@@ -221,8 +221,12 @@ COPY_PASTE_CLONE = Pattern(
 def _flat_architecture_predicate(store: FactStore, entity: EntityId) -> bool:
     """Codebase has flat structure (max depth <= 1)."""
     # This is a CODEBASE-level pattern
-    # We check global signals
-    max_depth = store.get_signal(entity, Signal.MAX_DEPTH, 0)
+    # Compute max depth across all files
+    files = store.files()
+    depths = [store.get_signal(f, Signal.DEPTH, 0) for f in files]
+    max_depth = max(depths) if depths else 0
+
+    # Check glue_deficit (global signal)
     glue_deficit = store.get_signal(entity, Signal.GLUE_DEFICIT, 0)
 
     return max_depth <= 1 and glue_deficit > 0.5
@@ -235,8 +239,13 @@ def _flat_architecture_severity(store: FactStore, entity: EntityId) -> float:
 
 def _flat_architecture_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
     """Build evidence for FLAT_ARCHITECTURE."""
+    # Compute max depth
+    files = store.files()
+    depths = [store.get_signal(f, Signal.DEPTH, 0) for f in files]
+    max_depth = max(depths) if depths else 0
+
     return {
-        "max_depth": store.get_signal(entity, Signal.MAX_DEPTH, 0),
+        "max_depth": max_depth,
         "glue_deficit": store.get_signal(entity, Signal.GLUE_DEFICIT, 0),
         "orphan_ratio": store.get_signal(entity, Signal.ORPHAN_RATIO, 0),
     }
@@ -246,7 +255,7 @@ FLAT_ARCHITECTURE = Pattern(
     name="flat_architecture",
     scope=PatternScope.CODEBASE,
     severity=0.60,
-    requires={Signal.MAX_DEPTH.name, Signal.GLUE_DEFICIT.name},
+    requires={Signal.DEPTH.name, Signal.GLUE_DEFICIT.name},
     condition="max(depth) <= 1 AND glue_deficit > 0.5",
     predicate=_flat_architecture_predicate,
     severity_fn=_flat_architecture_severity,

@@ -11,10 +11,9 @@ from . import (
     get_all_known_extensions,
     get_language_config,
 )
+from .languages import SKIP_DIRS
 
 logger = get_logger(__name__)
-
-_SKIP_DIRS = {"venv", ".venv", "node_modules", "__pycache__", ".git", "dist", "build", "target"}
 
 _ALIASES = {
     "react": "typescript",

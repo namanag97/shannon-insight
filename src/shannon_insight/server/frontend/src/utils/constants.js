@@ -101,6 +101,8 @@ export const SIGNAL_DESCRIPTIONS = {
   docstring_coverage: "Fraction of functions with documentation",
   naming_drift: "Naming pattern inconsistency across identifiers",
   impl_gini: "How evenly code is distributed across functions (Gini coefficient)",
+  role: "Semantic role: ENTRY_POINT, MODEL, CONTROLLER, UTILITY, TEST, etc",
+  percentiles: "Percentile rankings (0-100) for all numeric signals",
 
   // Temporal / Churn
   total_changes: "How many times this file has been committed",

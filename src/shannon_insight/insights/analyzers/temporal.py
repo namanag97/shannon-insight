@@ -118,10 +118,10 @@ class TemporalAnalyzer:
 
     @staticmethod
     def _normalize_git_paths(history: GitHistory, root_dir: str) -> None:
-        """Strip repo-root prefix from git paths to match file_metrics paths.
+        """Strip repo-root prefix from git paths to match file paths.
 
         Git log returns paths relative to the repo root (e.g. src/pkg/foo.py),
-        but file_metrics paths are relative to root_dir (e.g. foo.py when
+        but file paths are relative to root_dir (e.g. foo.py when
         root_dir is <repo>/src/pkg). This strips the root_dir prefix.
         """
         # Find the git repo root

@@ -64,6 +64,9 @@ class TemporalAnalyzer:
         author_dists = compute_author_distances(history, analyzed_files)
         store.author_distances.set(author_dists, produced_by=self.name)
 
+        # Sync temporal signals to FactStore
+        self._sync_to_fact_store(store, churn, cochange)
+
         logger.debug(
             f"Temporal analysis: {history.total_commits} commits, "
             f"{len(cochange.pairs)} co-change pairs, "

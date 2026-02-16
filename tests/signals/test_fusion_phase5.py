@@ -846,12 +846,12 @@ class TestGlobalSignalsCollection:
     def test_orphan_ratio_computation(self):
         """orphan_ratio computed correctly."""
         store = AnalysisStore()
-        store.file_metrics = [
+        _set_file_syntax(store, [
             MockFileSyntax("/a.py"),
             MockFileSyntax("/b.py"),
             MockFileSyntax("/c.py"),
             MockFileSyntax("/d.py"),
-        ]
+        ])
 
         # Mock structural with some orphans
         structural = MockStructural()

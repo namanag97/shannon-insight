@@ -17,6 +17,11 @@ from shannon_insight.infrastructure.math import (
     compute_gini,
     compute_percentile,
 )
+from shannon_insight.infrastructure.relations import (
+    Relation,
+    RelationGraph,
+    RelationType,
+)
 from shannon_insight.infrastructure.thresholds import (
     ThresholdCheck,
     compute_hotspot_median,

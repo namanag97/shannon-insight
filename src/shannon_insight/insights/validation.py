@@ -134,7 +134,7 @@ def validate_signal_field(store: AnalysisStore) -> None:
     """Validate store after SignalFusion. The most critical validation.
 
     Checks:
-        - SignalField covers exactly the same files as file_metrics
+        - SignalField covers exactly the same files as file_syntax
         - No NaN or Inf values in numeric signal fields
         - Tier is a valid value
 
@@ -148,20 +148,20 @@ def validate_signal_field(store: AnalysisStore) -> None:
         return
 
     field = store.signal_field.value
-    metric_paths = {fm.path for fm in store.file_metrics}
+    file_paths = set(store.files.keys())
     signal_paths = set(field.per_file.keys())
 
-    missing = metric_paths - signal_paths
+    missing = file_paths - signal_paths
     if missing:
         raise PhaseValidationError(
             f"SignalField missing files: {len(missing)} files not covered. "
             f"Examples: {list(missing)[:5]}{'...' if len(missing) > 5 else ''}"
         )
 
-    extra = signal_paths - metric_paths
+    extra = signal_paths - file_paths
     if extra:
         raise PhaseValidationError(
-            f"SignalField has extra files: {len(extra)} files not in file_metrics. "
+            f"SignalField has extra files: {len(extra)} files not in file_syntax. "
             f"Examples: {list(extra)[:5]}{'...' if len(extra) > 5 else ''}"
         )
 

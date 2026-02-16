@@ -22,13 +22,14 @@ class RegexFallbackScanner:
     Results are approximate but sufficient for basic analysis.
     """
 
-    def parse(self, content: str, path: str, language: str) -> FileSyntax:
+    def parse(self, content: str, path: str, language: str, mtime: float = 0.0) -> FileSyntax:
         """Parse file content and return FileSyntax.
 
         Args:
             content: File content as string
             path: File path
             language: Detected language
+            mtime: Last modified timestamp
 
         Returns:
             FileSyntax with call_targets=None for all functions
@@ -38,6 +39,11 @@ class RegexFallbackScanner:
         imports = self._extract_imports(content, language)
         has_main = self._detect_main_guard(content, language)
 
+        # Compute cached metrics
+        lines = content.count("\n") + 1 if content else 0
+        tokens = self._count_tokens(content, language)
+        complexity = self._estimate_complexity(content, functions, language)
+
         return FileSyntax(
             path=path,
             functions=functions,
@@ -45,6 +51,10 @@ class RegexFallbackScanner:
             imports=imports,
             language=language,
             has_main_guard=has_main,
+            mtime=mtime,
+            _lines=lines,
+            _tokens=tokens,
+            _complexity=complexity,
         )
 
     def _extract_functions(self, content: str, language: str) -> list[FunctionDef]:

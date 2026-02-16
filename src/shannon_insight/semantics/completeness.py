@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 from .models import Completeness
 
 if TYPE_CHECKING:
-    from ..scanning.models_v2 import FileSyntax
+    from ..scanning.syntax import FileSyntax
 
 
 # TODO/FIXME/HACK patterns

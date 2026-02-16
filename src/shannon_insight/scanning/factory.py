@@ -26,9 +26,23 @@ _ALIASES = {
 class ScannerFactory:
     """Resolves a language setting into a list of (scanner, lang_name) tuples."""
 
-    def __init__(self, root_dir: Path, settings: AnalysisConfig):
+    def __init__(
+        self,
+        root_dir: Path,
+        settings: AnalysisConfig,
+        file_paths: Optional[tuple[Path, ...]] = None,
+    ):
+        """Initialize factory.
+
+        Args:
+            root_dir: Root directory to scan
+            settings: Analysis configuration
+            file_paths: Optional pre-discovered file paths (relative to root).
+                        If provided, avoids redundant filesystem walks.
+        """
         self.root_dir = root_dir
         self.settings = settings
+        self.file_paths = file_paths
 
     def create(self, language: str) -> tuple[list[tuple], list[str]]:
         """Return (scanners, detected_languages)."""
@@ -38,7 +52,12 @@ class ScannerFactory:
 
     def _mk(self, lang_name, display_name=None):
         cfg = get_language_config(lang_name)
-        scanner = ConfigurableScanner(str(self.root_dir), config=cfg, settings=self.settings)
+        scanner = ConfigurableScanner(
+            str(self.root_dir),
+            config=cfg,
+            settings=self.settings,
+            file_paths=self.file_paths,
+        )
         return (scanner, display_name or lang_name)
 
     def _explicit(self, language: str) -> tuple[list[tuple], list[str]]:

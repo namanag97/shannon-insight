@@ -303,3 +303,41 @@ class RegexFallbackScanner:
             max_indent = max(max_indent, nesting)
 
         return max_indent
+
+    def _count_tokens(self, content: str, language: str) -> int:
+        """Count tokens in source code (approximate)."""
+        # Strip comments based on language
+        stripped = self._strip_comments(content, language)
+        # Count word-like tokens and operators
+        return len(re.findall(r"\w+|[{}()\[\];,.:@=<>!&|+\-*/%^~?]", stripped))
+
+    def _strip_comments(self, content: str, language: str) -> str:
+        """Strip comments from source code."""
+        if language in ("python", "ruby"):
+            # Hash comments and docstrings
+            content = re.sub(r'""".*?"""', "", content, flags=re.DOTALL)
+            content = re.sub(r"'''.*?'''", "", content, flags=re.DOTALL)
+            content = re.sub(r"#.*", "", content)
+        elif language in ("go", "java", "typescript", "javascript", "rust", "c", "cpp"):
+            # C-style comments
+            content = re.sub(r"/\*.*?\*/", "", content, flags=re.DOTALL)
+            content = re.sub(r"//.*", "", content)
+        return content
+
+    def _estimate_complexity(
+        self, content: str, functions: list[FunctionDef], language: str
+    ) -> float:
+        """Estimate cyclomatic complexity."""
+        # Count decision points
+        keywords = ["if", "elif", "else", "for", "while", "case", "catch", "except"]
+        operators = [r"&&", r"\|\|", r"\band\b", r"\bor\b"]
+
+        decision_points = 0
+        for kw in keywords:
+            decision_points += len(re.findall(rf"\b{kw}\b", content))
+        for op in operators:
+            decision_points += len(re.findall(op, content))
+
+        # Base complexity: 1 per function + decision points
+        func_count = max(len(functions), 1)
+        return (func_count + decision_points) / func_count

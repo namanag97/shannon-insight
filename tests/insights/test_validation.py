@@ -57,58 +57,33 @@ class TestValidateAfterScanning:
     """Test validation after scanning phase."""
 
     def test_passes_with_files(self):
-        """Passes when file_metrics has files."""
+        """Passes when file_syntax has files."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py"), MockFileMetrics("/b.py")]
+        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser")
         validate_after_scanning(store)  # Should not raise
 
     def test_fails_with_no_files(self):
         """Fails when scanner produced 0 files."""
         store = AnalysisStore()
-        store.file_metrics = []
+        # file_syntax not set, or set to empty
         with pytest.raises(PhaseValidationError, match="produced 0 files"):
             validate_after_scanning(store)
 
-    def test_fails_with_duplicate_paths(self):
-        """Fails when file_metrics has duplicate paths."""
+    def test_fails_with_empty_file_syntax(self):
+        """Fails when file_syntax is empty dict."""
         store = AnalysisStore()
-        store.file_metrics = [
-            MockFileMetrics("/a.py"),
-            MockFileMetrics("/b.py"),
-            MockFileMetrics("/a.py"),  # duplicate
-        ]
-        with pytest.raises(PhaseValidationError, match="Duplicate paths"):
+        store.file_syntax.set({}, "parser")
+        with pytest.raises(PhaseValidationError, match="produced 0 files"):
             validate_after_scanning(store)
 
-    def test_passes_with_unique_paths(self):
-        """Passes when all paths are unique."""
+    def test_passes_with_multiple_files(self):
+        """Passes when file_syntax has multiple files."""
         store = AnalysisStore()
-        store.file_metrics = [
-            MockFileMetrics("/a.py"),
-            MockFileMetrics("/b.py"),
-            MockFileMetrics("/c.py"),
-        ]
-        validate_after_scanning(store)  # Should not raise
-
-    def test_passes_with_file_syntax_subset(self):
-        """Passes when file_syntax is subset of file_metrics."""
-        store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py"), MockFileMetrics("/b.py")]
-        store.file_syntax.set({"/a.py": object()}, "parser")  # b.py missing is OK
-        validate_after_scanning(store)  # Should not raise
-
-    def test_fails_with_extra_file_syntax(self):
-        """Fails when file_syntax has paths not in file_metrics."""
-        store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
-        store.file_syntax.set({"/a.py": object(), "/extra.py": object()}, "parser")
-        with pytest.raises(PhaseValidationError, match="not in file_metrics"):
-            validate_after_scanning(store)
-
-    def test_passes_without_file_syntax(self):
-        """Passes when file_syntax slot is not populated."""
-        store = AnalysisStore()
-        store.file_metrics = [MockFileMetrics("/a.py")]
+        store.file_syntax.set({
+            "/a.py": MockFileSyntax("/a.py"),
+            "/b.py": MockFileSyntax("/b.py"),
+            "/c.py": MockFileSyntax("/c.py"),
+        }, "parser")
         validate_after_scanning(store)  # Should not raise
 
 

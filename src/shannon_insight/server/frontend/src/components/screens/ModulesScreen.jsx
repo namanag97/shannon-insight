@@ -89,7 +89,7 @@ const MODULE_COLUMNS = [
    MAIN COMPONENT
    ===================================================================== */
 
-export function ModulesScreenV2() {
+export function ModulesScreen() {
   const data = useStore((s) => s.data);
   const moduleDetail = useStore((s) => s.moduleDetail);
   const moduleSortKey = useStore((s) => s.moduleSortKey);

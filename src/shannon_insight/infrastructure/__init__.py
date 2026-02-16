@@ -22,19 +22,12 @@ from shannon_insight.infrastructure.patterns import (
     Pattern,
     PatternScope,
 )
-from shannon_insight.infrastructure.pipeline import (
-    AnalysisResult,
-    run_pipeline,
-)
 from shannon_insight.infrastructure.relations import (
     Relation,
     RelationGraph,
     RelationType,
 )
-from shannon_insight.infrastructure.runtime import (
-    RuntimeContext,
-    Tier,
-)
+from shannon_insight.session import Tier  # Re-export Tier for backward compat
 from shannon_insight.infrastructure.signals import (
     SIGNAL_REGISTRY,
     Polarity,

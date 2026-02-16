@@ -155,6 +155,7 @@ export const SIGNAL_CATEGORIES = [
       "docstring_coverage",
       "naming_drift",
       "impl_gini",
+      "role",
     ],
   },
   {

@@ -128,12 +128,16 @@ class FileSyntax:
     Consumers check `fn.call_targets is not None` to detect tree-sitter parsing.
 
     Attributes:
-        path: File path
+        path: File path (relative to codebase root)
         functions: Top-level and nested function definitions
         classes: Class definitions
         imports: Import declarations
         language: Detected language
         has_main_guard: True if `if __name__ == "__main__":` detected
+        mtime: Last modified timestamp (for cache invalidation)
+        _lines: Cached line count (set during parsing)
+        _tokens: Cached token count (set during parsing)
+        _complexity: Cached complexity score (set during parsing)
     """
 
     path: str
@@ -142,6 +146,11 @@ class FileSyntax:
     imports: list[ImportDecl]
     language: str
     has_main_guard: bool = False
+    mtime: float = 0.0
+    # Cached metrics (set during parsing to avoid re-reading content)
+    _lines: int = 0
+    _tokens: int = 0
+    _complexity: float = 1.0
 
     @property
     def function_count(self) -> int:

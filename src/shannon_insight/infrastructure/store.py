@@ -104,7 +104,7 @@ class FactStore:
         """Check if a specific relation exists."""
         return self._relations.has(source, type, target)
 
-    def outgoing(self, entity: EntityId, type: Optional[RelationType] = None) -> list[Relation]:
+    def outgoing(self, entity: EntityId, type: RelationType | None = None) -> list[Relation]:
         """Get outgoing relations from an entity."""
         return self._relations.outgoing(entity, type)
 

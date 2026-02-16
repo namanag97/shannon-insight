@@ -1,5 +1,5 @@
 /**
- * HealthScreen v2 - Redesigned with proper information architecture
+ * HealthScreen - Redesigned with proper information architecture
  *
  * Information Priority:
  * 1. Health Trend - Large prominent chart (is it getting better or worse?)

@@ -24,7 +24,7 @@ def resolve_settings(
     no_cache: bool = False,
     workers: Optional[int] = None,
     verbose: bool = False,
-) -> AnalysisSettings:
+) -> AnalysisConfig:
     """Build settings from CLI options."""
     overrides = {}
     if threshold is not None:

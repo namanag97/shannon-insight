@@ -199,13 +199,12 @@ class InsightKernel:
 
         # Phase 3: Run patterns against FactStore
         _progress("Detecting issues...")
-        from shannon_insight.infrastructure.runtime import determine_tier
         from shannon_insight.insights.finders.executor import execute_patterns
         from shannon_insight.insights.finders.registry import ALL_PATTERNS
 
-        # Determine tier from file count
-        tier = determine_tier(len(store.file_metrics))
-        logger.debug(f"Determined tier: {tier.value} for {len(store.file_metrics)} files")
+        # Use tier from session (already computed)
+        tier = self.session.tier
+        logger.debug(f"Using tier: {tier.value} for {len(store.file_metrics)} files")
 
         # Execute v2 patterns
         v2_findings = execute_patterns(

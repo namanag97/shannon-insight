@@ -634,7 +634,7 @@ class TestBuildFunction:
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
 
-        field = build(store)
+        field = build(store, _make_session(store))
 
         assert isinstance(field, SignalField)
         assert "/a.py" in field.per_file
@@ -647,7 +647,7 @@ class TestBuildFunction:
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py", lines=200, functions=10)]
 
-        field = build(store)
+        field = build(store, _make_session(store))
 
         fs = field.per_file["/a.py"]
         assert fs.lines == 200
@@ -661,7 +661,7 @@ class TestBuildFunction:
             MockFileMetrics("/b.py"),
         ]
 
-        field = build(store)
+        field = build(store, _make_session(store))
 
         # raw_risk should be computed (may be 0 if no graph data)
         for fs in field.per_file.values():
@@ -754,7 +754,7 @@ class TestModuleSignalsCollection:
 
         store.architecture.set(arch, "test")
 
-        field = build(store)
+        field = build(store, _make_session(store))
 
         assert "/mod" in field.per_module
         ms = field.per_module["/mod"]
@@ -786,7 +786,7 @@ class TestGlobalSignalsCollection:
         }
         store.structural.set(structural, "test")
 
-        field = build(store)
+        field = build(store, _make_session(store))
 
         # 2 orphans out of 4 files = 0.5
         assert field.global_signals.orphan_ratio == 0.5

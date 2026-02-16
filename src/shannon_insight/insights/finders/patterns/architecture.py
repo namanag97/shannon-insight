@@ -33,16 +33,12 @@ def _layer_violation_predicate(store: FactStore, pair: tuple[EntityId, EntityId]
     return False  # Handled by executor
 
 
-def _layer_violation_severity(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> float:
+def _layer_violation_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:
     """Fixed severity."""
     return 0.52
 
 
-def _layer_violation_evidence(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> dict[str, Any]:
+def _layer_violation_evidence(store: FactStore, pair: tuple[EntityId, EntityId]) -> dict[str, Any]:
     """Build evidence for LAYER_VIOLATION."""
     # Actual evidence built by executor from violation data
     return {}
@@ -98,7 +94,7 @@ def _zone_of_pain_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]
         "abstractness": abstractness,
         "instability": instability,
         "main_seq_distance": main_seq_distance,
-        "dependent_count": store.get_signal(entity, Signal.AFFERENT_COUPLING, 0),
+        "dependent_count": store.get_signal(entity, Signal.COUPLING, 0),
     }
 
 

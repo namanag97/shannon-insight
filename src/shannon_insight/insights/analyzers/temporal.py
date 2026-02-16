@@ -4,6 +4,9 @@ import subprocess
 from pathlib import Path
 
 from ...graph.distance import compute_author_distances
+from ...infrastructure.entities import EntityId, EntityType
+from ...infrastructure.relations import Relation, RelationType
+from ...infrastructure.signals import Signal
 from ...logging_config import get_logger
 from ...temporal import GitExtractor, build_churn_series, build_cochange_matrix
 from ...temporal.models import GitHistory

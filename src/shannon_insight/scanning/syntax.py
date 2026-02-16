@@ -208,3 +208,35 @@ class FileSyntax:
         # where i is 1-indexed
         numerator = sum((i + 1) * v for i, v in enumerate(values))
         return (2 * numerator) / (n * total) - (n + 1) / n
+
+    # ── Metrics properties (for FileMetrics compatibility) ──────────────
+
+    @property
+    def lines(self) -> int:
+        """Line count (cached during parsing)."""
+        return self._lines
+
+    @property
+    def tokens(self) -> int:
+        """Token count (cached during parsing)."""
+        return self._tokens
+
+    @property
+    def complexity(self) -> float:
+        """Cyclomatic complexity estimate (cached during parsing)."""
+        return self._complexity
+
+    @property
+    def import_sources(self) -> list[str]:
+        """List of import source strings (for dependency graph building)."""
+        return [imp.source for imp in self.imports]
+
+    @property
+    def function_sizes(self) -> list[int]:
+        """List of function sizes in lines (end_line - start_line + 1)."""
+        return [max(1, fn.end_line - fn.start_line + 1) for fn in self.functions]
+
+    @property
+    def total_tokens(self) -> int:
+        """Sum of all function body tokens."""
+        return sum(fn.body_tokens for fn in self.functions)

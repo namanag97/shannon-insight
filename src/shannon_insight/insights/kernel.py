@@ -107,6 +107,9 @@ class InsightKernel:
         store.file_metrics = self._scan()
         logger.info(f"Scanned {len(store.file_metrics)} files")
 
+        # Sync scanned files to FactStore as entities with basic signals
+        store._sync_entities()
+
         if self._debug_exporter:
             self._debug_exporter.export_scanning(store)
 

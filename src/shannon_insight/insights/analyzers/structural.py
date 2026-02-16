@@ -102,20 +102,12 @@ class StructuralAnalyzer:
         """Run NCD clone detection on file contents."""
         root = Path(store.root_dir) if store.root_dir else Path.cwd()
 
-        # Get file contents from cache or disk
+        # Get file contents from cache (populated by SyntaxExtractor)
         file_contents: dict[str, bytes] = {}
         for path in store.files:
-            # Try cache first
             content = store.get_content(path)
             if content is not None:
                 file_contents[path] = content.encode("utf-8")
-            else:
-                # Fallback to disk read
-                try:
-                    full_path = root / path
-                    file_contents[path] = full_path.read_bytes()
-                except OSError:
-                    pass
 
         if len(file_contents) < 2:
             return

@@ -70,34 +70,32 @@ class DebugExporter:
         self.timestamp = datetime.now().isoformat()
 
     def export_scanning(self, store: AnalysisStore) -> None:
-        """Export after scanning phase (FileMetrics)."""
-        file_metrics = store.file_metrics
+        """Export after scanning phase (FileSyntax)."""
+        files = store.files
 
         # Group by file for readability
         per_file = {}
-        for fm in file_metrics:
-            per_file[fm.path] = {
-                "lines": fm.lines,
-                "tokens": fm.tokens,
-                "functions": fm.functions,
-                "interfaces": fm.interfaces,
-                "structs": fm.structs,
-                "complexity_score": round(fm.complexity_score, 4),
-                "nesting_depth": fm.nesting_depth,
-                "imports": fm.imports,
-                "exports": fm.exports,
-                "function_sizes": fm.function_sizes,
+        for path, fs in files.items():
+            per_file[path] = {
+                "lines": fs.lines,
+                "tokens": fs.tokens,
+                "functions": fs.function_count,
+                "classes": fs.class_count,
+                "complexity_score": round(fs.complexity, 4),
+                "nesting_depth": fs.max_nesting,
+                "imports": [imp.source for imp in fs.imports],
+                "function_sizes": fs.function_sizes,
             }
 
         data = {
             "stage": "01_scanning",
-            "description": "Raw file metrics from language scanners",
+            "description": "File syntax from parsing (FileSyntax)",
             "timestamp": self.timestamp,
             "summary": {
-                "total_files": len(file_metrics),
-                "total_lines": sum(fm.lines for fm in file_metrics),
-                "total_functions": sum(fm.functions for fm in file_metrics),
-                "languages": {getattr(fm, "language", "unknown") for fm in file_metrics},
+                "total_files": len(files),
+                "total_lines": sum(fs.lines for fs in files.values()),
+                "total_functions": sum(fs.function_count for fs in files.values()),
+                "languages": {fs.language for fs in files.values()},
             },
             "per_file": per_file,
         }

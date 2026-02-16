@@ -33,6 +33,19 @@ from enum import Enum
 from typing import Any, Dict, Optional, Set
 
 # ---------------------------------------------------------------------------
+# Polarity Enum
+# ---------------------------------------------------------------------------
+
+
+class Polarity(Enum):
+    """How to interpret high values of a signal."""
+
+    HIGH_IS_BAD = "high_is_bad"
+    HIGH_IS_GOOD = "high_is_good"
+    NEUTRAL = "neutral"
+
+
+# ---------------------------------------------------------------------------
 # Signal Enum
 # ---------------------------------------------------------------------------
 

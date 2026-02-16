@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .models_v2 import ClassDef, FileSyntax, FunctionDef, ImportDecl
+from .syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 
 
 @dataclass

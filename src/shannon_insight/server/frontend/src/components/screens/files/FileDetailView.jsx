@@ -24,7 +24,7 @@ import { FindingCard } from "../../cards/FindingCard.jsx";
 import { Badge } from "../../ui/Badge.jsx";
 import { Sparkline } from "../../charts/Sparkline.jsx";
 
-export function FileDetailViewV2({ path }) {
+export function FileDetailView({ path }) {
   const data = useStore((s) => s.data);
   const [openCats, setOpenCats] = useState(() => new Set());
   const [signalsOpen, setSignalsOpen] = useState(false);

@@ -35,4 +35,4 @@ def resolve_settings(
         overrides["parallel_workers"] = workers
     if verbose:
         overrides["verbose"] = True
-    return load_settings(config_file=config, **overrides)
+    return load_config(config_file=config, **overrides)

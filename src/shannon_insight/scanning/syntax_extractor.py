@@ -1,7 +1,7 @@
 """SyntaxExtractor: produces FileSyntax for all scanned files.
 
-This component sits alongside the existing scanner and produces v2 FileSyntax
-objects. It tries tree-sitter first, falls back to regex.
+This component parses source files and produces FileSyntax objects.
+It tries tree-sitter first, falls back to regex.
 
 Usage:
     extractor = SyntaxExtractor()

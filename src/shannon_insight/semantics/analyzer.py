@@ -26,8 +26,8 @@ from .naming import compute_naming_drift
 from .roles import classify_role
 
 if TYPE_CHECKING:
-    from ..insights.store_v2 import AnalysisStore
-    from ..scanning.models_v2 import FileSyntax
+    from ..insights.store import AnalysisStore
+    from ..scanning.syntax import FileSyntax
 
 logger = logging.getLogger(__name__)
 

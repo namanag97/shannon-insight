@@ -1,7 +1,7 @@
 """Tests for phase validation contracts.
 
 Tests cover:
-    - validate_after_scanning: empty store, duplicate paths, file_syntax consistency
+    - validate_after_scanning: empty store, file_syntax presence
     - validate_after_structural: graceful skip, orphan nodes, reverse adjacency
     - validate_signal_field: path coverage, tier validation, NaN/Inf detection
     - run_all_validations: collects errors without raising
@@ -10,7 +10,7 @@ Tests cover:
 
 import pytest
 
-from shannon_insight.insights.store_v2 import AnalysisStore
+from shannon_insight.insights.store import AnalysisStore
 from shannon_insight.insights.validation import (
     PhaseValidationError,
     run_all_validations,
@@ -21,8 +21,8 @@ from shannon_insight.insights.validation import (
 from shannon_insight.signals.models import FileSignals, SignalField
 
 
-class MockFileMetrics:
-    """Mock file metrics."""
+class MockFileSyntax:
+    """Mock FileSyntax for testing."""
 
     def __init__(self, path: str):
         self.path = path

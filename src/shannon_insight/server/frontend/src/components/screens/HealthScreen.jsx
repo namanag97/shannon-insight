@@ -27,7 +27,7 @@ import { ConcernBar } from "../cards/ConcernCard.jsx";
 import { Table } from "../ui/Table.jsx";
 
 
-export function HealthScreenV2() {
+export function HealthScreen() {
   const data = useStore((s) => s.data);
 
   if (!data) return null;

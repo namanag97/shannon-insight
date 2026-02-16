@@ -66,7 +66,7 @@ def run_diagnostics(
         DiagnosticReport with detected issues
     """
     report = DiagnosticReport(
-        total_files=len(store.file_metrics),
+        total_files=store.file_count,
         total_findings=len(findings),
     )
 

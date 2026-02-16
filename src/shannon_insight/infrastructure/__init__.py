@@ -59,6 +59,7 @@ from shannon_insight.infrastructure.validation import (
 )
 
 __all__ = [
+    "AnalysisResult",
     "Entity",
     "EntityId",
     "EntityType",

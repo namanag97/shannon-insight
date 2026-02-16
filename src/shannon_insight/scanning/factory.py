@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from ..config import AnalysisSettings
+from ..config import AnalysisConfig
 from ..logging_config import get_logger
 from . import (
     BINARY_EXTENSIONS,
@@ -26,7 +26,7 @@ _ALIASES = {
 class ScannerFactory:
     """Resolves a language setting into a list of (scanner, lang_name) tuples."""
 
-    def __init__(self, root_dir: Path, settings: AnalysisSettings):
+    def __init__(self, root_dir: Path, settings: AnalysisConfig):
         self.root_dir = root_dir
         self.settings = settings
 

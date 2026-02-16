@@ -59,7 +59,7 @@ class ScannerFactory:
         known_exts = get_all_known_extensions()
 
         for p in self.root_dir.rglob("*"):
-            if p.is_file() and not any(part in _SKIP_DIRS for part in p.parts):
+            if p.is_file() and not any(part in SKIP_DIRS for part in p.parts):
                 ext = p.suffix.lower()
                 if ext:
                     found_exts.add(ext)

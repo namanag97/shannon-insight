@@ -46,6 +46,10 @@ from shannon_insight.infrastructure.patterns import (
 from shannon_insight.infrastructure.store import (
     FactStore,
 )
+from shannon_insight.infrastructure.pipeline import (
+    AnalysisResult,
+    run_pipeline,
+)
 from shannon_insight.infrastructure.validation import (
     PhaseValidationError,
     run_all_validations,

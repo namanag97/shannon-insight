@@ -24,7 +24,7 @@ from typing import TYPE_CHECKING
 from .models import Concept, Role
 
 if TYPE_CHECKING:
-    from ..scanning.models_v2 import FileSyntax
+    from ..scanning.syntax import FileSyntax
 
 
 # Common stopwords to exclude from concepts

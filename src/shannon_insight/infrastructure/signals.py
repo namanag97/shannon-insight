@@ -1118,3 +1118,146 @@ def _validate_registry() -> None:
 
 
 _validate_registry()
+
+
+# ---------------------------------------------------------------------------
+# v2 API: SignalSpec, SIGNAL_REGISTRY, SignalStore
+# ---------------------------------------------------------------------------
+# These types provide the public interface expected by v2 architecture tests.
+# They adapt the existing REGISTRY/SignalMeta data to the spec-defined API.
+
+
+_POLARITY_MAP = {
+    "high_is_bad": Polarity.HIGH_IS_BAD,
+    "high_is_good": Polarity.HIGH_IS_GOOD,
+    "neutral": Polarity.NEUTRAL,
+}
+
+
+@dataclass(frozen=True)
+class SignalSpec:
+    """Metadata for a signal (v2 public API).
+
+    Attributes:
+        signal: The Signal enum member.
+        scope: Set of EntityType values this signal applies to.
+        dtype: Python type of the raw value (int, float, str, bool).
+        polarity: Polarity enum value.
+        phase: Earliest phase at which this signal becomes available (0-5).
+        source: Which module computes it.
+        percentileable: Whether percentile normalization is meaningful.
+        absolute_threshold: For ABSOLUTE tier finders. None if not defined.
+    """
+
+    signal: Signal
+    scope: set
+    dtype: type
+    polarity: Polarity
+    phase: int
+    source: str
+    percentileable: bool
+    absolute_threshold: Optional[float] = None
+
+
+def _build_signal_registry() -> Dict[Signal, SignalSpec]:
+    """Build SIGNAL_REGISTRY from the existing REGISTRY.
+
+    Converts SignalMeta (internal) to SignalSpec (v2 public API), mapping
+    string scope/polarity to EntityType sets and Polarity enum values.
+    """
+    from shannon_insight.infrastructure.entities import EntityType
+
+    scope_map = {
+        "file": {EntityType.FILE},
+        "module": {EntityType.MODULE},
+        "global": {EntityType.CODEBASE},
+    }
+
+    registry: Dict[Signal, SignalSpec] = {}
+    for signal, meta in REGISTRY.items():
+        registry[signal] = SignalSpec(
+            signal=meta.signal,
+            scope=scope_map[meta.scope],
+            dtype=meta.dtype,
+            polarity=_POLARITY_MAP[meta.polarity],
+            phase=meta.phase,
+            source=meta.produced_by,
+            percentileable=meta.percentileable,
+            absolute_threshold=meta.absolute_threshold,
+        )
+    return registry
+
+
+SIGNAL_REGISTRY: Dict[Signal, SignalSpec] = _build_signal_registry()
+
+
+# ---------------------------------------------------------------------------
+# SignalValue and SignalStore
+# ---------------------------------------------------------------------------
+
+
+@dataclass
+class SignalValue:
+    """A timestamped signal measurement."""
+
+    entity: Any  # EntityId
+    signal: Signal
+    value: Any
+    timestamp: datetime
+    confidence: float = 1.0
+
+
+class SignalStore:
+    """Entity x Signal x Time -> Value store.
+
+    Provides the v2 public API for storing and retrieving signal values
+    keyed by (EntityId, Signal) pairs.
+    """
+
+    def __init__(self) -> None:
+        self._data: Dict[tuple, SignalValue] = {}
+        self._history: Dict[tuple, list] = {}
+
+    def set(
+        self,
+        entity: Any,
+        signal: Signal,
+        value: Any,
+        timestamp: Optional[datetime] = None,
+    ) -> None:
+        """Set a signal value for an entity."""
+        timestamp = timestamp or datetime.now()
+        sv = SignalValue(entity, signal, value, timestamp)
+        key = (entity, signal)
+        self._data[key] = sv
+        self._history.setdefault(key, []).append(sv)
+
+    def get(
+        self,
+        entity: Any,
+        signal: Signal,
+        default: Any = None,
+    ) -> Any:
+        """Get the latest signal value for an entity."""
+        sv = self._data.get((entity, signal))
+        return sv.value if sv else default
+
+    def has(self, entity: Any, signal: Signal) -> bool:
+        """Check if a signal exists for an entity."""
+        return (entity, signal) in self._data
+
+    def has_any(self, signal: Signal) -> bool:
+        """Check if a signal exists for any entity."""
+        return any(k[1] == signal for k in self._data)
+
+    def all_values(self, signal: Signal) -> list:
+        """Get all (entity, value) pairs for a signal across entities."""
+        return [
+            (k[0], v.value)
+            for k, v in self._data.items()
+            if k[1] == signal
+        ]
+
+    def history(self, entity: Any, signal: Signal) -> list:
+        """Get historical values for a signal on an entity."""
+        return self._history.get((entity, signal), [])

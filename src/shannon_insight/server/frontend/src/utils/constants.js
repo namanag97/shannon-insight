@@ -219,6 +219,7 @@ export const SIGNAL_POLARITY = {
   // Higher is BETTER
   wiring_quality: false,
   file_health_score: false,
+  health: false,
   semantic_coherence: false,
   bus_factor: false,
   compression_ratio: false,

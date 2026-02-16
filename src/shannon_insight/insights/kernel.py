@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING, Callable, Optional
 
 from ..logging_config import get_logger
 from ..persistence.models import TensorSnapshot
-from ..scanning.factory import ScannerFactory
 from ..scanning.syntax_extractor import SyntaxExtractor
 from ..session import AnalysisSession
 from .analyzers import get_default_analyzers, get_wave2_analyzers

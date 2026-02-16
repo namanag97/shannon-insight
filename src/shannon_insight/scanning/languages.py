@@ -74,22 +74,8 @@ class LanguageConfig:
     extra_ast_patterns: list[tuple[str, str]] = field(default_factory=list)
 
     # Skip patterns: directory names and file prefixes to ignore.
-    skip_dirs: tuple[str, ...] = (
-        "vendor",
-        "node_modules",
-        "venv",
-        ".venv",
-        "__pycache__",
-        ".git",
-        ".tox",
-        ".mypy_cache",
-        ".pytest_cache",
-        "dist",
-        "build",
-        "target",
-        ".eggs",
-        "third_party",
-    )
+    # Default uses the canonical SKIP_DIRS; language-specific configs may override.
+    skip_dirs: tuple[str, ...] = tuple(SKIP_DIRS)
     skip_file_prefixes: tuple[str, ...] = ("test_",)
     skip_file_suffixes: tuple[str, ...] = ()
     skip_file_names: tuple[str, ...] = ()

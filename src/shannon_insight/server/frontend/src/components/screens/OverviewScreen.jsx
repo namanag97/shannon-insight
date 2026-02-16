@@ -96,7 +96,7 @@ export function OverviewScreen() {
                 <div className="text-h4" style={{ marginBottom: 'var(--space-4)' }}>
                   🎯 RECOMMENDED STARTING POINT
                 </div>
-                <FocusPointV2 focus={data.focus} onFileClick={goToFile} />
+                <FocusPoint focus={data.focus} onFileClick={goToFile} />
               </div>
             </div>
           </div>
@@ -243,7 +243,7 @@ export function OverviewScreen() {
 /**
  * Focus Point v2 - Redesigned with clear hierarchy
  */
-function FocusPointV2({ focus, onFileClick }) {
+function FocusPoint({ focus, onFileClick }) {
   if (!focus || !focus.file) {
     return (
       <div className="text-body-sm" style={{ color: 'var(--text-tertiary)' }}>

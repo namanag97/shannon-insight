@@ -63,7 +63,7 @@ class InsightKernel:
     ):
         self.root_dir = str(Path(root_dir).resolve())
         self.language = language
-        self.settings = settings or default_settings
+        self.session.config = settings or default_settings
         self._analyzers = get_default_analyzers()
         self._wave2_analyzers = get_wave2_analyzers()
         self._finders = get_default_finders()
@@ -118,7 +118,7 @@ class InsightKernel:
                 findings=[],
                 store_summary=StoreSummary(),
             )
-            empty_snapshot = capture_tensor_snapshot(store, empty_result, self.settings)
+            empty_snapshot = capture_tensor_snapshot(store, empty_result, self.session.config)
             return empty_result, empty_snapshot
 
         _progress(f"Parsing {len(store.file_metrics)} files...")
@@ -130,7 +130,7 @@ class InsightKernel:
             self._debug_exporter.export_syntax(store)
 
         # Phase validation: after scanning
-        if self.settings.enable_validation:
+        if self.session.config.enable_validation:
             try:
                 validate_after_scanning(store)
             except PhaseValidationError as e:
@@ -160,7 +160,7 @@ class InsightKernel:
                     logger.warning(f"Analyzer {analyzer.name} failed: {e}")
 
         # Phase validation: after structural analysis
-        if self.settings.enable_validation:
+        if self.session.config.enable_validation:
             try:
                 validate_after_structural(store)
             except PhaseValidationError as e:
@@ -191,7 +191,7 @@ class InsightKernel:
                 logger.warning(f"Wave 2 analyzer {analyzer.name} failed: {e}")
 
         # Phase validation: after signal fusion
-        if self.settings.enable_validation:
+        if self.session.config.enable_validation:
             try:
                 validate_signal_field(store)
             except PhaseValidationError as e:
@@ -305,13 +305,13 @@ class InsightKernel:
 
         # Phase 5: Capture v2 snapshot (includes module signals, delta_h, architecture)
         _progress("Capturing snapshot...")
-        snapshot = capture_tensor_snapshot(store, result, self.settings)
+        snapshot = capture_tensor_snapshot(store, result, self.session.config)
 
         return result, snapshot
 
     def _scan(self) -> list:
         """Scan files using ScannerFactory."""
-        factory = ScannerFactory(Path(self.root_dir), self.settings)
+        factory = ScannerFactory(Path(self.root_dir), self.session.config)
         scanners, detected = factory.create(self.language)
 
         all_files = []

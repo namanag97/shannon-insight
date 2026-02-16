@@ -69,6 +69,7 @@ class ScannerFactory:
                 config=cfg,
                 extensions=list(DEFAULT_SOURCE_EXTENSIONS),
                 settings=self.settings,
+                file_paths=self.file_paths,
             )
             return [(scanner, language)], [language]
         return [self._mk(base_lang, language)], [language]

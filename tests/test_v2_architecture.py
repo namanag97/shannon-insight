@@ -449,7 +449,7 @@ class TestPipeline:
         assert ctx.tier in Tier
 
     def test_tier_enum_exists(self):
-        from shannon_insight.infrastructure.runtime import Tier
+        from shannon_insight.session import Tier
 
         assert Tier.ABSOLUTE is not None
         assert Tier.BAYESIAN is not None

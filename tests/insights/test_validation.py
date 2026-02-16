@@ -323,7 +323,7 @@ class TestRunAllValidations:
     def test_collects_scanning_error(self):
         """Collects scanning validation error."""
         store = AnalysisStore()
-        store.file_metrics = []  # Will fail scanning validation
+        store.file_syntax.set({}, "parser")  # Will fail scanning validation
         errors = run_all_validations(store)
         assert len(errors) == 1
         assert "produced 0 files" in errors[0]
@@ -331,7 +331,7 @@ class TestRunAllValidations:
     def test_collects_multiple_errors(self):
         """Collects errors from multiple validators."""
         store = AnalysisStore()
-        store.file_metrics = []  # Will fail scanning validation
+        store.file_syntax.set({}, "parser")  # Will fail scanning validation
         # Structural won't fail (graceful skip when not available)
         # Signal field won't fail (graceful skip when not available)
         errors = run_all_validations(store)
@@ -340,7 +340,7 @@ class TestRunAllValidations:
     def test_does_not_raise(self):
         """run_all_validations never raises, it collects."""
         store = AnalysisStore()
-        store.file_metrics = []
+        store.file_syntax.set({}, "parser")
         # Should not raise, should return errors
         errors = run_all_validations(store)
         assert isinstance(errors, list)

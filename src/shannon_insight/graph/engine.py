@@ -140,7 +140,7 @@ class AnalysisEngine:
 
         return results
 
-    def _compute_cognitive_load(self, fm: FileMetrics) -> float:
+    def _compute_cognitive_load(self, fm: FileSyntax) -> float:
         """Cognitive load: weighted sum of complexity factors.
 
         Based on research on code comprehension difficulty:

@@ -3,18 +3,18 @@
 from pathlib import Path
 from typing import Optional
 
-from ..scanning.models import FileMetrics
+from ..scanning.syntax import FileSyntax
 from .models import DependencyGraph
 
 
-def build_dependency_graph(file_metrics: list[FileMetrics], root_dir: str = "") -> DependencyGraph:
-    """Build dependency graph from import declarations in FileMetrics.
+def build_dependency_graph(file_syntax: list[FileSyntax], root_dir: str = "") -> DependencyGraph:
+    """Build dependency graph from import declarations in FileSyntax.
 
     Also tracks unresolved imports for phantom_import_count signal.
     Only imports that look like they should resolve internally are tracked
     as unresolved — stdlib and third-party imports are excluded.
     """
-    file_map: dict[str, FileMetrics] = {f.path: f for f in file_metrics}
+    file_map: dict[str, FileSyntax] = {f.path: f for f in file_syntax}
     all_paths = set(file_map.keys())
     adjacency: dict[str, list[str]] = {p: [] for p in all_paths}
     reverse: dict[str, list[str]] = {p: [] for p in all_paths}
@@ -24,18 +24,18 @@ def build_dependency_graph(file_metrics: list[FileMetrics], root_dir: str = "") 
     path_index = _build_path_index(all_paths)
     project_prefixes = _infer_project_prefixes(all_paths)
 
-    for fm in file_metrics:
-        for imp in fm.imports:
-            resolved = _resolve_import(imp, fm.path, path_index, all_paths)
-            if resolved and resolved != fm.path:
-                adjacency[fm.path].append(resolved)
-                reverse[resolved].append(fm.path)
+    for fs in file_syntax:
+        for imp in fs.import_sources:
+            resolved = _resolve_import(imp, fs.path, path_index, all_paths)
+            if resolved and resolved != fs.path:
+                adjacency[fs.path].append(resolved)
+                reverse[resolved].append(fs.path)
                 edge_count += 1
             elif resolved is None and _looks_internal(imp, project_prefixes):
                 # Only track as phantom if it looks like it should be internal
-                if fm.path not in unresolved:
-                    unresolved[fm.path] = []
-                unresolved[fm.path].append(imp)
+                if fs.path not in unresolved:
+                    unresolved[fs.path] = []
+                unresolved[fs.path].append(imp)
 
     return DependencyGraph(
         adjacency=adjacency,

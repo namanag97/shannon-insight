@@ -12,6 +12,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from ..graph.models import CodebaseAnalysis
+from ..infrastructure.entities import EntityId, EntityType
+from ..infrastructure.relations import Relation, RelationType
+from ..infrastructure.signals import Signal
 from ..logging_config import get_logger
 from .layers import build_module_graph, infer_layers
 from .metrics import compute_module_metrics

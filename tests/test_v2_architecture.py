@@ -547,7 +547,7 @@ class TestFullPipeline:
 
     def test_pipeline_produces_fact_store(self, sample_codebase):
         """Pipeline should produce a populated FactStore."""
-        from shannon_insight.infrastructure.pipeline import run_pipeline
+        from shannon_insight.api import analyze
 
         result = run_pipeline(str(sample_codebase))
 
@@ -556,7 +556,7 @@ class TestFullPipeline:
 
     def test_pipeline_computes_signals(self, sample_codebase):
         """Pipeline should compute signals for all files."""
-        from shannon_insight.infrastructure.pipeline import run_pipeline
+        from shannon_insight.api import analyze
         from shannon_insight.infrastructure.signals import Signal
 
         result = run_pipeline(str(sample_codebase))
@@ -568,7 +568,7 @@ class TestFullPipeline:
 
     def test_pipeline_detects_findings(self, sample_codebase):
         """Pipeline should produce findings."""
-        from shannon_insight.infrastructure.pipeline import run_pipeline
+        from shannon_insight.api import analyze
 
         result = run_pipeline(str(sample_codebase))
 

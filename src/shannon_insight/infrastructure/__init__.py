@@ -45,6 +45,8 @@ __all__ = [
     "ThresholdCheck",
     "compute_hotspot_median",
     "is_hotspot",
+    "RuntimeContext",
+    "Tier",
     "PhaseValidationError",
     "run_all_validations",
     "validate_after_scanning",

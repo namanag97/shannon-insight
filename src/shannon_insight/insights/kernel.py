@@ -118,7 +118,7 @@ class InsightKernel:
                 findings=[],
                 store_summary=StoreSummary(),
             )
-            empty_snapshot = capture_tensor_snapshot(store, empty_result, self.session.config)
+            empty_snapshot = capture_tensor_snapshot(store, empty_result, self.session)
             return empty_result, empty_snapshot
 
         _progress(f"Parsing {len(store.file_metrics)} files...")

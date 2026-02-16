@@ -576,3 +576,25 @@ class TreeSitterNormalizer:
             return None
 
         return text if text else None
+
+    def _count_file_tokens(self, tree: Any) -> int:
+        """Count tokens in entire file from tree-sitter tree."""
+        if tree is None or tree.root_node is None:
+            return 0
+
+        # Count leaf nodes (tokens) in the tree
+        def count_leaves(node: Any) -> int:
+            if not node.children:
+                return 1
+            return sum(count_leaves(child) for child in node.children)
+
+        return count_leaves(tree.root_node)
+
+    def _compute_complexity(self, functions: list[FunctionDef]) -> float:
+        """Compute cyclomatic complexity from functions."""
+        if not functions:
+            return 1.0
+
+        # Sum of nesting depths + 1 per function, averaged
+        total_complexity = sum(fn.nesting_depth + 1 for fn in functions)
+        return total_complexity / len(functions)

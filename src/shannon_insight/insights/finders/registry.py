@@ -244,15 +244,153 @@ HIDDEN_COUPLING = Pattern(
 )
 
 
+def _god_file_predicate(store: FactStore, entity: EntityId) -> bool:
+    """High complexity AND low coherence."""
+    cog_pctl = compute_percentile(store, entity, Signal.COGNITIVE_LOAD)
+    coh_pctl = compute_percentile(store, entity, Signal.SEMANTIC_COHERENCE)
+    func_count = store.get_signal(entity, Signal.FUNCTION_COUNT, 0)
+
+    # Minimum function count to avoid flagging trivial files
+    if func_count < 3:
+        return False
+
+    has_high_complexity = cog_pctl >= 0.90
+    has_low_coherence = coh_pctl <= 0.20  # semantic_coherence is HIGH_IS_GOOD
+
+    return has_high_complexity and has_low_coherence
+
+
+def _god_file_severity(store: FactStore, entity: EntityId) -> float:
+    """Dynamic severity based on how extreme the signals are."""
+    cog_pctl = compute_percentile(store, entity, Signal.COGNITIVE_LOAD)
+    coh_pctl = compute_percentile(store, entity, Signal.SEMANTIC_COHERENCE)
+
+    avg_pctl = (cog_pctl + (1 - coh_pctl)) / 2
+    return 0.80 * max(0.5, avg_pctl)
+
+
+def _god_file_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
+    """Build evidence for GOD_FILE."""
+    return {
+        "cognitive_load": store.get_signal(entity, Signal.COGNITIVE_LOAD, 0),
+        "cognitive_load_pctl": compute_percentile(store, entity, Signal.COGNITIVE_LOAD),
+        "semantic_coherence": store.get_signal(entity, Signal.SEMANTIC_COHERENCE, 0),
+        "semantic_coherence_pctl": compute_percentile(store, entity, Signal.SEMANTIC_COHERENCE),
+        "function_count": store.get_signal(entity, Signal.FUNCTION_COUNT, 0),
+        "concept_count": store.get_signal(entity, Signal.CONCEPT_COUNT, 0),
+    }
+
+
+GOD_FILE = Pattern(
+    name="god_file",
+    scope=PatternScope.FILE,
+    severity=0.80,
+    requires={Signal.COGNITIVE_LOAD.name, Signal.SEMANTIC_COHERENCE.name},
+    condition="pctl(cognitive_load) > 0.90 AND pctl(semantic_coherence) < 0.20",
+    predicate=_god_file_predicate,
+    severity_fn=_god_file_severity,
+    evidence_fn=_god_file_evidence,
+    description="Large file with too many unrelated concepts",
+    remediation="Split by concept clusters. Each concept = a candidate file.",
+    category="existing",
+    hotspot_filtered=False,
+    phase=2,
+)
+
+
+def _unstable_file_predicate(store: FactStore, entity: EntityId) -> bool:
+    """Erratic change pattern."""
+    trajectory = store.get_signal(entity, Signal.CHURN_TRAJECTORY, "")
+    total_changes = store.get_signal(entity, Signal.TOTAL_CHANGES, 0)
+    median_changes = compute_median(store, Signal.TOTAL_CHANGES)
+
+    return trajectory in {"CHURNING", "SPIKING"} and total_changes > median_changes
+
+
+def _unstable_file_severity(store: FactStore, entity: EntityId) -> float:
+    """Fixed severity."""
+    return 0.70
+
+
+def _unstable_file_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
+    """Build evidence for UNSTABLE_FILE."""
+    return {
+        "churn_trajectory": store.get_signal(entity, Signal.CHURN_TRAJECTORY, ""),
+        "total_changes": store.get_signal(entity, Signal.TOTAL_CHANGES, 0),
+        "churn_cv": store.get_signal(entity, Signal.CHURN_CV, 0),
+        "churn_slope": store.get_signal(entity, Signal.CHURN_SLOPE, 0),
+    }
+
+
+UNSTABLE_FILE = Pattern(
+    name="unstable_file",
+    scope=PatternScope.FILE,
+    severity=0.70,
+    requires={Signal.CHURN_TRAJECTORY.name, Signal.TOTAL_CHANGES.name},
+    condition="churn_trajectory ∈ {CHURNING, SPIKING} AND total_changes > median",
+    predicate=_unstable_file_predicate,
+    severity_fn=_unstable_file_severity,
+    evidence_fn=_unstable_file_evidence,
+    description="File with erratic change patterns",
+    remediation="Investigate why this file isn't stabilizing. Check fix_ratio.",
+    category="existing",
+    hotspot_filtered=True,
+    phase=3,
+)
+
+
+def _orphan_code_predicate(store: FactStore, entity: EntityId) -> bool:
+    """File is unreachable (orphan)."""
+    is_orphan = store.get_signal(entity, Signal.IS_ORPHAN, False)
+    return is_orphan
+
+
+def _orphan_code_severity(store: FactStore, entity: EntityId) -> float:
+    """Fixed severity."""
+    return 0.55
+
+
+def _orphan_code_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
+    """Build evidence for ORPHAN_CODE."""
+    return {
+        "is_orphan": True,
+        "in_degree": store.get_signal(entity, Signal.IN_DEGREE, 0),
+        "depth": store.get_signal(entity, Signal.DEPTH, -1),
+        "role": store.get_signal(entity, Signal.ROLE, "UNKNOWN"),
+    }
+
+
+ORPHAN_CODE = Pattern(
+    name="orphan_code",
+    scope=PatternScope.FILE,
+    severity=0.55,
+    requires={Signal.IS_ORPHAN.name, Signal.ROLE.name},
+    condition="is_orphan = True",
+    predicate=_orphan_code_predicate,
+    severity_fn=_orphan_code_severity,
+    evidence_fn=_orphan_code_evidence,
+    description="File with no incoming dependencies",
+    remediation="Wire into dependency graph or remove if unused.",
+    category="ai_quality",
+    hotspot_filtered=False,
+    phase=3,
+)
+
+
 # ==============================================================================
 # Pattern Registry
 # ==============================================================================
 
-# All 22 patterns will be registered here
+# All 22 patterns (7 existing + 15 new)
 ALL_PATTERNS: list[Pattern] = [
+    # Existing (v1 upgraded)
     HIGH_RISK_HUB,
     HIDDEN_COUPLING,
-    # TODO: Add remaining 20 patterns
+    GOD_FILE,
+    UNSTABLE_FILE,
+    # AI Quality
+    ORPHAN_CODE,
+    # TODO: Add remaining 17 patterns
 ]
 
 

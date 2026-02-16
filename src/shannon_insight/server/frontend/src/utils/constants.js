@@ -63,6 +63,11 @@ export const SIGNAL_LABELS = {
   raw_risk: "Raw Risk (pre-normalization)",
   concept_count: "Semantic Concept Count",
   concept_entropy: "Concept Diversity",
+
+  // API-level fields (top-level, not in signals dict)
+  health: "File Health (1-10 scale)",
+  blast_radius: "Change Impact Size",
+  finding_count: "Number of Findings",
 };
 
 /**

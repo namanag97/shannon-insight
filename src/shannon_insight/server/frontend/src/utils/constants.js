@@ -38,6 +38,8 @@ export const SIGNAL_LABELS = {
   docstring_coverage: "Documentation Coverage",
   naming_drift: "Naming Inconsistency",
   impl_gini: "Implementation Distribution",
+  role: "File Role (Entry/Model/Test/etc)",
+  percentiles: "Signal Percentile Rankings",
 
   // Temporal / Churn
   total_changes: "Total Commits",

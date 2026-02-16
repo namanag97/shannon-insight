@@ -709,7 +709,7 @@ class TestBuildFunction:
     def test_build_returns_signal_field(self):
         """build() returns SignalField with all attributes."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileSyntax("/a.py")]
+        _set_file_syntax(store, [MockFileSyntax("/a.py")])
 
         field = build(store, _make_session(store))
 
@@ -720,9 +720,9 @@ class TestBuildFunction:
         assert hasattr(field, "global_signals")
 
     def test_build_collects_scanning_signals(self):
-        """build() collects signals from file_metrics."""
+        """build() collects signals from file_syntax."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileSyntax("/a.py", lines=200, functions=10)]
+        _set_file_syntax(store, [MockFileSyntax("/a.py", lines=200, function_count=10)])
 
         field = build(store, _make_session(store))
 
@@ -733,10 +733,10 @@ class TestBuildFunction:
     def test_build_computes_raw_risk(self):
         """build() computes raw_risk for all files."""
         store = AnalysisStore()
-        store.file_metrics = [
+        _set_file_syntax(store, [
             MockFileSyntax("/a.py"),
             MockFileSyntax("/b.py"),
-        ]
+        ])
 
         field = build(store, _make_session(store))
 

@@ -1,4 +1,4 @@
-"""v2 Data models for deep parsing with tree-sitter.
+"""Syntax models for parsed source files.
 
 FileSyntax provides structured AST data for each file:
     - Per-function: body_tokens, nesting_depth, call_targets, decorators

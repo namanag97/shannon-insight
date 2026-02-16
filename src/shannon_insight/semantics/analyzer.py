@@ -13,6 +13,7 @@ Also writes semantic signals to FactStore.
 from __future__ import annotations
 
 import logging
+import math
 from typing import TYPE_CHECKING
 
 from ..infrastructure.entities import EntityId, EntityType
@@ -21,7 +22,7 @@ from ..infrastructure.signals import Signal
 from .completeness import compute_completeness
 from .concepts import ConceptExtractor
 from .models import FileSemantics
-from .naming import compute_naming_drift, cosine_similarity
+from .naming import compute_naming_drift
 from .roles import classify_role
 
 if TYPE_CHECKING:

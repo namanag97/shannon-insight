@@ -68,7 +68,7 @@ __all__ = [
     "CScanner",
     "RubyScanner",
     "UniversalScanner",
-    # v2: FileSyntax models
+    # FileSyntax models
     "FileSyntax",
     "FunctionDef",
     "ClassDef",

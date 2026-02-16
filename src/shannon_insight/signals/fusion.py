@@ -591,13 +591,17 @@ class _Composited:
         return self.field
 
 
-def build(store: AnalysisStore) -> SignalField:
+def build(store: AnalysisStore, session: AnalysisSession) -> SignalField:
     """Convenience function: run all 6 fusion steps.
 
     This is the ONLY valid call order for the pipeline.
+
+    Args:
+        store: Analysis store with intermediate results
+        session: Analysis session with tier and configuration
     """
     return (
-        FusionPipeline(store)
+        FusionPipeline(store, session)
         .step1_collect()
         .step2_raw_risk()
         .step3_normalize()

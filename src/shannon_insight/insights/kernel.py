@@ -444,7 +444,7 @@ class InsightKernel:
     def _summarize(self, store: AnalysisStore) -> StoreSummary:
         """Build summary from store state."""
         summary = StoreSummary(
-            total_files=len(store.file_metrics),
+            total_files=store.file_count,
             signals_available=sorted(store.available),
         )
 

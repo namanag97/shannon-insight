@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Optional
 
-from ..config import AnalysisSettings, default_settings
+from ..config import AnalysisConfig, default_settings
 from ..exceptions import FileAccessError, ParsingError
 from ..file_ops import should_skip_file
 from ..logging_config import get_logger
@@ -17,7 +17,7 @@ class BaseScanner(ABC):
     """Abstract base class for language-specific scanners"""
 
     def __init__(
-        self, root_dir: str, extensions: list[str], settings: Optional[AnalysisSettings] = None
+        self, root_dir: str, extensions: list[str], settings: Optional[AnalysisConfig] = None
     ):
         """
         Initialize scanner.

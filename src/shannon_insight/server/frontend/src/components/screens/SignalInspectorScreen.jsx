@@ -101,6 +101,18 @@ export function SignalInspectorScreen() {
 
   const inspectable = getInspectableSignals(data);
 
+  // Development helper: log discovered signals that aren't in constants
+  if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+    const discovered = inspectable.filter((s) => s.category === "Discovered Signals");
+    if (discovered.length > 0) {
+      console.info(
+        "[Signal Inspector] Found %d undocumented signals:",
+        discovered.length,
+        discovered.map((s) => s.key)
+      );
+    }
+  }
+
   // Extract values for the selected signal
   const entries = [];
   for (const path in data.files) {

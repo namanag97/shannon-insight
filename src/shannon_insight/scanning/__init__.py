@@ -12,7 +12,7 @@ from .languages import (
     get_all_known_extensions,
     get_language_config,
 )
-from .models_v2 import ClassDef, FileSyntax, FunctionDef, ImportDecl
+from .syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 from .scanner import BINARY_EXTENSIONS, ConfigurableScanner
 from .syntax_extractor import SyntaxExtractor
 from .treesitter_parser import TREE_SITTER_AVAILABLE, TreeSitterParser

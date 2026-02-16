@@ -7,12 +7,21 @@ The Slot[T] wrapper provides:
     - Provenance: .produced_by tracks which analyzer populated the slot
 
 Slots prevent FM-12 (Slot not populated) crashes by requiring explicit checks.
+
+The AnalysisStore now bridges to FactStore (v2 infrastructure), enabling
+incremental migration. The fact_store property exposes the underlying
+FactStore, and _sync_entities() pushes file_metrics into it as entities
+with basic signals.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
+
+from shannon_insight.infrastructure.entities import Entity, EntityId, EntityType
+from shannon_insight.infrastructure.signals import Signal
+from shannon_insight.infrastructure.store import FactStore
 
 if TYPE_CHECKING:
     from shannon_insight.signals.models import SignalField

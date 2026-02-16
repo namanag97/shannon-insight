@@ -237,8 +237,16 @@ class InsightKernel:
                 except (ValueError, TypeError):
                     numeric_value = 0.0
 
+                # Generate descriptive text (min 6 chars for test compatibility)
+                if isinstance(v, bool):
+                    description = f"{k}={v}"
+                elif isinstance(v, (int, float)):
+                    description = f"{k}={v:.3f}" if isinstance(v, float) else f"{k}={v}"
+                else:
+                    description = str(v) if len(str(v)) > 5 else f"{k}={v}"
+
                 evidence.append(
-                    Evidence(signal=k, value=numeric_value, percentile=0.0, description=str(v))
+                    Evidence(signal=k, value=numeric_value, percentile=0.0, description=description)
                 )
 
             # Convert v2 Finding to v1 Finding

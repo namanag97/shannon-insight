@@ -2,7 +2,7 @@
 
 from .base import BaseScanner
 
-# v2 models and components
+# Syntax models and components
 from .fallback import RegexFallbackScanner
 from .languages import (
     DEFAULT_SOURCE_EXTENSIONS,

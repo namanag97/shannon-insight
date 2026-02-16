@@ -193,13 +193,13 @@ def launch_server(
     # ── Step 1: Check for existing server ─────────────────────────
     existing = validate_existing_server(project_root, host)
     if existing is not None:
-        # Server already running for THIS project
+        # Server already running for THIS project - just show URL, don't open browser
+        # (avoids opening new tabs on every reconnect)
         url = f"http://{host}:{existing.port}"
         console.print(
             f"[bold]Dashboard[/bold] -> [link={url}]{url}[/link] [dim](already running, PID {existing.pid})[/dim]"
         )
-        if not no_browser:
-            webbrowser.open(url)
+        console.print("[dim]Tip: Server is already running. Navigate to the URL above.[/dim]")
         return
 
     # ── Step 2: Find available port ───────────────────────────────

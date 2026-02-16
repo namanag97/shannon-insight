@@ -2,6 +2,8 @@
 
 from collections import defaultdict
 
+from ...infrastructure.entities import EntityId, EntityType
+from ...infrastructure.signals import Signal
 from ...logging_config import get_logger
 from ...temporal.models import SpectralSummary
 from ..store_v2 import AnalysisStore

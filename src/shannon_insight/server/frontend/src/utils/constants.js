@@ -247,6 +247,7 @@ export const SIGNAL_POLARITY = {
   community: null,
   concept_count: null,
   concept_entropy: null,
+  finding_count: null,
 };
 
 /** Category display order and labels. */

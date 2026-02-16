@@ -80,27 +80,16 @@ def report(
     logger = setup_logging(verbose=verbose)
 
     try:
-        settings = resolve_settings(
-            config=config,
-            no_cache=False,
-            workers=workers,
-            verbose=verbose,
-        )
-
-        max_findings = settings.insights_max_findings
-
         # -- Run the insight pipeline --
-        from ..insights import InsightKernel
-
-        kernel = InsightKernel(
-            str(target),
-            language="auto",
-            settings=settings,
+        result, snapshot = analyze(
+            path=str(target),
+            config_file=config,
+            verbose=verbose,
+            workers=workers,
         )
-        result, snapshot = kernel.run(max_findings=max_findings)
 
-        # -- Persist snapshot if history is enabled --
-        if settings.enable_history:
+        # -- Persist snapshot (always enabled by default) --
+        if snapshot.metadata.config.get("enable_history", True):
             try:
                 from ..persistence import HistoryDB
                 from ..persistence.writer import save_tensor_snapshot

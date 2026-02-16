@@ -811,7 +811,7 @@ class TestModuleSignalsCollection:
         from shannon_insight.architecture.models import Architecture, Module
 
         store = AnalysisStore()
-        store.file_metrics = [MockFileSyntax("/mod/a.py")]
+        _set_file_syntax(store, [MockFileSyntax("/mod/a.py")])
 
         # Create architecture with a module
         arch = Architecture()

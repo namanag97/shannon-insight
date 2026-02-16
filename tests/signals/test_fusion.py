@@ -49,14 +49,14 @@ class TestFusionPipelineStructure:
     def test_pipeline_creates_signal_field(self):
         """Pipeline creates SignalField."""
         store = AnalysisStore()
-        pipeline = FusionPipeline(store)
+        pipeline = FusionPipeline(store, _make_session(store))
         assert isinstance(pipeline.field, SignalField)
 
     def test_step1_returns_collected(self):
         """step1_collect returns _Collected."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
-        pipeline = FusionPipeline(store)
+        pipeline = FusionPipeline(store, _make_session(store))
         result = pipeline.step1_collect()
         assert isinstance(result, _Collected)
 
@@ -64,7 +64,7 @@ class TestFusionPipelineStructure:
         """step2_raw_risk returns _RawRisked."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
-        collected = FusionPipeline(store).step1_collect()
+        collected = FusionPipeline(store, _make_session(store)).step1_collect()
         result = collected.step2_raw_risk()
         assert isinstance(result, _RawRisked)
 
@@ -72,7 +72,7 @@ class TestFusionPipelineStructure:
         """step3_normalize returns _Normalized."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
-        raw_risked = FusionPipeline(store).step1_collect().step2_raw_risk()
+        raw_risked = FusionPipeline(store, _make_session(store)).step1_collect().step2_raw_risk()
         result = raw_risked.step3_normalize()
         assert isinstance(result, _Normalized)
 
@@ -80,7 +80,7 @@ class TestFusionPipelineStructure:
         """step4_module_temporal returns _ModuleTemporal."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
-        normalized = FusionPipeline(store).step1_collect().step2_raw_risk().step3_normalize()
+        normalized = FusionPipeline(store, _make_session(store)).step1_collect().step2_raw_risk().step3_normalize()
         result = normalized.step4_module_temporal()
         assert isinstance(result, _ModuleTemporal)
 
@@ -89,7 +89,7 @@ class TestFusionPipelineStructure:
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
         module_temporal = (
-            FusionPipeline(store)
+            FusionPipeline(store, _make_session(store))
             .step1_collect()
             .step2_raw_risk()
             .step3_normalize()
@@ -103,7 +103,7 @@ class TestFusionPipelineStructure:
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
         composited = (
-            FusionPipeline(store)
+            FusionPipeline(store, _make_session(store))
             .step1_collect()
             .step2_raw_risk()
             .step3_normalize()
@@ -166,7 +166,7 @@ class TestOrderEnforcement:
         """Cannot call step5 on _Collected (must go through steps 2,3,4)."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics("/a.py")]
-        collected = FusionPipeline(store).step1_collect()
+        collected = FusionPipeline(store, _make_session(store)).step1_collect()
 
         # _Collected only has step2_raw_risk
         assert hasattr(collected, "step2_raw_risk")
@@ -179,7 +179,7 @@ class TestOrderEnforcement:
         store.file_metrics = [MockFileMetrics("/a.py")]
 
         # _Collected -> step2_raw_risk
-        collected = FusionPipeline(store).step1_collect()
+        collected = FusionPipeline(store, _make_session(store)).step1_collect()
         assert hasattr(collected, "step2_raw_risk")
 
         # _RawRisked -> step3_normalize

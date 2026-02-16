@@ -211,6 +211,7 @@ export const SIGNAL_POLARITY = {
   broken_call_count: true,
   fix_ratio: true,
   blast_radius_size: true,
+  blast_radius: true,
   todo_density: true,
   naming_drift: true,
   impl_gini: true,

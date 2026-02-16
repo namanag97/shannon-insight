@@ -210,26 +210,10 @@ def _walk_directory(root: Path) -> list[Path]:
     Returns:
         List of relative file paths
     """
-    # Common directories to skip
-    skip_dirs = {
-        ".git",
-        "node_modules",
-        "venv",
-        ".venv",
-        "__pycache__",
-        "dist",
-        "build",
-        ".tox",
-        ".mypy_cache",
-        ".ruff_cache",
-        ".pytest_cache",
-        "vendor",
-    }
-
     files: list[Path] = []
     for item in root.rglob("*"):
-        # Skip if any parent directory is in skip_dirs
-        if any(part in skip_dirs for part in item.parts):
+        # Skip if any parent directory is in SKIP_DIRS (canonical constant from languages.py)
+        if any(part in SKIP_DIRS for part in item.parts):
             continue
 
         if item.is_file() and _is_source_file(str(item.relative_to(root))):

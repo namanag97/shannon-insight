@@ -29,7 +29,7 @@ _TRAJECTORY_MAP: dict[str, float] = {
 def capture_snapshot(
     store: AnalysisStore,
     result: InsightResult,
-    settings: AnalysisSettings,
+    session: AnalysisSettings,
 ) -> Snapshot:
     """Build an immutable V1 Snapshot from the analysis store and result.
 
@@ -41,7 +41,7 @@ def capture_snapshot(
         The populated ``AnalysisStore`` blackboard.
     result:
         The ``InsightResult`` returned by the kernel.
-    settings:
+    session:
         The ``AnalysisSettings`` used for this run.
 
     Returns
@@ -54,7 +54,7 @@ def capture_snapshot(
     findings = _convert_findings(result)
     dependency_edges = _collect_dependency_edges(store)
     commit_sha = _get_commit_sha(store.root_dir)
-    config_hash = _compute_config_hash(settings)
+    config_hash = _compute_config_hash(session)
     analyzers_ran = _determine_analyzers_ran(store)
 
     return Snapshot(
@@ -104,7 +104,7 @@ def capture_tensor_snapshot(
         A complete V2 snapshot with full signal data.
     """
     commit_sha = _get_commit_sha(store.root_dir)
-    config_hash = _compute_config_hash(settings)
+    config_hash = _compute_config_hash(session)
     analyzers_ran = _determine_analyzers_ran(store)
     dependency_edges = _collect_dependency_edges(store)
     cochange_edges = _collect_cochange_edges(store)
@@ -492,9 +492,9 @@ def _get_commit_sha(repo_path: str) -> Optional[str]:
     return None
 
 
-def _compute_config_hash(settings: AnalysisSettings) -> str:
-    """Compute a config hash from the settings for cache-key purposes."""
-    config_dict = settings.model_dump()
+def _compute_config_hash(session: AnalysisSettings) -> str:
+    """Compute a config hash from the session for cache-key purposes."""
+    config_dict = session.model_dump()
     return compute_config_hash(config_dict)
 
 

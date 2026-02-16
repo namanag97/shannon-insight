@@ -104,3 +104,6 @@ class ArchitectureAnalyzer:
             f"Architecture analysis complete: {architecture.module_count} modules, "
             f"{architecture.max_depth + 1} layers, {len(violations)} violations"
         )
+
+        # Sync to FactStore
+        self._sync_to_fact_store(store, architecture)

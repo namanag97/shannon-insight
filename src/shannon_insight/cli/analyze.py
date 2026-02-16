@@ -165,7 +165,7 @@ def _output_rich(result, snapshot, verbose: bool = False):
     console.print()
     console.print(
         f"[bold cyan]Analysis Complete[/bold cyan] - "
-        f"{snapshot.metadata.total_files} files analyzed"
+        f"{snapshot.file_count} files analyzed"
     )
     console.print()
 

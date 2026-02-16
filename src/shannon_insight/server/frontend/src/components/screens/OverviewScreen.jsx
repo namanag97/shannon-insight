@@ -1,5 +1,5 @@
 /**
- * OverviewScreen v2 - Redesigned with proper information architecture
+ * OverviewScreen - Redesigned with proper information architecture
  *
  * Information Priority:
  * 1. Hero - Health score + verdict (how healthy is my code?)

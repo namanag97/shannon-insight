@@ -157,28 +157,28 @@ class TestTierDetection:
         """14 files is still ABSOLUTE."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(14)]
-        pipeline = FusionPipeline(store)
+        pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "ABSOLUTE"
 
     def test_boundary_15_is_bayesian(self):
         """15 files is BAYESIAN."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(15)]
-        pipeline = FusionPipeline(store)
+        pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "BAYESIAN"
 
     def test_boundary_49_is_bayesian(self):
         """49 files is still BAYESIAN."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(49)]
-        pipeline = FusionPipeline(store)
+        pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "BAYESIAN"
 
     def test_boundary_50_is_full(self):
         """50 files is FULL."""
         store = AnalysisStore()
         store.file_metrics = [MockFileMetrics(f"/f{i}.py") for i in range(50)]
-        pipeline = FusionPipeline(store)
+        pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "FULL"
 
 

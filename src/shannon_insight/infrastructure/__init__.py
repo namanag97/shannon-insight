@@ -22,6 +22,13 @@ from shannon_insight.infrastructure.relations import (
     RelationGraph,
     RelationType,
 )
+from shannon_insight.infrastructure.signals import (
+    Polarity,
+    Signal,
+    SignalSpec,
+    SignalStore,
+    SIGNAL_REGISTRY,
+)
 from shannon_insight.infrastructure.thresholds import (
     ThresholdCheck,
     compute_hotspot_median,

@@ -1,73 +1,93 @@
-"""
-Configuration management for Shannon Insight.
+"""Configuration loading and management for Shannon Insight.
 
-Uses pydantic-settings for type-safe configuration with automatic validation.
+This module provides configuration discovery and validation. Configuration
+sources are merged in priority order:
+    1. Defaults (defined in AnalysisConfig)
+    2. Global config (~/.shannon-insight.toml)
+    3. Project config (./shannon-insight.toml)
+    4. CLI overrides (passed as kwargs)
+
+Example:
+    >>> config = load_config(verbose=True, max_findings=100)
+    >>> config.verbosity
+    'verbose'
+    >>> config.max_findings
+    100
 """
 
+from __future__ import annotations
+
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Literal, Optional
 
-from pydantic import Field, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from .exceptions import ShannonInsightError
+
+# Type aliases for clarity
+Verbosity = Literal["quiet", "normal", "verbose"]
 
 
-class AnalysisSettings(BaseSettings):
+@dataclass(frozen=True)
+class AnalysisConfig:
+    """Configuration for analysis execution.
+
+    All fields have sensible defaults. Users typically override only a few
+    fields via CLI flags or config file.
+
+    Attributes:
+        Analysis algorithm parameters:
+            pagerank_damping: Damping factor for PageRank (0.0-1.0)
+            pagerank_iterations: Maximum iterations for PageRank convergence
+            pagerank_tolerance: Convergence tolerance for PageRank
+
+        Performance tuning:
+            workers: Number of parallel workers (None = auto-detect)
+            timeout_seconds: Timeout for file operations
+
+        Caching:
+            cache_enabled: Enable disk caching for faster re-analysis
+            cache_dir: Directory for cache storage
+            cache_ttl_hours: Cache time-to-live in hours
+
+        File filtering:
+            exclude_patterns: Glob patterns to exclude from analysis
+            max_file_size_mb: Maximum file size to analyze (MB)
+            max_files: Maximum number of files to analyze
+
+        Git integration:
+            git_max_commits: Maximum commits to analyze (0 = unlimited)
+            git_min_commits: Minimum commits required for temporal analysis
+
+        Output control:
+            max_findings: Maximum findings to return
+            verbosity: Logging verbosity level
+
+        Feature flags:
+            enable_validation: Enable phase validation contracts
+            enable_history: Auto-save snapshots to .shannon/ directory
+
+        Security:
+            allow_hidden_files: Include hidden files (starting with .)
+            follow_symlinks: Follow symbolic links during scanning
     """
-    Type-safe configuration with automatic validation.
 
-    Configuration hierarchy (highest to lowest priority):
-    1. CLI arguments (merged manually in CLI)
-    2. Environment variables (SHANNON_*)
-    3. TOML file (./shannon-insight.toml or ~/.shannon-insight.toml)
-    4. Defaults defined in Field()
-    """
+    # Analysis algorithm parameters
+    pagerank_damping: float = 0.85
+    pagerank_iterations: int = 20
+    pagerank_tolerance: float = 1e-6
 
-    model_config = SettingsConfigDict(
-        env_prefix="SHANNON_",
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore",
-    )
+    # Performance tuning
+    workers: Optional[int] = None  # None = auto-detect from CPU cores
+    timeout_seconds: int = 10
 
-    # ==================== Anomaly Detection ====================
-    # Legacy — unused by InsightKernel, kept for config file compatibility
+    # Caching
+    cache_enabled: bool = True
+    cache_dir: str = ".shannon-cache"
+    cache_ttl_hours: int = 24
 
-    z_score_threshold: float = Field(
-        default=1.5,
-        gt=0.0,
-        lt=10.0,
-        description="Z-score threshold for anomaly detection",
-    )
-
-    # ==================== PageRank ====================
-
-    pagerank_damping: float = Field(
-        default=0.85, ge=0.0, le=1.0, description="PageRank damping factor"
-    )
-
-    pagerank_iterations: int = Field(
-        default=20, ge=1, le=100, description="Maximum PageRank iterations"
-    )
-
-    pagerank_tolerance: float = Field(
-        default=1e-6, gt=0.0, description="PageRank convergence tolerance"
-    )
-
-    # ==================== Signal Fusion ====================
-    # Legacy — unused by InsightKernel, kept for config file compatibility
-
-    fusion_weights: list[float] = Field(
-        default=[0.2, 0.25, 0.2, 0.15, 0.2],
-        description="Signal fusion weights [entropy, centrality, churn, coherence, cognitive]",
-    )
-
-    fusion_normalize: bool = Field(default=True, description="Normalize weights to sum to 1.0")
-
-    # ==================== File Filtering ====================
-
-    exclude_patterns: list[str] = Field(
-        default=[
+    # File filtering
+    exclude_patterns: list[str] = field(
+        default_factory=lambda: [
             "*_test.go",
             "*_test.ts",
             "*.test.ts",
@@ -93,146 +113,62 @@ class AnalysisSettings(BaseSettings):
             "*.bundle.js",
             "*.generated.*",
             "experiments/*",
-        ],
-        description="File patterns to exclude from analysis",
+        ]
     )
+    max_file_size_mb: float = 10.0
+    max_files: int = 10000
 
-    max_file_size_mb: float = Field(
-        default=10.0, gt=0.0, le=100.0, description="Maximum file size in MB"
-    )
+    # Git integration
+    git_max_commits: int = 5000
+    git_min_commits: int = 10
 
-    max_files: int = Field(
-        default=10000, gt=0, le=100000, description="Maximum number of files to analyze"
-    )
+    # Output control
+    max_findings: int = 50
+    verbosity: Verbosity = "normal"
 
-    # ==================== Performance ====================
+    # Feature flags
+    enable_validation: bool = True
+    enable_history: bool = True
 
-    parallel_workers: Optional[int] = Field(
-        default=None,
-        ge=1,
-        le=32,
-        description="Number of parallel workers (None = auto-detect)",
-    )
+    # Security
+    allow_hidden_files: bool = False
+    follow_symlinks: bool = False
 
-    timeout_seconds: int = Field(
-        default=10, ge=1, le=300, description="Timeout for file operations in seconds"
-    )
+    def __post_init__(self) -> None:
+        """Validate configuration after initialization."""
+        # Validate PageRank parameters
+        if not 0.0 <= self.pagerank_damping <= 1.0:
+            raise ValueError("pagerank_damping must be between 0.0 and 1.0")
+        if self.pagerank_iterations < 1:
+            raise ValueError("pagerank_iterations must be at least 1")
+        if self.pagerank_tolerance <= 0:
+            raise ValueError("pagerank_tolerance must be positive")
 
-    # ==================== Cache ====================
+        # Validate performance parameters
+        if self.workers is not None and self.workers < 1:
+            raise ValueError("workers must be at least 1")
+        if self.timeout_seconds < 1:
+            raise ValueError("timeout_seconds must be at least 1")
 
-    enable_cache: bool = Field(
-        default=True, description="Enable caching for faster repeated analysis"
-    )
+        # Validate cache parameters
+        if self.cache_ttl_hours < 0:
+            raise ValueError("cache_ttl_hours must be non-negative")
 
-    cache_dir: str = Field(default=".shannon-cache", description="Cache directory path")
+        # Validate file filtering
+        if self.max_file_size_mb <= 0:
+            raise ValueError("max_file_size_mb must be positive")
+        if self.max_files < 1:
+            raise ValueError("max_files must be at least 1")
 
-    cache_ttl_hours: int = Field(
-        default=24,
-        ge=0,
-        le=720,  # 30 days max
-        description="Cache time-to-live in hours",
-    )
+        # Validate git parameters
+        if self.git_max_commits < 0:
+            raise ValueError("git_max_commits must be non-negative")
+        if self.git_min_commits < 0:
+            raise ValueError("git_min_commits must be non-negative")
 
-    # ==================== Logging ====================
-
-    verbose: bool = Field(default=False, description="Enable verbose (DEBUG) logging")
-
-    quiet: bool = Field(default=False, description="Suppress all but ERROR logging")
-
-    log_file: Optional[str] = Field(default=None, description="Log file path (optional)")
-
-    # ==================== Insights ====================
-
-    git_max_commits: int = Field(
-        default=5000,
-        ge=0,
-        le=100000,
-        description="Max git commits to analyze (0 = no limit)",
-    )
-
-    git_min_commits: int = Field(
-        default=10,
-        ge=0,
-        description="Min commits required for temporal analysis",
-    )
-
-    insights_max_findings: int = Field(
-        default=50,
-        ge=1,
-        le=500,
-        description="Max findings to show in insights command",
-    )
-
-    enable_validation: bool = Field(
-        default=True,
-        description="Enable phase validation contracts between pipeline stages",
-    )
-
-    # ==================== History ====================
-
-    enable_history: bool = Field(default=True, description="Auto-save snapshots to .shannon/")
-
-    history_max_snapshots: int = Field(
-        default=100,
-        ge=1,
-        le=10000,
-        description="Maximum snapshots to retain (oldest pruned)",
-    )
-
-    # ==================== Security ====================
-
-    allow_hidden_files: bool = Field(
-        default=False, description="Allow analysis of hidden files (starting with .)"
-    )
-
-    block_system_dirs: bool = Field(default=True, description="Block access to system directories")
-
-    follow_symlinks: bool = Field(
-        default=False, description="Follow symbolic links during scanning"
-    )
-
-    # ==================== Validators ====================
-
-    @field_validator("fusion_weights")
-    @classmethod
-    def validate_fusion_weights(cls, v: list[float]) -> list[float]:
-        """Validate fusion weights."""
-        if len(v) != 5:
-            raise ValueError("fusion_weights must have exactly 5 values")
-
-        if any(w < 0 for w in v):
-            raise ValueError("fusion_weights must be non-negative")
-
-        weight_sum = sum(v)
-        if weight_sum == 0:
-            raise ValueError("fusion_weights cannot all be zero")
-
-        # Normalize to sum to 1.0
-        return [w / weight_sum for w in v]
-
-    @field_validator("cache_dir")
-    @classmethod
-    def validate_cache_dir(cls, v: str) -> str:
-        """Validate cache directory."""
-        # Convert to absolute path
-        cache_path = Path(v)
-        if not cache_path.is_absolute():
-            try:
-                cache_path = Path.cwd() / cache_path
-            except (FileNotFoundError, OSError):
-                # Fallback to home directory if cwd doesn't exist
-                cache_path = Path.home() / v
-        return str(cache_path)
-
-    @field_validator("parallel_workers")
-    @classmethod
-    def validate_parallel_workers(cls, v: Optional[int]) -> Optional[int]:
-        """Validate parallel workers count."""
-        if v is not None and v < 1:
-            raise ValueError("parallel_workers must be at least 1")
-        return v
-
-    # ==================== Computed Properties ====================
+        # Validate output
+        if self.max_findings < 1:
+            raise ValueError("max_findings must be at least 1")
 
     @property
     def max_file_size_bytes(self) -> int:
@@ -245,44 +181,105 @@ class AnalysisSettings(BaseSettings):
         return self.cache_ttl_hours * 3600
 
 
-def load_settings(config_file: Optional[Path] = None, **overrides) -> AnalysisSettings:
-    """
-    Load settings from config file and environment variables.
+def load_config(config_file: Optional[Path] = None, **overrides) -> AnalysisConfig:
+    """Load configuration with auto-discovery and merging.
+
+    Configuration sources are merged in priority order (lowest to highest):
+        1. Defaults (AnalysisConfig field defaults)
+        2. Global config (~/.shannon-insight.toml)
+        3. Project config (./shannon-insight.toml)
+        4. Explicit config file (if config_file provided)
+        5. CLI overrides (kwargs)
 
     Args:
-        config_file: Optional TOML config file path
-        **overrides: Manual overrides (typically from CLI args)
+        config_file: Optional explicit config file path
+        **overrides: Direct overrides (typically from CLI flags)
 
     Returns:
-        Loaded settings with all overrides applied
+        Validated AnalysisConfig instance
+
+    Raises:
+        ShannonInsightError: If config file is invalid or missing
+
+    Example:
+        >>> config = load_config(verbose=True)
+        >>> config.verbosity
+        'verbose'
+
+        >>> config = load_config(config_file=Path("custom.toml"))
     """
-    # Try to load from TOML file
-    if config_file and config_file.exists():
-        # pydantic-settings doesn't natively support TOML
-        # We'll load it manually and pass as overrides
+    # Start with empty dict - dataclass defaults will fill in
+    merged: dict = {}
+
+    # 1. Try global config
+    global_config = Path.home() / ".shannon-insight.toml"
+    if global_config.exists():
         try:
-            import tomllib
-        except ModuleNotFoundError:
-            try:
-                tomllib = __import__("tomli")
-            except ImportError:
-                tomllib = None
+            merged.update(_load_toml_file(global_config))
+        except Exception as e:
+            raise ShannonInsightError(f"Invalid global config '{global_config}': {e}")
 
-        if tomllib is not None:
-            try:
-                with open(config_file, "rb") as f:
-                    toml_data = tomllib.load(f)
-                # Merge TOML data with overrides (overrides take precedence)
-                merged = {**toml_data, **overrides}
-                return AnalysisSettings(**merged)
-            except Exception as e:
-                from .exceptions import ShannonInsightError
+    # 2. Try project config
+    project_config = Path.cwd() / "shannon-insight.toml"
+    if project_config.exists():
+        try:
+            merged.update(_load_toml_file(project_config))
+        except Exception as e:
+            raise ShannonInsightError(f"Invalid project config '{project_config}': {e}")
 
-                raise ShannonInsightError(f"Invalid configuration file '{config_file}': {e}")
+    # 3. Explicit config file (highest priority from files)
+    if config_file is not None:
+        if not config_file.exists():
+            raise ShannonInsightError(f"Config file not found: {config_file}")
+        try:
+            merged.update(_load_toml_file(config_file))
+        except Exception as e:
+            raise ShannonInsightError(f"Invalid config file '{config_file}': {e}")
 
-    # Load from environment variables + overrides
-    return AnalysisSettings(**overrides)
+    # 4. CLI overrides (highest priority)
+    # Convert verbosity boolean flags to string
+    if "verbose" in overrides and overrides["verbose"]:
+        overrides["verbosity"] = "verbose"
+        del overrides["verbose"]
+    if "quiet" in overrides and overrides["quiet"]:
+        overrides["verbosity"] = "quiet"
+        del overrides["quiet"]
+
+    merged.update(overrides)
+
+    # Create and validate config
+    try:
+        return AnalysisConfig(**merged)
+    except TypeError as e:
+        # Unknown field in config
+        raise ShannonInsightError(f"Invalid configuration: {e}")
 
 
-# Default settings instance
-default_settings = AnalysisSettings()
+def _load_toml_file(path: Path) -> dict:
+    """Load TOML file and return parsed dict.
+
+    Args:
+        path: Path to TOML file
+
+    Returns:
+        Parsed TOML as dict
+
+    Raises:
+        ImportError: If tomllib/tomli not available
+        Exception: If TOML parsing fails
+    """
+    try:
+        # Python 3.11+ has tomllib in stdlib
+        import tomllib
+    except ModuleNotFoundError:
+        try:
+            # Fallback to tomli for Python 3.9-3.10
+            import tomli as tomllib  # type: ignore
+        except ImportError:
+            raise ShannonInsightError(
+                "TOML support requires Python 3.11+ or 'tomli' package. "
+                "Install with: pip install tomli"
+            )
+
+    with open(path, "rb") as f:
+        return tomllib.load(f)

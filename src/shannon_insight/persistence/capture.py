@@ -29,7 +29,7 @@ _TRAJECTORY_MAP: dict[str, float] = {
 def capture_snapshot(
     store: AnalysisStore,
     result: InsightResult,
-    session: AnalysisSettings,
+    session: AnalysisSession,
 ) -> Snapshot:
     """Build an immutable V1 Snapshot from the analysis store and result.
 
@@ -42,7 +42,7 @@ def capture_snapshot(
     result:
         The ``InsightResult`` returned by the kernel.
     session:
-        The ``AnalysisSettings`` used for this run.
+        The ``AnalysisSession`` used for this run.
 
     Returns
     -------

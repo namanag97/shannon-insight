@@ -10,7 +10,7 @@ from typing import Any, Optional
 
 from .. import __version__
 from ..cache import compute_config_hash
-from ..config import AnalysisSettings
+from ..session import AnalysisSession
 from ..insights.models import InsightResult
 from ..insights.store_v2 import AnalysisStore
 from ..signals.models import FileSignals, GlobalSignals, ModuleSignals

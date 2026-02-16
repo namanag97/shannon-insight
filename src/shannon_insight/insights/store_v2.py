@@ -24,6 +24,7 @@ from shannon_insight.infrastructure.signals import Signal
 from shannon_insight.infrastructure.store import FactStore
 
 if TYPE_CHECKING:
+    from shannon_insight.session import AnalysisSession
     from shannon_insight.signals.models import SignalField
 
 T = TypeVar("T")

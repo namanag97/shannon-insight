@@ -24,7 +24,7 @@ import { RiskHistogram } from "../charts/RiskHistogram.jsx";
 import { TrendChart } from "../charts/TrendChart.jsx";
 import { SeverityDot } from "../ui/SeverityDot.jsx";
 
-export function OverviewScreenV2() {
+export function OverviewScreen() {
   const data = useStore((s) => s.data);
   if (!data) return null;
 

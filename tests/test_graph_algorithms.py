@@ -35,15 +35,15 @@ class TestBuildDependencyGraph:
         assert graph.all_nodes == set()
 
     def test_single_file_no_imports(self):
-        graph = build_dependency_graph([_fm("a.py")])
+        graph = build_dependency_graph([_fs("a.py")])
         assert graph.edge_count == 0
         assert graph.all_nodes == {"a.py"}
         assert graph.adjacency["a.py"] == []
 
     def test_resolved_import(self):
         metrics = [
-            _fm("src/pkg/a.py", imports=[".b"]),
-            _fm("src/pkg/b.py"),
+            _fs("src/pkg/a.py", imports=[".b"]),
+            _fs("src/pkg/b.py"),
         ]
         graph = build_dependency_graph(metrics)
         assert graph.edge_count == 1
@@ -51,7 +51,7 @@ class TestBuildDependencyGraph:
         assert "src/pkg/a.py" in graph.reverse["src/pkg/b.py"]
 
     def test_unresolved_import_ignored(self):
-        metrics = [_fm("a.py", imports=["os", "pathlib"])]
+        metrics = [_fs("a.py", imports=["os", "pathlib"])]
         graph = build_dependency_graph(metrics)
         assert graph.edge_count == 0
 
@@ -60,8 +60,8 @@ class TestBuildDependencyGraph:
         # Single-segment imports (os, pathlib) are treated as stdlib/external
         # Relative imports are always considered internal (phantom)
         metrics = [
-            _fm("pkg/a.py", imports=["os", "pathlib", ".missing", "pkg.submod"]),
-            _fm("pkg/b.py", imports=[]),
+            _fs("pkg/a.py", imports=["os", "pathlib", ".missing", "pkg.submod"]),
+            _fs("pkg/b.py", imports=[]),
         ]
         graph = build_dependency_graph(metrics)
         assert "pkg/a.py" in graph.unresolved_imports
@@ -72,7 +72,7 @@ class TestBuildDependencyGraph:
         assert "pkg.submod" in graph.unresolved_imports["pkg/a.py"]
 
     def test_self_import_ignored(self):
-        metrics = [_fm("src/pkg/a.py", imports=[".a"])]
+        metrics = [_fs("src/pkg/a.py", imports=[".a"])]
         graph = build_dependency_graph(metrics)
         assert graph.edge_count == 0
 

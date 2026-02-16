@@ -1,5 +1,5 @@
 /**
- * IssuesScreen v2 - Redesigned with proper information architecture
+ * IssuesScreen - Redesigned with proper information architecture
  *
  * Information Priority:
  * 1. Severity Overview Bar - Visual distribution (CRITICAL | HIGH | MEDIUM | LOW | INFO)

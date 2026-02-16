@@ -9,14 +9,59 @@ import { polarColor } from "../../utils/helpers.js";
 import { SIGNAL_LABELS, SIGNAL_CATEGORIES, SIGNAL_DESCRIPTIONS } from "../../utils/constants.js";
 import { interpretSignal } from "../../utils/interpretations.js";
 
-// Collect all inspectable signals (numeric ones that appear in file signals)
-function getInspectableSignals() {
+// Collect all inspectable signals from BOTH constants AND actual data
+function getInspectableSignals(data) {
+  // Start with hardcoded signals from constants
+  const known = new Set();
   const signals = [];
+
   for (const cat of SIGNAL_CATEGORIES) {
     for (const sig of cat.signals) {
+      known.add(sig);
       signals.push({ key: sig, label: SIGNAL_LABELS[sig] || sig, category: cat.name });
     }
   }
+
+  // Discover additional signals from actual data that aren't in constants
+  if (data && data.files) {
+    const discovered = new Set();
+    for (const path in data.files) {
+      const f = data.files[path];
+      const sigs = f.signals || {};
+
+      // Check both f.signals and top-level file data
+      for (const sig of Object.keys(sigs)) {
+        if (!known.has(sig) && !discovered.has(sig)) {
+          const val = sigs[sig];
+          // Only include numeric/boolean signals (inspectable ones)
+          if (typeof val === "number" || typeof val === "boolean") {
+            discovered.add(sig);
+            signals.push({
+              key: sig,
+              label: SIGNAL_LABELS[sig] || sig,
+              category: "Discovered Signals"
+            });
+          }
+        }
+      }
+
+      // Also check top-level fields
+      for (const key of Object.keys(f)) {
+        if (!known.has(key) && !discovered.has(key) && key !== "signals") {
+          const val = f[key];
+          if (typeof val === "number" || typeof val === "boolean") {
+            discovered.add(key);
+            signals.push({
+              key: key,
+              label: SIGNAL_LABELS[key] || key,
+              category: "Discovered Signals"
+            });
+          }
+        }
+      }
+    }
+  }
+
   return signals;
 }
 

@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Optional
 
 from .logging_config import get_logger
+from .scanning.languages import SKIP_DIRS
 
 logger = get_logger(__name__)
 

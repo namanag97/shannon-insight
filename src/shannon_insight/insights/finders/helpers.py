@@ -42,9 +42,7 @@ def compute_median(store: FactStore, signal: Signal) -> float:
     return values[n // 2]
 
 
-def compute_confidence_from_margins(
-    triggered: list[tuple[str, float, float, str]]
-) -> float:
+def compute_confidence_from_margins(triggered: list[tuple[str, float, float, str]]) -> float:
     """Compute confidence from margins above/below thresholds.
 
     Args:
@@ -58,7 +56,7 @@ def compute_confidence_from_margins(
         return 0.0
 
     margins = []
-    for signal, actual, threshold, polarity in triggered:
+    for _signal, actual, threshold, polarity in triggered:
         if polarity == "high_is_bad":
             margin = (actual - threshold) / (1.0 - threshold) if threshold < 1 else 0
         else:  # high_is_good

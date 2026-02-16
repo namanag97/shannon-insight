@@ -199,7 +199,7 @@ class AnalysisEngine:
         """Compute per-module (directory) metrics: cohesion, coupling."""
         # Group files by parent directory
         module_files: dict[str, list[str]] = defaultdict(list)
-        for fm in self.file_metrics:
+        for fm in self.file_syntax:
             module_path = str(Path(fm.path).parent)
             module_files[module_path].append(fm.path)
 

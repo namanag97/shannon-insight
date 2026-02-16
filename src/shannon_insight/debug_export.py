@@ -586,13 +586,13 @@ class DebugExporter:
         stages = []
 
         # Check which stages produced data
-        if store.file_metrics:
+        if store.files:
             stages.append(
                 {
                     "file": "01_scanning.json",
                     "stage": "Scanning",
-                    "description": "FileMetrics from language scanners",
-                    "items": len(store.file_metrics),
+                    "description": "FileSyntax from parsing",
+                    "items": store.file_count,
                 }
             )
 

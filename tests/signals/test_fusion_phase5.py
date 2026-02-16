@@ -240,7 +240,7 @@ class TestTierDetection:
     def test_boundary_50_is_full(self):
         """50 files is FULL."""
         store = AnalysisStore()
-        store.file_metrics = [MockFileSyntax(f"/f{i}.py") for i in range(50)]
+        _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(50)])
         pipeline = FusionPipeline(store, _make_session(store))
         assert pipeline.field.tier == "FULL"
 

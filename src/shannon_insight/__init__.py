@@ -13,7 +13,7 @@ __author__ = "Naman Agarwal"
 
 from .api import analyze
 from .insights import Finding, InsightKernel, InsightResult
-from .scanning.models import FileMetrics
+from .scanning.syntax import FileSyntax
 from .signals.models import Primitives, PrimitiveValues
 
 __all__ = [
@@ -21,7 +21,7 @@ __all__ = [
     "InsightKernel",  # Advanced usage (direct kernel access)
     "InsightResult",
     "Finding",
-    "FileMetrics",
+    "FileSyntax",
     "Primitives",
     "PrimitiveValues",
 ]

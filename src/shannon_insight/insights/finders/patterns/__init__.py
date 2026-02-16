@@ -8,7 +8,14 @@ Mirrors the canonical v2 architecture docs structure:
 - cross_dimensional.py: 3 cross-dimensional patterns
 """
 
-from .ai_quality import COPY_PASTE_CLONE, FLAT_ARCHITECTURE, HOLLOW_CODE, NAMING_DRIFT, ORPHAN_CODE, PHANTOM_IMPORTS
+from .ai_quality import (
+    COPY_PASTE_CLONE,
+    FLAT_ARCHITECTURE,
+    HOLLOW_CODE,
+    NAMING_DRIFT,
+    ORPHAN_CODE,
+    PHANTOM_IMPORTS,
+)
 from .architecture import ARCHITECTURE_EROSION, LAYER_VIOLATION, ZONE_OF_PAIN
 from .cross_dimensional import ACCIDENTAL_COUPLING, BUG_ATTRACTOR, WEAK_LINK
 from .existing import (

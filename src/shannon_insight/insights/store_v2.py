@@ -155,15 +155,9 @@ class AnalysisStore:
             self._fact_store.add_entity(entity)
             # Set basic signals using actual FileMetrics field names
             self._fact_store.set_signal(entity_id, Signal.LINES, fm.lines)
-            self._fact_store.set_signal(
-                entity_id, Signal.FUNCTION_COUNT, fm.functions
-            )
-            self._fact_store.set_signal(
-                entity_id, Signal.CLASS_COUNT, fm.structs
-            )
-            self._fact_store.set_signal(
-                entity_id, Signal.IMPORT_COUNT, len(fm.imports)
-            )
+            self._fact_store.set_signal(entity_id, Signal.FUNCTION_COUNT, fm.functions)
+            self._fact_store.set_signal(entity_id, Signal.CLASS_COUNT, fm.structs)
+            self._fact_store.set_signal(entity_id, Signal.IMPORT_COUNT, len(fm.imports))
 
     def get_content(self, rel_path: str) -> str | None:
         """Get file content from cache or read from disk (caches result)."""

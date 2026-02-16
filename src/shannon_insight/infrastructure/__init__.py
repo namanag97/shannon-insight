@@ -17,38 +17,38 @@ from shannon_insight.infrastructure.math import (
     compute_gini,
     compute_percentile,
 )
-from shannon_insight.infrastructure.relations import (
-    Relation,
-    RelationGraph,
-    RelationType,
-)
-from shannon_insight.infrastructure.signals import (
-    Polarity,
-    Signal,
-    SignalSpec,
-    SignalStore,
-    SIGNAL_REGISTRY,
-)
-from shannon_insight.infrastructure.thresholds import (
-    ThresholdCheck,
-    compute_hotspot_median,
-    is_hotspot,
-)
-from shannon_insight.infrastructure.runtime import (
-    RuntimeContext,
-    Tier,
-)
 from shannon_insight.infrastructure.patterns import (
     Finding,
     Pattern,
     PatternScope,
 )
-from shannon_insight.infrastructure.store import (
-    FactStore,
-)
 from shannon_insight.infrastructure.pipeline import (
     AnalysisResult,
     run_pipeline,
+)
+from shannon_insight.infrastructure.relations import (
+    Relation,
+    RelationGraph,
+    RelationType,
+)
+from shannon_insight.infrastructure.runtime import (
+    RuntimeContext,
+    Tier,
+)
+from shannon_insight.infrastructure.signals import (
+    SIGNAL_REGISTRY,
+    Polarity,
+    Signal,
+    SignalSpec,
+    SignalStore,
+)
+from shannon_insight.infrastructure.store import (
+    FactStore,
+)
+from shannon_insight.infrastructure.thresholds import (
+    ThresholdCheck,
+    compute_hotspot_median,
+    is_hotspot,
 )
 from shannon_insight.infrastructure.validation import (
     PhaseValidationError,

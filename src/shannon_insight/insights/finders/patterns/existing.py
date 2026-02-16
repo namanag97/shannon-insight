@@ -109,9 +109,7 @@ def _hidden_coupling_predicate(store: FactStore, pair: tuple[EntityId, EntityId]
 
     # Check for COCHANGES_WITH relation
     cochanges_rels = [
-        r
-        for r in store.outgoing(file_a, RelationType.COCHANGES_WITH)
-        if r.target == file_b
+        r for r in store.outgoing(file_a, RelationType.COCHANGES_WITH) if r.target == file_b
     ]
     if not cochanges_rels:
         return False
@@ -133,15 +131,11 @@ def _hidden_coupling_predicate(store: FactStore, pair: tuple[EntityId, EntityId]
     return not (imports_ab or imports_ba)
 
 
-def _hidden_coupling_severity(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> float:
+def _hidden_coupling_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:
     """Dynamic severity based on lift and confidence."""
     file_a, file_b = pair
     cochanges_rels = [
-        r
-        for r in store.outgoing(file_a, RelationType.COCHANGES_WITH)
-        if r.target == file_b
+        r for r in store.outgoing(file_a, RelationType.COCHANGES_WITH) if r.target == file_b
     ]
     if not cochanges_rels:
         return 0.5
@@ -156,15 +150,11 @@ def _hidden_coupling_severity(
     return 0.90 * strength
 
 
-def _hidden_coupling_evidence(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> dict[str, Any]:
+def _hidden_coupling_evidence(store: FactStore, pair: tuple[EntityId, EntityId]) -> dict[str, Any]:
     """Build evidence for HIDDEN_COUPLING."""
     file_a, file_b = pair
     cochanges_rels = [
-        r
-        for r in store.outgoing(file_a, RelationType.COCHANGES_WITH)
-        if r.target == file_b
+        r for r in store.outgoing(file_a, RelationType.COCHANGES_WITH) if r.target == file_b
     ]
     if not cochanges_rels:
         return {}
@@ -232,9 +222,7 @@ def _god_file_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
         "cognitive_load": store.get_signal(entity, Signal.COGNITIVE_LOAD, 0),
         "cognitive_load_pctl": compute_percentile(store, entity, Signal.COGNITIVE_LOAD),
         "semantic_coherence": store.get_signal(entity, Signal.SEMANTIC_COHERENCE, 0),
-        "semantic_coherence_pctl": compute_percentile(
-            store, entity, Signal.SEMANTIC_COHERENCE
-        ),
+        "semantic_coherence_pctl": compute_percentile(store, entity, Signal.SEMANTIC_COHERENCE),
         "function_count": store.get_signal(entity, Signal.FUNCTION_COUNT, 0),
         "concept_count": store.get_signal(entity, Signal.CONCEPT_COUNT, 0),
     }
@@ -368,9 +356,7 @@ def _dead_dependency_predicate(store: FactStore, pair: tuple[EntityId, EntityId]
 
     # Check for COCHANGES_WITH relation
     cochanges_rels = [
-        r
-        for r in store.outgoing(file_a, RelationType.COCHANGES_WITH)
-        if r.target == file_b
+        r for r in store.outgoing(file_a, RelationType.COCHANGES_WITH) if r.target == file_b
     ]
 
     # Dead if no co-change or very low co-change
@@ -386,9 +372,7 @@ def _dead_dependency_severity(store: FactStore, pair: tuple[EntityId, EntityId])
     return 0.40
 
 
-def _dead_dependency_evidence(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> dict[str, Any]:
+def _dead_dependency_evidence(store: FactStore, pair: tuple[EntityId, EntityId]) -> dict[str, Any]:
     """Build evidence for DEAD_DEPENDENCY."""
     file_a, file_b = pair
     return {

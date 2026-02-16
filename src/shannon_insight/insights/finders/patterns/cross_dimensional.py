@@ -114,9 +114,7 @@ BUG_ATTRACTOR = Pattern(
 # ==============================================================================
 
 
-def _accidental_coupling_predicate(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> bool:
+def _accidental_coupling_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
     """Files import each other but share no concepts."""
     file_a, file_b = pair
 
@@ -143,9 +141,7 @@ def _accidental_coupling_predicate(
     return similarity < 0.2
 
 
-def _accidental_coupling_severity(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> float:
+def _accidental_coupling_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:
     """Fixed severity."""
     return 0.50
 

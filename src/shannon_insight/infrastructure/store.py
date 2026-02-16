@@ -30,7 +30,7 @@ Usage:
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from shannon_insight.infrastructure.entities import Entity, EntityId, EntityType
 from shannon_insight.infrastructure.relations import Relation, RelationGraph, RelationType
@@ -45,7 +45,7 @@ class FactStore:
         timestamp:  When this store was created (snapshot identity).
     """
 
-    def __init__(self, root: str, timestamp: Optional[datetime] = None) -> None:
+    def __init__(self, root: str, timestamp: datetime | None = None) -> None:
         self.root = root
         self.timestamp = timestamp or datetime.now()
         self._entities: dict[EntityId, Entity] = {}

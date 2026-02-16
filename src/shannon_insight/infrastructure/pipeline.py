@@ -19,7 +19,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List
 
 from shannon_insight.infrastructure.entities import Entity, EntityId, EntityType
 from shannon_insight.infrastructure.patterns import Finding
@@ -39,7 +38,7 @@ class AnalysisResult:
     """
 
     store: FactStore
-    findings: List[Finding] = field(default_factory=list)
+    findings: list[Finding] = field(default_factory=list)
     context: RuntimeContext = field(default_factory=lambda: RuntimeContext(root=""))
 
 
@@ -62,10 +61,7 @@ def run_pipeline(root: str) -> AnalysisResult:
     root_path = Path(root)
 
     # Collect Python files (skip __pycache__)
-    py_files = [
-        f for f in root_path.glob("**/*.py")
-        if "__pycache__" not in str(f)
-    ]
+    py_files = [f for f in root_path.glob("**/*.py") if "__pycache__" not in str(f)]
 
     # Initialize context with tier based on file count
     context = RuntimeContext(
@@ -88,9 +84,7 @@ def run_pipeline(root: str) -> AnalysisResult:
             content = py_file.read_text()
             lines = len(content.splitlines())
             # Count 'def ' for functions (simple heuristic)
-            functions = content.count("\ndef ") + (
-                1 if content.startswith("def ") else 0
-            )
+            functions = content.count("\ndef ") + (1 if content.startswith("def ") else 0)
 
             store.set_signal(entity_id, Signal.LINES, lines)
             store.set_signal(entity_id, Signal.FUNCTION_COUNT, functions)

@@ -62,7 +62,7 @@ def compute_bus_factor(author_commits: dict[str, int]) -> float:
         1.0 for single author, k for k equal authors.
     """
     h = compute_entropy(author_commits)
-    return 2 ** h
+    return 2**h
 
 
 def compute_percentile(value: float, all_values: list[float]) -> float:

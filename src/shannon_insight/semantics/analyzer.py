@@ -236,9 +236,7 @@ class SemanticAnalyzer:
                         )
                     )
 
-    def _fingerprint_similarity(
-        self, fp_a: dict[str, float], fp_b: dict[str, float]
-    ) -> float:
+    def _fingerprint_similarity(self, fp_a: dict[str, float], fp_b: dict[str, float]) -> float:
         """Compute cosine similarity between two import fingerprints.
 
         Args:

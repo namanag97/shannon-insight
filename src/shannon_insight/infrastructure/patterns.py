@@ -13,7 +13,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Union
+from typing import Any, Callable
 
 from shannon_insight.infrastructure.entities import EntityId
 
@@ -87,7 +87,7 @@ class Finding:
 
     pattern: str
     scope: PatternScope
-    target: Union[EntityId, tuple[EntityId, EntityId]]
+    target: EntityId | tuple[EntityId, EntityId]
     severity: float
     confidence: float
     evidence: dict[str, Any] = field(default_factory=dict)

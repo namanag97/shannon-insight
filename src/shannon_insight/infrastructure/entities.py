@@ -16,7 +16,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 
 class EntityType(Enum):
@@ -66,7 +65,7 @@ class Entity:
     """
 
     id: EntityId
-    parent: Optional[EntityId] = None
+    parent: EntityId | None = None
     metadata: dict = field(default_factory=dict)
 
     @property

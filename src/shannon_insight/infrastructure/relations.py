@@ -16,7 +16,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 from shannon_insight.infrastructure.entities import EntityId
 
@@ -24,14 +23,14 @@ from shannon_insight.infrastructure.entities import EntityId
 class RelationType(Enum):
     """All 8 relation types."""
 
-    IMPORTS = "imports"               # File -> File
-    COCHANGES_WITH = "cochanges"      # File -> File (symmetric, weighted)
-    SIMILAR_TO = "similar"            # File -> File (weighted)
-    AUTHORED_BY = "authored"          # File -> Author
-    IN_MODULE = "in_module"           # File -> Module
-    CONTAINS = "contains"             # Module -> File, Codebase -> Module
-    DEPENDS_ON = "depends"            # Module -> Module
-    CLONED_FROM = "cloned"            # File -> File (weighted)
+    IMPORTS = "imports"  # File -> File
+    COCHANGES_WITH = "cochanges"  # File -> File (symmetric, weighted)
+    SIMILAR_TO = "similar"  # File -> File (weighted)
+    AUTHORED_BY = "authored"  # File -> Author
+    IN_MODULE = "in_module"  # File -> Module
+    CONTAINS = "contains"  # Module -> File, Codebase -> Module
+    DEPENDS_ON = "depends"  # Module -> Module
+    CLONED_FROM = "cloned"  # File -> File (weighted)
 
 
 @dataclass
@@ -90,7 +89,7 @@ class RelationGraph:
     def outgoing(
         self,
         entity: EntityId,
-        type: Optional[RelationType] = None,
+        type: RelationType | None = None,
     ) -> list[Relation]:
         """Get outgoing relations from an entity.
 
@@ -109,7 +108,7 @@ class RelationGraph:
     def incoming(
         self,
         entity: EntityId,
-        type: Optional[RelationType] = None,
+        type: RelationType | None = None,
     ) -> list[Relation]:
         """Get incoming relations to an entity.
 

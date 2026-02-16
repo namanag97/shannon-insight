@@ -30,7 +30,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional, Set
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Polarity Enum
@@ -175,7 +175,7 @@ class SignalMeta:
     scope: str
     percentileable: bool
     polarity: str
-    absolute_threshold: Optional[float]
+    absolute_threshold: float | None
     produced_by: str
     phase: int
 
@@ -200,7 +200,7 @@ class SignalMeta:
 # ---------------------------------------------------------------------------
 
 
-REGISTRY: Dict[Signal, SignalMeta] = {}
+REGISTRY: dict[Signal, SignalMeta] = {}
 
 
 def register(meta: SignalMeta) -> None:
@@ -243,7 +243,7 @@ def get_signal_meta(signal: Signal) -> SignalMeta:
         ) from None
 
 
-def percentileable_signals() -> Set[Signal]:
+def percentileable_signals() -> set[Signal]:
     """Signals safe for percentile normalization. Auto-derived, never hand-maintained.
 
     Returns the set of signals where SignalMeta.percentileable is True.
@@ -254,7 +254,7 @@ def percentileable_signals() -> Set[Signal]:
     return {s for s, m in REGISTRY.items() if m.percentileable}
 
 
-def signals_by_phase(phase: int) -> Set[Signal]:
+def signals_by_phase(phase: int) -> set[Signal]:
     """Signals available after a given phase completes.
 
     Returns all signals whose phase <= the given phase number.
@@ -264,12 +264,12 @@ def signals_by_phase(phase: int) -> Set[Signal]:
     return {s for s, m in REGISTRY.items() if m.phase <= phase}
 
 
-def signals_by_scope(scope: str) -> Set[Signal]:
+def signals_by_scope(scope: str) -> set[Signal]:
     """All signals with the given scope ("file", "module", or "global")."""
     return {s for s, m in REGISTRY.items() if m.scope == scope}
 
 
-def signals_by_polarity(polarity: str) -> Set[Signal]:
+def signals_by_polarity(polarity: str) -> set[Signal]:
     """All signals with the given polarity direction."""
     return {s for s, m in REGISTRY.items() if m.polarity == polarity}
 
@@ -1156,10 +1156,10 @@ class SignalSpec:
     phase: int
     source: str
     percentileable: bool
-    absolute_threshold: Optional[float] = None
+    absolute_threshold: float | None = None
 
 
-def _build_signal_registry() -> Dict[Signal, SignalSpec]:
+def _build_signal_registry() -> dict[Signal, SignalSpec]:
     """Build SIGNAL_REGISTRY from the existing REGISTRY.
 
     Converts SignalMeta (internal) to SignalSpec (v2 public API), mapping
@@ -1173,7 +1173,7 @@ def _build_signal_registry() -> Dict[Signal, SignalSpec]:
         "global": {EntityType.CODEBASE},
     }
 
-    registry: Dict[Signal, SignalSpec] = {}
+    registry: dict[Signal, SignalSpec] = {}
     for signal, meta in REGISTRY.items():
         registry[signal] = SignalSpec(
             signal=meta.signal,
@@ -1188,7 +1188,7 @@ def _build_signal_registry() -> Dict[Signal, SignalSpec]:
     return registry
 
 
-SIGNAL_REGISTRY: Dict[Signal, SignalSpec] = _build_signal_registry()
+SIGNAL_REGISTRY: dict[Signal, SignalSpec] = _build_signal_registry()
 
 
 # ---------------------------------------------------------------------------
@@ -1215,15 +1215,15 @@ class SignalStore:
     """
 
     def __init__(self) -> None:
-        self._data: Dict[tuple, SignalValue] = {}
-        self._history: Dict[tuple, list] = {}
+        self._data: dict[tuple, SignalValue] = {}
+        self._history: dict[tuple, list] = {}
 
     def set(
         self,
         entity: Any,
         signal: Signal,
         value: Any,
-        timestamp: Optional[datetime] = None,
+        timestamp: datetime | None = None,
     ) -> None:
         """Set a signal value for an entity."""
         timestamp = timestamp or datetime.now()
@@ -1252,11 +1252,7 @@ class SignalStore:
 
     def all_values(self, signal: Signal) -> list:
         """Get all (entity, value) pairs for a signal across entities."""
-        return [
-            (k[0], v.value)
-            for k, v in self._data.items()
-            if k[1] == signal
-        ]
+        return [(k[0], v.value) for k, v in self._data.items() if k[1] == signal]
 
     def history(self, entity: Any, signal: Signal) -> list:
         """Get historical values for a signal on an entity."""

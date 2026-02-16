@@ -61,12 +61,14 @@ def save_snapshot(conn: sqlite3.Connection, snapshot: Snapshot) -> int:
                 # Handle nested percentiles dict - flatten to separate rows
                 if signal_name == "percentiles" and isinstance(value, dict):
                     for metric, pctl_value in value.items():
-                        file_signal_rows.append((
-                            snapshot_id,
-                            file_path,
-                            f"percentile_{metric}",
-                            float(pctl_value) if pctl_value is not None else 0.0
-                        ))
+                        file_signal_rows.append(
+                            (
+                                snapshot_id,
+                                file_path,
+                                f"percentile_{metric}",
+                                float(pctl_value) if pctl_value is not None else 0.0,
+                            )
+                        )
                 elif value is not None:
                     # Skip None values, save everything else
                     file_signal_rows.append((snapshot_id, file_path, signal_name, value))

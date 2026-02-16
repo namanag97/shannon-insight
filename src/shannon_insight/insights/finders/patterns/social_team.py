@@ -68,9 +68,7 @@ KNOWLEDGE_SILO = Pattern(
 # ==============================================================================
 
 
-def _conway_violation_predicate(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> bool:
+def _conway_violation_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
     """Modules with different teams but structural coupling."""
     mod_a, mod_b = pair
 
@@ -85,16 +83,12 @@ def _conway_violation_predicate(
     return author_distance > 0.8 and coupling > 0.3
 
 
-def _conway_violation_severity(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> float:
+def _conway_violation_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:
     """Fixed severity."""
     return 0.55
 
 
-def _conway_violation_evidence(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> dict[str, Any]:
+def _conway_violation_evidence(store: FactStore, pair: tuple[EntityId, EntityId]) -> dict[str, Any]:
     """Build evidence for CONWAY_VIOLATION."""
     mod_a, mod_b = pair
     return {

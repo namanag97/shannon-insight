@@ -518,9 +518,7 @@ class TestSemanticAnalyzerFactStoreSync:
                 concept_count=2,
                 concept_entropy=0.97,
                 naming_drift=0.15,
-                completeness=Completeness(
-                    todo_density=0.5, docstring_coverage=0.8, todo_count=1
-                ),
+                completeness=Completeness(todo_density=0.5, docstring_coverage=0.8, todo_count=1),
                 tier=3,
                 import_fingerprint={"os": 0.5, "sys": 0.3},
             ),

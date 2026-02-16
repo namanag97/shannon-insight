@@ -13,8 +13,6 @@ from shannon_insight.infrastructure.patterns import Pattern, PatternScope
 from shannon_insight.infrastructure.relations import RelationType
 from shannon_insight.infrastructure.signals import Signal
 
-from ..helpers import compute_percentile
-
 if TYPE_CHECKING:
     from shannon_insight.infrastructure.store import FactStore
 
@@ -152,9 +150,7 @@ PHANTOM_IMPORTS = Pattern(
 # ==============================================================================
 
 
-def _copy_paste_clone_predicate(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> bool:
+def _copy_paste_clone_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
     """Files with high content similarity (NCD < 0.3)."""
     file_a, file_b = pair
 
@@ -170,16 +166,12 @@ def _copy_paste_clone_predicate(
     return ncd_score < 0.3
 
 
-def _copy_paste_clone_severity(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> float:
+def _copy_paste_clone_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:
     """Fixed severity."""
     return 0.50
 
 
-def _copy_paste_clone_evidence(
-    store: FactStore, pair: tuple[EntityId, EntityId]
-) -> dict[str, Any]:
+def _copy_paste_clone_evidence(store: FactStore, pair: tuple[EntityId, EntityId]) -> dict[str, Any]:
     """Build evidence for COPY_PASTE_CLONE."""
     file_a, file_b = pair
     cloned_rels = [

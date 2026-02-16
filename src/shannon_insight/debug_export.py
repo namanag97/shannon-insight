@@ -683,7 +683,7 @@ class DebugExporter:
             "title": "Shannon Insight Debug Export",
             "timestamp": self.timestamp,
             "root_dir": store.root_dir,
-            "total_files": len(store.file_metrics),
+            "total_files": store.file_count,
             "available_slots": sorted(store.available),
             "stages": stages,
         }

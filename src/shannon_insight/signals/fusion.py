@@ -226,6 +226,38 @@ class FusionPipeline:
         fs.refactor_ratio = churn.refactor_ratio
         fs.change_entropy = getattr(churn, "change_entropy", 0.0)
 
+    def _compute_cognitive_load(self, syntax) -> float:
+        """Compute cognitive load from FileSyntax.
+
+        Cognitive load: weighted sum of complexity factors.
+        Based on research on code comprehension difficulty:
+        - Lines of code (log-scaled, diminishing returns)
+        - Cyclomatic complexity (decision points to track)
+        - Nesting depth (working memory load)
+        - Function count (context switches)
+        - Gini inequality (god functions harder to understand)
+
+        Formula: log2(lines+1) * (1 + complexity/10) * (1 + nesting/5) * (1 + gini)
+
+        Output is typically 0-50 for normal files, 50-100 for complex files.
+        """
+        import math
+
+        # Log-scaled lines (1000 lines = ~10, 100 lines = ~7)
+        lines_factor = math.log2(syntax.lines + 1) if syntax.lines > 0 else 0
+
+        # Complexity factor: average cyclomatic complexity
+        complexity_factor = 1 + syntax.complexity / 10
+
+        # Nesting penalty: deep nesting is hard to follow
+        nesting_factor = 1 + syntax.max_nesting / 5
+
+        # Gini penalty: unequal function sizes suggest god functions
+        gini = syntax.impl_gini if syntax.impl_gini else 0.0
+        gini_factor = 1 + gini
+
+        return lines_factor * complexity_factor * nesting_factor * gini_factor
+
     def _fill_hierarchy(self) -> None:
         """Fill hierarchical context fields for each file."""
         from pathlib import Path

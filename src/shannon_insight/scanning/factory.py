@@ -75,15 +75,23 @@ class ScannerFactory:
         return [self._mk(base_lang, language)], [language]
 
     def _auto_detect(self) -> tuple[list[tuple], list[str]]:
-        # Single tree walk to collect ALL extensions (was: multiple rglob calls per extension)
+        # Collect ALL extensions - use pre-discovered paths if available
         found_exts: set[str] = set()
         known_exts = get_all_known_extensions()
 
-        for p in self.root_dir.rglob("*"):
-            if p.is_file() and not any(part in SKIP_DIRS for part in p.parts):
+        if self.file_paths:
+            # Fast path: use pre-discovered file paths from environment
+            for p in self.file_paths:
                 ext = p.suffix.lower()
                 if ext:
                     found_exts.add(ext)
+        else:
+            # Fallback: single tree walk (when no pre-discovered paths)
+            for p in self.root_dir.rglob("*"):
+                if p.is_file() and not any(part in SKIP_DIRS for part in p.parts):
+                    ext = p.suffix.lower()
+                    if ext:
+                        found_exts.add(ext)
 
         # Now check which language configs match (O(1) set lookups)
         candidates = [

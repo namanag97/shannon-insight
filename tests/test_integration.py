@@ -10,12 +10,16 @@ from shannon_insight.environment import discover_environment
 from shannon_insight.session import AnalysisSession
 
 
-def _make_kernel(path: str, **overrides) -> InsightKernel:
-    """Helper to create InsightKernel with new API."""
+def _make_kernel(path: str, language: str = "auto", **overrides) -> InsightKernel:
+    """Helper to create InsightKernel with new API.
+
+    Note: language parameter is ignored (for backward compat).
+    Language is now auto-detected from environment.
+    """
     config = AnalysisConfig(**overrides)
     env = discover_environment(Path(path))
     session = AnalysisSession(config=config, env=env)
-    return _make_kernel(session=session)
+    return InsightKernel(session=session)
 
 
 class TestSmokeTests:

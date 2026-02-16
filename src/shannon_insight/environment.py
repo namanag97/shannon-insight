@@ -37,6 +37,7 @@ class Environment:
     Attributes:
         root: Absolute path to codebase root
         file_count: Total source files found (excludes common ignore patterns)
+        file_paths: List of discovered file paths (relative to root)
         detected_languages: Programming languages detected from file extensions
         is_git_repo: Whether target is inside a git repository
         git_branch: Current git branch name (None if not a git repo)
@@ -46,6 +47,7 @@ class Environment:
 
     root: Path
     file_count: int
+    file_paths: tuple[Path, ...] = field(default_factory=tuple)
     detected_languages: frozenset[str] = field(default_factory=frozenset)
     is_git_repo: bool = False
     git_branch: Optional[str] = None

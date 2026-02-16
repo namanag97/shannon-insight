@@ -2,7 +2,7 @@
 
 import pytest
 
-from shannon_insight.scanning.models_v2 import FileSyntax
+from shannon_insight.scanning.syntax import FileSyntax
 from shannon_insight.scanning.normalizer import TreeSitterNormalizer
 from shannon_insight.scanning.treesitter_parser import TREE_SITTER_AVAILABLE
 
@@ -56,7 +56,12 @@ class TestTreeSitterNormalizerFallback:
         assert result is None
 
 
-@pytest.mark.skipif(not TREE_SITTER_AVAILABLE, reason="tree-sitter not installed")
+from shannon_insight.scanning.treesitter_parser import get_supported_languages
+
+_PYTHON_SUPPORTED = TREE_SITTER_AVAILABLE and "python" in get_supported_languages()
+
+
+@pytest.mark.skipif(not _PYTHON_SUPPORTED, reason="tree-sitter or Python grammar not installed")
 class TestTreeSitterNormalizer:
     """Test normalizer with tree-sitter installed."""
 

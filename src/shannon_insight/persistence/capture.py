@@ -492,9 +492,10 @@ def _get_commit_sha(repo_path: str) -> Optional[str]:
     return None
 
 
-def _compute_config_hash(session: AnalysisSettings) -> str:
-    """Compute a config hash from the session for cache-key purposes."""
-    config_dict = session.model_dump()
+def _compute_config_hash(session: AnalysisSession) -> str:
+    """Compute a config hash from the session config for cache-key purposes."""
+    from dataclasses import asdict
+    config_dict = asdict(session.config)
     return compute_config_hash(config_dict)
 
 

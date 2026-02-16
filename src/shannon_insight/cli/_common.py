@@ -5,7 +5,7 @@ from typing import Optional
 
 from rich.console import Console
 
-from ..config import AnalysisSettings, load_settings
+from ..config import AnalysisConfig, load_config
 
 console = Console()
 

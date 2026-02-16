@@ -1,5 +1,5 @@
 /**
- * FileListView v2 - Redesigned with proper information architecture
+ * FileListView - Redesigned with proper information architecture
  *
  * Information Priority:
  * 1. Summary Cards - Risk distribution at a glance (how many high/medium/low?)

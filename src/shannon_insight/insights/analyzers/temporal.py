@@ -74,6 +74,48 @@ class TemporalAnalyzer:
             f"{len(author_dists)} author distance pairs"
         )
 
+    def _sync_to_fact_store(self, store: AnalysisStore, churn, cochange) -> None:
+        """Sync temporal analysis results to FactStore.
+
+        Writes per-file churn signals (TOTAL_CHANGES, CHURN_CV, BUS_FACTOR,
+        AUTHOR_ENTROPY, FIX_RATIO, REFACTOR_RATIO) and COCHANGES_WITH
+        relations for significant co-change pairs.
+        """
+        if not hasattr(store, "fact_store"):
+            return
+
+        fs = store.fact_store
+
+        # Per-file churn signals
+        for path, cs in churn.items():
+            entity_id = EntityId(EntityType.FILE, path)
+            fs.set_signal(entity_id, Signal.TOTAL_CHANGES, cs.total_changes)
+            fs.set_signal(entity_id, Signal.CHURN_CV, cs.cv)
+            fs.set_signal(entity_id, Signal.BUS_FACTOR, cs.bus_factor)
+            fs.set_signal(entity_id, Signal.AUTHOR_ENTROPY, cs.author_entropy)
+            fs.set_signal(entity_id, Signal.FIX_RATIO, cs.fix_ratio)
+            fs.set_signal(entity_id, Signal.REFACTOR_RATIO, cs.refactor_ratio)
+            fs.set_signal(entity_id, Signal.CHURN_TRAJECTORY, cs.trajectory)
+            fs.set_signal(entity_id, Signal.CHURN_SLOPE, cs.slope)
+
+        # COCHANGES_WITH relations (weighted by lift)
+        for (file_a, file_b), pair in cochange.pairs.items():
+            src_id = EntityId(EntityType.FILE, file_a)
+            tgt_id = EntityId(EntityType.FILE, file_b)
+            fs.add_relation(
+                Relation(
+                    type=RelationType.COCHANGES_WITH,
+                    source=src_id,
+                    target=tgt_id,
+                    weight=pair.lift,
+                )
+            )
+
+        logger.debug(
+            f"FactStore sync: {len(churn)} churn signals, "
+            f"{len(cochange.pairs)} COCHANGES_WITH relations"
+        )
+
     @staticmethod
     def _normalize_git_paths(history: GitHistory, root_dir: str) -> None:
         """Strip repo-root prefix from git paths to match file_metrics paths.

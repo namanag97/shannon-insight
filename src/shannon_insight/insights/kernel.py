@@ -197,15 +197,60 @@ class InsightKernel:
             except PhaseValidationError as e:
                 logger.warning(f"Signal field validation failed: {e}")
 
-        # Phase 3: Run finders (skip if required signals unavailable)
+        # Phase 3: Run patterns against FactStore
         _progress("Detecting issues...")
+        from shannon_insight.insights.finders.executor import execute_patterns
+        from shannon_insight.insights.finders.registry import ALL_PATTERNS
+        from shannon_insight.infrastructure.runtime import Tier, determine_tier
+
+        # Determine tier from file count
+        tier = determine_tier(len(store.file_metrics))
+        logger.debug(f"Determined tier: {tier.value} for {len(store.file_metrics)} files")
+
+        # Execute v2 patterns
+        v2_findings = execute_patterns(
+            store=store.fact_store,
+            patterns=ALL_PATTERNS,
+            tier=tier,
+            max_findings=max_findings * 2,  # Get extra for backward compat filters
+        )
+
+        # Convert v2 findings to v1 format for backward compatibility
+        from shannon_insight.insights.models import Evidence, Finding as V1Finding
+
         findings = []
+        for v2_f in v2_findings:
+            # Extract file paths from target
+            if isinstance(v2_f.target, tuple):
+                files = [v2_f.target[0].key, v2_f.target[1].key]
+            else:
+                files = [v2_f.target.key]
+
+            # Convert evidence dict to Evidence objects
+            evidence = [
+                Evidence(signal=k, value=v, percentile=0.0, description=str(v))
+                for k, v in v2_f.evidence.items()
+            ]
+
+            # Convert v2 Finding to v1 Finding
+            v1_f = V1Finding(
+                finding_type=v2_f.pattern,
+                severity=v2_f.severity,  # v2 uses 0-1, v1 also uses 0-1
+                title=v2_f.description,
+                files=files,
+                evidence=evidence,
+                suggestion=v2_f.remediation,
+                confidence=v2_f.confidence,
+            )
+            findings.append(v1_f)
+
+        # Fallback: Run old v1 finders for backward compatibility
         for finder in self._finders:
             if finder.requires.issubset(store.available):
                 try:
                     findings.extend(finder.find(store))
                 except Exception as e:
-                    logger.warning(f"Finder {finder.name} failed: {e}")
+                    logger.warning(f"V1 finder {finder.name} failed: {e}")
 
         # Phase 3b: Run persistence finders (need DB connection)
         if self._persistence_finders:

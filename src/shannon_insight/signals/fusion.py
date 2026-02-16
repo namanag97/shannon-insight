@@ -113,24 +113,25 @@ class FusionPipeline:
 
         return _Collected(self.field, self.store)
 
-    def _fill_from_scanning(self, fs: FileSignals, fm) -> None:
-        """Fill IR1 scanning signals from FileMetrics."""
-        fs.lines = fm.lines
-        fs.function_count = fm.functions
-        fs.class_count = fm.structs  # structs in FileMetrics
-        fs.max_nesting = fm.nesting_depth
-        fs.import_count = len(fm.imports) if fm.imports else 0
+    def _fill_from_syntax(self, fs: FileSignals, syntax) -> None:
+        """Fill IR1 signals from FileSyntax.
 
-        # impl_gini from function_sizes
-        if fm.function_sizes:
-            fs.impl_gini = _gini([float(s) for s in fm.function_sizes])
-
-        # stub_ratio needs function body analysis (placeholder)
-        # Will be filled from file_syntax if available
-        if self.store.file_syntax.available:
-            syntax = self.store.file_syntax.value.get(fm.path)
-            if syntax and hasattr(syntax, "stub_ratio"):
-                fs.stub_ratio = syntax.stub_ratio
+        FileSyntax provides all metrics as properties:
+        - syntax.lines: Line count
+        - syntax.function_count: Number of functions
+        - syntax.class_count: Number of classes
+        - syntax.max_nesting: Maximum nesting depth
+        - syntax.import_count: Number of imports
+        - syntax.impl_gini: Implementation size Gini coefficient
+        - syntax.stub_ratio: Ratio of stub functions
+        """
+        fs.lines = syntax.lines
+        fs.function_count = syntax.function_count
+        fs.class_count = syntax.class_count
+        fs.max_nesting = syntax.max_nesting
+        fs.import_count = syntax.import_count
+        fs.impl_gini = syntax.impl_gini
+        fs.stub_ratio = syntax.stub_ratio
 
     def _fill_from_graph(self, fs: FileSignals) -> None:
         """Fill IR3 graph signals from structural analysis."""

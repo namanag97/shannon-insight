@@ -106,15 +106,12 @@ class AnalysisEngine:
             fa.nesting_depth = fs.max_nesting
             fa.max_function_size = max(fs.function_sizes) if fs.function_sizes else 0
 
-            # Compression ratio (read file content)
-            content = self._read_file_content(fs.path)
-            if content:
-                fa.compression_ratio = Compression.compression_ratio(content.encode("utf-8"))
-
-            # Cognitive load with Gini
-            fa.cognitive_load = self._compute_cognitive_load(fs)
+            # Function size Gini
             if fs.function_sizes and len(fs.function_sizes) > 1:
                 fa.function_size_gini = Gini.gini_coefficient(fs.function_sizes)
+
+            # Note: compression_ratio and cognitive_load are now computed in SignalFusion
+            # to maintain proper layer separation (signal layer, not graph layer)
 
             # Graph-level measurements
             fa.pagerank = ga.pagerank.get(fs.path, 0.0)

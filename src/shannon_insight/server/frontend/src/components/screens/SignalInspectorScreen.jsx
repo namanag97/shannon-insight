@@ -150,9 +150,31 @@ export function SignalInspectorScreen() {
 
   const displayed = entries.slice(0, 100);
 
+  const discovered = inspectable.filter((s) => s.category === "Discovered Signals");
+  const hasDiscovered = discovered.length > 0;
+
   return (
     <div class="signal-inspector">
       <div class="section-title">Signal Inspector</div>
+
+      {hasDiscovered && (
+        <div style={{
+          padding: "8px 12px",
+          marginBottom: "12px",
+          background: "var(--accent-bg)",
+          border: "1px solid var(--accent)",
+          borderRadius: "4px",
+          fontSize: "12px",
+        }}>
+          <strong>⚠️ {discovered.length} undocumented signal{discovered.length > 1 ? "s" : ""} discovered:</strong>
+          {" "}
+          {discovered.map((s) => s.key).join(", ")}
+          <div style={{ marginTop: "4px", opacity: 0.8 }}>
+            These signals exist in the data but are not defined in constants.js.
+            Consider adding them with proper labels and descriptions.
+          </div>
+        </div>
+      )}
 
       {/* Signal selector */}
       <div class="signal-selector">

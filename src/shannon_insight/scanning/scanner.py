@@ -152,7 +152,7 @@ class ConfigurableScanner(BaseScanner):
                 function_sizes=[],
             )
 
-        lines = content.split("\n")
+        lines = content.splitlines()
         return FileMetrics(
             path=str(filepath.relative_to(self.root_dir)),
             lines=len(lines),

@@ -187,7 +187,7 @@ export function OverviewScreen() {
                 <div className="ds-card__title">Issues by Category</div>
               </div>
               <div className="ds-card__body">
-                <CategoryBreakdownV2 categories={cats} onClick={goToIssues} />
+                <CategoryBreakdown categories={cats} onClick={goToIssues} />
               </div>
             </div>
           </div>
@@ -395,7 +395,7 @@ function MetricBadge({ label, value, color }) {
 /**
  * Category Breakdown v2 - Simplified bar chart
  */
-function CategoryBreakdownV2({ categories, onClick }) {
+function CategoryBreakdown({ categories, onClick }) {
   const maxCount = Math.max(...CATEGORY_ORDER.map(k => categories[k]?.count || 0), 1);
 
   return (

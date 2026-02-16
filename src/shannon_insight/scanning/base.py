@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Optional
 
-from ..config import AnalysisConfig, AnalysisConfig()
+from ..config import AnalysisConfig
 from ..exceptions import FileAccessError, ParsingError
 from ..file_ops import should_skip_file
 from ..logging_config import get_logger

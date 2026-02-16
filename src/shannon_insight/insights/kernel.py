@@ -211,7 +211,7 @@ class InsightKernel:
 
         # Use tier from session (already computed)
         tier = self.session.tier
-        logger.debug(f"Using tier: {tier.value} for {len(store.file_metrics)} files")
+        logger.debug(f"Using tier: {tier.value} for {store.file_count} files")
 
         # Execute v2 patterns
         v2_findings = execute_patterns(

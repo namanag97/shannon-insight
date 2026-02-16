@@ -100,7 +100,7 @@ class InsightKernel:
             if on_progress is not None:
                 on_progress(msg)
 
-        store = AnalysisStore(root_dir=self.root_dir)
+        store = AnalysisStore(root_dir=self.root_dir, session=self.session)
 
         # Phase 1: Scan files
         _progress("Scanning files...")

@@ -140,7 +140,7 @@ class AnalysisEngine:
 
         return results
 
-    def _compute_cognitive_load(self, fm: FileSyntax) -> float:
+    def _compute_cognitive_load(self, fs: FileSyntax) -> float:
         """Cognitive load: weighted sum of complexity factors.
 
         Based on research on code comprehension difficulty:
@@ -157,19 +157,19 @@ class AnalysisEngine:
         import math
 
         # Log-scaled lines (1000 lines = ~10, 100 lines = ~7)
-        lines_factor = math.log2(fm.lines + 1) if fm.lines > 0 else 0
+        lines_factor = math.log2(fs.lines + 1) if fs.lines > 0 else 0
 
         # Complexity factor: average cyclomatic complexity
-        # complexity_score is now average per function
-        complexity_factor = 1 + fm.complexity_score / 10
+        # complexity is average per function
+        complexity_factor = 1 + fs.complexity / 10
 
         # Nesting penalty: deep nesting is hard to follow
-        nesting_factor = 1 + fm.nesting_depth / 5
+        nesting_factor = 1 + fs.max_nesting / 5
 
         # Gini penalty: unequal function sizes suggest god functions
         gini = 0.0
-        if fm.function_sizes and len(fm.function_sizes) > 1:
-            gini = Gini.gini_coefficient(fm.function_sizes)
+        if fs.function_sizes and len(fs.function_sizes) > 1:
+            gini = Gini.gini_coefficient(fs.function_sizes)
         gini_factor = 1 + gini
 
         return lines_factor * complexity_factor * nesting_factor * gini_factor

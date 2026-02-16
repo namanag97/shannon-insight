@@ -47,10 +47,10 @@ class AnalysisEngine:
     def run(self) -> CodebaseAnalysis:
         """Run the full analysis DAG and return structured results."""
         result = CodebaseAnalysis()
-        result.total_files = len(self.file_metrics)
+        result.total_files = len(self.file_syntax)
 
         # Phase 2: Build dependency graph from imports
-        graph = build_dependency_graph(self.file_metrics, self.root_dir)
+        graph = build_dependency_graph(self.file_syntax, self.root_dir)
         result.graph = graph
         result.total_edges = graph.edge_count
 

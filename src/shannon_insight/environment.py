@@ -115,6 +115,7 @@ def discover_environment(root: Path | str) -> Environment:
     return Environment(
         root=root_path,
         file_count=file_count,
+        file_paths=tuple(files),
         detected_languages=frozenset(languages),
         is_git_repo=is_git,
         git_branch=git_branch,

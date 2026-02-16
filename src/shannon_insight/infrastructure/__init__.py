@@ -88,5 +88,6 @@ __all__ = [
     "run_all_validations",
     "validate_after_scanning",
     "validate_after_structural",
+    "run_pipeline",
     "validate_signal_field",
 ]

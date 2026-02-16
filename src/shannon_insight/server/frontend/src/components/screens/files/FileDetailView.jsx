@@ -415,7 +415,7 @@ function MetricCard({ value, label, color }) {
 
 /**
  * CollapsibleSection - For low-priority content with progressive disclosure.
- * Consistent with the pattern used in OverviewScreen.v2.jsx.
+ * Consistent with the pattern used in OverviewScreen.jsx.
  */
 function CollapsibleSection({ title, children, isOpen, onToggle }) {
   return (

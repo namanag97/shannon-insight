@@ -266,7 +266,6 @@ class TestComputeModularity:
     def test_degree_invariant(self):
         """sum(degrees) = 2*m must hold for correct modularity."""
         # Build a random-ish graph and verify invariant
-        edge_weights = {("a", "b"): 1, ("b", "c"): 1, ("a", "c"): 1}
         degree = {"a": 2, "b": 2, "c": 2}
         m = 3.0
         assert abs(sum(degree.values()) - 2 * m) < 1e-10

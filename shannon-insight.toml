@@ -52,9 +52,9 @@ max_files = 10000
 
 # ==================== Performance ====================
 
-# Number of parallel workers (null = auto-detect, 1-32)
-# null means use number of CPU cores
-parallel_workers = null
+# Number of parallel workers (auto-detect if not set, 1-32)
+# Comment out or omit to auto-detect from CPU cores
+# workers = 4
 
 # Timeout for file operations in seconds (1 - 300)
 timeout_seconds = 10

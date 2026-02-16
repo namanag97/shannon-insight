@@ -249,7 +249,7 @@ def _estimate_information_gain(values: list[float]) -> float:
 
 def _check_codebase_size(store: AnalysisStore, report: DiagnosticReport) -> None:
     """Check if codebase is large enough for meaningful analysis."""
-    n_files = len(store.file_metrics)
+    n_files = store.file_count
 
     if n_files < 3:
         report.issues.append(

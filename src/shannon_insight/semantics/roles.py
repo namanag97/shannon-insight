@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 from .models import Role
 
 if TYPE_CHECKING:
-    from ..scanning.models_v2 import FileSyntax
+    from ..scanning.syntax import FileSyntax
 
 # Cache for pyproject.toml entry points (computed once per session)
 _ENTRY_POINT_CACHE: dict[str, set[str]] | None = None

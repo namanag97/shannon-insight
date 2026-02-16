@@ -120,14 +120,15 @@ def _collect_signal_values(field: SignalField) -> dict[str, list[float]]:
 def _standard_percentile(value: float, sorted_values: list[float]) -> float:
     """Compute percentile using <= formula.
 
-    pctl(x) = |{v : v <= x}| / |values|
+    pctl(x) = |{v : v <= x}| / |values| * 100
 
     Uses bisect_right which gives count of values <= x.
+    Returns percentile in 0-100 range.
     """
     if not sorted_values:
         return 0.0
     idx = bisect_right(sorted_values, value)
-    return idx / len(sorted_values)
+    return (idx / len(sorted_values)) * 100.0
 
 
 def effective_percentile(signal_name: str, raw_value: float, pctl: float) -> float:

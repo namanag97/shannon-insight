@@ -5,6 +5,17 @@ import tempfile
 from pathlib import Path
 
 from shannon_insight import InsightKernel, __version__
+from shannon_insight.config import AnalysisConfig
+from shannon_insight.environment import discover_environment
+from shannon_insight.session import AnalysisSession
+
+
+def _make_kernel(path: str, **overrides) -> InsightKernel:
+    """Helper to create InsightKernel with new API."""
+    config = AnalysisConfig(**overrides)
+    env = discover_environment(Path(path))
+    session = AnalysisSession(config=config, env=env)
+    return InsightKernel(session=session)
 
 
 class TestSmokeTests:

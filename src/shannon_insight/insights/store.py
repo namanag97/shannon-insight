@@ -191,6 +191,24 @@ class AnalysisStore:
         """Clear content cache to free memory after graph analysis."""
         self._content_cache.clear()
 
+    @property
+    def files(self) -> dict[str, Any]:
+        """Get all parsed files as dict[path, FileSyntax].
+
+        This is the primary source for file data. Returns empty dict if
+        file_syntax slot is not yet populated.
+        """
+        if self.file_syntax.available:
+            return self.file_syntax.value
+        return {}
+
+    @property
+    def file_count(self) -> int:
+        """Number of files in the store."""
+        if self.file_syntax.available:
+            return len(self.file_syntax.value)
+        return len(self.file_metrics)
+
     # Typed slots — each knows if it's populated, why not, and who wrote it
     file_syntax: Slot[dict[str, Any]] = field(default_factory=Slot)
     structural: Slot[Any] = field(default_factory=Slot)

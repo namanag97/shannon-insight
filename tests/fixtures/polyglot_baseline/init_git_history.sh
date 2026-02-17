@@ -279,29 +279,29 @@ commit_as "Alice Developer" "alice@company.com" "$DATE_2M_3 09:15:00" \
 
 echo -e "\n${BLUE}Phase 7: Recent development (1 month ago to present)${NC}"
 
-DATE_1M=$(date -v-1m "+%Y-%m-%d 10:00:00")
+DATE_1M=$(calc_date "-1m" "%Y-%m-%d")
 echo "# Performance optimization" >> python_service/config.py
-commit_as "Alice Developer" "alice@company.com" "$DATE_1M" \
+commit_as "Alice Developer" "alice@company.com" "$DATE_1M 10:00:00" \
     "perf: Add caching layer to configuration loading" \
     python_service/config.py
 
-DATE_1M_1=$(date -v-1m -v+5d "+%Y-%m-%d 13:30:00")
+DATE_1M_1=$(calc_date "-1m+5d" "%Y-%m-%d")
 echo "// Add metrics collection" >> go_backend/services/user_service.go
-commit_as "Bob Engineer" "bob@company.com" "$DATE_1M_1" \
+commit_as "Bob Engineer" "bob@company.com" "$DATE_1M_1 13:30:00" \
     "feat: Add Prometheus metrics to user service" \
     go_backend/services/user_service.go
 
-DATE_1M_2=$(date -v-1m -v+10d "+%Y-%m-%d 15:00:00")
+DATE_1M_2=$(calc_date "-1m+10d" "%Y-%m-%d")
 echo "// Fix TypeScript types" >> ts_frontend/types/index.ts
-commit_as "Charlie Intern" "charlie@company.com" "$DATE_1M_2" \
+commit_as "Charlie Intern" "charlie@company.com" "$DATE_1M_2 15:00:00" \
     "fix: Correct TypeScript type definitions" \
     ts_frontend/types/index.ts
 
 # One more co-change commit to reinforce the pattern
-DATE_1M_3=$(date -v-1m -v+15d "+%Y-%m-%d 11:20:00")
+DATE_1M_3=$(calc_date "-1m+15d" "%Y-%m-%d")
 echo "// Update user service with new fields" >> go_backend/services/user_service.go
 echo "// Handle new fields in user handler" >> go_backend/handlers/user_handler.go
-commit_as "Alice Developer" "alice@company.com" "$DATE_1M_3" \
+commit_as "Alice Developer" "alice@company.com" "$DATE_1M_3 11:20:00" \
     "feat: Add profile fields to user service and handlers" \
     go_backend/services/user_service.go go_backend/handlers/user_handler.go
 

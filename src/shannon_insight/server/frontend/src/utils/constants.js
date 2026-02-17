@@ -68,6 +68,14 @@ export const SIGNAL_LABELS = {
   blast_radius: "Change Impact Size",
   finding_count: "Number of Findings",
 
+  // Percentile variants (used in finding evidence)
+  pagerank_pctl: "Centrality Percentile",
+  blast_radius_pctl: "Impact Percentile",
+  cognitive_load_pctl: "Complexity Percentile",
+  semantic_coherence_pctl: "Coherence Percentile",
+  churn_cv_pctl: "Volatility Percentile",
+  total_changes_pctl: "Churn Percentile",
+
   // ═══════════════════════════════════════════════════════════════════════════
   // GLOBAL/CODEBASE SIGNALS (from GlobalSignals in backend)
   // ═══════════════════════════════════════════════════════════════════════════

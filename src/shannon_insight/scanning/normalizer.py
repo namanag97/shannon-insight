@@ -129,32 +129,38 @@ class TreeSitterNormalizer:
 
     def _get_function_node(self, node: Any, capture_name: str) -> Any | None:
         """Get the function definition node from a capture."""
-        if capture_name.endswith(".name"):
-            # Walk up to find the function node
-            parent = node.parent
-            while parent is not None:
-                if parent.type in (
-                    "function_definition",
-                    "function_declaration",
-                    "method_declaration",
-                    "method_definition",
-                    "function_item",
-                    "method",
-                ):
-                    return parent
-                parent = parent.parent
-            return None
-        # It's the function node itself
-        if node.type in (
+        func_types = (
             "function_definition",
             "function_declaration",
             "method_declaration",
             "method_definition",
             "function_item",
             "method",
-            "decorated_definition",
-        ):
+        )
+
+        if capture_name.endswith(".name"):
+            # Walk up to find the function node
+            parent = node.parent
+            while parent is not None:
+                if parent.type in func_types:
+                    return parent
+                parent = parent.parent
+            return None
+
+        # It's the function node itself
+        if node.type in func_types:
             return node
+
+        # Handle export_statement wrapping a function_declaration
+        if node.type == "export_statement":
+            for child in node.children:
+                if child.type == "function_declaration":
+                    return child
+            return None
+
+        if node.type == "decorated_definition":
+            return node
+
         return None
 
     def _node_to_function(

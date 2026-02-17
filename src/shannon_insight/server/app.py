@@ -7,9 +7,10 @@ import csv
 import io
 import json
 import logging
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from starlette.applications import Starlette
 from starlette.requests import Request
@@ -19,6 +20,9 @@ from starlette.staticfiles import StaticFiles
 from starlette.websockets import WebSocket, WebSocketDisconnect
 
 from .state import ServerState
+
+if TYPE_CHECKING:
+    from .watcher import FileWatcher
 
 logger = logging.getLogger(__name__)
 

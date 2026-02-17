@@ -17,17 +17,11 @@
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
-
-import pytest
-
 from shannon_insight.infrastructure.entities import EntityId, EntityType
-from shannon_insight.infrastructure.relations import Relation, RelationType
 from shannon_insight.infrastructure.signals import Signal
 from shannon_insight.infrastructure.store import FactStore
 from shannon_insight.signals.models import FileSignals, ModuleSignals, SignalField
 from shannon_insight.temporal.churn import _classify_trajectory, _compute_cv
-
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -36,7 +30,7 @@ def _make_store() -> FactStore:
     """Create a minimal FactStore with a few file entities."""
     from shannon_insight.infrastructure.entities import Entity
 
-    store = FactStore()
+    store = FactStore(root=".")
     for name in ("a.py", "b.py", "c.py", "d.py", "e.py"):
         eid = EntityId(EntityType.FILE, name)
         store.add_entity(Entity(id=eid, metadata={}))
@@ -129,8 +123,7 @@ def test_god_file_semantic_coherence_default_is_neutral():
     """
     fs = FileSignals(path="big.py")
     assert fs.semantic_coherence == 0.5, (
-        "Default must be 0.5 (neutral). "
-        "0.0 causes pctl=1.0 for all files → GOD_FILE never fires."
+        "Default must be 0.5 (neutral). 0.0 causes pctl=1.0 for all files → GOD_FILE never fires."
     )
 
 
@@ -248,10 +241,10 @@ def test_zone_of_uselessness_fires():
 
 def test_zone_of_uselessness_does_not_fire_low_instability():
     """Module with high abstractness but low instability (stable consumers) must not fire."""
+    from shannon_insight.infrastructure.entities import Entity
     from shannon_insight.insights.finders.patterns.architecture import (
         _zone_of_uselessness_predicate,
     )
-    from shannon_insight.infrastructure.entities import Entity
 
     store = _make_store()
     mod_id = EntityId(EntityType.MODULE, "src/core")

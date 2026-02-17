@@ -613,17 +613,20 @@ def update_finding_lifecycle(
             )
     else:
         if is_present:
-            # Persisting or regression
+            # Check if this is a regression (was resolved, now active again)
+            was_resolved = existing["current_status"] == "resolved"
+            new_count = 1 if was_resolved else existing["persistence_count"] + 1
+
             conn.execute(
                 """
                 UPDATE finding_lifecycle
                 SET last_seen_snapshot = ?,
-                    persistence_count = persistence_count + 1,
+                    persistence_count = ?,
                     current_status = 'active',
                     severity = ?
                 WHERE identity_key = ?
                 """,
-                (snapshot_id, severity, identity_key),
+                (snapshot_id, new_count, severity, identity_key),
             )
         else:
             # Resolved

@@ -205,13 +205,15 @@ def _compute_health_score(ms: ModuleSignals, field: SignalField) -> float:
 
 
 def _get_mean_stub_ratio_for_module(ms: ModuleSignals, field: SignalField) -> float:
-    """Get mean stub_ratio for files in this module."""
-    # Module path tells us which files belong to it
-    # Files in module if their path starts with module path
+    """Get mean stub_ratio for files in this module.
+
+    Uses canonical prefix matching (with trailing slash) to avoid matching
+    sibling modules: "src/api" must not include "src/api_v2/foo.py".
+    """
     stub_ratios = []
-    module_prefix = ms.path
+    module_prefix = ms.path.rstrip("/") + "/"  # Always ends with /
     for path, fs in field.per_file.items():
-        if path.startswith(module_prefix):
+        if path.startswith(module_prefix) or path == ms.path:
             stub_ratios.append(fs.stub_ratio)
 
     if not stub_ratios:

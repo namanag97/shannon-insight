@@ -168,6 +168,7 @@ export const SIGNAL_DESCRIPTIONS = {
   risk_score: "Combined risk from complexity, churn, and coupling",
   wiring_quality: "How clean the file's import/export structure is",
   file_health_score: "Overall health combining all signals (0-1)",
+  delta_h: "How much riskier this file is than its direct neighbours (positive = worse than context)",
   raw_risk: "Risk score before percentile normalization",
   percentiles: "Percentile rankings (0-100) for all numeric signals",
 

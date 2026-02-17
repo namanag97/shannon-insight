@@ -112,10 +112,6 @@ def main(
         shannon-insight --fail-on high     # CI gate mode
     """
     # version and help_flag are handled by callbacks
-        from .. import __version__
-
-        console.print(f"Shannon Insight v{__version__}")
-        raise typer.Exit(0)
 
     # Store path in context for subcommands
     ctx.obj = ctx.obj or {}

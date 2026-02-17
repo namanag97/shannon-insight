@@ -211,6 +211,14 @@ code {
   margin-left: auto; display: flex; align-items: center; gap: 10px;
   font-size: 11px; font-family: var(--mono); color: var(--text-tertiary);
 }
+.refresh-btn {
+  background: none; border: 1px solid var(--border); color: var(--text-secondary);
+  padding: 4px 6px; cursor: pointer; border-radius: var(--radius-sm);
+  transition: all var(--transition-base); display: flex; align-items: center;
+}
+.refresh-btn:hover:not(:disabled) { color: var(--text); border-color: var(--border-active); }
+.refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.refresh-btn svg { display: block; }
 .export-dropdown { position: relative; display: inline-block; }
 .export-dropdown button {
   background: none; border: 1px solid var(--border); color: var(--text-secondary);

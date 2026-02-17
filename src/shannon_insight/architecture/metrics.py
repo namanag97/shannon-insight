@@ -267,3 +267,7 @@ def compute_module_metrics(
     consistency, dominant = compute_role_consistency(module.files, roles)
     module.role_consistency = consistency
     module.dominant_role = dominant
+
+    # Boundary alignment from Louvain communities
+    if node_community:
+        module.boundary_alignment = compute_boundary_alignment(module.files, node_community)

@@ -220,12 +220,10 @@ commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M_3 11:00:00" \
 
 echo -e "\n${BLUE}Phase 5: Python API route churn - 10 commits in 1 week (3 months ago)${NC}"
 
-DATE_3M=$(date -v-3m "+%Y-%m-%d 09:00:00")
-
 for i in {1..10}; do
     # Calculate date: spread across 7 days
     day_offset=$((i - 1))
-    commit_date=$(date -v-3m -v+${day_offset}d "+%Y-%m-%d")
+    commit_date=$(calc_date "-3m+${day_offset}d" "%Y-%m-%d")
     hour=$((9 + i % 8))
     commit_time="${commit_date} ${hour}:30:00"
 

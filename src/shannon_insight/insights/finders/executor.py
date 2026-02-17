@@ -162,6 +162,33 @@ def _execute_pattern(
     return findings
 
 
+def _is_fixture_or_test_data(path: str) -> bool:
+    """Check if path is a test fixture or sample data file.
+
+    These files should be excluded from findings because:
+    1. They're intentionally broken/incomplete (test cases)
+    2. They never change, so findings persist forever
+    3. They're not production code
+    """
+    path_lower = path.lower()
+    # Common fixture/test data patterns
+    exclude_patterns = [
+        "tests/fixtures/",
+        "test/fixtures/",
+        "fixtures/",
+        "testdata/",
+        "test_data/",
+        "__fixtures__/",
+        "__mocks__/",
+        "mocks/",
+        "samples/",
+        "sample_",
+        "experiments/",
+        "_bootstrap.py",  # Bootstrap/setup scripts
+    ]
+    return any(p in path_lower for p in exclude_patterns)
+
+
 def _execute_file_pattern(
     store: FactStore,
     pattern: Pattern,
@@ -171,6 +198,10 @@ def _execute_file_pattern(
     findings: list[Finding] = []
 
     for file_id in store.files():
+        # Skip test fixtures and sample data
+        if _is_fixture_or_test_data(file_id.key):
+            continue
+
         # Hotspot filter: skip files below median total_changes
         if pattern.hotspot_filtered:
             total_changes = store.get_signal(file_id, Signal.TOTAL_CHANGES, 0)

@@ -30,12 +30,26 @@ def _orphan_code_predicate(store: FactStore, entity: EntityId) -> bool:
 
     # Skip legitimate entry points and config/barrel files
     role = store.get_signal(entity, Signal.ROLE, "")
-    if role in {"entry_point", "config"}:
+    if role in {"entry_point", "config", "test", "model"}:
         return False
 
-    # Barrel files (index.ts/js) are re-export entry points, not orphans
     path = entity.key
+
+    # Barrel files (index.ts/js) are re-export entry points, not orphans
     if path.endswith(("/index.ts", "/index.js", "/index.tsx", "/index.jsx")):
+        return False
+
+    # Go files: same-package consumption doesn't create import edges
+    # Skip Go files entirely since orphan detection is unreliable
+    if path.endswith(".go"):
+        return False
+
+    # TS/JS type files are referenced via import type, often not tracked
+    if "/types/" in path or path.endswith((".d.ts", ".types.ts")):
+        return False
+
+    # Hook files are consumed by components, often in different scan scope
+    if "/hooks/" in path:
         return False
 
     return True

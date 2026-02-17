@@ -266,8 +266,11 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
 
         signal_path = unquote(signal_path)
 
+        analyzed_path = _get_analyzed_path()
+        if not analyzed_path:
+            return JSONResponse({"error": "No analysis available"}, status_code=404)
         try:
-            with HistoryDB(str(state.analyzed_path)) as db:
+            with HistoryDB(analyzed_path) as db:
                 serializer = DashboardSerializer(db)
                 data = serializer.serialize_signal_evolution(
                     entity_type=signal_type,

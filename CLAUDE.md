@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 **Shannon Insight**: Codebase analysis tool using information theory, graph algorithms, and git history.
 PyPI: `shannon-codebase-insight` | CLI: `shannon-insight`
 

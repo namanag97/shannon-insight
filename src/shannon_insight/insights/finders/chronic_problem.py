@@ -143,6 +143,72 @@ class ChronicProblemFinder:
         ]
         return any(p in path_lower for p in exclude_patterns)
 
+    def _has_impact(self, store, files: list[str]) -> bool:
+        """Check if any file has actual impact (connectivity, churn, blast radius).
+
+        Files with zero impact should not be surfaced as chronic problems,
+        even if findings persist.
+        """
+        if not store or not files:
+            return False
+
+        # Check if we have the fact_store (v2 infrastructure)
+        fact_store = getattr(store, "fact_store", None)
+        if not fact_store:
+            return True  # Can't verify, assume has impact
+
+        from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.signals import Signal
+
+        for path in files:
+            entity_id = EntityId(EntityType.FILE, path)
+
+            # Check for any meaningful signal
+            pagerank = fact_store.get_signal(entity_id, Signal.PAGERANK, 0)
+            blast_radius = fact_store.get_signal(entity_id, Signal.BLAST_RADIUS_SIZE, 0)
+            total_changes = fact_store.get_signal(entity_id, Signal.TOTAL_CHANGES, 0)
+            in_degree = fact_store.get_signal(entity_id, Signal.IN_DEGREE, 0)
+
+            # Has impact if any signal is meaningful
+            if pagerank > 0.01 or blast_radius > 1 or total_changes > 5 or in_degree > 0:
+                return True
+
+        return False
+
+    def _get_current_risk(self, store, files: list[str]) -> float:
+        """Get current risk score for files based on CURRENT signals.
+
+        Returns the max risk_score across files, or 0 if can't determine.
+        """
+        if not store or not files:
+            return 0.0
+
+        # Check for signal_field slot
+        if hasattr(store, "signal_field") and store.signal_field.available:
+            signal_field = store.signal_field.value
+            max_risk = 0.0
+            for path in files:
+                if path in signal_field.per_file:
+                    fs = signal_field.per_file[path]
+                    max_risk = max(max_risk, getattr(fs, "risk_score", 0.0))
+            return max_risk
+
+        # Fallback: check fact_store
+        fact_store = getattr(store, "fact_store", None)
+        if not fact_store:
+            return 0.3  # Default moderate risk if can't determine
+
+        from shannon_insight.infrastructure.entities import EntityId, EntityType
+        from shannon_insight.infrastructure.signals import Signal
+
+        max_risk = 0.0
+        for path in files:
+            entity_id = EntityId(EntityType.FILE, path)
+            risk = fact_store.get_signal(entity_id, Signal.RISK_SCORE, 0.0)
+            max_risk = max(max_risk, risk)
+
+        return max_risk
+
     def _build_suggestion(self, finding_type: str, persistence_count: int) -> str:
         """Build actionable suggestion for chronic problem."""
         base = f"This issue has persisted for {persistence_count} snapshots. Consider: "

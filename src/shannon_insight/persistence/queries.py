@@ -306,6 +306,21 @@ class FindingLifecycleInfo:
     severity: float
 
 
+@dataclass
+class ChronicFindingInfo:
+    """Extended lifecycle info for chronic findings, includes files and title."""
+
+    identity_key: str
+    finding_type: str
+    first_seen_snapshot: int
+    last_seen_snapshot: int
+    persistence_count: int
+    current_status: str
+    severity: float
+    files: list[str]  # Actual file paths from the most recent finding
+    title: str  # Original finding title
+
+
 def get_signal_time_series(
     conn: sqlite3.Connection,
     file_path: str,

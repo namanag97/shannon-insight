@@ -131,21 +131,39 @@ class SignalFusionAnalyzer:
     def _sync_file_signals(self, fs, entity_id: EntityId, signals, producer: str) -> None:
         """Sync FileSignals to FactStore.
 
-        Only syncs signals that are computed during fusion and NOT already
-        synced by Wave 1 analyzers. Signals like PAGERANK, BUS_FACTOR are
-        already in FactStore from StructuralAnalyzer and TemporalAnalyzer.
+        Syncs ALL per-file signals that finders may read. This includes:
+        - IR1 signals not synced by scanning (stub_ratio, impl_gini, max_nesting)
+        - IR2 semantic signals (role, concept_*, naming_drift, todo_density, docstring_coverage)
+        - IR3 graph signals modified/computed in fusion (is_orphan, depth, cognitive_load, etc.)
+        - Composites (risk_score, wiring_quality, file_health_score)
+
+        Signals like PAGERANK, BUS_FACTOR are already in FactStore from
+        StructuralAnalyzer and TemporalAnalyzer - we don't overwrite those.
         """
         # IR1 signals from FileSyntax (not synced by scanning)
         fs.set_signal(entity_id, Signal.STUB_RATIO, signals.stub_ratio, producer=producer)
         fs.set_signal(entity_id, Signal.IMPL_GINI, signals.impl_gini, producer=producer)
         fs.set_signal(entity_id, Signal.MAX_NESTING, signals.max_nesting, producer=producer)
 
-        # IR2 semantic signals (SEMANTIC_COHERENCE computed in fusion)
+        # IR2 semantic signals - CRITICAL: finders read these!
+        fs.set_signal(entity_id, Signal.ROLE, signals.role, producer=producer)
+        fs.set_signal(entity_id, Signal.CONCEPT_COUNT, signals.concept_count, producer=producer)
+        fs.set_signal(entity_id, Signal.CONCEPT_ENTROPY, signals.concept_entropy, producer=producer)
+        fs.set_signal(entity_id, Signal.NAMING_DRIFT, signals.naming_drift, producer=producer)
+        fs.set_signal(entity_id, Signal.TODO_DENSITY, signals.todo_density, producer=producer)
+        if signals.docstring_coverage is not None:
+            fs.set_signal(
+                entity_id, Signal.DOCSTRING_COVERAGE, signals.docstring_coverage, producer=producer
+            )
         fs.set_signal(
             entity_id, Signal.SEMANTIC_COHERENCE, signals.semantic_coherence, producer=producer
         )
 
-        # IR3 graph signals computed in fusion (overwrites 0.0 from StructuralAnalyzer)
+        # IR3 graph signals - re-sync after fusion modifications
+        # IS_ORPHAN: fusion applies role-aware filtering (entry points aren't orphans)
+        # DEPTH: for completeness, finders may read this
+        fs.set_signal(entity_id, Signal.IS_ORPHAN, signals.is_orphan, producer=producer)
+        fs.set_signal(entity_id, Signal.DEPTH, signals.depth, producer=producer)
         fs.set_signal(entity_id, Signal.COGNITIVE_LOAD, signals.cognitive_load, producer=producer)
         fs.set_signal(
             entity_id, Signal.COMPRESSION_RATIO, signals.compression_ratio, producer=producer
@@ -154,6 +172,9 @@ class SignalFusionAnalyzer:
         # Composites (computed in fusion step 5)
         fs.set_signal(entity_id, Signal.RISK_SCORE, signals.risk_score, producer=producer)
         fs.set_signal(entity_id, Signal.WIRING_QUALITY, signals.wiring_quality, producer=producer)
+        fs.set_signal(
+            entity_id, Signal.FILE_HEALTH_SCORE, signals.file_health_score, producer=producer
+        )
 
     def _sync_module_signals(self, fs, entity_id: EntityId, signals, producer: str) -> None:
         """Sync ModuleSignals to FactStore."""

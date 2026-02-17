@@ -79,6 +79,7 @@ class FileSignals:
     risk_score: float = 0.0  # percentile-based composite (#35)
     wiring_quality: float = 1.0  # (#36)
     file_health_score: float = 1.0  # Per-file health composite
+    delta_h: float = 0.0  # Health Laplacian: raw_risk - mean(raw_risk of neighbours); + = worse than context
 
     # Percentiles (filled by normalization)
     percentiles: dict[str, float] = field(default_factory=dict)

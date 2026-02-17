@@ -261,3 +261,46 @@ def _check_fail_threshold(result, threshold: str) -> int:
             return 1
 
     return 0
+
+
+def _launch_dashboard(
+    target: Path,
+    config: Optional[Path],
+    workers: Optional[int],
+    verbose: bool,
+    port: int,
+    no_browser: bool,
+) -> None:
+    """Launch the interactive dashboard."""
+    import logging
+
+    # Check dependencies
+    try:
+        from ..server import _check_deps
+
+        _check_deps()
+    except ImportError as exc:
+        console.print(f"[red]{exc}[/red]")
+        console.print()
+        console.print("[dim]Tip: Use --cli for terminal output without server dependencies[/dim]")
+        raise typer.Exit(1)
+
+    from ._common import resolve_settings
+    from ..server.lifecycle import launch_server
+
+    settings = resolve_settings(config=config, workers=workers, verbose=verbose)
+
+    if verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.WARNING)
+
+    launch_server(
+        root_dir=str(target),
+        settings=settings,
+        console=console,
+        host="127.0.0.1",
+        port=port,
+        no_browser=no_browser,
+        verbose=verbose,
+    )

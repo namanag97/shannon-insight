@@ -12,17 +12,10 @@ from ._common import console
 
 
 def _version_callback(value: bool) -> None:
-    """Handle --version flag."""
+    """Handle --version flag (eager callback)."""
     if value:
         from .. import __version__
         console.print(f"Shannon Insight v{__version__}")
-        raise typer.Exit(0)
-
-
-def _help_callback(ctx: typer.Context, value: bool) -> None:
-    """Handle -h flag."""
-    if value:
-        console.print(ctx.get_help())
         raise typer.Exit(0)
 
 

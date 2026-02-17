@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import atexit
 import logging
-import os
 import signal
 import threading
 import webbrowser
@@ -247,9 +246,13 @@ def launch_server(
     # Register atexit cleanup as safety net (catches kill -9 aftermath on next run)
     atexit.register(lambda: _atexit_cleanup(project_root))
 
-    # ── Step 6: Open browser IMMEDIATELY ──────────────────────────
-    # Don't wait for analysis - dashboard shows loading state
+    # ── Step 6: Run initial analysis ──────────────────────────────
     url = f"http://{host}:{actual_port}"
+    console.print(f"[bold cyan]Shannon Insight[/bold cyan] → [link={url}]{url}[/link]")
+    console.print(f"[dim]{project_root}[/dim]")
+    console.print()
+
+    # Open browser early (will show loading state)
     if not no_browser:
         browser_marker = Path(project_root) / ".shannon" / ".browser_session"
         should_open = True
@@ -258,7 +261,6 @@ def launch_server(
                 marker_url = browser_marker.read_text().strip()
                 if marker_url == url:
                     should_open = False
-                    logger.debug("Browser already opened for %s, skipping", url)
         except OSError:
             pass
 
@@ -268,29 +270,28 @@ def launch_server(
                 browser_marker.write_text(url)
             except OSError:
                 pass
-            # Open browser immediately - no delay
-            webbrowser.open(url)
+            threading.Timer(0.5, lambda: webbrowser.open(url)).start()
 
-    # ── Step 7: Display status ────────────────────────────────────
-    console.print()
-    console.print(f"[bold cyan]Shannon Insight[/bold cyan] → [link={url}]{url}[/link]")
-    console.print(f"[dim]{project_root}[/dim]")
-    console.print()
-
-    # ── Step 8: Create app and start server ───────────────────────
-    asgi_app = create_app(state, watcher=watcher)
-
-    # ── Step 9: Run analysis in background thread ─────────────────
-    # Analysis runs AFTER server starts, with progress via WebSocket
-    def _background_analysis():
+    # Run analysis synchronously with progress indicator
+    with console.status("[cyan]Analyzing codebase..."):
         try:
             watcher.run_analysis()
-            watcher.start()  # Start file watching after initial analysis
         except Exception as exc:
-            logger.error("Initial analysis failed: %s", exc)
+            console.print(f"[yellow]Analysis warning: {exc}[/yellow]")
 
-    analysis_thread = threading.Thread(target=_background_analysis, daemon=True)
-    analysis_thread.start()
+    # Show result
+    current = state.get_state()
+    if current:
+        health = current.get("health", "?")
+        n_issues = sum(c["count"] for c in current.get("categories", {}).values())
+        console.print(f"[green]Ready[/green] — health {health}, {n_issues} issues")
+    console.print()
+
+    # Start file watcher
+    watcher.start()
+
+    # ── Step 7: Create app ────────────────────────────────────────
+    asgi_app = create_app(state, watcher=watcher)
 
     uvicorn_config = uvicorn.Config(
         asgi_app,

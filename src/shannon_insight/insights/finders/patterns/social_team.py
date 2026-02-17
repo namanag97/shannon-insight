@@ -73,30 +73,41 @@ KNOWLEDGE_SILO = Pattern(
 
 
 def _conway_violation_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
-    """Modules with different teams but structural coupling.
-
-    CONWAY_VIOLATION requires:
-    1. High structural coupling between modules (coupling > 0.3)
-    2. High author distance between modules (different teams maintain them)
-
-    Note: author_distance exists at FILE level (graph/distance.py). To enable this
-    pattern, we need to aggregate file-level author distances to module level.
-    This requires knowing which files belong to each module, which is available
-    via architecture.modules[path].files.
-
-    STATUS: Disabled pending module-level author distance aggregation.
-    """
+    """Modules with different teams but structural coupling."""
     mod_a, mod_b = pair
 
-    # Check structural coupling (this works)
     coupling = store.get_signal(mod_a, Signal.COUPLING, 0)
     if coupling <= 0.3:
         return False
 
-    # Module-level author distance requires aggregating file-level distances
-    # For now, skip until this infrastructure is wired up
-    # TODO: Implement _compute_module_author_distance(store, mod_a, mod_b)
-    return False
+    author_dist = _compute_module_author_distance(store, mod_a, mod_b)
+    return author_dist > 0.8
+
+
+def _compute_module_author_distance(store: FactStore, mod_a: EntityId, mod_b: EntityId) -> float:
+    """Aggregate file-level AUTHOR_DISTANCE relations to module level."""
+    from shannon_insight.infrastructure.relations import RelationType
+
+    # Collect files in each module via IN_MODULE relations (reverse: CONTAINS)
+    def _files_in_module(mod: EntityId) -> set[str]:
+        return {r.source.key for r in store.incoming(mod, RelationType.IN_MODULE)}
+
+    files_a = _files_in_module(mod_a)
+    files_b = _files_in_module(mod_b)
+
+    if not files_a or not files_b:
+        return 1.0  # Unknown team composition → assume different teams
+
+    # Average AUTHOR_DISTANCE for cross-module file pairs
+    from shannon_insight.infrastructure.entities import EntityId as EId, EntityType
+    distances = []
+    for fa_path in files_a:
+        fa_id = EId(EntityType.FILE, fa_path)
+        for rel in store.outgoing(fa_id, RelationType.AUTHOR_DISTANCE):
+            if rel.target.key in files_b:
+                distances.append(rel.metadata.get("distance", 1.0))
+
+    return sum(distances) / len(distances) if distances else 1.0
 
 
 def _conway_violation_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:

@@ -122,7 +122,16 @@ def analyze(
     # 4. Run analysis kernel
     from .insights.kernel import InsightKernel
 
-    kernel = InsightKernel(session=session, enable_provenance=enable_provenance)
+    # Auto-detect historical data: enable persistence finders if history.db has snapshots
+    enable_persistence_finders = _has_historical_data(Path(path))
+    if enable_persistence_finders:
+        logger.debug("Historical data detected, enabling persistence finders")
+
+    kernel = InsightKernel(
+        session=session,
+        enable_provenance=enable_provenance,
+        enable_persistence_finders=enable_persistence_finders,
+    )
     result, snapshot = kernel.run(max_findings=config.max_findings)
 
     logger.info(

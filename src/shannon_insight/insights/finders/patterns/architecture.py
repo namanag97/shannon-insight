@@ -70,18 +70,13 @@ def _zone_of_pain_predicate(store: FactStore, entity: EntityId) -> bool:
     """Concrete + stable module (hard to change)."""
     abstractness = store.get_signal(entity, Signal.ABSTRACTNESS, None)
     instability = store.get_signal(entity, Signal.INSTABILITY, None)
-    class_count = store.get_signal(entity, Signal.CLASS_COUNT, 0)
 
     # CRITICAL: instability can be None for isolated modules (Ca+Ce=0)
     if instability is None:
         return False
 
-    # abstractness=0 with no classes means "undefined", not "concrete"
-    # Only fire if there are actual classes to abstract
-    if class_count == 0:
-        return False
-
-    # Zone of pain: low abstractness AND low instability
+    # Zone of pain: low abstractness (concrete) AND low instability (stable)
+    # Modules with abstractness=0.0 are concrete - no interfaces, ABCs, or Protocols
     return abstractness is not None and abstractness < 0.3 and instability < 0.3
 
 

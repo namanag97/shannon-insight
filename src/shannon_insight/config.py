@@ -440,6 +440,18 @@ def load_config(config_file: Optional[Path] = None, **overrides) -> AnalysisConf
 
     merged.update(overrides)
 
+    # Handle [thresholds] section from TOML
+    thresholds_dict = merged.pop("thresholds", None)
+    if thresholds_dict is not None:
+        if isinstance(thresholds_dict, dict):
+            try:
+                merged["thresholds"] = ThresholdConfig(**thresholds_dict)
+            except TypeError as e:
+                raise ShannonInsightError(f"Invalid [thresholds] config: {e}")
+        elif isinstance(thresholds_dict, ThresholdConfig):
+            merged["thresholds"] = thresholds_dict
+        # else: ignore invalid type
+
     # Create and validate config
     try:
         return AnalysisConfig(**merged)

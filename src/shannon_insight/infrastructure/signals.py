@@ -114,6 +114,7 @@ class Signal(Enum):
     RISK_SCORE = "risk_score"  # 35
     WIRING_QUALITY = "wiring_quality"  # 36
     FILE_HEALTH_SCORE = "file_health_score"  # 36a (per-file health composite)
+    DELTA_H = "delta_h"  # 36b - Health Laplacian: how much worse than neighbours
 
     # ── IR4: Per-module signals (phase 4-5) ──────────────────────────
     COHESION = "cohesion"  # 37

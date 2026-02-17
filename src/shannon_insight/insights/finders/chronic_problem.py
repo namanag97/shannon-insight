@@ -127,21 +127,9 @@ class ChronicProblemFinder:
 
     def _is_fixture(self, path: str) -> bool:
         """Check if path is a test fixture or sample data."""
-        path_lower = path.lower()
-        exclude_patterns = [
-            "tests/fixtures/",
-            "test/fixtures/",
-            "fixtures/",
-            "testdata/",
-            "test_data/",
-            "__fixtures__/",
-            "__mocks__/",
-            "samples/",
-            "sample_",
-            "experiments/",
-            "_bootstrap.py",
-        ]
-        return any(p in path_lower for p in exclude_patterns)
+        from shannon_insight.file_ops import is_fixture_or_test_data
+
+        return is_fixture_or_test_data(path)
 
     def _has_impact(self, store, files: list[str]) -> bool:
         """Check if any file has actual impact (connectivity, churn, blast radius).

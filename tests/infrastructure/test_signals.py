@@ -696,6 +696,7 @@ class TestPolarityCorrectness:
             Signal.AUTHOR_ENTROPY,
             Signal.REFACTOR_RATIO,
             Signal.WIRING_QUALITY,
+            Signal.FILE_HEALTH_SCORE,
             Signal.COHESION,
             Signal.BOUNDARY_ALIGNMENT,
             Signal.ROLE_CONSISTENCY,

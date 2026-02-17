@@ -172,7 +172,7 @@ LANGUAGES = {
     ),
     "javascript": LanguageConfig(
         name="javascript",
-        extensions=[".js", ".jsx", ".mjs", ".cjs"],
+        extensions=[".js", ".mjs", ".cjs"],
         comment_patterns=[_C_LINE_COMMENT, _C_BLOCK_COMMENT],
         string_patterns=[_BACKTICK_STR, _DOUBLE_QUOTE_STR, _SINGLE_QUOTE_STR],
         function_patterns=[
@@ -192,9 +192,31 @@ LANGUAGES = {
         complexity_operators=["&&", r"\|\|", r"\?"],
         nesting_mode="brace",
     ),
+    # TSX for JSX files (uses tree-sitter-typescript's TSX grammar)
+    "tsx": LanguageConfig(
+        name="tsx",
+        extensions=[".jsx", ".tsx"],
+        comment_patterns=[_C_LINE_COMMENT, _C_BLOCK_COMMENT],
+        string_patterns=[_BACKTICK_STR, _DOUBLE_QUOTE_STR, _SINGLE_QUOTE_STR],
+        function_patterns=[
+            r"\bfunction\s+\w+\s*\(",
+            r"const\s+\w+\s*=\s*(?:\([^)]*\)|[a-zA-Z_]\w*)\s*=>",
+            r"const\s+\w+\s*=\s*function",
+        ],
+        import_patterns=[
+            r"""import\s+.*?\s+from\s+['"]([^'"]+)['"]""",
+            r"""import\s+['"]([^'"]+)['"]""",
+        ],
+        export_patterns=[
+            r"\bexport\s+(?:default\s+)?(?:function|class|const|let|var|type|interface)\s+(\w+)",
+        ],
+        complexity_keywords=["if", "else", "case", "while", "for", "catch"],
+        complexity_operators=["&&", r"\|\|", r"\?"],
+        nesting_mode="brace",
+    ),
     "typescript": LanguageConfig(
         name="typescript",
-        extensions=[".ts", ".tsx"],
+        extensions=[".ts"],
         comment_patterns=[_C_LINE_COMMENT, _C_BLOCK_COMMENT],
         string_patterns=[_BACKTICK_STR, _DOUBLE_QUOTE_STR, _SINGLE_QUOTE_STR],
         function_patterns=[

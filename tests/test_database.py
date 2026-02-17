@@ -647,3 +647,95 @@ class TestTensorSnapshotLoader:
             with HistoryDB(tmpdir) as db:
                 with pytest.raises(ValueError, match="No snapshot with id=999"):
                     load_tensor_snapshot(db.conn, 999)
+
+    def test_persist_cochange_and_architecture(self):
+        """Test persisting and loading cochange edges, architecture, and community data."""
+        from shannon_insight.persistence.models import TensorSnapshot, FindingRecord
+        from shannon_insight.persistence.writer import save_tensor_snapshot
+        from shannon_insight.persistence.reader import load_tensor_snapshot
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with HistoryDB(tmpdir) as db:
+                # Create a TensorSnapshot with all new fields
+                snap = TensorSnapshot(
+                    schema_version=2,
+                    tool_version="0.9.0",
+                    commit_sha="abc123",
+                    timestamp="2025-02-01T12:00:00Z",
+                    analyzed_path="/project",
+                    file_count=5,
+                    module_count=2,
+                    commits_analyzed=100,
+                    analyzers_ran=["structural", "temporal", "spectral"],
+                    config_hash="hash123",
+                    file_signals={
+                        "main.py": {"cognitive_load": 0.5, "percentiles": {"cognitive_load": 0.8}}
+                    },
+                    module_signals={"src/": {"cohesion": 0.7}},
+                    global_signals={"modularity": 0.65},
+                    findings=[],
+                    dependency_edges=[("main.py", "utils.py")],
+                    # New fields
+                    cochange_edges=[
+                        ("main.py", "utils.py", 0.85, 2.1, 0.9, 0.7, 15),
+                        ("main.py", "config.py", 0.45, 1.2, 0.6, 0.5, 8),
+                    ],
+                    modules=["src/", "tests/"],
+                    layers=[
+                        {"depth": 0, "modules": ["src/"]},
+                        {"depth": 1, "modules": ["tests/"]},
+                    ],
+                    violations=[
+                        {"src": "tests/", "tgt": "src/", "type": "UPWARD_DEPENDENCY"}
+                    ],
+                    delta_h={"main.py": 0.12, "utils.py": -0.05},
+                    communities=[
+                        {"id": 0, "members": ["main.py", "utils.py"], "size": 2},
+                        {"id": 1, "members": ["config.py"], "size": 1},
+                    ],
+                    node_community={"main.py": 0, "utils.py": 0, "config.py": 1},
+                    modularity_score=0.72,
+                )
+
+                # Save and reload
+                snap_id = save_tensor_snapshot(db.conn, snap)
+                loaded = load_tensor_snapshot(db.conn, snap_id)
+
+                # Verify cochange edges
+                assert len(loaded.cochange_edges) == 2
+                assert loaded.cochange_edges[0][0] == "main.py"
+                assert loaded.cochange_edges[0][1] == "utils.py"
+                assert loaded.cochange_edges[0][2] == 0.85  # weight
+                assert loaded.cochange_edges[0][3] == 2.1  # lift
+                assert loaded.cochange_edges[0][6] == 15  # cochange_count
+
+                # Verify modules
+                assert "src/" in loaded.modules
+                assert "tests/" in loaded.modules
+
+                # Verify layers
+                assert len(loaded.layers) == 2
+                assert loaded.layers[0]["depth"] == 0
+                assert loaded.layers[0]["modules"] == ["src/"]
+
+                # Verify violations
+                assert len(loaded.violations) == 1
+                assert loaded.violations[0]["src"] == "tests/"
+                assert loaded.violations[0]["tgt"] == "src/"
+                assert loaded.violations[0]["type"] == "UPWARD_DEPENDENCY"
+
+                # Verify delta_h
+                assert loaded.delta_h["main.py"] == 0.12
+                assert loaded.delta_h["utils.py"] == -0.05
+
+                # Verify communities
+                assert len(loaded.communities) == 2
+                assert loaded.communities[0]["id"] == 0
+                assert loaded.communities[0]["members"] == ["main.py", "utils.py"]
+
+                # Verify node_community
+                assert loaded.node_community["main.py"] == 0
+                assert loaded.node_community["config.py"] == 1
+
+                # Verify modularity score
+                assert loaded.modularity_score == 0.72

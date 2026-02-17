@@ -42,8 +42,13 @@ def _get_html() -> str:
     return _TEMPLATE_HTML
 
 
-def create_app(state: ServerState) -> Starlette:
-    """Build the Starlette application wired to *state*."""
+def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starlette:
+    """Build the Starlette application wired to *state*.
+
+    Args:
+        state: The shared server state for dashboard data
+        watcher: Optional file watcher for triggering refresh
+    """
 
     async def homepage(request: Request) -> HTMLResponse:
         return HTMLResponse(_get_html())

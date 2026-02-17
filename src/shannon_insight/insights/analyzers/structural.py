@@ -114,9 +114,21 @@ class StructuralAnalyzer:
         """Run NCD clone detection on file contents."""
         root = Path(store.root_dir) if store.root_dir else Path.cwd()
 
+        # Get threshold from config if available
+        clone_threshold = 0.30  # default
+        clone_min_lines = 20  # default (skip trivial files)
+        if store.session is not None and store.session.config is not None:
+            thresholds = store.session.config.thresholds
+            clone_threshold = thresholds.clone_ncd_threshold
+            clone_min_lines = thresholds.clone_min_lines
+
         # Get file contents from cache or disk
         file_contents: dict[str, bytes] = {}
         for fm in store.file_syntax.value.values():
+            # Skip files below minimum line threshold
+            if fm.lines < clone_min_lines:
+                continue
+
             # Try cache first
             content = store.get_content(fm.path)
             if content is not None:
@@ -137,7 +149,7 @@ class StructuralAnalyzer:
         if store.roles.available:
             roles = store.roles.value
 
-        clone_pairs = detect_clones(file_contents, roles)
+        clone_pairs = detect_clones(file_contents, roles, threshold=clone_threshold)
         store.clone_pairs.set(clone_pairs, produced_by=self.name)
         logger.debug(f"Clone detection: {len(clone_pairs)} pairs found")
 

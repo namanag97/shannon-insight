@@ -1,7 +1,11 @@
 """Data models for analysis snapshots — immutable records of a single analysis run.
 
-V2 adds TensorSnapshot with full SignalField serialization, module signals,
-architecture data, and finding lifecycle tracking.
+Two snapshot formats exist:
+- Snapshot: Legacy format with file_signals and codebase_signals dicts
+- TensorSnapshot: Current format with full SignalField, module signals, architecture
+
+New code should use TensorSnapshot. The legacy Snapshot format is kept for
+reading old database entries.
 """
 
 from dataclasses import dataclass, field

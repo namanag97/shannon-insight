@@ -1,4 +1,4 @@
-"""Tests for v2 Signal registry (63 signals)."""
+"""Tests for v2 Signal registry (64 signals)."""
 
 import pytest
 

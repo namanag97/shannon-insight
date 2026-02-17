@@ -45,7 +45,7 @@ def _has_historical_data(path: Path, min_snapshots: int = 3) -> bool:
 
         with sqlite3.connect(str(db_path)) as conn:
             cursor = conn.execute("SELECT COUNT(*) FROM snapshots")
-            count = cursor.fetchone()[0]
+            count: int = cursor.fetchone()[0]
             return count >= min_snapshots
     except Exception:
         return False

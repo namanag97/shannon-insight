@@ -293,6 +293,8 @@ def save_tensor_snapshot(conn: sqlite3.Connection, snapshot: TensorSnapshot) -> 
             )
 
             # Upsert finding_lifecycle
+            # If finding was 'resolved' and now reappears, reset count to 1 (regression)
+            # If finding was 'active', increment count (persisting)
             cur.execute(
                 """
                 INSERT INTO finding_lifecycle
@@ -301,7 +303,10 @@ def save_tensor_snapshot(conn: sqlite3.Connection, snapshot: TensorSnapshot) -> 
                 VALUES (?, ?, ?, 1, 'active', ?, ?)
                 ON CONFLICT(identity_key) DO UPDATE SET
                     last_seen_snapshot = excluded.last_seen_snapshot,
-                    persistence_count = persistence_count + 1,
+                    persistence_count = CASE
+                        WHEN current_status = 'resolved' THEN 1
+                        ELSE persistence_count + 1
+                    END,
                     current_status = 'active',
                     severity = excluded.severity
                 """,

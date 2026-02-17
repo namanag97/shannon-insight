@@ -157,6 +157,7 @@ class MockFileAnalysis:
         self.blast_radius_size = blast_radius_size
         self.depth = depth
         self.is_orphan = is_orphan
+        self.cycle_member = False  # Required by fusion._fill_from_graph
         self.phantom_import_count = phantom_import_count
         self.community_id = community_id
         self.compression_ratio = compression_ratio

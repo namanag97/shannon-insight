@@ -7,11 +7,28 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from shannon_insight.config import DEFAULT_THRESHOLDS, ThresholdConfig
 from shannon_insight.infrastructure.signals import Signal
 
 if TYPE_CHECKING:
     from shannon_insight.infrastructure.entities import EntityId
     from shannon_insight.infrastructure.store import FactStore
+
+
+def get_thresholds(store: FactStore) -> ThresholdConfig:
+    """Get threshold configuration from store.
+
+    Falls back to DEFAULT_THRESHOLDS if session/config not available.
+
+    Args:
+        store: FactStore instance
+
+    Returns:
+        ThresholdConfig instance
+    """
+    if store.session is not None and store.session.config is not None:
+        return store.session.config.thresholds
+    return DEFAULT_THRESHOLDS
 
 
 def is_solo_project(store: FactStore) -> bool:

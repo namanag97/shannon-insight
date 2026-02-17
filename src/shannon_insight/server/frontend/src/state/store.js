@@ -172,6 +172,39 @@ const useStore = create(
     set({ progressActive: active, progressPercent: percent, progressMessage: message || "" }),
 
   setReconnectActive: (active) => set({ reconnectActive: active }),
-}));
+    }),
+    {
+      name: "shannon-insight-ui",
+      // Only persist UI preferences, not data or transient state
+      partialize: (state) => ({
+        fileSortKey: state.fileSortKey,
+        fileSortAsc: state.fileSortAsc,
+        fileViewMode: state.fileViewMode,
+        // Convert Set to Array for JSON serialization
+        fileFilters: Array.from(state.fileFilters || []),
+        issueTab: state.issueTab,
+        issueSortKey: state.issueSortKey,
+        issueSeverityFilter: Array.from(state.issueSeverityFilter || []),
+        moduleSortKey: state.moduleSortKey,
+        moduleSortAsc: state.moduleSortAsc,
+        churnTrajectoryFilter: state.churnTrajectoryFilter,
+        churnSortKey: state.churnSortKey,
+        churnSortAsc: state.churnSortAsc,
+        inspectedSignal: state.inspectedSignal,
+      }),
+      // Convert arrays back to Sets when loading
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          if (Array.isArray(state.fileFilters)) {
+            state.fileFilters = new Set(state.fileFilters);
+          }
+          if (Array.isArray(state.issueSeverityFilter)) {
+            state.issueSeverityFilter = new Set(state.issueSeverityFilter);
+          }
+        }
+      },
+    }
+  )
+);
 
 export default useStore;

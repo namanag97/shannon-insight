@@ -83,7 +83,7 @@ class TestEntityTypes:
 
 
 class TestSignalEnum:
-    """Signal enum must have all 63 signals."""
+    """Signal enum must have all 64 signals."""
 
     def test_signal_enum_exists(self):
         from shannon_insight.infrastructure.signals import Signal
@@ -91,10 +91,10 @@ class TestSignalEnum:
         assert isinstance(Signal, type)
         assert issubclass(Signal, Enum)
 
-    def test_signal_count_is_63(self):
+    def test_signal_count_is_64(self):
         from shannon_insight.infrastructure.signals import Signal
 
-        assert len(Signal) == 63, f"Expected 63 signals, got {len(Signal)}"
+        assert len(Signal) == 64, f"Expected 64 signals, got {len(Signal)}"
 
     def test_per_file_signals_exist(self):
         """Signals 1-36 (per-file)."""

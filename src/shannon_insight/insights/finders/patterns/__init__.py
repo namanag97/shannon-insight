@@ -66,10 +66,12 @@ __all__ = [
     "KNOWLEDGE_SILO",
     "CONWAY_VIOLATION",
     "REVIEW_BLINDSPOT",
-    # Architecture (3)
+    # Architecture (5)
     "LAYER_VIOLATION",
     "ZONE_OF_PAIN",
     "ARCHITECTURE_EROSION",
+    "CIRCULAR_DEPENDENCY",
+    "ZONE_OF_USELESSNESS",
     # Cross-Dimensional (3)
     "WEAK_LINK",
     "BUG_ATTRACTOR",

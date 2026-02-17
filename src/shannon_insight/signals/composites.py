@@ -89,8 +89,10 @@ def _compute_risk_score(fs: FileSignals, max_bus_factor: float) -> float:
     pctl_blast = fs.percentiles.get("blast_radius_size", 0.0)
     pctl_cog = fs.percentiles.get("cognitive_load", 0.0)
 
-    # Instability factor: is this file actively churning?
-    instability_factor = 1.0 if fs.churn_trajectory in ("CHURNING", "SPIKING") else 0.3
+    # Instability factor: continuous measure of change volatility via churn_cv.
+    # churn_cv=0 → 0.0 (perfectly stable), churn_cv=2.0+ → 1.0 (highly erratic).
+    # Avoids the 14% step-discontinuity that the old CHURNING/SPIKING binary had.
+    instability_factor = min(fs.churn_cv / 2.0, 1.0) if fs.churn_cv > 0 else 0.0
 
     # Bus factor risk: normalized against max in codebase
     # Higher bus_factor = more people know it = lower risk

@@ -112,6 +112,7 @@ class Signal(Enum):
     # ── IR5s: Per-file composites (phase 5) ──────────────────────────
     RISK_SCORE = "risk_score"  # 35
     WIRING_QUALITY = "wiring_quality"  # 36
+    FILE_HEALTH_SCORE = "file_health_score"  # 36a (per-file health composite)
 
     # ── IR4: Per-module signals (phase 4-5) ──────────────────────────
     COHESION = "cohesion"  # 37

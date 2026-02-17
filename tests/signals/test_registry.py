@@ -238,9 +238,9 @@ class TestSignalCounts:
     """Verify signal count breakdown from spec."""
 
     def test_file_signal_count(self):
-        """Per-file signals: 37."""
+        """Per-file signals: 38."""
         file_signals = signals_by_scope("file")
-        assert len(file_signals) == 37
+        assert len(file_signals) == 38
 
     def test_module_signal_count(self):
         """Per-module signals: 15."""

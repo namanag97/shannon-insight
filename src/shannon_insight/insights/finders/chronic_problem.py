@@ -74,9 +74,20 @@ class ChronicProblemFinder:
             if info.files and any(self._is_fixture(f) for f in info.files):
                 continue
 
-            # Compute enhanced severity (cap at 0.85 to avoid over-inflating)
-            base_severity = info.severity
-            enhanced_severity = min(0.85, base_severity * self.severity_multiplier)
+            # Skip files with no actual impact (zero connectivity, zero churn)
+            # These are stale findings that shouldn't be surfaced
+            if not self._has_impact(store, info.files):
+                continue
+
+            # Compute severity based on CURRENT signals, not historical
+            # Base severity should reflect actual current risk
+            current_risk = self._get_current_risk(store, info.files)
+            if current_risk < 0.1:
+                continue  # File no longer risky, skip
+
+            # Enhance based on persistence (but cap reasonably)
+            persistence_boost = min(0.15, info.persistence_count * 0.01)
+            enhanced_severity = min(0.85, current_risk + persistence_boost)
 
             # Files come directly from ChronicFindingInfo (joined from findings table)
             files = info.files

@@ -43,9 +43,9 @@ class FindingRecord:
 
 @dataclass
 class Snapshot:
-    """V1 snapshot: original schema with file_signals and codebase_signals.
+    """Legacy snapshot format with flat file_signals and codebase_signals.
 
-    Kept for backward compatibility. New code should use TensorSnapshot.
+    Kept for reading old database entries. New code should use TensorSnapshot.
     """
 
     # ── Metadata ──────────────────────────────────────────────────

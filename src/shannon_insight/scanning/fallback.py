@@ -189,7 +189,7 @@ class RegexFallbackScanner:
         patterns: dict[str, list[str]] = {
             "python": [
                 r"^import\s+([\w.]+)",
-                r"^from\s+([\w.]+)\s+import",
+                r"^from\s+(\.+[\w.]*|[\w.]+)\s+import",  # handles relative imports (.foo, ..bar)
             ],
             "go": [r'^import\s+"([^"]+)"', r'^import\s+\w+\s+"([^"]+)"'],
             "typescript": [r"^import\s+.*from\s+['\"]([^'\"]+)['\"]"],

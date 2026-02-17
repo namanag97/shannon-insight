@@ -111,6 +111,7 @@ HIGH_RISK_HUB = Pattern(
 
 def _hidden_coupling_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
     """Co-change without structural dependency."""
+    thresholds = get_thresholds(store)
     file_a, file_b = pair
 
     # Check for COCHANGES_WITH relation
@@ -126,8 +127,8 @@ def _hidden_coupling_predicate(store: FactStore, pair: tuple[EntityId, EntityId]
     confidence_ba = cochange_rel.metadata.get("confidence_b_a", 0.0)
     max_conf = max(confidence_ab, confidence_ba)
 
-    # Thresholds
-    if lift < 2.0 or max_conf < 0.5:
+    # Configurable thresholds
+    if lift < thresholds.coupling_lift_threshold or max_conf < thresholds.coupling_confidence_threshold:
         return False
 
     # Check NO structural dependency

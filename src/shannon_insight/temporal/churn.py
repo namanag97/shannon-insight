@@ -18,6 +18,8 @@ def build_churn_series(
     history: GitHistory,
     analyzed_files: set[str],
     window_weeks: int = 4,
+    slope_threshold: float = 0.1,
+    cv_threshold: float = 0.5,
 ) -> dict[str, ChurnSeries]:
     """Build per-file churn time series with trajectory classification.
 

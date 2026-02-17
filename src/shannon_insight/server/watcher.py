@@ -178,15 +178,30 @@ class FileWatcher:
         Uses the canonical build_dashboard_state() from server/api.py
         to ensure consistent data transformation (health scores, percentiles,
         file signals, module signals, etc.).
+
+        Also auto-saves snapshots to .shannon/history.db for trend data.
         """
         from .api import build_dashboard_state
 
-        # Get db_path for trend data if .shannon directory exists
+        # Auto-save snapshot to history database for trend data
+        # This ensures .shannon/ is created on first run and trends work
         db_path = None
-        shannon_dir = Path(self.root_dir) / ".shannon"
-        if shannon_dir.exists():
-            history_db = shannon_dir / "history.db"
-            if history_db.exists():
-                db_path = str(history_db)
+        try:
+            from ..persistence import HistoryDB
+
+            db = HistoryDB(self.root_dir)
+            db.connect()
+            db.save_snapshot(snapshot)
+            db.close()
+            db_path = str(db.db_path)
+            logger.debug("Saved snapshot to %s", db_path)
+        except Exception as e:
+            logger.debug("Could not save snapshot to history: %s", e)
+            # Fall back to checking if db exists
+            shannon_dir = Path(self.root_dir) / ".shannon"
+            if shannon_dir.exists():
+                history_db = shannon_dir / "history.db"
+                if history_db.exists():
+                    db_path = str(history_db)
 
         return build_dashboard_state(result, snapshot, db_path=db_path)

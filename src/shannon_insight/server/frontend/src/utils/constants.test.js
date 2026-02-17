@@ -47,9 +47,16 @@ describe("SIGNAL_CATEGORIES", () => {
 
 describe("SIGNAL_POLARITY", () => {
   it("has entries for known signals", () => {
-    expect(SIGNAL_POLARITY.risk_score).toBe(true);
-    expect(SIGNAL_POLARITY.wiring_quality).toBe(false);
-    expect(SIGNAL_POLARITY.pagerank).toBe(null);
+    expect(SIGNAL_POLARITY.risk_score).toBe(true);      // high_is_bad
+    expect(SIGNAL_POLARITY.wiring_quality).toBe(false); // high_is_good
+    expect(SIGNAL_POLARITY.pagerank).toBe(true);        // high_is_bad (coupling risk)
+    expect(SIGNAL_POLARITY.lines).toBe(null);           // neutral
+  });
+
+  it("has entries for global signals", () => {
+    expect(SIGNAL_POLARITY.modularity).toBe(false);     // high_is_good
+    expect(SIGNAL_POLARITY.cycle_count).toBe(true);     // high_is_bad
+    expect(SIGNAL_POLARITY.codebase_health).toBe(false); // high_is_good
   });
 });
 

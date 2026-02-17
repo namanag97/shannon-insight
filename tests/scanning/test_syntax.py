@@ -88,16 +88,29 @@ class TestFunctionDef:
 
     def test_is_stub_property(self):
         """is_stub property based on body_tokens threshold."""
+        # Truly empty body (pass, ...) is a stub
         stub = FunctionDef(
             name="stub",
             params=[],
-            body_tokens=2,  # < 3, definitely a stub
+            body_tokens=1,  # <= 1, truly empty (pass/...)
             signature_tokens=10,
             nesting_depth=0,
             start_line=1,
             end_line=2,
         )
         assert stub.is_stub is True
+
+        # One-liner with return statement is NOT a stub
+        one_liner = FunctionDef(
+            name="one_liner",
+            params=[],
+            body_tokens=2,  # "return x" - valid implementation
+            signature_tokens=10,
+            nesting_depth=0,
+            start_line=1,
+            end_line=2,
+        )
+        assert one_liner.is_stub is False
 
         real = FunctionDef(
             name="real",

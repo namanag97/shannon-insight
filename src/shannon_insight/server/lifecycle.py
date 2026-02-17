@@ -104,6 +104,15 @@ class ShutdownManager:
         if remove_pid_file(self.project_root):
             steps.append("Cleaned up PID file")
 
+        # 5. Clean up browser session marker (allows new tab on next start)
+        browser_marker = Path(self.project_root) / ".shannon" / ".browser_session"
+        try:
+            if browser_marker.exists():
+                browser_marker.unlink()
+                steps.append("Cleared browser session marker")
+        except OSError:
+            pass
+
         # 5. Report active threads
         active = threading.active_count()
         if active > 1:

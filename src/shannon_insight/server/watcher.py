@@ -52,10 +52,26 @@ class FileWatcher:
         logger.info("File watcher started for %s", self.root_dir)
 
     def stop(self) -> None:
-        """Stop the file watcher thread."""
+        """Stop the file watcher thread.
+
+        Waits for any in-progress analysis to complete (up to 10 seconds)
+        to avoid Python interpreter shutdown crashes from daemon threads.
+        """
         self._stop_event.set()
+
+        # Wait for in-progress analysis to finish
+        wait_count = 0
+        while self._analyzing and wait_count < 100:  # 10 seconds max
+            import time
+
+            time.sleep(0.1)
+            wait_count += 1
+
+        if self._analyzing:
+            logger.warning("Analysis still running after 10s, proceeding with shutdown")
+
         if self._thread is not None:
-            self._thread.join(timeout=5.0)
+            self._thread.join(timeout=2.0)
             self._thread = None
         logger.info("File watcher stopped")
 

@@ -74,9 +74,8 @@ class ChronicProblemFinder:
             base_severity = info.severity
             enhanced_severity = min(1.0, base_severity * self.severity_multiplier)
 
-            # Extract files from identity_key
-            # identity_key format: "finding_type:file1" or "finding_type:file1:file2"
-            files = self._extract_files_from_identity_key(info.identity_key)
+            # Files come directly from ChronicFindingInfo (joined from findings table)
+            files = info.files
 
             # Build evidence
             evidence = [
@@ -110,17 +109,6 @@ class ChronicProblemFinder:
             )
 
         return findings
-
-    def _extract_files_from_identity_key(self, identity_key: str) -> list[str]:
-        """Extract file paths from identity_key.
-
-        Identity key format: "finding_type:file1" or "finding_type:file1:file2"
-        """
-        parts = identity_key.split(":")
-        if len(parts) >= 2:
-            # Skip the first part (finding_type) and return the rest as files
-            return [p for p in parts[1:] if p and "/" in p]
-        return []
 
     def _build_suggestion(self, finding_type: str, persistence_count: int) -> str:
         """Build actionable suggestion for chronic problem."""

@@ -494,7 +494,7 @@ class TestHelperFunctions:
     def test_signals_by_scope_file(self) -> None:
         """File-scope signals include the expected count."""
         file_signals = signals_by_scope("file")
-        assert len(file_signals) == 37
+        assert len(file_signals) == 38
 
     def test_signals_by_scope_module(self) -> None:
         """Module-scope signals include the expected count."""

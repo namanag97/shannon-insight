@@ -521,7 +521,7 @@ class TestHelperFunctions:
         good = signals_by_polarity("high_is_good")
         neutral = signals_by_polarity("neutral")
         assert bad | good | neutral == set(Signal)
-        assert len(bad) + len(good) + len(neutral) == 63
+        assert len(bad) + len(good) + len(neutral) == 64
 
 
 # ---------------------------------------------------------------------------

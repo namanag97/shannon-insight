@@ -212,3 +212,39 @@ def should_skip_file(filepath: Path, exclude_patterns: list[str]) -> bool:
         if filepath.match(pattern):
             return True
     return False
+
+
+# Paths that should never generate findings (test fixtures, sample data, etc.)
+_FIXTURE_PATTERNS = [
+    "tests/fixtures/",
+    "test/fixtures/",
+    "fixtures/",
+    "testdata/",
+    "test_data/",
+    "__fixtures__/",
+    "__mocks__/",
+    "mocks/",
+    "samples/",
+    "experiments/",
+    "_bootstrap",
+    "sample_",
+    ".sample.",
+]
+
+
+def is_fixture_or_test_data(path: str) -> bool:
+    """Check if path is a test fixture or sample data file.
+
+    These files should be excluded from findings because:
+    1. They're intentionally broken/incomplete (test cases)
+    2. They never change, so findings persist forever
+    3. They're not production code
+
+    Args:
+        path: File path (relative or absolute)
+
+    Returns:
+        True if file is fixture/test data
+    """
+    path_lower = path.lower()
+    return any(p in path_lower for p in _FIXTURE_PATTERNS)

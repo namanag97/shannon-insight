@@ -58,7 +58,7 @@ class DashboardSerializer:
             trend.append(
                 {
                     "timestamp": hp.timestamp,
-                    "score": round(raw * 10, 1),  # ALWAYS 1-10 scale
+                    "health": round(raw, 4),  # 0-1 scale (frontend converts to 1-10)
                     "finding_count": int(hp.metrics.get("active_findings", 0)),
                 }
             )
@@ -385,8 +385,7 @@ class DashboardSerializer:
                 (signal_name, limit),
             ).fetchall()
             points = [
-                {"timestamp": r["timestamp"], "value": round(r["value"], 4)}
-                for r in reversed(rows)
+                {"timestamp": r["timestamp"], "value": round(r["value"], 4)} for r in reversed(rows)
             ]
         elif entity_type == "module":
             rows = cur.execute(
@@ -401,8 +400,7 @@ class DashboardSerializer:
                 (entity_path, signal_name, limit),
             ).fetchall()
             points = [
-                {"timestamp": r["timestamp"], "value": round(r["value"], 4)}
-                for r in reversed(rows)
+                {"timestamp": r["timestamp"], "value": round(r["value"], 4)} for r in reversed(rows)
             ]
         else:  # file
             rows = cur.execute(

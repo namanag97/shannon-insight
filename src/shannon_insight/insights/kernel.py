@@ -273,7 +273,7 @@ class InsightKernel:
         # Phase 3b: Run persistence finders (need DB connection)
         if self._persistence_finders:
             _progress("Checking history...")
-            self._run_persistence_finders(findings)
+            self._run_persistence_finders(store, findings)
 
         # Phase 3c: Run diagnostics
         from .diagnostics import run_diagnostics

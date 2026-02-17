@@ -22,10 +22,15 @@ def main(
         dir_okay=True,
         readable=True,
     ),
+    cli: bool = typer.Option(
+        False,
+        "--cli",
+        help="Output to terminal instead of opening dashboard",
+    ),
     json_output: bool = typer.Option(
         False,
         "--json",
-        help="Output in machine-readable JSON format",
+        help="Output in machine-readable JSON format (implies --cli)",
     ),
     verbose: bool = typer.Option(
         False,
@@ -44,7 +49,7 @@ def main(
     fail_on: Optional[str] = typer.Option(
         None,
         "--fail-on",
-        help="Exit 1 if findings meet threshold: high | medium | any",
+        help="Exit 1 if findings meet threshold: high | medium | any (implies --cli)",
     ),
     config: Optional[Path] = typer.Option(
         None,
@@ -61,6 +66,17 @@ def main(
         min=1,
         max=32,
         hidden=True,
+    ),
+    port: int = typer.Option(
+        8765,
+        "--port",
+        "-p",
+        help="Port for dashboard server",
+    ),
+    no_browser: bool = typer.Option(
+        False,
+        "--no-browser",
+        help="Don't open browser automatically",
     ),
     trace: bool = typer.Option(
         False,

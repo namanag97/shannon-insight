@@ -134,7 +134,7 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-"tests/fixtures/**/*.py" = ["F401", "F841", "UP006", "UP035", "E999"]
+"tests/fixtures/**/*.py" = ["F401", "F841", "UP006", "UP035", "E999", "B007"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["shannon_insight"]

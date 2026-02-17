@@ -169,17 +169,34 @@ class StructuralAnalyzer:
         for pair in clone_pairs:
             src_id = EntityId(EntityType.FILE, pair.file_a)
             tgt_id = EntityId(EntityType.FILE, pair.file_b)
+            metadata = {
+                "ncd": pair.ncd,
+                "size_a": pair.size_a,
+                "size_b": pair.size_b,
+            }
+            # CLONED_FROM is symmetric — store in BOTH directions so FILE_PAIR
+            # predicates find the relation regardless of pair iteration order.
             fs.add_relation(
                 Relation(
                     type=RelationType.CLONED_FROM,
                     source=src_id,
                     target=tgt_id,
-                    weight=1.0 - pair.ncd,  # Higher weight = more similar
-                    metadata={
-                        "ncd": pair.ncd,
-                        "size_a": pair.size_a,
-                        "size_b": pair.size_b,
-                    },
+                    weight=1.0 - pair.ncd,
+                    metadata=metadata,
+                )
+            )
+            reverse_metadata = {
+                "ncd": pair.ncd,
+                "size_a": pair.size_b,  # swap sizes for reverse direction
+                "size_b": pair.size_a,
+            }
+            fs.add_relation(
+                Relation(
+                    type=RelationType.CLONED_FROM,
+                    source=tgt_id,
+                    target=src_id,
+                    weight=1.0 - pair.ncd,
+                    metadata=reverse_metadata,
                 )
             )
 

@@ -193,46 +193,32 @@ export const SIGNAL_DESCRIPTIONS = {
 };
 
 export const SIGNAL_CATEGORIES = [
+  // ═══════════════════════════════════════════════════════════════════════════
+  // FILE-LEVEL CATEGORIES
+  // ═══════════════════════════════════════════════════════════════════════════
   {
     key: "size",
     name: "Size and Complexity",
     description: "How large and complex the file is",
-    signals: ["lines", "function_count", "class_count", "max_nesting", "nesting_depth", "cognitive_load", "todo_density"],
+    signals: ["lines", "function_count", "class_count", "max_nesting", "cognitive_load", "todo_density", "impl_gini", "stub_ratio", "import_count"],
   },
   {
     key: "structure",
     name: "Position in Dependency Graph",
     description: "How this file relates to other files through imports",
-    signals: ["pagerank", "betweenness", "network_centrality", "in_degree", "out_degree", "import_count", "blast_radius_size", "depth", "community", "structural_entropy"],
-  },
-  {
-    key: "health",
-    name: "Code Quality Indicators",
-    description: "Signs of code health or decay",
-    signals: [
-      "stub_ratio",
-      "is_orphan",
-      "phantom_import_count",
-      "broken_call_count",
-      "compression_ratio",
-      "semantic_coherence",
-      "docstring_coverage",
-      "naming_drift",
-      "impl_gini",
-      "role",
-    ],
+    signals: ["pagerank", "betweenness", "in_degree", "out_degree", "blast_radius_size", "depth", "community", "is_orphan", "phantom_import_count", "broken_call_count", "compression_ratio", "semantic_coherence"],
   },
   {
     key: "semantics",
     name: "Semantic Structure",
     description: "Conceptual organization and meaning",
-    signals: ["concept_count", "concept_entropy"],
+    signals: ["role", "concept_count", "concept_entropy", "naming_drift", "docstring_coverage"],
   },
   {
     key: "temporal",
     name: "Change History and Patterns",
     description: "How this file has been changing over time",
-    signals: ["total_changes", "churn_trajectory", "trajectory", "churn_cv", "churn_slope", "churn_volatility", "fix_ratio", "refactor_ratio", "change_entropy"],
+    signals: ["total_changes", "churn_trajectory", "churn_cv", "churn_slope", "fix_ratio", "refactor_ratio", "change_entropy"],
   },
   {
     key: "team",
@@ -245,6 +231,34 @@ export const SIGNAL_CATEGORIES = [
     name: "Computed Risk Scores",
     description: "Combined risk metrics from all signals above",
     signals: ["risk_score", "wiring_quality", "file_health_score", "raw_risk", "health", "blast_radius", "finding_count"],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // GLOBAL/CODEBASE CATEGORIES
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    key: "global_structure",
+    name: "Codebase Graph Structure",
+    description: "Overall dependency graph health and community structure",
+    signals: ["modularity", "fiedler_value", "spectral_gap", "cycle_count", "centrality_gini"],
+  },
+  {
+    key: "global_wiring",
+    name: "Codebase Wiring Quality",
+    description: "Import/export health across the entire codebase",
+    signals: ["orphan_ratio", "phantom_ratio", "glue_deficit", "clone_ratio"],
+  },
+  {
+    key: "global_arch",
+    name: "Architecture & Team",
+    description: "Architectural health and team organization",
+    signals: ["violation_rate", "conway_alignment", "team_size"],
+  },
+  {
+    key: "global_health",
+    name: "Codebase Health Scores",
+    description: "Combined health metrics for the entire codebase",
+    signals: ["wiring_score", "architecture_health", "team_risk", "codebase_health"],
   },
 ];
 

@@ -125,8 +125,8 @@ class TestSignalEnum:
 
     def test_known_composite_signals_exist(self) -> None:
         """Per-file composite signals are present."""
-        composites = {Signal.RISK_SCORE, Signal.WIRING_QUALITY}
-        assert len(composites) == 2
+        composites = {Signal.RISK_SCORE, Signal.WIRING_QUALITY, Signal.FILE_HEALTH_SCORE}
+        assert len(composites) == 3
 
     def test_known_module_signals_exist(self) -> None:
         """Per-module signals are present."""

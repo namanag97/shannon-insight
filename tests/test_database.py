@@ -389,6 +389,14 @@ class TestFindingLifecycleQueries:
         """Test querying chronic findings."""
         with tempfile.TemporaryDirectory() as tmpdir:
             with HistoryDB(tmpdir) as db:
+                # Create snapshots first (needed for FK and join)
+                for i in range(1, 6):
+                    db.conn.execute(
+                        "INSERT INTO snapshots (id, tool_version, timestamp, analyzed_path) "
+                        "VALUES (?, '0.7.0', '2025-01-01', '/tmp')",
+                        (i,),
+                    )
+
                 # Insert findings with different persistence counts
                 db.conn.execute(
                     "INSERT INTO finding_lifecycle VALUES ('f1', 1, 5, 5, 'active', 'high_risk_hub', 0.9)"
@@ -402,6 +410,24 @@ class TestFindingLifecycleQueries:
                 db.conn.execute(
                     "INSERT INTO finding_lifecycle VALUES ('f4', 1, 4, 4, 'resolved', 'unstable_file', 0.85)"
                 )
+
+                # Insert corresponding findings rows (required for JOIN to get files)
+                db.conn.execute(
+                    "INSERT INTO findings (snapshot_id, finding_type, identity_key, severity, title, files) "
+                    "VALUES (5, 'high_risk_hub', 'f1', 0.9, 'High risk hub in utils.py', '[\"utils.py\"]')"
+                )
+                db.conn.execute(
+                    "INSERT INTO findings (snapshot_id, finding_type, identity_key, severity, title, files) "
+                    "VALUES (3, 'god_file', 'f2', 0.8, 'God file: main.py', '[\"main.py\"]')"
+                )
+                db.conn.execute(
+                    "INSERT INTO findings (snapshot_id, finding_type, identity_key, severity, title, files) "
+                    "VALUES (2, 'hidden_coupling', 'f3', 0.7, 'Hidden coupling', '[\"a.py\", \"b.py\"]')"
+                )
+                db.conn.execute(
+                    "INSERT INTO findings (snapshot_id, finding_type, identity_key, severity, title, files) "
+                    "VALUES (4, 'unstable_file', 'f4', 0.85, 'Unstable file', '[\"unstable.py\"]')"
+                )
                 db.conn.commit()
 
                 chronic = get_chronic_findings(db.conn, min_persistence=3)
@@ -410,6 +436,12 @@ class TestFindingLifecycleQueries:
                 assert len(chronic) == 2
                 assert chronic[0].identity_key == "f1"  # highest persistence
                 assert chronic[1].identity_key == "f2"
+
+                # Verify files are populated correctly
+                assert chronic[0].files == ["utils.py"]
+                assert chronic[0].title == "High risk hub in utils.py"
+                assert chronic[1].files == ["main.py"]
+                assert chronic[1].title == "God file: main.py"
 
     def test_update_finding_lifecycle_new(self):
         """Test updating lifecycle for a new finding."""

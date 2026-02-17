@@ -9,7 +9,12 @@ app: typer.Typer = typer.Typer(
     help="Shannon Insight - Multi-Signal Codebase Quality Analyzer",
     add_completion=False,
     rich_markup_mode="rich",
-    context_settings={"help_option_names": ["-h", "--help"]},
+    context_settings={
+        "help_option_names": ["-h", "--help"],
+        # Allow flags to appear after the path argument, so both
+        # `shannon-insight --cli .` and `shannon-insight . --cli` work.
+        "allow_interspersed_args": True,
+    },
     no_args_is_help=False,
 )
 

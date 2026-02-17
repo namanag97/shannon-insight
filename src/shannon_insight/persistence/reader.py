@@ -255,6 +255,87 @@ def _hydrate_tensor(conn: sqlite3.Connection, row: sqlite3.Row) -> TensorSnapsho
         )
     ]
 
+    # Cochange edges
+    cochange_edges = []
+    for ce_row in conn.execute(
+        """SELECT file_a, file_b, weight, lift, confidence_a_b, confidence_b_a, cochange_count
+           FROM cochange_edges WHERE snapshot_id = ?""",
+        (snapshot_id,),
+    ):
+        cochange_edges.append(
+            (
+                ce_row["file_a"],
+                ce_row["file_b"],
+                ce_row["weight"],
+                ce_row["lift"],
+                ce_row["confidence_a_b"],
+                ce_row["confidence_b_a"],
+                ce_row["cochange_count"],
+            )
+        )
+
+    # Architecture modules
+    modules = [
+        r["module_path"]
+        for r in conn.execute(
+            "SELECT module_path FROM architecture_modules WHERE snapshot_id = ?",
+            (snapshot_id,),
+        )
+    ]
+
+    # Architecture layers
+    layers = []
+    for layer_row in conn.execute(
+        "SELECT depth, modules FROM architecture_layers WHERE snapshot_id = ? ORDER BY depth",
+        (snapshot_id,),
+    ):
+        layers.append({"depth": layer_row["depth"], "modules": json.loads(layer_row["modules"])})
+
+    # Architecture violations
+    violations = []
+    for v_row in conn.execute(
+        "SELECT source_module, target_module, violation_type FROM architecture_violations WHERE snapshot_id = ?",
+        (snapshot_id,),
+    ):
+        violations.append(
+            {"src": v_row["source_module"], "tgt": v_row["target_module"], "type": v_row["violation_type"]}
+        )
+
+    # Delta h (health Laplacian)
+    delta_h = {}
+    for dh_row in conn.execute(
+        "SELECT file_path, value FROM delta_h WHERE snapshot_id = ?",
+        (snapshot_id,),
+    ):
+        delta_h[dh_row["file_path"]] = dh_row["value"]
+
+    # Communities
+    communities = []
+    for c_row in conn.execute(
+        "SELECT community_id, members FROM communities WHERE snapshot_id = ?",
+        (snapshot_id,),
+    ):
+        communities.append(
+            {"id": c_row["community_id"], "members": json.loads(c_row["members"]), "size": len(json.loads(c_row["members"]))}
+        )
+
+    # Node community mapping
+    node_community = {}
+    for nc_row in conn.execute(
+        "SELECT file_path, community_id FROM node_community WHERE snapshot_id = ?",
+        (snapshot_id,),
+    ):
+        node_community[nc_row["file_path"]] = nc_row["community_id"]
+
+    # Modularity score
+    modularity_score = 0.0
+    ms_row = conn.execute(
+        "SELECT score FROM modularity_score WHERE snapshot_id = ?",
+        (snapshot_id,),
+    ).fetchone()
+    if ms_row:
+        modularity_score = ms_row["score"]
+
     return TensorSnapshot(
         schema_version=row["schema_version"],
         tool_version=row["tool_version"],
@@ -271,15 +352,14 @@ def _hydrate_tensor(conn: sqlite3.Connection, row: sqlite3.Row) -> TensorSnapsho
         global_signals=global_signals,
         findings=findings,
         dependency_edges=dependency_edges,
-        # These fields are not persisted to DB (computed at runtime)
-        modules=[],
-        layers=[],
-        violations=[],
-        cochange_edges=[],
-        delta_h={},
-        communities=[],
-        node_community={},
-        modularity_score=0.0,
+        cochange_edges=cochange_edges,
+        modules=modules,
+        layers=layers,
+        violations=violations,
+        delta_h=delta_h,
+        communities=communities,
+        node_community=node_community,
+        modularity_score=modularity_score,
     )
 
 

@@ -554,17 +554,15 @@ class _Normalized:
             weeks = max(git.span_days / 7, 1)
             ms.velocity = len(module_commits) / weeks
 
-            # coordination_cost: mean distinct authors per commit
+            # coordination_cost: fraction of module commits that also touch OTHER modules.
+            # High value = most changes to this module require cross-module coordination.
             if module_commits:
-                costs = []
-                for commit in module_commits:
-                    # Count files from this module in the commit
-                    commit_module_files = [f for f in commit.files if f in module_files]
-                    if commit_module_files:
-                        costs.append(1)  # Each commit = 1 author touching module
-                ms.coordination_cost = len({c.author for c in module_commits}) / max(
-                    len(module_commits), 1
+                cross_module_count = sum(
+                    1
+                    for commit in module_commits
+                    if any(f not in module_files for f in commit.files)
                 )
+                ms.coordination_cost = cross_module_count / len(module_commits)
 
             # knowledge_gini: Gini of per-author commit counts
             author_counts = Counter(c.author for c in module_commits)

@@ -25,7 +25,20 @@ if TYPE_CHECKING:
 def _orphan_code_predicate(store: FactStore, entity: EntityId) -> bool:
     """File is unreachable (orphan)."""
     is_orphan = store.get_signal(entity, Signal.IS_ORPHAN, False)
-    return is_orphan
+    if not is_orphan:
+        return False
+
+    # Skip legitimate entry points and config/barrel files
+    role = store.get_signal(entity, Signal.ROLE, "")
+    if role in {"entry_point", "config"}:
+        return False
+
+    # Barrel files (index.ts/js) are re-export entry points, not orphans
+    path = entity.key
+    if path.endswith(("/index.ts", "/index.js", "/index.tsx", "/index.jsx")):
+        return False
+
+    return True
 
 
 def _orphan_code_severity(store: FactStore, entity: EntityId) -> float:

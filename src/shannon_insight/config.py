@@ -29,6 +29,176 @@ Verbosity = Literal["quiet", "normal", "verbose"]
 
 
 @dataclass(frozen=True)
+class ThresholdConfig:
+    """Algorithm thresholds and tuning parameters.
+
+    All thresholds have mathematically-principled defaults:
+    - Percentiles use IQR-based outlier detection (~93rd percentile = Q3 + 0.5×IQR)
+    - NCD threshold from literature (0.3 is standard for clone detection)
+    - Composite weights normalized to sum=1.0
+
+    Users can tune these based on false positive/negative tradeoffs:
+    - Lower thresholds → more findings (higher recall, lower precision)
+    - Higher thresholds → fewer findings (higher precision, lower recall)
+
+    Attributes:
+        Clone Detection:
+            clone_ncd_threshold: NCD below this = clone (0.0=identical, 1.0=different)
+            clone_min_lines: Minimum lines to consider for clone detection
+            clone_lsh_file_threshold: File count to switch to LSH pre-filtering
+
+        Hub Detection (HIGH_RISK_HUB):
+            hub_pagerank_pctl: PageRank percentile threshold
+            hub_blast_radius_pctl: Blast radius percentile threshold
+            hub_cognitive_load_pctl: Cognitive load percentile threshold
+
+        God File Detection:
+            god_file_cognitive_pctl: Cognitive load percentile
+            god_file_coherence_pctl: Semantic coherence percentile (LOW is bad)
+            god_file_min_functions: Minimum functions to avoid trivial files
+
+        Churn/Temporal:
+            churn_slope_threshold: Slope magnitude for STABILIZING/SPIKING
+            churn_cv_threshold: CV threshold for erratic vs steady
+            churn_window_weeks: Time window for churn analysis
+
+        Hidden Coupling:
+            coupling_lift_threshold: Lift threshold for co-change
+            coupling_confidence_threshold: Confidence threshold
+
+        Zone of Pain (Martin Metrics):
+            zone_abstractness_threshold: Abstractness threshold
+            zone_instability_threshold: Instability threshold
+
+        Tier Boundaries:
+            tier_absolute_limit: Files below this use ABSOLUTE tier
+            tier_bayesian_limit: Files below this use BAYESIAN tier
+
+        Severity/Risk Weights (must sum to 1.0):
+            risk_pagerank_weight: PageRank weight in risk_score
+            risk_blast_radius_weight: Blast radius weight
+            risk_cognitive_load_weight: Cognitive load weight
+            risk_instability_weight: Instability factor weight
+            risk_bus_factor_weight: Bus factor weight
+    """
+
+    # === Clone Detection ===
+    # NCD literature: 0.25-0.35 typical, 0.3 is standard
+    clone_ncd_threshold: float = 0.30
+    clone_min_lines: int = 20  # Skip trivial files (was 10 bytes)
+    clone_lsh_file_threshold: int = 1000
+
+    # === Hub Detection (HIGH_RISK_HUB) ===
+    # IQR-based: Q3 + 0.5×IQR ≈ 87th percentile, using 0.90 for safety
+    hub_pagerank_pctl: float = 0.90
+    hub_blast_radius_pctl: float = 0.90
+    hub_cognitive_load_pctl: float = 0.85  # Slightly lower for compound condition
+
+    # === God File Detection ===
+    god_file_cognitive_pctl: float = 0.90
+    god_file_coherence_pctl: float = 0.20  # LOW coherence is bad
+    god_file_min_functions: int = 3
+
+    # === Churn/Temporal ===
+    # CV: coefficient of variation. >1.0 means std > mean (very erratic)
+    churn_slope_threshold: float = 0.10
+    churn_cv_threshold: float = 0.50
+    churn_window_weeks: int = 4
+
+    # === Hidden Coupling ===
+    # Lift: how much more likely to change together than by chance
+    coupling_lift_threshold: float = 2.0
+    coupling_confidence_threshold: float = 0.5
+
+    # === Zone of Pain (Martin Metrics) ===
+    zone_abstractness_threshold: float = 0.30
+    zone_instability_threshold: float = 0.30
+
+    # === Truck Factor ===
+    truck_factor_threshold: float = 1.0  # Single author
+    truck_factor_min_lines: int = 50
+    truck_factor_pagerank_pctl: float = 0.70
+
+    # === Weak Link ===
+    weak_link_pagerank_pctl: float = 0.80
+    weak_link_risk_threshold: float = 0.70
+
+    # === Bug Attractor ===
+    bug_attractor_fix_ratio: float = 0.50  # >50% changes are fixes
+
+    # === Thrashing Code ===
+    thrashing_cv_threshold: float = 1.50
+    thrashing_min_changes: int = 3
+    thrashing_min_lines: int = 30
+
+    # === Hollow Code ===
+    hollow_stub_ratio: float = 0.50
+    hollow_impl_gini: float = 0.60
+
+    # === Tier Boundaries ===
+    # ABSOLUTE: no percentiles, raw values only
+    # BAYESIAN: Beta posterior percentiles
+    # FULL: standard percentiles
+    tier_absolute_limit: int = 15
+    tier_bayesian_limit: int = 50
+
+    # === Risk Score Composite Weights (sum = 1.0) ===
+    risk_pagerank_weight: float = 0.25
+    risk_blast_radius_weight: float = 0.20
+    risk_cognitive_load_weight: float = 0.20
+    risk_instability_weight: float = 0.20
+    risk_bus_factor_weight: float = 0.15
+
+    # === Louvain Algorithm ===
+    louvain_max_passes: int = 20
+    louvain_max_coarsen: int = 10
+
+    def __post_init__(self) -> None:
+        """Validate threshold configuration."""
+        # NCD must be in [0, 1]
+        if not 0.0 <= self.clone_ncd_threshold <= 1.0:
+            raise ValueError("clone_ncd_threshold must be between 0.0 and 1.0")
+
+        # Percentiles must be in [0, 1]
+        pctl_fields = [
+            "hub_pagerank_pctl",
+            "hub_blast_radius_pctl",
+            "hub_cognitive_load_pctl",
+            "god_file_cognitive_pctl",
+            "god_file_coherence_pctl",
+            "truck_factor_pagerank_pctl",
+            "weak_link_pagerank_pctl",
+        ]
+        for field_name in pctl_fields:
+            value = getattr(self, field_name)
+            if not 0.0 <= value <= 1.0:
+                raise ValueError(f"{field_name} must be between 0.0 and 1.0")
+
+        # Risk weights must sum to 1.0 (within tolerance)
+        weight_sum = (
+            self.risk_pagerank_weight
+            + self.risk_blast_radius_weight
+            + self.risk_cognitive_load_weight
+            + self.risk_instability_weight
+            + self.risk_bus_factor_weight
+        )
+        if not 0.99 <= weight_sum <= 1.01:
+            raise ValueError(
+                f"Risk weights must sum to 1.0, got {weight_sum:.3f}"
+            )
+
+        # Positive integers
+        if self.clone_min_lines < 1:
+            raise ValueError("clone_min_lines must be at least 1")
+        if self.tier_absolute_limit < 1:
+            raise ValueError("tier_absolute_limit must be at least 1")
+
+
+# Default threshold configuration (singleton)
+DEFAULT_THRESHOLDS = ThresholdConfig()
+
+
+@dataclass(frozen=True)
 class AnalysisConfig:
     """Configuration for analysis execution.
 

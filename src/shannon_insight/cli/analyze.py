@@ -98,14 +98,6 @@ def main(
         is_eager=True,
         help="Show version and exit",
     ),
-    help_flag: bool = typer.Option(
-        False,
-        "-h",
-        callback=_help_callback,
-        is_eager=True,
-        help="Show this message and exit",
-        hidden=True,  # Don't show in help (--help is already there)
-    ),
 ):
     """
     Analyze codebase quality using multi-signal structural analysis.

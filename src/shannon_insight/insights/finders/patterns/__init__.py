@@ -27,7 +27,13 @@ from .ai_quality import (
     ORPHAN_CODE,
     PHANTOM_IMPORTS,
 )
-from .architecture import ARCHITECTURE_EROSION, LAYER_VIOLATION, ZONE_OF_PAIN
+from .architecture import (
+    ARCHITECTURE_EROSION,
+    CIRCULAR_DEPENDENCY,
+    LAYER_VIOLATION,
+    ZONE_OF_PAIN,
+    ZONE_OF_USELESSNESS,
+)
 from .cross_dimensional import ACCIDENTAL_COUPLING, BUG_ATTRACTOR, WEAK_LINK
 from .existing import (
     BOUNDARY_MISMATCH,

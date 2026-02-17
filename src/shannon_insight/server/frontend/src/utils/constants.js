@@ -220,7 +220,7 @@ export const SIGNAL_CATEGORIES = [
     key: "structure",
     name: "Position in Dependency Graph",
     description: "How this file relates to other files through imports",
-    signals: ["pagerank", "betweenness", "in_degree", "out_degree", "blast_radius_size", "depth", "community", "is_orphan", "phantom_import_count", "broken_call_count", "compression_ratio", "semantic_coherence"],
+    signals: ["pagerank", "betweenness", "in_degree", "out_degree", "blast_radius_size", "depth", "community", "is_orphan", "cycle_member", "cycle_size", "phantom_import_count", "broken_call_count", "compression_ratio", "semantic_coherence"],
   },
   {
     key: "semantics",

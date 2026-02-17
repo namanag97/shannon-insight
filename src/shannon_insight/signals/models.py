@@ -53,11 +53,12 @@ class FileSignals:
     blast_radius_size: int = 0
     depth: int = -1  # BFS depth from entry points, -1 = unreachable
     is_orphan: bool = False
+    cycle_member: bool = False  # True if file is part of a circular dependency SCC
     phantom_import_count: int = 0
     broken_call_count: int = 0  # 0 until CALL edges exist
     community: int = -1
     compression_ratio: float = 0.0
-    semantic_coherence: float = 0.0  # import-based coherence
+    semantic_coherence: float = 0.5  # 0.5 = neutral when semantics unavailable; 1/(1+entropy) otherwise
     cognitive_load: float = 0.0
 
     # IR5t (temporal) - signals #27-34

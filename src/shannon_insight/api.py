@@ -30,6 +30,27 @@ from .session import AnalysisSession
 logger = get_logger(__name__)
 
 
+def _has_historical_data(path: Path, min_snapshots: int = 3) -> bool:
+    """Check if historical data is available for persistence finders.
+
+    Returns True if .shannon/history.db exists and has at least min_snapshots.
+    This auto-enables chronic_problem and architecture_erosion finders.
+    """
+    db_path = path / ".shannon" / "history.db"
+    if not db_path.exists():
+        return False
+
+    try:
+        import sqlite3
+
+        with sqlite3.connect(str(db_path)) as conn:
+            cursor = conn.execute("SELECT COUNT(*) FROM snapshots")
+            count = cursor.fetchone()[0]
+            return count >= min_snapshots
+    except Exception:
+        return False
+
+
 def analyze(
     path: str = ".",
     config_file: Optional[Path] = None,

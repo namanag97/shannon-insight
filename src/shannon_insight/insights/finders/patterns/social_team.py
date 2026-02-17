@@ -61,7 +61,7 @@ KNOWLEDGE_SILO = Pattern(
     scope=PatternScope.FILE,
     severity=0.70,
     requires={Signal.BUS_FACTOR.value, Signal.PAGERANK.value},
-    condition="bus_factor <= 1.5 AND pctl(pagerank) > 0.75",
+    condition="bus_factor in (1.0, 2.0] AND pctl(pagerank) > 0.75",
     predicate=_knowledge_silo_predicate,
     severity_fn=_knowledge_silo_severity,
     evidence_fn=_knowledge_silo_evidence,

@@ -53,8 +53,24 @@ class TemporalAnalyzer:
         # are relative to root_dir. Normalize git paths so they match.
         self._normalize_git_paths(history, store.root_dir)
 
+        # Get churn thresholds from config
+        window_weeks = 4  # default
+        slope_threshold = 0.1  # default
+        cv_threshold = 0.5  # default
+        if store.session is not None and store.session.config is not None:
+            thresholds = store.session.config.thresholds
+            window_weeks = thresholds.churn_window_weeks
+            slope_threshold = thresholds.churn_slope_threshold
+            cv_threshold = thresholds.churn_cv_threshold
+
         cochange = build_cochange_matrix(history, analyzed_files)
-        churn = build_churn_series(history, analyzed_files)
+        churn = build_churn_series(
+            history,
+            analyzed_files,
+            window_weeks=window_weeks,
+            slope_threshold=slope_threshold,
+            cv_threshold=cv_threshold,
+        )
 
         store.git_history.set(history, produced_by=self.name)
         store.cochange.set(cochange, produced_by=self.name)

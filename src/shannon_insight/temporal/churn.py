@@ -147,34 +147,36 @@ def _compute_cv(counts: list[int], total: int) -> float:
 
 
 def _classify_trajectory(
-    counts: list[int], total: int, slope: float, cv: float | None = None
+    counts: list[int],
+    total: int,
+    slope: float,
+    cv: float | None = None,
+    slope_threshold: float = 0.1,
+    cv_threshold: float = 0.5,
 ) -> str:
     """Classify churn trajectory per v2 spec (temporal-operators.md).
 
     Classification rules:
     - DORMANT: total_changes <= 1 OR cv = 0
-    - STABILIZING: slope < -threshold AND cv < 0.5 (decreasing, steady)
-    - SPIKING: slope > threshold AND cv > 0.5 (increasing, erratic)
-    - CHURNING: cv > 0.5 (erratic, no clear trend)
-    - STABLE: cv <= 0.5 (steady, no strong trend)
+    - STABILIZING: slope < -threshold AND cv < cv_threshold (decreasing, steady)
+    - SPIKING: slope > threshold AND cv > cv_threshold (increasing, erratic)
+    - CHURNING: cv > cv_threshold (erratic, no clear trend)
+    - STABLE: cv <= cv_threshold (steady, no strong trend)
 
-    The CV threshold of 0.5 distinguishes erratic (CHURNING/SPIKING) from
-    steady (STABLE/STABILIZING). See temporal-operators.md for rationale.
+    The CV threshold distinguishes erratic (CHURNING/SPIKING) from
+    steady (STABLE/STABILIZING). Default 0.5 per temporal-operators.md.
 
     Args:
         counts: Changes per time window
         total: Total change count
         slope: Linear regression slope
         cv: Coefficient of variation (computed if None for backward compat)
+        slope_threshold: Minimum slope magnitude for STABILIZING/SPIKING
+        cv_threshold: CV threshold to distinguish erratic from steady
 
     Returns:
         Trajectory enum value (str-compatible for JSON serialization)
     """
-    # Threshold for "significant" slope
-    SLOPE_THRESHOLD = 0.1
-    # CV threshold per spec: 0.5 distinguishes erratic from steady
-    CV_THRESHOLD = 0.5
-
     if total <= 1:
         return Trajectory.DORMANT
 
@@ -185,12 +187,12 @@ def _classify_trajectory(
     if cv == 0:
         return Trajectory.DORMANT
 
-    # Classification per v2 spec
-    if slope < -SLOPE_THRESHOLD and cv < CV_THRESHOLD:
+    # Classification per v2 spec with configurable thresholds
+    if slope < -slope_threshold and cv < cv_threshold:
         return Trajectory.STABILIZING
-    elif slope > SLOPE_THRESHOLD and cv > CV_THRESHOLD:
+    elif slope > slope_threshold and cv > cv_threshold:
         return Trajectory.SPIKING
-    elif cv > CV_THRESHOLD:
+    elif cv > cv_threshold:
         return Trajectory.CHURNING
     else:
         return Trajectory.STABLE

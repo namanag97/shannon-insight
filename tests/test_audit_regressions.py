@@ -246,7 +246,7 @@ def test_zone_of_uselessness_does_not_fire_low_instability():
         _zone_of_uselessness_predicate,
     )
 
-    store = _make_store()
+    store = _make_store()  # already has root="."
     mod_id = EntityId(EntityType.MODULE, "src/core")
     store.add_entity(Entity(id=mod_id, metadata={}))
     store.set_signal(mod_id, Signal.ABSTRACTNESS, 0.8)

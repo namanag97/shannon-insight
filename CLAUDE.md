@@ -83,3 +83,10 @@ ScannerFactory → FileMetrics[] → AnalysisStore (blackboard)
 **Primitive**: Plugin in `signals/plugins/` → add field to `Primitives` (models.py) → register in `registry.py`
 
 **Finder**: Class in `insights/finders/` → implement `Finder` protocol (`requires`, `find(store)`) → register in `InsightKernel`
+
+## v2 Specs (docs/v2/)
+
+Phase specs in `phases/`, registry docs in `registry/`, module specs in `modules/`. Key references:
+- `SPEC-REFERENCE.md`: Complete signal/finder/store spec
+- `FAILURE-MODES.md`: 22 common implementation bugs
+- `infrastructure.md`: Signal enum, Slot[T], FactStore patterns

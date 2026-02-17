@@ -34,8 +34,8 @@ class TestSignalEnum:
     """Tests for the Signal enum itself."""
 
     def test_total_signal_count(self) -> None:
-        """There are exactly 63 signals in the enum."""
-        assert len(Signal) == 63
+        """There are exactly 64 signals in the enum."""
+        assert len(Signal) == 64
 
     def test_all_values_are_strings(self) -> None:
         """Every Signal value is a non-empty string."""

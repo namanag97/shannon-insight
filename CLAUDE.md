@@ -54,9 +54,19 @@ ScannerFactory → FileMetrics[] → AnalysisStore (blackboard)
 
 **`temporal/`**: Git extraction (git_extractor.py), co-change matrix, churn classification
 
+**`infrastructure/`**: v2 foundation patterns
+- `Signal` enum + `SIGNAL_REGISTRY`: No string typos, Prometheus-inspired signal tracking
+- `Slot[T]`: Typed blackboard slot with `.available`, `.value`, `.error`, `.produced_by`
+- `FactStore`: Entity-centric signal storage bridged from AnalysisStore
+
+**`server/`**: Live dashboard (requires `[serve]` extra)
+- `app.py`: Starlette app with REST API (`/api/state`, `/api/gate`, `/api/export/*`)
+- `frontend/`: React + Tailwind SPA with WebSocket updates
+- 5 screens: Overview, Issues, Files, Modules, Health
+
 **`config.py`**: Pydantic settings, overridable via `shannon-insight.toml` or `SHANNON_*` env vars
 
-**`cli/`**: Typer-based. Main callback (analyze.py) handles `-C/--path` → `ctx.obj["path"]`
+**`cli/`**: Typer-based. Main callback in `_common.py` handles `-C/--path` → `ctx.obj["path"]`
 
 ## Conventions
 

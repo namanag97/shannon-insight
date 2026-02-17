@@ -189,27 +189,27 @@ commit_as "Bob Engineer" "bob@company.com" "$DATE_4M_1 15:30:00" \
 
 echo -e "\n${BLUE}Phase 4: Charlie's isolated TypeScript storage work (3.5 months ago)${NC}"
 
-DATE_3_5M=$(date -v-3m -v-15d "+%Y-%m-%d 08:00:00")
+DATE_3_5M=$(calc_date "-3m-15d" "%Y-%m-%d")
 echo "// Storage initialization" >> ts_frontend/utils/storage.ts
-commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M" \
+commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M 08:00:00" \
     "feat: Initialize storage utility module" \
     ts_frontend/utils/storage.ts
 
-DATE_3_5M_1=$(date -v-3m -v-12d "+%Y-%m-%d 10:20:00")
+DATE_3_5M_1=$(calc_date "-3m-12d" "%Y-%m-%d")
 echo "// Add localStorage wrapper" >> ts_frontend/utils/storage.ts
-commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M_1" \
+commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M_1 10:20:00" \
     "feat: Add localStorage wrapper functions" \
     ts_frontend/utils/storage.ts
 
-DATE_3_5M_2=$(date -v-3m -v-10d "+%Y-%m-%d 13:45:00")
+DATE_3_5M_2=$(calc_date "-3m-10d" "%Y-%m-%d")
 echo "// Add session storage utilities" >> ts_frontend/utils/storage.ts
-commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M_2" \
+commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M_2 13:45:00" \
     "feat: Add sessionStorage utilities" \
     ts_frontend/utils/storage.ts
 
-DATE_3_5M_3=$(date -v-3m -v-8d "+%Y-%m-%d 11:00:00")
+DATE_3_5M_3=$(calc_date "-3m-8d" "%Y-%m-%d")
 echo "// Add encryption for sensitive data" >> ts_frontend/utils/storage.ts
-commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M_3" \
+commit_as "Charlie Intern" "charlie@company.com" "$DATE_3_5M_3 11:00:00" \
     "feat: Add encryption for sensitive storage" \
     ts_frontend/utils/storage.ts
 

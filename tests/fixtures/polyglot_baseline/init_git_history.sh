@@ -248,27 +248,27 @@ done
 
 echo -e "\n${BLUE}Phase 6: Bug fix commits for fix_ratio testing (2 months ago)${NC}"
 
-DATE_2M=$(date -v-2m "+%Y-%m-%d 10:00:00")
+DATE_2M=$(calc_date "-2m" "%Y-%m-%d")
 echo "# Fix for edge case in error handling" >> python_service/exceptions.py
-commit_as "Alice Developer" "alice@company.com" "$DATE_2M" \
+commit_as "Alice Developer" "alice@company.com" "$DATE_2M 10:00:00" \
     "fix: Handle edge case in exception middleware" \
     python_service/exceptions.py
 
-DATE_2M_1=$(date -v-2m -v+3d "+%Y-%m-%d 14:20:00")
+DATE_2M_1=$(calc_date "-2m+3d" "%Y-%m-%d")
 echo "// Fix goroutine leak in handlers" >> go_backend/handlers/user_handler.go
-commit_as "Bob Engineer" "bob@company.com" "$DATE_2M_1" \
+commit_as "Bob Engineer" "bob@company.com" "$DATE_2M_1 14:20:00" \
     "fix: Prevent goroutine leak in request handlers" \
     go_backend/handlers/user_handler.go
 
-DATE_2M_2=$(date -v-2m -v+5d "+%Y-%m-%d 11:45:00")
+DATE_2M_2=$(calc_date "-2m+5d" "%Y-%m-%d")
 echo "// Fix memory leak in event listeners" >> ts_frontend/hooks/index.ts
-commit_as "Charlie Intern" "charlie@company.com" "$DATE_2M_2" \
+commit_as "Charlie Intern" "charlie@company.com" "$DATE_2M_2 11:45:00" \
     "fix: Clean up event listeners to prevent memory leaks" \
     ts_frontend/hooks/index.ts
 
-DATE_2M_3=$(date -v-2m -v+7d "+%Y-%m-%d 09:15:00")
+DATE_2M_3=$(calc_date "-2m+7d" "%Y-%m-%d")
 echo "# Fix: Handle concurrent requests properly" >> python_service/utils/__init__.py
-commit_as "Alice Developer" "alice@company.com" "$DATE_2M_3" \
+commit_as "Alice Developer" "alice@company.com" "$DATE_2M_3 09:15:00" \
     "fix: Handle concurrent request race condition" \
     python_service/utils/__init__.py
 

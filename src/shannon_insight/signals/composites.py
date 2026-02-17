@@ -74,10 +74,17 @@ def _compute_risk_score(fs: FileSignals, max_bus_factor: float) -> float:
 
     where instability_factor = 1.0 if churn_trajectory ∈ {CHURNING, SPIKING} else 0.3
 
-    Note: Dormant code (total_changes=0) still gets a risk score based on
-    structural position. Zero changes doesn't mean zero risk — unmaintained
-    code can be risky too.
+    IMPORTANT: Files with zero impact (no connectivity, no blast radius, zero churn)
+    get risk_score = 0.0. These are isolated files that don't affect the codebase.
     """
+    # Zero-impact guard: files with no connectivity have zero risk
+    # This prevents test fixtures and isolated files from getting risk scores
+    has_connectivity = fs.pagerank > 0.001 or fs.blast_radius_size > 0 or fs.in_degree > 0
+    has_activity = fs.total_changes > 0
+
+    if not has_connectivity and not has_activity:
+        return 0.0
+
     pctl_pr = fs.percentiles.get("pagerank", 0.0)
     pctl_blast = fs.percentiles.get("blast_radius_size", 0.0)
     pctl_cog = fs.percentiles.get("cognitive_load", 0.0)

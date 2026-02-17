@@ -230,6 +230,71 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
         threading.Thread(target=_do_refresh, daemon=True).start()
         return JSONResponse({"status": "refresh_started"})
 
+    # ── History API endpoints ───────────────────────────────────────────
+
+    async def api_history_snapshots(request: Request) -> JSONResponse:
+        """List historical snapshots with health scores."""
+        limit = int(request.query_params.get("limit", 50))
+        try:
+            with HistoryDB(str(state.analyzed_path)) as db:
+                serializer = DashboardSerializer(db)
+                data = serializer.serialize_snapshot_list(limit=limit)
+            return JSONResponse(data)
+        except Exception as e:
+            logger.warning(f"History snapshots query failed: {e}")
+            return JSONResponse({"error": "No history available"}, status_code=404)
+
+    async def api_history_signal(request: Request) -> JSONResponse:
+        """Get signal evolution over time."""
+        signal_type = request.path_params["signal_type"]  # file, module, global
+        signal_path = request.path_params.get("signal_path", "")
+        signal_name = request.path_params["signal_name"]
+        limit = int(request.query_params.get("limit", 50))
+
+        # Handle URL-encoded paths
+        from urllib.parse import unquote
+        signal_path = unquote(signal_path)
+
+        try:
+            with HistoryDB(str(state.analyzed_path)) as db:
+                serializer = DashboardSerializer(db)
+                data = serializer.serialize_signal_evolution(
+                    entity_type=signal_type,
+                    entity_path=signal_path,
+                    signal_name=signal_name,
+                    limit=limit,
+                )
+            return JSONResponse(data)
+        except Exception as e:
+            logger.warning(f"History signal query failed: {e}")
+            return JSONResponse({"error": str(e)}, status_code=404)
+
+    async def api_history_findings(request: Request) -> JSONResponse:
+        """Get finding lifecycle summary."""
+        limit = int(request.query_params.get("limit", 50))
+        try:
+            with HistoryDB(str(state.analyzed_path)) as db:
+                serializer = DashboardSerializer(db)
+                data = serializer.serialize_finding_lifecycle(limit=limit)
+            return JSONResponse(data)
+        except Exception as e:
+            logger.warning(f"History findings query failed: {e}")
+            return JSONResponse({"error": "No history available"}, status_code=404)
+
+    async def api_history_snapshot_detail(request: Request) -> JSONResponse:
+        """Get full snapshot detail by ID."""
+        snapshot_id = int(request.path_params["snapshot_id"])
+        try:
+            with HistoryDB(str(state.analyzed_path)) as db:
+                serializer = DashboardSerializer(db)
+                data = serializer.serialize_snapshot_detail(snapshot_id)
+            if data is None:
+                return JSONResponse({"error": "Snapshot not found"}, status_code=404)
+            return JSONResponse(data)
+        except Exception as e:
+            logger.warning(f"History snapshot detail query failed: {e}")
+            return JSONResponse({"error": str(e)}, status_code=404)
+
     routes = [
         Route("/", homepage),
         Route("/api/state", api_state),

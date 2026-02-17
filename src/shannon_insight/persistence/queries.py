@@ -506,8 +506,11 @@ def get_chronic_findings(
     conn: sqlite3.Connection,
     min_persistence: int = 3,
     max_findings: int = 10,
-) -> list[FindingLifecycleInfo]:
+) -> list[ChronicFindingInfo]:
     """Return findings persisting across min_persistence+ snapshots.
+
+    Joins with findings table to get the actual files and title from the
+    most recent occurrence of each chronic finding.
 
     Parameters
     ----------
@@ -520,33 +523,50 @@ def get_chronic_findings(
 
     Returns
     -------
-    list[FindingLifecycleInfo]
-        Chronic findings ordered by persistence count (descending).
+    list[ChronicFindingInfo]
+        Chronic findings ordered by persistence count (descending),
+        including file paths and title from the most recent snapshot.
     """
+    # Join finding_lifecycle with findings to get files and title
+    # Use last_seen_snapshot to get the most recent occurrence
     rows = conn.execute(
         """
-        SELECT identity_key, finding_type, first_seen_snapshot, last_seen_snapshot,
-               persistence_count, current_status, severity
-        FROM finding_lifecycle
-        WHERE persistence_count >= ? AND current_status = 'active'
-        ORDER BY persistence_count DESC, severity DESC
+        SELECT fl.identity_key, fl.finding_type, fl.first_seen_snapshot,
+               fl.last_seen_snapshot, fl.persistence_count, fl.current_status,
+               fl.severity, f.files, f.title
+        FROM finding_lifecycle fl
+        JOIN findings f ON f.identity_key = fl.identity_key
+                       AND f.snapshot_id = fl.last_seen_snapshot
+        WHERE fl.persistence_count >= ? AND fl.current_status = 'active'
+        ORDER BY fl.persistence_count DESC, fl.severity DESC
         LIMIT ?
         """,
         (min_persistence, max_findings),
     ).fetchall()
 
-    return [
-        FindingLifecycleInfo(
-            identity_key=r["identity_key"],
-            finding_type=r["finding_type"],
-            first_seen_snapshot=r["first_seen_snapshot"],
-            last_seen_snapshot=r["last_seen_snapshot"],
-            persistence_count=r["persistence_count"],
-            current_status=r["current_status"],
-            severity=r["severity"],
+    result = []
+    for r in rows:
+        # Parse files JSON
+        files_raw = r["files"]
+        if isinstance(files_raw, str):
+            files = json.loads(files_raw)
+        else:
+            files = list(files_raw) if files_raw else []
+
+        result.append(
+            ChronicFindingInfo(
+                identity_key=r["identity_key"],
+                finding_type=r["finding_type"],
+                first_seen_snapshot=r["first_seen_snapshot"],
+                last_seen_snapshot=r["last_seen_snapshot"],
+                persistence_count=r["persistence_count"],
+                current_status=r["current_status"],
+                severity=r["severity"],
+                files=files,
+                title=r["title"],
+            )
         )
-        for r in rows
-    ]
+    return result
 
 
 def update_finding_lifecycle(

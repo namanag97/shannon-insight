@@ -802,6 +802,19 @@ register(
     )
 )
 
+register(
+    SignalMeta(
+        signal=Signal.DELTA_H,
+        dtype=float,
+        scope="file",
+        percentileable=True,  # Meaningful to rank files by how much worse than neighbours
+        polarity="high_is_bad",  # Positive = file is riskier than its neighbourhood
+        absolute_threshold=0.25,  # Files > 0.25 above neighbourhood mean warrant attention
+        produced_by="signals/fusion",
+        phase=5,  # Computed in fusion step6_laplacian after raw_risk is ready
+    )
+)
+
 # ── Per-Module: IR4 Architecture (architecture/) ─────────────────────────
 
 register(

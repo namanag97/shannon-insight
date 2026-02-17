@@ -239,7 +239,8 @@ def _execute_file_pair_pattern(
     """Execute FILE_PAIR scope pattern."""
     findings: list[Finding] = []
 
-    files = store.files()
+    # Filter out fixtures before generating pairs
+    files = [f for f in store.files() if not _is_fixture_or_test_data(f.key)]
 
     # Generate all unique pairs
     for file_a, file_b in itertools.combinations(files, 2):

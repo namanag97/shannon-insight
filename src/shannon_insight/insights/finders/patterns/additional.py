@@ -341,10 +341,21 @@ DIRECTORY_HOTSPOT = Pattern(
 
 
 def _duplicate_incomplete_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
-    """Both files are clones and incomplete."""
+    """Both files are clones (via NCD) AND both are incomplete (stubs or phantom imports).
+
+    Uses the CLONED_FROM relation populated by Phase 3 NCD clone detection — not the
+    compression-ratio proxy that incorrectly matched unrelated files with similar entropy.
+    """
     entity_a, entity_b = pair
 
-    # Check stub ratio or phantom imports for both
+    # Must have a confirmed NCD clone relationship
+    cloned_rels = [
+        r for r in store.outgoing(entity_a, RelationType.CLONED_FROM) if r.target == entity_b
+    ]
+    if not cloned_rels:
+        return False
+
+    # Check incompleteness for both files
     stub_a = store.get_signal(entity_a, Signal.STUB_RATIO, 0)
     stub_b = store.get_signal(entity_b, Signal.STUB_RATIO, 0)
     phantom_a = store.get_signal(entity_a, Signal.PHANTOM_IMPORT_COUNT, 0)
@@ -353,13 +364,7 @@ def _duplicate_incomplete_predicate(store: FactStore, pair: tuple[EntityId, Enti
     incomplete_a = stub_a > 0.3 or phantom_a > 0
     incomplete_b = stub_b > 0.3 or phantom_b > 0
 
-    # Check if they're similar (via compression ratio similarity)
-    # In full implementation, would check CLONE relations
-    comp_a = store.get_signal(entity_a, Signal.COMPRESSION_RATIO, 0)
-    comp_b = store.get_signal(entity_b, Signal.COMPRESSION_RATIO, 0)
-    similar_compression = abs(comp_a - comp_b) < 0.1 if comp_a > 0 and comp_b > 0 else False
-
-    return incomplete_a and incomplete_b and similar_compression
+    return incomplete_a and incomplete_b
 
 
 def _duplicate_incomplete_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:

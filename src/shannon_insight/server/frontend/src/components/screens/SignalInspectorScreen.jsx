@@ -219,6 +219,38 @@ export function SignalInspectorScreen() {
         )}
       </div>
 
+      {/* ABSOLUTE tier notice */}
+      {isAbsoluteTier && (
+        <div style={{
+          padding: "8px 12px",
+          marginBottom: "12px",
+          background: "var(--surface-raised)",
+          border: "1px solid var(--border)",
+          borderRadius: "4px",
+          fontSize: "12px",
+          color: "var(--text-secondary)",
+        }}>
+          <strong>Small codebase (&lt;15 files):</strong> Percentile-based signals are not
+          computed at this scale. Absolute values are shown instead.
+        </div>
+      )}
+
+      {/* Placeholder signal notice */}
+      {isPlaceholder && (
+        <div style={{
+          padding: "8px 12px",
+          marginBottom: "12px",
+          background: "var(--surface-raised)",
+          border: "1px solid var(--yellow)",
+          borderRadius: "4px",
+          fontSize: "12px",
+          color: "var(--text-secondary)",
+        }}>
+          <strong>Not yet implemented:</strong> This signal requires call-edge analysis
+          which is not available in the current version. All values will be 0.
+        </div>
+      )}
+
       {entries.length === 0 ? (
         <div class="empty-state">
           <div class="empty-state-title">No data for this signal</div>

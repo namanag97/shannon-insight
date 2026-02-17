@@ -92,6 +92,7 @@ class Signal(Enum):
     DEPTH = "depth"  # 19
     IS_ORPHAN = "is_orphan"  # 20
     CYCLE_MEMBER = "cycle_member"  # 20a - True if file is in a circular dependency SCC
+    CYCLE_SIZE = "cycle_size"  # 20b - Number of files in the same SCC (0 for non-members)
     PHANTOM_IMPORT_COUNT = "phantom_import_count"  # 21
     BROKEN_CALL_COUNT = "broken_call_count"  # 22
     COMMUNITY = "community"  # 23

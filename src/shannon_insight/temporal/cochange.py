@@ -14,7 +14,7 @@ _DECAY_LAMBDA = math.log(2) / 90
 def build_cochange_matrix(
     history: GitHistory,
     analyzed_files: set[str],
-    min_cochanges: int = 2,
+    min_cochanges: int = 3,
     max_files_per_commit: int = 30,
 ) -> CoChangeMatrix:
     """Build sparse co-change matrix from git history.

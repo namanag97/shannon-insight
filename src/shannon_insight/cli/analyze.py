@@ -108,10 +108,10 @@ def main(
         shannon-insight --json             # JSON output (CI mode)
         shannon-insight --fail-on high     # CI gate mode
     """
-    # Handle -h (short help)
+    # Handle -h (short help) - print help and exit
     if help_flag:
-        ctx = typer.Context
-        console.print(ctx.get_help())
+        import click
+        click.echo(ctx.get_help())
         raise typer.Exit(0)
 
     # Handle version

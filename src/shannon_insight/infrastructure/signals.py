@@ -774,6 +774,19 @@ register(
     )
 )
 
+register(
+    SignalMeta(
+        signal=Signal.FILE_HEALTH_SCORE,
+        dtype=float,
+        scope="file",
+        percentileable=False,
+        polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="signals/fusion",
+        phase=5,
+    )
+)
+
 # ── Per-Module: IR4 Architecture (architecture/) ─────────────────────────
 
 register(

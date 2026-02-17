@@ -8,7 +8,7 @@ blast radius, cycle detection — not arbitrary scores.
 Named after Claude Shannon, father of information theory.
 """
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 __author__ = "Naman Agarwal"
 
 from .api import analyze

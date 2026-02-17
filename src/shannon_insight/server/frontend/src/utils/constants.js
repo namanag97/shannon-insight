@@ -288,7 +288,9 @@ export const SIGNAL_POLARITY = {
   // Higher is WORSE (high_is_bad in backend)
   risk_score: true,
   raw_risk: true,
+  delta_h: true,         // Positive delta_h = file is riskier than neighbourhood
   churn_cv: true,
+  change_entropy: true,  // High entropy = scattered changes = harder to predict
   cognitive_load: true,
   max_nesting: true,
   stub_ratio: true,
@@ -301,6 +303,8 @@ export const SIGNAL_POLARITY = {
   naming_drift: true,
   impl_gini: true,
   is_orphan: true,
+  cycle_member: true,    // Being in a cycle is always bad
+  cycle_size: true,      // Larger cycles are harder to break
   concept_entropy: true,
   pagerank: true,        // High PageRank = high coupling risk
   betweenness: true,     // High betweenness = bottleneck risk

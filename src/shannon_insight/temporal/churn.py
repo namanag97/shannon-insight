@@ -65,8 +65,8 @@ def build_churn_series(
     for commit in history.commits:
         window_idx = min((commit.timestamp - min_ts) // window_secs, num_windows - 1)
         subject_lower = commit.subject.lower()
-        is_fix = any(kw in subject_lower for kw in FIX_KEYWORDS)
-        is_refactor = any(kw in subject_lower for kw in REFACTOR_KEYWORDS)
+        is_fix = bool(_FIX_PATTERN.search(subject_lower))
+        is_refactor = bool(_REFACTOR_PATTERN.search(subject_lower))
 
         for f in commit.files:
             if f in analyzed_files:

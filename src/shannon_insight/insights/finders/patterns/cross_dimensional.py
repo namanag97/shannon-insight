@@ -74,12 +74,16 @@ WEAK_LINK = Pattern(
 
 
 def _bug_attractor_predicate(store: FactStore, entity: EntityId) -> bool:
-    """File with high fix ratio."""
+    """File that attracts bugs (fix_ratio) AND has structural reasons for it (complexity).
+
+    Cross-dimensional: requires BOTH temporal evidence AND structural cause.
+    """
     fix_ratio = store.get_signal(entity, Signal.FIX_RATIO, 0)
     total_changes = store.get_signal(entity, Signal.TOTAL_CHANGES, 0)
     median_changes = compute_median(store, Signal.TOTAL_CHANGES)
+    cog_pctl = compute_percentile(store, entity, Signal.COGNITIVE_LOAD)
 
-    return fix_ratio > 0.5 and total_changes > median_changes
+    return fix_ratio > 0.4 and total_changes > median_changes and cog_pctl > 0.65
 
 
 def _bug_attractor_severity(store: FactStore, entity: EntityId) -> float:

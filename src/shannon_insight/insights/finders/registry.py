@@ -17,6 +17,7 @@ from .patterns import (
     BOUNDARY_MISMATCH,
     BUG_ATTRACTOR,
     CHRONIC_PROBLEM,
+    CIRCULAR_DEPENDENCY,
     COPY_PASTE_CLONE,
     DEAD_DEPENDENCY,
     DIRECTORY_HOTSPOT,
@@ -38,6 +39,7 @@ from .patterns import (
     UNSTABLE_FILE,
     WEAK_LINK,
     ZONE_OF_PAIN,
+    ZONE_OF_USELESSNESS,
 )
 
 # ==============================================================================

@@ -188,8 +188,8 @@ class TestRegistry:
             assert signal in REGISTRY, f"Signal '{signal.value}' is not registered in REGISTRY"
 
     def test_registry_count(self) -> None:
-        """REGISTRY has exactly 63 entries."""
-        assert len(REGISTRY) == 63
+        """REGISTRY has exactly 64 entries."""
+        assert len(REGISTRY) == 64
 
     def test_no_extra_entries(self) -> None:
         """REGISTRY has no entries that aren't Signal enum members."""

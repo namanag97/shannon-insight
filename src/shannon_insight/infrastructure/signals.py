@@ -553,6 +553,19 @@ register(
 
 register(
     SignalMeta(
+        signal=Signal.CYCLE_MEMBER,
+        dtype=bool,
+        scope="file",
+        percentileable=False,  # Boolean flag — not meaningful to percentile
+        polarity="high_is_bad",  # Being in a cycle is always bad
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=3,  # Available after Tarjan SCC (structural phase)
+    )
+)
+
+register(
+    SignalMeta(
         signal=Signal.PHANTOM_IMPORT_COUNT,
         dtype=int,
         scope="file",

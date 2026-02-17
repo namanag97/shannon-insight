@@ -138,6 +138,14 @@ export function SignalInspectorScreen() {
   const label = SIGNAL_LABELS[inspectedSignal] || inspectedSignal;
   const description = SIGNAL_DESCRIPTIONS[inspectedSignal] || "";
 
+  // ABSOLUTE tier: < 15 files means percentiles are meaningless
+  const fileCount = Object.keys(data.files).length;
+  const isAbsoluteTier = fileCount < 15;
+
+  // Detect placeholder signals (always 0, not yet implemented)
+  const PLACEHOLDER_SIGNALS = new Set(["broken_call_count"]);
+  const isPlaceholder = PLACEHOLDER_SIGNALS.has(inspectedSignal) && values.every((v) => v === 0);
+
   // Build histogram (10 bins)
   const bins = new Array(10).fill(0);
   if (values.length > 0 && maxVal > 0) {

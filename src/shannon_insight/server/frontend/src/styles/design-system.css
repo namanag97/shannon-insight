@@ -1081,6 +1081,99 @@ a:hover {
   text-decoration: none;
 }
 
+/* New panel styles for simplified structure */
+.graph-panel-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.graph-panel-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  background: var(--surface-raised);
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.graph-panel-tag.orphan {
+  background: var(--red);
+  color: white;
+}
+
+.graph-panel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+
+.graph-panel-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-2);
+  border-right: 1px solid var(--border);
+}
+
+.graph-panel-stat:last-child {
+  border-right: none;
+}
+
+.graph-panel-stat .value {
+  font-size: 14px;
+  font-family: var(--font-mono);
+  font-weight: var(--font-semibold);
+  color: var(--text);
+}
+
+.graph-panel-stat .label {
+  font-size: 8px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.graph-panel-findings {
+  padding: var(--space-3);
+}
+
+.graph-panel-findings strong {
+  display: block;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-2);
+}
+
+.graph-panel-finding {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px 0;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.graph-panel-finding .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.graph-panel-finding .dot.sev-critical { background: var(--red); }
+.graph-panel-finding .dot.sev-high { background: var(--orange); }
+.graph-panel-finding .dot.sev-medium { background: var(--yellow); }
+.graph-panel-finding .dot.sev-low { background: var(--text-tertiary); }
+.graph-panel-finding .dot.sev-info { background: var(--accent); }
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    8. RESPONSIVE BREAKPOINTS

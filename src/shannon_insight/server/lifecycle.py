@@ -260,7 +260,28 @@ def launch_server(
     # ── Step 8: Open browser ──────────────────────────────────────
     url = f"http://{host}:{actual_port}"
     if not no_browser:
-        threading.Timer(1.0, lambda: webbrowser.open(url)).start()
+        # Check if browser was already opened for this URL this session
+        # This prevents duplicate tabs when server restarts quickly
+        browser_marker = Path(project_root) / ".shannon" / ".browser_session"
+        should_open = True
+        try:
+            if browser_marker.exists():
+                marker_url = browser_marker.read_text().strip()
+                if marker_url == url:
+                    # Same URL already opened - browser tab likely still exists
+                    should_open = False
+                    logger.debug("Browser already opened for %s, skipping", url)
+        except OSError:
+            pass
+
+        if should_open:
+            # Write marker before opening (in case open() blocks)
+            try:
+                browser_marker.parent.mkdir(parents=True, exist_ok=True)
+                browser_marker.write_text(url)
+            except OSError:
+                pass
+            threading.Timer(1.0, lambda: webbrowser.open(url)).start()
 
     # ── Step 9: Display status ────────────────────────────────────
     console.print()

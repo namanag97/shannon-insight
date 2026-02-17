@@ -81,6 +81,16 @@ class ChronicProblemFinder:
             if info.files and any(self._is_fixture(f) for f in info.files):
                 continue
 
+            # Calculate effective persistence count:
+            # If finding is also in current findings, add 1 (current run counts)
+            effective_count = info.persistence_count
+            if info.identity_key in current_keys:
+                effective_count += 1
+
+            # Only flag if effective count meets threshold
+            if effective_count < self.min_persistence:
+                continue
+
             # Skip files with no actual impact (zero connectivity, zero churn)
             # These are stale findings that shouldn't be surfaced
             if not self._has_impact(store, info.files):
@@ -93,7 +103,7 @@ class ChronicProblemFinder:
                 continue  # File no longer risky, skip
 
             # Enhance based on persistence (but cap reasonably)
-            persistence_boost = min(0.15, info.persistence_count * 0.01)
+            persistence_boost = min(0.15, effective_count * 0.01)
             enhanced_severity = min(0.85, current_risk + persistence_boost)
 
             # Files come directly from ChronicFindingInfo (joined from findings table)
@@ -103,9 +113,9 @@ class ChronicProblemFinder:
             evidence = [
                 Evidence(
                     signal="persistence_count",
-                    value=float(info.persistence_count),
+                    value=float(effective_count),
                     percentile=100.0,  # By definition, these are the most persistent
-                    description=f"persisted across {info.persistence_count} snapshots",
+                    description=f"persisted across {effective_count} snapshots",
                 ),
             ]
 

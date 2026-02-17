@@ -163,6 +163,23 @@ def _execute_pattern(
     return findings
 
 
+def _has_impact(store: FactStore, file_id: EntityId) -> bool:
+    """Check if file has any meaningful impact (connectivity or activity).
+
+    Files with zero connectivity AND zero activity are isolated and
+    shouldn't generate findings — they have no effect on the codebase.
+    """
+    pagerank = store.get_signal(file_id, Signal.PAGERANK, 0)
+    blast_radius = store.get_signal(file_id, Signal.BLAST_RADIUS_SIZE, 0)
+    in_degree = store.get_signal(file_id, Signal.IN_DEGREE, 0)
+    total_changes = store.get_signal(file_id, Signal.TOTAL_CHANGES, 0)
+
+    has_connectivity = pagerank > 0.001 or blast_radius > 0 or in_degree > 0
+    has_activity = total_changes > 0
+
+    return has_connectivity or has_activity
+
+
 def _execute_file_pattern(
     store: FactStore,
     pattern: Pattern,
@@ -174,6 +191,10 @@ def _execute_file_pattern(
     for file_id in store.files():
         # Skip test fixtures and sample data
         if is_fixture_or_test_data(file_id.key):
+            continue
+
+        # Skip files with no impact (isolated, no activity)
+        if not _has_impact(store, file_id):
             continue
 
         # Hotspot filter: skip files below median total_changes

@@ -70,9 +70,13 @@ class ChronicProblemFinder:
 
         findings = []
         for info in chronic:
-            # Compute enhanced severity
+            # Skip fixtures and test data
+            if info.files and any(self._is_fixture(f) for f in info.files):
+                continue
+
+            # Compute enhanced severity (cap at 0.85 to avoid over-inflating)
             base_severity = info.severity
-            enhanced_severity = min(1.0, base_severity * self.severity_multiplier)
+            enhanced_severity = min(0.85, base_severity * self.severity_multiplier)
 
             # Files come directly from ChronicFindingInfo (joined from findings table)
             files = info.files

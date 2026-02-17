@@ -15,6 +15,7 @@ def _version_callback(value: bool) -> None:
     """Handle --version flag (eager callback)."""
     if value:
         from .. import __version__
+
         console.print(f"Shannon Insight v{__version__}")
         raise typer.Exit(0)
 
@@ -100,16 +101,28 @@ def main(
     ),
 ):
     """
-    Analyze codebase quality using multi-signal structural analysis.
+    Analyze codebase quality — finds risky files, coupling, team gaps, and dead code.
 
-    Opens an interactive dashboard by default. Use --cli for terminal output.
+    [bold]Quick start:[/bold]
 
-    Examples:
-        shannon-insight                    # Open dashboard
-        shannon-insight /path/to/code      # Dashboard for specific path
-        shannon-insight --cli              # Terminal output
-        shannon-insight --json             # JSON output (CI mode)
-        shannon-insight --fail-on high     # CI gate mode
+        [cyan]shannon-insight .[/cyan]              Open interactive dashboard (default)
+        [cyan]shannon-insight . --cli[/cyan]        Terminal output, no browser
+        [cyan]shannon-insight . --json[/cyan]       JSON output for CI/scripts
+        [cyan]shannon-insight . --fail-on high[/cyan]   Exit 1 if high-severity issues exist
+
+    [bold]PATH[/bold] defaults to the current directory. Flags can go before or after PATH:
+
+        shannon-insight --cli .            Works
+        shannon-insight . --cli            Also works
+
+    [bold]Common flags:[/bold]
+
+        --cli          Print findings to terminal
+        --json         Machine-readable JSON (implies --cli)
+        --fail-on      CI gate: [yellow]high[/yellow] | [yellow]medium[/yellow] | [yellow]any[/yellow]
+        --no-browser   Start dashboard server without opening browser
+        -n 100         Show up to 100 findings (default: 50)
+        -v             Verbose output
     """
     # version and help_flag are handled by callbacks
 

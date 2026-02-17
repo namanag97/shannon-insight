@@ -468,6 +468,39 @@ a:hover {
   font-family: var(--font-mono);
 }
 
+/* Size utilities (Tailwind-like) */
+.text-xs {
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.text-lg {
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+}
+
+.text-xl {
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.text-2xl {
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+}
+
+/* Signal category grid */
+.sig-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    6. COMPONENT PRIMITIVES

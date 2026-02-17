@@ -59,7 +59,11 @@ class ValidationResult:
 
 
 def parse_ground_truth(fixture_dir: Path) -> list[GroundTruth]:
-    """Parse GROUND_TRUTH.md to extract expected findings."""
+    """Parse GROUND_TRUTH.md to extract expected findings.
+
+    Only reads lines in the "Expected Findings (Parseable Format)" section,
+    which is marked by a comment: <!-- Validator parses lines starting with "- FINDING_TYPE: path" -->
+    """
     gt_file = fixture_dir / "GROUND_TRUTH.md"
     if not gt_file.exists():
         return []
@@ -67,19 +71,32 @@ def parse_ground_truth(fixture_dir: Path) -> list[GroundTruth]:
     expected = []
     content = gt_file.read_text()
 
-    # Parse lines like: "- GOD_FILE: python_service/services/god_file.py"
+    # Only parse lines in the parseable section (after the validator comment)
+    in_parseable_section = False
     for line in content.split("\n"):
-        line = line.strip()
-        if line.startswith("- ") and ":" in line:
-            parts = line[2:].split(":", 1)
+        stripped = line.strip()
+
+        # Enter parseable section when we see the validator marker comment
+        if "Validator parses lines" in stripped:
+            in_parseable_section = True
+            continue
+
+        if not in_parseable_section:
+            continue
+
+        # Parse lines like: "- god_file: python_service/services/god_file.py"
+        if stripped.startswith("- ") and ":" in stripped:
+            parts = stripped[2:].split(":", 1)
             if len(parts) == 2:
                 finding_type = parts[0].strip().lower()
                 file_path = parts[1].strip()
-                expected.append(GroundTruth(
-                    finding_type=finding_type,
-                    file_path=file_path,
-                    description=line,
-                ))
+                # Skip if finding_type looks like a markdown emphasis or URL
+                if finding_type and not finding_type.startswith("*") and "/" not in finding_type:
+                    expected.append(GroundTruth(
+                        finding_type=finding_type,
+                        file_path=file_path,
+                        description=stripped,
+                    ))
 
     return expected
 

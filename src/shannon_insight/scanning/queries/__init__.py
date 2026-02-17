@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from . import c_cpp, go, java, javascript, python, ruby, rust, typescript
+from . import c_cpp, go, java, javascript, python, ruby, rust, tsx, typescript
 
 if TYPE_CHECKING:
     from types import ModuleType

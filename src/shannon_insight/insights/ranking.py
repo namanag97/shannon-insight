@@ -117,3 +117,50 @@ def count_findings_per_file(findings: list[Finding]) -> dict[str, int]:
         for path in f.files:
             counts[path] += 1
     return dict(counts)
+
+
+def rank_findings(findings: list[Finding], file_signals: dict | None = None) -> list[Finding]:
+    """Rank findings by severity × impact.
+
+    Impact is determined by:
+    - pagerank: How central is the file?
+    - blast_radius_size: How many files depend on it?
+
+    A HIGH severity finding on an isolated file ranks LOWER than
+    a MEDIUM severity finding on a central hub.
+
+    Args:
+        findings: List of findings to rank
+        file_signals: Optional dict[path, FileSignals] for impact lookup
+
+    Returns:
+        Sorted list of findings (highest impact first)
+    """
+    if not findings:
+        return findings
+
+    def _get_impact(finding: Finding) -> float:
+        """Compute impact score for a finding (0-1)."""
+        if not file_signals:
+            return 1.0  # No impact data, use severity only
+
+        max_impact = 0.0
+        for path in finding.files:
+            fs = file_signals.get(path)
+            if fs:
+                # Impact = max(pagerank, blast_radius / 50)
+                # Normalize blast_radius to 0-1 range (50 = very high impact)
+                pagerank = getattr(fs, "pagerank", 0.0)
+                blast = getattr(fs, "blast_radius_size", 0) / 50.0
+                impact = max(pagerank, blast, 0.1)  # Minimum 0.1 impact
+                max_impact = max(max_impact, min(1.0, impact))
+
+        return max_impact if max_impact > 0 else 0.1
+
+    # Sort by severity × impact
+    def sort_key(f: Finding) -> float:
+        impact = _get_impact(f)
+        return f.severity * impact
+
+    findings.sort(key=sort_key, reverse=True)
+    return findings

@@ -115,21 +115,40 @@ class TemporalAnalyzer:
             fs.set_signal(entity_id, Signal.CHURN_SLOPE, cs.slope)
 
         # COCHANGES_WITH relations (weighted by lift, with full metadata)
+        # COCHANGES_WITH is symmetric — store in BOTH directions so FILE_PAIR
+        # predicates find the relation regardless of pair iteration order.
         for (file_a, file_b), pair in cochange.pairs.items():
             src_id = EntityId(EntityType.FILE, file_a)
             tgt_id = EntityId(EntityType.FILE, file_b)
+            metadata = {
+                "lift": pair.lift,
+                "confidence_a_b": pair.confidence_a_b,
+                "confidence_b_a": pair.confidence_b_a,
+                "cochange_count": pair.cochange_count,
+            }
             fs.add_relation(
                 Relation(
                     type=RelationType.COCHANGES_WITH,
                     source=src_id,
                     target=tgt_id,
                     weight=pair.lift,
-                    metadata={
-                        "lift": pair.lift,
-                        "confidence_a_b": pair.confidence_a_b,
-                        "confidence_b_a": pair.confidence_b_a,
-                        "cochange_count": pair.cochange_count,
-                    },
+                    metadata=metadata,
+                )
+            )
+            # Reverse direction (symmetric) — swap confidence_a_b / confidence_b_a
+            reverse_metadata = {
+                "lift": pair.lift,
+                "confidence_a_b": pair.confidence_b_a,
+                "confidence_b_a": pair.confidence_a_b,
+                "cochange_count": pair.cochange_count,
+            }
+            fs.add_relation(
+                Relation(
+                    type=RelationType.COCHANGES_WITH,
+                    source=tgt_id,
+                    target=src_id,
+                    weight=pair.lift,
+                    metadata=reverse_metadata,
                 )
             )
 

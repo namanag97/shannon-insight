@@ -89,6 +89,23 @@ commit_as() {
 }
 
 #################################################################################
+# Helper for date calculation (handles both macOS and GNU date)
+#################################################################################
+
+calc_date() {
+    local offset="$1"  # e.g., "-6m", "-5m", "+2d", etc.
+    local format="${2:-%Y-%m-%d %H:%M:%S}"
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS
+        date -v"$offset" "+$format"
+    else
+        # GNU date (Linux)
+        date -d "$offset" "+$format"
+    fi
+}
+
+#################################################################################
 # Phase 1: Initial commit (6 months ago)
 # Alice creates baseline code for all three services
 #################################################################################
@@ -96,7 +113,7 @@ commit_as() {
 echo -e "\n${BLUE}Phase 1: Initial commit (6 months ago)${NC}"
 
 # Calculate date 6 months ago
-INITIAL_DATE=$(date -v-6m "+%Y-%m-%d 09:00:00")
+INITIAL_DATE=$(calc_date "-6m")
 
 git add -A
 commit_as "Alice Developer" "alice@company.com" "$INITIAL_DATE" \

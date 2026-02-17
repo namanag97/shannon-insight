@@ -265,6 +265,12 @@ def _unstable_file_predicate(store: FactStore, entity: EntityId) -> bool:
     total_changes = store.get_signal(entity, Signal.TOTAL_CHANGES, 0)
     median_changes = compute_median(store, Signal.TOTAL_CHANGES)
 
+    # Minimum 10 changes required for statistically meaningful churn analysis
+    # With N<10, CV is unreliable and any variance looks like "churning"
+    MIN_CHANGES_FOR_CHURN = 10
+    if total_changes < MIN_CHANGES_FOR_CHURN:
+        return False
+
     return trajectory in {"CHURNING", "SPIKING"} and total_changes > median_changes
 
 

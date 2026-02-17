@@ -25,7 +25,8 @@ describe("SIGNAL_LABELS", () => {
 describe("SIGNAL_CATEGORIES", () => {
   it("has correct structure", () => {
     expect(SIGNAL_CATEGORIES).toBeInstanceOf(Array);
-    expect(SIGNAL_CATEGORIES.length).toBe(6);
+    // 6 file-level categories + 4 global-level categories = 10 total
+    expect(SIGNAL_CATEGORIES.length).toBe(10);
     for (const cat of SIGNAL_CATEGORIES) {
       expect(cat).toHaveProperty("key");
       expect(cat).toHaveProperty("name");

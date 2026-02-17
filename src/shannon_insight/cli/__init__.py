@@ -1,14 +1,19 @@
 """CLI entry point — registers all subcommands."""
 
 import typer
+from click import Context
 
 from ._common import console
+
+# Enable -h as short for --help (Click/Typer convention)
+CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 app: typer.Typer = typer.Typer(
     name="shannon-insight",
     help="Shannon Insight - Multi-Signal Codebase Quality Analyzer",
     add_completion=False,
     rich_markup_mode="rich",
+    context_settings=CONTEXT_SETTINGS,
 )
 
 

@@ -615,6 +615,13 @@ class _Composited:
         if self.store.structural.available:
             graph = self.store.structural.value.graph
             self.field.delta_h = compute_health_laplacian(self.field, graph)
+
+            # Back-fill delta_h into each FileSignals so _sync_file_signals can write it
+            for path, dh in self.field.delta_h.items():
+                fs = self.field.per_file.get(path)
+                if fs is not None:
+                    fs.delta_h = dh
+
         return self.field
 
 

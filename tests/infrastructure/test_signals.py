@@ -477,7 +477,7 @@ class TestHelperFunctions:
             assert sig in phase0, f"Signal {sig.value} should be in phase 0"
 
     def test_signals_by_phase_5_is_all(self) -> None:
-        """Phase 5 includes all 63 signals."""
+        """Phase 5 includes all 64 signals."""
         phase5 = signals_by_phase(5)
         assert phase5 == set(Signal)
 

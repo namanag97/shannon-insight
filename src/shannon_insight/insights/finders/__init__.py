@@ -27,13 +27,14 @@ def get_persistence_finders() -> list:
     These finders work with historical snapshots and cannot be converted
     to the Pattern model (which works against single-snapshot FactStore).
 
-    NOTE: ChronicProblemFinder is disabled by default because it can surface
-    stale findings from history that no longer apply. Enable with --history flag.
+    ChronicProblemFinder validates against current findings and signals:
+    - Adds +1 to persistence count if finding is still active
+    - Validates against current store signals (risk, connectivity)
+    - Resets count on regression (was resolved, now reappeared)
     """
     return [
         ArchitectureErosionFinder(),
-        # ChronicProblemFinder disabled - reads stale data from DB
-        # Enable when we fix it to validate against current findings
+        ChronicProblemFinder(),
     ]
 
 

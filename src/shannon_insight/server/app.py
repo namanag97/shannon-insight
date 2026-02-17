@@ -300,9 +300,12 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
 
     async def api_history_snapshot_detail(request: Request) -> JSONResponse:
         """Get full snapshot detail by ID."""
+        analyzed_path = _get_analyzed_path()
+        if not analyzed_path:
+            return JSONResponse({"error": "No analysis available"}, status_code=404)
         snapshot_id = int(request.path_params["snapshot_id"])
         try:
-            with HistoryDB(str(state.analyzed_path)) as db:
+            with HistoryDB(analyzed_path) as db:
                 serializer = DashboardSerializer(db)
                 data = serializer.serialize_snapshot_detail(snapshot_id)
             if data is None:

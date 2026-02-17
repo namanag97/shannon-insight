@@ -275,7 +275,6 @@ def build_dashboard_state(
     # ── Graph / community data (for graph visualization) ─────────
     communities = snapshot.communities or []
     node_community = snapshot.node_community or {}
-    modularity_score_val = snapshot.modularity_score or 0.0
 
     # ── History / trend data (via serializer for consistency) ────
     trends: dict[str, Any] | None = None

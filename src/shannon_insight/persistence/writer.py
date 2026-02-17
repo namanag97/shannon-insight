@@ -330,6 +330,97 @@ def save_tensor_snapshot(conn: sqlite3.Connection, snapshot: TensorSnapshot) -> 
                 edge_rows,
             )
 
+        # ── cochange_edges (G4 space) ──────────────────────────
+        if snapshot.cochange_edges:
+            cochange_rows = []
+            for edge in snapshot.cochange_edges:
+                # edge = (file_a, file_b, weight, lift, conf_ab, conf_ba, count)
+                if len(edge) >= 7:
+                    cochange_rows.append(
+                        (snapshot_id, edge[0], edge[1], edge[2], edge[3], edge[4], edge[5], edge[6])
+                    )
+                elif len(edge) >= 3:
+                    # Minimal tuple: (file_a, file_b, weight)
+                    cochange_rows.append(
+                        (snapshot_id, edge[0], edge[1], edge[2], None, None, None, None)
+                    )
+            if cochange_rows:
+                cur.executemany(
+                    "INSERT INTO cochange_edges "
+                    "(snapshot_id, file_a, file_b, weight, lift, confidence_a_b, confidence_b_a, cochange_count) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    cochange_rows,
+                )
+
+        # ── architecture_modules ───────────────────────────────
+        if snapshot.modules:
+            module_rows = [(snapshot_id, m) for m in snapshot.modules]
+            cur.executemany(
+                "INSERT INTO architecture_modules (snapshot_id, module_path) VALUES (?, ?)",
+                module_rows,
+            )
+
+        # ── architecture_layers ────────────────────────────────
+        if snapshot.layers:
+            layer_rows = []
+            for layer in snapshot.layers:
+                depth = layer.get("depth", 0)
+                modules = json.dumps(layer.get("modules", []))
+                layer_rows.append((snapshot_id, depth, modules))
+            cur.executemany(
+                "INSERT INTO architecture_layers (snapshot_id, depth, modules) VALUES (?, ?, ?)",
+                layer_rows,
+            )
+
+        # ── architecture_violations ────────────────────────────
+        if snapshot.violations:
+            violation_rows = []
+            for v in snapshot.violations:
+                violation_rows.append(
+                    (snapshot_id, v.get("src", ""), v.get("tgt", ""), v.get("type", ""))
+                )
+            cur.executemany(
+                "INSERT INTO architecture_violations "
+                "(snapshot_id, source_module, target_module, violation_type) "
+                "VALUES (?, ?, ?, ?)",
+                violation_rows,
+            )
+
+        # ── delta_h (health Laplacian) ─────────────────────────
+        if snapshot.delta_h:
+            delta_h_rows = [(snapshot_id, fp, val) for fp, val in snapshot.delta_h.items()]
+            cur.executemany(
+                "INSERT INTO delta_h (snapshot_id, file_path, value) VALUES (?, ?, ?)",
+                delta_h_rows,
+            )
+
+        # ── communities ────────────────────────────────────────
+        if snapshot.communities:
+            community_rows = []
+            for c in snapshot.communities:
+                cid = c.get("id", 0)
+                members = json.dumps(c.get("members", []))
+                community_rows.append((snapshot_id, cid, members))
+            cur.executemany(
+                "INSERT INTO communities (snapshot_id, community_id, members) VALUES (?, ?, ?)",
+                community_rows,
+            )
+
+        # ── node_community mapping ─────────────────────────────
+        if snapshot.node_community:
+            nc_rows = [(snapshot_id, fp, cid) for fp, cid in snapshot.node_community.items()]
+            cur.executemany(
+                "INSERT INTO node_community (snapshot_id, file_path, community_id) VALUES (?, ?, ?)",
+                nc_rows,
+            )
+
+        # ── modularity_score ───────────────────────────────────
+        if snapshot.modularity_score != 0.0:
+            cur.execute(
+                "INSERT INTO modularity_score (snapshot_id, score) VALUES (?, ?)",
+                (snapshot_id, snapshot.modularity_score),
+            )
+
         conn.commit()
         return snapshot_id
 

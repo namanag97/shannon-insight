@@ -66,12 +66,14 @@ def compute_health_laplacian(field: SignalField, graph: DependencyGraph) -> dict
     return delta_h
 
 
+_SAFE_BUS_FACTOR = 5.0  # Must match composites.py — raw_risk and risk_score formulas must agree
+
+
 def compute_raw_risk(
     fs: FileSignals,
     max_pagerank: float,
     max_blast: float,
     max_cognitive: float,
-    max_bus_factor: float,
 ) -> float:
     """Compute pre-percentile weighted risk for a file.
 
@@ -81,29 +83,19 @@ def compute_raw_risk(
              + 0.20 * (blast_radius_size / max_blast)
              + 0.20 * (cognitive_load / max_cognitive)
              + 0.20 * instability_factor
-             + 0.15 * (1 - bus_factor / max_bus_factor)
+             + 0.15 * (1 - bus_factor / SAFE_BUS_FACTOR)
 
-    Args:
-        fs: FileSignals with raw signal values
-        max_pagerank: Max pagerank across all files (0 -> term = 0)
-        max_blast: Max blast_radius_size across all files
-        max_cognitive: Max cognitive_load across all files
-        max_bus_factor: Max bus_factor across all files
+    bus_factor uses fixed cap (SAFE_BUS_FACTOR=5.0), not relative-to-max,
+    to match the composites.py formula exactly.
 
     Returns:
         Raw risk value in [0, 1]
     """
-    # Normalize by max (division-by-zero guarded)
     pr_term = fs.pagerank / max_pagerank if max_pagerank > 0 else 0.0
     blast_term = fs.blast_radius_size / max_blast if max_blast > 0 else 0.0
     cog_term = fs.cognitive_load / max_cognitive if max_cognitive > 0 else 0.0
-
-    # Instability factor: continuous measure of change volatility via churn_cv.
-    # Matches the composites.py formula exactly — raw_risk and risk_score must agree.
     instab_factor = min(fs.churn_cv / 2.0, 1.0) if fs.churn_cv > 0 else 0.0
-
-    # Bus factor: higher is better, so 1 - normalized
-    bf_term = 1 - fs.bus_factor / max_bus_factor if max_bus_factor > 0 else 0.0
+    bf_term = max(0.0, 1.0 - fs.bus_factor / _SAFE_BUS_FACTOR)
 
     raw_risk = (
         0.25 * pr_term + 0.20 * blast_term + 0.20 * cog_term + 0.20 * instab_factor + 0.15 * bf_term

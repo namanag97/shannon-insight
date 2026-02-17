@@ -113,7 +113,7 @@ class ShutdownManager:
         except OSError:
             pass
 
-        # 5. Report active threads
+        # 6. Report active threads
         active = threading.active_count()
         if active > 1:
             thread_names = [

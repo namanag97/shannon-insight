@@ -317,6 +317,11 @@ def _boundary_mismatch_predicate(store: FactStore, entity: EntityId) -> bool:
     file_count = store.get_signal(entity, Signal.FILE_COUNT, 0)
     cohesion = store.get_signal(entity, Signal.COHESION, 0.0)
 
+    # boundary_alignment=0.0 means "not computed" (Louvain not implemented yet)
+    # Skip until proper boundary analysis is implemented
+    if boundary_alignment == 0.0:
+        return False
+
     # Louvain needs sufficient internal edges to find meaningful communities
     # Skip sparse modules (cohesion < 0.1) - polyglot repos often lack cross-file deps
     if cohesion < 0.1:

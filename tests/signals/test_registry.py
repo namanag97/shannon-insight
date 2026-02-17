@@ -260,8 +260,8 @@ class TestSignalCounts:
         # Bool: is_orphan
         # Assignment: community
         # Special: depth (can be -1)
-        # Composites (already normalized): risk_score, wiring_quality, health_score
+        # Composites (already normalized): risk_score, wiring_quality, file_health_score, health_score
         # Global (single value): modularity, fiedler_value, spectral_gap, cycle_count,
         #                        centrality_gini, orphan_ratio, phantom_ratio, glue_deficit,
         #                        wiring_score, architecture_health, codebase_health
-        assert len(non_pctl) == 19  # Exact count for V2
+        assert len(non_pctl) == 20  # Exact count for V2

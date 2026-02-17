@@ -39,8 +39,11 @@ def _orphan_code_predicate(store: FactStore, entity: EntityId) -> bool:
     if path.endswith(("/index.ts", "/index.js", "/index.tsx", "/index.jsx")):
         return False
 
-    # Go files: same-package consumption doesn't create import edges
-    # Skip Go files entirely since orphan detection is unreliable
+    # Go files: same-package references don't create import edges in the dependency
+    # graph (Go uses package-level namespace, not file-level imports). Until
+    # cross-package Go import tracking is implemented, exclude all Go files to
+    # avoid false orphan findings. Known limitation: legitimate cross-package
+    # orphans in Go codebases are invisible.
     if path.endswith(".go"):
         return False
 

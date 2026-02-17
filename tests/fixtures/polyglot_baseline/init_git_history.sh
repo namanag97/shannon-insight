@@ -131,30 +131,30 @@ commit_as "Alice Developer" "alice@company.com" "$INITIAL_DATE" \
 echo -e "\n${BLUE}Phase 2: Regular feature development (5-4 months ago)${NC}"
 
 # Feature 1: Python service authentication (Alice)
-DATE_5M=$(date -v-5m "+%Y-%m-%d 10:30:00")
+DATE_5M=$(calc_date "-5m" "%Y-%m-%d")
 echo "# Authentication module" >> python_service/api/__init__.py
-commit_as "Alice Developer" "alice@company.com" "$DATE_5M" \
+commit_as "Alice Developer" "alice@company.com" "$DATE_5M 10:30:00" \
     "feat: Add authentication middleware to Python service" \
     python_service/api/__init__.py
 
 # Feature 2: Go backend user handlers (Bob)
-DATE_5M_1=$(date -v-5m -v+2d "+%Y-%m-%d 11:00:00")
+DATE_5M_1=$(calc_date "-5m+2d" "%Y-%m-%d")
 echo "// User authorization middleware" >> go_backend/handlers/user_handler.go
-commit_as "Bob Engineer" "bob@company.com" "$DATE_5M_1" \
+commit_as "Bob Engineer" "bob@company.com" "$DATE_5M_1 11:00:00" \
     "feat: Add user authorization in Go handlers" \
     go_backend/handlers/user_handler.go
 
 # Feature 3: TypeScript frontend hooks (Charlie)
-DATE_5M_2=$(date -v-5m -v+4d "+%Y-%m-%d 14:15:00")
+DATE_5M_2=$(calc_date "-5m+4d" "%Y-%m-%d")
 echo "// Custom hooks for state management" >> ts_frontend/hooks/index.ts
-commit_as "Charlie Intern" "charlie@company.com" "$DATE_5M_2" \
+commit_as "Charlie Intern" "charlie@company.com" "$DATE_5M_2 14:15:00" \
     "feat: Add custom React hooks for state management" \
     ts_frontend/hooks/index.ts
 
 # Feature 4: Python service database models (Alice)
-DATE_5M_3=$(date -v-5m -v+6d "+%Y-%m-%d 09:45:00")
+DATE_5M_3=$(calc_date "-5m+6d" "%Y-%m-%d")
 echo "# Database connection pool" >> python_service/models/__init__.py
-commit_as "Alice Developer" "alice@company.com" "$DATE_5M_3" \
+commit_as "Alice Developer" "alice@company.com" "$DATE_5M_3 09:45:00" \
     "feat: Add database connection pooling" \
     python_service/models/__init__.py
 

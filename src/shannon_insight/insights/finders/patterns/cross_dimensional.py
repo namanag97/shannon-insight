@@ -97,6 +97,7 @@ def _bug_attractor_evidence(store: FactStore, entity: EntityId) -> dict[str, Any
         "fix_ratio": store.get_signal(entity, Signal.FIX_RATIO, 0),
         "total_changes": store.get_signal(entity, Signal.TOTAL_CHANGES, 0),
         "cognitive_load": store.get_signal(entity, Signal.COGNITIVE_LOAD, 0),
+        "cognitive_load_pctl": compute_percentile(store, entity, Signal.COGNITIVE_LOAD),
     }
 
 
@@ -104,8 +105,8 @@ BUG_ATTRACTOR = Pattern(
     name="bug_attractor",
     scope=PatternScope.FILE,
     severity=0.70,
-    requires={Signal.FIX_RATIO.value, Signal.TOTAL_CHANGES.value},
-    condition="fix_ratio > 0.5 AND total_changes > median",
+    requires={Signal.FIX_RATIO.value, Signal.TOTAL_CHANGES.value, Signal.COGNITIVE_LOAD.value},
+    condition="fix_ratio > 0.4 AND total_changes > median AND pctl(cognitive_load) > 0.65",
     predicate=_bug_attractor_predicate,
     severity_fn=_bug_attractor_severity,
     evidence_fn=_bug_attractor_evidence,

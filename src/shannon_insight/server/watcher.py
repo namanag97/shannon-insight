@@ -85,6 +85,10 @@ class FileWatcher:
             logger.debug("Analysis already in progress, skipping")
             return
 
+        # Don't start analysis if we're shutting down
+        if self._stop_event.is_set():
+            return
+
         self._analyzing = True
         try:
             self.state.send_progress("Analyzing...", phase="analyze", percent=0.1)

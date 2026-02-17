@@ -120,11 +120,11 @@ class ChronicProblemFinder:
             ]
 
             # Build suggestion based on original finding type
-            suggestion = self._build_suggestion(info.finding_type, info.persistence_count)
+            suggestion = self._build_suggestion(info.finding_type, effective_count)
 
             # Build title with files
             file_str = files[0] if files else "unknown"
-            title = f"Chronic problem ({info.persistence_count} snapshots): {info.finding_type.replace('_', ' ')} in {file_str}"
+            title = f"Chronic problem ({effective_count} snapshots): {info.finding_type.replace('_', ' ')} in {file_str}"
 
             findings.append(
                 Finding(

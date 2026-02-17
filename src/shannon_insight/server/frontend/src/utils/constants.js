@@ -31,6 +31,8 @@ export const SIGNAL_LABELS = {
   depth: "Dependency Chain Depth",
   community: "Graph Community ID",
   is_orphan: "Orphan (no imports or importers)",
+  cycle_member: "In Circular Dependency",
+  cycle_size: "Circular Dependency Size",
   phantom_import_count: "Broken Imports",
   broken_call_count: "Broken Function Calls",
   compression_ratio: "Code Uniqueness (compression)",

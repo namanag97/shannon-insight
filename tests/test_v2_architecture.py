@@ -97,7 +97,7 @@ class TestSignalEnum:
         assert len(Signal) == 64, f"Expected 64 signals, got {len(Signal)}"
 
     def test_per_file_signals_exist(self):
-        """Signals 1-36 (per-file)."""
+        """Signals 1-38 (per-file)."""
         from shannon_insight.infrastructure.signals import Signal
 
         per_file = [
@@ -135,8 +135,10 @@ class TestSignalEnum:
             "AUTHOR_ENTROPY",
             "FIX_RATIO",
             "REFACTOR_RATIO",
+            "CHANGE_ENTROPY",
             "RISK_SCORE",
             "WIRING_QUALITY",
+            "FILE_HEALTH_SCORE",
         ]
         for name in per_file:
             assert hasattr(Signal, name), f"Missing signal: {name}"

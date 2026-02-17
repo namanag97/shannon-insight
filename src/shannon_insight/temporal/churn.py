@@ -201,6 +201,15 @@ def _classify_trajectory(
     if cv == 0:
         return Trajectory.DORMANT
 
+    # Burst-then-dormant: heavy early activity with complete silence recently = STABILIZING
+    # (early burst + recent silence is a healthy sign of code settling down)
+    if len(counts) >= 4 and total > 1:
+        midpoint = len(counts) // 2
+        early_total = sum(counts[:midpoint])
+        recent_total = sum(counts[midpoint:])
+        if early_total >= 3 and recent_total == 0:
+            return Trajectory.STABILIZING
+
     # Classification per v2 spec with configurable thresholds
     if slope < -slope_threshold and cv < cv_threshold:
         return Trajectory.STABILIZING

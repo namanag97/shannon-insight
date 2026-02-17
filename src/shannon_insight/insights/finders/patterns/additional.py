@@ -388,7 +388,12 @@ def _duplicate_incomplete_evidence(
 ) -> dict[str, Any]:
     """Build evidence for DUPLICATE_INCOMPLETE."""
     entity_a, entity_b = pair
+    cloned_rels = [
+        r for r in store.outgoing(entity_a, RelationType.CLONED_FROM) if r.target == entity_b
+    ]
+    ncd = cloned_rels[0].metadata.get("ncd", 1.0) if cloned_rels else 1.0
     return {
+        "ncd": ncd,
         "stub_ratio_a": store.get_signal(entity_a, Signal.STUB_RATIO, 0),
         "stub_ratio_b": store.get_signal(entity_b, Signal.STUB_RATIO, 0),
         "phantom_count_a": store.get_signal(entity_a, Signal.PHANTOM_IMPORT_COUNT, 0),

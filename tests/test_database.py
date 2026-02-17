@@ -514,3 +514,136 @@ class TestFindingLifecycleQueries:
                 assert len(lifecycle_map) == 2
                 assert lifecycle_map["f1"]["current_status"] == "active"
                 assert lifecycle_map["f2"]["current_status"] == "resolved"
+
+
+class TestTensorSnapshotLoader:
+    def test_load_tensor_snapshot(self):
+        """Test loading a TensorSnapshot with all V2 data."""
+        from shannon_insight.persistence.reader import load_tensor_snapshot
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with HistoryDB(tmpdir) as db:
+                # Create a snapshot
+                db.conn.execute(
+                    """
+                    INSERT INTO snapshots (
+                        id, schema_version, tool_version, timestamp, analyzed_path,
+                        file_count, module_count, commits_analyzed, analyzers_ran, config_hash
+                    ) VALUES (1, 2, '0.8.0', '2025-01-15T10:00:00Z', '/project',
+                              10, 2, 50, '["structural", "temporal"]', 'abc123')
+                    """
+                )
+
+                # Insert file signal history
+                db.conn.execute(
+                    """
+                    INSERT INTO signal_history (snapshot_id, file_path, signal_name, value, percentile)
+                    VALUES (1, 'main.py', 'cognitive_load', 0.75, 0.85)
+                    """
+                )
+                db.conn.execute(
+                    """
+                    INSERT INTO signal_history (snapshot_id, file_path, signal_name, value, percentile)
+                    VALUES (1, 'main.py', 'pagerank', 0.12, 0.95)
+                    """
+                )
+                db.conn.execute(
+                    """
+                    INSERT INTO signal_history (snapshot_id, file_path, signal_name, value, percentile)
+                    VALUES (1, 'utils.py', 'cognitive_load', 0.30, 0.40)
+                    """
+                )
+
+                # Insert module signal history
+                db.conn.execute(
+                    """
+                    INSERT INTO module_signal_history (snapshot_id, module_path, signal_name, value)
+                    VALUES (1, 'src/', 'cohesion', 0.65)
+                    """
+                )
+                db.conn.execute(
+                    """
+                    INSERT INTO module_signal_history (snapshot_id, module_path, signal_name, value)
+                    VALUES (1, 'src/', 'instability', 0.45)
+                    """
+                )
+
+                # Insert global signal history
+                db.conn.execute(
+                    """
+                    INSERT INTO global_signal_history (snapshot_id, signal_name, value)
+                    VALUES (1, 'modularity', 0.72)
+                    """
+                )
+                db.conn.execute(
+                    """
+                    INSERT INTO global_signal_history (snapshot_id, signal_name, value)
+                    VALUES (1, 'codebase_health', 7.5)
+                    """
+                )
+
+                # Insert a finding
+                db.conn.execute(
+                    """
+                    INSERT INTO findings (
+                        snapshot_id, finding_type, identity_key, severity, title, files, evidence, suggestion
+                    ) VALUES (1, 'high_risk_hub', 'abc123', 0.9, 'Hub in main.py',
+                              '["main.py"]', '[{"signal": "pagerank", "value": 0.12, "percentile": 0.95, "description": "High PageRank"}]',
+                              'Consider refactoring')
+                    """
+                )
+
+                # Insert dependency edge
+                db.conn.execute(
+                    """
+                    INSERT INTO dependency_edges (snapshot_id, src, dst)
+                    VALUES (1, 'main.py', 'utils.py')
+                    """
+                )
+
+                db.conn.commit()
+
+                # Load the TensorSnapshot
+                snap = load_tensor_snapshot(db.conn, 1)
+
+                # Verify metadata
+                assert snap.schema_version == 2
+                assert snap.tool_version == "0.8.0"
+                assert snap.file_count == 10
+                assert snap.module_count == 2
+                assert snap.analyzers_ran == ["structural", "temporal"]
+
+                # Verify file signals
+                assert "main.py" in snap.file_signals
+                assert snap.file_signals["main.py"]["cognitive_load"] == 0.75
+                assert snap.file_signals["main.py"]["pagerank"] == 0.12
+                assert snap.file_signals["main.py"]["percentiles"]["cognitive_load"] == 0.85
+                assert "utils.py" in snap.file_signals
+
+                # Verify module signals
+                assert "src/" in snap.module_signals
+                assert snap.module_signals["src/"]["cohesion"] == 0.65
+                assert snap.module_signals["src/"]["instability"] == 0.45
+
+                # Verify global signals
+                assert snap.global_signals["modularity"] == 0.72
+                assert snap.global_signals["codebase_health"] == 7.5
+
+                # Verify findings
+                assert len(snap.findings) == 1
+                assert snap.findings[0].finding_type == "high_risk_hub"
+                assert snap.findings[0].files == ["main.py"]
+
+                # Verify dependency edges
+                assert len(snap.dependency_edges) == 1
+                assert snap.dependency_edges[0] == ("main.py", "utils.py")
+
+    def test_load_tensor_snapshot_not_found(self):
+        """Test loading non-existent snapshot raises ValueError."""
+        from shannon_insight.persistence.reader import load_tensor_snapshot
+        import pytest
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with HistoryDB(tmpdir) as db:
+                with pytest.raises(ValueError, match="No snapshot with id=999"):
+                    load_tensor_snapshot(db.conn, 999)

@@ -21,35 +21,37 @@ if TYPE_CHECKING:
 # ==============================================================================
 
 
-def _layer_violation_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
-    """Module imports from wrong layer.
-
-    Note: This pattern reads from architecture.violations instead of
-    checking signals directly. It's handled specially in the executor.
-    """
-    # The actual violations are detected during architecture analysis
-    # and stored in store.architecture.violations
-    # The executor will iterate those and create findings
-    return False  # Handled by executor
+def _layer_violation_predicate(store: FactStore, entity: EntityId) -> bool:
+    """Module has layer violations (imports from wrong layer)."""
+    violation_count = store.get_signal(entity, Signal.LAYER_VIOLATION_COUNT, 0)
+    return violation_count > 0
 
 
-def _layer_violation_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:
-    """Fixed severity."""
+def _layer_violation_severity(store: FactStore, entity: EntityId) -> float:
+    """Severity scales with number of violations."""
+    violation_count = store.get_signal(entity, Signal.LAYER_VIOLATION_COUNT, 0)
+    if violation_count >= 5:
+        return 0.75
+    elif violation_count >= 2:
+        return 0.60
     return 0.52
 
 
-def _layer_violation_evidence(store: FactStore, pair: tuple[EntityId, EntityId]) -> dict[str, Any]:
+def _layer_violation_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
     """Build evidence for LAYER_VIOLATION."""
-    # Actual evidence built by executor from violation data
-    return {}
+    return {
+        "layer_violation_count": store.get_signal(entity, Signal.LAYER_VIOLATION_COUNT, 0),
+        "coupling": store.get_signal(entity, Signal.COUPLING, 0),
+        "instability": store.get_signal(entity, Signal.INSTABILITY, 0),
+    }
 
 
 LAYER_VIOLATION = Pattern(
     name="layer_violation",
-    scope=PatternScope.MODULE_PAIR,
+    scope=PatternScope.MODULE,  # Changed from MODULE_PAIR to MODULE
     severity=0.52,
-    requires={"architecture"},  # Requires architecture slot
-    condition="source_layer < target_layer (wrong direction)",
+    requires={Signal.LAYER_VIOLATION_COUNT.value},
+    condition="layer_violation_count > 0",
     predicate=_layer_violation_predicate,
     severity_fn=_layer_violation_severity,
     evidence_fn=_layer_violation_evidence,

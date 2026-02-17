@@ -12,7 +12,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from ..graph.models import CodebaseAnalysis
-from ..infrastructure.entities import EntityId, EntityType
+from ..infrastructure.entities import Entity, EntityId, EntityType
 from ..infrastructure.relations import Relation, RelationType
 from ..infrastructure.signals import Signal
 from ..logging_config import get_logger
@@ -31,7 +31,7 @@ class ArchitectureAnalyzer:
     """Analyzer protocol implementation for architecture detection."""
 
     name = "architecture"
-    requires: set[str] = {"structural"}
+    requires: set[str] = {"structural", "roles"}
     provides: set[str] = {"architecture"}
 
     def analyze(self, store: AnalysisStore) -> None:
@@ -126,6 +126,10 @@ class ArchitectureAnalyzer:
         # Per-module signals
         for module_name, module in architecture.modules.items():
             mod_id = EntityId(EntityType.MODULE, module_name)
+
+            # Ensure module entity exists before setting signals
+            if fs.get_entity(mod_id) is None:
+                fs.add_entity(Entity(id=mod_id, metadata={}))
 
             fs.set_signal(mod_id, Signal.COHESION, module.cohesion)
             fs.set_signal(mod_id, Signal.COUPLING, module.coupling)

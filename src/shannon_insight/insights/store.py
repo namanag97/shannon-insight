@@ -9,7 +9,7 @@ The Slot[T] wrapper provides:
 Slots prevent FM-12 (Slot not populated) crashes by requiring explicit checks.
 
 The AnalysisStore bridges to FactStore infrastructure. The fact_store property
-exposes the underlying FactStore, and _sync_entities() pushes file_metrics
+exposes the underlying FactStore, and _sync_entities() pushes file_syntax
 into it as entities with basic signals.
 """
 
@@ -120,8 +120,8 @@ class AnalysisStore:
 
     # Always-available inputs (set by kernel before analyzers run)
     root_dir: str = ""
-    file_metrics: list[Any] = field(default_factory=list)
     session: AnalysisSession | None = None  # Analysis session with config and tier
+    enable_provenance: bool = False  # Provenance tracking (--trace flag)
 
     # File content cache (populated during syntax extraction to avoid re-reads)
     # Maps relative path -> file content. Cleared after graph analysis completes.
@@ -129,7 +129,10 @@ class AnalysisStore:
 
     def __post_init__(self) -> None:
         """Initialize the underlying FactStore for v2 bridge."""
-        self._fact_store = FactStore(root=self.root_dir)
+        self._fact_store = FactStore(
+            root=self.root_dir,
+            enable_provenance=self.enable_provenance,
+        )
 
     @property
     def fact_store(self) -> FactStore:
@@ -151,26 +154,36 @@ class AnalysisStore:
             - syntax.class_count
             - syntax.import_count
         """
-        # Prefer file_syntax (FileSyntax objects with computed properties)
         if self.file_syntax.available:
+            producer = "scanning"
             for path, syntax in self.file_syntax.value.items():
                 entity_id = EntityId(EntityType.FILE, path)
                 entity = Entity(id=entity_id, metadata={})
                 self._fact_store.add_entity(entity)
-                self._fact_store.set_signal(entity_id, Signal.LINES, syntax.lines)
-                self._fact_store.set_signal(entity_id, Signal.FUNCTION_COUNT, syntax.function_count)
-                self._fact_store.set_signal(entity_id, Signal.CLASS_COUNT, syntax.class_count)
-                self._fact_store.set_signal(entity_id, Signal.IMPORT_COUNT, syntax.import_count)
-        # Fallback to file_metrics for backward compatibility
-        elif self.file_metrics:
-            for fm in self.file_metrics:
-                entity_id = EntityId(EntityType.FILE, fm.path)
-                entity = Entity(id=entity_id, metadata={})
-                self._fact_store.add_entity(entity)
-                self._fact_store.set_signal(entity_id, Signal.LINES, fm.lines)
-                self._fact_store.set_signal(entity_id, Signal.FUNCTION_COUNT, fm.functions)
-                self._fact_store.set_signal(entity_id, Signal.CLASS_COUNT, fm.structs)
-                self._fact_store.set_signal(entity_id, Signal.IMPORT_COUNT, len(fm.imports))
+                self._fact_store.set_signal(
+                    entity_id,
+                    Signal.LINES,
+                    syntax.lines,
+                    producer=producer,
+                )
+                self._fact_store.set_signal(
+                    entity_id,
+                    Signal.FUNCTION_COUNT,
+                    syntax.function_count,
+                    producer=producer,
+                )
+                self._fact_store.set_signal(
+                    entity_id,
+                    Signal.CLASS_COUNT,
+                    syntax.class_count,
+                    producer=producer,
+                )
+                self._fact_store.set_signal(
+                    entity_id,
+                    Signal.IMPORT_COUNT,
+                    syntax.import_count,
+                    producer=producer,
+                )
 
     def get_content(self, rel_path: str) -> str | None:
         """Get file content from cache or read from disk (caches result)."""
@@ -188,7 +201,11 @@ class AnalysisStore:
             return None
 
     def clear_content_cache(self) -> None:
-        """Clear content cache to free memory after graph analysis."""
+        """Clear content cache to free memory.
+
+        Called after signal fusion completes. Must NOT be called before
+        fusion, as compression_ratio computation requires file content.
+        """
         self._content_cache.clear()
 
     @property
@@ -207,7 +224,7 @@ class AnalysisStore:
         """Number of files in the store."""
         if self.file_syntax.available:
             return len(self.file_syntax.value)
-        return len(self.file_metrics)
+        return 0
 
     # Typed slots — each knows if it's populated, why not, and who wrote it
     file_syntax: Slot[dict[str, Any]] = field(default_factory=Slot)
@@ -228,7 +245,6 @@ class AnalysisStore:
         """Track what signal categories have been populated.
 
         Returns set of slot names that have data. 'files' is always present
-        (represents file_metrics which is never wrapped in Slot).
         """
         avail: set[str] = {"files"}
         for name in self._slot_names():

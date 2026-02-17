@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from math import log2
 
-from .models import ChurnSeries, GitHistory
+from .models import ChurnSeries, GitHistory, Trajectory
 
 # Keywords for fix_ratio and refactor_ratio computation
 FIX_KEYWORDS = frozenset({"fix", "bug", "patch", "hotfix", "bugfix", "repair", "issue"})
@@ -21,11 +21,12 @@ def build_churn_series(
 ) -> dict[str, ChurnSeries]:
     """Build per-file churn time series with trajectory classification.
 
-    Trajectory classification via linear regression slope + coefficient of variation:
-    - dormant: total_changes <= 1
-    - stabilizing: negative slope (decreasing over time)
-    - spiking: positive slope AND high coefficient of variation
-    - churning: high coefficient of variation, no clear trend
+    Trajectory classification (per v2 spec temporal-operators.md):
+    - DORMANT: total_changes <= 1 or cv = 0
+    - STABILIZING: negative slope AND cv < 0.5 (decreasing, steady)
+    - SPIKING: positive slope AND cv > 0.5 (increasing, erratic)
+    - CHURNING: cv > 0.5 (erratic, no clear trend)
+    - STABLE: cv <= 0.5 (steady, no strong trend)
     """
     if not history.commits:
         return {}
@@ -142,32 +143,51 @@ def _compute_cv(counts: list[int], total: int) -> float:
 def _classify_trajectory(
     counts: list[int], total: int, slope: float, cv: float | None = None
 ) -> str:
-    """Classify churn trajectory.
+    """Classify churn trajectory per v2 spec (temporal-operators.md).
+
+    Classification rules:
+    - DORMANT: total_changes <= 1 OR cv = 0
+    - STABILIZING: slope < -threshold AND cv < 0.5 (decreasing, steady)
+    - SPIKING: slope > threshold AND cv > 0.5 (increasing, erratic)
+    - CHURNING: cv > 0.5 (erratic, no clear trend)
+    - STABLE: cv <= 0.5 (steady, no strong trend)
+
+    The CV threshold of 0.5 distinguishes erratic (CHURNING/SPIKING) from
+    steady (STABLE/STABILIZING). See temporal-operators.md for rationale.
 
     Args:
         counts: Changes per time window
         total: Total change count
         slope: Linear regression slope
         cv: Coefficient of variation (computed if None for backward compat)
+
+    Returns:
+        Trajectory enum value (str-compatible for JSON serialization)
     """
+    # Threshold for "significant" slope
+    SLOPE_THRESHOLD = 0.1
+    # CV threshold per spec: 0.5 distinguishes erratic from steady
+    CV_THRESHOLD = 0.5
+
     if total <= 1:
-        return "dormant"
+        return Trajectory.DORMANT
 
     # Compute CV if not provided (backward compat)
     if cv is None:
         cv = _compute_cv(counts, total)
 
     if cv == 0:
-        return "dormant"
+        return Trajectory.DORMANT
 
-    if slope < -0.1:
-        return "stabilizing"
-    elif slope > 0.1 and cv > 1.0:
-        return "spiking"
-    elif cv > 0.8:
-        return "churning"
+    # Classification per v2 spec
+    if slope < -SLOPE_THRESHOLD and cv < CV_THRESHOLD:
+        return Trajectory.STABILIZING
+    elif slope > SLOPE_THRESHOLD and cv > CV_THRESHOLD:
+        return Trajectory.SPIKING
+    elif cv > CV_THRESHOLD:
+        return Trajectory.CHURNING
     else:
-        return "stabilizing"
+        return Trajectory.STABLE
 
 
 def _compute_author_entropy(author_counts: Counter[str]) -> float:

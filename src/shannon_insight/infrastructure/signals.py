@@ -107,6 +107,7 @@ class Signal(Enum):
     AUTHOR_ENTROPY = "author_entropy"  # 32
     FIX_RATIO = "fix_ratio"  # 33
     REFACTOR_RATIO = "refactor_ratio"  # 34
+    CHANGE_ENTROPY = "change_entropy"  # 34a (added: was computed but not registered)
 
     # ── IR5s: Per-file composites (phase 5) ──────────────────────────
     RISK_SCORE = "risk_score"  # 35
@@ -594,8 +595,8 @@ register(
         percentileable=True,
         polarity="neutral",
         absolute_threshold=None,
-        produced_by="scanning",
-        phase=0,
+        produced_by="signals/fusion",  # Computed in fusion.py step1_collect
+        phase=5,  # Available when fusion runs
     )
 )
 
@@ -607,8 +608,8 @@ register(
         percentileable=True,
         polarity="high_is_good",
         absolute_threshold=None,
-        produced_by="graph/measurements",
-        phase=2,
+        produced_by="signals/fusion",  # Computed in fusion.py from semantics.concept_entropy
+        phase=5,  # Requires semantics slot (phase 2) but computed in fusion (phase 5)
     )
 )
 
@@ -620,8 +621,8 @@ register(
         percentileable=True,
         polarity="high_is_bad",
         absolute_threshold=None,
-        produced_by="signals",
-        phase=1,
+        produced_by="signals/fusion",  # Computed in fusion.py from file_syntax
+        phase=5,  # Requires syntax (phase 0-1) but computed in fusion (phase 5)
     )
 )
 
@@ -725,6 +726,19 @@ register(
         scope="file",
         percentileable=True,
         polarity="high_is_good",
+        absolute_threshold=None,
+        produced_by="temporal/churn",
+        phase=3,
+    )
+)
+
+register(
+    SignalMeta(
+        signal=Signal.CHANGE_ENTROPY,
+        dtype=float,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",  # High entropy = scattered changes = harder to predict
         absolute_threshold=None,
         produced_by="temporal/churn",
         phase=3,

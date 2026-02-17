@@ -23,8 +23,8 @@ class DashboardSerializer:
 
     Transformation rules:
     - Health scores: ALWAYS 1-10 scale (multiply raw 0-1 values by 10)
-    - Risk scores: ALWAYS 0-1 scale (percentile / 100)
-    - Percentiles: ALWAYS 0-100 (not 0-1)
+    - Risk scores: ALWAYS 0-1 scale
+    - Percentiles: ALWAYS 0-1 scale
     - Counts: ALWAYS integers
     - Ratios: ALWAYS 0-1 (frontend formats as %)
     """

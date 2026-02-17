@@ -53,7 +53,7 @@ def compute_severity_from_percentiles(
     """Compute severity from weighted percentiles.
 
     Args:
-        percentiles: Dict of signal_name -> percentile (0-1)
+        percentiles: Dict of signal_name -> percentile (0-100)
         weights: Dict of signal_name -> weight (should sum to 1.0)
         base_severity: Minimum severity floor
         max_severity: Maximum severity cap
@@ -69,7 +69,8 @@ def compute_severity_from_percentiles(
 
     for signal, weight in weights.items():
         if signal in percentiles:
-            weighted_sum += percentiles[signal] * weight
+            # Convert 0-100 percentile to 0-1 for severity calculation
+            weighted_sum += (percentiles[signal] / 100.0) * weight
             total_weight += weight
 
     if total_weight == 0:

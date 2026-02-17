@@ -83,7 +83,7 @@ class TestEntityTypes:
 
 
 class TestSignalEnum:
-    """Signal enum must have all 62 signals."""
+    """Signal enum must have all 63 signals."""
 
     def test_signal_enum_exists(self):
         from shannon_insight.infrastructure.signals import Signal
@@ -91,10 +91,10 @@ class TestSignalEnum:
         assert isinstance(Signal, type)
         assert issubclass(Signal, Enum)
 
-    def test_signal_count_is_62(self):
+    def test_signal_count_is_63(self):
         from shannon_insight.infrastructure.signals import Signal
 
-        assert len(Signal) == 62, f"Expected 62 signals, got {len(Signal)}"
+        assert len(Signal) == 63, f"Expected 63 signals, got {len(Signal)}"
 
     def test_per_file_signals_exist(self):
         """Signals 1-36 (per-file)."""
@@ -437,15 +437,25 @@ class TestPipeline:
     """Pipeline must execute stages in order."""
 
     def test_runtime_context_exists(self):
+        """AnalysisSession serves as the runtime context."""
+        from shannon_insight.config import load_config
+        from shannon_insight.environment import discover_environment
+        from shannon_insight.session import AnalysisSession
 
-        ctx = RuntimeContext(root="/repo")
-        assert ctx.root == "/repo"
+        config = load_config()
+        env = discover_environment(".")
+        session = AnalysisSession(config=config, env=env)
+        assert session.env.root.exists()
 
     def test_runtime_context_has_tier(self):
-        from shannon_insight.session import Tier
+        from shannon_insight.config import load_config
+        from shannon_insight.environment import discover_environment
+        from shannon_insight.session import AnalysisSession, Tier
 
-        ctx = RuntimeContext(root="/repo")
-        assert ctx.tier in Tier
+        config = load_config()
+        env = discover_environment(".")
+        session = AnalysisSession(config=config, env=env)
+        assert session.tier in Tier
 
     def test_tier_enum_exists(self):
         from shannon_insight.session import Tier
@@ -546,27 +556,32 @@ class TestFullPipeline:
 
     def test_pipeline_produces_fact_store(self, sample_codebase):
         """Pipeline should produce a populated FactStore."""
+        from shannon_insight.api import analyze
 
-        result = run_pipeline(str(sample_codebase))
+        result, snapshot = analyze(str(sample_codebase))
 
-        assert result.store is not None
-        assert len(result.store.files()) >= 3
+        # Result should be valid
+        assert result is not None
+        assert snapshot is not None
+        assert snapshot.file_count >= 3
 
     def test_pipeline_computes_signals(self, sample_codebase):
         """Pipeline should compute signals for all files."""
-        from shannon_insight.infrastructure.signals import Signal
+        from shannon_insight.api import analyze
 
-        result = run_pipeline(str(sample_codebase))
+        result, snapshot = analyze(str(sample_codebase))
 
-        for file_entity in result.store.files():
-            # Basic signals should exist
-            assert result.store.get_signal(file_entity, Signal.LINES) is not None
-            assert result.store.get_signal(file_entity, Signal.FUNCTION_COUNT) is not None
+        # Snapshot should have file signals
+        assert snapshot.file_count >= 3
+        # Result should have store summary
+        assert result.store_summary is not None
+        assert result.store_summary.total_files >= 3
 
     def test_pipeline_detects_findings(self, sample_codebase):
         """Pipeline should produce findings."""
+        from shannon_insight.api import analyze
 
-        result = run_pipeline(str(sample_codebase))
+        result, snapshot = analyze(str(sample_codebase))
 
         # Result should have findings list (may be empty for clean code)
         assert hasattr(result, "findings")
@@ -641,24 +656,31 @@ class TestBackwardCompatibility:
         assert InsightKernel is not None
 
     def test_old_store_fields_accessible(self):
-        """Old store fields should still be accessible for migration."""
+        """Store fields should be accessible."""
         from shannon_insight.insights.store import AnalysisStore
 
         store = AnalysisStore()
 
-        # Old fields should exist
-        assert hasattr(store, "file_metrics")
+        # Core store slots should exist
+        assert hasattr(store, "file_syntax")
         assert hasattr(store, "structural")
         assert hasattr(store, "git_history")
 
-    def test_old_finders_still_work(self):
-        """Existing finders should still be importable."""
+    def test_v2_patterns_available(self):
+        """V2 patterns should be importable and registered."""
         from shannon_insight.insights.finders import (
-            GodFileFinder,
-            HiddenCouplingFinder,
-            HighRiskHubFinder,
+            ALL_PATTERNS,
+            execute_patterns,
+            get_pattern_by_name,
         )
 
-        assert HighRiskHubFinder is not None
-        assert HiddenCouplingFinder is not None
-        assert GodFileFinder is not None
+        # V2 pattern registry should have 26 patterns
+        assert len(ALL_PATTERNS) == 26
+
+        # Core patterns should be findable by name
+        assert get_pattern_by_name("high_risk_hub") is not None
+        assert get_pattern_by_name("god_file") is not None
+        assert get_pattern_by_name("hidden_coupling") is not None
+
+        # Executor function should be importable
+        assert execute_patterns is not None

@@ -7,7 +7,6 @@ cognitive load work correctly across all 7 supported languages.
 import tempfile
 from pathlib import Path
 
-from shannon_insight import InsightKernel
 from shannon_insight.math import Compression, Gini, IdentifierAnalyzer
 
 # ---------------------------------------------------------------------------
@@ -449,43 +448,48 @@ class TestCrossLanguagePrimitives:
     """Test that the insight pipeline produces meaningful results across languages."""
 
     def test_go_pipeline_runs(self):
+        from shannon_insight.api import analyze
+
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.go").write_text(GO_FOCUSED)
             (d / "processor.go").write_text(GO_MIXED)
             (d / "util.go").write_text(GO_UTIL)
 
-            kernel = InsightKernel(str(d), language="go")
-            result, snapshot = kernel.run()
+            result, snapshot = analyze(str(d))
 
             assert snapshot.file_count == 3
 
     def test_python_pipeline_runs(self):
+        from shannon_insight.api import analyze
+
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.py").write_text(PYTHON_FOCUSED)
             (d / "processor.py").write_text(PYTHON_MIXED)
             (d / "util.py").write_text(PYTHON_UTIL)
 
-            kernel = InsightKernel(str(d), language="python")
-            result, snapshot = kernel.run()
+            result, snapshot = analyze(str(d))
 
             assert snapshot.file_count == 3
 
     def test_typescript_pipeline_runs(self):
+        from shannon_insight.api import analyze
+
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.ts").write_text(TS_FOCUSED)
             (d / "processor.ts").write_text(TS_MIXED)
             (d / "util.ts").write_text(TS_UTIL)
 
-            kernel = InsightKernel(str(d), language="typescript")
-            result, snapshot = kernel.run()
+            result, snapshot = analyze(str(d))
 
             assert snapshot.file_count == 3
 
     def test_auto_detect_multilang(self):
         """Auto-detect should handle Go + Python + TypeScript together."""
+        from shannon_insight.api import analyze
+
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.go").write_text(GO_FOCUSED)
@@ -498,8 +502,7 @@ class TestCrossLanguagePrimitives:
             (d / "processor.ts").write_text(TS_MIXED)
             (d / "util.ts").write_text(TS_UTIL)
 
-            kernel = InsightKernel(str(d), language="auto")
-            result, snapshot = kernel.run()
+            result, snapshot = analyze(str(d))
 
             assert snapshot.file_count >= 9
 
@@ -602,55 +605,59 @@ class TestGiniCrossLanguage:
     """Gini coefficient on function sizes across languages."""
 
     def test_go_function_sizes_extracted(self):
-        """Go scanner should extract function sizes."""
+        """Go files should have function sizes extracted."""
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "main.go").write_text(GO_FOCUSED)
             (d / "proc.go").write_text(GO_MIXED)
             (d / "util.go").write_text(GO_UTIL)
 
-            from shannon_insight.scanning import GoScanner
+            from shannon_insight.scanning import SyntaxExtractor
 
-            scanner = GoScanner(str(d))
-            files = scanner.scan()
+            extractor = SyntaxExtractor()
+            files = extractor.extract_all([d / "main.go", d / "proc.go", d / "util.go"], d)
 
-            for f in files:
-                assert isinstance(f.function_sizes, list)
-                assert len(f.function_sizes) > 0, f"{f.path} should have functions"
+            for path, syntax in files.items():
+                assert isinstance(syntax.function_sizes, list)
+                assert len(syntax.function_sizes) > 0, f"{path} should have functions"
 
     def test_python_function_sizes_extracted(self):
-        """Python scanner should extract function sizes."""
+        """Python files should have function sizes extracted."""
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.py").write_text(PYTHON_FOCUSED)
             (d / "processor.py").write_text(PYTHON_MIXED)
             (d / "util.py").write_text(PYTHON_UTIL)
 
-            from shannon_insight.scanning import PythonScanner
+            from shannon_insight.scanning import SyntaxExtractor
 
-            scanner = PythonScanner(str(d))
-            files = scanner.scan()
+            extractor = SyntaxExtractor()
+            files = extractor.extract_all(
+                [d / "validator.py", d / "processor.py", d / "util.py"], d
+            )
 
-            for f in files:
-                assert isinstance(f.function_sizes, list)
-                assert len(f.function_sizes) > 0, f"{f.path} should have functions"
+            for path, syntax in files.items():
+                assert isinstance(syntax.function_sizes, list)
+                assert len(syntax.function_sizes) > 0, f"{path} should have functions"
 
     def test_typescript_function_sizes_extracted(self):
-        """TypeScript scanner should extract function sizes."""
+        """TypeScript files should have function sizes extracted."""
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.ts").write_text(TS_FOCUSED)
             (d / "processor.ts").write_text(TS_MIXED)
             (d / "util.ts").write_text(TS_UTIL)
 
-            from shannon_insight.scanning import TypeScriptScanner
+            from shannon_insight.scanning import SyntaxExtractor
 
-            scanner = TypeScriptScanner(str(d))
-            files = scanner.scan()
+            extractor = SyntaxExtractor()
+            files = extractor.extract_all(
+                [d / "validator.ts", d / "processor.ts", d / "util.ts"], d
+            )
 
-            for f in files:
-                assert isinstance(f.function_sizes, list)
-                assert len(f.function_sizes) > 0, f"{f.path} should have functions"
+            for path, syntax in files.items():
+                assert isinstance(syntax.function_sizes, list)
+                assert len(syntax.function_sizes) > 0, f"{path} should have functions"
 
     def test_mixed_file_higher_gini(self):
         """Mixed-responsibility files with unequal functions should have higher Gini."""
@@ -661,15 +668,17 @@ class TestGiniCrossLanguage:
             (d / "processor.go").write_text(GO_MIXED)
             (d / "util.go").write_text(GO_UTIL)
 
-            from shannon_insight.scanning import GoScanner
+            from shannon_insight.scanning import SyntaxExtractor
 
-            scanner = GoScanner(str(d))
-            files = scanner.scan()
+            extractor = SyntaxExtractor()
+            files = extractor.extract_all(
+                [d / "validator.go", d / "processor.go", d / "util.go"], d
+            )
 
             file_ginis = {}
-            for f in files:
-                if f.function_sizes and len(f.function_sizes) > 1:
-                    file_ginis[f.path] = Gini.gini_coefficient(f.function_sizes)
+            for path, syntax in files.items():
+                if syntax.function_sizes and len(syntax.function_sizes) > 1:
+                    file_ginis[path] = Gini.gini_coefficient(syntax.function_sizes)
 
             assert len(file_ginis) > 0, "Should have at least one file with Gini"
 
@@ -683,14 +692,15 @@ class TestFindingSuggestions:
 
     def test_findings_have_suggestions(self):
         """Findings should include suggestions."""
+        from shannon_insight.api import analyze
+
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.go").write_text(GO_FOCUSED)
             (d / "processor.go").write_text(GO_MIXED)
             (d / "util.go").write_text(GO_UTIL)
 
-            kernel = InsightKernel(str(d), language="go")
-            result, snapshot = kernel.run()
+            result, snapshot = analyze(str(d))
 
             for finding in result.findings:
                 assert finding.suggestion is not None
@@ -698,14 +708,15 @@ class TestFindingSuggestions:
 
     def test_findings_have_evidence(self):
         """Findings should include evidence."""
+        from shannon_insight.api import analyze
+
         with tempfile.TemporaryDirectory() as tmpdir:
             d = Path(tmpdir)
             (d / "validator.py").write_text(PYTHON_FOCUSED)
             (d / "processor.py").write_text(PYTHON_MIXED)
             (d / "util.py").write_text(PYTHON_UTIL)
 
-            kernel = InsightKernel(str(d), language="python")
-            result, snapshot = kernel.run()
+            result, snapshot = analyze(str(d))
 
             for finding in result.findings:
                 assert len(finding.evidence) > 0

@@ -1,11 +1,16 @@
 """Analyzer implementations — fill the AnalysisStore."""
 
+from typing import TYPE_CHECKING
+
 from .spectral import SpectralAnalyzer
 from .structural import StructuralAnalyzer
 from .temporal import TemporalAnalyzer
 
+if TYPE_CHECKING:
+    from ...config import AnalysisConfig
 
-def get_default_analyzers() -> list:
+
+def get_default_analyzers(config: "AnalysisConfig") -> list:
     """Return Wave 1 analyzers (topo-sorted by requires/provides).
 
     Order is determined by requires/provides dependencies:
@@ -14,13 +19,23 @@ def get_default_analyzers() -> list:
     3. SpectralAnalyzer: requires structural, provides spectral
     4. SemanticAnalyzer: requires file_syntax, provides semantics/roles
     5. ArchitectureAnalyzer: requires structural, provides architecture
+
+    Args:
+        config: Analysis configuration with algorithm parameters
     """
     from shannon_insight.architecture.analyzer import ArchitectureAnalyzer
     from shannon_insight.semantics.analyzer import SemanticAnalyzer
 
     return [
-        StructuralAnalyzer(),
-        TemporalAnalyzer(),
+        StructuralAnalyzer(
+            pagerank_damping=config.pagerank_damping,
+            pagerank_iterations=config.pagerank_iterations,
+            pagerank_tolerance=config.pagerank_tolerance,
+        ),
+        TemporalAnalyzer(
+            max_commits=config.git_max_commits,
+            min_commits=config.git_min_commits,
+        ),
         SpectralAnalyzer(),
         SemanticAnalyzer(),
         ArchitectureAnalyzer(),

@@ -20,6 +20,7 @@ from shannon_insight.infrastructure.thresholds import (
     compute_hotspot_median,
     is_hotspot,
 )
+from shannon_insight.session import Tier
 from shannon_insight.signals.models import FileSignals, SignalField
 from shannon_insight.signals.registry import REGISTRY, Signal
 
@@ -29,19 +30,19 @@ from shannon_insight.signals.registry import REGISTRY, Signal
 @pytest.fixture
 def full_field() -> SignalField:
     """SignalField with FULL tier and sample files."""
-    return SignalField(tier="FULL")
+    return SignalField(tier=Tier.FULL)
 
 
 @pytest.fixture
 def bayesian_field() -> SignalField:
     """SignalField with BAYESIAN tier."""
-    return SignalField(tier="BAYESIAN")
+    return SignalField(tier=Tier.BAYESIAN)
 
 
 @pytest.fixture
 def absolute_field() -> SignalField:
     """SignalField with ABSOLUTE tier (no percentiles)."""
-    return SignalField(tier="ABSOLUTE")
+    return SignalField(tier=Tier.ABSOLUTE)
 
 
 def _make_fs(
@@ -355,7 +356,7 @@ class TestComputeHotspotMedian:
 
     def test_odd_count(self):
         """Odd number of active files: median is the middle value."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "a.py": _make_fs(path="a.py", total_changes=5),
             "b.py": _make_fs(path="b.py", total_changes=10),
@@ -366,7 +367,7 @@ class TestComputeHotspotMedian:
 
     def test_even_count_uses_lower_median(self):
         """Even number of active files: uses lower median (conservative)."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "a.py": _make_fs(path="a.py", total_changes=5),
             "b.py": _make_fs(path="b.py", total_changes=10),
@@ -379,7 +380,7 @@ class TestComputeHotspotMedian:
 
     def test_excludes_zero_change_files(self):
         """Files with total_changes=0 are excluded from median."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "zero.py": _make_fs(path="zero.py", total_changes=0),
             "a.py": _make_fs(path="a.py", total_changes=5),
@@ -392,7 +393,7 @@ class TestComputeHotspotMedian:
 
     def test_excludes_test_files(self):
         """Files with role=TEST are excluded from median."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "test_a.py": _make_fs(path="test_a.py", total_changes=100, role="TEST"),
             "a.py": _make_fs(path="a.py", total_changes=5),
@@ -405,7 +406,7 @@ class TestComputeHotspotMedian:
 
     def test_all_zero_changes_returns_zero(self):
         """All files have 0 changes: median is 0."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "a.py": _make_fs(path="a.py", total_changes=0),
             "b.py": _make_fs(path="b.py", total_changes=0),
@@ -415,13 +416,13 @@ class TestComputeHotspotMedian:
 
     def test_empty_signal_field_returns_zero(self):
         """Empty per_file dict: median is 0."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         median = compute_hotspot_median(field)
         assert median == 0
 
     def test_single_active_file(self):
         """Single active file: median is that file's changes."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "only.py": _make_fs(path="only.py", total_changes=42),
         }
@@ -430,7 +431,7 @@ class TestComputeHotspotMedian:
 
     def test_all_test_files_returns_zero(self):
         """All files are TEST role: median is 0."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "test_a.py": _make_fs(path="test_a.py", total_changes=50, role="TEST"),
             "test_b.py": _make_fs(path="test_b.py", total_changes=30, role="TEST"),
@@ -479,7 +480,7 @@ class TestThresholdIntegration:
 
     def test_bug_attractor_pattern(self):
         """Simulate BugAttractorFinder's threshold checks."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "risky.py": _make_fs(
                 path="risky.py",
@@ -512,7 +513,7 @@ class TestThresholdIntegration:
 
     def test_god_file_pattern(self):
         """Simulate GodFileFinder's threshold checks (high-is-bad + high-is-good)."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         field.per_file = {
             "god.py": _make_fs(
                 path="god.py",
@@ -536,7 +537,7 @@ class TestThresholdIntegration:
 
     def test_knowledge_silo_pattern_absolute_tier(self):
         """Knowledge silo detection in ABSOLUTE tier falls back to registry."""
-        field = SignalField(tier="ABSOLUTE")
+        field = SignalField(tier=Tier.ABSOLUTE)
         field.per_file = {
             "silo.py": _make_fs(
                 path="silo.py",

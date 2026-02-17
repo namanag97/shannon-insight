@@ -20,7 +20,7 @@ _MIN_COMMITS = 10
 
 class TemporalAnalyzer:
     name = "temporal"
-    requires: set[str] = {"files"}
+    requires: set[str] = set()  # No deps - git extraction is independent
     provides: set[str] = {"git_history", "cochange", "churn", "author_distances"}
 
     def __init__(self, max_commits: int = 5000, min_commits: int = _MIN_COMMITS):
@@ -98,7 +98,7 @@ class TemporalAnalyzer:
             fs.set_signal(entity_id, Signal.CHURN_TRAJECTORY, cs.trajectory)
             fs.set_signal(entity_id, Signal.CHURN_SLOPE, cs.slope)
 
-        # COCHANGES_WITH relations (weighted by lift)
+        # COCHANGES_WITH relations (weighted by lift, with full metadata)
         for (file_a, file_b), pair in cochange.pairs.items():
             src_id = EntityId(EntityType.FILE, file_a)
             tgt_id = EntityId(EntityType.FILE, file_b)
@@ -108,6 +108,12 @@ class TemporalAnalyzer:
                     source=src_id,
                     target=tgt_id,
                     weight=pair.lift,
+                    metadata={
+                        "lift": pair.lift,
+                        "confidence_a_b": pair.confidence_a_b,
+                        "confidence_b_a": pair.confidence_b_a,
+                        "cochange_count": pair.cochange_count,
+                    },
                 )
             )
 

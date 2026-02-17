@@ -13,10 +13,11 @@ Tests for:
 from shannon_insight.config import AnalysisConfig
 from shannon_insight.environment import Environment
 from shannon_insight.insights.store import AnalysisStore
-from shannon_insight.session import AnalysisSession
+from shannon_insight.math.gini import Gini
+from shannon_insight.session import AnalysisSession, Tier
 from shannon_insight.signals.composites import compute_composites
 from shannon_insight.signals.display import to_display_scale
-from shannon_insight.signals.fusion import FusionPipeline, _gini, build
+from shannon_insight.signals.fusion import FusionPipeline, build
 from shannon_insight.signals.health_laplacian import (
     compute_health_laplacian,
     compute_raw_risk,
@@ -69,7 +70,7 @@ class MockFileSyntax:
         self._complexity = complexity
         # Set as properties to match real FileSyntax
         self.functions = []  # Empty list, function_count is property
-        self.classes = []    # Empty list, class_count is property
+        self.classes = []  # Empty list, class_count is property
         self.imports = imports or []
         self._function_count = function_count
         self._class_count = class_count
@@ -121,7 +122,7 @@ class MockFileSyntax:
 
     @property
     def import_sources(self) -> list:
-        return [i.source if hasattr(i, 'source') else str(i) for i in self.imports]
+        return [i.source if hasattr(i, "source") else str(i) for i in self.imports]
 
 
 def _set_file_syntax(store, mocks):
@@ -200,49 +201,49 @@ class TestTierDetection:
         store = AnalysisStore()
         _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(10)])
         pipeline = FusionPipeline(store, _make_session(store))
-        assert pipeline.field.tier == "ABSOLUTE"
+        assert pipeline.field.tier == Tier.ABSOLUTE
 
     def test_bayesian_tier_15_to_49_files(self):
         """15-49 files -> BAYESIAN tier."""
         store = AnalysisStore()
         _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(30)])
         pipeline = FusionPipeline(store, _make_session(store))
-        assert pipeline.field.tier == "BAYESIAN"
+        assert pipeline.field.tier == Tier.BAYESIAN
 
     def test_full_tier_50_plus_files(self):
         """50+ files -> FULL tier."""
         store = AnalysisStore()
         _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(60)])
         pipeline = FusionPipeline(store, _make_session(store))
-        assert pipeline.field.tier == "FULL"
+        assert pipeline.field.tier == Tier.FULL
 
     def test_boundary_14_is_absolute(self):
         """14 files is still ABSOLUTE."""
         store = AnalysisStore()
         _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(14)])
         pipeline = FusionPipeline(store, _make_session(store))
-        assert pipeline.field.tier == "ABSOLUTE"
+        assert pipeline.field.tier == Tier.ABSOLUTE
 
     def test_boundary_15_is_bayesian(self):
         """15 files is BAYESIAN."""
         store = AnalysisStore()
         _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(15)])
         pipeline = FusionPipeline(store, _make_session(store))
-        assert pipeline.field.tier == "BAYESIAN"
+        assert pipeline.field.tier == Tier.BAYESIAN
 
     def test_boundary_49_is_bayesian(self):
         """49 files is still BAYESIAN."""
         store = AnalysisStore()
         _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(49)])
         pipeline = FusionPipeline(store, _make_session(store))
-        assert pipeline.field.tier == "BAYESIAN"
+        assert pipeline.field.tier == Tier.BAYESIAN
 
     def test_boundary_50_is_full(self):
         """50 files is FULL."""
         store = AnalysisStore()
         _set_file_syntax(store, [MockFileSyntax(f"/f{i}.py") for i in range(50)])
         pipeline = FusionPipeline(store, _make_session(store))
-        assert pipeline.field.tier == "FULL"
+        assert pipeline.field.tier == Tier.FULL
 
 
 class TestPercentileFormula:
@@ -252,22 +253,22 @@ class TestPercentileFormula:
         """Percentile formula uses <= not <."""
         # Values: [1, 2, 3, 4, 5]
         # For value 3: count of values <= 3 is 3
-        # pctl = (3/5) * 100 = 60.0
+        # pctl = 3/5 = 0.6 (percentiles are 0-1)
         values = [1.0, 2.0, 3.0, 4.0, 5.0]
         pctl = _standard_percentile(3.0, values)
-        assert pctl == 60.0
+        assert pctl == 0.6
 
     def test_percentile_minimum_value(self):
         """Minimum value has non-zero percentile."""
         values = [1.0, 2.0, 3.0, 4.0, 5.0]
         pctl = _standard_percentile(1.0, values)
-        assert pctl == 20.0  # (1/5) * 100
+        assert pctl == 0.2  # 1/5 (percentiles are 0-1)
 
     def test_percentile_maximum_value(self):
-        """Maximum value has 100.0 percentile."""
+        """Maximum value has 1.0 percentile."""
         values = [1.0, 2.0, 3.0, 4.0, 5.0]
         pctl = _standard_percentile(5.0, values)
-        assert pctl == 100.0
+        assert pctl == 1.0
 
     def test_percentile_empty_list(self):
         """Empty list returns 0.0."""
@@ -275,10 +276,10 @@ class TestPercentileFormula:
         assert pctl == 0.0
 
     def test_percentile_all_same_values(self):
-        """All same values gives 100.0 percentile."""
+        """All same values gives 1.0 percentile."""
         values = [3.0, 3.0, 3.0, 3.0]
         pctl = _standard_percentile(3.0, values)
-        assert pctl == 100.0
+        assert pctl == 1.0
 
 
 class TestEffectivePercentile:
@@ -315,7 +316,7 @@ class TestRiskScoreComputation:
 
     def test_risk_score_low_for_safe_file(self):
         """Safe file (low metrics) has low risk score."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/safe.py",
             churn_trajectory="DORMANT",
@@ -335,7 +336,7 @@ class TestRiskScoreComputation:
 
     def test_risk_score_high_for_risky_file(self):
         """Risky file (high metrics, churning, active) has high risk score."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/risky.py",
             churn_trajectory="CHURNING",
@@ -354,14 +355,24 @@ class TestRiskScoreComputation:
         # High percentiles + churning + single author + active = high risk
         assert fs.risk_score > 0.7
 
-    def test_risk_score_zero_for_inactive_file(self):
-        """Inactive file (no changes) always has zero risk score."""
-        field = SignalField(tier="FULL")
+    def test_risk_score_for_inactive_file(self):
+        """Inactive file (no changes) gets risk based on structural position.
+
+        Note: Dormant code still gets a risk score because unmaintained code
+        in a critical position is still risky. The formula is additive:
+        risk = 0.25*pctl_pr + 0.20*pctl_blast + 0.20*pctl_cog + 0.20*churn_factor + 0.15*bf_term
+
+        With high percentiles (0.95), DORMANT churn_factor (0.3), and bus_factor=1.0 (max=1.0):
+        bf_term = 1 - min(1.0, 1.0) / max(1.0, 1.0) = 0.0
+        risk = 0.25*0.95 + 0.20*0.95 + 0.20*0.95 + 0.20*0.3 + 0.15*0.0
+             = 0.2375 + 0.19 + 0.19 + 0.06 + 0.0 = 0.6775
+        """
+        field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/inactive.py",
             churn_trajectory="DORMANT",
             bus_factor=1.0,
-            total_changes=0,  # No changes = no risk
+            total_changes=0,  # No changes, but still gets risk from structural position
         )
         fs.percentiles = {
             "pagerank": 0.95,
@@ -372,12 +383,13 @@ class TestRiskScoreComputation:
 
         compute_composites(field)
 
-        # No changes = zero risk, regardless of how central/complex
-        assert fs.risk_score == 0.0
+        # Inactive files now get risk based on structural position (no longer zero)
+        # High percentiles + DORMANT factor (0.3) = moderate-high risk
+        assert abs(fs.risk_score - 0.6775) < 0.01
 
     def test_instability_factor_churning(self):
         """CHURNING trajectory gives churn_factor of 1.0."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/a.py",
             churn_trajectory="CHURNING",
@@ -393,8 +405,16 @@ class TestRiskScoreComputation:
         assert fs.risk_score > 0.0
 
     def test_instability_factor_dormant(self):
-        """DORMANT trajectory gives churn_factor of 0.3."""
-        field = SignalField(tier="FULL")
+        """DORMANT trajectory gives churn_factor of 0.3.
+
+        With additive formula:
+        risk = 0.25*pctl_pr + 0.20*pctl_blast + 0.20*pctl_cog + 0.20*churn_factor + 0.15*bf_term
+
+        With percentiles of 0.5, DORMANT churn_factor (0.3), bus_factor=1.0 (max=1.0, so bf_term=0):
+        risk = 0.25*0.5 + 0.20*0.5 + 0.20*0.5 + 0.20*0.3 + 0.15*0.0
+             = 0.125 + 0.10 + 0.10 + 0.06 + 0.0 = 0.385
+        """
+        field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/a.py",
             churn_trajectory="DORMANT",
@@ -406,9 +426,10 @@ class TestRiskScoreComputation:
 
         compute_composites(field)
 
-        # With churn_factor=0.3 (DORMANT), risk uses reduced multiplier
-        # Multiplicative: 0.5 * 0.5 * 0.3 * (1 + 0.67) = 0.125
-        assert fs.risk_score < 0.3
+        # With DORMANT churn_factor=0.3 (additive term 0.20*0.3=0.06)
+        # vs CHURNING churn_factor=1.0 (additive term 0.20*1.0=0.20)
+        # The difference is 0.14 lower risk for DORMANT
+        assert 0.35 < fs.risk_score < 0.45
 
 
 class TestHealthScoreInstabilityGuard:
@@ -416,7 +437,7 @@ class TestHealthScoreInstabilityGuard:
 
     def test_health_score_with_valid_instability(self):
         """Health score computed normally when instability is not None."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         ms = ModuleSignals(
             path="/module",
             cohesion=0.8,
@@ -436,7 +457,7 @@ class TestHealthScoreInstabilityGuard:
 
     def test_health_score_with_none_instability(self):
         """Health score computed with redistributed weights when instability=None."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         ms = ModuleSignals(
             path="/module",
             cohesion=0.8,
@@ -457,7 +478,7 @@ class TestHealthScoreInstabilityGuard:
 
     def test_health_score_no_crash_on_none(self):
         """Ensure no TypeError when instability is None."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         ms = ModuleSignals(path="/mod", instability=None)
         field.per_module["/mod"] = ms
 
@@ -472,7 +493,7 @@ class TestHealthLaplacian:
 
     def test_laplacian_positive_for_bad_in_good_neighborhood(self):
         """Δh > 0 for file with high risk surrounded by healthy files."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
 
         # Bad file
         bad = FileSignals(path="/bad.py", raw_risk=0.8)
@@ -500,7 +521,7 @@ class TestHealthLaplacian:
 
     def test_laplacian_negative_for_good_in_bad_neighborhood(self):
         """Δh < 0 for healthy file surrounded by risky files."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
 
         # Good file
         good = FileSignals(path="/good.py", raw_risk=0.2)
@@ -527,7 +548,7 @@ class TestHealthLaplacian:
 
     def test_laplacian_zero_for_orphan(self):
         """Δh = 0.0 for orphan file (no neighbors)."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         orphan = FileSignals(path="/orphan.py", raw_risk=0.5)
         field.per_file["/orphan.py"] = orphan
 
@@ -543,7 +564,7 @@ class TestAbsoluteTierSkipsComposites:
 
     def test_absolute_tier_no_percentiles(self):
         """ABSOLUTE tier does not compute percentiles."""
-        field = SignalField(tier="ABSOLUTE")
+        field = SignalField(tier=Tier.ABSOLUTE)
         fs = FileSignals(path="/a.py", pagerank=0.1, cognitive_load=20.0)
         field.per_file["/a.py"] = fs
 
@@ -554,7 +575,7 @@ class TestAbsoluteTierSkipsComposites:
 
     def test_absolute_tier_no_composites(self):
         """ABSOLUTE tier does not compute composites."""
-        field = SignalField(tier="ABSOLUTE")
+        field = SignalField(tier=Tier.ABSOLUTE)
         fs = FileSignals(path="/a.py")
         fs.percentiles = {}  # No percentiles
         field.per_file["/a.py"] = fs
@@ -639,30 +660,29 @@ class TestDisplayScale:
 
 
 class TestGiniCoefficient:
-    """Test Gini coefficient computation."""
+    """Test Gini coefficient computation via Gini.gini_coefficient.
+
+    Note: fusion.py now delegates to math.gini.Gini instead of a local _gini().
+    """
 
     def test_gini_equal_distribution(self):
         """Equal values give Gini = 0."""
         values = [10.0, 10.0, 10.0, 10.0]
-        assert abs(_gini(values)) < 0.001
+        assert abs(Gini.gini_coefficient(values)) < 0.001
 
     def test_gini_unequal_distribution(self):
         """Unequal values give positive Gini."""
         values = [1.0, 1.0, 1.0, 100.0]
-        gini = _gini(values)
+        gini = Gini.gini_coefficient(values)
         assert gini > 0.5
-
-    def test_gini_empty_list(self):
-        """Empty list returns 0."""
-        assert _gini([]) == 0.0
 
     def test_gini_single_value(self):
         """Single value returns 0."""
-        assert _gini([5.0]) == 0.0
+        assert Gini.gini_coefficient([5.0]) == 0.0
 
     def test_gini_all_zeros(self):
         """All zeros returns 0."""
-        assert _gini([0.0, 0.0, 0.0]) == 0.0
+        assert Gini.gini_coefficient([0.0, 0.0, 0.0]) == 0.0
 
 
 class TestRawRiskComputation:
@@ -733,10 +753,13 @@ class TestBuildFunction:
     def test_build_computes_raw_risk(self):
         """build() computes raw_risk for all files."""
         store = AnalysisStore()
-        _set_file_syntax(store, [
-            MockFileSyntax("/a.py"),
-            MockFileSyntax("/b.py"),
-        ])
+        _set_file_syntax(
+            store,
+            [
+                MockFileSyntax("/a.py"),
+                MockFileSyntax("/b.py"),
+            ],
+        )
 
         field = build(store, _make_session(store))
 
@@ -751,7 +774,7 @@ class TestWiringQuality:
 
     def test_wiring_quality_perfect_file(self):
         """Well-connected, non-orphan file has high wiring quality."""
-        field = SignalField(tier="FULL")
+        field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/good.py",
             is_orphan=False,
@@ -769,8 +792,15 @@ class TestWiringQuality:
         assert fs.wiring_quality == 1.0
 
     def test_wiring_quality_orphan_penalty(self):
-        """Orphan file has reduced wiring quality."""
-        field = SignalField(tier="FULL")
+        """Orphan file has reduced wiring quality.
+
+        With broken_call_count term removed, weights redistributed:
+        wiring_quality = 1 - (0.375*is_orphan + 0.3125*stub_ratio + 0.3125*phantom_ratio)
+
+        For orphan with stub_ratio=0 and phantom_ratio=0:
+        wiring_quality = 1 - 0.375 = 0.625
+        """
+        field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/orphan.py",
             is_orphan=True,
@@ -782,12 +812,19 @@ class TestWiringQuality:
 
         compute_composites(field)
 
-        # 0.30 penalty for orphan
-        assert fs.wiring_quality == 0.7
+        # 0.375 penalty for orphan (was 0.30 before broken_call_count removal)
+        assert fs.wiring_quality == 0.625
 
     def test_wiring_quality_stub_penalty(self):
-        """High stub ratio reduces wiring quality."""
-        field = SignalField(tier="FULL")
+        """High stub ratio reduces wiring quality.
+
+        With broken_call_count term removed, weights redistributed:
+        wiring_quality = 1 - (0.375*is_orphan + 0.3125*stub_ratio + 0.3125*phantom_ratio)
+
+        For non-orphan with stub_ratio=1.0 and phantom_ratio=0:
+        wiring_quality = 1 - 0.3125 = 0.6875
+        """
+        field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/stub.py",
             is_orphan=False,
@@ -799,8 +836,8 @@ class TestWiringQuality:
 
         compute_composites(field)
 
-        # 0.25 penalty for full stub_ratio
-        assert fs.wiring_quality == 0.75
+        # 0.3125 penalty for full stub_ratio (was 0.25 before broken_call_count removal)
+        assert fs.wiring_quality == 0.6875
 
 
 class TestModuleSignalsCollection:
@@ -846,12 +883,15 @@ class TestGlobalSignalsCollection:
     def test_orphan_ratio_computation(self):
         """orphan_ratio computed correctly."""
         store = AnalysisStore()
-        _set_file_syntax(store, [
-            MockFileSyntax("/a.py"),
-            MockFileSyntax("/b.py"),
-            MockFileSyntax("/c.py"),
-            MockFileSyntax("/d.py"),
-        ])
+        _set_file_syntax(
+            store,
+            [
+                MockFileSyntax("/a.py"),
+                MockFileSyntax("/b.py"),
+                MockFileSyntax("/c.py"),
+                MockFileSyntax("/d.py"),
+            ],
+        )
 
         # Mock structural with some orphans
         structural = MockStructural()

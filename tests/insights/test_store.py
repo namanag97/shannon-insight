@@ -1,14 +1,12 @@
 """Tests for v2 AnalysisStore with Slot[T] wrapper."""
 
-from collections import Counter
-
 import pytest
 
 from shannon_insight.infrastructure.entities import EntityId, EntityType
 from shannon_insight.infrastructure.relations import RelationType
 from shannon_insight.infrastructure.signals import Signal
 from shannon_insight.insights.store import AnalysisStore, Slot
-from shannon_insight.scanning.models import FileMetrics
+from shannon_insight.scanning.syntax import FileSyntax, FunctionDef, ImportDecl
 
 
 class TestSlot:
@@ -121,18 +119,10 @@ class TestAnalysisStore:
         avail = store.available
         assert "structural" in avail
 
-    def test_root_dir_and_file_metrics(self):
-        """root_dir and file_metrics are always available."""
+    def test_root_dir_available(self):
+        """root_dir is always available."""
         store = AnalysisStore(root_dir="/foo/bar")
         assert store.root_dir == "/foo/bar"
-        assert store.file_metrics == []
-
-    def test_file_metrics_mutable(self):
-        """Can add file metrics."""
-        store = AnalysisStore()
-        store.file_metrics.append("file1")
-        store.file_metrics.append("file2")
-        assert len(store.file_metrics) == 2
 
     def test_multiple_slots_available(self):
         """Multiple slots can be populated."""
@@ -190,22 +180,49 @@ class TestSlotErrorMessages:
             assert "not populated" in msg.lower() or "Git binary" in msg
 
 
-def _make_file_metrics(path: str, lines: int = 100, imports: list | None = None) -> FileMetrics:
-    """Helper to create a FileMetrics for testing."""
-    return FileMetrics(
+def _make_file_syntax(path: str, lines: int = 100, imports: list | None = None) -> FileSyntax:
+    """Helper to create a FileSyntax for testing."""
+    import_decls = [ImportDecl(source=imp, names=[], resolved_path=None) for imp in (imports or [])]
+    functions = [
+        FunctionDef(
+            "func1",
+            [],
+            body_tokens=20,
+            signature_tokens=5,
+            nesting_depth=1,
+            start_line=1,
+            end_line=5,
+        ),
+        FunctionDef(
+            "func2",
+            [],
+            body_tokens=30,
+            signature_tokens=8,
+            nesting_depth=2,
+            start_line=7,
+            end_line=12,
+        ),
+        FunctionDef(
+            "func3",
+            [],
+            body_tokens=50,
+            signature_tokens=10,
+            nesting_depth=1,
+            start_line=14,
+            end_line=25,
+        ),
+    ]
+    return FileSyntax(
         path=path,
-        lines=lines,
-        tokens=50,
-        imports=imports or [],
-        exports=[],
-        functions=3,
-        interfaces=0,
-        structs=1,
-        complexity_score=2.0,
-        nesting_depth=2,
-        ast_node_types=Counter(),
-        last_modified=0.0,
-        function_sizes=[20, 30, 50],
+        functions=functions,
+        classes=[],
+        imports=import_decls,
+        language="python",
+        has_main_guard=False,
+        mtime=0.0,
+        _lines=lines,
+        _tokens=50,
+        _complexity=2.0,
     )
 
 
@@ -215,10 +232,11 @@ class TestFactStoreBridge:
     def test_sync_entities_creates_file_entities(self):
         """_sync_entities creates FILE entities in FactStore."""
         store = AnalysisStore(root_dir="/test/root")
-        store.file_metrics = [
-            _make_file_metrics("src/main.py"),
-            _make_file_metrics("src/utils.py"),
-        ]
+        file_syntax = {
+            "src/main.py": _make_file_syntax("src/main.py"),
+            "src/utils.py": _make_file_syntax("src/utils.py"),
+        }
+        store.file_syntax.set(file_syntax, produced_by="test")
         store._sync_entities()
 
         files = store.fact_store.files()
@@ -230,14 +248,15 @@ class TestFactStoreBridge:
     def test_sync_entities_sets_basic_signals(self):
         """_sync_entities writes LINES, FUNCTION_COUNT, CLASS_COUNT, IMPORT_COUNT."""
         store = AnalysisStore(root_dir="/test/root")
-        fm = _make_file_metrics("src/main.py", lines=200, imports=["os", "sys"])
-        store.file_metrics = [fm]
+        fs = _make_file_syntax("src/main.py", lines=200, imports=["os", "sys"])
+        file_syntax = {"src/main.py": fs}
+        store.file_syntax.set(file_syntax, produced_by="test")
         store._sync_entities()
 
         entity_id = EntityId(EntityType.FILE, "src/main.py")
         assert store.fact_store.get_signal(entity_id, Signal.LINES) == 200
         assert store.fact_store.get_signal(entity_id, Signal.FUNCTION_COUNT) == 3
-        assert store.fact_store.get_signal(entity_id, Signal.CLASS_COUNT) == 1
+        assert store.fact_store.get_signal(entity_id, Signal.CLASS_COUNT) == 0
         assert store.fact_store.get_signal(entity_id, Signal.IMPORT_COUNT) == 2
 
 
@@ -295,7 +314,8 @@ class TestStructuralAnalyzerFactStoreSync:
         )
 
         # Create entities first (normally done by kernel)
-        store.file_metrics = [_make_file_metrics("src/main.py")]
+        file_syntax = {"src/main.py": _make_file_syntax("src/main.py")}
+        store.file_syntax.set(file_syntax, produced_by="test")
         store._sync_entities()
 
         # Call _sync_to_fact_store directly
@@ -396,7 +416,8 @@ class TestTemporalAnalyzerFactStoreSync:
         from shannon_insight.temporal.models import ChurnSeries, CoChangeMatrix
 
         store = AnalysisStore(root_dir="/test")
-        store.file_metrics = [_make_file_metrics("src/main.py")]
+        file_syntax = {"src/main.py": _make_file_syntax("src/main.py")}
+        store.file_syntax.set(file_syntax, produced_by="test")
         store._sync_entities()
 
         churn = {
@@ -503,7 +524,8 @@ class TestSemanticAnalyzerFactStoreSync:
         from shannon_insight.semantics.models import Completeness, Concept, FileSemantics, Role
 
         store = AnalysisStore(root_dir="/test")
-        store.file_metrics = [_make_file_metrics("src/main.py")]
+        file_syntax = {"src/main.py": _make_file_syntax("src/main.py")}
+        store.file_syntax.set(file_syntax, produced_by="test")
         store._sync_entities()
 
         # Create test semantic data

@@ -80,14 +80,14 @@ def _check_requirements(store: FactStore, pattern: Pattern) -> bool:
         True if all requirements satisfied, False otherwise
     """
     for req in pattern.requires:
-        # Check if it's a signal
+        # Check if it's a signal (using value-based lookup since requires uses Signal.XXX.value)
         try:
-            Signal[req]  # Just check if signal exists
+            Signal(req)  # Lookup by value (lowercase), e.g., Signal("bus_factor")
             # Check if at least one entity has this signal
             # For now, assume available if signal enum exists
             # Full implementation would check store.signals
-        except KeyError:
-            # Not a signal, might be a slot name like "architecture"
+        except ValueError:
+            # Not a signal, might be a relation type or slot name
             # For now, assume available
             pass
 

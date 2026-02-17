@@ -29,6 +29,7 @@ import math
 from typing import TYPE_CHECKING
 
 from ..logging_config import get_logger
+from ..session import Tier
 
 if TYPE_CHECKING:
     from shannon_insight.insights.store import AnalysisStore
@@ -165,11 +166,13 @@ def validate_signal_field(store: AnalysisStore) -> None:
             f"Examples: {list(extra)[:5]}{'...' if len(extra) > 5 else ''}"
         )
 
-    # Validate tier
-    valid_tiers = {"ABSOLUTE", "BAYESIAN", "FULL"}
-    if field.tier not in valid_tiers:
+    # Validate tier - accept both Tier enum and string values
+    valid_tier_enums = {Tier.ABSOLUTE, Tier.BAYESIAN, Tier.FULL}
+    valid_tier_strings = {"ABSOLUTE", "BAYESIAN", "FULL"}
+    tier_is_valid = field.tier in valid_tier_enums or field.tier in valid_tier_strings
+    if not tier_is_valid:
         raise PhaseValidationError(
-            f"SignalField tier '{field.tier}' is not valid. Must be one of {valid_tiers}"
+            f"SignalField tier '{field.tier}' is not valid. Must be one of {valid_tier_strings}"
         )
 
     # Check for NaN/Inf in numeric signal fields

@@ -62,6 +62,11 @@ def main(
         max=32,
         hidden=True,
     ),
+    trace: bool = typer.Option(
+        False,
+        "--trace",
+        help="Enable provenance tracking for signal computation",
+    ),
     version: bool = typer.Option(
         False,
         "--version",
@@ -110,6 +115,7 @@ def main(
             verbose=verbose,
             workers=workers,
             max_findings=max_findings,
+            enable_provenance=trace,
         )
 
         # Output results
@@ -149,6 +155,15 @@ def _output_json(result, snapshot):
                 "files": f.files,
                 "suggestion": f.suggestion,
                 "confidence": f.confidence,
+                "evidence": [
+                    {
+                        "signal": e.signal,
+                        "value": e.value,
+                        "percentile": e.percentile,
+                        "description": e.description,
+                    }
+                    for e in f.evidence
+                ],
             }
             for f in result.findings
         ],
@@ -157,7 +172,8 @@ def _output_json(result, snapshot):
             "total_findings": len(result.findings),
         },
     }
-    console.print(json.dumps(output, indent=2))
+    # Use print() instead of console.print() to avoid Rich formatting/wrapping
+    print(json.dumps(output, indent=2))
 
 
 def _output_rich(result, snapshot, verbose: bool = False):

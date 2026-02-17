@@ -168,6 +168,7 @@ H = -Σ p(x) × log₂(p(x))
 | 32 | `author_entropy` | D7 | float | [0,∞) | distributed (GOOD) | H = -Σ p(a)×log₂(p(a)) |
 | 33 | `fix_ratio` | D8 | float | [0,1] | bug-prone | fix commits / total commits |
 | 34 | `refactor_ratio` | D8 | float | [0,1] | maintained (GOOD) | refactor commits / total commits |
+| 34a | `change_entropy` | D6 | float | [0,∞) | scattered changes | H = -Σ p(w)×log₂(p(w)) where p(w) = changes_in_window/total. High = constant churn (BAD) |
 
 **Trajectory classification** (v2 canonical thresholds):
 ```

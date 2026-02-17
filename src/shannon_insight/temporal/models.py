@@ -3,6 +3,27 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import Enum
+
+
+class Trajectory(str, Enum):
+    """Churn trajectory classification per v2 spec (temporal-operators.md).
+
+    Classification is based on coefficient of variation (CV) and slope:
+    - DORMANT: total_changes <= 1 or cv = 0
+    - STABILIZING: slope < -threshold AND cv < 0.5 (decreasing, steady)
+    - STABLE: cv <= 0.5 (steady, no strong trend)
+    - CHURNING: cv > 0.5 (erratic, no clear trend)
+    - SPIKING: slope > threshold AND cv > 0.5 (increasing, erratic)
+
+    Inherits from str to allow string comparisons and JSON serialization.
+    """
+
+    DORMANT = "DORMANT"
+    STABILIZING = "STABILIZING"
+    STABLE = "STABLE"
+    CHURNING = "CHURNING"
+    SPIKING = "SPIKING"
 
 
 @dataclass
@@ -50,7 +71,7 @@ class ChurnSeries:
     file_path: str
     window_counts: list[int]  # changes per time window
     total_changes: int
-    trajectory: str  # "stabilizing"|"churning"|"spiking"|"dormant"
+    trajectory: str  # Trajectory enum value (DORMANT|STABILIZING|STABLE|CHURNING|SPIKING)
     slope: float  # linear regression slope
 
     # Phase 3 additions:
@@ -62,9 +83,15 @@ class ChurnSeries:
     change_entropy: float = 0.0  # Shannon entropy of change distribution across time windows
 
 
-@dataclass
-class SpectralSummary:
-    fiedler_value: float  # algebraic connectivity
-    num_components: int
-    eigenvalues: list[float]  # sorted ascending
-    spectral_gap: float  # ratio of 2nd to 3rd eigenvalue
+# SpectralSummary moved to graph/models.py but re-exported here for backward compat
+from shannon_insight.graph.models import SpectralSummary  # noqa: E402
+
+__all__ = [
+    "Commit",
+    "GitHistory",
+    "CoChangePair",
+    "CoChangeMatrix",
+    "ChurnSeries",
+    "Trajectory",
+    "SpectralSummary",  # re-export for backward compat
+]

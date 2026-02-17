@@ -4,7 +4,10 @@ import pytest
 
 from shannon_insight.scanning.normalizer import TreeSitterNormalizer
 from shannon_insight.scanning.syntax import FileSyntax
-from shannon_insight.scanning.treesitter_parser import TREE_SITTER_AVAILABLE
+from shannon_insight.scanning.treesitter_parser import (
+    TREE_SITTER_AVAILABLE,
+    get_supported_languages,
+)
 
 SAMPLE_PYTHON = '''
 """A sample Python module."""
@@ -55,8 +58,6 @@ class TestTreeSitterNormalizerFallback:
         result = normalizer.parse_file(SAMPLE_PYTHON, "/test.py", "python")
         assert result is None
 
-
-from shannon_insight.scanning.treesitter_parser import get_supported_languages
 
 _PYTHON_SUPPORTED = TREE_SITTER_AVAILABLE and "python" in get_supported_languages()
 

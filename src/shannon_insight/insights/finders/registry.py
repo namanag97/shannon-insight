@@ -1,7 +1,10 @@
-"""Pattern Registry — Central registry of all 22 patterns.
+"""Pattern Registry — Central registry of all code issue patterns.
 
-Aggregates patterns from category modules and provides lookup functions.
-Canonical spec: docs/v2/architecture/06-patterns/
+26 patterns organized by category, plus lookup functions for querying
+patterns by name, category, scope, or phase.
+
+Disabled patterns:
+- CONWAY_VIOLATION: Disabled until author_distance computation is implemented.
 """
 
 from __future__ import annotations
@@ -14,20 +17,24 @@ from .patterns import (
     BOUNDARY_MISMATCH,
     BUG_ATTRACTOR,
     CHRONIC_PROBLEM,
-    CONWAY_VIOLATION,
     COPY_PASTE_CLONE,
     DEAD_DEPENDENCY,
+    DIRECTORY_HOTSPOT,
+    DUPLICATE_INCOMPLETE,
     FLAT_ARCHITECTURE,
     GOD_FILE,
     HIDDEN_COUPLING,
     HIGH_RISK_HUB,
     HOLLOW_CODE,
+    INCOMPLETE_IMPLEMENTATION,
     KNOWLEDGE_SILO,
     LAYER_VIOLATION,
     NAMING_DRIFT,
     ORPHAN_CODE,
     PHANTOM_IMPORTS,
     REVIEW_BLINDSPOT,
+    THRASHING_CODE,
+    TRUCK_FACTOR,
     UNSTABLE_FILE,
     WEAK_LINK,
     ZONE_OF_PAIN,
@@ -38,7 +45,7 @@ from .patterns import (
 # ==============================================================================
 
 ALL_PATTERNS: list[Pattern] = [
-    # Existing (7) - v1 patterns upgraded
+    # Core (7)
     HIGH_RISK_HUB,
     HIDDEN_COUPLING,
     GOD_FILE,
@@ -46,17 +53,19 @@ ALL_PATTERNS: list[Pattern] = [
     BOUNDARY_MISMATCH,
     DEAD_DEPENDENCY,
     CHRONIC_PROBLEM,
-    # AI Quality (6)
+    # AI Quality (8)
     ORPHAN_CODE,
     HOLLOW_CODE,
     PHANTOM_IMPORTS,
     COPY_PASTE_CLONE,
     FLAT_ARCHITECTURE,
     NAMING_DRIFT,
-    # Social/Team (3)
+    INCOMPLETE_IMPLEMENTATION,
+    DUPLICATE_INCOMPLETE,
+    # Team/Ownership (3) - CONWAY_VIOLATION disabled
     KNOWLEDGE_SILO,
-    CONWAY_VIOLATION,
     REVIEW_BLINDSPOT,
+    TRUCK_FACTOR,
     # Architecture (3)
     LAYER_VIOLATION,
     ZONE_OF_PAIN,
@@ -65,10 +74,12 @@ ALL_PATTERNS: list[Pattern] = [
     WEAK_LINK,
     BUG_ATTRACTOR,
     ACCIDENTAL_COUPLING,
+    # Temporal (2)
+    THRASHING_CODE,
+    DIRECTORY_HOTSPOT,
 ]
 
-# Verify we have all 22 patterns
-assert len(ALL_PATTERNS) == 22, f"Expected 22 patterns, got {len(ALL_PATTERNS)}"
+assert len(ALL_PATTERNS) == 26, f"Expected 26 patterns, got {len(ALL_PATTERNS)}"
 
 
 # ==============================================================================

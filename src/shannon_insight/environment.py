@@ -55,7 +55,11 @@ class Environment:
     system_cores: int = 1
 
 
-def discover_environment(root: Path | str) -> Environment:
+def discover_environment(
+    root: Path | str,
+    allow_hidden_files: bool = False,
+    follow_symlinks: bool = False,
+) -> Environment:
     """Discover environment facts about the target codebase.
 
     This function performs fast discovery using git when available:
@@ -66,6 +70,8 @@ def discover_environment(root: Path | str) -> Environment:
 
     Args:
         root: Path to codebase root directory
+        allow_hidden_files: Include hidden files (starting with .)
+        follow_symlinks: Follow symbolic links during discovery
 
     Returns:
         Immutable Environment instance
@@ -95,10 +101,14 @@ def discover_environment(root: Path | str) -> Environment:
     # Discover files and languages
     if is_git:
         # Fast path: use git index
-        files = _get_git_files(root_path)
+        files = _get_git_files(root_path, allow_hidden_files=allow_hidden_files)
     else:
         # Fallback: manual walk
-        files = _walk_directory(root_path)
+        files = _walk_directory(
+            root_path,
+            allow_hidden_files=allow_hidden_files,
+            follow_symlinks=follow_symlinks,
+        )
 
     file_count = len(files)
     languages = _detect_languages(files)
@@ -169,17 +179,21 @@ def _get_git_branch(root: Path) -> Optional[str]:
     return None
 
 
-def _get_git_files(root: Path) -> list[Path]:
-    """Get list of files from git index (fast).
+def _get_git_files(root: Path, allow_hidden_files: bool = False) -> list[Path]:
+    """Get list of files from git index that exist on disk.
 
     Uses `git ls-files` to get tracked files. This is much faster than
     walking the directory tree manually.
 
+    Important: Filters out files that are deleted in working tree but not
+    yet committed (staged deletions). Only returns files that actually exist.
+
     Args:
         root: Git repository root
+        allow_hidden_files: Include hidden files (starting with .)
 
     Returns:
-        List of relative file paths
+        List of relative file paths (only those that exist on disk)
     """
     try:
         result = subprocess.run(
@@ -189,19 +203,28 @@ def _get_git_files(root: Path) -> list[Path]:
             timeout=30,
         )
         if result.returncode == 0:
-            return [
-                Path(line.strip())
-                for line in result.stdout.splitlines()
-                if line.strip() and _is_source_file(line.strip())
-            ]
+            files = []
+            for line in result.stdout.splitlines():
+                line = line.strip()
+                if not line or not _is_source_file(line, allow_hidden_files):
+                    continue
+                # Only include files that actually exist on disk
+                file_path = root / line
+                if file_path.exists():
+                    files.append(Path(line))
+            return files
     except (subprocess.TimeoutExpired, FileNotFoundError):
         logger.warning("git ls-files failed, falling back to directory walk")
 
     # Fallback to manual walk
-    return _walk_directory(root)
+    return _walk_directory(root, allow_hidden_files=allow_hidden_files)
 
 
-def _walk_directory(root: Path) -> list[Path]:
+def _walk_directory(
+    root: Path,
+    allow_hidden_files: bool = False,
+    follow_symlinks: bool = False,
+) -> list[Path]:
     """Manually walk directory tree to find source files.
 
     Fallback when git is not available. Applies basic exclude patterns
@@ -209,6 +232,8 @@ def _walk_directory(root: Path) -> list[Path]:
 
     Args:
         root: Directory root
+        allow_hidden_files: Include hidden files (starting with .)
+        follow_symlinks: Follow symbolic links
 
     Returns:
         List of relative file paths
@@ -219,23 +244,28 @@ def _walk_directory(root: Path) -> list[Path]:
         if any(part in SKIP_DIRS for part in item.parts):
             continue
 
-        if item.is_file() and _is_source_file(str(item.relative_to(root))):
+        # Skip symlinks if not following them
+        if item.is_symlink() and not follow_symlinks:
+            continue
+
+        if item.is_file() and _is_source_file(str(item.relative_to(root)), allow_hidden_files):
             files.append(item.relative_to(root))
 
     return files
 
 
-def _is_source_file(path: str) -> bool:
+def _is_source_file(path: str, allow_hidden_files: bool = False) -> bool:
     """Check if file is a source code file.
 
     Args:
         path: File path (relative or absolute)
+        allow_hidden_files: Include hidden files (starting with .)
 
     Returns:
         True if file appears to be source code
     """
-    # Exclude hidden files
-    if Path(path).name.startswith("."):
+    # Exclude hidden files unless allowed
+    if not allow_hidden_files and Path(path).name.startswith("."):
         return False
 
     # Check for source code extensions

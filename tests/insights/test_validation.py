@@ -59,7 +59,9 @@ class TestValidateAfterScanning:
     def test_passes_with_files(self):
         """Passes when file_syntax has files."""
         store = AnalysisStore()
-        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser")
+        store.file_syntax.set(
+            {"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser"
+        )
         validate_after_scanning(store)  # Should not raise
 
     def test_fails_with_no_files(self):
@@ -79,11 +81,14 @@ class TestValidateAfterScanning:
     def test_passes_with_multiple_files(self):
         """Passes when file_syntax has multiple files."""
         store = AnalysisStore()
-        store.file_syntax.set({
-            "/a.py": MockFileSyntax("/a.py"),
-            "/b.py": MockFileSyntax("/b.py"),
-            "/c.py": MockFileSyntax("/c.py"),
-        }, "parser")
+        store.file_syntax.set(
+            {
+                "/a.py": MockFileSyntax("/a.py"),
+                "/b.py": MockFileSyntax("/b.py"),
+                "/c.py": MockFileSyntax("/c.py"),
+            },
+            "parser",
+        )
         validate_after_scanning(store)  # Should not raise
 
 
@@ -102,7 +107,9 @@ class TestValidateAfterStructural:
     def test_passes_with_consistent_graph(self):
         """Passes when graph nodes match scanned files."""
         store = AnalysisStore()
-        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser")
+        store.file_syntax.set(
+            {"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser"
+        )
         graph = MockGraph({"/a.py", "/b.py"}, {"/a.py": ["/b.py"]})
         store.structural.set(MockCodebaseAnalysis(graph), "structural_analyzer")
         validate_after_structural(store)  # Should not raise
@@ -136,7 +143,9 @@ class TestValidateAfterStructural:
     def test_fails_with_inconsistent_reverse(self):
         """Fails when reverse adjacency is inconsistent."""
         store = AnalysisStore()
-        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser")
+        store.file_syntax.set(
+            {"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser"
+        )
         # Manually create inconsistent graph
         graph = MockGraph({"/a.py", "/b.py"})
         graph.adjacency = {"/a.py": ["/b.py"]}
@@ -148,7 +157,9 @@ class TestValidateAfterStructural:
     def test_passes_with_no_edges(self):
         """Passes when graph has nodes but no edges."""
         store = AnalysisStore()
-        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser")
+        store.file_syntax.set(
+            {"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser"
+        )
         graph = MockGraph({"/a.py", "/b.py"}, {})
         store.structural.set(MockCodebaseAnalysis(graph), "structural_analyzer")
         validate_after_structural(store)  # Should not raise
@@ -169,7 +180,9 @@ class TestValidateSignalField:
     def test_passes_with_matching_paths(self):
         """Passes when SignalField covers all scanned files."""
         store = AnalysisStore()
-        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser")
+        store.file_syntax.set(
+            {"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser"
+        )
         sf = SignalField(
             per_file={
                 "/a.py": FileSignals(path="/a.py"),
@@ -182,7 +195,9 @@ class TestValidateSignalField:
     def test_fails_with_missing_paths(self):
         """Fails when SignalField is missing files."""
         store = AnalysisStore()
-        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser")
+        store.file_syntax.set(
+            {"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser"
+        )
         sf = SignalField(per_file={"/a.py": FileSignals(path="/a.py")})
         store.signal_field.set(sf, "signal_fusion")
         with pytest.raises(PhaseValidationError, match="missing files"):
@@ -298,7 +313,9 @@ class TestValidateSignalField:
     def test_nan_in_second_file_caught(self):
         """NaN in any file is caught, not just the first."""
         store = AnalysisStore()
-        store.file_syntax.set({"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser")
+        store.file_syntax.set(
+            {"/a.py": MockFileSyntax("/a.py"), "/b.py": MockFileSyntax("/b.py")}, "parser"
+        )
         fs_a = FileSignals(path="/a.py")  # Valid
         fs_b = FileSignals(path="/b.py", raw_risk=float("nan"))  # NaN
         sf = SignalField(per_file={"/a.py": fs_a, "/b.py": fs_b})

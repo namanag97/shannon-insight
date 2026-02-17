@@ -1,6 +1,6 @@
 """Tests for the Signal enum and registry (infrastructure/signals.py).
 
-Validates the single source of truth for all 62 signals:
+Validates the single source of truth for all 63 signals:
 - Enum completeness and value uniqueness
 - Registry completeness and metadata correctness
 - Collision detection (single-owner rule)
@@ -34,8 +34,8 @@ class TestSignalEnum:
     """Tests for the Signal enum itself."""
 
     def test_total_signal_count(self) -> None:
-        """There are exactly 62 signals in the enum."""
-        assert len(Signal) == 62
+        """There are exactly 63 signals in the enum."""
+        assert len(Signal) == 63
 
     def test_all_values_are_strings(self) -> None:
         """Every Signal value is a non-empty string."""
@@ -167,11 +167,11 @@ class TestSignalEnum:
         assert len(global_sigs) == 11
 
     def test_signal_scope_counts_add_up(self) -> None:
-        """36 file + 15 module + 11 global = 62 total."""
-        # 7 IR1 + 6 IR2 + 13 IR3 + 8 IR5t + 2 composites = 36 file
+        """37 file + 15 module + 11 global = 63 total."""
+        # 7 IR1 + 6 IR2 + 13 IR3 + 9 IR5t + 2 composites = 37 file
         # 15 module + 11 global = 26
-        # 36 + 26 = 62
-        assert len(Signal) == 62
+        # 37 + 26 = 63
+        assert len(Signal) == 63
 
 
 # ---------------------------------------------------------------------------
@@ -188,8 +188,8 @@ class TestRegistry:
             assert signal in REGISTRY, f"Signal '{signal.value}' is not registered in REGISTRY"
 
     def test_registry_count(self) -> None:
-        """REGISTRY has exactly 62 entries."""
-        assert len(REGISTRY) == 62
+        """REGISTRY has exactly 63 entries."""
+        assert len(REGISTRY) == 63
 
     def test_no_extra_entries(self) -> None:
         """REGISTRY has no entries that aren't Signal enum members."""
@@ -467,7 +467,7 @@ class TestHelperFunctions:
             Signal.OUT_DEGREE,
             Signal.BLAST_RADIUS_SIZE,
             Signal.COMMUNITY,
-            Signal.COMPRESSION_RATIO,
+            # COMPRESSION_RATIO moved to phase 5 (computed in fusion)
             Signal.MODULARITY,
             Signal.FIEDLER_VALUE,
             Signal.SPECTRAL_GAP,
@@ -477,7 +477,7 @@ class TestHelperFunctions:
             assert sig in phase0, f"Signal {sig.value} should be in phase 0"
 
     def test_signals_by_phase_5_is_all(self) -> None:
-        """Phase 5 includes all 62 signals."""
+        """Phase 5 includes all 63 signals."""
         phase5 = signals_by_phase(5)
         assert phase5 == set(Signal)
 
@@ -494,7 +494,7 @@ class TestHelperFunctions:
     def test_signals_by_scope_file(self) -> None:
         """File-scope signals include the expected count."""
         file_signals = signals_by_scope("file")
-        assert len(file_signals) == 36
+        assert len(file_signals) == 37
 
     def test_signals_by_scope_module(self) -> None:
         """Module-scope signals include the expected count."""
@@ -507,13 +507,13 @@ class TestHelperFunctions:
         assert len(global_signals) == 11
 
     def test_signals_by_scope_covers_all(self) -> None:
-        """File + module + global = all 62 signals."""
+        """File + module + global = all 63 signals."""
         file_s = signals_by_scope("file")
         module_s = signals_by_scope("module")
         global_s = signals_by_scope("global")
         assert file_s | module_s | global_s == set(Signal)
         # No overlaps
-        assert len(file_s) + len(module_s) + len(global_s) == 62
+        assert len(file_s) + len(module_s) + len(global_s) == 63
 
     def test_signals_by_polarity_coverage(self) -> None:
         """Every signal has exactly one polarity that is accounted for."""
@@ -521,7 +521,7 @@ class TestHelperFunctions:
         good = signals_by_polarity("high_is_good")
         neutral = signals_by_polarity("neutral")
         assert bad | good | neutral == set(Signal)
-        assert len(bad) + len(good) + len(neutral) == 62
+        assert len(bad) + len(good) + len(neutral) == 63
 
 
 # ---------------------------------------------------------------------------

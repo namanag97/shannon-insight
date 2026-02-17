@@ -7,10 +7,8 @@ Backward compatibility: Primitives class preserved with from_file_signals() meth
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    pass
+from shannon_insight.session import Tier
 
 PrimitiveValues = dict[str, float]
 
@@ -64,7 +62,7 @@ class FileSignals:
 
     # IR5t (temporal) - signals #27-34
     total_changes: int = 0
-    churn_trajectory: str = "DORMANT"  # STABILIZING|CHURNING|SPIKING|DORMANT
+    churn_trajectory: str = "DORMANT"  # DORMANT|STABILIZING|STABLE|CHURNING|SPIKING
     churn_slope: float = 0.0
     churn_cv: float = 0.0  # coefficient of variation
     bus_factor: float = 1.0  # 2^H where H = author entropy
@@ -196,7 +194,7 @@ class SignalField:
     Hierarchy: per_file -> per_directory -> per_module -> global_signals
     """
 
-    tier: str = "FULL"  # "ABSOLUTE" | "BAYESIAN" | "FULL"
+    tier: Tier = Tier.FULL
     per_file: dict[str, FileSignals] = field(default_factory=dict)
     per_directory: dict[str, DirectorySignals] = field(default_factory=dict)
     per_module: dict[str, ModuleSignals] = field(default_factory=dict)

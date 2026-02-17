@@ -142,6 +142,7 @@ def _convert_high_risk_hub(rows: list[dict[str, Any]]) -> list[Finding]:
         br_pctl = row.get("blast_radius_pctl", 0)
         cog_pctl = row.get("cognitive_load_pctl", 0)
 
+        # Percentiles are 0-1 (0.90 = 90th percentile)
         if pr_pctl >= 0.90:
             pcts.append(pr_pctl)
             evidence.append(
@@ -172,7 +173,7 @@ def _convert_high_risk_hub(rows: list[dict[str, Any]]) -> list[Finding]:
                     signal="cognitive_load",
                     value=row.get("cognitive_load", 0) or 0,
                     percentile=cog_pctl,
-                    description=f"harder to understand than {cog_pctl * 100:.0f}% of files",
+                    description=f"harder to understand than {cog_pctl:.0f}% of files",
                 )
             )
 
@@ -188,7 +189,7 @@ def _convert_high_risk_hub(rows: list[dict[str, Any]]) -> list[Finding]:
                 )
             )
 
-        avg_pctl = sum(pcts) / len(pcts) if pcts else 0.9
+        avg_pctl = (sum(pcts) / len(pcts) / 100.0) if pcts else 0.9
         severity = 1.0 * max(0.5, avg_pctl)
 
         # Build suggestion
@@ -539,13 +540,13 @@ def _convert_god_file(rows: list[dict[str, Any]]) -> list[Finding]:
                 signal="cognitive_load",
                 value=cog_load,
                 percentile=cog_pctl,
-                description=(f"harder to understand than {cog_pctl * 100:.0f}% of files"),
+                description=(f"harder to understand than {cog_pctl:.0f}% of files"),
             ),
             Evidence(
                 signal="semantic_coherence",
                 value=coherence,
                 percentile=coherence_pctl,
-                description=(f"less focused than {(1 - coherence_pctl) * 100:.0f}% of files"),
+                description=(f"less focused than {(1 - coherence_pctl):.0f}% of files"),
             ),
         ]
 
@@ -1004,7 +1005,7 @@ def _convert_knowledge_silo(rows: list[dict[str, Any]]) -> list[Finding]:
                 signal="pagerank",
                 value=pagerank,
                 percentile=pagerank_pctl,
-                description=f"more central than {pagerank_pctl * 100:.0f}% of files",
+                description=f"more central than {pagerank_pctl:.0f}% of files",
             ),
             Evidence(
                 signal="total_changes",
@@ -1047,7 +1048,7 @@ def _convert_review_blindspot(rows: list[dict[str, Any]]) -> list[Finding]:
                 signal="pagerank",
                 value=pagerank,
                 percentile=pagerank_pctl,
-                description=f"more central than {pagerank_pctl * 100:.0f}% of files",
+                description=f"more central than {pagerank_pctl:.0f}% of files",
             ),
             Evidence(
                 signal="bus_factor",
@@ -1111,7 +1112,7 @@ def _convert_bug_attractor(rows: list[dict[str, Any]]) -> list[Finding]:
                 signal="pagerank",
                 value=pagerank,
                 percentile=pagerank_pctl,
-                description=f"more central than {pagerank_pctl * 100:.0f}% of files",
+                description=f"more central than {pagerank_pctl:.0f}% of files",
             ),
             Evidence(
                 signal="blast_radius_size",

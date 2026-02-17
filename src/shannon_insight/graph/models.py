@@ -186,6 +186,20 @@ class AuthorDistance:
     distance: float  # 1 - weighted Jaccard overlap of author distributions
 
 
+@dataclass
+class SpectralSummary:
+    """Spectral analysis summary from graph Laplacian.
+
+    Moved from temporal/models.py to graph/models.py since this is
+    graph spectral analysis, not temporal analysis.
+    """
+
+    fiedler_value: float  # algebraic connectivity (λ₂)
+    num_components: int  # connected components
+    eigenvalues: list[float]  # sorted ascending
+    spectral_gap: float  # ratio of λ₂/λ₃
+
+
 # ── Full result ────────────────────────────────────────────────────
 
 

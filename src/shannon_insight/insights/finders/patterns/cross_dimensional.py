@@ -25,11 +25,16 @@ if TYPE_CHECKING:
 
 
 def _weak_link_predicate(store: FactStore, entity: EntityId) -> bool:
-    """Central file with low health score."""
-    pr_pctl = compute_percentile(store, entity, Signal.PAGERANK)
-    health_score = store.get_signal(entity, Signal.HEALTH_SCORE, 10.0)
+    """Central file with high risk score.
 
-    return pr_pctl > 0.80 and health_score < 3.0
+    Uses RISK_SCORE (file-scoped) instead of HEALTH_SCORE (module-scoped).
+    HEALTH_SCORE is a module signal and would never be set on FILE entities,
+    causing this pattern to never fire.
+    """
+    pr_pctl = compute_percentile(store, entity, Signal.PAGERANK)
+    risk_score = store.get_signal(entity, Signal.RISK_SCORE, 0.0)
+
+    return pr_pctl > 0.80 and risk_score > 0.7
 
 
 def _weak_link_severity(store: FactStore, entity: EntityId) -> float:
@@ -42,7 +47,6 @@ def _weak_link_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
     return {
         "pagerank": store.get_signal(entity, Signal.PAGERANK, 0),
         "pagerank_pctl": compute_percentile(store, entity, Signal.PAGERANK),
-        "health_score": store.get_signal(entity, Signal.HEALTH_SCORE, 0),
         "risk_score": store.get_signal(entity, Signal.RISK_SCORE, 0),
     }
 
@@ -51,13 +55,13 @@ WEAK_LINK = Pattern(
     name="weak_link",
     scope=PatternScope.FILE,
     severity=0.75,
-    requires={Signal.PAGERANK.name, Signal.HEALTH_SCORE.name},
-    condition="pctl(pagerank) > 0.80 AND health_score < 3.0",
+    requires={Signal.PAGERANK.value, Signal.RISK_SCORE.value},
+    condition="pctl(pagerank) > 0.80 AND risk_score > 0.7",
     predicate=_weak_link_predicate,
     severity_fn=_weak_link_severity,
     evidence_fn=_weak_link_evidence,
-    description="Central file with low health score",
-    remediation="Refactor to improve health. Consider splitting.",
+    description="Central file with high risk score",
+    remediation="Refactor to reduce risk. Consider splitting.",
     category="cross_dimensional",
     hotspot_filtered=True,
     phase=5,
@@ -96,7 +100,7 @@ BUG_ATTRACTOR = Pattern(
     name="bug_attractor",
     scope=PatternScope.FILE,
     severity=0.70,
-    requires={Signal.FIX_RATIO.name, Signal.TOTAL_CHANGES.name},
+    requires={Signal.FIX_RATIO.value, Signal.TOTAL_CHANGES.value},
     condition="fix_ratio > 0.5 AND total_changes > median",
     predicate=_bug_attractor_predicate,
     severity_fn=_bug_attractor_severity,

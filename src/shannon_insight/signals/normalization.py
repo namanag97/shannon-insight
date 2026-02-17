@@ -14,6 +14,8 @@ from __future__ import annotations
 from bisect import bisect_right
 from typing import TYPE_CHECKING
 
+from shannon_insight.session import Tier
+
 if TYPE_CHECKING:
     from shannon_insight.signals.models import SignalField
 
@@ -35,7 +37,7 @@ NORMALIZABLE_SIGNALS = [
     "in_degree",
     "out_degree",
     "blast_radius_size",
-    "depth",
+    # "depth" excluded: registry says percentileable=False
     "phantom_import_count",
     "compression_ratio",
     "semantic_coherence",
@@ -71,7 +73,7 @@ def normalize(field: SignalField) -> None:
     ABSOLUTE tier: returns immediately, no percentiles computed.
     BAYESIAN/FULL tier: computes standard percentiles (Bayesian uses flat priors = same).
     """
-    if field.tier == "ABSOLUTE":
+    if field.tier == Tier.ABSOLUTE:
         # < 15 files: no percentiles, use absolute thresholds only
         return
 
@@ -120,15 +122,15 @@ def _collect_signal_values(field: SignalField) -> dict[str, list[float]]:
 def _standard_percentile(value: float, sorted_values: list[float]) -> float:
     """Compute percentile using <= formula.
 
-    pctl(x) = |{v : v <= x}| / |values| * 100
+    pctl(x) = |{v : v <= x}| / |values|
 
     Uses bisect_right which gives count of values <= x.
-    Returns percentile in 0-100 range.
+    Returns percentile in 0-1 range (0.0 = 0th percentile, 1.0 = 100th percentile).
     """
     if not sorted_values:
         return 0.0
     idx = bisect_right(sorted_values, value)
-    return (idx / len(sorted_values)) * 100.0
+    return idx / len(sorted_values)
 
 
 def effective_percentile(signal_name: str, raw_value: float, pctl: float) -> float:

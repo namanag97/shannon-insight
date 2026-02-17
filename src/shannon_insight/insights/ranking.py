@@ -39,9 +39,9 @@ def compute_percentiles(values: dict[str, float]) -> dict[str, float]:
 # More specific findings suppress less specific ones.
 SUBSUMPTION_RULES: dict[str, set[str]] = {
     # god_file is the most severe structural issue
-    "god_file": {"review_blindspot", "knowledge_silo", "thrashing_code", "bug_magnet"},
+    "god_file": {"review_blindspot", "knowledge_silo", "thrashing_code"},
     # high_risk_hub subsumes simpler risk finders
-    "high_risk_hub": {"bug_attractor", "knowledge_silo", "bug_magnet", "thrashing_code"},
+    "high_risk_hub": {"bug_attractor", "knowledge_silo", "thrashing_code"},
     # review_blindspot is stricter (no tests)
     "review_blindspot": {"knowledge_silo"},
     # chronic_problem wraps any finding that persists

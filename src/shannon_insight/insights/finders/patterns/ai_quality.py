@@ -47,7 +47,7 @@ ORPHAN_CODE = Pattern(
     name="orphan_code",
     scope=PatternScope.FILE,
     severity=0.55,
-    requires={Signal.IS_ORPHAN.name, Signal.ROLE.name},
+    requires={Signal.IS_ORPHAN.value, Signal.ROLE.value},
     condition="is_orphan = True",
     predicate=_orphan_code_predicate,
     severity_fn=_orphan_code_severity,
@@ -66,11 +66,16 @@ ORPHAN_CODE = Pattern(
 
 
 def _hollow_code_predicate(store: FactStore, entity: EntityId) -> bool:
-    """File with many stub functions."""
+    """File with many stub functions.
+
+    Uses OR logic to catch more hollow files:
+    - stub_ratio > 0.5: majority stubs is always hollow
+    - stub_ratio > 0.3 AND impl_gini > 0.6: moderate stubs with uneven sizes
+    """
     stub_ratio = store.get_signal(entity, Signal.STUB_RATIO, 0)
     impl_gini = store.get_signal(entity, Signal.IMPL_GINI, 0)
 
-    return stub_ratio > 0.5 and impl_gini > 0.6
+    return stub_ratio > 0.5 or (stub_ratio > 0.3 and impl_gini > 0.6)
 
 
 def _hollow_code_severity(store: FactStore, entity: EntityId) -> float:
@@ -91,8 +96,8 @@ HOLLOW_CODE = Pattern(
     name="hollow_code",
     scope=PatternScope.FILE,
     severity=0.71,
-    requires={Signal.STUB_RATIO.name, Signal.IMPL_GINI.name},
-    condition="stub_ratio > 0.5 AND impl_gini > 0.6",
+    requires={Signal.STUB_RATIO.value, Signal.IMPL_GINI.value},
+    condition="stub_ratio > 0.5 OR (stub_ratio > 0.3 AND impl_gini > 0.6)",
     predicate=_hollow_code_predicate,
     severity_fn=_hollow_code_severity,
     evidence_fn=_hollow_code_evidence,
@@ -132,7 +137,7 @@ PHANTOM_IMPORTS = Pattern(
     name="phantom_imports",
     scope=PatternScope.FILE,
     severity=0.65,
-    requires={Signal.PHANTOM_IMPORT_COUNT.name},
+    requires={Signal.PHANTOM_IMPORT_COUNT.value},
     condition="phantom_import_count > 0",
     predicate=_phantom_imports_predicate,
     severity_fn=_phantom_imports_severity,
@@ -247,7 +252,7 @@ FLAT_ARCHITECTURE = Pattern(
     name="flat_architecture",
     scope=PatternScope.CODEBASE,
     severity=0.60,
-    requires={Signal.DEPTH.name, Signal.GLUE_DEFICIT.name},
+    requires={Signal.DEPTH.value, Signal.GLUE_DEFICIT.value},
     condition="max(depth) <= 1 AND glue_deficit > 0.5",
     predicate=_flat_architecture_predicate,
     severity_fn=_flat_architecture_severity,
@@ -288,7 +293,7 @@ NAMING_DRIFT = Pattern(
     name="naming_drift",
     scope=PatternScope.FILE,
     severity=0.45,
-    requires={Signal.NAMING_DRIFT.name},
+    requires={Signal.NAMING_DRIFT.value},
     condition="naming_drift > 0.7",
     predicate=_naming_drift_predicate,
     severity_fn=_naming_drift_severity,

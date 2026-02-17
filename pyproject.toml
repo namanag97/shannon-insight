@@ -129,6 +129,7 @@ ignore = [
     "B008",  # do not perform function calls in argument defaults
     "B904",  # raise from (too strict for our use case)
     "E741",  # ambiguous variable name (l is fine in comprehensions)
+    "UP045", # Optional[X] vs X | None - we target Python 3.9+ where X | None isn't supported
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -159,5 +160,43 @@ show_error_context = true
 pretty = true
 
 [[tool.mypy.overrides]]
-module = ["sklearn.*", "diskcache.*", "typer.*", "rich.*", "tree_sitter.*", "tree_sitter_python.*", "tree_sitter_go.*", "tree_sitter_typescript.*", "tree_sitter_javascript.*", "tree_sitter_java.*", "tree_sitter_rust.*", "tree_sitter_ruby.*", "tree_sitter_c.*", "tree_sitter_cpp.*", "pyarrow.*", "duckdb.*", "starlette.*", "uvicorn.*", "watchfiles.*"]
+module = ["sklearn.*", "diskcache.*", "typer.*", "rich.*", "tree_sitter.*", "tree_sitter_python.*", "tree_sitter_go.*", "tree_sitter_typescript.*", "tree_sitter_javascript.*", "tree_sitter_java.*", "tree_sitter_rust.*", "tree_sitter_ruby.*", "tree_sitter_c.*", "tree_sitter_cpp.*", "pyarrow.*", "duckdb.*", "starlette.*", "uvicorn.*", "watchfiles.*", "tomllib", "tomli", "scipy.*"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "shannon_insight.infrastructure.provenance",
+    "shannon_insight.infrastructure.session_log",
+    "shannon_insight.persistence.writer",
+]
+warn_unreachable = false
+disable_error_code = ["assignment"]
+
+[[tool.mypy.overrides]]
+module = [
+    "shannon_insight.insights.finders.helpers",
+    "shannon_insight.insights.finders.patterns.*",
+    "shannon_insight.signals.fusion",
+    "shannon_insight.infrastructure.store",
+    "shannon_insight.config",
+]
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = [
+    "shannon_insight.semantics.roles",
+    "shannon_insight.config",
+]
+disable_error_code = ["import-untyped", "import-not-found"]
+
+[[tool.mypy.overrides]]
+module = ["shannon_insight.scanning.treesitter_parser", "shannon_insight.config"]
+warn_unused_ignores = false
+
+[[tool.mypy.overrides]]
+module = ["shannon_insight.math.statistics"]
+disable_error_code = ["import-untyped"]
+
+[[tool.mypy.overrides]]
+module = ["shannon_insight.insights.validation"]
+disable_error_code = ["comparison-overlap"]

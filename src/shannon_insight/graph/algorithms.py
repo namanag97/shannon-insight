@@ -7,12 +7,29 @@ from ..math.graph import GraphMetrics
 from .models import Community, CycleGroup, DependencyGraph, GraphAnalysis
 
 
-def run_graph_algorithms(graph: DependencyGraph) -> GraphAnalysis:
-    """Execute all graph algorithms on a dependency graph."""
+def run_graph_algorithms(
+    graph: DependencyGraph,
+    pagerank_damping: float = 0.85,
+    pagerank_iterations: int = 100,
+    pagerank_tolerance: float = 1e-6,
+) -> GraphAnalysis:
+    """Execute all graph algorithms on a dependency graph.
+
+    Args:
+        graph: Dependency graph to analyze
+        pagerank_damping: Damping factor for PageRank (0.0-1.0)
+        pagerank_iterations: Maximum iterations for PageRank convergence
+        pagerank_tolerance: Convergence tolerance for PageRank
+    """
     analysis = GraphAnalysis()
 
     # Centrality (reuse existing math)
-    analysis.pagerank = GraphMetrics.pagerank(graph.adjacency)
+    analysis.pagerank = GraphMetrics.pagerank(
+        graph.adjacency,
+        damping=pagerank_damping,
+        iterations=pagerank_iterations,
+        tolerance=pagerank_tolerance,
+    )
     analysis.betweenness = GraphMetrics.betweenness_centrality(graph.adjacency)
 
     # Degree
@@ -303,8 +320,8 @@ def louvain(
     m = sum(edge_weights.values())  # total edge weight
     if m == 0:
         communities = [Community(id=i, members={n}) for i, n in enumerate(nodes)]
-        node_community = {n: i for i, n in enumerate(nodes)}
-        return communities, node_community, 0.0
+        node_to_community = {n: i for i, n in enumerate(nodes)}
+        return communities, node_to_community, 0.0
 
     # Track which original nodes each current-level node represents.
     # Initially each node represents only itself.

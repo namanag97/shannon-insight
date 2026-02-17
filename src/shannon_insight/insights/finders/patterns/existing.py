@@ -1,7 +1,8 @@
-"""Existing patterns (v1 upgraded).
+"""Core code issue patterns.
 
-7 patterns from Shannon Insight v1, upgraded with v2 infrastructure.
-Canonical spec: docs/v2/architecture/06-patterns/01-existing.md
+7 foundational patterns for detecting common code quality issues:
+HIGH_RISK_HUB, HIDDEN_COUPLING, GOD_FILE, UNSTABLE_FILE,
+BOUNDARY_MISMATCH, DEAD_DEPENDENCY, CHRONIC_PROBLEM.
 """
 
 from __future__ import annotations
@@ -80,11 +81,11 @@ HIGH_RISK_HUB = Pattern(
     scope=PatternScope.FILE,
     severity=1.00,
     requires={
-        Signal.PAGERANK.name,
-        Signal.BLAST_RADIUS_SIZE.name,
-        Signal.COGNITIVE_LOAD.name,
-        Signal.CHURN_TRAJECTORY.name,
-        Signal.TOTAL_CHANGES.name,
+        Signal.PAGERANK.value,
+        Signal.BLAST_RADIUS_SIZE.value,
+        Signal.COGNITIVE_LOAD.value,
+        Signal.CHURN_TRAJECTORY.value,
+        Signal.TOTAL_CHANGES.value,
     },
     condition="pctl(pagerank) > 0.90 AND pctl(blast_radius) > 0.90 AND (pctl(cognitive_load) > 0.90 OR churn_trajectory ∈ {CHURNING, SPIKING})",
     predicate=_high_risk_hub_predicate,
@@ -232,7 +233,7 @@ GOD_FILE = Pattern(
     name="god_file",
     scope=PatternScope.FILE,
     severity=0.80,
-    requires={Signal.COGNITIVE_LOAD.name, Signal.SEMANTIC_COHERENCE.name},
+    requires={Signal.COGNITIVE_LOAD.value, Signal.SEMANTIC_COHERENCE.value},
     condition="pctl(cognitive_load) > 0.90 AND pctl(semantic_coherence) < 0.20",
     predicate=_god_file_predicate,
     severity_fn=_god_file_severity,
@@ -278,7 +279,7 @@ UNSTABLE_FILE = Pattern(
     name="unstable_file",
     scope=PatternScope.FILE,
     severity=0.70,
-    requires={Signal.CHURN_TRAJECTORY.name, Signal.TOTAL_CHANGES.name},
+    requires={Signal.CHURN_TRAJECTORY.value, Signal.TOTAL_CHANGES.value},
     condition="churn_trajectory ∈ {CHURNING, SPIKING} AND total_changes > median",
     predicate=_unstable_file_predicate,
     severity_fn=_unstable_file_severity,
@@ -322,7 +323,7 @@ BOUNDARY_MISMATCH = Pattern(
     name="boundary_mismatch",
     scope=PatternScope.MODULE,
     severity=0.60,
-    requires={Signal.BOUNDARY_ALIGNMENT.name, Signal.FILE_COUNT.name},
+    requires={Signal.BOUNDARY_ALIGNMENT.value, Signal.FILE_COUNT.value},
     condition="boundary_alignment < 0.7 AND file_count >= 3",
     predicate=_boundary_mismatch_predicate,
     severity_fn=_boundary_mismatch_severity,
@@ -390,7 +391,7 @@ DEAD_DEPENDENCY = Pattern(
     requires={
         RelationType.IMPORTS.name,
         RelationType.COCHANGES_WITH.name,
-        Signal.TOTAL_CHANGES.name,
+        Signal.TOTAL_CHANGES.value,
     },
     condition="imports(A, B) AND cochange_count(A, B) = 0 AND total_changes(A) >= 50",
     predicate=_dead_dependency_predicate,

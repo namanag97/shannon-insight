@@ -18,13 +18,21 @@ class GitExtractor:
         self.repo_path = str(Path(repo_path).resolve())
         self.max_commits = max_commits
 
-    def extract(self) -> Optional[GitHistory]:
-        """Parse git log via subprocess. Return None if not a git repo."""
+    def extract(self, since_sha: Optional[str] = None) -> Optional[GitHistory]:
+        """Parse git log via subprocess. Return None if not a git repo.
+
+        Args:
+            since_sha: If provided, only extract commits after this SHA.
+                      Use for incremental updates.
+
+        Returns:
+            GitHistory with parsed commits, or None if not a git repo.
+        """
         if not self._is_git_repo():
             logger.info("Not a git repository — skipping temporal analysis")
             return None
 
-        raw = self._run_git_log()
+        raw = self._run_git_log(since_sha=since_sha)
         if raw is None:
             return None
 
@@ -48,6 +56,27 @@ class GitExtractor:
             span_days=span_days,
         )
 
+    def get_head_sha(self) -> Optional[str]:
+        """Get the current HEAD SHA.
+
+        Returns:
+            40-character SHA of HEAD, or None if not a git repo.
+        """
+        if not self._is_git_repo():
+            return None
+        try:
+            result = subprocess.run(
+                ["git", "-C", self.repo_path, "rev-parse", "HEAD"],
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+            if result.returncode == 0:
+                return result.stdout.strip()
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            pass
+        return None
+
     def _is_git_repo(self) -> bool:
         try:
             result = subprocess.run(
@@ -63,7 +92,7 @@ class GitExtractor:
     # Maximum git log output size (50MB) to prevent OOM on huge repos
     _MAX_OUTPUT_BYTES = 50 * 1024 * 1024
 
-    def _run_git_log(self) -> Optional[str]:
+    def _run_git_log(self, since_sha: Optional[str] = None) -> Optional[str]:
         try:
             cmd = [
                 "git",
@@ -72,8 +101,14 @@ class GitExtractor:
                 "log",
                 "--format=%H|%at|%ae|%s",  # Phase 3: include subject for fix_ratio/refactor_ratio
                 "--name-only",
-                f"-n{self.max_commits}",
             ]
+
+            if since_sha:
+                # Incremental: commits after since_sha (exclusive)
+                cmd.append(f"{since_sha}..HEAD")
+            else:
+                # Full history with limit
+                cmd.append(f"-n{self.max_commits}")
             # Use Popen for streaming to avoid loading unbounded output into memory
             proc = subprocess.Popen(
                 cmd,

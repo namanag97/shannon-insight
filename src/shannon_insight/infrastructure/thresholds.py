@@ -24,7 +24,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from shannon_insight.signals.registry import REGISTRY, Signal
+from shannon_insight.infrastructure.signals import REGISTRY, Signal
+from shannon_insight.session import Tier
 
 if TYPE_CHECKING:
     from shannon_insight.signals.models import FileSignals, SignalField
@@ -62,7 +63,7 @@ class ThresholdCheck:
         meta = REGISTRY.get(signal)
         if meta is None:
             return False
-        if self.tier == "ABSOLUTE":
+        if self.tier == Tier.ABSOLUTE:
             if meta.absolute_threshold is None:
                 return False  # No absolute threshold defined -- cannot evaluate
             raw = getattr(fs, signal.value, 0)
@@ -90,7 +91,7 @@ class ThresholdCheck:
         meta = REGISTRY.get(signal)
         if meta is None:
             return False
-        if self.tier == "ABSOLUTE":
+        if self.tier == Tier.ABSOLUTE:
             if meta.absolute_threshold is None:
                 return False
             raw = getattr(fs, signal.value, 0)

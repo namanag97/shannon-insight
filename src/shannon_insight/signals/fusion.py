@@ -1,27 +1,25 @@
 """FusionPipeline — typestate pattern for signal fusion ordering.
 
-The typestate pattern enforces the correct 6-step ordering:
-    1. collect: Gather raw signals from all store slots
-    2. raw_risk: Compute raw_risk per file (pre-percentile)
-    3. normalize: Compute percentiles (ABSOLUTE tier skips this)
-    4. module_temporal: Fill module temporal signals
-    5. composites: Compute all composite scores
-    6. laplacian: Health Laplacian (uses raw_risk, not composites)
+The 6-step fusion pipeline computes the unified SignalField:
 
-Each step returns the next stage type. You literally cannot call
-step5_composites() on a _Collected object — the method doesn't exist.
-Mypy catches reordering at type-check time.
+    1. COLLECT: Gather raw signals from all store slots
+    2. RAW_RISK: Compute raw_risk per file (pre-percentile)
+    3. NORMALIZE: Compute percentiles (ABSOLUTE tier skips this)
+    4. MODULE_TEMPORAL: Fill module temporal signals
+    5. COMPOSITES: Compute all composite scores
+    6. LAPLACIAN: Health Laplacian (uses raw_risk, not composites)
+
+The typestate pattern enforces correct ordering at compile time:
+each step returns a new class that only has the next step's method.
+You cannot call step5_composites() on a _Collected object.
+
+Critical ordering constraints:
+- RAW_RISK must precede NORMALIZE (raw_risk used by health Laplacian)
+- MODULE_TEMPORAL must follow NORMALIZE (reads percentiles)
+- COMPOSITES requires both normalized signals and module temporal
 
 Example usage:
-    field = build(store)  # Chains all 6 steps
-    # or manually:
-    field = (FusionPipeline(store)
-        .step1_collect()
-        .step2_raw_risk()
-        .step3_normalize()
-        .step4_module_temporal()
-        .step5_composites()
-        .step6_laplacian())
+    field = build(store, session)  # Chains all 6 steps
 """
 
 from __future__ import annotations
@@ -29,6 +27,7 @@ from __future__ import annotations
 from collections import Counter
 from typing import TYPE_CHECKING
 
+from shannon_insight.math.gini import Gini
 from shannon_insight.signals.composites import compute_composites
 from shannon_insight.signals.health_laplacian import compute_all_raw_risks, compute_health_laplacian
 from shannon_insight.signals.models import FileSignals, ModuleSignals, SignalField
@@ -39,26 +38,6 @@ if TYPE_CHECKING:
     from shannon_insight.session import AnalysisSession
 
 
-def _gini(values: list[float]) -> float:
-    """Compute Gini coefficient.
-
-    G = (2 * sum(i * x_i)) / (n * sum(x_i)) - (n + 1) / n
-
-    Values must be non-negative. Returns 0 for empty/all-zero values.
-    """
-    if not values or sum(values) == 0:
-        return 0.0
-
-    sorted_values = sorted(values)
-    n = len(sorted_values)
-
-    # i is 1-indexed in formula
-    numerator = sum((i + 1) * v for i, v in enumerate(sorted_values))
-    denominator = n * sum(sorted_values)
-
-    return (2 * numerator / denominator) - (n + 1) / n
-
-
 class FusionPipeline:
     """Entry point for signal fusion. Each step returns the next stage type."""
 
@@ -66,14 +45,14 @@ class FusionPipeline:
         """Initialize fusion pipeline with store and session.
 
         Args:
-            store: Analysis store with all intermediate results
+            store: AnalysisStore with all analysis data
             session: Analysis session with tier and configuration
         """
         self.store = store
         self.session = session
         self.field = SignalField()
         # Set tier from session (already computed)
-        self.field.tier = session.tier.value.upper()  # Convert "full" -> "FULL"
+        self.field.tier = session.tier  # Store Tier enum directly
 
     def step1_collect(self) -> _Collected:
         """Gather raw signals from all store slots into SignalField.
@@ -162,6 +141,7 @@ class FusionPipeline:
         content = self.store.get_content(path)
         if content:
             from shannon_insight.math.compression import Compression
+
             fs.compression_ratio = Compression.compression_ratio(content.encode("utf-8"))
 
         # Compute cognitive_load from syntax
@@ -300,8 +280,6 @@ class FusionPipeline:
 
     def _collect_directories(self) -> None:
         """Aggregate file signals into per-directory signals."""
-        from collections import Counter
-
         from .models import DirectorySignals
 
         # Group files by directory
@@ -590,7 +568,7 @@ class _Normalized:
             # knowledge_gini: Gini of per-author commit counts
             author_counts = Counter(c.author for c in module_commits)
             if len(author_counts) > 1:
-                ms.knowledge_gini = _gini(list(author_counts.values()))
+                ms.knowledge_gini = Gini.gini_coefficient(list(author_counts.values()))
 
             # module_bus_factor: min(bus_factor) across high-centrality files
             high_centrality = []

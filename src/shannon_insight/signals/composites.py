@@ -17,6 +17,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from shannon_insight.session import Tier
+
 if TYPE_CHECKING:
     from shannon_insight.signals.models import (
         FileSignals,
@@ -28,14 +30,16 @@ if TYPE_CHECKING:
 def compute_composites(field: SignalField) -> None:
     """Compute all composite scores.
 
-    Requires percentiles to be filled. Modifies field in place.
-    Skips computation for ABSOLUTE tier.
+    For BAYESIAN/FULL tiers: uses percentile normalization.
+    For ABSOLUTE tier (<15 files): uses absolute thresholds from spec.
+    Modifies field in place.
     """
-    if field.tier == "ABSOLUTE":
-        # < 15 files: composites not computed, show raw signals only
+    if field.tier == Tier.ABSOLUTE:
+        # < 15 files: use absolute thresholds instead of percentiles
+        _compute_absolute_tier_composites(field)
         return
 
-    # Per-file composites
+    # Per-file composites (percentile-based)
     max_bus_factor = _get_max_bus_factor(field)
     for fs in field.per_file.values():
         fs.risk_score = _compute_risk_score(fs, max_bus_factor)
@@ -60,39 +64,39 @@ def compute_composites(field: SignalField) -> None:
 def _compute_risk_score(fs: FileSignals, max_bus_factor: float) -> float:
     """Signal #35: How dangerous is this file?
 
-    Multiplicative scoring: inactive code (no changes) = zero risk.
+    Additive weighted sum (from registry/composites.md):
 
-    risk_score = structural_risk * complexity_factor * churn_factor * (1 + bus_factor_risk)
+    risk_score = 0.25 × pctl(pagerank)
+               + 0.20 × pctl(blast_radius_size)
+               + 0.20 × pctl(cognitive_load)
+               + 0.20 × instability_factor
+               + 0.15 × (1 - bus_factor / max_bus_factor)
 
-    where:
-        structural_risk = max(pctl(pagerank), pctl(blast_radius_size))
-        complexity_factor = pctl(cognitive_load)
-        churn_factor = 1.0 if trajectory in {CHURNING, SPIKING} else 0.3
-        bus_factor_risk = 1.0 - min(bus_factor, 3) / 3
+    where instability_factor = 1.0 if churn_trajectory ∈ {CHURNING, SPIKING} else 0.3
 
-    If total_changes == 0, risk_score = 0.0 (dormant code is not risky).
+    Note: Dormant code (total_changes=0) still gets a risk score based on
+    structural position. Zero changes doesn't mean zero risk — unmaintained
+    code can be risky too.
     """
-    # Gate: no changes = no risk
-    if fs.total_changes == 0:
-        return 0.0
-
     pctl_pr = fs.percentiles.get("pagerank", 0.0)
     pctl_blast = fs.percentiles.get("blast_radius_size", 0.0)
     pctl_cog = fs.percentiles.get("cognitive_load", 0.0)
 
-    # Structural risk: how central is this file?
-    structural_risk = max(pctl_pr, pctl_blast)
+    # Instability factor: is this file actively churning?
+    instability_factor = 1.0 if fs.churn_trajectory in ("CHURNING", "SPIKING") else 0.3
 
-    # Complexity factor: how hard is this file to understand?
-    complexity_factor = pctl_cog
+    # Bus factor risk: normalized against max in codebase
+    # Higher bus_factor = more people know it = lower risk
+    bf_term = 1.0 - min(fs.bus_factor, max_bus_factor) / max(max_bus_factor, 1.0)
 
-    # Churn factor: is this file actively churning?
-    churn_factor = 1.0 if fs.churn_trajectory in ("CHURNING", "SPIKING") else 0.3
-
-    # Bus factor risk: concentrated knowledge = higher risk (capped at 3)
-    bus_factor_risk = 1.0 - min(fs.bus_factor, 3.0) / 3.0
-
-    risk = structural_risk * complexity_factor * churn_factor * (1.0 + bus_factor_risk)
+    # Additive weighted sum (weights sum to 1.0)
+    risk = (
+        0.25 * pctl_pr
+        + 0.20 * pctl_blast
+        + 0.20 * pctl_cog
+        + 0.20 * instability_factor
+        + 0.15 * bf_term
+    )
 
     return max(0.0, min(1.0, risk))
 
@@ -101,23 +105,26 @@ def _compute_wiring_quality(fs: FileSignals) -> float:
     """Signal #36: How well-connected and implemented is this file?
 
     wiring_quality = 1 - (
-        0.30 * is_orphan
-      + 0.25 * stub_ratio
-      + 0.25 * (phantom_import_count / max(import_count, 1))
-      + 0.20 * (broken_call_count / max(total_calls, 1))
+        0.375 * is_orphan
+      + 0.3125 * stub_ratio
+      + 0.3125 * (phantom_import_count / max(import_count, 1))
     )
+
+    Note: broken_call_count term REMOVED because CALL edges are not implemented.
+    Original formula had 0.20 weight on broken_call_count. That weight has been
+    redistributed to remaining terms (scale factor = 1.25).
+
+    When CALL edges are implemented, restore to:
+        0.30 * is_orphan + 0.25 * stub_ratio + 0.25 * phantom_ratio + 0.20 * broken_ratio
 
     Higher = better wired.
     """
     orphan_term = 1.0 if fs.is_orphan else 0.0
     phantom_ratio = fs.phantom_import_count / max(fs.import_count, 1)
 
-    # broken_call_count / total_calls - for now total_calls not tracked,
-    # so we use in_degree + out_degree as proxy for connectedness
-    total_calls = fs.in_degree + fs.out_degree
-    broken_ratio = fs.broken_call_count / max(total_calls, 1)
-
-    penalty = 0.30 * orphan_term + 0.25 * fs.stub_ratio + 0.25 * phantom_ratio + 0.20 * broken_ratio
+    # Weights redistributed from original (0.30, 0.25, 0.25, 0.20) after removing
+    # broken_call_count term. Scale = 1.0 / 0.80 = 1.25
+    penalty = 0.375 * orphan_term + 0.3125 * fs.stub_ratio + 0.3125 * phantom_ratio
 
     quality = 1.0 - penalty
     return max(0.0, min(1.0, quality))
@@ -419,3 +426,75 @@ def _get_team_size(field: SignalField) -> int:
     Pre-computed in fusion from Phase 3 git history.
     """
     return field.global_signals.team_size
+
+
+# ── ABSOLUTE tier composites (threshold-based) ────────────────────────
+
+
+def _compute_absolute_tier_composites(field: SignalField) -> None:
+    """Compute composites for ABSOLUTE tier using absolute thresholds.
+
+    For codebases with < 15 files, percentile normalization is unreliable.
+    Instead, we use the absolute thresholds from registry/signals.md to
+    compute risk and quality scores.
+
+    Each threshold violation contributes to risk_score.
+    """
+    # Absolute thresholds from registry/signals.md
+    THRESHOLDS = {
+        "lines": 500,
+        "function_count": 30,
+        "max_nesting": 4,
+        "impl_gini": 0.6,
+        "stub_ratio": 0.5,
+        "concept_entropy": 1.5,
+        "naming_drift": 0.7,
+        "todo_density": 0.05,
+        "churn_cv": 1.0,
+        "fix_ratio": 0.4,
+    }
+
+    for fs in field.per_file.values():
+        # Count threshold violations (each contributes equally to risk)
+        violations = 0
+        total_checks = len(THRESHOLDS)
+
+        if fs.lines > THRESHOLDS["lines"]:
+            violations += 1
+        if fs.function_count > THRESHOLDS["function_count"]:
+            violations += 1
+        if fs.max_nesting > THRESHOLDS["max_nesting"]:
+            violations += 1
+        if fs.impl_gini > THRESHOLDS["impl_gini"]:
+            violations += 1
+        if fs.stub_ratio > THRESHOLDS["stub_ratio"]:
+            violations += 1
+        if fs.concept_entropy > THRESHOLDS["concept_entropy"]:
+            violations += 1
+        if fs.naming_drift > THRESHOLDS["naming_drift"]:
+            violations += 1
+        if fs.todo_density > THRESHOLDS["todo_density"]:
+            violations += 1
+        if fs.churn_cv > THRESHOLDS["churn_cv"]:
+            violations += 1
+        if fs.fix_ratio > THRESHOLDS["fix_ratio"]:
+            violations += 1
+
+        # risk_score = proportion of thresholds violated
+        fs.risk_score = violations / total_checks
+
+        # wiring_quality: use same formula but without percentiles
+        fs.wiring_quality = _compute_wiring_quality(fs)
+
+        # file_health_score: 1 - weighted penalties from risk and wiring deficiency
+        fs.file_health_score = max(
+            0.0, min(1.0, 1.0 - (0.5 * fs.risk_score + 0.5 * (1.0 - fs.wiring_quality)))
+        )
+
+    # Global composites: compute what we can without percentiles
+    g = field.global_signals
+    g.wiring_score = _compute_wiring_score(field)
+
+    # Skip percentile-dependent globals for ABSOLUTE tier
+    # architecture_health, team_risk, codebase_health need module data
+    # which may not be meaningful for tiny codebases

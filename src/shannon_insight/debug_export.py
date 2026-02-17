@@ -520,7 +520,7 @@ class DebugExporter:
             "timestamp": self.timestamp,
             "produced_by": store.signal_field.produced_by,
             "summary": {
-                "tier": field.tier,
+                "tier": field.tier.value,  # Convert Tier enum to string
                 "file_count": len(per_file),
                 "directory_count": len(per_directory),
                 "module_count": len(per_module),

@@ -14,6 +14,26 @@ if TYPE_CHECKING:
     from shannon_insight.infrastructure.store import FactStore
 
 
+def is_solo_project(store: FactStore) -> bool:
+    """Detect if this is a solo developer project.
+
+    A solo project has max(bus_factor) <= 1.0 across all files.
+    This means every file was touched by at most one author.
+
+    Used to suppress team-based findings (TRUCK_FACTOR, KNOWLEDGE_SILO,
+    REVIEW_BLINDSPOT) that are tautological for solo developers.
+    """
+    files = store.files()
+    if not files:
+        return True
+
+    max_bf = max(
+        (store.get_signal(f, Signal.BUS_FACTOR, 0) for f in files),
+        default=0,
+    )
+    return max_bf <= 1.0
+
+
 def compute_percentile(store: FactStore, entity: EntityId, signal: Signal) -> float:
     """Compute percentile rank for a signal value across all files.
 

@@ -1,4 +1,4 @@
-"""InsightKernel — orchestrates analyzers and finders on the blackboard."""
+"""InsightKernel — orchestrates analyzers and finders on the FactStore."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from ..persistence.models import TensorSnapshot
 from ..scanning.syntax_extractor import SyntaxExtractor
 from ..session import AnalysisSession
 from .analyzers import get_default_analyzers, get_wave2_analyzers
-from .finders import get_default_finders, get_persistence_finders
+from .finders import get_persistence_finders
 from .kernel_toposort import resolve_analyzer_order
 from .models import InsightResult, StoreSummary
 from .store import AnalysisStore
@@ -61,6 +61,7 @@ class InsightKernel:
         session: AnalysisSession,
         enable_persistence_finders: bool = False,
         debug_export_dir: str | Path | None = None,
+        enable_provenance: bool = False,
     ):
         """Initialize kernel with analysis session.
 
@@ -68,13 +69,14 @@ class InsightKernel:
             session: Analysis session with config, environment, and strategy
             enable_persistence_finders: Enable database-backed finders
             debug_export_dir: Optional debug export directory
+            enable_provenance: Enable provenance tracking (--trace flag)
         """
         self.session = session
         self.root_dir = str(session.env.root)
-        self._analyzers = get_default_analyzers()
+        self._analyzers = get_default_analyzers(session.config)
         self._wave2_analyzers = get_wave2_analyzers()
-        self._finders = get_default_finders()
         self._persistence_finders = get_persistence_finders() if enable_persistence_finders else []
+        self._enable_provenance = enable_provenance
         self._debug_exporter: DebugExporter | None = None
         if debug_export_dir:
             from ..debug_export import DebugExporter
@@ -107,7 +109,11 @@ class InsightKernel:
             if on_progress is not None:
                 on_progress(msg)
 
-        store = AnalysisStore(root_dir=self.root_dir, session=self.session)
+        store = AnalysisStore(
+            root_dir=self.root_dir,
+            session=self.session,
+            enable_provenance=self._enable_provenance,
+        )
 
         # Phase 1: Extract syntax (reads files once, caches content)
         # This replaces the old separate _scan() + _extract_syntax() steps.
@@ -117,7 +123,7 @@ class InsightKernel:
         logger.info(f"Scanned {store.file_count} files")
 
         # Sync scanned files to FactStore as entities with basic signals
-        store._sync_entities()
+        self._sync_entities(store)
 
         if self._debug_exporter:
             self._debug_exporter.export_scanning(store)
@@ -172,9 +178,6 @@ class InsightKernel:
             except PhaseValidationError as e:
                 logger.warning(f"Structural validation failed: {e}")
 
-        # Clear content cache to free memory (wave 2 doesn't need file content)
-        store.clear_content_cache()
-
         # Phase 2b: Run Wave 2 analyzers (signal fusion, after all Wave 1)
         _progress("Computing signals...")
         for analyzer in self._wave2_analyzers:
@@ -203,6 +206,9 @@ class InsightKernel:
             except PhaseValidationError as e:
                 logger.warning(f"Signal field validation failed: {e}")
 
+        # Release file content memory (no longer needed after fusion)
+        store.clear_content_cache()
+
         # Phase 3: Run patterns against FactStore
         _progress("Detecting issues...")
         from shannon_insight.insights.finders.executor import execute_patterns
@@ -212,37 +218,36 @@ class InsightKernel:
         tier = self.session.tier
         logger.debug(f"Using tier: {tier.value} for {store.file_count} files")
 
-        # Execute v2 patterns
-        v2_findings = execute_patterns(
+        # Execute patterns to detect code issues
+        pattern_findings = execute_patterns(
             store=store.fact_store,
             patterns=ALL_PATTERNS,
             tier=tier,
-            max_findings=max_findings * 2,  # Get extra for backward compat filters
+            max_findings=max_findings * 2,  # Request extra for post-filtering
         )
 
-        # Convert v2 findings to v1 format for backward compatibility
+        # Convert pattern findings to output format
         from shannon_insight.insights.models import Evidence
-        from shannon_insight.insights.models import Finding as V1Finding
+        from shannon_insight.insights.models import Finding as OutputFinding
 
         findings = []
-        for v2_f in v2_findings:
+        for pf in pattern_findings:
             # Extract file paths from target
-            if isinstance(v2_f.target, tuple):
-                files = [v2_f.target[0].key, v2_f.target[1].key]
+            if isinstance(pf.target, tuple):
+                files = [pf.target[0].key, pf.target[1].key]
             else:
-                files = [v2_f.target.key]
+                files = [pf.target.key]
 
             # Convert evidence dict to Evidence objects
-            # Handle both numeric and string values
             evidence = []
-            for k, v in v2_f.evidence.items():
+            for k, v in pf.evidence.items():
                 # Convert to float if possible, otherwise use 0.0 as placeholder
                 try:
                     numeric_value = float(v) if not isinstance(v, str) else 0.0
                 except (ValueError, TypeError):
                     numeric_value = 0.0
 
-                # Generate descriptive text (min 6 chars for test compatibility)
+                # Generate descriptive text
                 if isinstance(v, bool):
                     description = f"{k}={v}"
                 elif isinstance(v, (int, float)):
@@ -254,25 +259,16 @@ class InsightKernel:
                     Evidence(signal=k, value=numeric_value, percentile=0.0, description=description)
                 )
 
-            # Convert v2 Finding to v1 Finding
-            v1_f = V1Finding(
-                finding_type=v2_f.pattern,
-                severity=v2_f.severity,  # v2 uses 0-1, v1 also uses 0-1
-                title=v2_f.description,
+            finding = OutputFinding(
+                finding_type=pf.pattern,
+                severity=pf.severity,
+                title=pf.description,
                 files=files,
                 evidence=evidence,
-                suggestion=v2_f.remediation,
-                confidence=v2_f.confidence,
+                suggestion=pf.remediation,
+                confidence=pf.confidence,
             )
-            findings.append(v1_f)
-
-        # Fallback: Run old v1 finders for backward compatibility
-        for finder in self._finders:
-            if finder.requires.issubset(store.available):
-                try:
-                    findings.extend(finder.find(store))
-                except Exception as e:
-                    logger.warning(f"V1 finder {finder.name} failed: {e}")
+            findings.append(finding)
 
         # Phase 3b: Run persistence finders (need DB connection)
         if self._persistence_finders:
@@ -312,6 +308,19 @@ class InsightKernel:
         _progress("Capturing snapshot...")
         snapshot = capture_tensor_snapshot(store, result, self.session)
 
+        # Phase 6: Write session log if provenance tracking is enabled
+        if self._enable_provenance and store.fact_store.provenance is not None:
+            try:
+                from ..infrastructure.session_log import SessionLogManager
+
+                log_manager = SessionLogManager(root=self.root_dir)
+                log_manager.cleanup_old_logs()
+                log_path = log_manager.write_log(store.fact_store.provenance)
+                if log_path:
+                    logger.info(f"Session log written: {log_path}")
+            except Exception as e:
+                logger.debug(f"Failed to write session log: {e}")
+
         return result, snapshot
 
     def _extract_syntax(self, store: AnalysisStore) -> None:
@@ -323,7 +332,7 @@ class InsightKernel:
         3. Content cached for later reuse (compression ratio, clone detection)
 
         Populates:
-        - store.file_syntax slot with dict[path, FileSyntax]
+        - store.file_syntax with dict[path, FileSyntax]
         - store._content_cache for later reuse
 
         Uses tree-sitter if available, falls back to regex.
@@ -344,13 +353,37 @@ class InsightKernel:
         file_syntax = extractor.extract_all(file_paths, root, content_cache=store._content_cache)
 
         # Store result
-        store.file_syntax.set(file_syntax, produced_by="kernel")
+        store.file_syntax.set(file_syntax, produced_by="scanning")
         logger.debug(
             f"Extracted syntax for {len(file_syntax)} files "
             f"(tree-sitter: {extractor.treesitter_count}, "
             f"fallback: {extractor.fallback_count}, "
             f"cached: {len(store._content_cache)})"
         )
+
+    def _sync_entities(self, store: AnalysisStore) -> None:
+        """Sync file_syntax to FactStore entities with basic signals."""
+        from ..infrastructure.entities import Entity, EntityId, EntityType
+        from ..infrastructure.signals import Signal
+
+        if store.file_syntax.available:
+            producer = "scanning"
+            for path, syntax in store.file_syntax.value.items():
+                entity_id = EntityId(EntityType.FILE, path)
+                entity = Entity(id=entity_id, metadata={})
+                store.fact_store.add_entity(entity)
+                store.fact_store.set_signal(
+                    entity_id, Signal.LINES, syntax.lines, producer=producer
+                )
+                store.fact_store.set_signal(
+                    entity_id, Signal.FUNCTION_COUNT, syntax.function_count, producer=producer
+                )
+                store.fact_store.set_signal(
+                    entity_id, Signal.CLASS_COUNT, syntax.class_count, producer=producer
+                )
+                store.fact_store.set_signal(
+                    entity_id, Signal.IMPORT_COUNT, syntax.import_count, producer=producer
+                )
 
     def _discover_files(self) -> list[Path]:
         """Discover source files using ScannerFactory logic.

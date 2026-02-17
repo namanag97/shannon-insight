@@ -1,4 +1,4 @@
-"""Tests for v2 Signal registry (62 signals)."""
+"""Tests for v2 Signal registry (63 signals)."""
 
 import pytest
 
@@ -14,11 +14,10 @@ from shannon_insight.signals.registry import (
 
 
 class TestSignalEnum:
-    """Test Signal enum has all 62 signals."""
+    """Test Signal enum has all 63 signals."""
 
     def test_signal_count(self):
-        """Must have exactly 63 signals (62 from spec + raw_risk intermediate)."""
-        # Spec says 62 but raw_risk is needed as intermediate for health Laplacian
+        """Must have exactly 63 signals (from spec)."""
         assert len(Signal) == 63
 
     def test_per_file_scanning_signals(self):
@@ -69,7 +68,6 @@ class TestSignalEnum:
 
     def test_per_file_composite_signals(self):
         """Composite signals (#35-36)."""
-        assert Signal.RAW_RISK.value == "raw_risk"
         assert Signal.RISK_SCORE.value == "risk_score"
         assert Signal.WIRING_QUALITY.value == "wiring_quality"
 
@@ -146,11 +144,12 @@ class TestSignalMeta:
         meta = REGISTRY[Signal.SEMANTIC_COHERENCE]
         assert meta.polarity == "high_is_good"
 
-    def test_instability_nullable(self):
-        """INSTABILITY can be None (isolated module)."""
+    def test_instability_neutral_polarity(self):
+        """INSTABILITY has neutral polarity (not inherently good or bad)."""
         meta = REGISTRY[Signal.INSTABILITY]
-        # nullable signals have a note in their metadata
-        assert meta.nullable is True
+        # Instability can be None for isolated modules (Ca+Ce=0),
+        # but nullable is not tracked in SignalMeta - handled in code
+        assert meta.polarity == "neutral"
 
 
 class TestRegistry:
@@ -238,9 +237,9 @@ class TestSignalCounts:
     """Verify signal count breakdown from spec."""
 
     def test_file_signal_count(self):
-        """Per-file signals: 36."""
+        """Per-file signals: 37."""
         file_signals = signals_by_scope("file")
-        assert len(file_signals) == 37  # 36 + raw_risk (intermediate)
+        assert len(file_signals) == 37
 
     def test_module_signal_count(self):
         """Per-module signals: 15."""
@@ -260,6 +259,8 @@ class TestSignalCounts:
         # Bool: is_orphan
         # Assignment: community
         # Special: depth (can be -1)
-        # Composites (already normalized): risk_score, wiring_quality, health_score, wiring_score, architecture_health, codebase_health, raw_risk
-        # Global (single value): modularity, fiedler_value, spectral_gap, cycle_count, centrality_gini, orphan_ratio, phantom_ratio, glue_deficit
-        assert len(non_pctl) >= 15
+        # Composites (already normalized): risk_score, wiring_quality, health_score
+        # Global (single value): modularity, fiedler_value, spectral_gap, cycle_count,
+        #                        centrality_gini, orphan_ratio, phantom_ratio, glue_deficit,
+        #                        wiring_score, architecture_health, codebase_health
+        assert len(non_pctl) == 19  # Exact count for V2

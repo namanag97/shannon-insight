@@ -1,6 +1,7 @@
 """Tests for ThresholdCheck tier-aware threshold strategy."""
 
-from shannon_insight.insights.threshold import ThresholdCheck
+from shannon_insight.infrastructure.thresholds import ThresholdCheck
+from shannon_insight.session import Tier
 from shannon_insight.signals.registry import Signal
 
 
@@ -23,7 +24,10 @@ class MockFileSignals:
 class MockSignalField:
     """Mock signal field for testing."""
 
-    def __init__(self, tier: str = "FULL"):
+    def __init__(self, tier: Tier | str = Tier.FULL):
+        # Support both enum and string for backward compat
+        if isinstance(tier, str):
+            tier = Tier(tier.lower())
         self.tier = tier
 
 

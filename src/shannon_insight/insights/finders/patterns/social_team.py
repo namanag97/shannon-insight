@@ -12,7 +12,7 @@ from shannon_insight.infrastructure.entities import EntityId
 from shannon_insight.infrastructure.patterns import Pattern, PatternScope
 from shannon_insight.infrastructure.signals import Signal
 
-from ..helpers import compute_percentile
+from ..helpers import compute_percentile, is_solo_project
 
 if TYPE_CHECKING:
     from shannon_insight.infrastructure.store import FactStore
@@ -25,6 +25,10 @@ if TYPE_CHECKING:
 
 def _knowledge_silo_predicate(store: FactStore, entity: EntityId) -> bool:
     """Central file owned by one person."""
+    # Skip bus_factor checks for solo developer projects
+    if is_solo_project(store):
+        return False
+
     bus_factor = store.get_signal(entity, Signal.BUS_FACTOR, 0)
     pr_pctl = compute_percentile(store, entity, Signal.PAGERANK)
 
@@ -50,7 +54,7 @@ KNOWLEDGE_SILO = Pattern(
     name="knowledge_silo",
     scope=PatternScope.FILE,
     severity=0.70,
-    requires={Signal.BUS_FACTOR.name, Signal.PAGERANK.name},
+    requires={Signal.BUS_FACTOR.value, Signal.PAGERANK.value},
     condition="bus_factor <= 1.5 AND pctl(pagerank) > 0.75",
     predicate=_knowledge_silo_predicate,
     severity_fn=_knowledge_silo_severity,
@@ -69,18 +73,14 @@ KNOWLEDGE_SILO = Pattern(
 
 
 def _conway_violation_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
-    """Modules with different teams but structural coupling."""
-    mod_a, mod_b = pair
+    """Modules with different teams but structural coupling.
 
-    # Get author distance between modules (G5 distance space)
-    # For now, we approximate from module-level signals
-    # In full implementation, this would use MODULE-level AUTHORED_BY relations
-    author_distance = 0.0  # TODO: Compute from module author sets
-
-    # Get structural coupling between modules
-    coupling = store.get_signal(mod_a, Signal.COUPLING, 0)
-
-    return author_distance > 0.8 and coupling > 0.3
+    TODO: CONWAY_VIOLATION disabled until author_distance computation is implemented.
+    Currently author_distance is hardcoded to 0.0, so this pattern can never fire.
+    The pattern is also excluded from ALL_PATTERNS in the registry.
+    """
+    # Always skip: author_distance not yet implemented
+    return False
 
 
 def _conway_violation_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:
@@ -101,7 +101,7 @@ CONWAY_VIOLATION = Pattern(
     name="conway_violation",
     scope=PatternScope.MODULE_PAIR,
     severity=0.55,
-    requires={Signal.COUPLING.name},  # + AUTHORED_BY relations
+    requires={Signal.COUPLING.value},  # + AUTHORED_BY relations
     condition="d_author(M1, M2) > 0.8 AND structural_coupling(M1, M2) > 0.3",
     predicate=_conway_violation_predicate,
     severity_fn=_conway_violation_severity,
@@ -121,6 +121,10 @@ CONWAY_VIOLATION = Pattern(
 
 def _review_blindspot_predicate(store: FactStore, entity: EntityId) -> bool:
     """Bug-prone file with single owner."""
+    # Skip bus_factor checks for solo developer projects
+    if is_solo_project(store):
+        return False
+
     bus_factor = store.get_signal(entity, Signal.BUS_FACTOR, 0)
     fix_ratio = store.get_signal(entity, Signal.FIX_RATIO, 0)
 
@@ -145,7 +149,7 @@ REVIEW_BLINDSPOT = Pattern(
     name="review_blindspot",
     scope=PatternScope.FILE,
     severity=0.80,
-    requires={Signal.BUS_FACTOR.name, Signal.FIX_RATIO.name},
+    requires={Signal.BUS_FACTOR.value, Signal.FIX_RATIO.value},
     condition="bus_factor <= 1.0 AND fix_ratio > 0.3",
     predicate=_review_blindspot_predicate,
     severity_fn=_review_blindspot_severity,

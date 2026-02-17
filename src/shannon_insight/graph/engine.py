@@ -30,6 +30,9 @@ class AnalysisEngine:
         file_syntax: list[FileSyntax],
         root_dir: str = "",
         content_getter: Optional[Callable[[str], Optional[str]]] = None,
+        pagerank_damping: float = 0.85,
+        pagerank_iterations: int = 100,
+        pagerank_tolerance: float = 1e-6,
     ):
         """Initialize the analysis engine.
 
@@ -37,11 +40,17 @@ class AnalysisEngine:
             file_syntax: List of FileSyntax from scanning
             root_dir: Root directory for file resolution
             content_getter: Optional function(rel_path) -> str|None for cached content
+            pagerank_damping: Damping factor for PageRank (0.0-1.0)
+            pagerank_iterations: Maximum iterations for PageRank convergence
+            pagerank_tolerance: Convergence tolerance for PageRank
         """
         self.file_syntax = file_syntax
         self.root_dir = root_dir
         self._file_map: dict[str, FileSyntax] = {f.path: f for f in file_syntax}
         self._content_getter = content_getter
+        self._pagerank_damping = pagerank_damping
+        self._pagerank_iterations = pagerank_iterations
+        self._pagerank_tolerance = pagerank_tolerance
 
     def run(self) -> CodebaseAnalysis:
         """Run the full analysis DAG and return structured results."""
@@ -54,7 +63,12 @@ class AnalysisEngine:
         result.total_edges = graph.edge_count
 
         # Phase 3: Graph algorithms
-        graph_analysis = run_graph_algorithms(graph)
+        graph_analysis = run_graph_algorithms(
+            graph,
+            pagerank_damping=self._pagerank_damping,
+            pagerank_iterations=self._pagerank_iterations,
+            pagerank_tolerance=self._pagerank_tolerance,
+        )
         result.graph_analysis = graph_analysis
         result.cycle_count = len(graph_analysis.cycles)
         result.modularity = graph_analysis.modularity_score
@@ -135,7 +149,6 @@ class AnalysisEngine:
             results[fs.path] = fa
 
         return results
-
 
     def _read_file_content(self, rel_path: str) -> Optional[str]:
         """Read file content from cache or disk."""

@@ -22,10 +22,18 @@ from shannon_insight.infrastructure.patterns import (
     Pattern,
     PatternScope,
 )
+from shannon_insight.infrastructure.provenance import (
+    ProvenanceStore,
+    SignalProvenance,
+    cleanup_stale_sessions,
+)
 from shannon_insight.infrastructure.relations import (
     Relation,
     RelationGraph,
     RelationType,
+)
+from shannon_insight.infrastructure.session_log import (
+    SessionLogManager,
 )
 from shannon_insight.infrastructure.signals import (
     SIGNAL_REGISTRY,
@@ -63,9 +71,13 @@ __all__ = [
     "Finding",
     "Pattern",
     "PatternScope",
+    "ProvenanceStore",
+    "cleanup_stale_sessions",
     "Relation",
     "RelationGraph",
     "RelationType",
+    "SessionLogManager",
+    "SignalProvenance",
     "ThresholdCheck",
     "compute_hotspot_median",
     "is_hotspot",

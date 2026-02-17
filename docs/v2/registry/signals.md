@@ -73,6 +73,7 @@ G = 0 means perfect equality. G = 1 means maximum inequality.
 | 32 | `author_entropy` | D7 AUTHORSHIP | float | [0, ∞) | more distributed (good) | — | `H = -Σ p(a) × log₂(p(a))`. H = 0 = single author. H = log₂(k) = k equally-contributing authors. Polarity: high is GOOD. |
 | 33 | `fix_ratio` | D8 INTENT | float | [0, 1] | attracts more bugs (risk) | > 0.4 | `\|commits matching fix/bug/patch/hotfix/resolve/repair\| / total_commits`. |
 | 34 | `refactor_ratio` | D8 INTENT | float | [0, 1] | more proactive maintenance (good) | — | `\|commits matching refactor/restructure/reorganize/clean/simplify\| / total_commits`. Polarity: high is GOOD. |
+| 34a | `change_entropy` | D6 CHANGE | float | [0, ∞) | changes scattered across time (risk) | — | Shannon entropy of change distribution across time windows: `H = -Σ p(w) × log₂(p(w))` where `p(w) = changes_in_window(w) / total_changes`. High entropy = changes evenly scattered (constant churn). Low entropy = changes concentrated in few windows (bursts). Polarity: high is BAD. |
 
 ### Composites (from IR5s) — computed by `signals/`
 

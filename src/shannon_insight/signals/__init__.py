@@ -1,9 +1,10 @@
 """Signal registry and computation for Shannon Insight.
 
-Exports the Signal enum (62+ signals) and REGISTRY with metadata.
+Re-exports from infrastructure.signals for backward compatibility.
+The authoritative Signal enum and REGISTRY live in infrastructure.signals.
 """
 
-from .registry import (
+from shannon_insight.infrastructure.signals import (
     REGISTRY,
     Signal,
     SignalMeta,

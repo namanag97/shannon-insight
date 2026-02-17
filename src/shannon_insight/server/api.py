@@ -31,7 +31,7 @@ CATEGORY_MAP: dict[str, str] = {
     # fragile
     "high_risk_hub": "fragile",
     "god_file": "fragile",
-    "bug_magnet": "fragile",
+    # bug_magnet removed: duplicate of bug_attractor
     "thrashing_code": "fragile",
     "unstable_file": "fragile",
     "weak_link": "fragile",

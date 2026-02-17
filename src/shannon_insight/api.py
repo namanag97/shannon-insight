@@ -86,12 +86,29 @@ def analyze(
 
     logger.info(f"Starting analysis of {path}")
 
+    # Extract non-config overrides before passing to load_config
+    enable_provenance = overrides.pop("enable_provenance", False)
+
     # 1. Load configuration
     config = load_config(config_file=config_file, **overrides)
     logger.debug(f"Configuration loaded: {config.verbosity} mode")
 
+    # Use config.enable_provenance if not explicitly overridden via API
+    if not enable_provenance:
+        enable_provenance = config.enable_provenance
+
+    # Clean up stale provenance sessions at the start of every run
+    if enable_provenance:
+        from .infrastructure.provenance import cleanup_stale_sessions
+
+        cleanup_stale_sessions(retention_hours=config.provenance_retention_hours)
+
     # 2. Discover environment
-    env = discover_environment(Path(path))
+    env = discover_environment(
+        Path(path),
+        allow_hidden_files=config.allow_hidden_files,
+        follow_symlinks=config.follow_symlinks,
+    )
     logger.info(
         f"Environment discovered: {env.file_count} files, "
         f"{len(env.detected_languages)} languages, "
@@ -105,7 +122,7 @@ def analyze(
     # 4. Run analysis kernel
     from .insights.kernel import InsightKernel
 
-    kernel = InsightKernel(session=session)
+    kernel = InsightKernel(session=session, enable_provenance=enable_provenance)
     result, snapshot = kernel.run(max_findings=config.max_findings)
 
     logger.info(

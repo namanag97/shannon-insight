@@ -1,13 +1,24 @@
 """Pattern definitions organized by category.
 
-Mirrors the canonical v2 architecture docs structure:
-- existing.py: 7 v1 patterns upgraded
+Categories:
+- existing.py: 7 core patterns (HIGH_RISK_HUB, GOD_FILE, etc.)
 - ai_quality.py: 6 AI code quality patterns
-- social_team.py: 3 social/team patterns
-- architecture.py: 3 architecture patterns
-- cross_dimensional.py: 3 cross-dimensional patterns
+- social_team.py: 3 team/ownership patterns
+- architecture.py: 3 module architecture patterns
+- cross_dimensional.py: 3 multi-signal patterns
+- additional.py: 5 temporal patterns (TRUCK_FACTOR, THRASHING_CODE, etc.)
+
+Disabled patterns:
+- CONWAY_VIOLATION: Disabled until author_distance computation is implemented.
 """
 
+from .additional import (
+    DIRECTORY_HOTSPOT,
+    DUPLICATE_INCOMPLETE,
+    INCOMPLETE_IMPLEMENTATION,
+    THRASHING_CODE,
+    TRUCK_FACTOR,
+)
 from .ai_quality import (
     COPY_PASTE_CLONE,
     FLAT_ARCHITECTURE,
@@ -30,7 +41,7 @@ from .existing import (
 from .social_team import CONWAY_VIOLATION, KNOWLEDGE_SILO, REVIEW_BLINDSPOT
 
 __all__ = [
-    # Existing (7)
+    # Core (7)
     "HIGH_RISK_HUB",
     "HIDDEN_COUPLING",
     "GOD_FILE",
@@ -45,7 +56,7 @@ __all__ = [
     "COPY_PASTE_CLONE",
     "FLAT_ARCHITECTURE",
     "NAMING_DRIFT",
-    # Social/Team (3)
+    # Team/Ownership (3)
     "KNOWLEDGE_SILO",
     "CONWAY_VIOLATION",
     "REVIEW_BLINDSPOT",
@@ -57,4 +68,10 @@ __all__ = [
     "WEAK_LINK",
     "BUG_ATTRACTOR",
     "ACCIDENTAL_COUPLING",
+    # Temporal (5)
+    "TRUCK_FACTOR",
+    "INCOMPLETE_IMPLEMENTATION",
+    "THRASHING_CODE",
+    "DIRECTORY_HOTSPOT",
+    "DUPLICATE_INCOMPLETE",
 ]

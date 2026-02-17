@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import logging
 import threading
-import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -29,7 +28,7 @@ class FileWatcher:
         self,
         root_dir: str,
         settings: Any,
-        state: "ServerState",
+        state: ServerState,
         poll_interval: float = 2.0,
     ) -> None:
         self.root_dir = str(Path(root_dir).resolve())
@@ -106,7 +105,7 @@ class FileWatcher:
                 changed = self._check_for_changes()
                 if changed:
                     logger.info("Files changed, re-analyzing...")
-                    self.state.record_change(changed)
+                    self.state.set_recent_changes(changed)
                     self.run_analysis()
             except Exception as e:
                 logger.error("Watch loop error: %s", e)
@@ -132,8 +131,19 @@ class FileWatcher:
                     continue
                 # Only watch source files
                 if p.suffix.lower() not in {
-                    ".py", ".go", ".ts", ".tsx", ".js", ".jsx",
-                    ".java", ".rs", ".rb", ".c", ".cpp", ".h", ".hpp",
+                    ".py",
+                    ".go",
+                    ".ts",
+                    ".tsx",
+                    ".js",
+                    ".jsx",
+                    ".java",
+                    ".rs",
+                    ".rb",
+                    ".c",
+                    ".cpp",
+                    ".h",
+                    ".hpp",
                 }:
                     continue
 
@@ -163,46 +173,20 @@ class FileWatcher:
         return changed
 
     def _build_dashboard_state(self, result, snapshot) -> dict:
-        """Convert analysis result to dashboard state format."""
-        # Group findings by category
-        categories: dict[str, dict] = {}
-        for finding in result.findings:
-            cat = finding.finding_type
-            if cat not in categories:
-                categories[cat] = {"count": 0, "severity": 0.0}
-            categories[cat]["count"] += 1
-            categories[cat]["severity"] = max(
-                categories[cat]["severity"], finding.severity
-            )
+        """Convert analysis result to dashboard state format.
 
-        # Compute health score
-        if not result.findings:
-            health = 10.0
-            health_label = "excellent"
-        else:
-            max_severity = max(f.severity for f in result.findings)
-            health = max(1.0, 10.0 - (max_severity * 5) - (len(result.findings) * 0.1))
-            if health >= 8:
-                health_label = "good"
-            elif health >= 5:
-                health_label = "fair"
-            else:
-                health_label = "needs attention"
+        Uses the canonical build_dashboard_state() from server/api.py
+        to ensure consistent data transformation (health scores, percentiles,
+        file signals, module signals, etc.).
+        """
+        from .api import build_dashboard_state
 
-        return {
-            "health": round(health, 1),
-            "health_label": health_label,
-            "file_count": snapshot.file_count,
-            "finding_count": len(result.findings),
-            "categories": categories,
-            "findings": [
-                {
-                    "type": f.finding_type,
-                    "severity": f.severity,
-                    "title": f.title,
-                    "files": f.files,
-                    "suggestion": f.suggestion,
-                }
-                for f in result.findings[:50]  # Limit for dashboard
-            ],
-        }
+        # Get db_path for trend data if .shannon directory exists
+        db_path = None
+        shannon_dir = Path(self.root_dir) / ".shannon"
+        if shannon_dir.exists():
+            history_db = shannon_dir / "history.db"
+            if history_db.exists():
+                db_path = str(history_db)
+
+        return build_dashboard_state(result, snapshot, db_path=db_path)

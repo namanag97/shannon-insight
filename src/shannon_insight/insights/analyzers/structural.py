@@ -18,19 +18,31 @@ logger = get_logger(__name__)
 
 class StructuralAnalyzer:
     name = "structural"
-    requires: set[str] = {"files"}
+    requires: set[str] = {"file_syntax"}
     provides: set[str] = {"structural", "clone_pairs"}
 
+    def __init__(
+        self,
+        pagerank_damping: float = 0.85,
+        pagerank_iterations: int = 100,
+        pagerank_tolerance: float = 1e-6,
+    ):
+        self.pagerank_damping = pagerank_damping
+        self.pagerank_iterations = pagerank_iterations
+        self.pagerank_tolerance = pagerank_tolerance
+
     def analyze(self, store: AnalysisStore) -> None:
-        if not store.files:
+        if not store.file_syntax.available:
             return
 
-        # Pass FileSyntax objects (store.files returns dict[path, FileSyntax])
-        # and content getter for cached file reads (avoids re-reading from disk)
+        # Pass content getter for cached file reads (avoids re-reading from disk)
         engine = AnalysisEngine(
-            list(store.files.values()),
+            list(store.file_syntax.value.values()),
             root_dir=store.root_dir,
             content_getter=store.get_content,
+            pagerank_damping=self.pagerank_damping,
+            pagerank_iterations=self.pagerank_iterations,
+            pagerank_tolerance=self.pagerank_tolerance,
         )
         result = engine.run()
         store.structural.set(result, produced_by=self.name)
@@ -102,12 +114,20 @@ class StructuralAnalyzer:
         """Run NCD clone detection on file contents."""
         root = Path(store.root_dir) if store.root_dir else Path.cwd()
 
-        # Get file contents from cache (populated by SyntaxExtractor)
+        # Get file contents from cache or disk
         file_contents: dict[str, bytes] = {}
-        for path in store.files:
-            content = store.get_content(path)
+        for fm in store.file_syntax.value.values():
+            # Try cache first
+            content = store.get_content(fm.path)
             if content is not None:
-                file_contents[path] = content.encode("utf-8")
+                file_contents[fm.path] = content.encode("utf-8")
+            else:
+                # Fallback to disk read
+                try:
+                    full_path = root / fm.path
+                    file_contents[fm.path] = full_path.read_bytes()
+                except OSError:
+                    pass
 
         if len(file_contents) < 2:
             return
@@ -120,3 +140,36 @@ class StructuralAnalyzer:
         clone_pairs = detect_clones(file_contents, roles)
         store.clone_pairs.set(clone_pairs, produced_by=self.name)
         logger.debug(f"Clone detection: {len(clone_pairs)} pairs found")
+
+        # Sync clone pairs as CLONED_FROM relations to FactStore
+        self._sync_clone_relations(store, clone_pairs)
+
+    def _sync_clone_relations(self, store: AnalysisStore, clone_pairs: list) -> None:
+        """Add CLONED_FROM relations to FactStore for pattern detection.
+
+        COPY_PASTE_CLONE pattern checks for CLONED_FROM relations with ncd metadata.
+        """
+        if not hasattr(store, "fact_store"):
+            return
+
+        fs = store.fact_store
+
+        for pair in clone_pairs:
+            src_id = EntityId(EntityType.FILE, pair.file_a)
+            tgt_id = EntityId(EntityType.FILE, pair.file_b)
+            fs.add_relation(
+                Relation(
+                    type=RelationType.CLONED_FROM,
+                    source=src_id,
+                    target=tgt_id,
+                    weight=1.0 - pair.ncd,  # Higher weight = more similar
+                    metadata={
+                        "ncd": pair.ncd,
+                        "size_a": pair.size_a,
+                        "size_b": pair.size_b,
+                    },
+                )
+            )
+
+        if clone_pairs:
+            logger.debug(f"FactStore sync: {len(clone_pairs)} CLONED_FROM relations")

@@ -108,6 +108,27 @@ def _finding_to_dict(f: Finding) -> dict[str, Any]:
     }
 
 
+def _enrich_global_signals(
+    global_signals: dict[str, Any],
+    snapshot: TensorSnapshot,
+) -> dict[str, Any]:
+    """Build the global_signals response dict with fallbacks for snapshot-level fields.
+
+    The structural analyzer writes signals to the fact store under their canonical
+    Signal enum values (e.g. Signal.MODULARITY → "modularity"). These flow through
+    snapshot.global_signals automatically. But some values are also stored as typed
+    fields on TensorSnapshot (e.g. snapshot.modularity_score). This function ensures
+    the canonical key names are always present so the frontend never gets undefined.
+    """
+    result: dict[str, Any] = {
+        k: round(v, 4) if isinstance(v, float) else v for k, v in global_signals.items()
+    }
+    # Fallback: if modularity wasn't written to global_signals, use snapshot field
+    if "modularity" not in result and getattr(snapshot, "modularity_score", None):
+        result["modularity"] = round(snapshot.modularity_score, 4)
+    return result
+
+
 def build_dashboard_state(
     result: InsightResult,
     snapshot: TensorSnapshot,

@@ -40,9 +40,8 @@ def compute_composites(field: SignalField) -> None:
         return
 
     # Per-file composites (percentile-based)
-    max_bus_factor = _get_max_bus_factor(field)
     for fs in field.per_file.values():
-        fs.risk_score = _compute_risk_score(fs, max_bus_factor)
+        fs.risk_score = _compute_risk_score(fs)
         fs.wiring_quality = _compute_wiring_quality(fs)
         fs.file_health_score = _compute_file_health_score(fs)
 

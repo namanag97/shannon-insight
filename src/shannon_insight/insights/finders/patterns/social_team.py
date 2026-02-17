@@ -24,15 +24,21 @@ if TYPE_CHECKING:
 
 
 def _knowledge_silo_predicate(store: FactStore, entity: EntityId) -> bool:
-    """Central file owned by one person."""
-    # Skip bus_factor checks for solo developer projects
+    """Central file owned by a very small team (bus_factor in (1.0, 2.0]).
+
+    bus_factor <= 1.0 is handled by TRUCK_FACTOR — avoid duplicate findings.
+    """
     if is_solo_project(store):
         return False
 
     bus_factor = store.get_signal(entity, Signal.BUS_FACTOR, 0)
     pr_pctl = compute_percentile(store, entity, Signal.PAGERANK)
 
-    return bus_factor <= 1.5 and pr_pctl > 0.75
+    # TRUCK_FACTOR handles bus_factor <= 1.0 — only take moderate-risk case here
+    if bus_factor <= 1.0:
+        return False
+
+    return bus_factor <= 2.0 and pr_pctl > 0.75
 
 
 def _knowledge_silo_severity(store: FactStore, entity: EntityId) -> float:

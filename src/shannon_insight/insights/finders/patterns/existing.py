@@ -309,6 +309,13 @@ def _boundary_mismatch_predicate(store: FactStore, entity: EntityId) -> bool:
     """Directory boundary doesn't match dependency structure."""
     boundary_alignment = store.get_signal(entity, Signal.BOUNDARY_ALIGNMENT, 1.0)
     file_count = store.get_signal(entity, Signal.FILE_COUNT, 0)
+    internal_edges = store.get_signal(entity, Signal.INTERNAL_EDGES, 0)
+
+    # Louvain needs sufficient edge density to find meaningful communities
+    # Require at least 1.5 internal edges per file (sparse polyglot repos fail otherwise)
+    min_edges = int(file_count * 1.5)
+    if internal_edges < min_edges:
+        return False
 
     return boundary_alignment < 0.7 and file_count >= 3
 

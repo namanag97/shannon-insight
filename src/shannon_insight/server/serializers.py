@@ -281,3 +281,288 @@ class DashboardSerializer:
         if score >= 4:
             return "At Risk"
         return "Critical"
+
+    # ── History API serializers ─────────────────────────────────────────
+
+    def serialize_snapshot_list(self, limit: int = 50) -> list[dict[str, Any]]:
+        """Serialize snapshot list with health scores for timeline view.
+
+        Returns:
+            [
+                {
+                    "id": 87,
+                    "commit_sha": "abc123...",
+                    "timestamp": "2026-02-17T12:00:00",
+                    "file_count": 373,
+                    "module_count": 79,
+                    "health": 6.3,
+                    "finding_count": 50
+                },
+                ...
+            ]
+        """
+        cur = self.db.conn.cursor()
+
+        # Get snapshots with global signals joined
+        rows = cur.execute(
+            """
+            SELECT s.id, s.commit_sha, s.timestamp, s.file_count, s.module_count,
+                   g.value as health
+            FROM snapshots s
+            LEFT JOIN global_signal_history g ON s.id = g.snapshot_id
+                AND g.signal_name = 'codebase_health'
+            ORDER BY s.timestamp DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+
+        # Get finding counts per snapshot
+        finding_counts = dict(
+            cur.execute(
+                """
+                SELECT snapshot_id, COUNT(*) as cnt
+                FROM findings
+                GROUP BY snapshot_id
+                """
+            ).fetchall()
+        )
+
+        result = []
+        for r in rows:
+            raw_health = r["health"] or 0.5
+            result.append(
+                {
+                    "id": r["id"],
+                    "commit_sha": r["commit_sha"],
+                    "timestamp": r["timestamp"],
+                    "file_count": r["file_count"],
+                    "module_count": r["module_count"],
+                    "health": round(raw_health * 10, 1),  # 1-10 scale
+                    "finding_count": finding_counts.get(r["id"], 0),
+                }
+            )
+        return result
+
+    def serialize_signal_evolution(
+        self,
+        entity_type: str,
+        entity_path: str,
+        signal_name: str,
+        limit: int = 50,
+    ) -> dict[str, Any]:
+        """Serialize signal evolution over time for a file, module, or global.
+
+        Args:
+            entity_type: "file", "module", or "global"
+            entity_path: File path for file, module path for module, ignored for global
+            signal_name: Signal name (e.g., "cognitive_load", "risk_score")
+            limit: Maximum number of points
+
+        Returns:
+            {
+                "entity_type": "file",
+                "entity_path": "src/foo.py",
+                "signal_name": "cognitive_load",
+                "points": [
+                    {"timestamp": "...", "value": 25.3, "percentile": 0.85},
+                    ...
+                ]
+            }
+        """
+        cur = self.db.conn.cursor()
+
+        if entity_type == "global":
+            rows = cur.execute(
+                """
+                SELECT s.timestamp, g.value
+                FROM global_signal_history g
+                JOIN snapshots s ON s.id = g.snapshot_id
+                WHERE g.signal_name = ?
+                ORDER BY s.timestamp DESC
+                LIMIT ?
+                """,
+                (signal_name, limit),
+            ).fetchall()
+            points = [
+                {"timestamp": r["timestamp"], "value": round(r["value"], 4)}
+                for r in reversed(rows)
+            ]
+        elif entity_type == "module":
+            rows = cur.execute(
+                """
+                SELECT s.timestamp, m.value
+                FROM module_signal_history m
+                JOIN snapshots s ON s.id = m.snapshot_id
+                WHERE m.module_path = ? AND m.signal_name = ?
+                ORDER BY s.timestamp DESC
+                LIMIT ?
+                """,
+                (entity_path, signal_name, limit),
+            ).fetchall()
+            points = [
+                {"timestamp": r["timestamp"], "value": round(r["value"], 4)}
+                for r in reversed(rows)
+            ]
+        else:  # file
+            rows = cur.execute(
+                """
+                SELECT s.timestamp, sh.value, sh.percentile
+                FROM signal_history sh
+                JOIN snapshots s ON s.id = sh.snapshot_id
+                WHERE sh.file_path = ? AND sh.signal_name = ?
+                ORDER BY s.timestamp DESC
+                LIMIT ?
+                """,
+                (entity_path, signal_name, limit),
+            ).fetchall()
+            points = [
+                {
+                    "timestamp": r["timestamp"],
+                    "value": round(r["value"], 4),
+                    "percentile": round(r["percentile"] or 0, 3),
+                }
+                for r in reversed(rows)
+            ]
+
+        return {
+            "entity_type": entity_type,
+            "entity_path": entity_path,
+            "signal_name": signal_name,
+            "points": points,
+        }
+
+    def serialize_finding_lifecycle(self, limit: int = 50) -> list[dict[str, Any]]:
+        """Serialize finding lifecycle data for persistence tracking.
+
+        Returns:
+            [
+                {
+                    "identity_key": "abc123...",
+                    "finding_type": "god_file",
+                    "first_seen": "2026-01-15",
+                    "last_seen": "2026-02-17",
+                    "persistence_count": 67,
+                    "status": "active",
+                    "severity": 0.85,
+                    "is_chronic": true
+                },
+                ...
+            ]
+        """
+        cur = self.db.conn.cursor()
+
+        rows = cur.execute(
+            """
+            SELECT fl.identity_key, fl.finding_type, fl.first_seen_snapshot,
+                   fl.last_seen_snapshot, fl.persistence_count, fl.current_status,
+                   fl.severity,
+                   s1.timestamp as first_seen_ts,
+                   s2.timestamp as last_seen_ts
+            FROM finding_lifecycle fl
+            JOIN snapshots s1 ON s1.id = fl.first_seen_snapshot
+            JOIN snapshots s2 ON s2.id = fl.last_seen_snapshot
+            ORDER BY fl.persistence_count DESC, fl.severity DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+
+        return [
+            {
+                "identity_key": r["identity_key"],
+                "finding_type": r["finding_type"],
+                "first_seen": r["first_seen_ts"][:10],  # Date only
+                "last_seen": r["last_seen_ts"][:10],
+                "persistence_count": r["persistence_count"],
+                "status": r["current_status"],
+                "severity": round(r["severity"], 2),
+                "is_chronic": r["persistence_count"] >= 3,
+            }
+            for r in rows
+        ]
+
+    def serialize_snapshot_detail(self, snapshot_id: int) -> dict[str, Any] | None:
+        """Serialize full snapshot detail by ID.
+
+        Returns:
+            {
+                "id": 87,
+                "commit_sha": "...",
+                "timestamp": "...",
+                "file_count": 373,
+                "module_count": 79,
+                "commits_analyzed": 1017,
+                "analyzers_ran": [...],
+                "health": 6.3,
+                "global_signals": {...},
+                "findings": [...]
+            }
+        """
+        cur = self.db.conn.cursor()
+
+        # Get snapshot
+        row = cur.execute(
+            """
+            SELECT id, commit_sha, timestamp, file_count, module_count,
+                   commits_analyzed, analyzers_ran
+            FROM snapshots WHERE id = ?
+            """,
+            (snapshot_id,),
+        ).fetchone()
+
+        if not row:
+            return None
+
+        # Get global signals
+        signal_rows = cur.execute(
+            """
+            SELECT signal_name, value
+            FROM global_signal_history
+            WHERE snapshot_id = ?
+            """,
+            (snapshot_id,),
+        ).fetchall()
+        global_signals = {r["signal_name"]: round(r["value"], 4) for r in signal_rows}
+
+        # Get findings
+        finding_rows = cur.execute(
+            """
+            SELECT finding_type, title, files, severity
+            FROM findings
+            WHERE snapshot_id = ?
+            ORDER BY severity DESC
+            LIMIT 100
+            """,
+            (snapshot_id,),
+        ).fetchall()
+
+        import json
+
+        findings = []
+        for f in finding_rows:
+            files = json.loads(f["files"]) if isinstance(f["files"], str) else f["files"]
+            findings.append(
+                {
+                    "type": f["finding_type"],
+                    "title": f["title"],
+                    "files": files[:3],  # First 3 files only
+                    "severity": round(f["severity"], 2),
+                }
+            )
+
+        # Compute health
+        raw_health = global_signals.get("codebase_health", 0.5)
+
+        return {
+            "id": row["id"],
+            "commit_sha": row["commit_sha"],
+            "timestamp": row["timestamp"],
+            "file_count": row["file_count"],
+            "module_count": row["module_count"],
+            "commits_analyzed": row["commits_analyzed"],
+            "analyzers_ran": json.loads(row["analyzers_ran"]) if row["analyzers_ran"] else [],
+            "health": round(raw_health * 10, 1),
+            "global_signals": global_signals,
+            "findings": findings,
+        }

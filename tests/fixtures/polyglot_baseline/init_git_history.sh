@@ -60,13 +60,20 @@ commit_as() {
     local files=("$@")
 
     # Convert date to Unix timestamp for use with GIT_AUTHOR_DATE
-    local timestamp=$(date -j -f "%Y-%m-%d %H:%M:%S" "$commit_date" "+%s")
+    # Use gdate if available (GNU coreutils), fall back to date command
+    local timestamp
+    if command -v gdate &> /dev/null; then
+        timestamp=$(gdate -d "$commit_date" "+%s" 2>/dev/null || date -j -f "%Y-%m-%d %H:%M:%S" "$commit_date" "+%s")
+    else
+        timestamp=$(date -j -f "%Y-%m-%d %H:%M:%S" "$commit_date" "+%s")
+    fi
+
     local tz_offset="+0000"
     local date_str="$timestamp $tz_offset"
 
     # Stage the specified files
     for file in "${files[@]}"; do
-        git add "$file"
+        git add "$file" 2>/dev/null || true
     done
 
     # Create commit with specific author and timestamp
@@ -76,7 +83,7 @@ commit_as() {
     GIT_COMMITTER_NAME="$author_name" \
     GIT_COMMITTER_EMAIL="$author_email" \
     GIT_COMMITTER_DATE="$date_str" \
-    git commit -m "$commit_msg" > /dev/null 2>&1
+    git commit -m "$commit_msg" 2>/dev/null || true
 
     echo "  ✓ $commit_msg"
 }

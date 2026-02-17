@@ -479,6 +479,7 @@ export const UNBOUNDED_SIGNAL_CAPS = {
   cognitive_load: 25,
   max_nesting: 10,
   broken_call_count: 10,
+  cycle_size: 20,        // Cycles bigger than 20 files are all equally catastrophic
   in_degree: 20,
   out_degree: 20,
   lines: 1000,

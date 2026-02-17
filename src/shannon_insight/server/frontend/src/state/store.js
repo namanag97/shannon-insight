@@ -9,12 +9,27 @@
  *   issues      - Issue tab, sort, severity filter
  *   modules     - Module sorting, detail
  *   ui          - Keyboard selection indices, connection status
+ *
+ * Persistence:
+ *   UI preferences (sorts, filters, view modes) are saved to localStorage
+ *   and restored on page reload.
  */
 
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { SEVERITY_LEVELS } from "../utils/constants.js";
 
-const useStore = create((set, get) => ({
+// Helper to update hash when navigating
+function updateHash(screen, detail) {
+  const hash = detail ? `${screen}/${encodeURIComponent(detail)}` : screen;
+  if (location.hash !== `#${hash}`) {
+    history.replaceState(null, "", `#${hash}`);
+  }
+}
+
+const useStore = create(
+  persist(
+    (set, get) => ({
   // ── Server data ─────────────────────────────────────────
   data: null,
 

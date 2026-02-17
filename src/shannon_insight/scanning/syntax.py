@@ -59,16 +59,17 @@ class FunctionDef:
             1 = pure stub (empty body)
 
         Logic:
-        - Empty body (< 3 tokens): 1.0 (pure stub)
-        - Property/one-liner (< 10 tokens): 0.0 (valid implementation)
+        - Truly empty body (<= 1 token): 1.0 (pure stub like "pass" or "...")
+        - Small body (< 10 tokens): 0.0 (valid one-liner like "return x")
         - Otherwise: scale based on body/signature ratio
         """
-        # Empty or trivial body is a pure stub
-        if self.body_tokens < 3:
+        # Truly empty body is a pure stub (just "pass", "...", or nothing)
+        # A return statement has at least 2 tokens, so this catches only true stubs
+        if self.body_tokens <= 1:
             return 1.0
 
         # Small but non-trivial body (property getters, one-liners) are NOT stubs
-        # These are valid implementations, just concise
+        # A single return statement like "return len(x)" is a valid implementation
         if self.body_tokens < 10:
             return 0.0
 

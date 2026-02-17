@@ -88,6 +88,13 @@ def main(
         "--version",
         help="Show version and exit",
     ),
+    help_flag: bool = typer.Option(
+        False,
+        "-h",
+        is_eager=True,
+        help="Show this message and exit",
+        hidden=True,  # Don't show in help (--help is already there)
+    ),
 ):
     """
     Analyze codebase quality using multi-signal structural analysis.
@@ -101,6 +108,12 @@ def main(
         shannon-insight --json             # JSON output (CI mode)
         shannon-insight --fail-on high     # CI gate mode
     """
+    # Handle -h (short help)
+    if help_flag:
+        ctx = typer.Context
+        console.print(ctx.get_help())
+        raise typer.Exit(0)
+
     # Handle version
     if version:
         from .. import __version__
@@ -285,8 +298,8 @@ def _launch_dashboard(
         console.print("[dim]Tip: Use --cli for terminal output without server dependencies[/dim]")
         raise typer.Exit(1)
 
-    from ._common import resolve_settings
     from ..server.lifecycle import launch_server
+    from ._common import resolve_settings
 
     settings = resolve_settings(config=config, workers=workers, verbose=verbose)
 

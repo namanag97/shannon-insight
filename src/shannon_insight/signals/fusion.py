@@ -134,6 +134,7 @@ class FusionPipeline:
             fs.blast_radius_size = fa.blast_radius_size
             fs.depth = fa.depth
             fs.is_orphan = fa.is_orphan
+            fs.cycle_member = fa.cycle_member
             fs.phantom_import_count = fa.phantom_import_count
             fs.community = fa.community_id
 

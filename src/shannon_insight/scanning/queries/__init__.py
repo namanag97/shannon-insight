@@ -17,6 +17,7 @@ QUERY_MODULES: dict[str, ModuleType] = {
     "python": python,
     "go": go,
     "typescript": typescript,
+    "tsx": tsx,
     "javascript": javascript,
     "java": java,
     "rust": rust,

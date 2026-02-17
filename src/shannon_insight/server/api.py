@@ -317,9 +317,7 @@ def build_dashboard_state(
         "focus": focus_data,
         "files": files,
         "modules": modules,
-        "global_signals": {
-            k: round(v, 4) if isinstance(v, float) else v for k, v in global_signals.items()
-        },
+        "global_signals": _enrich_global_signals(global_signals, snapshot),
         "concerns": concerns,
         "dependency_edges": dependency_edges,
         "delta_h": delta_h,
@@ -327,7 +325,6 @@ def build_dashboard_state(
         "layers": layers,
         "communities": communities,
         "node_community": node_community,
-        "modularity_score": round(modularity_score_val, 4),
     }
     if trends:
         state["trends"] = trends

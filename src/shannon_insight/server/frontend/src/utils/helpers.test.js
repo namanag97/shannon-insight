@@ -61,8 +61,14 @@ describe("polarColor", () => {
   });
 
   it("returns accent for neutral signals", () => {
-    expect(polarColor("pagerank", 0.5)).toBe("var(--accent)");
+    // lines and community are neutral (polarity = null)
     expect(polarColor("lines", 100)).toBe("var(--accent)");
+    expect(polarColor("community", 5)).toBe("var(--accent)");
+  });
+
+  it("returns red for high pagerank (now high_is_bad)", () => {
+    // pagerank is high_is_bad - high centrality = coupling risk
+    expect(polarColor("pagerank", 0.8)).toBe("var(--red)");
   });
 
   it("handles unbounded signal normalization", () => {

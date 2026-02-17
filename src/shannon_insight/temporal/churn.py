@@ -8,10 +8,20 @@ from math import log2
 
 from .models import ChurnSeries, GitHistory, Trajectory
 
-# Keywords for fix_ratio and refactor_ratio computation
+# Keywords for fix_ratio and refactor_ratio computation.
+# Matched with word boundaries (re.search r'\b{kw}\b') to prevent false positives
+# from substrings: "fix" in "prefix/suffix", "issue" in "tissue", etc.
 FIX_KEYWORDS = frozenset({"fix", "bug", "patch", "hotfix", "bugfix", "repair", "issue"})
 REFACTOR_KEYWORDS = frozenset(
     {"refactor", "cleanup", "clean up", "reorganize", "restructure", "rename"}
+)
+
+# Pre-compiled word-boundary patterns for performance (compiled once, not per commit)
+_FIX_PATTERN = re.compile(
+    r"\b(" + "|".join(re.escape(kw) for kw in FIX_KEYWORDS) + r")\b", re.IGNORECASE
+)
+_REFACTOR_PATTERN = re.compile(
+    r"\b(" + "|".join(re.escape(kw) for kw in REFACTOR_KEYWORDS) + r")\b", re.IGNORECASE
 )
 
 

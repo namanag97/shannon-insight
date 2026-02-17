@@ -199,16 +199,18 @@ HIDDEN_COUPLING = Pattern(
 
 def _god_file_predicate(store: FactStore, entity: EntityId) -> bool:
     """High complexity AND low coherence."""
+    thresholds = get_thresholds(store)
+
     cog_pctl = compute_percentile(store, entity, Signal.COGNITIVE_LOAD)
     coh_pctl = compute_percentile(store, entity, Signal.SEMANTIC_COHERENCE)
     func_count = store.get_signal(entity, Signal.FUNCTION_COUNT, 0)
 
     # Minimum function count to avoid flagging trivial files
-    if func_count < 3:
+    if func_count < thresholds.god_file_min_functions:
         return False
 
-    has_high_complexity = cog_pctl >= 0.90
-    has_low_coherence = coh_pctl <= 0.20  # semantic_coherence is HIGH_IS_GOOD
+    has_high_complexity = cog_pctl >= thresholds.god_file_cognitive_pctl
+    has_low_coherence = coh_pctl <= thresholds.god_file_coherence_pctl  # LOW is bad
 
     return has_high_complexity and has_low_coherence
 

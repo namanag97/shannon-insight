@@ -143,9 +143,12 @@ def validate_fixture(fixture_dir: Path) -> ValidationResult:
     matched_actual_indices = set()
 
     # Find true positives
+    # A FILE_PAIR finding (e.g. hidden_coupling) lists both files and can
+    # satisfy multiple expected entries — allow same finding index to match
+    # different expected entries if they refer to different files in the pair.
     for gt in expected:
         for i, finding in enumerate(actual):
-            if i not in matched_actual_indices and match_finding(gt, finding):
+            if match_finding(gt, finding):
                 true_positives.append(gt)
                 matched_actual_indices.add(i)
                 break

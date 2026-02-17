@@ -313,6 +313,9 @@ class AnalysisConfig:
     allow_hidden_files: bool = False
     follow_symlinks: bool = False
 
+    # Algorithm thresholds (nested config)
+    thresholds: ThresholdConfig = field(default_factory=ThresholdConfig)
+
     def __post_init__(self) -> None:
         """Validate configuration after initialization."""
         # Validate PageRank parameters

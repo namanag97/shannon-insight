@@ -67,9 +67,10 @@ class TestSignalEnum:
         assert Signal.REFACTOR_RATIO.value == "refactor_ratio"
 
     def test_per_file_composite_signals(self):
-        """Composite signals (#35-36)."""
+        """Composite signals (#35-36a)."""
         assert Signal.RISK_SCORE.value == "risk_score"
         assert Signal.WIRING_QUALITY.value == "wiring_quality"
+        assert Signal.FILE_HEALTH_SCORE.value == "file_health_score"
 
     def test_per_module_signals(self):
         """Module signals (#37-51)."""

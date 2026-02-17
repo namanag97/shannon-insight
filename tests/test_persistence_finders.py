@@ -81,8 +81,20 @@ class TestChronicProblemFinder:
         """Severity is multiplied for chronic problems."""
         with tempfile.TemporaryDirectory() as tmpdir:
             with HistoryDB(tmpdir) as db:
+                # Create snapshots
+                for i in range(1, 4):
+                    db.conn.execute(
+                        "INSERT INTO snapshots (id, tool_version, timestamp, analyzed_path) "
+                        "VALUES (?, '0.7.0', '2025-01-01', '/tmp')",
+                        (i,),
+                    )
+
                 db.conn.execute(
                     "INSERT INTO finding_lifecycle VALUES ('f1', 1, 3, 3, 'active', 'high_risk_hub', 0.6)"
+                )
+                db.conn.execute(
+                    "INSERT INTO findings (snapshot_id, finding_type, identity_key, severity, title, files) "
+                    "VALUES (3, 'high_risk_hub', 'f1', 0.6, 'Hub', '[\"x.py\"]')"
                 )
                 db.conn.commit()
 

@@ -379,6 +379,20 @@ class HistoryDB:
             "ON finding_lifecycle(finding_type, current_status)"
         )
 
+        # ── indexes (v2 new tables) ────────────────────────────────
+        c.execute(
+            "CREATE INDEX IF NOT EXISTS idx_cochange_snapshot "
+            "ON cochange_edges(snapshot_id)"
+        )
+        c.execute(
+            "CREATE INDEX IF NOT EXISTS idx_delta_h_snapshot "
+            "ON delta_h(snapshot_id)"
+        )
+        c.execute(
+            "CREATE INDEX IF NOT EXISTS idx_violations_snapshot "
+            "ON architecture_violations(snapshot_id)"
+        )
+
         # ── V1 → V2 migration ─────────────────────────────────────
         if current_version == 1:
             self._migrate_v1_to_v2()

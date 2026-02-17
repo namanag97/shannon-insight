@@ -240,6 +240,10 @@ class ChronicProblemFinder:
         max_risk = 0.0
         for path in files:
             entity_id = EntityId(EntityType.FILE, path)
+            # Entity not tracked → can't determine current risk → assume moderate
+            if fact_store.get_entity(entity_id) is None:
+                max_risk = max(max_risk, 0.3)
+                continue
             risk = fact_store.get_signal(entity_id, Signal.RISK_SCORE, 0.0)
             max_risk = max(max_risk, risk)
 

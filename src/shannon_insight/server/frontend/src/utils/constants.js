@@ -137,8 +137,10 @@ export const SIGNAL_DESCRIPTIONS = {
   depth: "BFS distance from entry points (shortest path)",
   community: "Louvain modularity community this file belongs to",
   is_orphan: "This file is not imported by any other file",
+  cycle_member: "This file participates in a circular dependency chain",
+  cycle_size: "Number of files in the same circular dependency chain",
   phantom_import_count: "Imports that point to files that do not exist",
-  broken_call_count: "Function calls that cannot be resolved",
+  broken_call_count: "Function calls that cannot be resolved (always 0 until call-edge analysis is implemented)",
   compression_ratio: "Lower means more repetitive / duplicated code",
   semantic_coherence: "How focused this file is on a single concept",
 

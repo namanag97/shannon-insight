@@ -1,6 +1,5 @@
 """CLI entry point — registers all subcommands."""
 
-import click
 import typer
 
 from ._common import console
@@ -11,6 +10,7 @@ app: typer.Typer = typer.Typer(
     add_completion=False,
     rich_markup_mode="rich",
     context_settings={"help_option_names": ["-h", "--help"]},
+    no_args_is_help=False,
 )
 
 

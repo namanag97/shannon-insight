@@ -292,9 +292,10 @@ def _directory_hotspot_predicate(store: FactStore, entity: EntityId) -> bool:
         return False
 
     # We'll rely on mean_cognitive_load as a proxy for directory health
+    # Threshold 15 aligns with typical HIGH_RISK_HUB cognitive_load levels
     mean_cog = store.get_signal(entity, Signal.MEAN_COGNITIVE_LOAD, 0)
 
-    return mean_cog > 20 and file_count >= 3
+    return mean_cog > 15 and file_count >= 3
 
 
 def _directory_hotspot_severity(store: FactStore, entity: EntityId) -> float:

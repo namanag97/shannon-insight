@@ -294,13 +294,13 @@ class RegexFallbackScanner:
 
         # Now count from the actual function body
         body_text = text[body_start_idx:]
-        body_lines = body_text.split("\n")
+        body_line_list = body_text.split("\n")
 
         brace_count = 0
         token_count = 0
         line_count = 0
 
-        for line in body_lines:
+        for line in body_line_list:
             line_count += 1
             brace_count += line.count("{") - line.count("}")
             token_count += len(line.split())

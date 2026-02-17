@@ -75,25 +75,46 @@ KNOWLEDGE_SILO = Pattern(
 def _conway_violation_predicate(store: FactStore, pair: tuple[EntityId, EntityId]) -> bool:
     """Modules with different teams but structural coupling.
 
-    TODO: CONWAY_VIOLATION disabled until author_distance computation is implemented.
-    Currently author_distance is hardcoded to 0.0, so this pattern can never fire.
-    The pattern is also excluded from ALL_PATTERNS in the registry.
+    CONWAY_VIOLATION requires:
+    1. High structural coupling between modules (coupling > 0.3)
+    2. High author distance between modules (different teams maintain them)
+
+    Note: author_distance exists at FILE level (graph/distance.py). To enable this
+    pattern, we need to aggregate file-level author distances to module level.
+    This requires knowing which files belong to each module, which is available
+    via architecture.modules[path].files.
+
+    STATUS: Disabled pending module-level author distance aggregation.
     """
-    # Always skip: author_distance not yet implemented
+    mod_a, mod_b = pair
+
+    # Check structural coupling (this works)
+    coupling = store.get_signal(mod_a, Signal.COUPLING, 0)
+    if coupling <= 0.3:
+        return False
+
+    # Module-level author distance requires aggregating file-level distances
+    # For now, skip until this infrastructure is wired up
+    # TODO: Implement _compute_module_author_distance(store, mod_a, mod_b)
     return False
 
 
 def _conway_violation_severity(store: FactStore, pair: tuple[EntityId, EntityId]) -> float:
-    """Fixed severity."""
-    return 0.55
+    """Severity scales with coupling strength."""
+    mod_a, _mod_b = pair
+    coupling = store.get_signal(mod_a, Signal.COUPLING, 0)
+    # Base 0.55, increase with coupling strength
+    return min(0.75, 0.55 + coupling * 0.2)
 
 
 def _conway_violation_evidence(store: FactStore, pair: tuple[EntityId, EntityId]) -> dict[str, Any]:
     """Build evidence for CONWAY_VIOLATION."""
     mod_a, mod_b = pair
     return {
-        "author_distance": 0.0,  # TODO: Compute
+        "module_a": mod_a.key,
+        "module_b": mod_b.key,
         "coupling": store.get_signal(mod_a, Signal.COUPLING, 0),
+        # author_distance will be added when module-level aggregation is implemented
     }
 
 

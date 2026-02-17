@@ -161,3 +161,100 @@ ARCHITECTURE_EROSION = Pattern(
     hotspot_filtered=False,
     phase=7,
 )
+
+
+# ==============================================================================
+# 20. CIRCULAR_DEPENDENCY
+# ==============================================================================
+
+
+def _circular_dependency_predicate(store: FactStore, entity: EntityId) -> bool:
+    """File is part of a circular dependency (SCC with > 1 nodes)."""
+    return bool(store.get_signal(entity, Signal.CYCLE_MEMBER, False))
+
+
+def _circular_dependency_severity(store: FactStore, entity: EntityId) -> float:
+    """Severity scales with cycle size: larger cycles are harder to break."""
+    cycle_size = store.get_signal(entity, Signal.CYCLE_SIZE, 2)
+    if cycle_size >= 5:
+        return 0.80
+    elif cycle_size >= 3:
+        return 0.70
+    return 0.65
+
+
+def _circular_dependency_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
+    """Evidence: which files share this cycle."""
+    cycle_members = [r.target.key for r in store.outgoing(entity, RelationType.CYCLE_WITH)]
+    return {
+        "cycle_size": store.get_signal(entity, Signal.CYCLE_SIZE, 0),
+        "cycle_members": cycle_members,
+        "blast_radius_size": store.get_signal(entity, Signal.BLAST_RADIUS_SIZE, 0),
+    }
+
+
+CIRCULAR_DEPENDENCY = Pattern(
+    name="circular_dependency",
+    scope=PatternScope.FILE,
+    severity=0.65,
+    requires={Signal.CYCLE_MEMBER.value},
+    condition="cycle_member = True",
+    predicate=_circular_dependency_predicate,
+    severity_fn=_circular_dependency_severity,
+    evidence_fn=_circular_dependency_evidence,
+    description="File is part of a circular dependency",
+    remediation=(
+        "Break the cycle by extracting shared types to a new common module. "
+        "Alternatively, dependency-invert by making one side depend on an interface."
+    ),
+    category="architecture",
+    hotspot_filtered=False,
+    phase=3,
+)
+
+
+# ==============================================================================
+# 21. ZONE_OF_USELESSNESS
+# ==============================================================================
+
+
+def _zone_of_uselessness_predicate(store: FactStore, entity: EntityId) -> bool:
+    """Abstract module nobody depends on (high A + high I = Zone of Uselessness)."""
+    abstractness = store.get_signal(entity, Signal.ABSTRACTNESS, None)
+    instability = store.get_signal(entity, Signal.INSTABILITY, None)
+    if instability is None or abstractness is None:
+        return False
+    return abstractness > 0.7 and instability > 0.7
+
+
+def _zone_of_uselessness_severity(store: FactStore, entity: EntityId) -> float:
+    return 0.50
+
+
+def _zone_of_uselessness_evidence(store: FactStore, entity: EntityId) -> dict[str, Any]:
+    return {
+        "abstractness": store.get_signal(entity, Signal.ABSTRACTNESS, 0),
+        "instability": store.get_signal(entity, Signal.INSTABILITY, 0),
+        "main_seq_distance": store.get_signal(entity, Signal.MAIN_SEQ_DISTANCE, 0),
+        "file_count": store.get_signal(entity, Signal.FILE_COUNT, 0),
+    }
+
+
+ZONE_OF_USELESSNESS = Pattern(
+    name="zone_of_uselessness",
+    scope=PatternScope.MODULE,
+    severity=0.50,
+    requires={Signal.ABSTRACTNESS.value, Signal.INSTABILITY.value},
+    condition="instability is not None AND abstractness > 0.7 AND instability > 0.7",
+    predicate=_zone_of_uselessness_predicate,
+    severity_fn=_zone_of_uselessness_severity,
+    evidence_fn=_zone_of_uselessness_evidence,
+    description="Abstract module with no stable consumers (dead abstraction)",
+    remediation=(
+        "These abstractions have no stable consumers. "
+        "Delete unused interfaces or add concrete implementations that other modules depend on."
+    ),
+    category="architecture",
+    hotspot_filtered=False,
+    phase=4,
+)

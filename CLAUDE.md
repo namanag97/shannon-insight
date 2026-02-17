@@ -66,7 +66,7 @@ ScannerFactory → FileMetrics[] → AnalysisStore (blackboard)
 
 **`config.py`**: Pydantic settings, overridable via `shannon-insight.toml` or `SHANNON_*` env vars
 
-**`cli/`**: Typer-based. Main callback in `_common.py` handles `-C/--path` → `ctx.obj["path"]`
+**`cli/`**: Typer-based. Main command (analyze.py), subcommands in separate files, shared helpers in `_common.py`
 
 ## Conventions
 

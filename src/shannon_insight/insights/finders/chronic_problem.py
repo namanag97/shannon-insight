@@ -196,13 +196,16 @@ class ChronicProblemFinder:
         for path in files:
             entity_id = EntityId(EntityType.FILE, path)
 
+            # If entity isn't tracked at all, we can't verify → assume has impact
+            if fact_store.get_entity(entity_id) is None:
+                return True
+
             # Check for any meaningful signal
             pagerank = fact_store.get_signal(entity_id, Signal.PAGERANK, 0)
             blast_radius = fact_store.get_signal(entity_id, Signal.BLAST_RADIUS_SIZE, 0)
             total_changes = fact_store.get_signal(entity_id, Signal.TOTAL_CHANGES, 0)
             in_degree = fact_store.get_signal(entity_id, Signal.IN_DEGREE, 0)
 
-            # Has impact if any signal is meaningful
             if pagerank > 0.01 or blast_radius > 1 or total_changes > 5 or in_degree > 0:
                 return True
 

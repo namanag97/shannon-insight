@@ -114,6 +114,24 @@ class ChronicProblemFinder:
 
         return findings
 
+    def _is_fixture(self, path: str) -> bool:
+        """Check if path is a test fixture or sample data."""
+        path_lower = path.lower()
+        exclude_patterns = [
+            "tests/fixtures/",
+            "test/fixtures/",
+            "fixtures/",
+            "testdata/",
+            "test_data/",
+            "__fixtures__/",
+            "__mocks__/",
+            "samples/",
+            "sample_",
+            "experiments/",
+            "_bootstrap.py",
+        ]
+        return any(p in path_lower for p in exclude_patterns)
+
     def _build_suggestion(self, finding_type: str, persistence_count: int) -> str:
         """Build actionable suggestion for chronic problem."""
         base = f"This issue has persisted for {persistence_count} snapshots. Consider: "

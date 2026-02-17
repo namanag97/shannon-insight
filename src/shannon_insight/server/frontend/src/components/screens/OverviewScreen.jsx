@@ -242,9 +242,11 @@ export function OverviewScreen() {
 
 /**
  * Focus Point v2 - Redesigned with clear hierarchy
+ *
+ * API sends: { path, why, risk_score, impact_score, tractability_score, confidence_score, findings, alternatives }
  */
 function FocusPoint({ focus, onFileClick }) {
-  if (!focus || !focus.file) {
+  if (!focus || !focus.path) {
     return (
       <div className="text-body-sm" style={{ color: 'var(--text-tertiary)' }}>
         No specific recommendations at this time.
@@ -257,50 +259,48 @@ function FocusPoint({ focus, onFileClick }) {
       {/* File path - clickable */}
       <div>
         <a
-          href={`#files/${encodeURIComponent(focus.file)}`}
+          href={`#files/${encodeURIComponent(focus.path)}`}
           className="text-lg text-mono"
           style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}
           onClick={(e) => {
             e.preventDefault();
-            if (onFileClick) onFileClick(focus.file);
+            if (onFileClick) onFileClick(focus.path);
           }}
         >
-          {focus.file}
+          {focus.path}
         </a>
       </div>
 
       {/* Why this file? */}
-      {focus.reason && (
+      {focus.why && (
         <div className="text-body" style={{ color: 'var(--text-secondary)' }}>
-          {focus.reason}
+          {focus.why}
         </div>
       )}
 
-      {/* Key metrics */}
-      {focus.signals && (
-        <div className="cluster cluster--md">
-          {focus.signals.risk_score != null && (
-            <MetricBadge label="Risk" value={fmtF(focus.signals.risk_score, 2)} color="var(--red)" />
-          )}
-          {focus.signals.blast_radius != null && (
-            <MetricBadge label="Impact" value={focus.signals.blast_radius} color="var(--orange)" />
-          )}
-          {focus.signals.cognitive_load != null && (
-            <MetricBadge label="Complexity" value={fmtF(focus.signals.cognitive_load, 1)} color="var(--yellow)" />
-          )}
-          {focus.finding_count != null && (
-            <MetricBadge label="Issues" value={focus.finding_count} color="var(--accent)" />
-          )}
-        </div>
-      )}
+      {/* Key metrics - direct fields from API, not nested in signals */}
+      <div className="cluster cluster--md">
+        {focus.risk_score != null && (
+          <MetricBadge label="Risk" value={fmtF(focus.risk_score, 2)} color="var(--red)" />
+        )}
+        {focus.impact_score != null && (
+          <MetricBadge label="Impact" value={fmtF(focus.impact_score, 2)} color="var(--orange)" />
+        )}
+        {focus.tractability_score != null && (
+          <MetricBadge label="Fixability" value={fmtF(focus.tractability_score, 2)} color="var(--green)" />
+        )}
+        {focus.findings && focus.findings.length > 0 && (
+          <MetricBadge label="Issues" value={focus.findings.length} color="var(--accent)" />
+        )}
+      </div>
 
       {/* Findings in this file */}
       {focus.findings && focus.findings.length > 0 && (
         <div className="stack stack--sm" style={{ marginTop: 'var(--space-2)' }}>
           <div className="text-label">FINDINGS IN THIS FILE:</div>
           {focus.findings.slice(0, 3).map((f, i) => (
-            <div key={i} className="text-body-sm" style={{ color: 'var(--text-secondary)', paddingLeft: 'var(--space-4)', borderLeft: `2px solid ${hColor(10 - f.severity)}` }}>
-              {f.finding_type || f.type}
+            <div key={i} className="text-body-sm" style={{ color: 'var(--text-secondary)', paddingLeft: 'var(--space-4)', borderLeft: `2px solid ${hColor(10 - f.severity * 10)}` }}>
+              {f.label || f.finding_type || f.type}
             </div>
           ))}
           {focus.findings.length > 3 && (

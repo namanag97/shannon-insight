@@ -21,7 +21,7 @@ from shannon_insight.infrastructure.entities import EntityId
 
 
 class RelationType(Enum):
-    """All 8 relation types."""
+    """All relation types."""
 
     IMPORTS = "imports"  # File -> File
     COCHANGES_WITH = "cochanges"  # File -> File (symmetric, weighted)
@@ -31,6 +31,8 @@ class RelationType(Enum):
     CONTAINS = "contains"  # Module -> File, Codebase -> Module
     DEPENDS_ON = "depends"  # Module -> Module
     CLONED_FROM = "cloned"  # File -> File (weighted)
+    CYCLE_WITH = "cycle_with"  # File -> File (symmetric, files in same SCC)
+    AUTHOR_DISTANCE = "author_distance"  # File -> File (symmetric, team distance [0,1])
 
 
 @dataclass

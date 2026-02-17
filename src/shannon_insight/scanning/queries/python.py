@@ -40,15 +40,19 @@ CLASS_QUERY = """
 """
 
 # Query for imports
+# Note: relative imports (from ..foo import x) use relative_import, not dotted_name
 IMPORT_QUERY = """
 (import_statement
     name: (dotted_name) @import.module
 ) @import
 
 (import_from_statement
-    module_name: (dotted_name)? @from.module
-    name: (dotted_name)? @from.name
+    module_name: (dotted_name) @from.module
 ) @from
+
+(import_from_statement
+    module_name: (relative_import) @from.relative
+) @from.relative_import
 """
 
 # Query for __main__ guard

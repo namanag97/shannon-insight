@@ -66,12 +66,16 @@ class ArchitectureAnalyzer:
         if store.roles.available:
             roles_dict = store.roles.value
 
+        # Get Louvain community assignments for boundary_alignment
+        node_community = getattr(structural, "node_community", None) or {}
+
         for mod in modules.values():
             compute_module_metrics(
                 mod,
                 modules,
                 structural.graph,
                 roles_dict,
+                node_community=node_community,
             )
 
         # 3. Build module graph (needed by fusion for Conway alignment)

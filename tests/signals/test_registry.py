@@ -18,7 +18,7 @@ class TestSignalEnum:
 
     def test_signal_count(self):
         """Must have exactly 64 signals (from spec)."""
-        assert len(Signal) == 64
+        assert len(Signal) == 67
 
     def test_per_file_scanning_signals(self):
         """IR1 scanning signals (#1-7)."""
@@ -238,9 +238,10 @@ class TestSignalCounts:
     """Verify signal count breakdown from spec."""
 
     def test_file_signal_count(self):
-        """Per-file signals: 38."""
+        """Per-file signals: 41 (38 base + CYCLE_MEMBER + CYCLE_SIZE + CHANGE_ENTROPY + FILE_HEALTH_SCORE + DELTA_H - WIRING_QUALITY was already counted)."""
+        # 7 IR1 + 6 IR2 + 15 IR3 + 9 IR5t + 4 composites = 41
         file_signals = signals_by_scope("file")
-        assert len(file_signals) == 38
+        assert len(file_signals) == 41
 
     def test_module_signal_count(self):
         """Per-module signals: 15."""
@@ -264,4 +265,4 @@ class TestSignalCounts:
         # Global (single value): modularity, fiedler_value, spectral_gap, cycle_count,
         #                        centrality_gini, orphan_ratio, phantom_ratio, glue_deficit,
         #                        wiring_score, architecture_health, codebase_health
-        assert len(non_pctl) == 20  # Exact count for V2
+        assert len(non_pctl) == 22  # Exact count for V2

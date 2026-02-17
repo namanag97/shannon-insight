@@ -359,21 +359,20 @@ class TestRiskScoreComputation:
     def test_risk_score_for_inactive_file(self):
         """Inactive file (no changes) gets risk based on structural position.
 
-        Note: Dormant code still gets a risk score because unmaintained code
-        in a critical position is still risky. The formula is additive:
-        risk = 0.25*pctl_pr + 0.20*pctl_blast + 0.20*pctl_cog + 0.20*churn_factor + 0.15*bf_term
-
-        With high percentiles (0.95), DORMANT churn_factor (0.3), and bus_factor=1.0 (max=1.0):
-        bf_term = 1 - min(1.0, 1.0) / max(1.0, 1.0) = 0.0
-        risk = 0.25*0.95 + 0.20*0.95 + 0.20*0.95 + 0.20*0.3 + 0.15*0.0
-             = 0.2375 + 0.19 + 0.19 + 0.06 + 0.0 = 0.6775
+        Must set raw pagerank > 0.001 so the zero-impact guard passes.
+        Formula uses churn_cv=0 (dormant → instab_factor=0) and SAFE_BUS_FACTOR=5.0:
+        bf_term = 1 - 1.0/5.0 = 0.8
+        risk = 0.25*0.95 + 0.20*0.95 + 0.20*0.95 + 0.20*0 + 0.15*0.8
+             = 0.2375 + 0.19 + 0.19 + 0.0 + 0.12 = 0.7375
         """
         field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
             path="/inactive.py",
+            pagerank=0.5,  # Non-zero so zero-impact guard passes
             churn_trajectory="DORMANT",
+            churn_cv=0.0,  # Dormant → instability_factor=0
             bus_factor=1.0,
-            total_changes=0,  # No changes, but still gets risk from structural position
+            total_changes=0,
         )
         fs.percentiles = {
             "pagerank": 0.95,
@@ -384,9 +383,8 @@ class TestRiskScoreComputation:
 
         compute_composites(field)
 
-        # Inactive files now get risk based on structural position (no longer zero)
-        # High percentiles + DORMANT factor (0.3) = moderate-high risk
-        assert abs(fs.risk_score - 0.6775) < 0.01
+        # SAFE_BUS_FACTOR=5.0 fixed cap: bf_term = 1 - 1.0/5.0 = 0.8, instab=0
+        assert abs(fs.risk_score - 0.7375) < 0.01
 
     def test_instability_factor_churning(self):
         """CHURNING trajectory gives churn_factor of 1.0."""

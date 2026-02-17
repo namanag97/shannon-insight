@@ -87,7 +87,8 @@ export function FileListView() {
     entries = entries.filter((e) => (e.finding_count || 0) > 0);
   }
   if (fileFilters.has("orphans")) {
-    entries = entries.filter((e) => e.signals && e.signals.is_orphan);
+    // is_orphan available at top-level for quick access
+    entries = entries.filter((e) => e.is_orphan);
   }
   const roleFilters = [];
   fileFilters.forEach((f) => {

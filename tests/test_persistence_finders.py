@@ -42,11 +42,30 @@ class TestChronicProblemFinder:
         """Finds problems persisting 3+ snapshots."""
         with tempfile.TemporaryDirectory() as tmpdir:
             with HistoryDB(tmpdir) as db:
+                # Create snapshots for the findings
+                for i in range(1, 6):
+                    db.conn.execute(
+                        "INSERT INTO snapshots (id, tool_version, timestamp, analyzed_path) "
+                        "VALUES (?, '0.7.0', '2025-01-01', '/tmp')",
+                        (i,),
+                    )
+
+                # Insert finding_lifecycle entries
                 db.conn.execute(
                     "INSERT INTO finding_lifecycle VALUES ('f1', 1, 5, 5, 'active', 'high_risk_hub', 0.8)"
                 )
                 db.conn.execute(
                     "INSERT INTO finding_lifecycle VALUES ('f2', 1, 3, 3, 'active', 'god_file', 0.7)"
+                )
+
+                # Insert corresponding findings (required for JOIN)
+                db.conn.execute(
+                    "INSERT INTO findings (snapshot_id, finding_type, identity_key, severity, title, files) "
+                    "VALUES (5, 'high_risk_hub', 'f1', 0.8, 'Hub in main.py', '[\"main.py\"]')"
+                )
+                db.conn.execute(
+                    "INSERT INTO findings (snapshot_id, finding_type, identity_key, severity, title, files) "
+                    "VALUES (3, 'god_file', 'f2', 0.7, 'God file', '[\"app.py\"]')"
                 )
                 db.conn.commit()
 

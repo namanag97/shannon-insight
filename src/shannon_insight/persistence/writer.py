@@ -1,6 +1,7 @@
 """Write Snapshot / TensorSnapshot into the history database in a single transaction."""
 
 import json
+import math
 import sqlite3
 from typing import Any
 

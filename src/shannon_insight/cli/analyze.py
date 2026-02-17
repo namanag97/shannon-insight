@@ -101,11 +101,14 @@ def main(
     version: bool = typer.Option(
         False,
         "--version",
+        callback=_version_callback,
+        is_eager=True,
         help="Show version and exit",
     ),
     help_flag: bool = typer.Option(
         False,
         "-h",
+        callback=_help_callback,
         is_eager=True,
         help="Show this message and exit",
         hidden=True,  # Don't show in help (--help is already there)
@@ -123,14 +126,7 @@ def main(
         shannon-insight --json             # JSON output (CI mode)
         shannon-insight --fail-on high     # CI gate mode
     """
-    # Handle -h (short help) - print help and exit
-    if help_flag:
-        import click
-        click.echo(ctx.get_help())
-        raise typer.Exit(0)
-
-    # Handle version
-    if version:
+    # version and help_flag are handled by callbacks
         from .. import __version__
 
         console.print(f"Shannon Insight v{__version__}")

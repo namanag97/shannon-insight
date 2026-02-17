@@ -64,14 +64,16 @@ ALL_PATTERNS: list[Pattern] = [
     NAMING_DRIFT,
     INCOMPLETE_IMPLEMENTATION,
     DUPLICATE_INCOMPLETE,
-    # Team/Ownership (3) - CONWAY_VIOLATION disabled
+    # Team/Ownership (3)
     KNOWLEDGE_SILO,
     REVIEW_BLINDSPOT,
     TRUCK_FACTOR,
-    # Architecture (3)
+    # Architecture (5)
     LAYER_VIOLATION,
     ZONE_OF_PAIN,
     ARCHITECTURE_EROSION,
+    CIRCULAR_DEPENDENCY,
+    ZONE_OF_USELESSNESS,
     # Cross-Dimensional (3)
     WEAK_LINK,
     BUG_ATTRACTOR,
@@ -81,7 +83,7 @@ ALL_PATTERNS: list[Pattern] = [
     DIRECTORY_HOTSPOT,
 ]
 
-assert len(ALL_PATTERNS) == 26, f"Expected 26 patterns, got {len(ALL_PATTERNS)}"
+assert len(ALL_PATTERNS) == 28, f"Expected 28 patterns, got {len(ALL_PATTERNS)}"
 
 
 # ==============================================================================

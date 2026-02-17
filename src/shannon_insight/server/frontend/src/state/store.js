@@ -75,7 +75,7 @@ const useStore = create(
 
   setData: (data) => set({ data }),
 
-  navigate: (screen, detail) => {
+  navigate: (screen, detail, skipHashUpdate = false) => {
     const updates = { currentScreen: screen };
     if (screen === "files") {
       updates.currentFileDetail = detail || null;
@@ -83,6 +83,21 @@ const useStore = create(
       updates.moduleDetail = detail || null;
     }
     set(updates);
+    // Sync URL hash (unless called from hash change handler)
+    if (!skipHashUpdate) {
+      updateHash(screen, detail);
+    }
+  },
+
+  // Force refresh - triggers POST /api/refresh
+  forceRefresh: async () => {
+    const state = get();
+    state.setConnectionStatus("analyzing", "Refreshing...");
+    try {
+      await fetch("/api/refresh", { method: "POST" });
+    } catch (e) {
+      console.error("Refresh failed:", e);
+    }
   },
 
   // File actions

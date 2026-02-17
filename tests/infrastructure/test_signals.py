@@ -167,11 +167,11 @@ class TestSignalEnum:
         assert len(global_sigs) == 11
 
     def test_signal_scope_counts_add_up(self) -> None:
-        """37 file + 15 module + 11 global = 63 total."""
-        # 7 IR1 + 6 IR2 + 13 IR3 + 9 IR5t + 2 composites = 37 file
+        """38 file + 15 module + 11 global = 64 total."""
+        # 7 IR1 + 6 IR2 + 13 IR3 + 9 IR5t + 3 composites = 38 file
         # 15 module + 11 global = 26
-        # 37 + 26 = 63
-        assert len(Signal) == 63
+        # 38 + 26 = 64
+        assert len(Signal) == 64
 
 
 # ---------------------------------------------------------------------------

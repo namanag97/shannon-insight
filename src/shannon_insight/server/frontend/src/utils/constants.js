@@ -244,7 +244,7 @@ export const SIGNAL_CATEGORIES = [
     key: "risk",
     name: "Computed Risk Scores",
     description: "Combined risk metrics from all signals above",
-    signals: ["risk_score", "wiring_quality", "file_health_score", "raw_risk", "health", "blast_radius", "finding_count"],
+    signals: ["risk_score", "wiring_quality", "file_health_score", "delta_h", "raw_risk", "health", "blast_radius", "finding_count"],
   },
 
   // ═══════════════════════════════════════════════════════════════════════════

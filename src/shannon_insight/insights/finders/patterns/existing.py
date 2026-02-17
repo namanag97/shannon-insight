@@ -201,11 +201,16 @@ HIDDEN_COUPLING = Pattern(
 
 
 def _god_file_predicate(store: FactStore, entity: EntityId) -> bool:
-    """High complexity AND low coherence."""
+    """High complexity AND low coherence.
+
+    When semantic analysis is unavailable (concept_count == 0), semantic_coherence
+    defaults to 0.5 (neutral). In that case we fall back to a complexity-only check
+    at a tighter threshold (pctl > 0.95) to still surface the worst files without
+    requiring semantics.
+    """
     thresholds = get_thresholds(store)
 
     cog_pctl = compute_percentile(store, entity, Signal.COGNITIVE_LOAD)
-    coh_pctl = compute_percentile(store, entity, Signal.SEMANTIC_COHERENCE)
     func_count = store.get_signal(entity, Signal.FUNCTION_COUNT, 0)
 
     # Minimum function count to avoid flagging trivial files
@@ -213,6 +218,14 @@ def _god_file_predicate(store: FactStore, entity: EntityId) -> bool:
         return False
 
     has_high_complexity = cog_pctl >= thresholds.god_file_cognitive_pctl
+
+    # Check if semantics were computed for this file
+    concept_count = store.get_signal(entity, Signal.CONCEPT_COUNT, 0)
+    if concept_count == 0:
+        # No semantic analysis — degrade gracefully: only flag extreme complexity
+        return has_high_complexity and cog_pctl >= 0.95
+
+    coh_pctl = compute_percentile(store, entity, Signal.SEMANTIC_COHERENCE)
     has_low_coherence = coh_pctl <= thresholds.god_file_coherence_pctl  # LOW is bad
 
     return has_high_complexity and has_low_coherence

@@ -232,11 +232,21 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
 
     # ── History API endpoints ───────────────────────────────────────────
 
+    def _get_analyzed_path() -> str | None:
+        """Get analyzed path from current state."""
+        current = state.get_state()
+        if current is None:
+            return None
+        return current.get("analyzed_path")
+
     async def api_history_snapshots(request: Request) -> JSONResponse:
         """List historical snapshots with health scores."""
+        analyzed_path = _get_analyzed_path()
+        if not analyzed_path:
+            return JSONResponse({"error": "No analysis available"}, status_code=404)
         limit = int(request.query_params.get("limit", 50))
         try:
-            with HistoryDB(str(state.analyzed_path)) as db:
+            with HistoryDB(analyzed_path) as db:
                 serializer = DashboardSerializer(db)
                 data = serializer.serialize_snapshot_list(limit=limit)
             return JSONResponse(data)
@@ -253,6 +263,7 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
 
         # Handle URL-encoded paths
         from urllib.parse import unquote
+
         signal_path = unquote(signal_path)
 
         try:
@@ -307,7 +318,9 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
         Route("/api/history/findings", api_history_findings),
         Route("/api/history/snapshot/{snapshot_id:int}", api_history_snapshot_detail),
         Route("/api/history/signal/{signal_type}/{signal_name}", api_history_signal),
-        Route("/api/history/signal/{signal_type}/{signal_path:path}/{signal_name}", api_history_signal),
+        Route(
+            "/api/history/signal/{signal_type}/{signal_path:path}/{signal_name}", api_history_signal
+        ),
         WebSocketRoute("/ws", websocket_endpoint),
         Mount("/static", app=StaticFiles(directory=str(_STATIC_DIR)), name="static"),
     ]

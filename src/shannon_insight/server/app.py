@@ -204,9 +204,32 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
         except (asyncio.CancelledError, Exception):
             pass
 
+    async def api_refresh(request: Request) -> JSONResponse:
+        """Force a full re-analysis. POST /api/refresh"""
+        if request.method != "POST":
+            return JSONResponse(
+                {"error": "Method not allowed. Use POST."},
+                status_code=405,
+            )
+        if watcher is None:
+            return JSONResponse(
+                {"error": "Refresh not available (no watcher configured)"},
+                status_code=503,
+            )
+        # Run analysis in background thread to not block the request
+        def _do_refresh():
+            try:
+                watcher.run_analysis()
+            except Exception as exc:
+                logger.error("Refresh failed: %s", exc)
+
+        threading.Thread(target=_do_refresh, daemon=True).start()
+        return JSONResponse({"status": "refresh_started"})
+
     routes = [
         Route("/", homepage),
         Route("/api/state", api_state),
+        Route("/api/refresh", api_refresh, methods=["POST"]),
         Route("/api/export/json", api_export_json),
         Route("/api/export/csv", api_export_csv),
         Route("/api/gate", api_gate),

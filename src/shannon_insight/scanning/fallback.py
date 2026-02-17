@@ -271,16 +271,40 @@ class RegexFallbackScanner:
             body_tokens = sum(len(line.split()) for line in lines[:body_lines])
             return body_tokens, start_line + body_lines
 
-        # For brace-based languages, count until closing brace
-        brace_count = 1
+        # For brace-based languages, first find the function body opening brace
+        # (skipping any braces in destructuring parameters)
+        # The function body starts after the closing ) of the parameter list
+        text = "\n".join(lines)
+
+        # Find the opening brace of the function body
+        # Skip parentheses first (for parameters), then find the {
+        paren_count = 1  # We're right after the opening (
+        body_start_idx = 0
+        for i, char in enumerate(text):
+            if char == "(":
+                paren_count += 1
+            elif char == ")":
+                paren_count -= 1
+                if paren_count == 0:
+                    # Found the closing ), now find the opening {
+                    brace_pos = text.find("{", i)
+                    if brace_pos != -1:
+                        body_start_idx = brace_pos
+                    break
+
+        # Now count from the actual function body
+        body_text = text[body_start_idx:]
+        body_lines = body_text.split("\n")
+
+        brace_count = 0
         token_count = 0
         line_count = 0
 
-        for line in lines:
+        for line in body_lines:
             line_count += 1
             brace_count += line.count("{") - line.count("}")
             token_count += len(line.split())
-            if brace_count <= 0:
+            if brace_count <= 0 and line_count > 1:  # At least one line in body
                 break
 
         return token_count, start_line + line_count

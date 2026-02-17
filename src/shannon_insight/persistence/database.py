@@ -244,6 +244,109 @@ class HistoryDB:
             """
         )
 
+        # ── cochange_edges (G4 author distance space) ──────────────
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS cochange_edges (
+                snapshot_id     INTEGER NOT NULL,
+                file_a          TEXT    NOT NULL,
+                file_b          TEXT    NOT NULL,
+                weight          REAL    NOT NULL,
+                lift            REAL,
+                confidence_a_b  REAL,
+                confidence_b_a  REAL,
+                cochange_count  INTEGER,
+                PRIMARY KEY (snapshot_id, file_a, file_b),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        # ── architecture_data (modules, layers, violations) ────────
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS architecture_modules (
+                snapshot_id  INTEGER NOT NULL,
+                module_path  TEXT    NOT NULL,
+                PRIMARY KEY (snapshot_id, module_path),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS architecture_layers (
+                snapshot_id  INTEGER NOT NULL,
+                depth        INTEGER NOT NULL,
+                modules      TEXT    NOT NULL,
+                PRIMARY KEY (snapshot_id, depth),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS architecture_violations (
+                id           INTEGER PRIMARY KEY AUTOINCREMENT,
+                snapshot_id  INTEGER NOT NULL,
+                source_module TEXT   NOT NULL,
+                target_module TEXT   NOT NULL,
+                violation_type TEXT  NOT NULL,
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        # ── delta_h (health Laplacian per-file) ────────────────────
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS delta_h (
+                snapshot_id  INTEGER NOT NULL,
+                file_path    TEXT    NOT NULL,
+                value        REAL    NOT NULL,
+                PRIMARY KEY (snapshot_id, file_path),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        # ── communities (Louvain detection) ────────────────────────
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS communities (
+                snapshot_id    INTEGER NOT NULL,
+                community_id   INTEGER NOT NULL,
+                members        TEXT    NOT NULL,
+                PRIMARY KEY (snapshot_id, community_id),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS node_community (
+                snapshot_id   INTEGER NOT NULL,
+                file_path     TEXT    NOT NULL,
+                community_id  INTEGER NOT NULL,
+                PRIMARY KEY (snapshot_id, file_path),
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS modularity_score (
+                snapshot_id  INTEGER NOT NULL PRIMARY KEY,
+                score        REAL    NOT NULL,
+                FOREIGN KEY (snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
+            )
+            """
+        )
+
         # ── indexes (v1) ──────────────────────────────────────────
         c.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_commit ON snapshots(commit_sha)")
         c.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_timestamp ON snapshots(timestamp)")

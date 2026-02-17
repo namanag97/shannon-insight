@@ -67,7 +67,9 @@ class ArchitectureAnalyzer:
             roles_dict = store.roles.value
 
         # Get Louvain community assignments for boundary_alignment
-        node_community = getattr(structural, "node_community", None) or {}
+        # node_community is on graph_analysis, not directly on structural
+        graph_analysis = getattr(structural, "graph_analysis", None)
+        node_community = getattr(graph_analysis, "node_community", None) or {} if graph_analysis else {}
 
         for mod in modules.values():
             compute_module_metrics(

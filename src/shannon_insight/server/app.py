@@ -302,6 +302,12 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
         Route("/api/export/json", api_export_json),
         Route("/api/export/csv", api_export_csv),
         Route("/api/gate", api_gate),
+        # History API
+        Route("/api/history/snapshots", api_history_snapshots),
+        Route("/api/history/findings", api_history_findings),
+        Route("/api/history/snapshot/{snapshot_id:int}", api_history_snapshot_detail),
+        Route("/api/history/signal/{signal_type}/{signal_name}", api_history_signal),
+        Route("/api/history/signal/{signal_type}/{signal_path:path}/{signal_name}", api_history_signal),
         WebSocketRoute("/ws", websocket_endpoint),
         Mount("/static", app=StaticFiles(directory=str(_STATIC_DIR)), name="static"),
     ]

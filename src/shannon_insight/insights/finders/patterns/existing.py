@@ -14,7 +14,7 @@ from shannon_insight.infrastructure.patterns import Pattern, PatternScope
 from shannon_insight.infrastructure.relations import RelationType
 from shannon_insight.infrastructure.signals import Signal
 
-from ..helpers import compute_median, compute_percentile
+from ..helpers import compute_median, compute_percentile, get_thresholds
 
 if TYPE_CHECKING:
     from shannon_insight.infrastructure.store import FactStore

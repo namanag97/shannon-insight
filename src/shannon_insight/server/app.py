@@ -24,6 +24,9 @@ from .state import ServerState
 if TYPE_CHECKING:
     from .watcher import FileWatcher
 
+from ..persistence.database import HistoryDB
+from .serializers import DashboardSerializer
+
 logger = logging.getLogger(__name__)
 
 _PKG_DIR = Path(__file__).parent
@@ -216,6 +219,7 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
                 {"error": "Refresh not available (no watcher configured)"},
                 status_code=503,
             )
+
         # Run analysis in background thread to not block the request
         def _do_refresh():
             try:

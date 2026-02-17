@@ -5,7 +5,7 @@ They never change on the same day despite the import relationship.
 This triggers the DEAD_DEPENDENCY pattern.
 """
 
-from ..utils.email_sender import send_email, EmailConfig
+from ..utils.email_sender import EmailConfig, send_email
 
 
 class NotificationService:

@@ -155,3 +155,21 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 func respondWithError(w http.ResponseWriter, code int, message string) {
 	respondWithJSON(w, code, map[string]string{"error": message})
 }
+// User authorization middleware
+// Updated user handlers with new methods
+// Add cache invalidation to handlers
+// User authorization middleware
+// Updated user handlers with new methods
+// Add cache invalidation to handlers
+// Fix goroutine leak in handlers
+// Handle new fields in user handler
+// User authorization middleware
+// Updated user handlers with new methods
+// Add cache invalidation to handlers
+// Fix goroutine leak in handlers
+// Handle new fields in user handler
+// User authorization middleware
+// Updated user handlers with new methods
+// Add cache invalidation to handlers
+// Fix goroutine leak in handlers
+// Handle new fields in user handler

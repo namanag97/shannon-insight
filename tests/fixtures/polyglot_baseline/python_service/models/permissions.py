@@ -64,6 +64,7 @@ class Permission(BaseModel):
 
     class Config:
         """Pydantic config."""
+
         from_attributes = True
 
 
@@ -72,8 +73,7 @@ class Role(BaseModel):
 
     name: RoleEnum = Field(..., description="Role name")
     permissions: list[PermissionEnum] = Field(
-        default_factory=list,
-        description="Permissions granted to this role"
+        default_factory=list, description="Permissions granted to this role"
     )
 
     @classmethod
@@ -84,4 +84,5 @@ class Role(BaseModel):
 
     class Config:
         """Pydantic config."""
+
         from_attributes = True

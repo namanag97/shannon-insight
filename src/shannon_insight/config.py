@@ -183,9 +183,7 @@ class ThresholdConfig:
             + self.risk_bus_factor_weight
         )
         if not 0.99 <= weight_sum <= 1.01:
-            raise ValueError(
-                f"Risk weights must sum to 1.0, got {weight_sum:.3f}"
-            )
+            raise ValueError(f"Risk weights must sum to 1.0, got {weight_sum:.3f}")
 
         # Positive integers
         if self.clone_min_lines < 1:

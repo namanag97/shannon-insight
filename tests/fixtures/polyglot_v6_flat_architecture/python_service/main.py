@@ -1,7 +1,7 @@
 """Main entry point - flat architecture, handlers directly use models."""
 
-from .handlers.user_handler import create_user, get_user, list_users
 from .handlers.order_handler import create_order, get_order, list_orders
+from .handlers.user_handler import create_user, get_user, list_users
 
 
 def main():

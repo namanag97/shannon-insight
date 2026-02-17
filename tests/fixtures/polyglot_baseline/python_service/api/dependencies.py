@@ -4,10 +4,11 @@ Dependency injection for FastAPI.
 Provides database, services, and authentication dependencies.
 """
 
-from typing import Generator, Optional
+from collections.abc import Generator
+from typing import Optional
 
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthCredentials
+from fastapi.security import HTTPAuthCredentials, HTTPBearer
 
 from ..config import settings
 from ..exceptions import AuthenticationError, to_http_exception
@@ -129,9 +130,6 @@ async def get_current_admin(
     from ..models.permissions import RoleEnum
 
     if user.get("role") != RoleEnum.ADMIN:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Admin role required"
-        )
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin role required")
 
     return current_user

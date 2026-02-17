@@ -75,7 +75,10 @@ def build_churn_series(
         slope = _linear_slope(counts)
         cv = _compute_cv(counts, total)
         trajectory = _classify_trajectory(
-            counts, total, slope, cv,
+            counts,
+            total,
+            slope,
+            cv,
             slope_threshold=slope_threshold,
             cv_threshold=cv_threshold,
         )

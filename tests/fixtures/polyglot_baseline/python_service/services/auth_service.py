@@ -57,7 +57,9 @@ class AuthService:
             "token_type": "bearer",
         }
 
-    def create_token(self, user_id: int, email: str, expires_delta: Optional[timedelta] = None) -> str:
+    def create_token(
+        self, user_id: int, email: str, expires_delta: Optional[timedelta] = None
+    ) -> str:
         """
         Create access token for user.
 
@@ -94,12 +96,7 @@ class AuthService:
 
         return {"user_id": int(user_id), "email": email}
 
-    def change_password(
-        self,
-        user_id: int,
-        old_password: str,
-        new_password: str
-    ) -> bool:
+    def change_password(self, user_id: int, old_password: str, new_password: str) -> bool:
         """
         Change user password.
 

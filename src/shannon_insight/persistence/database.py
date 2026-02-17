@@ -501,10 +501,10 @@ class HistoryDB:
 
         Returns the snapshot ID.
         """
-        from .writer import save_snapshot as _save_snapshot, save_tensor_snapshot
-
         # Check snapshot type and use appropriate saver
         from .models import TensorSnapshot
+        from .writer import save_snapshot as _save_snapshot
+        from .writer import save_tensor_snapshot
 
         if isinstance(snapshot, TensorSnapshot):
             return save_tensor_snapshot(self.conn, snapshot)

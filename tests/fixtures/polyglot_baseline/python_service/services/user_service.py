@@ -6,7 +6,7 @@ Handles user CRUD operations, validation, and business rules.
 
 from typing import Any, Optional
 
-from ..exceptions import ConflictError, NotFoundError, ValidationError
+from ..exceptions import ConflictError, NotFoundError
 from ..models.permissions import RoleEnum
 from ..utils import hash_password
 from ..utils.validators import validate_email, validate_username

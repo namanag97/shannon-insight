@@ -640,8 +640,9 @@ class TestTensorSnapshotLoader:
 
     def test_load_tensor_snapshot_not_found(self):
         """Test loading non-existent snapshot raises ValueError."""
-        from shannon_insight.persistence.reader import load_tensor_snapshot
         import pytest
+
+        from shannon_insight.persistence.reader import load_tensor_snapshot
 
         with tempfile.TemporaryDirectory() as tmpdir:
             with HistoryDB(tmpdir) as db:
@@ -650,9 +651,9 @@ class TestTensorSnapshotLoader:
 
     def test_persist_cochange_and_architecture(self):
         """Test persisting and loading cochange edges, architecture, and community data."""
-        from shannon_insight.persistence.models import TensorSnapshot, FindingRecord
-        from shannon_insight.persistence.writer import save_tensor_snapshot
+        from shannon_insight.persistence.models import TensorSnapshot
         from shannon_insight.persistence.reader import load_tensor_snapshot
+        from shannon_insight.persistence.writer import save_tensor_snapshot
 
         with tempfile.TemporaryDirectory() as tmpdir:
             with HistoryDB(tmpdir) as db:
@@ -685,9 +686,7 @@ class TestTensorSnapshotLoader:
                         {"depth": 0, "modules": ["src/"]},
                         {"depth": 1, "modules": ["tests/"]},
                     ],
-                    violations=[
-                        {"src": "tests/", "tgt": "src/", "type": "UPWARD_DEPENDENCY"}
-                    ],
+                    violations=[{"src": "tests/", "tgt": "src/", "type": "UPWARD_DEPENDENCY"}],
                     delta_h={"main.py": 0.12, "utils.py": -0.05},
                     communities=[
                         {"id": 0, "members": ["main.py", "utils.py"], "size": 2},

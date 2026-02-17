@@ -6,7 +6,7 @@ Handles organization CRUD operations, member management, and business rules.
 
 from typing import Any, Optional
 
-from ..exceptions import ConflictError, NotFoundError, ValidationError
+from ..exceptions import ConflictError, NotFoundError
 from ..models.permissions import RoleEnum
 from ..utils.validators import validate_org_name
 

@@ -8,9 +8,8 @@ and request tracing capabilities.
 import json
 import logging
 import sys
-from typing import Any
 
-from .config import settings
+from ..config import settings
 
 
 class JsonFormatter(logging.Formatter):

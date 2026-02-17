@@ -100,3 +100,17 @@ func (s *UserService) DeleteUser(ctx context.Context, id int64) error {
 
 	return nil
 }
+// Updated user service methods
+// Add caching to user service
+// Updated user service methods
+// Add caching to user service
+// Add metrics collection
+// Update user service with new fields
+// Updated user service methods
+// Add caching to user service
+// Add metrics collection
+// Update user service with new fields
+// Updated user service methods
+// Add caching to user service
+// Add metrics collection
+// Update user service with new fields

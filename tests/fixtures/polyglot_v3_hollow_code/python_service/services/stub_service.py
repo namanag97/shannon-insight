@@ -5,8 +5,7 @@ def process_order(order_id: str) -> dict:
     pass  # STUB
 
 
-def validate_payment(amount: float) -> bool:
-    ...  # STUB
+def validate_payment(amount: float) -> bool: ...  # STUB
 
 
 def calculate_tax(subtotal: float) -> float:

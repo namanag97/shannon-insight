@@ -84,3 +84,8 @@ coverage.xml
 
 # Debug output
 debug/
+
+# Test fixtures with embedded git repos
+tests/fixtures/polyglot_v1_god_file/
+tests/fixtures/polyglot_v2_hidden_coupling/
+tests/fixtures/polyglot_v5_mixed/

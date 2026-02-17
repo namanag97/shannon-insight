@@ -70,3 +70,7 @@ class InternalServerError(AppException):
 def to_http_exception(exc: AppException) -> HTTPException:
     """Convert AppException to FastAPI HTTPException."""
     return HTTPException(status_code=exc.status_code, detail=exc.message)
+
+
+# Fix for edge case in error handling
+# Fix for edge case in error handling

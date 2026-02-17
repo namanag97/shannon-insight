@@ -298,7 +298,11 @@ def _hydrate_tensor(conn: sqlite3.Connection, row: sqlite3.Row) -> TensorSnapsho
         (snapshot_id,),
     ):
         violations.append(
-            {"src": v_row["source_module"], "tgt": v_row["target_module"], "type": v_row["violation_type"]}
+            {
+                "src": v_row["source_module"],
+                "tgt": v_row["target_module"],
+                "type": v_row["violation_type"],
+            }
         )
 
     # Delta h (health Laplacian)
@@ -316,7 +320,11 @@ def _hydrate_tensor(conn: sqlite3.Connection, row: sqlite3.Row) -> TensorSnapsho
         (snapshot_id,),
     ):
         communities.append(
-            {"id": c_row["community_id"], "members": json.loads(c_row["members"]), "size": len(json.loads(c_row["members"]))}
+            {
+                "id": c_row["community_id"],
+                "members": json.loads(c_row["members"]),
+                "size": len(json.loads(c_row["members"])),
+            }
         )
 
     # Node community mapping

@@ -75,3 +75,17 @@ export const storage = {
     }
   },
 };
+// Storage initialization
+// Add localStorage wrapper
+// Storage initialization
+// Add localStorage wrapper
+// Add session storage utilities
+// Add encryption for sensitive data
+// Storage initialization
+// Add localStorage wrapper
+// Add session storage utilities
+// Add encryption for sensitive data
+// Storage initialization
+// Add localStorage wrapper
+// Add session storage utilities
+// Add encryption for sensitive data

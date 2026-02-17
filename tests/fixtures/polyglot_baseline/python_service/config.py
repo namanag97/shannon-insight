@@ -5,8 +5,6 @@ Loads settings from environment variables with sensible defaults.
 Pydantic handles validation and type coercion.
 """
 
-from typing import Optional
-
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
@@ -20,16 +18,12 @@ class Settings(BaseSettings):
     debug: bool = Field(default=False, description="Enable debug mode")
 
     # Database
-    database_url: str = Field(
-        default="sqlite:///./app.db",
-        description="Database connection URL"
-    )
+    database_url: str = Field(default="sqlite:///./app.db", description="Database connection URL")
     db_echo: bool = Field(default=False, description="Echo SQL queries")
 
     # JWT
     secret_key: str = Field(
-        default="dev-secret-key-change-in-production",
-        description="Secret key for JWT signing"
+        default="dev-secret-key-change-in-production", description="Secret key for JWT signing"
     )
     algorithm: str = Field(default="HS256", description="JWT algorithm")
     access_token_expire_minutes: int = Field(
@@ -44,8 +38,7 @@ class Settings(BaseSettings):
 
     # CORS
     cors_origins: list[str] = Field(
-        default=["http://localhost:3000"],
-        description="Allowed CORS origins"
+        default=["http://localhost:3000"], description="Allowed CORS origins"
     )
 
     # Logging
@@ -53,8 +46,11 @@ class Settings(BaseSettings):
 
     class Config:
         """Pydantic config."""
+
         env_file = ".env"
         case_sensitive = False
 
 
 settings = Settings()
+# Performance optimization
+# Performance optimization

@@ -5,14 +5,11 @@ Implements REST endpoints for CRUD operations with proper validation,
 authentication, and error handling.
 """
 
-from typing import Optional
-
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
-from ..exceptions import AppException, ConflictError, NotFoundError, to_http_exception
+from ..exceptions import AppException, NotFoundError, to_http_exception
 from ..models import (
     OrgCreate,
-    OrgDetailResponse,
     OrgResponse,
     OrgUpdate,
     UserCreate,
@@ -72,10 +69,7 @@ async def list_users(
 ):
     """List all users (admin only)."""
     users, total = user_service.list_users(skip=skip, limit=limit)
-    return [
-        {k: v for k, v in u.items() if k != "password_hash"}
-        for u in users
-    ]
+    return [{k: v for k, v in u.items() if k != "password_hash"} for u in users]
 
 
 @router.put("/users/{user_id}", response_model=UserResponse)
@@ -89,8 +83,7 @@ async def update_user(
     # Users can only update themselves unless they're admin
     if current_user["user_id"] != user_id:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Can only update your own profile"
+            status_code=status.HTTP_403_FORBIDDEN, detail="Can only update your own profile"
         )
 
     try:
@@ -216,3 +209,25 @@ async def remove_org_member(
         org_service.remove_member(org_id, user_id)
     except NotFoundError as e:
         raise to_http_exception(e)
+
+
+# Enhancement 1 to routes
+# Enhancement 2 to routes
+# Fix in route 3
+# Enhancement 4 to routes
+# Enhancement 5 to routes
+# Fix in route 6
+# Enhancement 7 to routes
+# Enhancement 8 to routes
+# Fix in route 9
+# Enhancement 10 to routes
+# Enhancement 1 to routes
+# Enhancement 2 to routes
+# Fix in route 3
+# Enhancement 4 to routes
+# Enhancement 5 to routes
+# Fix in route 6
+# Enhancement 7 to routes
+# Enhancement 8 to routes
+# Fix in route 9
+# Enhancement 10 to routes

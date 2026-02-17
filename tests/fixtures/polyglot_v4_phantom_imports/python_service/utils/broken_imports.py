@@ -1,9 +1,11 @@
 """Module with unresolved imports - triggers PHANTOM_IMPORTS."""
 
 # These imports don't exist - they're phantoms
-from nonexistent_module import MissingClass
-from python_service.deprecated import OldHelper  # Module doesn't exist
 import ghost_package
+from nonexistent_module import MissingClass
+
+from python_service.deprecated import OldHelper  # Module doesn't exist
+
 from ..legacy.removed_module import LegacyThing
 
 

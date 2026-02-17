@@ -35,8 +35,7 @@ def _high_risk_hub_predicate(store: FactStore, entity: EntityId) -> bool:
     trajectory = store.get_signal(entity, Signal.CHURN_TRAJECTORY, "")
 
     has_high_centrality = (
-        pr_pctl >= thresholds.hub_pagerank_pctl
-        or br_pctl >= thresholds.hub_blast_radius_pctl
+        pr_pctl >= thresholds.hub_pagerank_pctl or br_pctl >= thresholds.hub_blast_radius_pctl
     )
     has_high_complexity = cog_pctl >= thresholds.hub_cognitive_load_pctl
     has_high_churn = trajectory in {"CHURNING", "SPIKING"}
@@ -128,7 +127,10 @@ def _hidden_coupling_predicate(store: FactStore, pair: tuple[EntityId, EntityId]
     max_conf = max(confidence_ab, confidence_ba)
 
     # Configurable thresholds
-    if lift < thresholds.coupling_lift_threshold or max_conf < thresholds.coupling_confidence_threshold:
+    if (
+        lift < thresholds.coupling_lift_threshold
+        or max_conf < thresholds.coupling_confidence_threshold
+    ):
         return False
 
     # Check NO structural dependency

@@ -93,15 +93,31 @@ commit_as() {
 #################################################################################
 
 calc_date() {
-    local offset="$1"  # e.g., "-6m", "-5m", "+2d", etc.
+    local offset_expr="$1"  # e.g., "-6m", "-5m+2d", "+10d", etc.
     local format="${2:-%Y-%m-%d %H:%M:%S}"
 
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        # macOS
-        date -v"$offset" "+$format"
+        # macOS: parse and apply each offset separately
+        local date_cmd="date"
+
+        # Parse the offset expression and extract individual offsets
+        # Handle patterns like: "-5m+2d", "-3m-15d", "-1m+15d"
+        local remaining="$offset_expr"
+
+        while [[ -n "$remaining" ]]; do
+            if [[ "$remaining" =~ ^([+-][0-9]+[ymwdHMS]) ]]; then
+                local offset="${BASH_REMATCH[1]}"
+                date_cmd="$date_cmd -v$offset"
+                remaining="${remaining:${#offset}}"
+            else
+                break
+            fi
+        done
+
+        eval "$date_cmd \"+$format\""
     else
         # GNU date (Linux)
-        date -d "$offset" "+$format"
+        date -d "$offset_expr" "+$format"
     fi
 }
 

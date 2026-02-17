@@ -62,9 +62,7 @@ class ServerState:
                             except asyncio.QueueEmpty:
                                 break
                         if drained:
-                            logger.debug(
-                                "Drained %d stale messages from WebSocket queue", drained
-                            )
+                            logger.debug("Drained %d stale messages from WebSocket queue", drained)
                     else:
                         # Progress messages - OK to drop
                         logger.debug("WebSocket queue full, dropping progress message")
@@ -73,9 +71,7 @@ class ServerState:
             return True
         except asyncio.QueueFull:
             if is_state_update:
-                logger.warning(
-                    "WebSocket queue full even after drain - client may be disconnected"
-                )
+                logger.warning("WebSocket queue full even after drain - client may be disconnected")
             return False
         except Exception as exc:
             logger.debug("Failed to send to queue: %s", exc)

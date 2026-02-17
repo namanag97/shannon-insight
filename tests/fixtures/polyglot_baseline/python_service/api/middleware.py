@@ -37,8 +37,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 
         # Log request
         logger.info(
-            f"Request: {request.method} {request.url.path}",
-            extra={"request_id": request_id}
+            f"Request: {request.method} {request.url.path}", extra={"request_id": request_id}
         )
 
         try:
@@ -47,7 +46,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             process_time = time.time() - start_time
             logger.error(
                 f"Request failed: {request.method} {request.url.path} - {str(exc)}",
-                extra={"request_id": request_id, "duration_ms": process_time * 1000}
+                extra={"request_id": request_id, "duration_ms": process_time * 1000},
             )
             raise
 
@@ -60,7 +59,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 "request_id": request_id,
                 "status_code": response.status_code,
                 "duration_ms": process_time * 1000,
-            }
+            },
         )
 
         response.headers["X-Request-ID"] = request_id
@@ -95,7 +94,5 @@ class ExceptionHandlingMiddleware(BaseHTTPMiddleware):
         except Exception as exc:
             logger.error(f"Unhandled exception: {str(exc)}")
             from fastapi.responses import JSONResponse
-            return JSONResponse(
-                status_code=500,
-                content={"detail": "Internal server error"}
-            )
+
+            return JSONResponse(status_code=500, content={"detail": "Internal server error"})

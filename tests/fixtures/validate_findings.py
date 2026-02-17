@@ -20,6 +20,7 @@ from pathlib import Path
 @dataclass
 class GroundTruth:
     """Expected finding from GROUND_TRUTH.md"""
+
     finding_type: str
     file_path: str
     description: str
@@ -28,6 +29,7 @@ class GroundTruth:
 @dataclass
 class ValidationResult:
     """Result of comparing actual vs expected findings."""
+
     fixture_name: str
     expected: list[GroundTruth]
     actual_findings: list[dict]
@@ -92,11 +94,13 @@ def parse_ground_truth(fixture_dir: Path) -> list[GroundTruth]:
                 file_path = parts[1].strip()
                 # Skip if finding_type looks like a markdown emphasis or URL
                 if finding_type and not finding_type.startswith("*") and "/" not in finding_type:
-                    expected.append(GroundTruth(
-                        finding_type=finding_type,
-                        file_path=file_path,
-                        description=stripped,
-                    ))
+                    expected.append(
+                        GroundTruth(
+                            finding_type=finding_type,
+                            file_path=file_path,
+                            description=stripped,
+                        )
+                    )
 
     return expected
 
@@ -159,10 +163,11 @@ def validate_fixture(fixture_dir: Path) -> ValidationResult:
     # False positives = found but not expected
     # Note: For baseline, everything is a "false positive" in the ground truth sense
     # but we only count as FP if we have a ground truth to compare against
-    false_positives = [
-        actual[i] for i in range(len(actual))
-        if i not in matched_actual_indices
-    ] if expected else []
+    false_positives = (
+        [actual[i] for i in range(len(actual)) if i not in matched_actual_indices]
+        if expected
+        else []
+    )
 
     return ValidationResult(
         fixture_name=fixture_dir.name,
@@ -176,9 +181,9 @@ def validate_fixture(fixture_dir: Path) -> ValidationResult:
 
 def print_report(result: ValidationResult) -> None:
     """Print validation report for a fixture."""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"FIXTURE: {result.fixture_name}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     print(f"\nExpected findings: {len(result.expected)}")
     print(f"Actual findings:   {len(result.actual_findings)}")
@@ -225,19 +230,18 @@ def main():
             sys.exit(1)
     else:
         # Validate all fixtures with GROUND_TRUTH.md
-        fixtures = sorted([
-            d for d in fixtures_dir.iterdir()
-            if d.is_dir() and (d / "GROUND_TRUTH.md").exists()
-        ])
+        fixtures = sorted(
+            [d for d in fixtures_dir.iterdir() if d.is_dir() and (d / "GROUND_TRUTH.md").exists()]
+        )
 
         if not fixtures:
             print("No fixtures with GROUND_TRUTH.md found.")
             print(f"Looked in: {fixtures_dir}")
             sys.exit(1)
 
-        print("="*60)
+        print("=" * 60)
         print("SHANNON INSIGHT VALIDATION REPORT")
-        print("="*60)
+        print("=" * 60)
 
         all_results = []
         for fixture in fixtures:
@@ -246,9 +250,9 @@ def main():
             print_report(result)
 
         # Summary
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("SUMMARY")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         total_expected = sum(len(r.expected) for r in all_results)
         total_tp = sum(len(r.true_positives) for r in all_results)

@@ -5,10 +5,8 @@ Provides reusable validators for data validation across the service.
 """
 
 import re
-from typing import Optional
 
 from ..exceptions import ValidationError
-
 
 EMAIL_PATTERN = re.compile(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
 PASSWORD_SPECIAL_CHARS = set("!@#$%^&*()_+-=[]{}|;:,.<>?")
@@ -49,9 +47,7 @@ def validate_password(password: str, min_length: int = 8, require_special: bool 
         ValidationError: If password doesn't meet requirements
     """
     if len(password) < min_length:
-        raise ValidationError(
-            f"Password must be at least {min_length} characters long"
-        )
+        raise ValidationError(f"Password must be at least {min_length} characters long")
 
     if not any(c.isupper() for c in password):
         raise ValidationError("Password must contain at least one uppercase letter")
@@ -63,9 +59,7 @@ def validate_password(password: str, min_length: int = 8, require_special: bool 
         raise ValidationError("Password must contain at least one digit")
 
     if require_special and not any(c in PASSWORD_SPECIAL_CHARS for c in password):
-        raise ValidationError(
-            "Password must contain at least one special character"
-        )
+        raise ValidationError("Password must contain at least one special character")
 
     return password
 

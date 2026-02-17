@@ -16,9 +16,7 @@ class OrgCreate(BaseModel):
     """Request model for organization creation."""
 
     name: str = Field(..., min_length=1, max_length=100, description="Organization name")
-    description: Optional[str] = Field(
-        None, max_length=500, description="Organization description"
-    )
+    description: Optional[str] = Field(None, max_length=500, description="Organization description")
 
 
 class OrgUpdate(BaseModel):
@@ -46,6 +44,7 @@ class OrgMember(BaseModel):
 
     class Config:
         """Pydantic config."""
+
         from_attributes = True
 
 
@@ -62,6 +61,7 @@ class OrgResponse(BaseModel):
 
     class Config:
         """Pydantic config."""
+
         from_attributes = True
 
 

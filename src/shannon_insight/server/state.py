@@ -31,27 +31,55 @@ class ServerState:
             self._state = state
             # Copy listeners list to avoid mutation during iteration
             listeners = list(self._listeners)
-        # Notify all WebSocket listeners
+
+        # Notify all WebSocket listeners with "complete" message wrapper
+        # This is the critical state update - use retry logic to avoid drops
+        state_msg = {"type": "complete", "state": state}
         for queue in listeners:
-            try:
-                # Check queue fullness and log warnings
-                if hasattr(queue, "qsize") and hasattr(queue, "maxsize"):
-                    size = queue.qsize()
-                    maxsize = queue.maxsize
-                    if maxsize and size > maxsize * 0.5:
-                        logger.warning(
-                            "WebSocket queue filling up: %d/%d (%.0f%% full)",
-                            size,
-                            maxsize,
-                            100 * size / maxsize,
-                        )
-                queue.put_nowait(state)
-            except asyncio.QueueFull:
-                logger.error(
-                    "WebSocket queue full, dropping state update (client may be slow or stuck)"
+            self._send_to_queue(queue, state_msg, is_state_update=True)
+
+    def _send_to_queue(
+        self, queue: Any, msg: dict[str, Any], is_state_update: bool = False
+    ) -> bool:
+        """Send message to queue with smart overflow handling.
+
+        For state updates: drain old messages and send latest (stale data is useless)
+        For progress: drop if queue full (progress is informational)
+        """
+        try:
+            if hasattr(queue, "qsize") and hasattr(queue, "maxsize"):
+                size = queue.qsize()
+                maxsize = queue.maxsize
+                if maxsize and size >= maxsize - 1:
+                    if is_state_update:
+                        # For state updates, drain stale messages to make room
+                        # Client will get latest state - intermediate states are useless
+                        drained = 0
+                        while not queue.empty():
+                            try:
+                                queue.get_nowait()
+                                drained += 1
+                            except asyncio.QueueEmpty:
+                                break
+                        if drained:
+                            logger.debug(
+                                "Drained %d stale messages from WebSocket queue", drained
+                            )
+                    else:
+                        # Progress messages - OK to drop
+                        logger.debug("WebSocket queue full, dropping progress message")
+                        return False
+            queue.put_nowait(msg)
+            return True
+        except asyncio.QueueFull:
+            if is_state_update:
+                logger.warning(
+                    "WebSocket queue full even after drain - client may be disconnected"
                 )
-            except Exception as exc:
-                logger.debug("Failed to notify listener: %s", exc)
+            return False
+        except Exception as exc:
+            logger.debug("Failed to send to queue: %s", exc)
+            return False
 
     def get_state(self) -> dict[str, Any] | None:
         """Return the latest dashboard state (called from async handlers)."""

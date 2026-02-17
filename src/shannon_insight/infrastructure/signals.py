@@ -567,6 +567,19 @@ register(
 
 register(
     SignalMeta(
+        signal=Signal.CYCLE_SIZE,
+        dtype=int,
+        scope="file",
+        percentileable=False,  # Integer count, not meaningful to percentile across all files
+        polarity="high_is_bad",  # Larger cycles are harder to break
+        absolute_threshold=None,
+        produced_by="graph/algorithms",
+        phase=3,  # Available after Tarjan SCC (structural phase)
+    )
+)
+
+register(
+    SignalMeta(
         signal=Signal.PHANTOM_IMPORT_COUNT,
         dtype=int,
         scope="file",

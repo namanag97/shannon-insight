@@ -416,7 +416,8 @@ def save_tensor_snapshot(conn: sqlite3.Connection, snapshot: TensorSnapshot) -> 
             )
 
         # ── modularity_score ───────────────────────────────────
-        if snapshot.modularity_score != 0.0:
+        # Guard against NaN/Inf which would violate NOT NULL constraint
+        if snapshot.modularity_score != 0.0 and math.isfinite(snapshot.modularity_score):
             cur.execute(
                 "INSERT INTO modularity_score (snapshot_id, score) VALUES (?, ?)",
                 (snapshot_id, snapshot.modularity_score),

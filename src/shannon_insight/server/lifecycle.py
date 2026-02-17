@@ -247,61 +247,50 @@ def launch_server(
     # Register atexit cleanup as safety net (catches kill -9 aftermath on next run)
     atexit.register(lambda: _atexit_cleanup(project_root))
 
-    # ── Step 6: Run initial analysis ──────────────────────────────
-    console.print(f"[bold]Analyzing[/bold] {project_root}")
-    with console.status("[cyan]Running initial analysis..."):
-        watcher.run_analysis()
-
-    initial = state.get_state()
-    if initial:
-        health = initial.get("health", "?")
-        health_label = initial.get("health_label", "")
-        n_issues = sum(c["count"] for c in initial.get("categories", {}).values())
-        console.print(
-            f"[green]Ready[/green] -- health {health} ({health_label}), {n_issues} issue(s)"
-        )
-    else:
-        console.print("[yellow]Analysis produced no results[/yellow]")
-
-    # ── Step 7: Start file watcher ────────────────────────────────
-    watcher.start()
-
-    # ── Step 8: Open browser ──────────────────────────────────────
+    # ── Step 6: Open browser IMMEDIATELY ──────────────────────────
+    # Don't wait for analysis - dashboard shows loading state
     url = f"http://{host}:{actual_port}"
     if not no_browser:
-        # Check if browser was already opened for this URL this session
-        # This prevents duplicate tabs when server restarts quickly
         browser_marker = Path(project_root) / ".shannon" / ".browser_session"
         should_open = True
         try:
             if browser_marker.exists():
                 marker_url = browser_marker.read_text().strip()
                 if marker_url == url:
-                    # Same URL already opened - browser tab likely still exists
                     should_open = False
                     logger.debug("Browser already opened for %s, skipping", url)
         except OSError:
             pass
 
         if should_open:
-            # Write marker before opening (in case open() blocks)
             try:
                 browser_marker.parent.mkdir(parents=True, exist_ok=True)
                 browser_marker.write_text(url)
             except OSError:
                 pass
-            threading.Timer(1.0, lambda: webbrowser.open(url)).start()
+            # Open browser immediately - no delay
+            webbrowser.open(url)
 
-    # ── Step 9: Display status ────────────────────────────────────
+    # ── Step 7: Display status ────────────────────────────────────
     console.print()
-    console.print(f"[bold]Dashboard[/bold] -> [link={url}]{url}[/link]")
-    console.print(f"[dim]Project:  {project_root}[/dim]")
-    console.print(f"[dim]PID:      {os.getpid()}[/dim]")
-    console.print("[dim]Watching for changes... (Ctrl+C to stop)[/dim]")
+    console.print(f"[bold cyan]Shannon Insight[/bold cyan] → [link={url}]{url}[/link]")
+    console.print(f"[dim]{project_root}[/dim]")
     console.print()
 
-    # ── Step 10: Start ASGI server ────────────────────────────────
+    # ── Step 8: Create app and start server ───────────────────────
     asgi_app = create_app(state, watcher=watcher)
+
+    # ── Step 9: Run analysis in background thread ─────────────────
+    # Analysis runs AFTER server starts, with progress via WebSocket
+    def _background_analysis():
+        try:
+            watcher.run_analysis()
+            watcher.start()  # Start file watching after initial analysis
+        except Exception as exc:
+            logger.error("Initial analysis failed: %s", exc)
+
+    analysis_thread = threading.Thread(target=_background_analysis, daemon=True)
+    analysis_thread.start()
 
     config = uvicorn.Config(
         asgi_app,

@@ -449,11 +449,15 @@ class InsightKernel:
         """
         return resolve_analyzer_order(self._analyzers)
 
-    def _run_persistence_finders(self, store: AnalysisStore, findings: list) -> None:
+    def _run_persistence_finders(
+        self, store: AnalysisStore, findings: list, current_findings: list
+    ) -> None:
         """Run persistence-based finders with DB connection and current store.
 
         The store provides access to current signals for validation.
         The DB provides historical data for trend/persistence detection.
+        current_findings are passed to finders that need to check if a
+        historical finding is still active (for accurate persistence counts).
         """
         from ..persistence import HistoryDB
 
@@ -461,7 +465,16 @@ class InsightKernel:
             with HistoryDB(self.root_dir) as db:
                 for finder in self._persistence_finders:
                     try:
-                        findings.extend(finder.find(store=store, db_conn=db.conn))
+                        # Pass current_findings to finders that support it
+                        if finder.name == "chronic_problem":
+                            new_findings = finder.find(
+                                store=store,
+                                db_conn=db.conn,
+                                current_findings=current_findings,
+                            )
+                        else:
+                            new_findings = finder.find(store=store, db_conn=db.conn)
+                        findings.extend(new_findings)
                     except Exception as e:
                         logger.warning(f"Persistence finder {finder.name} failed: {e}")
         except Exception as e:

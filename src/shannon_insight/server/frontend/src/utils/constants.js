@@ -62,6 +62,7 @@ export const SIGNAL_LABELS = {
   risk_score: "Overall Risk Score",
   wiring_quality: "Dependency Health",
   file_health_score: "File Health Score",
+  delta_h: "Health Gradient (vs. Neighbours)",
   raw_risk: "Raw Risk (pre-normalization)",
   percentiles: "Signal Percentile Rankings",
 

@@ -264,16 +264,19 @@ export const SIGNAL_CATEGORIES = [
 
 /**
  * Signal polarity: true = higher is worse, false = higher is better, null = neutral.
+ * Aligned with backend SignalMeta.polarity values.
  */
 export const SIGNAL_POLARITY = {
-  // Higher is WORSE
+  // ═══════════════════════════════════════════════════════════════════════════
+  // FILE-LEVEL SIGNALS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Higher is WORSE (high_is_bad in backend)
   risk_score: true,
   raw_risk: true,
   churn_cv: true,
-  churn_volatility: true,
   cognitive_load: true,
   max_nesting: true,
-  nesting_depth: true,
   stub_ratio: true,
   phantom_import_count: true,
   broken_call_count: true,
@@ -283,9 +286,12 @@ export const SIGNAL_POLARITY = {
   todo_density: true,
   naming_drift: true,
   impl_gini: true,
-  structural_entropy: true,
+  is_orphan: true,
+  concept_entropy: true,
+  pagerank: true,        // High PageRank = high coupling risk
+  betweenness: true,     // High betweenness = bottleneck risk
 
-  // Higher is BETTER
+  // Higher is BETTER (high_is_good in backend)
   wiring_quality: false,
   file_health_score: false,
   health: false,
@@ -293,11 +299,10 @@ export const SIGNAL_POLARITY = {
   bus_factor: false,
   compression_ratio: false,
   docstring_coverage: false,
-  network_centrality: false,
+  refactor_ratio: false,
+  author_entropy: false,
 
   // NEUTRAL (context-dependent)
-  pagerank: null,
-  betweenness: null,
   in_degree: null,
   out_degree: null,
   import_count: null,
@@ -306,16 +311,39 @@ export const SIGNAL_POLARITY = {
   function_count: null,
   class_count: null,
   total_changes: null,
-  author_entropy: null,
   churn_trajectory: null,
-  trajectory: null,
   churn_slope: null,
-  refactor_ratio: null,
   change_entropy: null,
   community: null,
   concept_count: null,
-  concept_entropy: null,
   finding_count: null,
+  role: null,
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // GLOBAL/CODEBASE SIGNALS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Higher is WORSE
+  cycle_count: true,
+  centrality_gini: true,
+  orphan_ratio: true,
+  phantom_ratio: true,
+  glue_deficit: true,
+  clone_ratio: true,
+  violation_rate: true,
+  team_risk: true,
+
+  // Higher is BETTER
+  modularity: false,
+  fiedler_value: false,
+  spectral_gap: false,
+  conway_alignment: false,
+  wiring_score: false,
+  architecture_health: false,
+  codebase_health: false,
+
+  // NEUTRAL
+  team_size: null,
 };
 
 /** Category display order and labels. */

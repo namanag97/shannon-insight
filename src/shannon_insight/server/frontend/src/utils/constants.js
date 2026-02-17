@@ -331,7 +331,6 @@ export const SIGNAL_POLARITY = {
   total_changes: null,
   churn_trajectory: null,
   churn_slope: null,
-  change_entropy: null,
   community: null,
   concept_count: null,
   finding_count: null,

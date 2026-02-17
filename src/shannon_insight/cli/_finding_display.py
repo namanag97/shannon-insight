@@ -217,11 +217,11 @@ FINDING_DISPLAY: dict = {
         "interpretation": "Frequent changes with high variability. Not stabilizing over time.",
     },
     "chronic_problem": {
-        "label": "Repeated Bugfix Target",
+        "label": "Persistent Issue",
         "icon": "🔄",
-        "color": "red",
-        "data_points": ["fix_ratio", "total_changes"],
-        "interpretation": "High proportion of commits are bugfixes. Recurring issues in this area.",
+        "color": "yellow",
+        "data_points": ["persistence_count", "original_finding_type"],
+        "interpretation": "This issue has persisted across multiple analysis runs without being resolved.",
     },
     "thrashing_code": {
         "label": "Code Thrashing",

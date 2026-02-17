@@ -102,67 +102,94 @@ export const SIGNAL_LABELS = {
  * to explain what each metric actually measures.
  */
 export const SIGNAL_DESCRIPTIONS = {
+  // ═══════════════════════════════════════════════════════════════════════════
+  // FILE-LEVEL SIGNALS
+  // ═══════════════════════════════════════════════════════════════════════════
+
   // Size & Complexity
   lines: "Total lines in the file",
   function_count: "Number of functions / methods defined",
   class_count: "Number of classes or structs defined",
   max_nesting: "Deepest level of nested blocks (if/for/while)",
-  nesting_depth: "Average nesting depth across all blocks",
   cognitive_load: "How hard this file is to understand (cyclomatic complexity)",
   todo_density: "Number of TODO/FIXME comments per 100 LOC",
+  impl_gini: "How evenly code is distributed across functions (Gini coefficient)",
+  stub_ratio: "Fraction of functions that are empty or trivial",
+  import_count: "Total number of import statements",
 
   // Structural / Graph
   pagerank: "How central this file is in the import graph",
   betweenness: "How often this file bridges between other files",
   in_degree: "Number of files that import this file",
   out_degree: "Number of files this file imports",
-  import_count: "Total number of import statements",
   blast_radius_size: "How many files could be affected by a change here",
-  depth: "Longest chain of imports from this file to a leaf",
+  depth: "BFS distance from entry points (shortest path)",
   community: "Louvain modularity community this file belongs to",
-  network_centrality: "Combined centrality score in dependency network",
-  structural_entropy: "Dependency pattern complexity (information-theoretic)",
-
-  // Code Health / Quality
-  stub_ratio: "Fraction of functions that are empty or trivial",
   is_orphan: "This file is not imported by any other file",
   phantom_import_count: "Imports that point to files that do not exist",
   broken_call_count: "Function calls that cannot be resolved",
   compression_ratio: "Lower means more repetitive / duplicated code",
   semantic_coherence: "How focused this file is on a single concept",
-  docstring_coverage: "Fraction of functions with documentation",
-  naming_drift: "Naming pattern inconsistency across identifiers",
-  impl_gini: "How evenly code is distributed across functions (Gini coefficient)",
+
+  // Semantic Structure
   role: "Semantic role: ENTRY_POINT, MODEL, CONTROLLER, UTILITY, TEST, etc",
-  percentiles: "Percentile rankings (0-100) for all numeric signals",
+  concept_count: "Number of distinct semantic concepts identified",
+  concept_entropy: "Diversity of semantic concepts in the file",
+  naming_drift: "Naming pattern inconsistency across identifiers",
+  docstring_coverage: "Fraction of functions with documentation",
 
   // Temporal / Churn
   total_changes: "How many times this file has been committed",
-  churn_trajectory: "Whether changes are increasing or decreasing over time",
-  trajectory: "Change pattern classification (STABILIZING, SURGING, etc.)",
+  churn_trajectory: "Change pattern: DORMANT, STABILIZING, STABLE, CHURNING, SPIKING",
   churn_cv: "How erratic the change pattern is (coefficient of variation)",
   churn_slope: "Rate of change increase/decrease over time",
-  churn_volatility: "Standard deviation of changes over time",
   fix_ratio: "Fraction of commits that were bug fixes",
   refactor_ratio: "Fraction of commits that were refactors",
-  change_entropy: "How evenly changes are spread across the file",
+  change_entropy: "How evenly changes are spread across time windows",
 
   // Team / Ownership
   bus_factor: "How many people understand this code (higher = safer)",
   author_entropy: "How evenly distributed authorship is",
 
-  // Composite / Scores
+  // Per-File Composites
   risk_score: "Combined risk from complexity, churn, and coupling",
   wiring_quality: "How clean the file's import/export structure is",
-  file_health_score: "Overall health combining all signals (1-10)",
+  file_health_score: "Overall health combining all signals (0-1)",
   raw_risk: "Risk score before percentile normalization",
-  concept_count: "Number of distinct semantic concepts identified",
-  concept_entropy: "Diversity of semantic concepts in the file",
+  percentiles: "Percentile rankings (0-100) for all numeric signals",
 
   // API-level fields
   health: "Display health score (1-10 scale, transformed from file_health_score)",
   blast_radius: "How many files would be affected by changes to this file",
   finding_count: "Total number of code quality findings for this file",
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // GLOBAL/CODEBASE SIGNALS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Graph Structure
+  modularity: "How well the codebase splits into communities (0-1, higher = cleaner)",
+  fiedler_value: "Algebraic connectivity - how connected the dependency graph is",
+  spectral_gap: "Ratio of first two eigenvalues - stability of community structure",
+  cycle_count: "Number of circular dependency chains in the codebase",
+  centrality_gini: "Inequality in file importance (0 = even, 1 = one file dominates)",
+
+  // Wiring Quality
+  orphan_ratio: "Fraction of files not imported by anything",
+  phantom_ratio: "Fraction of files with broken/unresolved imports",
+  glue_deficit: "Missing connector modules between clusters",
+  clone_ratio: "Fraction of files that are near-duplicates",
+
+  // Architecture & Team
+  violation_rate: "Fraction of dependencies that break layer rules",
+  conway_alignment: "How well code structure matches team structure (1 = perfect)",
+  team_size: "Number of unique contributors to the codebase",
+
+  // Global Composites
+  wiring_score: "Overall dependency graph quality (0-1)",
+  architecture_health: "Combined architecture quality score (0-1)",
+  team_risk: "Risk from team concentration and knowledge silos (0-1)",
+  codebase_health: "Overall codebase health combining all factors (0-1)",
 };
 
 export const SIGNAL_CATEGORIES = [

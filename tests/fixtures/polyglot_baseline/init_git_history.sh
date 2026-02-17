@@ -165,20 +165,20 @@ commit_as "Alice Developer" "alice@company.com" "$DATE_5M_3 09:45:00" \
 
 echo -e "\n${BLUE}Phase 3: Co-change pattern commits (4 months ago)${NC}"
 
-DATE_4M=$(date -v-4m "+%Y-%m-%d 10:00:00")
+DATE_4M=$(calc_date "-4m" "%Y-%m-%d")
 
 # Co-change commit 1: User service refactor (both files together)
 echo "// Updated user service methods" >> go_backend/services/user_service.go
 echo "// Updated user handlers with new methods" >> go_backend/handlers/user_handler.go
-commit_as "Alice Developer" "alice@company.com" "$DATE_4M" \
+commit_as "Alice Developer" "alice@company.com" "$DATE_4M 10:00:00" \
     "refactor: Refactor user service and handlers (co-change pattern)" \
     go_backend/services/user_service.go go_backend/handlers/user_handler.go
 
 # Co-change commit 2: More user service work
-DATE_4M_1=$(date -v-4m -v+3d "+%Y-%m-%d 15:30:00")
+DATE_4M_1=$(calc_date "-4m+3d" "%Y-%m-%d")
 echo "// Add caching to user service" >> go_backend/services/user_service.go
 echo "// Add cache invalidation to handlers" >> go_backend/handlers/user_handler.go
-commit_as "Bob Engineer" "bob@company.com" "$DATE_4M_1" \
+commit_as "Bob Engineer" "bob@company.com" "$DATE_4M_1 15:30:00" \
     "feat: Add user service caching" \
     go_backend/services/user_service.go go_backend/handlers/user_handler.go
 

@@ -59,16 +59,17 @@ export function FileListView() {
   const changedSet = data.recent_changes ? new Set(data.recent_changes) : new Set();
 
   // Compute risk tiers BEFORE filtering (for summary cards showing full picture)
-  const allHighRisk = entries.filter((e) => (e.risk_score || 0) > 0.07);
+  // risk_score is 0-1 percentile-based: 0.7 = 70th percentile risk
+  const allHighRisk = entries.filter((e) => (e.risk_score || 0) > 0.6);
   const allMediumRisk = entries.filter((e) => {
     const s = e.risk_score || 0;
-    return s > 0.03 && s <= 0.07;
+    return s > 0.3 && s <= 0.6;
   });
   const allLowRisk = entries.filter((e) => {
     const s = e.risk_score || 0;
-    return s > 0 && s <= 0.03;
+    return s > 0.05 && s <= 0.3;
   });
-  const allNoRisk = entries.filter((e) => !e.risk_score || e.risk_score === 0);
+  const allNoRisk = entries.filter((e) => !e.risk_score || e.risk_score <= 0.05);
 
   // Top 10 files by risk (before filtering, excluding zero-risk)
   const top10 = [...entries]

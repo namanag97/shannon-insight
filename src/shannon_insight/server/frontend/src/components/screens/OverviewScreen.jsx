@@ -1,49 +1,88 @@
 /**
- * OverviewScreen - Redesigned with proper information architecture
+ * OverviewScreen — the home dashboard.
  *
- * Information Priority:
- * 1. Hero - Health score + verdict (how healthy is my code?)
- * 2. Focus Point - Recommended action (what should I fix first?)
- * 3. Risk + Issues - Context (where is the risk? what's broken?)
- * 4. Metrics + Categories - Supporting data
- * 5. Evolution - Historical context (collapsible)
+ * Information Architecture
+ * ────────────────────────
+ * 1. HERO         Health score + verdict + trend. The single number that matters.
+ * 2. STATS STRIP  Files · Issues · Modules · Commits in one horizontal sweep.
+ * 3. FOCUS POINT  The one file to fix first, with full rationale.
+ * 4. CONCERN GRID Health areas — structural, temporal, team, architecture.
+ * 5. ISSUES SPLIT Category breakdown (incomplete/fragile/tangled/team) left
+ *                 + risk histogram right.
+ * 6. EVOLUTION    (when history available) Trend charts, collapsed by default.
  *
- * Design System:
- * - 12-column grid with proper gutters
- * - Mathematical spacing (8px baseline)
- * - Clear visual hierarchy
- * - Every component intentionally placed
+ * Design
+ * ──────
+ * Precision-technical aesthetic. Monospace accents for numeric values.
+ * Color maps health: green ≥ 8, yellow ≥ 6, orange ≥ 4, red < 4.
+ * All data access goes through getter functions — no scattered field names.
  */
 
+import { useState } from "preact/hooks";
 import useStore from "../../state/store.js";
 import { fmtN, fmtF } from "../../utils/formatters.js";
 import { hColor } from "../../utils/helpers.js";
-import { CATEGORY_ORDER, CATEGORY_LABELS, SEVERITY_MAP } from "../../utils/constants.js";
+import { CATEGORY_ORDER, CATEGORY_LABELS } from "../../utils/constants.js";
 import { interpretHealth } from "../../utils/interpretations.js";
 import { RiskHistogram } from "../charts/RiskHistogram.jsx";
 import { TrendChart } from "../charts/TrendChart.jsx";
-import { SeverityDot } from "../ui/SeverityDot.jsx";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA ACCESSORS — single place for all field name contracts
+// ─────────────────────────────────────────────────────────────────────────────
+
+const getHealth = (data) => data?.health ?? 5;
+const getFileCount = (data) => data?.file_count ?? 0;
+const getModuleCount = (data) => data?.module_count ?? 0;
+const getCommits = (data) => data?.commits_analyzed ?? 0;
+const getAnalyzedPath = (data) => data?.analyzed_path ?? "";
+const getFocus = (data) => data?.focus ?? null;
+const getConcerns = (data) => data?.concerns ?? [];
+const getCategories = (data) => data?.categories ?? {};
+const getTrend = (data) => data?.trend ?? null;
+const getVerdict = (data) => data?.verdict ?? "";
+const getGlobalSignals = (data) => data?.global_signals ?? {};
+const getFiles = (data) => data?.files ?? {};
+
+function getTotalIssues(cats) {
+  return Object.values(cats).reduce((sum, c) => sum + (c?.count ?? 0), 0);
+}
+
+function getTopFindings(cats, limit = 5) {
+  const all = [];
+  for (const catKey of CATEGORY_ORDER) {
+    const cat = cats[catKey];
+    if (cat?.findings) {
+      for (const f of cat.findings) {
+        all.push({ ...f, category: catKey });
+      }
+    }
+  }
+  return all.sort((a, b) => (b.severity ?? 0) - (a.severity ?? 0)).slice(0, limit);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MAIN COMPONENT
+// ─────────────────────────────────────────────────────────────────────────────
 
 export function OverviewScreen() {
   const data = useStore((s) => s.data);
   if (!data) return null;
 
-  const score = data.health;
-  const color = hColor(score);
-  const healthInfo = interpretHealth(score);
-  const cats = data.categories || {};
-
-  // Calculate total issues
-  let totalIssues = 0;
-  for (const k in cats) totalIssues += cats[k].count;
-
-  // Get top 5 critical findings across all categories
+  const score = getHealth(data);
+  const cats = getCategories(data);
+  const totalIssues = getTotalIssues(cats);
   const topFindings = getTopFindings(cats, 5);
+  const concerns = getConcerns(data);
+  const globalSignals = getGlobalSignals(data);
+  const focus = getFocus(data);
+  const trend = getTrend(data);
+  const healthInfo = interpretHealth(score);
+  const healthColor = hColor(score);
 
-  // Navigation handlers
   function goToIssues(catKey) {
     location.hash = "issues";
-    useStore.getState().setIssueTab(catKey);
+    if (catKey) useStore.getState().setIssueTab(catKey);
   }
 
   function goToFile(path) {
@@ -52,505 +91,784 @@ export function OverviewScreen() {
 
   return (
     <div className="stack stack--2xl">
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 1: HERO - Health Score + Verdict
-          Answer: "How healthy is my codebase?"
-          ══════════════════════════════════════════════════════════ */}
-      <section>
-        <div className="grid">
-          <div className="span-12">
-            <div className="priority-hero" style={{ background: 'var(--surface)', borderRadius: 'var(--radius-lg)' }}>
-              {data.verdict && (
-                <div className="text-label" style={{ color: color, marginBottom: 'var(--space-2)' }}>
-                  {data.verdict.toUpperCase()}
-                </div>
-              )}
-              <div className="text-display text-mono" style={{ color }}>
-                {score.toFixed(1)}
-              </div>
-              <div className="text-h3 mt-2" style={{ color }}>
-                {healthInfo.label}
-              </div>
-              <p className="text-body-sm" style={{ color: 'var(--text-secondary)', marginTop: 'var(--space-2)', maxWidth: '480px', marginLeft: 'auto', marginRight: 'auto' }}>
-                {healthInfo.description}
-              </p>
-              {data.trend && (
-                <div className="text-label" style={{ marginTop: 'var(--space-4)', color: data.trend > 0 ? 'var(--green)' : 'var(--red)' }}>
-                  {data.trend > 0 ? '↑' : '↓'} {Math.abs(data.trend).toFixed(1)} points since last analysis
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 2: FOCUS POINT - Recommended Starting Point
-          Answer: "What should I fix first?"
-          ══════════════════════════════════════════════════════════ */}
-      {data.focus && (
-        <section>
-          <div className="grid">
-            <div className="span-12">
-              <div className="priority-primary">
-                <div className="text-h4" style={{ marginBottom: 'var(--space-4)' }}>
-                  🎯 RECOMMENDED STARTING POINT
-                </div>
-                <FocusPoint focus={data.focus} onFileClick={goToFile} />
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* ─── 1. HERO ──────────────────────────────────────────────── */}
+      <HealthHero
+        score={score}
+        color={healthColor}
+        label={healthInfo?.label}
+        description={healthInfo?.description}
+        verdict={getVerdict(data)}
+        trend={trend}
+        analyzedPath={getAnalyzedPath(data)}
+      />
+
+      {/* ─── 2. STATS STRIP ───────────────────────────────────────── */}
+      <StatsStrip
+        fileCount={getFileCount(data)}
+        moduleCount={getModuleCount(data)}
+        commits={getCommits(data)}
+        totalIssues={totalIssues}
+      />
+
+      {/* ─── 3. FOCUS POINT ───────────────────────────────────────── */}
+      {focus && (
+        <FocusSection focus={focus} onFileClick={goToFile} />
       )}
 
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 3: RISK + CRITICAL ISSUES
-          Answer: "Where is the risk? What are the worst problems?"
-          ══════════════════════════════════════════════════════════ */}
+      {/* ─── 4. CONCERN GRID ──────────────────────────────────────── */}
+      {concerns.length > 0 && (
+        <ConcernGrid concerns={concerns} />
+      )}
+
+      {/* ─── 5. ISSUES + RISK ─────────────────────────────────────── */}
       <section>
         <div className="grid">
-          {/* 3a. Risk Distribution */}
-          <div className="span-6">
-            <div className="ds-card">
-              <div className="ds-card__header">
-                <div className="ds-card__title">Risk Distribution</div>
-              </div>
-              <div className="ds-card__body">
-                <RiskHistogram files={data.files} />
-              </div>
-            </div>
+          <div className="span-7">
+            <IssueCategoryCard categories={cats} onNavigate={goToIssues} />
           </div>
-
-          {/* 3b. Top Critical Issues */}
-          <div className="span-6">
-            <div className="ds-card">
-              <div className="ds-card__header">
-                <div className="ds-card__title">Top Critical Issues</div>
-              </div>
-              <div className="ds-card__body">
-                {topFindings.length === 0 ? (
-                  <div className="text-body-sm" style={{ color: 'var(--text-tertiary)', padding: 'var(--space-4) 0' }}>
-                    No critical issues found
-                  </div>
-                ) : (
-                  <div className="stack stack--md">
-                    {topFindings.map((finding, i) => (
-                      <CriticalFindingRow key={i} finding={finding} onClick={() => goToIssues(finding.category)} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="span-5">
+            <RiskCard files={getFiles(data)} globalSignals={globalSignals} />
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 4: KEY METRICS + CATEGORY BREAKDOWN
-          Answer: "How big is the codebase? What types of issues exist?"
-          ══════════════════════════════════════════════════════════ */}
-      <section>
-        <div className="grid">
-          {/* 4a. Key Metrics */}
-          <div className="span-6">
-            <div className="ds-card">
-              <div className="ds-card__header">
-                <div className="ds-card__title">Key Metrics</div>
-              </div>
-              <div className="ds-card__body">
-                <div className="grid grid--compact">
-                  <div className="span-6">
-                    <MetricItem value={fmtN(data.file_count)} label="Files Analyzed" />
-                  </div>
-                  <div className="span-6">
-                    <MetricItem value={fmtN(data.module_count)} label="Modules" />
-                  </div>
-                  <div className="span-6">
-                    <MetricItem value={fmtN(data.commits_analyzed)} label="Commits" />
-                  </div>
-                  <div className="span-6">
-                    <MetricItem
-                      value={fmtN(totalIssues)}
-                      label="Issues Found"
-                      color={totalIssues > 0 ? 'var(--orange)' : undefined}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 4b. Category Breakdown */}
-          <div className="span-6">
-            <div className="ds-card">
-              <div className="ds-card__header">
-                <div className="ds-card__title">Issues by Category</div>
-              </div>
-              <div className="ds-card__body">
-                <CategoryBreakdown categories={cats} onClick={goToIssues} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════
-          PRIORITY 5: SUPPORTING DATA (Evolution + Metadata)
-          Collapsible section - low priority
-          ══════════════════════════════════════════════════════════ */}
+      {/* ─── 6. EVOLUTION (collapsed) ─────────────────────────────── */}
       {(data.evolution || data.metadata) && (
-        <CollapsibleSection title="Evolution & Metadata" defaultOpen={false}>
+        <CollapsibleSection title="Evolution & Analysis Metadata">
           <div className="grid">
-            {/* Evolution Charts */}
             {data.evolution && (
-              <div className="span-6">
-                <div className="ds-card">
-                  <div className="ds-card__header">
-                    <div className="ds-card__title">Codebase Evolution</div>
-                  </div>
-                  <div className="ds-card__body">
-                    <EvolutionCharts evolution={data.evolution} />
-                  </div>
-                </div>
+              <div className="span-7">
+                <EvolutionPanel evolution={data.evolution} />
               </div>
             )}
-
-            {/* Metadata */}
             {data.metadata && (
-              <div className="span-6">
-                <div className="ds-card">
-                  <div className="ds-card__header">
-                    <div className="ds-card__title">Analysis Metadata</div>
-                  </div>
-                  <div className="ds-card__body">
-                    <MetadataGrid metadata={data.metadata} />
-                  </div>
-                </div>
+              <div className="span-5">
+                <MetadataPanel metadata={data.metadata} />
               </div>
             )}
           </div>
         </CollapsibleSection>
       )}
+
     </div>
   );
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// HEALTH HERO
+// ─────────────────────────────────────────────────────────────────────────────
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   SUB-COMPONENTS
-   ═══════════════════════════════════════════════════════════════════════════ */
+function HealthHero({ score, color, label, description, verdict, trend, analyzedPath }) {
+  // Arc gauge: score 1-10 maps to 0°–180° sweep (half-circle)
+  const R = 54;
+  const CX = 70;
+  const CY = 70;
+  const startAngle = Math.PI;            // left = 180°
+  const sweepAngle = Math.PI;            // half circle
+  const pct = Math.max(0, Math.min(1, (score - 1) / 9));
+  const angle = startAngle + sweepAngle * pct;
+  const nx = CX + R * Math.cos(angle);
+  const ny = CY + R * Math.sin(angle);
 
-/**
- * Focus Point v2 - Redesigned with clear hierarchy
- *
- * API sends: { path, why, risk_score, impact_score, tractability_score, confidence_score, findings, alternatives }
- */
-function FocusPoint({ focus, onFileClick }) {
-  if (!focus || !focus.path) {
-    return (
-      <div className="text-body-sm" style={{ color: 'var(--text-tertiary)' }}>
-        No specific recommendations at this time.
-      </div>
-    );
-  }
+  // Background arc path (grey track)
+  const trackStart = { x: CX - R, y: CY };
+  const trackEnd   = { x: CX + R, y: CY };
+  // Filled arc path to the current value
+  const sx = CX - R;
+  const sy = CY;
 
   return (
-    <div className="stack stack--md">
-      {/* File path - clickable */}
-      <div>
-        <a
-          href={`#files/${encodeURIComponent(focus.path)}`}
-          className="text-lg text-mono"
-          style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}
-          onClick={(e) => {
-            e.preventDefault();
-            if (onFileClick) onFileClick(focus.path);
-          }}
-        >
-          {focus.path}
-        </a>
-      </div>
+    <div className="ds-card" style={{ position: "relative", overflow: "hidden" }}>
+      {/* Subtle background gradient using health color */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(ellipse at 20% 50%, ${color}10 0%, transparent 70%)`,
+          pointerEvents: "none",
+        }}
+      />
 
-      {/* Why this file? */}
-      {focus.why && (
-        <div className="text-body" style={{ color: 'var(--text-secondary)' }}>
-          {focus.why}
-        </div>
-      )}
+      <div className="ds-card__body" style={{ position: "relative" }}>
+        <div className="grid" style={{ alignItems: "center" }}>
+          {/* Left: gauge + score */}
+          <div className="span-4" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <svg
+              width="140"
+              height="90"
+              viewBox="0 0 140 80"
+              style={{ overflow: "visible" }}
+            >
+              {/* Track */}
+              <path
+                d={`M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`}
+                fill="none"
+                stroke="var(--border)"
+                strokeWidth="6"
+                strokeLinecap="round"
+              />
+              {/* Filled arc */}
+              {pct > 0 && (
+                <path
+                  d={`M ${sx} ${sy} A ${R} ${R} 0 ${pct > 0.5 ? 1 : 0} 1 ${nx} ${ny}`}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                  style={{ filter: `drop-shadow(0 0 4px ${color}60)` }}
+                />
+              )}
+              {/* Needle dot */}
+              <circle cx={nx} cy={ny} r="4" fill={color} />
+              {/* Score text */}
+              <text
+                x={CX}
+                y={CY - 4}
+                textAnchor="middle"
+                fill={color}
+                fontSize="28"
+                fontWeight="700"
+                fontFamily="var(--font-mono)"
+              >
+                {score.toFixed(1)}
+              </text>
+              <text
+                x={CX}
+                y={CY + 12}
+                textAnchor="middle"
+                fill="var(--text-tertiary)"
+                fontSize="8"
+                fontFamily="var(--font-sans)"
+                letterSpacing="0.08em"
+              >
+                / 10
+              </text>
+              {/* Min/max labels */}
+              <text x={CX - R + 2} y={CY + 16} fill="var(--text-tertiary)" fontSize="7" fontFamily="var(--font-mono)">1</text>
+              <text x={CX + R - 2} y={CY + 16} fill="var(--text-tertiary)" fontSize="7" fontFamily="var(--font-mono)" textAnchor="end">10</text>
+            </svg>
 
-      {/* Key metrics - direct fields from API, not nested in signals */}
-      <div className="cluster cluster--md">
-        {focus.risk_score != null && (
-          <MetricBadge label="Risk" value={fmtF(focus.risk_score, 2)} color="var(--red)" />
-        )}
-        {focus.impact_score != null && (
-          <MetricBadge label="Impact" value={fmtF(focus.impact_score, 2)} color="var(--orange)" />
-        )}
-        {focus.tractability_score != null && (
-          <MetricBadge label="Fixability" value={fmtF(focus.tractability_score, 2)} color="var(--green)" />
-        )}
-        {focus.findings && focus.findings.length > 0 && (
-          <MetricBadge label="Issues" value={focus.findings.length} color="var(--accent)" />
-        )}
-      </div>
+            {trend != null && Math.abs(trend) >= 0.05 && (
+              <div
+                className="text-label"
+                style={{
+                  color: trend > 0 ? "var(--green)" : "var(--red)",
+                  marginTop: "var(--space-1)",
+                  fontSize: "var(--text-xs)",
+                }}
+              >
+                {trend > 0 ? "↑" : "↓"} {Math.abs(trend).toFixed(1)} pts
+              </div>
+            )}
+          </div>
 
-      {/* Findings in this file */}
-      {focus.findings && focus.findings.length > 0 && (
-        <div className="stack stack--sm" style={{ marginTop: 'var(--space-2)' }}>
-          <div className="text-label">FINDINGS IN THIS FILE:</div>
-          {focus.findings.slice(0, 3).map((f, i) => (
-            <div key={i} className="text-body-sm" style={{ color: 'var(--text-secondary)', paddingLeft: 'var(--space-4)', borderLeft: `2px solid ${hColor(10 - f.severity * 10)}` }}>
-              {f.label || f.finding_type || f.type}
+          {/* Right: text details */}
+          <div className="span-8">
+            <div className="stack stack--sm">
+              {verdict && (
+                <div
+                  className="text-label"
+                  style={{ color, letterSpacing: "0.12em", fontSize: "var(--text-xs)" }}
+                >
+                  {verdict.toUpperCase()}
+                </div>
+              )}
+              <div
+                className="text-h2"
+                style={{ color, lineHeight: 1.1 }}
+              >
+                {label ?? "Codebase Health"}
+              </div>
+              {description && (
+                <div
+                  className="text-body"
+                  style={{ color: "var(--text-secondary)", maxWidth: "480px" }}
+                >
+                  {description}
+                </div>
+              )}
+              {analyzedPath && (
+                <div
+                  className="text-mono"
+                  style={{
+                    fontSize: "var(--text-xs)",
+                    color: "var(--text-tertiary)",
+                    marginTop: "var(--space-2)",
+                    padding: "var(--space-1) var(--space-2)",
+                    background: "var(--surface-raised)",
+                    borderRadius: "var(--radius-sm)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "var(--space-1)",
+                  }}
+                >
+                  <span style={{ opacity: 0.5 }}>analyzing</span>
+                  {" "}{shortenPath(analyzedPath)}
+                </div>
+              )}
             </div>
-          ))}
-          {focus.findings.length > 3 && (
-            <div className="text-label" style={{ paddingLeft: 'var(--space-4)' }}>
-              +{focus.findings.length - 3} more
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATS STRIP
+// ─────────────────────────────────────────────────────────────────────────────
+
+function StatsStrip({ fileCount, moduleCount, commits, totalIssues }) {
+  const stats = [
+    { value: fmtN(fileCount),    label: "Files",   color: "var(--text)" },
+    { value: fmtN(moduleCount),  label: "Modules", color: "var(--text)" },
+    { value: fmtN(commits),      label: "Commits", color: "var(--text)" },
+    {
+      value: fmtN(totalIssues),
+      label: "Issues",
+      color: totalIssues > 0 ? "var(--orange)" : "var(--green)",
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gap: "var(--space-3)",
+      }}
+    >
+      {stats.map(({ value, label, color }) => (
+        <div
+          key={label}
+          className="ds-card ds-card--compact"
+          style={{ textAlign: "center", padding: "var(--space-4)" }}
+        >
+          <div
+            className="text-mono"
+            style={{ fontSize: "var(--text-2xl)", fontWeight: 700, color, lineHeight: 1.1 }}
+          >
+            {value}
+          </div>
+          <div
+            className="text-label"
+            style={{ marginTop: "var(--space-1)", color: "var(--text-tertiary)", fontSize: "var(--text-xs)" }}
+          >
+            {label.toUpperCase()}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FOCUS SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+function FocusSection({ focus, onFileClick }) {
+  if (!focus?.path) return null;
+
+  return (
+    <div className="ds-card" style={{ borderLeft: "3px solid var(--accent)" }}>
+      <div className="ds-card__header">
+        <div className="ds-card__title" style={{ fontSize: "var(--text-xs)", letterSpacing: "0.1em" }}>
+          RECOMMENDED STARTING POINT
+        </div>
+      </div>
+      <div className="ds-card__body">
+        <div className="grid" style={{ alignItems: "flex-start" }}>
+          {/* File path + why */}
+          <div className="span-8">
+            <div className="stack stack--sm">
+              <button
+                onClick={() => onFileClick?.(focus.path)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  textAlign: "left",
+                }}
+              >
+                <span
+                  className="text-mono"
+                  style={{
+                    color: "var(--accent)",
+                    fontSize: "var(--text-base)",
+                    fontWeight: 500,
+                    wordBreak: "break-all",
+                  }}
+                >
+                  {focus.path}
+                </span>
+              </button>
+              {focus.why && (
+                <div className="text-body" style={{ color: "var(--text-secondary)" }}>
+                  {focus.why}
+                </div>
+              )}
+              {focus.findings?.length > 0 && (
+                <div className="stack stack--xs" style={{ marginTop: "var(--space-2)" }}>
+                  {focus.findings.slice(0, 3).map((f, i) => (
+                    <div
+                      key={i}
+                      className="text-body-sm"
+                      style={{
+                        paddingLeft: "var(--space-3)",
+                        borderLeft: "2px solid var(--border)",
+                        color: "var(--text-secondary)",
+                      }}
+                    >
+                      {f.label ?? f.finding_type}
+                    </div>
+                  ))}
+                  {focus.findings.length > 3 && (
+                    <div className="text-label" style={{ paddingLeft: "var(--space-3)", color: "var(--text-tertiary)" }}>
+                      +{focus.findings.length - 3} more
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Score badges */}
+          <div className="span-4">
+            <div className="stack stack--sm" style={{ alignItems: "flex-end" }}>
+              {[
+                { label: "Risk",        value: focus.risk_score,         color: "var(--red)" },
+                { label: "Impact",      value: focus.impact_score,       color: "var(--orange)" },
+                { label: "Fixability",  value: focus.tractability_score, color: "var(--green)" },
+                { label: "Confidence",  value: focus.confidence_score,   color: "var(--blue)" },
+              ]
+                .filter((s) => s.value != null)
+                .map(({ label, value, color }) => (
+                  <div
+                    key={label}
+                    className="cluster cluster--sm"
+                    style={{ alignItems: "center", justifyContent: "flex-end" }}
+                  >
+                    <span
+                      className="text-label"
+                      style={{ color: "var(--text-tertiary)", fontSize: "var(--text-2xs)" }}
+                    >
+                      {label.toUpperCase()}
+                    </span>
+                    <span
+                      className="text-mono"
+                      style={{ color, fontWeight: 700, fontSize: "var(--text-base)" }}
+                    >
+                      {fmtF(value, 2)}
+                    </span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONCERN GRID
+// ─────────────────────────────────────────────────────────────────────────────
+
+const CONCERN_STATUS_COLORS = {
+  good:      "var(--green)",
+  improving: "var(--blue)",
+  warning:   "var(--yellow)",
+  declining: "var(--orange)",
+  critical:  "var(--red)",
+};
+
+function ConcernGrid({ concerns }) {
+  return (
+    <div>
+      <div
+        className="text-label"
+        style={{ marginBottom: "var(--space-3)", color: "var(--text-tertiary)", letterSpacing: "0.1em", fontSize: "var(--text-xs)" }}
+      >
+        HEALTH AREAS
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+          gap: "var(--space-3)",
+        }}
+      >
+        {concerns.map((c) => {
+          const scoreColor = hColor(c.score);
+          const statusColor = CONCERN_STATUS_COLORS[c.status] ?? "var(--text-tertiary)";
+          return (
+            <div
+              key={c.key}
+              className="ds-card ds-card--compact"
+              style={{
+                borderTop: `2px solid ${scoreColor}`,
+                padding: "var(--space-4)",
+              }}
+              title={c.description}
+            >
+              <div className="cluster cluster--md" style={{ justifyContent: "space-between", alignItems: "flex-start", marginBottom: "var(--space-2)" }}>
+                <div
+                  className="text-body-sm"
+                  style={{ fontWeight: 600, color: "var(--text)", lineHeight: 1.2 }}
+                >
+                  {c.name}
+                </div>
+                <div
+                  className="text-mono"
+                  style={{ fontSize: "var(--text-xl)", fontWeight: 700, color: scoreColor, lineHeight: 1 }}
+                >
+                  {c.score.toFixed(1)}
+                </div>
+              </div>
+              <div className="cluster cluster--xs" style={{ alignItems: "center" }}>
+                <span
+                  className="text-label"
+                  style={{ color: statusColor, fontSize: "var(--text-2xs)", letterSpacing: "0.06em" }}
+                >
+                  {c.status?.toUpperCase() ?? "–"}
+                </span>
+                {c.finding_count > 0 && (
+                  <span className="text-body-sm" style={{ color: "var(--text-tertiary)" }}>
+                    · {c.finding_count}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ISSUE CATEGORY CARD
+// ─────────────────────────────────────────────────────────────────────────────
+
+const CATEGORY_COLORS = {
+  incomplete: "var(--blue)",
+  fragile:    "var(--orange)",
+  tangled:    "var(--yellow)",
+  team:       "var(--red)",
+};
+
+function IssueCategoryCard({ categories, onNavigate }) {
+  const maxCount = Math.max(...CATEGORY_ORDER.map((k) => categories[k]?.count ?? 0), 1);
+
+  return (
+    <div className="ds-card" style={{ height: "100%" }}>
+      <div className="ds-card__header">
+        <div className="ds-card__title">Issues by Category</div>
+      </div>
+      <div className="ds-card__body">
+        <div className="stack stack--sm">
+          {CATEGORY_ORDER.map((key) => {
+            const cat = categories[key];
+            const count = cat?.count ?? 0;
+            const highCount = cat?.high_count ?? 0;
+            const color = CATEGORY_COLORS[key] ?? "var(--accent)";
+            const pct = (count / maxCount) * 100;
+
+            return (
+              <button
+                key={key}
+                onClick={() => onNavigate(key)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  padding: "var(--space-2) 0",
+                  cursor: "pointer",
+                  width: "100%",
+                  textAlign: "left",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "var(--space-3)",
+                  borderRadius: "var(--radius-sm)",
+                  transition: "background var(--transition-base)",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = "var(--surface-raised)"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "none"}
+              >
+                <div
+                  className="text-body-sm"
+                  style={{ minWidth: "120px", color: "var(--text)", fontWeight: count > 0 ? 500 : 400 }}
+                >
+                  {CATEGORY_LABELS[key]}
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    height: "4px",
+                    background: "var(--border)",
+                    borderRadius: "2px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${pct}%`,
+                      height: "100%",
+                      background: color,
+                      borderRadius: "2px",
+                      transition: "width 0.6s ease",
+                    }}
+                  />
+                </div>
+                <div
+                  className="text-mono"
+                  style={{
+                    minWidth: "28px",
+                    textAlign: "right",
+                    color: count > 0 ? color : "var(--text-tertiary)",
+                    fontWeight: 700,
+                    fontSize: "var(--text-sm)",
+                  }}
+                >
+                  {count}
+                </div>
+                {highCount > 0 && (
+                  <span
+                    className="text-label"
+                    style={{
+                      padding: "1px 5px",
+                      background: "var(--red)",
+                      color: "var(--bg)",
+                      borderRadius: "8px",
+                      fontSize: "var(--text-2xs)",
+                      fontWeight: 700,
+                      minWidth: "20px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {highCount}↑
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RISK CARD
+// ─────────────────────────────────────────────────────────────────────────────
+
+function RiskCard({ files, globalSignals }) {
+  const gSigs = globalSignals;
+  const keyMetrics = [
+    { label: "Cycle count",    value: gSigs.cycle_count ?? 0,         color: gSigs.cycle_count > 0 ? "var(--orange)" : "var(--green)" },
+    { label: "Orphan files",   value: `${((gSigs.orphan_ratio ?? 0) * 100).toFixed(1)}%`, color: "var(--text)" },
+    { label: "Modularity",     value: fmtF(gSigs.modularity ?? 0, 2), color: "var(--text)" },
+  ].filter((m) => m.value != null);
+
+  return (
+    <div className="ds-card" style={{ height: "100%" }}>
+      <div className="ds-card__header">
+        <div className="ds-card__title">Risk Distribution</div>
+      </div>
+      <div className="ds-card__body">
+        <div className="stack stack--md">
+          <RiskHistogram files={files} />
+          {keyMetrics.length > 0 && (
+            <div
+              style={{
+                paddingTop: "var(--space-3)",
+                borderTop: "1px solid var(--border)",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gap: "var(--space-2)",
+              }}
+            >
+              {keyMetrics.map(({ label, value, color }) => (
+                <div key={label} style={{ textAlign: "center" }}>
+                  <div
+                    className="text-mono"
+                    style={{ fontSize: "var(--text-base)", fontWeight: 700, color }}
+                  >
+                    {value}
+                  </div>
+                  <div
+                    className="text-label"
+                    style={{ fontSize: "var(--text-2xs)", color: "var(--text-tertiary)", marginTop: "2px" }}
+                  >
+                    {label}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
-      )}
-    </div>
-  );
-}
-
-/**
- * Critical Finding Row - Compact display for top issues
- */
-function CriticalFindingRow({ finding, onClick }) {
-  const severity = finding.severity || 5;
-  const sevColor = hColor(10 - severity);
-
-  return (
-    <div
-      className="stack stack--xs"
-      style={{
-        padding: 'var(--space-3)',
-        borderLeft: `3px solid ${sevColor}`,
-        background: 'rgba(255,255,255,0.02)',
-        borderRadius: 'var(--radius-sm)',
-        cursor: 'pointer',
-        transition: 'background var(--transition-base)'
-      }}
-      onClick={onClick}
-      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
-      onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
-    >
-      <div className="text-body" style={{ fontWeight: 500, color: 'var(--text)' }}>
-        {finding.finding_type || finding.type}
-      </div>
-      {finding.files && finding.files.length > 0 && (
-        <div className="text-body-sm text-mono" style={{ color: 'var(--text-secondary)' }}>
-          {finding.files.length === 1
-            ? finding.files[0]
-            : `${finding.files.length} files affected`}
-        </div>
-      )}
-      {finding.evidence && (
-        <div className="text-label" style={{ color: 'var(--text-tertiary)' }}>
-          {truncateEvidence(finding.evidence)}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/**
- * Metric Item - Display for key metrics
- */
-function MetricItem({ value, label, color }) {
-  return (
-    <div className="text-center" style={{ padding: 'var(--space-3)' }}>
-      <div className="text-2xl text-mono" style={{ color: color || 'var(--text)' }}>
-        {value}
-      </div>
-      <div className="text-label" style={{ marginTop: 'var(--space-1)' }}>
-        {label}
       </div>
     </div>
   );
 }
 
-/**
- * Metric Badge - Small metric display with label
- */
-function MetricBadge({ label, value, color }) {
-  return (
-    <div
-      className="text-body-sm"
-      style={{
-        padding: 'var(--space-2) var(--space-3)',
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid var(--border)',
-        borderRadius: 'var(--radius-sm)',
-        whiteSpace: 'nowrap'
-      }}
-    >
-      <span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)' }}>{label}:</span>{' '}
-      <span className="text-mono" style={{ color: color || 'var(--text)', fontWeight: 500 }}>{value}</span>
-    </div>
-  );
-}
+// ─────────────────────────────────────────────────────────────────────────────
+// EVOLUTION PANEL
+// ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * Category Breakdown v2 - Simplified bar chart
- */
-function CategoryBreakdown({ categories, onClick }) {
-  const maxCount = Math.max(...CATEGORY_ORDER.map(k => categories[k]?.count || 0), 1);
-
-  return (
-    <div className="stack stack--sm">
-      {CATEGORY_ORDER.map((key) => {
-        const cat = categories[key];
-        if (!cat || cat.count === 0) return null;
-
-        const percent = (cat.count / maxCount) * 100;
-        const catColor = hColor(10 - (cat.severity_avg || 5));
-
-        return (
-          <div
-            key={key}
-            className="cluster cluster--sm"
-            style={{
-              padding: 'var(--space-2) 0',
-              cursor: 'pointer',
-              transition: 'padding-left var(--transition-base)'
-            }}
-            onClick={() => onClick(key)}
-            onMouseEnter={(e) => e.currentTarget.style.paddingLeft = 'var(--space-2)'}
-            onMouseLeave={(e) => e.currentTarget.style.paddingLeft = '0'}
-          >
-            <div className="text-body-sm" style={{ minWidth: '120px', color: 'var(--text)' }}>
-              {CATEGORY_LABELS[key] || key}
-            </div>
-            <div style={{ flex: 1, height: '6px', background: 'var(--border)', borderRadius: '3px', overflow: 'hidden' }}>
-              <div style={{ width: `${percent}%`, height: '100%', background: catColor, transition: 'width var(--transition-slow)' }} />
-            </div>
-            <div className="text-body-sm text-mono" style={{ minWidth: '32px', textAlign: 'right', color: 'var(--text)', fontWeight: 500 }}>
-              {cat.count}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-/**
- * Evolution Charts - Compact grid of trend charts
- */
-function EvolutionCharts({ evolution }) {
+function EvolutionPanel({ evolution }) {
   const charts = [
-    { key: 'file_count', label: 'Files', color: 'var(--blue)', format: (v) => Math.round(v).toString() },
-    { key: 'total_loc', label: 'Lines of Code', color: 'var(--green)', format: (v) => (v / 1000).toFixed(1) + 'k' },
-    { key: 'avg_complexity', label: 'Avg Complexity', color: 'var(--orange)', format: (v) => v.toFixed(1) },
-    { key: 'avg_risk', label: 'Avg Risk', color: 'var(--red)', format: (v) => v.toFixed(3) },
+    { key: "file_count",     label: "Files",       color: "var(--blue)",   fmt: (v) => Math.round(v).toString() },
+    { key: "total_loc",      label: "LOC",         color: "var(--green)",  fmt: (v) => (v / 1000).toFixed(1) + "k" },
+    { key: "avg_complexity", label: "Complexity",  color: "var(--orange)", fmt: (v) => v.toFixed(1) },
+    { key: "avg_risk",       label: "Avg Risk",    color: "var(--red)",    fmt: (v) => v.toFixed(3) },
   ];
 
   return (
-    <div className="grid grid--compact">
-      {charts.map(({ key, label, color, format }) => {
-        const data = evolution[key];
-        if (!data || data.length < 2) return null;
-
-        return (
-          <div key={key} className="span-6">
-            <div className="stack stack--xs">
-              <TrendChart
-                values={data.map((d) => d.value)}
-                xLabels={data.map((d) => new Date(d.timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }))}
-                color={color}
-                yFormat={format}
-                width={240}
-                height={100}
-              />
-              <div className="text-label text-center">{label}</div>
-            </div>
-          </div>
-        );
-      })}
+    <div className="ds-card">
+      <div className="ds-card__header">
+        <div className="ds-card__title">Codebase Evolution</div>
+      </div>
+      <div className="ds-card__body">
+        <div className="grid grid--compact">
+          {charts.map(({ key, label, color, fmt }) => {
+            const pts = evolution[key];
+            if (!pts || pts.length < 2) return null;
+            return (
+              <div key={key} className="span-6">
+                <div className="stack stack--xs">
+                  <TrendChart
+                    values={pts.map((d) => d.value)}
+                    xLabels={pts.map((d) =>
+                      new Date(d.timestamp).toLocaleDateString(undefined, { month: "short", day: "numeric" })
+                    )}
+                    color={color}
+                    yFormat={fmt}
+                    width={240}
+                    height={80}
+                  />
+                  <div className="text-label text-center" style={{ fontSize: "var(--text-xs)" }}>
+                    {label}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
 
-/**
- * Metadata Grid - Key metadata in grid
- */
-function MetadataGrid({ metadata }) {
+// ─────────────────────────────────────────────────────────────────────────────
+// METADATA PANEL
+// ─────────────────────────────────────────────────────────────────────────────
+
+function MetadataPanel({ metadata }) {
   const items = [
-    { label: 'Files Scanned', value: fmtN(metadata.files_scanned) },
-    { label: 'Modules', value: fmtN(metadata.modules_detected) },
-    { label: 'Commits', value: fmtN(metadata.commits_processed) },
-    { label: 'Snapshots', value: metadata.snapshot_count },
-    { label: 'DB Size', value: `${metadata.db_size_mb.toFixed(1)} MB` },
-    { label: 'Analyzers', value: metadata.analyzers_ran?.length || 0 },
-  ];
+    { label: "Files Scanned", value: fmtN(metadata.files_scanned) },
+    { label: "Modules",       value: fmtN(metadata.modules_detected) },
+    { label: "Commits",       value: fmtN(metadata.commits_processed) },
+    metadata.snapshot_count != null && { label: "Snapshots", value: metadata.snapshot_count },
+    metadata.db_size_mb != null && { label: "DB Size", value: `${metadata.db_size_mb.toFixed(1)} MB` },
+    { label: "Analyzers", value: metadata.analyzers_ran?.length ?? 0 },
+  ].filter(Boolean);
 
   return (
-    <div className="stack stack--md">
-      <div className="grid grid--dense">
-        {items.map(({ label, value }) => (
-          <div key={label} className="span-6">
-            <MetricItem value={value} label={label} />
-          </div>
-        ))}
+    <div className="ds-card">
+      <div className="ds-card__header">
+        <div className="ds-card__title">Analysis Details</div>
       </div>
-      {metadata.analyzers_ran && metadata.analyzers_ran.length > 0 && (
-        <div className="stack stack--xs" style={{ paddingTop: 'var(--space-4)', borderTop: '1px solid var(--border)' }}>
-          <div className="text-label">ANALYZERS RAN:</div>
-          <div className="cluster cluster--xs">
-            {metadata.analyzers_ran.map((a) => (
-              <span
-                key={a}
-                className="text-xs text-mono"
-                style={{
-                  padding: 'var(--space-1) var(--space-2)',
-                  background: 'rgba(59, 130, 246, 0.08)',
-                  color: 'var(--accent)',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1px solid rgba(59, 130, 246, 0.15)'
-                }}
-              >
-                {a}
-              </span>
+      <div className="ds-card__body">
+        <div className="stack stack--sm">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-3)" }}>
+            {items.map(({ label, value }) => (
+              <div key={label} style={{ textAlign: "center", padding: "var(--space-2)" }}>
+                <div className="text-mono" style={{ fontSize: "var(--text-lg)", fontWeight: 700, color: "var(--text)" }}>
+                  {value}
+                </div>
+                <div className="text-label" style={{ color: "var(--text-tertiary)", fontSize: "var(--text-2xs)", marginTop: "2px" }}>
+                  {label.toUpperCase()}
+                </div>
+              </div>
             ))}
           </div>
+          {metadata.analyzers_ran?.length > 0 && (
+            <div style={{ paddingTop: "var(--space-3)", borderTop: "1px solid var(--border)" }}>
+              <div className="text-label" style={{ color: "var(--text-tertiary)", fontSize: "var(--text-2xs)", marginBottom: "var(--space-2)" }}>
+                ANALYZERS
+              </div>
+              <div className="cluster cluster--xs">
+                {metadata.analyzers_ran.map((a) => (
+                  <span
+                    key={a}
+                    className="text-mono"
+                    style={{
+                      padding: "2px 6px",
+                      background: "rgba(59, 130, 246, 0.08)",
+                      color: "var(--accent)",
+                      borderRadius: "var(--radius-sm)",
+                      border: "1px solid rgba(59, 130, 246, 0.15)",
+                      fontSize: "var(--text-xs)",
+                    }}
+                  >
+                    {a}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
 
-/**
- * Collapsible Section - For low-priority content
- */
-function CollapsibleSection({ title, children, defaultOpen = false }) {
-  const [isOpen, setIsOpen] = React.useState(defaultOpen);
+// ─────────────────────────────────────────────────────────────────────────────
+// COLLAPSIBLE SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+function CollapsibleSection({ title, children }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <section>
-      <div
-        className="text-h4"
+      <button
+        onClick={() => setIsOpen((v) => !v)}
         style={{
-          cursor: 'pointer',
-          padding: 'var(--space-4)',
-          background: 'var(--surface)',
-          borderRadius: 'var(--radius-md)',
-          border: '1px solid var(--border)',
-          userSelect: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
+          width: "100%",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
+          borderRadius: isOpen ? "var(--radius-md) var(--radius-md) 0 0" : "var(--radius-md)",
+          padding: "var(--space-3) var(--space-4)",
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          color: "var(--text-secondary)",
+          fontSize: "var(--text-sm)",
+          fontWeight: 500,
+          transition: "border-radius var(--transition-base)",
         }}
-        onClick={() => setIsOpen(!isOpen)}
       >
-        <span>{title}</span>
-        <span style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', fontSize: '14px' }}>
-          {isOpen ? '−' : '+'}
+        <span className="text-label" style={{ letterSpacing: "0.08em", fontSize: "var(--text-xs)" }}>
+          {title.toUpperCase()}
         </span>
-      </div>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-sm)", color: "var(--text-tertiary)" }}>
+          {isOpen ? "−" : "+"}
+        </span>
+      </button>
       {isOpen && (
-        <div style={{ marginTop: 'var(--space-6)' }}>
+        <div
+          style={{
+            border: "1px solid var(--border)",
+            borderTop: "none",
+            borderRadius: "0 0 var(--radius-md) var(--radius-md)",
+            padding: "var(--space-6)",
+            background: "var(--bg)",
+          }}
+        >
           {children}
         </div>
       )}
@@ -558,41 +876,14 @@ function CollapsibleSection({ title, children, defaultOpen = false }) {
   );
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   HELPERS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/**
- * Get top N findings across all categories, sorted by severity
- */
-function getTopFindings(categories, limit = 5) {
-  const allFindings = [];
-
-  for (const catKey in categories) {
-    const cat = categories[catKey];
-    if (cat.findings && cat.findings.length > 0) {
-      cat.findings.forEach(f => {
-        allFindings.push({ ...f, category: catKey });
-      });
-    }
-  }
-
-  // Sort by severity (highest first)
-  allFindings.sort((a, b) => (b.severity || 0) - (a.severity || 0));
-
-  return allFindings.slice(0, limit);
+function shortenPath(p) {
+  if (!p) return "";
+  // Show last 2 path segments for long paths
+  const parts = p.replace(/\\/g, "/").split("/").filter(Boolean);
+  if (parts.length <= 2) return p;
+  return "…/" + parts.slice(-2).join("/");
 }
-
-/**
- * Truncate evidence string for compact display
- */
-function truncateEvidence(evidence) {
-  if (typeof evidence !== 'string') {
-    return JSON.stringify(evidence).substring(0, 60) + '...';
-  }
-  return evidence.length > 60 ? evidence.substring(0, 60) + '...' : evidence;
-}
-
-// Import React for useState in CollapsibleSection
-import React from 'preact/compat';

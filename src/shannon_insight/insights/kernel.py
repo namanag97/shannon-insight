@@ -271,9 +271,11 @@ class InsightKernel:
             findings.append(finding)
 
         # Phase 3b: Run persistence finders (need DB connection)
+        # Pass pattern_findings so ChronicProblemFinder can determine
+        # which historical findings are still active (for +1 to persistence count)
         if self._persistence_finders:
             _progress("Checking history...")
-            self._run_persistence_finders(store, findings)
+            self._run_persistence_finders(store, findings, pattern_findings)
 
         # Phase 3c: Run diagnostics
         from .diagnostics import run_diagnostics

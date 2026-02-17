@@ -163,9 +163,6 @@ def _execute_pattern(
     return findings
 
 
-from shannon_insight.file_ops import is_fixture_or_test_data
-
-
 def _execute_file_pattern(
     store: FactStore,
     pattern: Pattern,

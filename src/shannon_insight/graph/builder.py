@@ -788,7 +788,13 @@ def _resolve_dot_relative_import(
                 candidates.append(str(source_dir) + ext)
 
     for candidate in candidates:
-        if candidate in all_paths:
-            return candidate
+        # Normalize path separators for comparison
+        normalized = candidate.replace("\\", "/")
+        if normalized in all_paths:
+            return normalized
+        # Also try matching by suffix (handles src/ prefix mismatches)
+        for path in all_paths:
+            if path.endswith(normalized) or normalized.endswith(path):
+                return path
 
     return None

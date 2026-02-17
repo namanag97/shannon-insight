@@ -74,7 +74,11 @@ def build_churn_series(
         total = sum(counts)
         slope = _linear_slope(counts)
         cv = _compute_cv(counts, total)
-        trajectory = _classify_trajectory(counts, total, slope, cv)
+        trajectory = _classify_trajectory(
+            counts, total, slope, cv,
+            slope_threshold=slope_threshold,
+            cv_threshold=cv_threshold,
+        )
         change_entropy = compute_change_entropy(counts)
 
         # Compute author entropy and bus_factor

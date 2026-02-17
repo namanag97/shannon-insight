@@ -175,7 +175,7 @@ def _execute_file_pattern(
 
     for file_id in store.files():
         # Skip test fixtures and sample data
-        if _is_fixture_or_test_data(file_id.key):
+        if is_fixture_or_test_data(file_id.key):
             continue
 
         # Hotspot filter: skip files below median total_changes
@@ -216,7 +216,7 @@ def _execute_file_pair_pattern(
     findings: list[Finding] = []
 
     # Filter out fixtures before generating pairs
-    files = [f for f in store.files() if not _is_fixture_or_test_data(f.key)]
+    files = [f for f in store.files() if not is_fixture_or_test_data(f.key)]
 
     # Generate all unique pairs
     for file_a, file_b in itertools.combinations(files, 2):

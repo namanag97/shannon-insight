@@ -98,8 +98,9 @@ def compute_raw_risk(
     blast_term = fs.blast_radius_size / max_blast if max_blast > 0 else 0.0
     cog_term = fs.cognitive_load / max_cognitive if max_cognitive > 0 else 0.0
 
-    # Instability factor based on churn trajectory
-    instab_factor = 1.0 if fs.churn_trajectory in ("CHURNING", "SPIKING") else 0.3
+    # Instability factor: continuous measure of change volatility via churn_cv.
+    # Matches the composites.py formula exactly — raw_risk and risk_score must agree.
+    instab_factor = min(fs.churn_cv / 2.0, 1.0) if fs.churn_cv > 0 else 0.0
 
     # Bus factor: higher is better, so 1 - normalized
     bf_term = 1 - fs.bus_factor / max_bus_factor if max_bus_factor > 0 else 0.0

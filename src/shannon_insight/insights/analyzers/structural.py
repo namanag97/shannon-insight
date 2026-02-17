@@ -71,6 +71,12 @@ class StructuralAnalyzer:
         ga = result.graph_analysis
         graph = result.graph
 
+        # Build cycle membership lookup: path -> cycle size (0 for non-members)
+        cycle_sizes: dict[str, int] = {}
+        for cycle in ga.cycles:
+            for node in cycle.nodes:
+                cycle_sizes[node] = len(cycle.nodes)
+
         # Per-file signals from graph analysis
         for path, fa in result.files.items():
             entity_id = EntityId(EntityType.FILE, path)
@@ -83,9 +89,28 @@ class StructuralAnalyzer:
             fs.set_signal(entity_id, Signal.DEPTH, fa.depth)
             fs.set_signal(entity_id, Signal.IS_ORPHAN, fa.is_orphan)
             fs.set_signal(entity_id, Signal.CYCLE_MEMBER, fa.cycle_member)
+            fs.set_signal(entity_id, Signal.CYCLE_SIZE, cycle_sizes.get(path, 0))
             fs.set_signal(entity_id, Signal.PHANTOM_IMPORT_COUNT, fa.phantom_import_count)
             fs.set_signal(entity_id, Signal.COMPRESSION_RATIO, fa.compression_ratio)
             fs.set_signal(entity_id, Signal.COGNITIVE_LOAD, fa.cognitive_load)
+
+        # CYCLE_WITH relations: symmetric edges between all files in the same cycle
+        for cycle in ga.cycles:
+            nodes = sorted(cycle.nodes)  # Sorted for deterministic order
+            for i, node_a in enumerate(nodes):
+                for node_b in nodes[i + 1 :]:
+                    a_id = EntityId(EntityType.FILE, node_a)
+                    b_id = EntityId(EntityType.FILE, node_b)
+                    metadata = {
+                        "cycle_size": len(cycle.nodes),
+                        "internal_edge_count": cycle.internal_edge_count,
+                    }
+                    fs.add_relation(
+                        Relation(type=RelationType.CYCLE_WITH, source=a_id, target=b_id, weight=1.0, metadata=metadata)
+                    )
+                    fs.add_relation(
+                        Relation(type=RelationType.CYCLE_WITH, source=b_id, target=a_id, weight=1.0, metadata=metadata)
+                    )
 
         # Global signals
         codebase_id = EntityId(EntityType.CODEBASE, store.root_dir)

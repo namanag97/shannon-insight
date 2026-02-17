@@ -46,15 +46,19 @@ class ChronicProblemFinder:
         self,
         store: AnalysisStore,
         db_conn: sqlite3.Connection | None = None,
+        current_findings: list | None = None,
     ) -> list[Finding]:
         """Find chronic problems from persistence data.
 
         Parameters
         ----------
         store:
-            The analysis store (not used, but part of interface).
+            The analysis store for validating against current signals.
         db_conn:
             Optional database connection. If not provided, returns empty list.
+        current_findings:
+            Findings from the current analysis run. Used to add +1 to
+            persistence_count for findings that are still detected.
 
         Returns
         -------
@@ -64,7 +68,10 @@ class ChronicProblemFinder:
         if db_conn is None:
             return []
 
-        chronic = get_chronic_findings(db_conn, min_persistence=self.min_persistence)
+        # Build set of identity keys from current findings for O(1) lookup
+        current_keys = self._build_current_keys(current_findings or [])
+
+        chronic = get_chronic_findings(db_conn, min_persistence=max(1, self.min_persistence - 1))
         if not chronic:
             return []
 

@@ -162,31 +162,7 @@ def _execute_pattern(
     return findings
 
 
-def _is_fixture_or_test_data(path: str) -> bool:
-    """Check if path is a test fixture or sample data file.
-
-    These files should be excluded from findings because:
-    1. They're intentionally broken/incomplete (test cases)
-    2. They never change, so findings persist forever
-    3. They're not production code
-    """
-    path_lower = path.lower()
-    # Common fixture/test data patterns
-    exclude_patterns = [
-        "tests/fixtures/",
-        "test/fixtures/",
-        "fixtures/",
-        "testdata/",
-        "test_data/",
-        "__fixtures__/",
-        "__mocks__/",
-        "mocks/",
-        "samples/",
-        "sample_",
-        "experiments/",
-        "_bootstrap.py",  # Bootstrap/setup scripts
-    ]
-    return any(p in path_lower for p in exclude_patterns)
+from shannon_insight.file_ops import is_fixture_or_test_data
 
 
 def _execute_file_pattern(

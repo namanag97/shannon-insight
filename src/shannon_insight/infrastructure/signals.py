@@ -573,7 +573,7 @@ register(
         polarity="high_is_bad",
         absolute_threshold=0.0,
         produced_by="graph/algorithms",
-        phase=0,
+        phase=4,  # Requires CALL edges; always 0 until CALL edge construction is implemented
     )
 )
 

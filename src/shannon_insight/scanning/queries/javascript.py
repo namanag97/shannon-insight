@@ -14,6 +14,14 @@ FUNCTION_QUERY = """
     body: (statement_block) @function.body
 ) @function
 
+(export_statement
+    declaration: (function_declaration
+        name: (identifier) @export_function.name
+        parameters: (formal_parameters) @export_function.params
+        body: (statement_block) @export_function.body
+    )
+) @export_function
+
 (method_definition
     name: (property_identifier) @method.name
     parameters: (formal_parameters) @method.params

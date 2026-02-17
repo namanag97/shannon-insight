@@ -285,9 +285,12 @@ def create_app(state: ServerState, watcher: FileWatcher | None = None) -> Starle
 
     async def api_history_findings(request: Request) -> JSONResponse:
         """Get finding lifecycle summary."""
+        analyzed_path = _get_analyzed_path()
+        if not analyzed_path:
+            return JSONResponse({"error": "No analysis available"}, status_code=404)
         limit = int(request.query_params.get("limit", 50))
         try:
-            with HistoryDB(str(state.analyzed_path)) as db:
+            with HistoryDB(analyzed_path) as db:
                 serializer = DashboardSerializer(db)
                 data = serializer.serialize_finding_lifecycle(limit=limit)
             return JSONResponse(data)

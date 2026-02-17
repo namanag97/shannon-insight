@@ -36,7 +36,9 @@ class TestServerState:
         state.update(data)
 
         msg = q.get(timeout=1)
-        assert msg == data
+        # State updates are wrapped with type: complete
+        assert msg["type"] == "complete"
+        assert msg["state"] == data
 
     def test_remove_listener(self):
         state = ServerState()

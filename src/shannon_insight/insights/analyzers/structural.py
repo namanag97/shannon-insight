@@ -82,6 +82,7 @@ class StructuralAnalyzer:
             fs.set_signal(entity_id, Signal.COMMUNITY, fa.community_id)
             fs.set_signal(entity_id, Signal.DEPTH, fa.depth)
             fs.set_signal(entity_id, Signal.IS_ORPHAN, fa.is_orphan)
+            fs.set_signal(entity_id, Signal.CYCLE_MEMBER, fa.cycle_member)
             fs.set_signal(entity_id, Signal.PHANTOM_IMPORT_COUNT, fa.phantom_import_count)
             fs.set_signal(entity_id, Signal.COMPRESSION_RATIO, fa.compression_ratio)
             fs.set_signal(entity_id, Signal.COGNITIVE_LOAD, fa.cognitive_load)

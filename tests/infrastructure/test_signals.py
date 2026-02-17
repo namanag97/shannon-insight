@@ -507,13 +507,13 @@ class TestHelperFunctions:
         assert len(global_signals) == 11
 
     def test_signals_by_scope_covers_all(self) -> None:
-        """File + module + global = all 63 signals."""
+        """File + module + global = all 64 signals."""
         file_s = signals_by_scope("file")
         module_s = signals_by_scope("module")
         global_s = signals_by_scope("global")
         assert file_s | module_s | global_s == set(Signal)
         # No overlaps
-        assert len(file_s) + len(module_s) + len(global_s) == 63
+        assert len(file_s) + len(module_s) + len(global_s) == 64
 
     def test_signals_by_polarity_coverage(self) -> None:
         """Every signal has exactly one polarity that is accounted for."""

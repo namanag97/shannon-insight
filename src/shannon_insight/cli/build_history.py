@@ -13,7 +13,7 @@ This enables:
 import shutil
 import subprocess
 import tempfile
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -86,7 +86,9 @@ def build_history(
     # Parse interval
     interval_days = _parse_interval(interval)
     if interval_days is None:
-        console.print(f"[red]Error:[/red] Invalid interval '{interval}'. Use daily, weekly, or monthly.")
+        console.print(
+            f"[red]Error:[/red] Invalid interval '{interval}'. Use daily, weekly, or monthly."
+        )
         raise typer.Exit(1)
 
     # Find checkpoint commits
@@ -110,7 +112,9 @@ def build_history(
         new_checkpoints = [(sha, date) for sha, date in checkpoints if sha not in existing_shas]
         skipped = len(checkpoints) - len(new_checkpoints)
         if skipped > 0:
-            console.print(f"[dim]Skipping {skipped} existing snapshots (use --force to overwrite)[/dim]")
+            console.print(
+                f"[dim]Skipping {skipped} existing snapshots (use --force to overwrite)[/dim]"
+            )
         checkpoints = new_checkpoints
 
     if not checkpoints:
@@ -126,14 +130,16 @@ def build_history(
         # Analyze each checkpoint
         for i, (sha, date) in enumerate(checkpoints, 1):
             date_str = date.strftime("%Y-%m-%d")
-            console.print(f"\n[bold][{i}/{len(checkpoints)}][/bold] Analyzing {sha[:8]} ({date_str})...")
+            console.print(
+                f"\n[bold][{i}/{len(checkpoints)}][/bold] Analyzing {sha[:8]} ({date_str})..."
+            )
 
             try:
                 # Checkout commit in worktree
                 _checkout_worktree(resolved, worktree_dir, sha)
 
                 # Run analysis
-                result, snapshot = analyze(worktree_dir, max_findings=500)
+                result, snapshot = analyze(str(worktree_dir), max_findings=500)
 
                 # Override commit_sha and timestamp with the historical values
                 snapshot.commit_sha = sha
@@ -199,8 +205,12 @@ def _find_checkpoints(
     try:
         result = subprocess.run(
             [
-                "git", "-C", str(repo_path),
-                "log", "--format=%H %at", f"--since={since}",
+                "git",
+                "-C",
+                str(repo_path),
+                "log",
+                "--format=%H %at",
+                f"--since={since}",
                 "--reverse",  # oldest first for processing
             ],
             capture_output=True,
@@ -254,8 +264,14 @@ def _checkout_worktree(repo_path: Path, worktree_path: Path, sha: str) -> None:
     # Create new worktree
     result = subprocess.run(
         [
-            "git", "-C", str(repo_path),
-            "worktree", "add", "--detach", str(worktree_path), sha,
+            "git",
+            "-C",
+            str(repo_path),
+            "worktree",
+            "add",
+            "--detach",
+            str(worktree_path),
+            sha,
         ],
         capture_output=True,
         text=True,

@@ -278,6 +278,7 @@ def build_dashboard_state(
             "score": round(r.score, 1),
             "status": r.status,
             "finding_count": len(r.findings),
+            "findings": [_finding_to_dict(f) for f in r.findings],
             "description": r.concern.description,
             "attributes": {
                 k: round(v, 4) if isinstance(v, float) else v for k, v in r.attributes.items()

@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, Any
 
 from shannon_insight.infrastructure.entities import EntityId
 from shannon_insight.infrastructure.patterns import Pattern, PatternScope
+from shannon_insight.infrastructure.relations import RelationType
 from shannon_insight.infrastructure.signals import Signal
 
 if TYPE_CHECKING:

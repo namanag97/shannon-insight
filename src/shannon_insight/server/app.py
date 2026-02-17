@@ -168,11 +168,11 @@ def create_app(state: ServerState) -> Starlette:
                     # Send ping on timeout, keep connection alive
                     await websocket.send_json({"type": "ping"})
                     continue
+                # All messages now have type wrapper (progress, complete, etc.)
                 if isinstance(msg, dict) and "type" in msg:
-                    # Progress message
                     await websocket.send_json(msg)
                 else:
-                    # Full state update
+                    # Legacy fallback for raw state (shouldn't happen)
                     await websocket.send_json({"type": "complete", "state": msg})
         except (WebSocketDisconnect, asyncio.CancelledError):
             pass

@@ -456,10 +456,60 @@ export const SEVERITY_LEVELS = ["critical", "high", "medium", "low", "info"];
 
 /** Upper bounds for unbounded integer signals (used for color normalization). */
 export const UNBOUNDED_SIGNAL_CAPS = {
+  // File-level
   blast_radius_size: 50,
   phantom_import_count: 5,
   cognitive_load: 25,
   max_nesting: 10,
+  broken_call_count: 10,
+  in_degree: 20,
+  out_degree: 20,
+  lines: 1000,
+  function_count: 50,
+  total_changes: 100,
+
+  // Global-level
+  cycle_count: 20,
+  team_size: 50,
+};
+
+/** Convenience exports for global signals */
+export const GLOBAL_SIGNAL_LABELS = {
+  modularity: SIGNAL_LABELS.modularity,
+  fiedler_value: SIGNAL_LABELS.fiedler_value,
+  spectral_gap: SIGNAL_LABELS.spectral_gap,
+  cycle_count: SIGNAL_LABELS.cycle_count,
+  centrality_gini: SIGNAL_LABELS.centrality_gini,
+  orphan_ratio: SIGNAL_LABELS.orphan_ratio,
+  phantom_ratio: SIGNAL_LABELS.phantom_ratio,
+  glue_deficit: SIGNAL_LABELS.glue_deficit,
+  clone_ratio: SIGNAL_LABELS.clone_ratio,
+  violation_rate: SIGNAL_LABELS.violation_rate,
+  conway_alignment: SIGNAL_LABELS.conway_alignment,
+  team_size: SIGNAL_LABELS.team_size,
+  wiring_score: SIGNAL_LABELS.wiring_score,
+  architecture_health: SIGNAL_LABELS.architecture_health,
+  team_risk: SIGNAL_LABELS.team_risk,
+  codebase_health: SIGNAL_LABELS.codebase_health,
+};
+
+export const GLOBAL_SIGNAL_DESCRIPTIONS = {
+  modularity: SIGNAL_DESCRIPTIONS.modularity,
+  fiedler_value: SIGNAL_DESCRIPTIONS.fiedler_value,
+  spectral_gap: SIGNAL_DESCRIPTIONS.spectral_gap,
+  cycle_count: SIGNAL_DESCRIPTIONS.cycle_count,
+  centrality_gini: SIGNAL_DESCRIPTIONS.centrality_gini,
+  orphan_ratio: SIGNAL_DESCRIPTIONS.orphan_ratio,
+  phantom_ratio: SIGNAL_DESCRIPTIONS.phantom_ratio,
+  glue_deficit: SIGNAL_DESCRIPTIONS.glue_deficit,
+  clone_ratio: SIGNAL_DESCRIPTIONS.clone_ratio,
+  violation_rate: SIGNAL_DESCRIPTIONS.violation_rate,
+  conway_alignment: SIGNAL_DESCRIPTIONS.conway_alignment,
+  team_size: SIGNAL_DESCRIPTIONS.team_size,
+  wiring_score: SIGNAL_DESCRIPTIONS.wiring_score,
+  architecture_health: SIGNAL_DESCRIPTIONS.architecture_health,
+  team_risk: SIGNAL_DESCRIPTIONS.team_risk,
+  codebase_health: SIGNAL_DESCRIPTIONS.codebase_health,
 };
 
 /** Severity level mapping for findings. */

@@ -284,12 +284,18 @@ class InsightKernel:
             for issue in diagnostic_report.issues:
                 logger.debug(f"  [{issue.severity}] {issue.message}")
 
-        # Phase 4: Deduplicate, rank, and cap
+        # Phase 4: Deduplicate, rank by impact, and cap
         _progress("Ranking findings...")
-        from .ranking import deduplicate_findings
+        from .ranking import deduplicate_findings, rank_findings
 
         findings = deduplicate_findings(findings)
-        findings.sort(key=lambda f: f.severity, reverse=True)
+
+        # Get file signals for impact-based ranking
+        file_signals = None
+        if store.signal_field.available:
+            file_signals = store.signal_field.value.per_file
+
+        findings = rank_findings(findings, file_signals)
         capped = findings[:max_findings]
 
         result = InsightResult(

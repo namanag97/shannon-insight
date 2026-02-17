@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING, Any
 
 from shannon_insight.infrastructure.entities import EntityId
 from shannon_insight.infrastructure.patterns import Pattern, PatternScope
+from shannon_insight.infrastructure.relations import RelationType
 from shannon_insight.infrastructure.signals import Signal
 
 from ..helpers import compute_percentile, is_solo_project
@@ -405,7 +406,11 @@ DUPLICATE_INCOMPLETE = Pattern(
     name="duplicate_incomplete",
     scope=PatternScope.FILE_PAIR,
     severity=0.75,
-    requires={Signal.STUB_RATIO.value, Signal.PHANTOM_IMPORT_COUNT.value, RelationType.CLONED_FROM.name},
+    requires={
+        Signal.STUB_RATIO.value,
+        Signal.PHANTOM_IMPORT_COUNT.value,
+        RelationType.CLONED_FROM.name,
+    },
     condition="CLONED_FROM(A, B) AND both files incomplete (stub_ratio > 0.3 OR phantom_import_count > 0)",
     predicate=_duplicate_incomplete_predicate,
     severity_fn=_duplicate_incomplete_severity,

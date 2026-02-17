@@ -14,11 +14,11 @@ from shannon_insight.signals.registry import (
 
 
 class TestSignalEnum:
-    """Test Signal enum has all 63 signals."""
+    """Test Signal enum has all 64 signals."""
 
     def test_signal_count(self):
-        """Must have exactly 63 signals (from spec)."""
-        assert len(Signal) == 63
+        """Must have exactly 64 signals (from spec)."""
+        assert len(Signal) == 64
 
     def test_per_file_scanning_signals(self):
         """IR1 scanning signals (#1-7)."""

@@ -690,36 +690,37 @@ class TestRawRiskComputation:
     """Test raw_risk pre-percentile computation."""
 
     def test_raw_risk_computation(self):
-        """Raw risk computed correctly from max-normalized signals."""
+        """Raw risk computed correctly from max-normalized signals.
+
+        Formula uses SAFE_BUS_FACTOR=5.0 fixed cap (not relative to codebase max).
+        bus_factor=1.0 → bf_term = 1 - 1.0/5.0 = 0.8
+        churn_cv=2.0 → instab_factor = min(2.0/2.0, 1.0) = 1.0
+        """
         fs = FileSignals(
             path="/test.py",
             pagerank=0.5,
             blast_radius_size=25,
             cognitive_load=50.0,
-            churn_trajectory="CHURNING",
+            churn_cv=2.0,  # instab_factor = 1.0
             bus_factor=1.0,
         )
 
-        # Max values
         max_pr = 1.0
         max_blast = 50.0
         max_cog = 100.0
-        max_bf = 2.0
 
-        raw = compute_raw_risk(fs, max_pr, max_blast, max_cog, max_bf)
+        raw = compute_raw_risk(fs, max_pr, max_blast, max_cog)
 
-        # 0.25 * 0.5 + 0.20 * 0.5 + 0.20 * 0.5 + 0.20 * 1.0 + 0.15 * 0.5
-        # = 0.125 + 0.1 + 0.1 + 0.2 + 0.075 = 0.6
-        assert abs(raw - 0.6) < 0.01
+        # 0.25 * 0.5 + 0.20 * 0.5 + 0.20 * 0.5 + 0.20 * 1.0 + 0.15 * 0.8
+        # = 0.125 + 0.10 + 0.10 + 0.20 + 0.12 = 0.645
+        assert abs(raw - 0.645) < 0.01
 
     def test_raw_risk_division_by_zero_guard(self):
         """Raw risk handles zero max values."""
         fs = FileSignals(path="/test.py")
 
-        # All max values are 0
-        raw = compute_raw_risk(fs, 0.0, 0.0, 0.0, 0.0)
+        raw = compute_raw_risk(fs, 0.0, 0.0, 0.0)
 
-        # Should not crash, returns a value
         assert isinstance(raw, float)
         assert 0.0 <= raw <= 1.0
 

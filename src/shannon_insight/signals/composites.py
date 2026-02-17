@@ -358,14 +358,6 @@ def _compute_codebase_health(field: SignalField) -> float:
 # ── Helper functions ───────────────────────────────────────────────────
 
 
-def _get_max_bus_factor(field: SignalField) -> float:
-    """Get maximum bus factor across all files."""
-    if not field.per_file:
-        return 1.0
-    bfs = [fs.bus_factor for fs in field.per_file.values()]
-    return max(bfs) if bfs else 1.0
-
-
 def _get_mean_stub_ratio(field: SignalField) -> float:
     """Get mean stub ratio across all files."""
     if not field.per_file:

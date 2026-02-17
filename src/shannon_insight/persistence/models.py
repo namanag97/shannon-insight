@@ -75,18 +75,19 @@ class Snapshot:
 
 @dataclass
 class TensorSnapshot:
-    """V2 snapshot: stores full SignalField plus architecture and temporal summary.
+    """Full analysis snapshot with signals, architecture, and findings.
 
-    Extends V1 with:
-    - module_signals: per-module signals (Martin metrics, etc.)
-    - modules, layers, violations: architecture data
-    - Enhanced FindingRecord with confidence/effort/scope
+    Includes:
+    - file_signals: Per-file signal values and percentiles
+    - module_signals: Per-module signals (Martin metrics, cohesion, etc.)
+    - global_signals: Codebase-level aggregates
+    - architecture: modules, layers, violations
+    - findings: Issues with confidence, effort, scope
 
-    All fields are plain values or collections of plain values for JSON/SQLite
-    serialization without ORM machinery.
+    All fields are plain values or collections for JSON/SQLite serialization.
     """
 
-    # ── Metadata (same as v1) ─────────────────────────────────────
+    # ── Metadata ─────────────────────────────────────────────────
     schema_version: int = 2
     tool_version: str = ""
     commit_sha: Optional[str] = None

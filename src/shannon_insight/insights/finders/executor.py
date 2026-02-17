@@ -177,7 +177,7 @@ def _has_impact(store: FactStore, file_id: EntityId) -> bool:
     has_connectivity = pagerank > 0.001 or blast_radius > 0 or in_degree > 0
     has_activity = total_changes > 0
 
-    return has_connectivity or has_activity
+    return bool(has_connectivity or has_activity)
 
 
 def _execute_file_pattern(
@@ -236,9 +236,7 @@ def _execute_file_pair_pattern(
 
     # Filter out fixtures and zero-impact files before generating pairs
     files = [
-        f
-        for f in store.files()
-        if not is_fixture_or_test_data(f.key) and _has_impact(store, f)
+        f for f in store.files() if not is_fixture_or_test_data(f.key) and _has_impact(store, f)
     ]
 
     # Generate all unique pairs

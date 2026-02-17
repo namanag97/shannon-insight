@@ -2,9 +2,9 @@
 
 import json
 import sqlite3
-from typing import Optional
+from typing import Any, Optional
 
-from .models import EvidenceRecord, FindingRecord, Snapshot
+from .models import EvidenceRecord, FindingRecord, Snapshot, TensorSnapshot
 
 
 def load_snapshot(conn: sqlite3.Connection, snapshot_id: int) -> Snapshot:

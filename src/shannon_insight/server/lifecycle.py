@@ -292,13 +292,13 @@ def launch_server(
     analysis_thread = threading.Thread(target=_background_analysis, daemon=True)
     analysis_thread.start()
 
-    config = uvicorn.Config(
+    uvicorn_config = uvicorn.Config(
         asgi_app,
         host=host,
         port=actual_port,
         log_level="warning" if not verbose else "info",
     )
-    server = uvicorn.Server(config)
+    server = uvicorn.Server(uvicorn_config)
     shutdown_mgr.register_uvicorn(server)
 
     # Install signal handlers BEFORE server.run()

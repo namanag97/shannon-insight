@@ -161,8 +161,10 @@ class SignalFusionAnalyzer:
 
         # IR3 graph signals - re-sync after fusion modifications
         # IS_ORPHAN: fusion applies role-aware filtering (entry points aren't orphans)
+        # CYCLE_MEMBER: carried through fusion from structural analysis
         # DEPTH: for completeness, finders may read this
         fs.set_signal(entity_id, Signal.IS_ORPHAN, signals.is_orphan, producer=producer)
+        fs.set_signal(entity_id, Signal.CYCLE_MEMBER, signals.cycle_member, producer=producer)
         fs.set_signal(entity_id, Signal.DEPTH, signals.depth, producer=producer)
         fs.set_signal(entity_id, Signal.COGNITIVE_LOAD, signals.cognitive_load, producer=producer)
         fs.set_signal(
@@ -175,6 +177,9 @@ class SignalFusionAnalyzer:
         fs.set_signal(
             entity_id, Signal.FILE_HEALTH_SCORE, signals.file_health_score, producer=producer
         )
+
+        # Health Laplacian (computed in fusion step 6)
+        fs.set_signal(entity_id, Signal.DELTA_H, signals.delta_h, producer=producer)
 
     def _sync_module_signals(self, fs, entity_id: EntityId, signals, producer: str) -> None:
         """Sync ModuleSignals to FactStore."""

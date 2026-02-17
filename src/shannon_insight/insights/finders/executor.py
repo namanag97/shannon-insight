@@ -14,6 +14,7 @@ from __future__ import annotations
 import itertools
 from typing import TYPE_CHECKING
 
+from shannon_insight.file_ops import is_fixture_or_test_data
 from shannon_insight.infrastructure.entities import EntityId, EntityType
 from shannon_insight.infrastructure.patterns import Finding, Pattern, PatternScope
 from shannon_insight.infrastructure.signals import Signal

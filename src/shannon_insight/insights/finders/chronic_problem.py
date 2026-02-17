@@ -142,6 +142,34 @@ class ChronicProblemFinder:
 
         return findings
 
+    def _build_current_keys(self, current_findings: list) -> set[str]:
+        """Build set of identity keys from current findings.
+
+        This enables O(1) lookup to determine if a historical finding
+        is also present in the current run (and thus should get +1 count).
+        """
+        from ...persistence.identity import compute_identity_key
+
+        keys = set()
+        for f in current_findings:
+            # Handle both Finding objects and pattern Finding objects
+            finding_type = getattr(f, "finding_type", None) or getattr(f, "pattern", None)
+            files = getattr(f, "files", None)
+            if files is None:
+                # Pattern findings use target
+                target = getattr(f, "target", None)
+                if target:
+                    if isinstance(target, tuple):
+                        files = [t.key for t in target]
+                    else:
+                        files = [target.key]
+                else:
+                    files = []
+
+            if finding_type and files:
+                keys.add(compute_identity_key(finding_type, files))
+        return keys
+
     def _is_fixture(self, path: str) -> bool:
         """Check if path is a test fixture or sample data."""
         from shannon_insight.file_ops import is_fixture_or_test_data

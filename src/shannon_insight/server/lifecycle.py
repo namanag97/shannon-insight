@@ -301,7 +301,7 @@ def launch_server(
     console.print()
 
     # ── Step 10: Start ASGI server ────────────────────────────────
-    asgi_app = create_app(state)
+    asgi_app = create_app(state, watcher=watcher)
 
     config = uvicorn.Config(
         asgi_app,

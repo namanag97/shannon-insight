@@ -43,6 +43,8 @@ try:
         import tree_sitter_typescript
 
         _language_modules["typescript"] = tree_sitter_typescript
+        # TSX is bundled with tree-sitter-typescript, store it separately
+        _language_modules["tsx"] = tree_sitter_typescript
     except ImportError:
         pass
 

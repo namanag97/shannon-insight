@@ -678,8 +678,8 @@ class TestBackwardCompatibility:
             get_pattern_by_name,
         )
 
-        # V2 pattern registry should have 26 patterns
-        assert len(ALL_PATTERNS) == 26
+        # V2 pattern registry should have 28 patterns (26 + CIRCULAR_DEPENDENCY + ZONE_OF_USELESSNESS)
+        assert len(ALL_PATTERNS) == 28
 
         # Core patterns should be findable by name
         assert get_pattern_by_name("high_risk_hub") is not None

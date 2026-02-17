@@ -92,14 +92,14 @@ def main(
     """
     Analyze codebase quality using multi-signal structural analysis.
 
-    Combines dependency graphs, git history, and per-file signals to produce
-    prioritized, evidence-backed findings.
+    Opens an interactive dashboard by default. Use --cli for terminal output.
 
     Examples:
-        shannon-insight
-        shannon-insight /path/to/code
-        shannon-insight --verbose --max-findings 100
-        shannon-insight --json --fail-on high
+        shannon-insight                    # Open dashboard
+        shannon-insight /path/to/code      # Dashboard for specific path
+        shannon-insight --cli              # Terminal output
+        shannon-insight --json             # JSON output (CI mode)
+        shannon-insight --fail-on high     # CI gate mode
     """
     # Handle version
     if version:
@@ -123,39 +123,51 @@ def main(
     # Setup logging
     setup_logging(verbose=verbose)
 
-    try:
-        # Run analysis using new API
-        result, snapshot = analyze(
-            path=str(target),
-            config_file=config,
-            verbose=verbose,
+    # Determine mode: --json and --fail-on imply CLI mode
+    use_cli = cli or json_output or fail_on
+
+    if use_cli:
+        # CLI mode: terminal output
+        try:
+            result, snapshot = analyze(
+                path=str(target),
+                config_file=config,
+                verbose=verbose,
+                workers=workers,
+                max_findings=max_findings,
+                enable_provenance=trace,
+            )
+
+            if json_output:
+                _output_json(result, snapshot)
+            else:
+                _output_rich(result, snapshot, verbose=verbose)
+
+            if fail_on:
+                exit_code = _check_fail_threshold(result, fail_on)
+                if exit_code != 0:
+                    raise typer.Exit(exit_code)
+
+        except KeyboardInterrupt:
+            console.print("\n[yellow]Analysis interrupted[/yellow]")
+            raise typer.Exit(130)
+        except Exception as e:
+            console.print(f"[red]Error:[/red] {e}")
+            if verbose:
+                import traceback
+
+                console.print(traceback.format_exc())
+            raise typer.Exit(1)
+    else:
+        # Dashboard mode (default)
+        _launch_dashboard(
+            target=target,
+            config=config,
             workers=workers,
-            max_findings=max_findings,
-            enable_provenance=trace,
+            verbose=verbose,
+            port=port,
+            no_browser=no_browser,
         )
-
-        # Output results
-        if json_output:
-            _output_json(result, snapshot)
-        else:
-            _output_rich(result, snapshot, verbose=verbose)
-
-        # Handle fail-on threshold for CI/CD
-        if fail_on:
-            exit_code = _check_fail_threshold(result, fail_on)
-            if exit_code != 0:
-                raise typer.Exit(exit_code)
-
-    except KeyboardInterrupt:
-        console.print("\n[yellow]Analysis interrupted[/yellow]")
-        raise typer.Exit(130)
-    except Exception as e:
-        console.print(f"[red]Error:[/red] {e}")
-        if verbose:
-            import traceback
-
-            console.print(traceback.format_exc())
-        raise typer.Exit(1)
 
 
 def _output_json(result, snapshot):

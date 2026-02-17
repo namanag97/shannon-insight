@@ -47,8 +47,8 @@ class FunctionDef:
         Hard threshold: body_tokens < 3 is definitely a stub.
         Single return statements, property getters are NOT stubs.
         """
-        # Empty or trivial (just pass/...)
-        return self.body_tokens < 3
+        # Empty or trivial (just pass/...) - truly empty bodies only
+        return self.body_tokens <= 1
 
     @property
     def stub_score(self) -> float:

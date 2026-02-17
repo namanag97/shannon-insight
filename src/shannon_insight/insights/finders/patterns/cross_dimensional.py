@@ -137,8 +137,9 @@ def _accidental_coupling_predicate(store: FactStore, pair: tuple[EntityId, Entit
     ]
 
     if not similar_rels:
-        # No similarity data, assume low overlap
-        return True
+        # No similarity data - cannot determine if coupling is accidental
+        # Absence of data is not evidence of low similarity
+        return False
 
     similarity = similar_rels[0].metadata.get("similarity", 0.0)
     # Low similarity = low concept overlap

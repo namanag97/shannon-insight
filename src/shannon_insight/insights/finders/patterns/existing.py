@@ -374,10 +374,11 @@ def _dead_dependency_predicate(store: FactStore, pair: tuple[EntityId, EntityId]
     if not store.has_relation(file_a, RelationType.IMPORTS, file_b):
         return False
 
-    # Both files must have significant history (50+ commits)
+    # Both files must have meaningful history (10+ commits)
+    # 50 was too conservative - most codebases don't have files with 50 commits
     changes_a = store.get_signal(file_a, Signal.TOTAL_CHANGES, 0)
     changes_b = store.get_signal(file_b, Signal.TOTAL_CHANGES, 0)
-    if changes_a < 50 or changes_b < 50:
+    if changes_a < 10 or changes_b < 10:
         return False
 
     # Check for COCHANGES_WITH relation

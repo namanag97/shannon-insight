@@ -188,12 +188,11 @@ class FileWatcher:
         db_path = None
         try:
             from ..persistence import HistoryDB
+            from ..persistence.writer import save_snapshot
 
-            db = HistoryDB(self.root_dir)
-            db.connect()
-            db.save_snapshot(snapshot)
-            db.close()
-            db_path = str(db.db_path)
+            with HistoryDB(self.root_dir) as db:
+                save_snapshot(db.conn, snapshot)
+                db_path = str(db.db_path)
             logger.debug("Saved snapshot to %s", db_path)
         except Exception as e:
             logger.debug("Could not save snapshot to history: %s", e)

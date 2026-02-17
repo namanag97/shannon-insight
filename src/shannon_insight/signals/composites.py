@@ -60,7 +60,10 @@ def compute_composites(field: SignalField) -> None:
 # ── Per-file composites ────────────────────────────────────────────────
 
 
-def _compute_risk_score(fs: FileSignals, max_bus_factor: float) -> float:
+_SAFE_BUS_FACTOR = 5.0  # 5+ equivalent authors = minimal knowledge concentration risk
+
+
+def _compute_risk_score(fs: FileSignals) -> float:
     """Signal #35: How dangerous is this file?
 
     Additive weighted sum (from registry/composites.md):
@@ -69,15 +72,13 @@ def _compute_risk_score(fs: FileSignals, max_bus_factor: float) -> float:
                + 0.20 × pctl(blast_radius_size)
                + 0.20 × pctl(cognitive_load)
                + 0.20 × instability_factor
-               + 0.15 × (1 - bus_factor / max_bus_factor)
+               + 0.15 × (1 - bus_factor / 5.0)
 
-    where instability_factor = 1.0 if churn_trajectory ∈ {CHURNING, SPIKING} else 0.3
+    instability_factor = min(churn_cv / 2.0, 1.0) — continuous, no cliff at trajectory boundary
+    bus_factor capped at SAFE_BUS_FACTOR=5.0 (fixed cap, not relative to codebase max)
 
-    IMPORTANT: Files with zero impact (no connectivity, no blast radius, zero churn)
-    get risk_score = 0.0. These are isolated files that don't affect the codebase.
+    IMPORTANT: Files with zero impact get risk_score = 0.0.
     """
-    # Zero-impact guard: files with no connectivity have zero risk
-    # This prevents test fixtures and isolated files from getting risk scores
     has_connectivity = fs.pagerank > 0.001 or fs.blast_radius_size > 0 or fs.in_degree > 0
     has_activity = fs.total_changes > 0
 
@@ -88,16 +89,9 @@ def _compute_risk_score(fs: FileSignals, max_bus_factor: float) -> float:
     pctl_blast = fs.percentiles.get("blast_radius_size", 0.0)
     pctl_cog = fs.percentiles.get("cognitive_load", 0.0)
 
-    # Instability factor: continuous measure of change volatility via churn_cv.
-    # churn_cv=0 → 0.0 (perfectly stable), churn_cv=2.0+ → 1.0 (highly erratic).
-    # Avoids the 14% step-discontinuity that the old CHURNING/SPIKING binary had.
     instability_factor = min(fs.churn_cv / 2.0, 1.0) if fs.churn_cv > 0 else 0.0
+    bf_term = max(0.0, 1.0 - fs.bus_factor / _SAFE_BUS_FACTOR)
 
-    # Bus factor risk: normalized against max in codebase
-    # Higher bus_factor = more people know it = lower risk
-    bf_term = 1.0 - min(fs.bus_factor, max_bus_factor) / max(max_bus_factor, 1.0)
-
-    # Additive weighted sum (weights sum to 1.0)
     risk = (
         0.25 * pctl_pr
         + 0.20 * pctl_blast

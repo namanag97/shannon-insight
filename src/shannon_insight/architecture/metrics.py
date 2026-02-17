@@ -164,6 +164,43 @@ def compute_role_consistency(
     return consistency, dominant_role
 
 
+def compute_boundary_alignment(
+    files: list[str],
+    node_community: dict[str, int],
+) -> float:
+    """Compute boundary alignment from Louvain communities.
+
+    boundary_alignment = files_in_dominant_community / total_files
+
+    Measures how well the directory boundary matches the dependency structure.
+    High alignment (near 1.0) = directory is cohesive.
+    Low alignment (< 0.7) = directory files belong to different communities.
+
+    Args:
+        files: List of file paths in the module
+        node_community: Mapping of file path to community ID from Louvain
+
+    Returns:
+        Alignment in [0, 1], or 1.0 if insufficient data
+    """
+    if len(files) < 2:
+        return 1.0  # Single file is always aligned
+
+    # Count files per community
+    community_counts: Counter[int] = Counter()
+    for f in files:
+        comm = node_community.get(f, -1)
+        if comm >= 0:
+            community_counts[comm] += 1
+
+    if not community_counts:
+        return 1.0  # No community data, assume aligned
+
+    # Dominant community count
+    dominant_count = community_counts.most_common(1)[0][1]
+    return dominant_count / len(files)
+
+
 def compute_module_metrics(
     module: Module,
     all_modules: dict[str, Module],
@@ -171,6 +208,7 @@ def compute_module_metrics(
     roles: dict[str, str],
     file_class_counts: Optional[dict[str, int]] = None,
     file_abstract_counts: Optional[dict[str, int]] = None,
+    node_community: Optional[dict[str, int]] = None,
 ) -> None:
     """Compute all Martin metrics for a module (mutates module in place).
 
@@ -181,6 +219,7 @@ def compute_module_metrics(
         roles: File -> role mapping
         file_class_counts: Optional per-file class counts
         file_abstract_counts: Optional per-file abstract class counts
+        node_community: Optional Louvain community assignments for boundary_alignment
     """
     # Coupling
     ca, ce = compute_coupling(module, all_modules, graph)

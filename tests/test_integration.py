@@ -128,8 +128,9 @@ class TestSmokeTests:
             shannon_dir = code_dir / ".shannon"
             if shannon_dir.exists():
                 shutil.rmtree(shannon_dir)
+            # Use --cli to avoid launching the dashboard (which never exits in a subprocess)
             result = subprocess.run(
-                ["shannon-insight", str(code_dir)],
+                ["shannon-insight", "--cli", str(code_dir)],
                 capture_output=True,
                 text=True,
             )

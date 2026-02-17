@@ -1,6 +1,6 @@
 """Tests for the Signal enum and registry (infrastructure/signals.py).
 
-Validates the single source of truth for all 63 signals:
+Validates the single source of truth for all 64 signals:
 - Enum completeness and value uniqueness
 - Registry completeness and metadata correctness
 - Collision detection (single-owner rule)

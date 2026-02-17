@@ -27,13 +27,18 @@ if TYPE_CHECKING:
 
 def _high_risk_hub_predicate(store: FactStore, entity: EntityId) -> bool:
     """High centrality AND (high complexity OR high churn)."""
+    thresholds = get_thresholds(store)
+
     pr_pctl = compute_percentile(store, entity, Signal.PAGERANK)
     br_pctl = compute_percentile(store, entity, Signal.BLAST_RADIUS_SIZE)
     cog_pctl = compute_percentile(store, entity, Signal.COGNITIVE_LOAD)
     trajectory = store.get_signal(entity, Signal.CHURN_TRAJECTORY, "")
 
-    has_high_centrality = pr_pctl >= 0.90 or br_pctl >= 0.90
-    has_high_complexity = cog_pctl >= 0.90
+    has_high_centrality = (
+        pr_pctl >= thresholds.hub_pagerank_pctl
+        or br_pctl >= thresholds.hub_blast_radius_pctl
+    )
+    has_high_complexity = cog_pctl >= thresholds.hub_cognitive_load_pctl
     has_high_churn = trajectory in {"CHURNING", "SPIKING"}
 
     return has_high_centrality and (has_high_complexity or has_high_churn)

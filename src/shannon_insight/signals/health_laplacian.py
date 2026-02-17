@@ -112,12 +112,9 @@ def compute_all_raw_risks(field: SignalField) -> None:
     if not field.per_file:
         return
 
-    # Find max values across all files
     max_pr = max((fs.pagerank for fs in field.per_file.values()), default=0.0)
     max_blast = max((fs.blast_radius_size for fs in field.per_file.values()), default=0.0)
     max_cog = max((fs.cognitive_load for fs in field.per_file.values()), default=0.0)
-    max_bf = max((fs.bus_factor for fs in field.per_file.values()), default=1.0)
 
-    # Compute raw_risk for each file
     for fs in field.per_file.values():
-        fs.raw_risk = compute_raw_risk(fs, max_pr, max_blast, max_cog, max_bf)
+        fs.raw_risk = compute_raw_risk(fs, max_pr, max_blast, max_cog)

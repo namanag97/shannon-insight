@@ -380,14 +380,8 @@ class HistoryDB:
         )
 
         # ── indexes (v2 new tables) ────────────────────────────────
-        c.execute(
-            "CREATE INDEX IF NOT EXISTS idx_cochange_snapshot "
-            "ON cochange_edges(snapshot_id)"
-        )
-        c.execute(
-            "CREATE INDEX IF NOT EXISTS idx_delta_h_snapshot "
-            "ON delta_h(snapshot_id)"
-        )
+        c.execute("CREATE INDEX IF NOT EXISTS idx_cochange_snapshot ON cochange_edges(snapshot_id)")
+        c.execute("CREATE INDEX IF NOT EXISTS idx_delta_h_snapshot ON delta_h(snapshot_id)")
         c.execute(
             "CREATE INDEX IF NOT EXISTS idx_violations_snapshot "
             "ON architecture_violations(snapshot_id)"
@@ -489,3 +483,30 @@ class HistoryDB:
         self.conn.execute("DELETE FROM baseline")
         self.conn.commit()
         logger.info("Baseline cleared")
+
+    # ── snapshot management ─────────────────────────────────────────
+
+    def get_all_snapshot_shas(self) -> list[str]:
+        """Return all commit SHAs that have snapshots.
+
+        Used by build-history to skip existing snapshots.
+        """
+        rows = self.conn.execute(
+            "SELECT DISTINCT commit_sha FROM snapshots WHERE commit_sha IS NOT NULL"
+        ).fetchall()
+        return [row["commit_sha"] for row in rows]
+
+    def save_snapshot(self, snapshot) -> int:
+        """Save a TensorSnapshot to the database.
+
+        Returns the snapshot ID.
+        """
+        from .writer import save_snapshot as _save_snapshot, save_tensor_snapshot
+
+        # Check snapshot type and use appropriate saver
+        from .models import TensorSnapshot
+
+        if isinstance(snapshot, TensorSnapshot):
+            return save_tensor_snapshot(self.conn, snapshot)
+        else:
+            return _save_snapshot(self.conn, snapshot)

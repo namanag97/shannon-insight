@@ -413,10 +413,100 @@ class FactDatabase:
     # ── Queries ────────────────────────────────────────────────────────
 
     def get_file_facts_for_session(self, session_id: str) -> list[FileFact]:
-        """Get all file facts for a session."""
+        """Get all file facts for a session.
+
+        Optimized: Uses 4 bulk queries instead of N+1 pattern.
+        """
         with self._connect() as conn:
+            # 1. Load all file facts
             cursor = conn.execute("SELECT * FROM file_facts WHERE session_id = ?", (session_id,))
-            return [self._load_file_fact(conn, row) for row in cursor.fetchall()]
+            file_rows = cursor.fetchall()
+            if not file_rows:
+                return []
+
+            file_ids = [row["id"] for row in file_rows]
+
+            # 2. Bulk load all functions for this session
+            placeholders = ",".join("?" * len(file_ids))
+            cursor = conn.execute(
+                f"SELECT * FROM function_facts WHERE file_fact_id IN ({placeholders})",
+                file_ids,
+            )
+            functions_by_file: dict[int, list] = {}
+            for row in cursor.fetchall():
+                fid = row["file_fact_id"]
+                if fid not in functions_by_file:
+                    functions_by_file[fid] = []
+                functions_by_file[fid].append(row)
+
+            # 3. Bulk load all classes for this session
+            cursor = conn.execute(
+                f"SELECT * FROM class_facts WHERE file_fact_id IN ({placeholders})",
+                file_ids,
+            )
+            classes_by_file: dict[int, list] = {}
+            for row in cursor.fetchall():
+                fid = row["file_fact_id"]
+                if fid not in classes_by_file:
+                    classes_by_file[fid] = []
+                classes_by_file[fid].append(row)
+
+            # 4. Bulk load all imports for this session
+            cursor = conn.execute(
+                f"SELECT * FROM import_facts WHERE file_fact_id IN ({placeholders})",
+                file_ids,
+            )
+            imports_by_file: dict[int, list] = {}
+            for row in cursor.fetchall():
+                fid = row["file_fact_id"]
+                if fid not in imports_by_file:
+                    imports_by_file[fid] = []
+                imports_by_file[fid].append(row)
+
+            # 5. Assemble FileFacts with pre-loaded entities
+            results = []
+            for row in file_rows:
+                fid = row["id"]
+                path = row["path"]
+                functions = [
+                    self._row_to_function_fact(r, path)
+                    for r in functions_by_file.get(fid, [])
+                ]
+                classes = [
+                    self._row_to_class_fact(r, path)
+                    for r in classes_by_file.get(fid, [])
+                ]
+                imports = [
+                    self._row_to_import_fact(r, path)
+                    for r in imports_by_file.get(fid, [])
+                ]
+                results.append(
+                    FileFact(
+                        path=path,
+                        absolute_path=row["absolute_path"] or "",
+                        content_hash=row["content_hash"],
+                        session_id=row["session_id"],
+                        parsed_at=datetime.fromisoformat(row["parsed_at"]),
+                        parser_type=row["parser_type"],
+                        tool_version=row["tool_version"],
+                        language=row["language"],
+                        lines=row["lines"],
+                        tokens=row["tokens"],
+                        complexity=row["complexity"],
+                        has_main_guard=bool(row["has_main_guard"]),
+                        mtime=row["mtime"],
+                        functions=functions,
+                        classes=classes,
+                        imports=imports,
+                        function_count=row["function_count"],
+                        class_count=row["class_count"],
+                        import_count=row["import_count"],
+                        max_nesting=row["max_nesting"],
+                        stub_ratio=row["stub_ratio"],
+                        impl_gini=row["impl_gini"],
+                    )
+                )
+            return results
 
     def get_file_fact_by_path(self, session_id: str, path: str) -> FileFact | None:
         """Get a file fact by session and path."""

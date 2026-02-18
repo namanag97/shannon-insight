@@ -134,16 +134,26 @@ class ImportDecl:
         source: Module being imported (e.g., "os.path")
         names: Names imported (e.g., ["join", "dirname"])
         resolved_path: Resolved file path (None = phantom/external)
+        is_stdlib: True if import is stdlib or known third-party
     """
 
     source: str
     names: list[str]
     resolved_path: str | None = None
+    is_stdlib: bool = False  # Set during resolution
+
+    @property
+    def is_relative(self) -> bool:
+        """True if import uses relative syntax (starts with '.')."""
+        return self.source.startswith(".")
 
     @property
     def is_phantom(self) -> bool:
-        """True if import cannot be resolved to a file."""
-        return self.resolved_path is None
+        """True if import should resolve internally but cannot.
+
+        Excludes stdlib/third-party imports which are expected to be external.
+        """
+        return self.resolved_path is None and not self.is_stdlib
 
 
 @dataclass

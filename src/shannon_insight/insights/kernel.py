@@ -478,7 +478,7 @@ class InsightKernel:
             fact = FileFact.from_file_syntax(
                 syntax,
                 session_id,
-                self.session.env.tool_version,
+                __version__,
                 parser_type,
             )
             db.store_file_fact(fact)

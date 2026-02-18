@@ -37,7 +37,7 @@ from .fact_models import (
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 # Schema SQL
 SCHEMA = """

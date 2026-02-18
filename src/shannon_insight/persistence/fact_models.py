@@ -11,7 +11,7 @@ Key difference from FileSyntax:
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
@@ -49,6 +49,10 @@ class FunctionFact:
     # Class context (None if top-level)
     class_name: str | None
 
+    # Type annotations (for TYPE_FLOW edges)
+    return_type: str | None  # "str", "list[int]", "None", etc.
+    param_types: dict[str, str]  # {param_name: type_str}
+
     # Computed
     is_stub: bool
     stub_score: float
@@ -69,6 +73,8 @@ class FunctionFact:
             nesting_depth=fn.nesting_depth,
             call_targets=list(fn.call_targets) if fn.call_targets else [],
             class_name=fn.class_name,
+            return_type=fn.return_type,
+            param_types=dict(fn.param_types) if fn.param_types else {},
             is_stub=fn.is_stub,
             stub_score=fn.stub_score,
         )
@@ -88,6 +94,8 @@ class FunctionFact:
             "nesting_depth": self.nesting_depth,
             "call_targets": self.call_targets,
             "class_name": self.class_name,
+            "return_type": self.return_type,
+            "param_types": self.param_types,
             "is_stub": self.is_stub,
             "stub_score": self.stub_score,
         }

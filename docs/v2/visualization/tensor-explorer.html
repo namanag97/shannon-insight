@@ -11,16 +11,21 @@
             --white: #fafafa;
             --gray: #e5e5e5;
             --dim: #a3a3a3;
+            --light: #f5f5f5;
             --red: #dc2626;
             --green: #16a34a;
+            --blue: #2563eb;
             --mono: 'IBM Plex Mono', monospace;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         html, body {
             height: 100%;
             font-family: var(--mono);
             background: var(--white);
             overflow: hidden;
+            user-select: none;
         }
 
         /* Layout */
@@ -31,121 +36,174 @@
         }
 
         header {
-            padding: 16px 24px;
+            padding: 12px 20px;
             border-bottom: 1px solid var(--gray);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .title { font-size: 14px; font-weight: 600; }
-        .subtitle { font-size: 11px; color: var(--dim); margin-top: 2px; }
+        .title { font-size: 13px; font-weight: 600; letter-spacing: -0.02em; }
+        .formula { font-size: 11px; color: var(--dim); }
+        .formula .hl { background: var(--black); color: var(--white); padding: 1px 4px; }
 
         main {
             display: grid;
-            grid-template-columns: 1fr 280px;
+            grid-template-columns: 1fr 260px;
             overflow: hidden;
         }
 
         .canvas {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f8f8;
             position: relative;
+            overflow: hidden;
+            cursor: grab;
         }
+
+        .canvas:active { cursor: grabbing; }
 
         aside {
             border-left: 1px solid var(--gray);
             overflow-y: auto;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .panel {
-            padding: 16px;
+            padding: 12px 16px;
             border-bottom: 1px solid var(--gray);
         }
 
         .panel-title {
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             color: var(--dim);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         footer {
-            padding: 12px 24px;
+            padding: 8px 20px;
             border-top: 1px solid var(--gray);
-            font-size: 10px;
+            font-size: 9px;
             color: var(--dim);
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
+
+        /* View tabs */
+        .tabs {
+            display: flex;
+            gap: 1px;
+            background: var(--gray);
+            padding: 1px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: none;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .tab:hover { background: var(--light); }
+        .tab.active { background: var(--black); color: var(--white); }
 
         /* 3D Tensor */
-        .tensor-wrapper {
-            perspective: 1200px;
-            perspective-origin: 50% 40%;
+        .tensor-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
         }
 
-        .tensor {
+        .tensor-scene {
             transform-style: preserve-3d;
-            transform: rotateX(55deg) rotateZ(-45deg);
-            position: relative;
-            transition: transform 0.4s ease;
-        }
-
-        .tensor:hover {
-            transform: rotateX(55deg) rotateZ(-45deg) scale(1.02);
+            transition: transform 0.1s ease-out;
         }
 
         .layer {
             position: absolute;
             transform-style: preserve-3d;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s, transform 0.3s;
+            cursor: pointer;
         }
 
-        .layer.dimmed {
-            opacity: 0.08;
+        .layer.dim { opacity: 0.06; pointer-events: none; }
+        .layer.semi { opacity: 0.25; }
+        .layer.active { opacity: 1; }
+
+        .layer:hover:not(.dim) {
+            transform: scale(1.02);
         }
 
-        .layer.active {
-            opacity: 1;
-        }
-
-        .grid {
+        .matrix {
             display: grid;
             background: var(--white);
             border: 1px solid var(--black);
+            position: relative;
+        }
+
+        .matrix::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -18px;
+            left: 0;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .matrix::after {
+            content: attr(data-edges);
+            position: absolute;
+            top: -18px;
+            right: 0;
+            font-size: 8px;
+            color: var(--dim);
+        }
+
+        /* Axis labels */
+        .axis-i, .axis-j {
+            position: absolute;
+            font-size: 8px;
+            color: var(--dim);
+        }
+
+        .axis-i {
+            left: -14px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        .axis-j {
+            bottom: -14px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .cell {
             aspect-ratio: 1;
-            border: 0.5px solid #ddd;
-            transition: all 0.1s;
-            cursor: crosshair;
+            border: 0.5px solid #eee;
+            transition: all 0.08s;
+            position: relative;
         }
 
-        .cell.edge {
-            background: var(--black);
-        }
-
-        .cell.aligned {
-            background: var(--black);
-        }
-
-        .cell.hidden-coupling {
-            background: var(--red);
-        }
-
-        .cell.dead-code {
-            background: var(--dim);
-        }
+        .cell.edge { background: var(--black); }
+        .cell.aligned { background: var(--black); }
+        .cell.hidden { background: var(--red); }
+        .cell.dead { background: var(--dim); }
 
         .cell:hover {
-            outline: 2px solid var(--black);
+            outline: 2px solid var(--blue);
             outline-offset: -1px;
             z-index: 100;
         }
@@ -156,58 +214,63 @@
             z-index: 100;
         }
 
-        .layer-label {
-            position: absolute;
-            font-size: 10px;
-            font-weight: 500;
-            white-space: nowrap;
-            transform: rotateX(-55deg) rotateZ(45deg);
+        .cell.highlight {
+            outline: 1px solid var(--blue);
+            outline-offset: -1px;
         }
 
-        /* Axis indicators */
-        .axis {
-            position: absolute;
-            font-size: 9px;
-            color: var(--dim);
-        }
-
-        /* Controls */
-        .control-row {
-            display: flex;
+        /* Mini layers overview */
+        .layers-mini {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
             gap: 4px;
-            margin-bottom: 8px;
         }
 
-        .btn {
-            flex: 1;
-            padding: 8px;
-            font-family: var(--mono);
-            font-size: 10px;
+        .layer-mini {
+            aspect-ratio: 1;
             border: 1px solid var(--gray);
-            background: var(--white);
             cursor: pointer;
+            position: relative;
             transition: all 0.15s;
+            overflow: hidden;
         }
 
-        .btn:hover { background: #f0f0f0; }
-        .btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+        .layer-mini:hover { border-color: var(--black); }
+        .layer-mini.active { border-color: var(--black); border-width: 2px; }
+
+        .layer-mini canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .layer-mini-label {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            font-size: 7px;
+            font-weight: 600;
+            background: var(--white);
+            padding: 0 2px;
+        }
 
         /* Stats */
-        .stat-grid {
+        .stats {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
         }
 
         .stat {
-            padding: 12px;
-            background: #f5f5f5;
+            padding: 10px 8px;
+            background: var(--light);
             text-align: center;
         }
 
+        .stat.full { grid-column: 1 / -1; }
+
         .stat-value {
-            font-size: 20px;
-            font-weight: 300;
+            font-size: 18px;
+            font-weight: 400;
             line-height: 1;
         }
 
@@ -215,54 +278,118 @@
         .stat-value.bad { color: var(--red); }
 
         .stat-label {
-            font-size: 8px;
+            font-size: 7px;
             color: var(--dim);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             margin-top: 4px;
         }
 
-        /* Alignment indicator */
-        .alignment-bar {
-            height: 4px;
-            background: var(--gray);
-            margin: 12px 0;
-            position: relative;
-        }
-
-        .alignment-fill {
-            height: 100%;
-            background: var(--black);
-            transition: width 0.3s;
-        }
-
-        .alignment-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 9px;
-            color: var(--dim);
-        }
-
-        /* Cell detail */
-        .cell-detail {
-            background: #f5f5f5;
-            padding: 12px;
+        /* Alignment bar */
+        .align-bar-container {
             margin-top: 8px;
         }
 
-        .cell-coord {
-            font-size: 14px;
+        .align-bar {
+            height: 6px;
+            background: var(--gray);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .align-segment {
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .align-segment.aligned { background: var(--black); }
+        .align-segment.hidden { background: var(--red); }
+        .align-segment.dead { background: var(--dim); }
+
+        .align-legend {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            font-size: 7px;
+            color: var(--dim);
+        }
+
+        /* Time control */
+        .time-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time-label {
+            min-width: 32px;
             font-weight: 500;
+        }
+
+        .time-track {
+            flex: 1;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .time-dot {
+            flex: 1;
+            height: 4px;
+            background: var(--gray);
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+
+        .time-dot:hover { background: var(--dim); }
+        .time-dot.active { background: var(--black); height: 8px; }
+
+        .time-dot::after {
+            content: attr(data-label);
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 7px;
+            color: var(--dim);
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .time-dot:hover::after,
+        .time-dot.active::after { opacity: 1; }
+
+        /* Cell detail */
+        .cell-detail {
+            background: var(--light);
+            padding: 10px;
+        }
+
+        .cell-empty {
+            color: var(--dim);
+            font-style: italic;
+        }
+
+        .cell-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
         }
 
+        .cell-coord {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
         .cell-status {
-            display: inline-block;
-            padding: 4px 8px;
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            padding: 3px 6px;
         }
 
         .cell-status.aligned { background: var(--black); color: var(--white); }
@@ -270,72 +397,78 @@
         .cell-status.dead { background: var(--dim); color: var(--white); }
         .cell-status.none { background: var(--gray); color: var(--dim); }
 
-        .presence-grid {
+        .cell-presence {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 2px;
-            margin-top: 12px;
+            margin-top: 8px;
         }
 
-        .presence-cell {
+        .presence {
             aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 8px;
+            font-weight: 500;
             border: 1px solid var(--gray);
             background: var(--white);
         }
 
-        .presence-cell.present {
+        .presence.yes {
             background: var(--black);
             color: var(--white);
             border-color: var(--black);
         }
 
-        /* Comparison view */
-        .compare-view {
+        /* Alignment View */
+        .align-view {
             display: none;
-            width: 100%;
-            height: 100%;
-            padding: 32px;
-        }
-
-        .compare-view.active {
-            display: flex;
+            position: absolute;
+            inset: 0;
+            padding: 24px;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 24px;
+            gap: 16px;
         }
 
-        .compare-matrix {
+        .align-view.active { display: flex; }
+
+        .align-equation {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .align-matrix {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .compare-label {
-            font-size: 12px;
+        .align-label {
+            font-size: 11px;
             font-weight: 500;
         }
 
-        .compare-sub {
-            font-size: 9px;
+        .align-sub {
+            font-size: 8px;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .align-op {
+            font-size: 24px;
             color: var(--dim);
         }
 
-        .compare-op {
-            font-size: 32px;
-            color: var(--dim);
-            padding: 0 16px;
-        }
-
-        .legend {
+        .align-legend-row {
             display: flex;
             gap: 16px;
-            margin-top: 24px;
-            justify-content: center;
+            margin-top: 8px;
         }
 
         .legend-item {
@@ -350,40 +483,33 @@
             height: 12px;
         }
 
-        .legend-box.aligned { background: var(--black); }
-        .legend-box.hidden { background: var(--red); }
-        .legend-box.dead { background: var(--dim); }
+        .legend-box.a { background: var(--black); }
+        .legend-box.h { background: var(--red); }
+        .legend-box.d { background: var(--dim); }
 
-        /* Slider */
-        .slider-container {
+        /* Keyboard hints */
+        .kbd {
+            display: inline-block;
+            padding: 2px 5px;
+            font-size: 8px;
+            background: var(--light);
+            border: 1px solid var(--gray);
+            border-radius: 2px;
+        }
+
+        /* Instructions */
+        .instructions {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .slider-label {
-            min-width: 40px;
-        }
-
-        input[type="range"] {
-            flex: 1;
-            -webkit-appearance: none;
-            height: 2px;
-            background: var(--gray);
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
-            background: var(--black);
-            cursor: pointer;
-        }
-
-        /* View toggle */
-        .view-toggle {
-            display: flex;
-            gap: 2px;
+            gap: 16px;
+            font-size: 9px;
+            color: var(--dim);
+            background: rgba(255,255,255,0.9);
+            padding: 6px 12px;
+            border: 1px solid var(--gray);
         }
     </style>
 </head>
@@ -391,153 +517,167 @@
     <div class="app">
         <header>
             <div>
-                <div class="title">T[i, j, t, r]</div>
-                <div class="subtitle">4D Relationship Tensor</div>
+                <div class="title">Relationship Tensor</div>
             </div>
-            <div class="view-toggle">
-                <button class="btn active" data-view="tensor">Tensor</button>
-                <button class="btn" data-view="align">Alignment</button>
+            <div class="formula">
+                T[<span class="hl" id="fI">i</span>, <span class="hl" id="fJ">j</span>, <span class="hl" id="fT">t</span>, <span class="hl" id="fR">r</span>] → weight
+            </div>
+            <div class="tabs">
+                <button class="tab active" data-view="tensor">3D Tensor</button>
+                <button class="tab" data-view="align">Alignment</button>
             </div>
         </header>
 
         <main>
-            <div class="canvas">
-                <!-- Tensor View -->
-                <div class="tensor-wrapper" id="tensorView">
-                    <div class="tensor" id="tensor"></div>
+            <div class="canvas" id="canvas">
+                <div class="tensor-container" id="tensorView">
+                    <div class="tensor-scene" id="scene"></div>
                 </div>
 
-                <!-- Alignment View -->
-                <div class="compare-view" id="alignView">
-                    <div class="compare-matrix">
-                        <div class="compare-label">G<sub>import</sub></div>
-                        <div class="compare-sub">Structure</div>
-                        <div class="grid" id="gridImport"></div>
-                    </div>
-                    <div class="compare-op">⟷</div>
-                    <div class="compare-matrix">
-                        <div class="compare-label">G<sub>cochange</sub></div>
-                        <div class="compare-sub">Behavior</div>
-                        <div class="grid" id="gridCochange"></div>
-                    </div>
-                    <div class="compare-op">=</div>
-                    <div class="compare-matrix">
-                        <div class="compare-label">Alignment</div>
-                        <div class="compare-sub">Health</div>
-                        <div class="grid" id="gridAlign"></div>
-                        <div class="legend">
-                            <div class="legend-item"><div class="legend-box aligned"></div> Aligned</div>
-                            <div class="legend-item"><div class="legend-box hidden"></div> Hidden</div>
-                            <div class="legend-item"><div class="legend-box dead"></div> Dead</div>
+                <div class="align-view" id="alignView">
+                    <div class="align-equation">
+                        <div class="align-matrix">
+                            <div class="align-label">G<sub>import</sub></div>
+                            <div class="align-sub">Structure</div>
+                            <div class="matrix" id="mImport"></div>
+                        </div>
+                        <div class="align-op">∩</div>
+                        <div class="align-matrix">
+                            <div class="align-label">G<sub>cochange</sub></div>
+                            <div class="align-sub">Behavior</div>
+                            <div class="matrix" id="mCochange"></div>
+                        </div>
+                        <div class="align-op">=</div>
+                        <div class="align-matrix">
+                            <div class="align-label">Alignment</div>
+                            <div class="align-sub">Health Map</div>
+                            <div class="matrix" id="mAlign"></div>
                         </div>
                     </div>
+                    <div class="align-legend-row">
+                        <div class="legend-item"><div class="legend-box a"></div> Aligned (import ∧ cochange)</div>
+                        <div class="legend-item"><div class="legend-box h"></div> Hidden (¬import ∧ cochange)</div>
+                        <div class="legend-item"><div class="legend-box d"></div> Dead (import ∧ ¬cochange)</div>
+                    </div>
+                </div>
+
+                <div class="instructions" id="instructions">
+                    <span>Drag to rotate</span>
+                    <span>Click cell to inspect</span>
+                    <span><span class="kbd">1-6</span> Switch layer</span>
                 </div>
             </div>
 
             <aside>
                 <div class="panel">
                     <div class="panel-title">Alignment Health</div>
-                    <div class="stat-grid">
+                    <div class="stats">
                         <div class="stat">
-                            <div class="stat-value" id="alignedCount">-</div>
+                            <div class="stat-value" id="sAligned">-</div>
                             <div class="stat-label">Aligned</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-value bad" id="hiddenCount">-</div>
+                            <div class="stat-value bad" id="sHidden">-</div>
                             <div class="stat-label">Hidden</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-value" id="deadCount">-</div>
+                            <div class="stat-value" id="sDead">-</div>
                             <div class="stat-label">Dead</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-value good" id="alignRatio">-</div>
-                            <div class="stat-label">Ratio</div>
+                            <div class="stat-value good" id="sRatio">-</div>
+                            <div class="stat-label">Health</div>
                         </div>
                     </div>
-                    <div class="alignment-bar">
-                        <div class="alignment-fill" id="alignBar" style="width: 0%"></div>
-                    </div>
-                    <div class="alignment-label">
-                        <span>0%</span>
-                        <span>I(structure; behavior)</span>
-                        <span>100%</span>
+                    <div class="align-bar-container">
+                        <div class="align-bar">
+                            <div class="align-segment aligned" id="barAligned"></div>
+                            <div class="align-segment hidden" id="barHidden"></div>
+                            <div class="align-segment dead" id="barDead"></div>
+                        </div>
+                        <div class="align-legend">
+                            <span>■ aligned</span>
+                            <span>■ hidden</span>
+                            <span>■ dead</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="panel">
-                    <div class="panel-title">Relationship Layer</div>
-                    <div class="control-row" id="relButtons"></div>
-                    <div class="control-row" id="relButtons2"></div>
+                    <div class="panel-title">Layers (R)</div>
+                    <div class="layers-mini" id="layersMini"></div>
                 </div>
 
                 <div class="panel">
-                    <div class="panel-title">Time</div>
-                    <div class="slider-container">
-                        <span class="slider-label" id="timeLabel">now</span>
-                        <input type="range" id="timeSlider" min="0" max="4" value="4">
+                    <div class="panel-title">Time (K)</div>
+                    <div class="time-row">
+                        <span class="time-label" id="timeLabel">now</span>
+                        <div class="time-track" id="timeTrack"></div>
                     </div>
                 </div>
 
                 <div class="panel">
                     <div class="panel-title">Selected Cell</div>
                     <div class="cell-detail" id="cellDetail">
-                        <div style="color: var(--dim)">Click a cell</div>
+                        <div class="cell-empty">Click a cell to inspect</div>
                     </div>
                 </div>
 
                 <div class="panel">
-                    <div class="panel-title">Dimensions</div>
-                    <div style="line-height: 1.8">
-                        N = <strong id="nValue">10</strong> files<br>
+                    <div class="panel-title">Tensor Shape</div>
+                    <div style="line-height: 1.8; font-size: 10px;">
+                        N = <strong id="dimN">10</strong> nodes (files)<br>
                         K = <strong>5</strong> time points<br>
-                        R = <strong>6</strong> relationships<br>
-                        <span style="color: var(--dim)">Total: N×N×K×R entries</span>
+                        R = <strong>6</strong> relationship types<br>
+                        <span style="color: var(--dim)">Size: N² × K × R = <span id="dimTotal">-</span></span>
                     </div>
                 </div>
             </aside>
         </main>
 
         <footer>
-            <span>T[i,j,t,r] = edge weight from file i to file j at time t for relationship r</span>
-            <span id="footerStats"></span>
+            <span>T ∈ ℝ<sup>N×N×K×R</sup> — Multi-relational temporal adjacency tensor</span>
+            <span id="footerInfo"></span>
         </footer>
     </div>
 
     <script>
-        // Config
+        // === CONFIG ===
         const N = 10;
         const K = 5;
-        const CELL = 28;
-        const DEPTH = 40;
+        const CELL = 24;
+        const DEPTH = 36;
 
         const RELS = [
-            { id: 'IMP', name: 'Import', short: 'I' },
-            { id: 'COC', name: 'Cochange', short: 'C' },
-            { id: 'AUT', name: 'Author', short: 'A' },
-            { id: 'SEM', name: 'Semantic', short: 'S' },
-            { id: 'CLO', name: 'Clone', short: 'X' },
-            { id: 'CMB', name: 'Combined', short: '∑' },
+            { id: 'IMP', name: 'Import', color: '#0a0a0a' },
+            { id: 'COC', name: 'Cochange', color: '#2563eb' },
+            { id: 'AUT', name: 'Author', color: '#7c3aed' },
+            { id: 'SEM', name: 'Semantic', color: '#059669' },
+            { id: 'CLO', name: 'Clone', color: '#dc2626' },
+            { id: 'CMB', name: 'Combined', color: '#525252' },
         ];
 
-        const TIME = ['t-4', 't-3', 't-2', 't-1', 'now'];
+        const TIMES = ['t-4', 't-3', 't-2', 't-1', 'now'];
 
-        // Generate tensor data with meaningful patterns
+        // === DATA ===
         function generateTensor() {
             const T = [];
             for (let r = 0; r < 6; r++) {
                 T[r] = [];
-                for (let t = 0; t < K; t++) {
-                    T[r][t] = new Set();
-                    const base = r * 1000 + t * 100;
-                    const density = 0.12 + r * 0.03 + t * 0.015;
+                for (let k = 0; k < K; k++) {
+                    T[r][k] = new Set();
+                    const seed = r * 1000 + k * 100;
+                    // Make import/cochange have some overlap for meaningful alignment
+                    const density = r < 2 ? 0.18 : 0.12 + r * 0.02;
 
                     for (let i = 0; i < N; i++) {
                         for (let j = 0; j < N; j++) {
                             if (i === j) continue;
-                            const h = (base + i * 17 + j * 31) % 100;
+                            let h = (seed + i * 17 + j * 31) % 100;
+                            // For cochange, bias toward import edges
+                            if (r === 1 && T[0][k].has(`${i},${j}`)) h -= 20;
                             if (h < density * 100) {
-                                T[r][t].add(`${i},${j}`);
+                                T[r][k].add(`${i},${j}`);
                             }
                         }
                     }
@@ -548,59 +688,48 @@
 
         const TENSOR = generateTensor();
 
-        // State
-        let activeRel = 0;
-        let activeTime = 4;
+        // === STATE ===
+        let activeR = 0;
+        let activeK = 4;
         let selectedCell = null;
-        let currentView = 'tensor';
+        let view = 'tensor';
+        let rotX = 60;
+        let rotZ = -45;
+        let dragging = false;
+        let lastMouse = { x: 0, y: 0 };
 
-        // DOM
-        const tensor = document.getElementById('tensor');
-        const tensorView = document.getElementById('tensorView');
-        const alignView = document.getElementById('alignView');
+        // === DOM ===
+        const scene = document.getElementById('scene');
+        const canvas = document.getElementById('canvas');
 
-        // Build relationship buttons
-        function buildRelButtons() {
-            const row1 = document.getElementById('relButtons');
-            const row2 = document.getElementById('relButtons2');
-
-            row1.innerHTML = RELS.slice(0, 3).map((r, i) =>
-                `<button class="btn ${i === activeRel ? 'active' : ''}" data-rel="${i}">${r.short}</button>`
-            ).join('');
-
-            row2.innerHTML = RELS.slice(3).map((r, i) =>
-                `<button class="btn ${i + 3 === activeRel ? 'active' : ''}" data-rel="${i + 3}">${r.short}</button>`
-            ).join('');
-
-            document.querySelectorAll('[data-rel]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    activeRel = parseInt(btn.dataset.rel);
-                    buildRelButtons();
-                    buildTensor();
-                    updateStats();
-                });
-            });
-        }
-
-        // Build 3D tensor
+        // === TENSOR 3D VIEW ===
         function buildTensor() {
-            tensor.innerHTML = '';
-            tensor.style.width = `${N * CELL}px`;
-            tensor.style.height = `${N * CELL}px`;
+            scene.innerHTML = '';
+            scene.style.width = `${N * CELL}px`;
+            scene.style.height = `${N * CELL}px`;
+            updateSceneTransform();
 
             RELS.forEach((rel, r) => {
                 const layer = document.createElement('div');
-                layer.className = `layer ${r === activeRel ? 'active' : 'dimmed'}`;
-                layer.style.transform = `translateZ(${(5 - r) * DEPTH}px)`;
-                layer.dataset.rel = r;
+                layer.className = 'layer';
+                layer.dataset.r = r;
 
-                const grid = document.createElement('div');
-                grid.className = 'grid';
-                grid.style.width = `${N * CELL}px`;
-                grid.style.height = `${N * CELL}px`;
-                grid.style.gridTemplateColumns = `repeat(${N}, 1fr)`;
+                const z = (5 - r) * DEPTH;
+                layer.style.transform = `translateZ(${z}px)`;
 
-                const edges = TENSOR[r][activeTime];
+                if (r === activeR) layer.classList.add('active');
+                else if (Math.abs(r - activeR) === 1) layer.classList.add('semi');
+                else layer.classList.add('dim');
+
+                const matrix = document.createElement('div');
+                matrix.className = 'matrix';
+                matrix.style.width = `${N * CELL}px`;
+                matrix.style.height = `${N * CELL}px`;
+                matrix.style.gridTemplateColumns = `repeat(${N}, 1fr)`;
+                matrix.dataset.label = rel.id;
+                matrix.dataset.edges = TENSOR[r][activeK].size;
+
+                const edges = TENSOR[r][activeK];
 
                 for (let i = 0; i < N; i++) {
                     for (let j = 0; j < N; j++) {
@@ -614,136 +743,223 @@
                             cell.classList.add('edge');
                         }
 
-                        cell.addEventListener('click', () => selectCell(i, j));
-                        cell.addEventListener('mouseenter', () => highlightCell(i, j));
+                        if (selectedCell && selectedCell.i === i && selectedCell.j === j) {
+                            cell.classList.add(r === activeR ? 'selected' : 'highlight');
+                        }
 
-                        grid.appendChild(cell);
+                        cell.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            selectCell(i, j);
+                        });
+
+                        cell.addEventListener('mouseenter', () => hoverCell(i, j, r));
+
+                        matrix.appendChild(cell);
                     }
                 }
 
-                // Layer label
-                const label = document.createElement('div');
-                label.className = 'layer-label';
-                label.style.top = '-24px';
-                label.style.left = '0';
-                label.textContent = rel.id;
+                // Axis labels
+                const axisI = document.createElement('div');
+                axisI.className = 'axis-i';
+                axisI.textContent = 'i';
+                matrix.appendChild(axisI);
 
-                layer.appendChild(grid);
-                layer.appendChild(label);
-                tensor.appendChild(layer);
+                const axisJ = document.createElement('div');
+                axisJ.className = 'axis-j';
+                axisJ.textContent = 'j';
+                matrix.appendChild(axisJ);
 
-                // Click layer to activate
-                layer.addEventListener('click', (e) => {
-                    if (e.target === layer || e.target === grid) {
-                        activeRel = r;
-                        buildRelButtons();
-                        buildTensor();
-                    }
+                layer.appendChild(matrix);
+                layer.addEventListener('click', () => {
+                    activeR = r;
+                    buildTensor();
+                    buildLayersMini();
                 });
-            });
 
-            if (selectedCell) {
-                highlightCell(selectedCell.i, selectedCell.j);
-            }
+                scene.appendChild(layer);
+            });
         }
 
-        // Build alignment view
-        function buildAlignView() {
-            const impEdges = TENSOR[0][activeTime];
-            const cocEdges = TENSOR[1][activeTime];
+        function updateSceneTransform() {
+            scene.style.transform = `rotateX(${rotX}deg) rotateZ(${rotZ}deg)`;
+        }
 
-            [
-                { el: document.getElementById('gridImport'), edges: impEdges, type: 'imp' },
-                { el: document.getElementById('gridCochange'), edges: cocEdges, type: 'coc' },
-            ].forEach(({ el, edges, type }) => {
+        // === DRAG TO ROTATE ===
+        canvas.addEventListener('mousedown', (e) => {
+            if (view !== 'tensor') return;
+            dragging = true;
+            lastMouse = { x: e.clientX, y: e.clientY };
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!dragging) return;
+            const dx = e.clientX - lastMouse.x;
+            const dy = e.clientY - lastMouse.y;
+            rotZ += dx * 0.5;
+            rotX -= dy * 0.3;
+            rotX = Math.max(20, Math.min(80, rotX));
+            lastMouse = { x: e.clientX, y: e.clientY };
+            updateSceneTransform();
+        });
+
+        document.addEventListener('mouseup', () => { dragging = false; });
+
+        // === ALIGNMENT VIEW ===
+        function buildAlignView() {
+            const impEdges = TENSOR[0][activeK];
+            const cocEdges = TENSOR[1][activeK];
+
+            const matrices = [
+                { el: document.getElementById('mImport'), edges: impEdges, mode: 'single' },
+                { el: document.getElementById('mCochange'), edges: cocEdges, mode: 'single' },
+                { el: document.getElementById('mAlign'), edges: null, mode: 'align' },
+            ];
+
+            matrices.forEach(({ el, edges, mode }) => {
                 el.innerHTML = '';
-                el.style.width = `${N * 20}px`;
-                el.style.height = `${N * 20}px`;
+                el.style.width = `${N * 18}px`;
+                el.style.height = `${N * 18}px`;
                 el.style.gridTemplateColumns = `repeat(${N}, 1fr)`;
 
                 for (let i = 0; i < N; i++) {
                     for (let j = 0; j < N; j++) {
                         const cell = document.createElement('div');
                         cell.className = 'cell';
-                        if (edges.has(`${i},${j}`)) cell.classList.add('edge');
+
+                        if (mode === 'single') {
+                            if (edges.has(`${i},${j}`)) cell.classList.add('edge');
+                        } else {
+                            const inImp = impEdges.has(`${i},${j}`);
+                            const inCoc = cocEdges.has(`${i},${j}`);
+                            if (inImp && inCoc) cell.classList.add('aligned');
+                            else if (!inImp && inCoc) cell.classList.add('hidden');
+                            else if (inImp && !inCoc) cell.classList.add('dead');
+                        }
+
                         cell.addEventListener('click', () => selectCell(i, j));
                         el.appendChild(cell);
                     }
                 }
             });
-
-            // Alignment matrix
-            const alignGrid = document.getElementById('gridAlign');
-            alignGrid.innerHTML = '';
-            alignGrid.style.width = `${N * 20}px`;
-            alignGrid.style.height = `${N * 20}px`;
-            alignGrid.style.gridTemplateColumns = `repeat(${N}, 1fr)`;
-
-            for (let i = 0; i < N; i++) {
-                for (let j = 0; j < N; j++) {
-                    const cell = document.createElement('div');
-                    cell.className = 'cell';
-
-                    const inImp = impEdges.has(`${i},${j}`);
-                    const inCoc = cocEdges.has(`${i},${j}`);
-
-                    if (inImp && inCoc) cell.classList.add('aligned');
-                    else if (!inImp && inCoc) cell.classList.add('hidden-coupling');
-                    else if (inImp && !inCoc) cell.classList.add('dead-code');
-
-                    cell.addEventListener('click', () => selectCell(i, j));
-                    alignGrid.appendChild(cell);
-                }
-            }
         }
 
-        // Select cell
+        // === MINI LAYERS ===
+        function buildLayersMini() {
+            const container = document.getElementById('layersMini');
+            container.innerHTML = '';
+
+            RELS.forEach((rel, r) => {
+                const mini = document.createElement('div');
+                mini.className = `layer-mini ${r === activeR ? 'active' : ''}`;
+                mini.dataset.r = r;
+
+                const cvs = document.createElement('canvas');
+                cvs.width = N;
+                cvs.height = N;
+                const ctx = cvs.getContext('2d');
+
+                const edges = TENSOR[r][activeK];
+                ctx.fillStyle = '#fafafa';
+                ctx.fillRect(0, 0, N, N);
+                ctx.fillStyle = rel.color;
+
+                for (let i = 0; i < N; i++) {
+                    for (let j = 0; j < N; j++) {
+                        if (edges.has(`${i},${j}`)) {
+                            ctx.fillRect(j, i, 1, 1);
+                        }
+                    }
+                }
+
+                const label = document.createElement('div');
+                label.className = 'layer-mini-label';
+                label.textContent = rel.id;
+
+                mini.appendChild(cvs);
+                mini.appendChild(label);
+                mini.addEventListener('click', () => {
+                    activeR = r;
+                    buildTensor();
+                    buildLayersMini();
+                });
+
+                container.appendChild(mini);
+            });
+        }
+
+        // === TIME TRACK ===
+        function buildTimeTrack() {
+            const track = document.getElementById('timeTrack');
+            track.innerHTML = '';
+
+            TIMES.forEach((label, k) => {
+                const dot = document.createElement('div');
+                dot.className = `time-dot ${k === activeK ? 'active' : ''}`;
+                dot.dataset.label = label;
+                dot.addEventListener('click', () => {
+                    activeK = k;
+                    document.getElementById('timeLabel').textContent = TIMES[activeK];
+                    buildTensor();
+                    buildLayersMini();
+                    if (view === 'align') buildAlignView();
+                    updateStats();
+                    if (selectedCell) updateCellDetail();
+                });
+                track.appendChild(dot);
+            });
+        }
+
+        // === CELL INTERACTIONS ===
         function selectCell(i, j) {
             selectedCell = { i, j };
-
-            document.querySelectorAll('.cell').forEach(c => c.classList.remove('selected'));
-            document.querySelectorAll(`.cell[data-i="${i}"][data-j="${j}"]`).forEach(c => {
-                c.classList.add('selected');
-            });
-
-            updateCellDetail(i, j);
+            buildTensor();
+            if (view === 'align') buildAlignView();
+            updateCellDetail();
         }
 
-        // Highlight cell across layers
-        function highlightCell(i, j) {
-            // Visual feedback on hover handled by CSS
+        function hoverCell(i, j, r) {
+            document.getElementById('fI').textContent = i;
+            document.getElementById('fJ').textContent = j;
+            document.getElementById('fT').textContent = TIMES[activeK];
+            document.getElementById('fR').textContent = RELS[r].id;
         }
 
-        // Update cell detail
-        function updateCellDetail(i, j) {
-            const impEdges = TENSOR[0][activeTime];
-            const cocEdges = TENSOR[1][activeTime];
+        function updateCellDetail() {
+            if (!selectedCell) return;
+            const { i, j } = selectedCell;
 
+            const impEdges = TENSOR[0][activeK];
+            const cocEdges = TENSOR[1][activeK];
             const inImp = impEdges.has(`${i},${j}`);
             const inCoc = cocEdges.has(`${i},${j}`);
 
             let status, statusClass;
             if (inImp && inCoc) { status = 'ALIGNED'; statusClass = 'aligned'; }
-            else if (!inImp && inCoc) { status = 'HIDDEN COUPLING'; statusClass = 'hidden'; }
-            else if (inImp && !inCoc) { status = 'DEAD CODE'; statusClass = 'dead'; }
-            else { status = 'NO EDGE'; statusClass = 'none'; }
+            else if (!inImp && inCoc) { status = 'HIDDEN'; statusClass = 'hidden'; }
+            else if (inImp && !inCoc) { status = 'DEAD'; statusClass = 'dead'; }
+            else { status = 'NONE'; statusClass = 'none'; }
 
-            let presenceHTML = RELS.map((rel, r) => {
-                const present = TENSOR[r][activeTime].has(`${i},${j}`);
-                return `<div class="presence-cell ${present ? 'present' : ''}">${rel.short}</div>`;
+            const presence = RELS.map((rel, r) => {
+                const has = TENSOR[r][activeK].has(`${i},${j}`);
+                return `<div class="presence ${has ? 'yes' : ''}">${rel.id.charAt(0)}</div>`;
             }).join('');
 
             document.getElementById('cellDetail').innerHTML = `
-                <div class="cell-coord">T[${i}, ${j}, ${TIME[activeTime]}, ·]</div>
-                <div class="cell-status ${statusClass}">${status}</div>
-                <div class="presence-grid">${presenceHTML}</div>
+                <div class="cell-header">
+                    <span class="cell-coord">[${i}, ${j}]</span>
+                    <span class="cell-status ${statusClass}">${status}</span>
+                </div>
+                <div style="font-size: 9px; color: var(--dim); margin-bottom: 6px;">
+                    file_${i}.py → file_${j}.py
+                </div>
+                <div class="cell-presence">${presence}</div>
             `;
         }
 
-        // Update stats
+        // === STATS ===
         function updateStats() {
-            const impEdges = TENSOR[0][activeTime];
-            const cocEdges = TENSOR[1][activeTime];
+            const impEdges = TENSOR[0][activeK];
+            const cocEdges = TENSOR[1][activeK];
 
             let aligned = 0, hidden = 0, dead = 0;
 
@@ -763,44 +979,70 @@
             const total = aligned + hidden + dead;
             const ratio = total > 0 ? Math.round(aligned / total * 100) : 0;
 
-            document.getElementById('alignedCount').textContent = aligned;
-            document.getElementById('hiddenCount').textContent = hidden;
-            document.getElementById('deadCount').textContent = dead;
-            document.getElementById('alignRatio').textContent = ratio + '%';
-            document.getElementById('alignBar').style.width = ratio + '%';
+            document.getElementById('sAligned').textContent = aligned;
+            document.getElementById('sHidden').textContent = hidden;
+            document.getElementById('sDead').textContent = dead;
+            document.getElementById('sRatio').textContent = ratio + '%';
 
-            document.getElementById('nValue').textContent = N;
-            document.getElementById('footerStats').textContent =
-                `${N*N*K*6} tensor entries | ${aligned + hidden + dead} active edges at t=${TIME[activeTime]}`;
+            const pA = total > 0 ? (aligned / total * 100) : 0;
+            const pH = total > 0 ? (hidden / total * 100) : 0;
+            const pD = total > 0 ? (dead / total * 100) : 0;
+
+            document.getElementById('barAligned').style.width = pA + '%';
+            document.getElementById('barHidden').style.width = pH + '%';
+            document.getElementById('barDead').style.width = pD + '%';
+
+            document.getElementById('dimN').textContent = N;
+            document.getElementById('dimTotal').textContent = (N * N * K * 6).toLocaleString();
+            document.getElementById('footerInfo').textContent = `Layer: ${RELS[activeR].name} | Time: ${TIMES[activeK]} | Active edges: ${TENSOR[activeR][activeK].size}`;
         }
 
-        // Time slider
-        document.getElementById('timeSlider').addEventListener('input', (e) => {
-            activeTime = parseInt(e.target.value);
-            document.getElementById('timeLabel').textContent = TIME[activeTime];
-            buildTensor();
-            if (currentView === 'align') buildAlignView();
-            updateStats();
-            if (selectedCell) updateCellDetail(selectedCell.i, selectedCell.j);
-        });
+        // === VIEW SWITCHING ===
+        document.querySelectorAll('[data-view]').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('[data-view]').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                view = tab.dataset.view;
 
-        // View toggle
-        document.querySelectorAll('[data-view]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentView = btn.dataset.view;
+                document.getElementById('tensorView').style.display = view === 'tensor' ? 'flex' : 'none';
+                document.getElementById('alignView').classList.toggle('active', view === 'align');
+                document.getElementById('instructions').style.display = view === 'tensor' ? 'flex' : 'none';
 
-                tensorView.style.display = currentView === 'tensor' ? 'block' : 'none';
-                alignView.classList.toggle('active', currentView === 'align');
-
-                if (currentView === 'align') buildAlignView();
+                if (view === 'align') buildAlignView();
             });
         });
 
-        // Init
-        buildRelButtons();
+        // === KEYBOARD ===
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '1' && e.key <= '6') {
+                activeR = parseInt(e.key) - 1;
+                buildTensor();
+                buildLayersMini();
+            }
+            if (e.key === 'ArrowLeft' && activeK > 0) {
+                activeK--;
+                document.getElementById('timeLabel').textContent = TIMES[activeK];
+                buildTimeTrack();
+                buildTensor();
+                buildLayersMini();
+                if (view === 'align') buildAlignView();
+                updateStats();
+            }
+            if (e.key === 'ArrowRight' && activeK < K - 1) {
+                activeK++;
+                document.getElementById('timeLabel').textContent = TIMES[activeK];
+                buildTimeTrack();
+                buildTensor();
+                buildLayersMini();
+                if (view === 'align') buildAlignView();
+                updateStats();
+            }
+        });
+
+        // === INIT ===
         buildTensor();
+        buildLayersMini();
+        buildTimeTrack();
         updateStats();
     </script>
 </body>

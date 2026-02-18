@@ -469,6 +469,12 @@ class RuntimeContext:
         """Shutdown the runtime context."""
         self.metrics.completed_at = datetime.now(timezone.utc)
 
+        # Update global memory peak from phase peaks
+        for phase_metrics in self.metrics.phases.values():
+            self.metrics.memory_peak_mb = max(
+                self.metrics.memory_peak_mb, phase_metrics.memory_peak_mb
+            )
+
         # Record final state
         if error is not None:
             if isinstance(error, CancellationError):
@@ -476,6 +482,9 @@ class RuntimeContext:
             else:
                 self.current_phase = Phase.FAILED
                 self.record_error(error)
+        elif self._shutdown_requested:
+            # Shutdown was requested - mark as cancelled
+            self.current_phase = Phase.CANCELLED
         elif self.current_phase not in (Phase.COMPLETE, Phase.FAILED, Phase.CANCELLED):
             # Didn't reach terminal state - mark as complete if no errors
             if not self.errors:

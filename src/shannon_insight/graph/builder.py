@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import Optional
 
-from ..persistence.fact_models import FileFact, FunctionFact, ImportFact
+from ..persistence.fact_models import FileFact, ImportFact
 from ..scanning.syntax import FileSyntax
 from .models import CodeGraph, DependencyGraph
 
@@ -890,7 +890,62 @@ def build_code_graph_from_facts(
                 graph.import_edges.setdefault(imp.file_path, []).append(imp.resolved_path)
                 graph.imported_by.setdefault(imp.resolved_path, []).append(imp.file_path)
 
+    # Build TYPE nodes and TYPE_FLOW edges
+    for file_fact in file_facts:
+        for fn in file_fact.functions:
+            func_node = f"{file_fact.path}:{fn.qualified_name}"
+
+            # Return type edge (FUNCTION -> TYPE)
+            if fn.return_type:
+                type_str = _normalize_type(fn.return_type)
+                graph.type_nodes.add(type_str)
+                graph.returns_edges[func_node] = type_str
+                graph.used_by.setdefault(type_str, []).append(func_node)
+
+            # Parameter type edges (FUNCTION -> {param: TYPE})
+            if fn.param_types:
+                param_types: dict[str, str] = {}
+                for param, ptype in fn.param_types.items():
+                    type_str = _normalize_type(ptype)
+                    graph.type_nodes.add(type_str)
+                    param_types[param] = type_str
+                    graph.used_by.setdefault(type_str, []).append(func_node)
+                if param_types:
+                    graph.param_type_edges[func_node] = param_types
+
+        # Field type edges (CLASS -> {field: TYPE})
+        for cls in file_fact.classes:
+            class_node = f"{file_fact.path}:{cls.name}"
+            if cls.field_types:
+                field_types: dict[str, str] = {}
+                for field_name, ftype in cls.field_types.items():
+                    type_str = _normalize_type(ftype)
+                    graph.type_nodes.add(type_str)
+                    field_types[field_name] = type_str
+                    graph.used_by.setdefault(type_str, []).append(class_node)
+                if field_types:
+                    graph.field_type_edges[class_node] = field_types
+
     return graph
+
+
+def _normalize_type(type_str: str) -> str:
+    """Normalize a type annotation string.
+
+    Removes whitespace, normalizes Optional[X] to X | None, etc.
+    """
+    # Strip whitespace
+    type_str = type_str.strip()
+
+    # Remove 'typing.' prefix
+    type_str = type_str.replace("typing.", "")
+
+    # Normalize common patterns
+    if type_str.startswith("Optional[") and type_str.endswith("]"):
+        inner = type_str[9:-1]
+        type_str = f"{inner} | None"
+
+    return type_str
 
 
 def _build_function_index(file_facts: list[FileFact]) -> dict[str, str]:

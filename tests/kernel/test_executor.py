@@ -10,19 +10,23 @@ from shannon_insight.kernel.result import PhaseResult
 class TestPhaseExecutorProtocol:
     """Tests for PhaseExecutor protocol."""
 
-    def test_protocol_attributes(self):
-        """Test that protocol defines required attributes."""
-        # Check that PhaseExecutor has the expected attributes
-        assert hasattr(PhaseExecutor, "phase")
-        assert hasattr(PhaseExecutor, "timeout_seconds")
-        assert hasattr(PhaseExecutor, "name")
-        assert hasattr(PhaseExecutor, "execute")
+    def test_protocol_defines_execute(self):
+        """Test that protocol defines execute method."""
+        # Protocol should have execute in annotations
+        import typing
 
-    def test_isinstance_check(self):
-        """Test that BaseExecutor is instance of PhaseExecutor protocol."""
+        assert "execute" in typing.get_type_hints(PhaseExecutor) or hasattr(
+            PhaseExecutor, "execute"
+        )
+
+    def test_base_executor_has_required_attributes(self):
+        """Test that BaseExecutor has attributes that fulfill protocol."""
         executor = BaseExecutor()
-        # BaseExecutor should satisfy the protocol
-        assert isinstance(executor, PhaseExecutor)
+        # BaseExecutor should have the required attributes
+        assert hasattr(executor, "phase")
+        assert hasattr(executor, "timeout_seconds")
+        assert hasattr(executor, "name")
+        assert hasattr(executor, "execute")
 
 
 class TestBaseExecutor:

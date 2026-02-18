@@ -2,15 +2,22 @@
 
 FileSyntax provides structured AST data for each file:
     - Per-function: body_tokens, nesting_depth, call_targets, decorators
-    - Per-class: bases, methods, fields, is_abstract
-    - Per-import: source, names, resolved_path
+    - Per-class: bases, methods, fields, is_abstract, start_line, end_line
+    - Per-import: source, names, resolved_path, is_relative, is_stdlib
 
 Both tree-sitter and regex fallback produce FileSyntax.
 Consumers check `fn.call_targets is not None` to detect tree-sitter parsing.
+
+Phase 1 Enhancement (2026-02-18):
+    - Added content_hash, absolute_path to FileSyntax
+    - Added start_line, end_line to ClassDef
+    - Added is_relative, is_stdlib to ImportDecl
+    - Added qualified_name property to FunctionDef
 """
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass, field
 
 

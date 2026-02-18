@@ -948,22 +948,36 @@ def _normalize_type(type_str: str) -> str:
     return type_str
 
 
-def _build_function_index(file_facts: list[FileFact]) -> dict[str, str]:
-    """Build index from function names to node IDs.
+def _build_function_index(
+    file_facts: list[FileFact],
+) -> tuple[dict[str, str], set[str], dict[str, list[str]]]:
+    """Build indexes for fast function resolution.
 
-    Maps:
+    Returns:
+        function_index: name → node_id (only unique mappings)
+        function_nodes: set of ALL node_ids (for O(1) membership check)
+        file_to_functions: file → [node_ids] (for fast same-file lookup)
+
+    Maps in function_index:
     - "func_name" -> "file:func_name" (if unique)
     - "ClassName.method" -> "file:ClassName.method" (if unique)
     - "file:qualified_name" -> "file:qualified_name" (always)
-
-    For non-unique names, multiple files define the same function,
-    so we don't create a short mapping.
     """
-    # First pass: collect all occurrences
+    # O(1) membership check for node IDs
+    function_nodes: set[str] = set()
+    # Fast lookup of functions by file
+    file_to_functions: dict[str, list[str]] = {}
+
+    # First pass: collect all occurrences and build fast indexes
     occurrences: dict[str, list[str]] = {}
     for file_fact in file_facts:
+        file_funcs: list[str] = []
         for fn in file_fact.functions:
             node_id = f"{file_fact.path}:{fn.qualified_name}"
+
+            # Add to O(1) lookup structures
+            function_nodes.add(node_id)
+            file_funcs.append(node_id)
 
             # Full path always maps
             occurrences.setdefault(node_id, []).append(node_id)
@@ -975,6 +989,8 @@ def _build_function_index(file_facts: list[FileFact]) -> dict[str, str]:
             if fn.class_name:
                 occurrences.setdefault(fn.name, []).append(node_id)
 
+        file_to_functions[file_fact.path] = file_funcs
+
     # Second pass: create index (only unique mappings)
     index: dict[str, str] = {}
     for key, nodes in occurrences.items():
@@ -982,7 +998,7 @@ def _build_function_index(file_facts: list[FileFact]) -> dict[str, str]:
             index[key] = nodes[0]
         # If multiple, don't add to index (ambiguous)
 
-    return index
+    return index, function_nodes, file_to_functions
 
 
 def _build_class_index(file_facts: list[FileFact]) -> dict[str, str]:

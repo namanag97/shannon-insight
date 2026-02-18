@@ -448,9 +448,13 @@ class InsightKernel:
         # Store facts for each file
         file_count = 0
         syntax_map = store.file_syntax.value
-        for path, syntax in syntax_map.items():
+        for _path, syntax in syntax_map.items():
             # Determine parser type
-            parser_type = "tree-sitter" if syntax.functions and syntax.functions[0].call_targets is not None else "regex"
+            parser_type = (
+                "tree-sitter"
+                if syntax.functions and syntax.functions[0].call_targets is not None
+                else "regex"
+            )
 
             fact = FileFact.from_file_syntax(
                 syntax,

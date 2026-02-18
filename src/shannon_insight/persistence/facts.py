@@ -331,6 +331,73 @@ class FactDatabase:
 
             return file_fact_id
 
+    def store_file_facts_batch(self, facts: list[FileFact]) -> list[int]:
+        """Store multiple file facts in a single transaction.
+
+        Much faster than calling store_file_fact() in a loop.
+
+        Args:
+            facts: List of FileFacts to store
+
+        Returns:
+            List of database IDs for the stored file facts
+        """
+        if not facts:
+            return []
+
+        ids = []
+        with self._connect() as conn:
+            for fact in facts:
+                # Insert file fact
+                cursor = conn.execute(
+                    """
+                    INSERT INTO file_facts
+                    (session_id, path, absolute_path, content_hash, language,
+                     lines, tokens, complexity, has_main_guard, mtime,
+                     function_count, class_count, import_count, max_nesting,
+                     stub_ratio, impl_gini, parsed_at, parser_type, tool_version)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        fact.session_id,
+                        fact.path,
+                        fact.absolute_path,
+                        fact.content_hash,
+                        fact.language,
+                        fact.lines,
+                        fact.tokens,
+                        fact.complexity,
+                        1 if fact.has_main_guard else 0,
+                        fact.mtime,
+                        fact.function_count,
+                        fact.class_count,
+                        fact.import_count,
+                        fact.max_nesting,
+                        fact.stub_ratio,
+                        fact.impl_gini,
+                        fact.parsed_at.isoformat(),
+                        fact.parser_type,
+                        fact.tool_version,
+                    ),
+                )
+                file_fact_id = cursor.lastrowid
+                assert file_fact_id is not None
+                ids.append(file_fact_id)
+
+                # Insert function facts
+                for fn in fact.functions:
+                    self._store_function_fact(conn, file_fact_id, fn)
+
+                # Insert class facts
+                for cls in fact.classes:
+                    self._store_class_fact(conn, file_fact_id, cls)
+
+                # Insert import facts
+                for imp in fact.imports:
+                    self._store_import_fact(conn, file_fact_id, imp)
+
+        return ids
+
     def _store_function_fact(
         self, conn: sqlite3.Connection, file_fact_id: int, fn: FunctionFact
     ) -> None:

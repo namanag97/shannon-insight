@@ -235,55 +235,56 @@ def run_qa_on_codebase(codebase_path: Path, output_dir: Path) -> QAResult:
                 else:
                     result.imports_phantom += 1
 
-        # Store facts
+        # Build FileFacts and store in batch
         t0 = time.time()
-        for fs in file_syntaxes.values():
-            ff = FileFact.from_file_syntax(fs, session_id, "0.1.0", "tree-sitter")
-            fact_db.store_file_fact(ff)
+        facts = [FileFact.from_file_syntax(fs, session_id, "0.1.0", "tree-sitter")
+                 for fs in file_syntaxes.values()]
+        fact_db.store_file_facts_batch(facts)
         result.store_time = time.time() - t0
 
-        # Get stats from DB
-        conn = sqlite3.connect(str(db_path))
-        conn.row_factory = sqlite3.Row
+        # Get stats directly from facts (skip DB queries)
+        result.functions = sum(len(f.functions) for f in facts)
+        result.classes = sum(len(f.classes) for f in facts)
+        result.imports = sum(len(f.imports) for f in facts)
 
-        cursor = conn.execute("SELECT COUNT(*) FROM function_facts")
-        result.functions = cursor.fetchone()[0]
-
-        cursor = conn.execute("SELECT COUNT(*) FROM class_facts")
-        result.classes = cursor.fetchone()[0]
-
-        cursor = conn.execute("SELECT COUNT(*) FROM import_facts")
-        result.imports = cursor.fetchone()[0]
-
-        # Type coverage
+        # Type coverage from facts
         if result.functions > 0:
-            cursor = conn.execute(
-                "SELECT COUNT(*) FROM function_facts WHERE return_type IS NOT NULL AND return_type != ''"
-            )
-            result.return_type_coverage = cursor.fetchone()[0] / result.functions * 100
-
-            cursor = conn.execute(
-                "SELECT COUNT(*) FROM function_facts WHERE param_types != '{}' AND param_types IS NOT NULL"
-            )
-            result.param_type_coverage = cursor.fetchone()[0] / result.functions * 100
+            funcs_with_return = sum(1 for f in facts for fn in f.functions if fn.return_type)
+            funcs_with_params = sum(1 for f in facts for fn in f.functions if fn.param_types)
+            result.return_type_coverage = funcs_with_return / result.functions * 100
+            result.param_type_coverage = funcs_with_params / result.functions * 100
 
         if result.classes > 0:
-            cursor = conn.execute(
-                "SELECT COUNT(*) FROM class_facts WHERE field_types != '{}' AND field_types IS NOT NULL"
-            )
-            result.field_type_coverage = cursor.fetchone()[0] / result.classes * 100
+            classes_with_fields = sum(1 for f in facts for c in f.classes if c.field_types)
+            result.field_type_coverage = classes_with_fields / result.classes * 100
 
         # ═══════════════════════════════════════════════════════════════
-        # PHASE 2: Graph Building
+        # PHASE 2: Graph Building (direct from facts, skip DB load)
         # ═══════════════════════════════════════════════════════════════
 
-        file_facts = fact_db.get_file_facts_for_session(session_id)
-        call_targets = fact_db.get_call_targets_for_session(session_id)
-        class_bases = fact_db.get_class_bases_for_session(session_id)
-        imports = fact_db.get_imports_for_session(session_id)
+        # Build indexes directly from facts
+        call_targets = {}
+        for f in facts:
+            for fn in f.functions:
+                call_targets[fn.qualified_name] = fn.call_targets or []
+
+        class_bases = {}
+        for f in facts:
+            for c in f.classes:
+                class_bases[f"{f.path}:{c.name}"] = c.bases
+
+        import_facts = []
+        from shannon_insight.persistence.fact_models import ImportFact as IFact
+        for f in facts:
+            for imp in f.imports:
+                import_facts.append(IFact(
+                    file_path=f.path, source=imp.source, names=imp.names,
+                    resolved_path=imp.resolved_path, is_relative=imp.is_relative,
+                    is_phantom=imp.is_phantom, is_stdlib=imp.is_stdlib
+                ))
 
         t0 = time.time()
-        graph = build_code_graph_from_facts(file_facts, call_targets, class_bases, imports)
+        graph = build_code_graph_from_facts(facts, call_targets, class_bases, import_facts)
         result.build_time = time.time() - t0
 
         # Node counts

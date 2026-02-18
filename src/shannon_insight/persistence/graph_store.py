@@ -395,6 +395,27 @@ class GraphStore:
                         graph.function_nodes.add(tgt)
                     else:
                         graph.class_nodes.add(tgt)
+                elif edge_type == "RETURNS":
+                    graph.returns_edges[src] = tgt
+                    graph.function_nodes.add(src)
+                    graph.type_nodes.add(tgt)
+                    graph.used_by.setdefault(tgt, []).append(src)
+                elif edge_type == "PARAM_TYPE":
+                    metadata = row["metadata"]  # param name
+                    if src not in graph.param_type_edges:
+                        graph.param_type_edges[src] = {}
+                    graph.param_type_edges[src][metadata] = tgt
+                    graph.function_nodes.add(src)
+                    graph.type_nodes.add(tgt)
+                    graph.used_by.setdefault(tgt, []).append(src)
+                elif edge_type == "FIELD_TYPE":
+                    metadata = row["metadata"]  # field name
+                    if src not in graph.field_type_edges:
+                        graph.field_type_edges[src] = {}
+                    graph.field_type_edges[src][metadata] = tgt
+                    graph.class_nodes.add(src)
+                    graph.type_nodes.add(tgt)
+                    graph.used_by.setdefault(tgt, []).append(src)
         return graph
 
     def load_graph_analysis(self, session_id: str) -> GraphAnalysis:

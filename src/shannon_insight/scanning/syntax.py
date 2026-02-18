@@ -114,6 +114,7 @@ class ClassDef:
         is_abstract: True if ABC, Protocol, or has abstractmethod
         start_line: Starting line number (1-indexed)
         end_line: Ending line number (1-indexed)
+        field_types: Type annotations for fields {field_name: type_str}
     """
 
     name: str
@@ -123,6 +124,7 @@ class ClassDef:
     is_abstract: bool = False
     start_line: int = 0
     end_line: int = 0
+    field_types: dict[str, str] = field(default_factory=dict)  # {field: type}
 
     @property
     def method_count(self) -> int:

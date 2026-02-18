@@ -120,6 +120,9 @@ class ClassFact:
     method_names: list[str]  # Method names (details in FunctionFact)
     field_names: list[str]
 
+    # Type annotations (for TYPE_FLOW edges)
+    field_types: dict[str, str]  # {field_name: type_str}
+
     # Computed
     is_abstract: bool
     method_count: int
@@ -135,6 +138,7 @@ class ClassFact:
             bases=list(cd.bases),
             method_names=[m.name for m in cd.methods],
             field_names=list(cd.fields),
+            field_types=dict(cd.field_types) if cd.field_types else {},
             is_abstract=cd.is_abstract,
             method_count=cd.method_count,
         )
@@ -149,6 +153,7 @@ class ClassFact:
             "bases": self.bases,
             "method_names": self.method_names,
             "field_names": self.field_names,
+            "field_types": self.field_types,
             "is_abstract": self.is_abstract,
             "method_count": self.method_count,
         }

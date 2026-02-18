@@ -1028,3 +1028,291 @@ class FactDatabase:
                 (session_id,),
             )
             return {row["node_id"]: row["community_id"] for row in cursor.fetchall()}
+
+    # ── High-Level Graph Operations ─────────────────────────────────────
+
+    def store_code_graph(self, session_id: str, graph: CodeGraph) -> dict[str, int]:
+        """Store a complete CodeGraph to the database.
+
+        This is the main entry point for Phase 2 persistence.
+        Stores all nodes (implicitly via edges) and edges.
+
+        Args:
+            session_id: Analysis session ID
+            graph: CodeGraph to persist
+
+        Returns:
+            Dict with counts of stored items
+        """
+        counts = {}
+
+        # Store import edges (FILE -> FILE)
+        counts["import_edges"] = self.store_graph_edges(
+            session_id, "IMPORTS", graph.import_edges, "FILE", "FILE"
+        )
+
+        # Store call edges (FUNCTION -> FUNCTION)
+        counts["call_edges"] = self.store_graph_edges(
+            session_id, "CALLS", graph.call_edges, "FUNCTION", "FUNCTION"
+        )
+
+        # Store inherit edges (CLASS -> CLASS)
+        counts["inherit_edges"] = self.store_graph_edges(
+            session_id, "INHERITS", graph.inherit_edges, "CLASS", "CLASS"
+        )
+
+        # Store contains edges (FILE -> FUNCTION/CLASS)
+        # We need to determine target type for each edge
+        contains_func: dict[str, list[str]] = {}
+        contains_class: dict[str, list[str]] = {}
+        for file_path, contained in graph.contains_edges.items():
+            for node in contained:
+                if node in graph.function_nodes:
+                    contains_func.setdefault(file_path, []).append(node)
+                elif node in graph.class_nodes:
+                    contains_class.setdefault(file_path, []).append(node)
+
+        counts["contains_func_edges"] = self.store_graph_edges(
+            session_id, "CONTAINS", contains_func, "FILE", "FUNCTION"
+        )
+        counts["contains_class_edges"] = self.store_graph_edges(
+            session_id, "CONTAINS", contains_class, "FILE", "CLASS"
+        )
+
+        return counts
+
+    def store_graph_analysis(
+        self, session_id: str, analysis: GraphAnalysis, graph: CodeGraph
+    ) -> dict[str, int]:
+        """Store GraphAnalysis metrics to the database.
+
+        Args:
+            session_id: Analysis session ID
+            analysis: Computed graph metrics
+            graph: CodeGraph (for node type information)
+
+        Returns:
+            Dict with counts of stored items
+        """
+        counts = {}
+
+        # Store file-level metrics
+        counts["file_pagerank"] = self.store_node_metrics_batch(
+            session_id, "FILE", "pagerank", analysis.pagerank
+        )
+        counts["file_betweenness"] = self.store_node_metrics_batch(
+            session_id, "FILE", "betweenness", analysis.betweenness
+        )
+        counts["file_in_degree"] = self.store_node_metrics_batch(
+            session_id, "FILE", "in_degree",
+            {k: float(v) for k, v in analysis.in_degree.items()}
+        )
+        counts["file_out_degree"] = self.store_node_metrics_batch(
+            session_id, "FILE", "out_degree",
+            {k: float(v) for k, v in analysis.out_degree.items()}
+        )
+        counts["file_depth"] = self.store_node_metrics_batch(
+            session_id, "FILE", "depth",
+            {k: float(v) for k, v in analysis.depth.items()}
+        )
+        counts["file_blast_radius"] = self.store_node_metrics_batch(
+            session_id, "FILE", "blast_radius_size",
+            {k: float(len(v)) for k, v in analysis.blast_radius.items()}
+        )
+        counts["file_orphan"] = self.store_node_metrics_batch(
+            session_id, "FILE", "is_orphan",
+            {k: 1.0 if v else 0.0 for k, v in analysis.is_orphan.items()}
+        )
+
+        # Store function-level metrics
+        counts["func_pagerank"] = self.store_node_metrics_batch(
+            session_id, "FUNCTION", "pagerank", analysis.function_pagerank
+        )
+        counts["func_betweenness"] = self.store_node_metrics_batch(
+            session_id, "FUNCTION", "betweenness", analysis.function_betweenness
+        )
+        counts["func_dead"] = self.store_node_metrics_batch(
+            session_id, "FUNCTION", "is_dead",
+            {fn: 1.0 for fn in analysis.dead_functions}
+        )
+
+        # Store class-level metrics
+        counts["class_inheritance_depth"] = self.store_node_metrics_batch(
+            session_id, "CLASS", "inheritance_depth",
+            {k: float(v) for k, v in analysis.inheritance_depth.items()}
+        )
+        counts["class_diamond"] = self.store_node_metrics_batch(
+            session_id, "CLASS", "has_diamond",
+            {cls: 1.0 for cls in analysis.diamond_classes}
+        )
+
+        # Store cycles
+        if analysis.cycles:
+            self.store_cycle_members(
+                session_id, "FILE", [c.nodes for c in analysis.cycles]
+            )
+        if analysis.function_cycles:
+            self.store_cycle_members(session_id, "FUNCTION", analysis.function_cycles)
+
+        # Store communities
+        if analysis.node_community:
+            self.store_community_members(session_id, analysis.node_community)
+
+        # Store graph summary
+        summary = {
+            "file_node_count": len(graph.file_nodes),
+            "function_node_count": len(graph.function_nodes),
+            "class_node_count": len(graph.class_nodes),
+            "import_edge_count": sum(len(v) for v in graph.import_edges.values()),
+            "call_edge_count": sum(len(v) for v in graph.call_edges.values()),
+            "inherit_edge_count": sum(len(v) for v in graph.inherit_edges.values()),
+            "contains_edge_count": sum(len(v) for v in graph.contains_edges.values()),
+            "cycle_count": len(analysis.cycles),
+            "function_cycle_count": len(analysis.function_cycles),
+            "dead_function_count": len(analysis.dead_functions),
+            "diamond_class_count": len(analysis.diamond_classes),
+            "modularity_score": analysis.modularity_score,
+            "centrality_gini": analysis.centrality_gini,
+        }
+        self.store_graph_summary(session_id, summary)
+
+        return counts
+
+    def load_code_graph(self, session_id: str) -> CodeGraph:
+        """Load a CodeGraph from the database.
+
+        Reconstructs the CodeGraph from stored edges.
+
+        Args:
+            session_id: Analysis session ID
+
+        Returns:
+            Reconstructed CodeGraph
+        """
+        graph = CodeGraph()
+
+        # Load edges by type
+        graph.import_edges = self.get_graph_edges(session_id, "IMPORTS")
+        graph.call_edges = self.get_graph_edges(session_id, "CALLS")
+        graph.inherit_edges = self.get_graph_edges(session_id, "INHERITS")
+        graph.contains_edges = self.get_graph_edges(session_id, "CONTAINS")
+
+        # Reconstruct node sets from edges
+        for source, targets in graph.import_edges.items():
+            graph.file_nodes.add(source)
+            graph.file_nodes.update(targets)
+
+        for source, targets in graph.call_edges.items():
+            graph.function_nodes.add(source)
+            graph.function_nodes.update(targets)
+
+        for source, targets in graph.inherit_edges.items():
+            graph.class_nodes.add(source)
+            graph.class_nodes.update(targets)
+
+        for file_path, contained in graph.contains_edges.items():
+            graph.file_nodes.add(file_path)
+            for node in contained:
+                graph.contained_in[node] = file_path
+                # Determine type from node format
+                # Functions: "file:qualified_name" with method dot
+                # Classes: "file:ClassName" without method dot in name part
+                if ":" in node:
+                    _, name_part = node.split(":", 1)
+                    if "." in name_part:
+                        graph.function_nodes.add(node)
+                    else:
+                        graph.class_nodes.add(node)
+
+        # Build reverse indexes
+        for source, targets in graph.import_edges.items():
+            for target in targets:
+                graph.imported_by.setdefault(target, []).append(source)
+
+        for source, targets in graph.call_edges.items():
+            for target in targets:
+                graph.called_by.setdefault(target, []).append(source)
+
+        for source, targets in graph.inherit_edges.items():
+            for target in targets:
+                graph.inherited_by.setdefault(target, []).append(source)
+
+        return graph
+
+    def load_graph_analysis(self, session_id: str) -> GraphAnalysis:
+        """Load GraphAnalysis from the database.
+
+        Reconstructs metrics from stored values.
+
+        Args:
+            session_id: Analysis session ID
+
+        Returns:
+            Reconstructed GraphAnalysis
+        """
+        from ..graph.models import Community, CycleGroup
+
+        analysis = GraphAnalysis()
+
+        # Load file metrics
+        file_metrics = self.get_node_metrics(session_id, node_type="FILE")
+        for node_id, metrics in file_metrics.items():
+            if "pagerank" in metrics:
+                analysis.pagerank[node_id] = metrics["pagerank"]
+            if "betweenness" in metrics:
+                analysis.betweenness[node_id] = metrics["betweenness"]
+            if "in_degree" in metrics:
+                analysis.in_degree[node_id] = int(metrics["in_degree"])
+            if "out_degree" in metrics:
+                analysis.out_degree[node_id] = int(metrics["out_degree"])
+            if "depth" in metrics:
+                analysis.depth[node_id] = int(metrics["depth"])
+            if "blast_radius_size" in metrics:
+                # Note: we only store size, not the actual set
+                analysis.blast_radius[node_id] = set()  # Placeholder
+            if "is_orphan" in metrics:
+                analysis.is_orphan[node_id] = metrics["is_orphan"] > 0.5
+
+        # Load function metrics
+        func_metrics = self.get_node_metrics(session_id, node_type="FUNCTION")
+        for node_id, metrics in func_metrics.items():
+            if "pagerank" in metrics:
+                analysis.function_pagerank[node_id] = metrics["pagerank"]
+            if "betweenness" in metrics:
+                analysis.function_betweenness[node_id] = metrics["betweenness"]
+            if "is_dead" in metrics and metrics["is_dead"] > 0.5:
+                analysis.dead_functions.add(node_id)
+
+        # Load class metrics
+        class_metrics = self.get_node_metrics(session_id, node_type="CLASS")
+        for node_id, metrics in class_metrics.items():
+            if "inheritance_depth" in metrics:
+                analysis.inheritance_depth[node_id] = int(metrics["inheritance_depth"])
+            if "has_diamond" in metrics and metrics["has_diamond"] > 0.5:
+                analysis.diamond_classes.append(node_id)
+
+        # Load cycles
+        file_cycles = self.get_cycle_members(session_id, "FILE")
+        analysis.cycles = [CycleGroup(nodes=nodes) for nodes in file_cycles]
+        analysis.function_cycles = self.get_cycle_members(session_id, "FUNCTION")
+
+        # Load communities
+        node_community = self.get_community_members(session_id)
+        analysis.node_community = node_community
+
+        # Reconstruct communities list
+        community_members: dict[int, set[str]] = {}
+        for node_id, comm_id in node_community.items():
+            community_members.setdefault(comm_id, set()).add(node_id)
+        analysis.communities = [
+            Community(id=comm_id, members=members)
+            for comm_id, members in sorted(community_members.items())
+        ]
+
+        # Load summary
+        summary = self.get_graph_summary(session_id)
+        if summary:
+            analysis.modularity_score = summary.get("modularity_score", 0.0)
+            analysis.centrality_gini = summary.get("centrality_gini", 0.0)
+
+        return analysis

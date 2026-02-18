@@ -107,7 +107,9 @@ class SyntaxExtractor:
         # Fall back to regex
         with self._lock:
             self.fallback_count += 1
-        return self._fallback.parse(content, rel_path, language, mtime)
+        return self._fallback.parse(
+            content, rel_path, language, mtime, absolute_path=str(file_path.resolve())
+        )
 
     def extract_all(
         self,

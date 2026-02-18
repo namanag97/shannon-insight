@@ -3,8 +3,9 @@
 from pathlib import Path
 from typing import Optional
 
+from ..persistence.fact_models import FileFact, FunctionFact, ImportFact
 from ..scanning.syntax import FileSyntax
-from .models import DependencyGraph
+from .models import CodeGraph, DependencyGraph
 
 # Language-specific file extensions for import resolution
 LANGUAGE_EXTENSIONS: dict[str, list[str]] = {

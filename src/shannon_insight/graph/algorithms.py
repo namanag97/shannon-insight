@@ -539,3 +539,296 @@ def compute_centrality_gini(pagerank: dict[str, float]) -> float:
         return 0.0
 
     return Gini.gini_coefficient(values, bias_correction=False)
+
+
+# ── Phase 2: Function and class level algorithms ──────────────────────
+
+
+def run_code_graph_algorithms(
+    code_graph: CodeGraph,
+    analysis: GraphAnalysis | None = None,
+    pagerank_damping: float = 0.85,
+    pagerank_iterations: int = 100,
+    pagerank_tolerance: float = 1e-6,
+) -> GraphAnalysis:
+    """Execute function and class level algorithms on a CodeGraph.
+
+    Args:
+        code_graph: Multi-type graph with function/class nodes
+        analysis: Optional existing GraphAnalysis to extend (for file-level data)
+        pagerank_damping: Damping factor for PageRank
+        pagerank_iterations: Max iterations for PageRank
+        pagerank_tolerance: Convergence tolerance for PageRank
+
+    Returns:
+        GraphAnalysis with function-level and class-level metrics added
+    """
+    if analysis is None:
+        analysis = GraphAnalysis()
+
+    # Function-level PageRank on call graph
+    if code_graph.call_edges:
+        analysis.function_pagerank = compute_function_pagerank(
+            code_graph,
+            damping=pagerank_damping,
+            iterations=pagerank_iterations,
+            tolerance=pagerank_tolerance,
+        )
+        analysis.function_betweenness = compute_function_betweenness(code_graph)
+
+    # Dead functions (no callers)
+    analysis.dead_functions = find_dead_functions(code_graph)
+
+    # Function cycles (SCCs in call graph)
+    analysis.function_cycles = find_function_cycles(code_graph)
+
+    # Class-level: inheritance depth
+    if code_graph.inherit_edges:
+        analysis.inheritance_depth = compute_inheritance_depth(code_graph)
+
+    # Diamond inheritance detection
+    analysis.diamond_classes = find_diamond_inheritance(code_graph)
+
+    return analysis
+
+
+def compute_function_pagerank(
+    code_graph: CodeGraph,
+    damping: float = 0.85,
+    iterations: int = 100,
+    tolerance: float = 1e-6,
+) -> dict[str, float]:
+    """Compute PageRank on the function call graph.
+
+    Higher PageRank = more central to the codebase's call structure.
+    Functions that are called by many other important functions rank higher.
+
+    Args:
+        code_graph: CodeGraph with call_edges
+        damping: Damping factor (default 0.85)
+        iterations: Max iterations
+        tolerance: Convergence tolerance
+
+    Returns:
+        Dict mapping function node ID to PageRank score
+    """
+    if not code_graph.function_nodes:
+        return {}
+
+    # Build adjacency for PageRank (call_edges is caller -> callee)
+    # PageRank needs outgoing edges from each node
+    adjacency: dict[str, list[str]] = {}
+    for node in code_graph.function_nodes:
+        adjacency[node] = code_graph.call_edges.get(node, [])
+
+    return GraphMetrics.pagerank(
+        adjacency,
+        damping=damping,
+        iterations=iterations,
+        tolerance=tolerance,
+    )
+
+
+def compute_function_betweenness(code_graph: CodeGraph) -> dict[str, float]:
+    """Compute betweenness centrality on the function call graph.
+
+    Higher betweenness = more central to call flow (bottleneck functions).
+
+    Args:
+        code_graph: CodeGraph with call_edges
+
+    Returns:
+        Dict mapping function node ID to betweenness score
+    """
+    if not code_graph.function_nodes:
+        return {}
+
+    # Build adjacency for betweenness
+    adjacency: dict[str, list[str]] = {}
+    for node in code_graph.function_nodes:
+        adjacency[node] = code_graph.call_edges.get(node, [])
+
+    return GraphMetrics.betweenness_centrality(adjacency)
+
+
+def find_dead_functions(code_graph: CodeGraph) -> set[str]:
+    """Find functions with no incoming CALL edges (never called internally).
+
+    Note: Entry points and __main__ functions may appear dead but are valid.
+    Filter those out based on naming conventions or role classification.
+
+    Args:
+        code_graph: CodeGraph with function_nodes and called_by
+
+    Returns:
+        Set of function node IDs with no internal callers
+    """
+    all_functions = code_graph.function_nodes
+    called_functions = set(code_graph.called_by.keys())
+
+    dead = all_functions - called_functions
+
+    # Filter out likely entry points (heuristic)
+    filtered = set()
+    for fn in dead:
+        # Extract function name from "file:qualified_name"
+        parts = fn.split(":", 1)
+        if len(parts) < 2:
+            continue
+        qualified = parts[1]
+        name = qualified.split(".")[-1]  # Get method/function name
+
+        # Keep if not a likely entry point
+        if not _is_likely_entry_point(name):
+            filtered.add(fn)
+
+    return filtered
+
+
+def _is_likely_entry_point(name: str) -> bool:
+    """Check if a function name suggests it's an entry point.
+
+    Entry points are expected to have no internal callers.
+    """
+    entry_patterns = {
+        "main",
+        "__main__",
+        "__init__",
+        "__new__",
+        "__call__",
+        "run",
+        "execute",
+        "start",
+        "setup",
+        "teardown",
+        "setUp",
+        "tearDown",
+    }
+    # Also match test methods
+    if name.startswith("test_") or name.startswith("Test"):
+        return True
+    return name in entry_patterns
+
+
+def find_function_cycles(code_graph: CodeGraph) -> list[set[str]]:
+    """Find strongly connected components in the call graph.
+
+    Mutual recursion or indirect recursion creates cycles.
+
+    Args:
+        code_graph: CodeGraph with call_edges
+
+    Returns:
+        List of SCCs with > 1 function (real cycles, not self-loops)
+    """
+    if not code_graph.function_nodes:
+        return []
+
+    # Build adjacency for SCC detection
+    adjacency: dict[str, list[str]] = {}
+    for node in code_graph.function_nodes:
+        adjacency[node] = [
+            target
+            for target in code_graph.call_edges.get(node, [])
+            if target in code_graph.function_nodes
+        ]
+
+    sccs = tarjan_scc(adjacency, code_graph.function_nodes)
+
+    # Filter to only return real cycles (> 1 node)
+    return [scc for scc in sccs if len(scc) > 1]
+
+
+def compute_inheritance_depth(code_graph: CodeGraph) -> dict[str, int]:
+    """Compute inheritance chain depth for each class.
+
+    Deep inheritance (depth > 3-4) often indicates design issues.
+
+    Args:
+        code_graph: CodeGraph with class_nodes and inherit_edges
+
+    Returns:
+        Dict mapping class node ID to inheritance depth (0 = no bases)
+    """
+    depths: dict[str, int] = {}
+
+    for class_node in code_graph.class_nodes:
+        depth = 0
+        current = class_node
+        visited: set[str] = set()
+
+        while current in code_graph.inherit_edges and current not in visited:
+            visited.add(current)
+            bases = code_graph.inherit_edges[current]
+            # Filter to only internal bases (in our graph)
+            internal_bases = [b for b in bases if b in code_graph.class_nodes]
+            if internal_bases:
+                depth += 1
+                current = internal_bases[0]  # Follow first base
+            else:
+                break
+
+        depths[class_node] = depth
+
+    return depths
+
+
+def find_diamond_inheritance(code_graph: CodeGraph) -> list[str]:
+    """Find classes with diamond inheritance pattern.
+
+    Diamond inheritance: Class C inherits from A and B, where both A and B
+    inherit from a common ancestor D.
+
+    Args:
+        code_graph: CodeGraph with class_nodes and inherit_edges
+
+    Returns:
+        List of class node IDs that have diamond inheritance
+    """
+    diamonds: list[str] = []
+
+    for class_node in code_graph.class_nodes:
+        bases = code_graph.inherit_edges.get(class_node, [])
+        # Filter to internal bases
+        internal_bases = [b for b in bases if b in code_graph.class_nodes]
+
+        if len(internal_bases) < 2:
+            continue
+
+        # Check if any two bases share a common ancestor
+        all_ancestors: dict[str, set[str]] = {}
+
+        for base in internal_bases:
+            ancestors = _get_all_ancestors(base, code_graph)
+            all_ancestors[base] = ancestors
+
+        # Check for common ancestors between any two bases
+        for i, base1 in enumerate(internal_bases):
+            for base2 in internal_bases[i + 1 :]:
+                common = all_ancestors[base1] & all_ancestors[base2]
+                if common:
+                    diamonds.append(class_node)
+                    break
+            else:
+                continue
+            break
+
+    return diamonds
+
+
+def _get_all_ancestors(class_node: str, code_graph: CodeGraph) -> set[str]:
+    """Get all ancestors of a class (transitive closure of inheritance).
+
+    Uses BFS to traverse inheritance hierarchy.
+    """
+    ancestors: set[str] = set()
+    queue = deque(code_graph.inherit_edges.get(class_node, []))
+
+    while queue:
+        current = queue.popleft()
+        if current in ancestors or current not in code_graph.class_nodes:
+            continue
+        ancestors.add(current)
+        queue.extend(code_graph.inherit_edges.get(current, []))
+
+    return ancestors

@@ -3,6 +3,10 @@
 This module provides the main entry point for analysis. Users should call
 analyze() instead of manually constructing sessions and kernels.
 
+Two kernel implementations are available:
+- RuntimeKernel (new): Full observability, circuit breakers, partial results
+- InsightKernel (legacy): Original implementation, deprecated
+
 Example:
     >>> from shannon_insight import analyze
     >>>
@@ -15,17 +19,25 @@ Example:
     ...     verbose=True,
     ...     max_findings=100
     ... )
+    >>>
+    >>> # Use new RuntimeKernel (full observability)
+    >>> result = analyze_v2("/path/to/code")
+    >>> print(result.metrics.summary())
 """
 
 from __future__ import annotations
 
+import warnings
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from .config import load_config
 from .environment import discover_environment
 from .logging_config import get_logger, setup_logging
 from .session import AnalysisSession
+
+if TYPE_CHECKING:
+    from .kernel import RuntimeResult
 
 logger = get_logger(__name__)
 

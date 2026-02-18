@@ -34,6 +34,7 @@ from .fact_models import (
     FunctionFact,
     ImportFact,
 )
+from ..graph.models import CodeGraph, GraphAnalysis
 
 logger = logging.getLogger(__name__)
 

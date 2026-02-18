@@ -257,3 +257,135 @@ def compute_change_entropy(commits_per_window: list[int]) -> float:
         return 0.0
     probs = [c / total for c in commits_per_window if c > 0]
     return -sum(p * log2(p) for p in probs)
+
+
+def build_churn_series_from_db(
+    db: GitFactDatabase,
+    analyzed_files: set[str],
+    window_weeks: int = 4,
+    slope_threshold: float = 0.1,
+    cv_threshold: float = 0.5,
+    since_timestamp: int | None = None,
+) -> dict[str, ChurnSeries]:
+    """Build per-file churn time series from git database.
+
+    This is the database-backed equivalent of build_churn_series().
+    Uses stored git data instead of parsing git log each time.
+
+    Args:
+        db: GitFactDatabase with extracted git data
+        analyzed_files: Set of file paths to analyze
+        window_weeks: Time window size for bucketing
+        slope_threshold: Slope threshold for trajectory classification
+        cv_threshold: CV threshold for trajectory classification
+        since_timestamp: Only consider commits after this time (optional)
+
+    Returns:
+        Dict mapping file_path -> ChurnSeries
+    """
+    if not analyzed_files:
+        return {}
+
+    # Get timestamp range from DB
+    ts_range = db.get_timestamp_range()
+    if ts_range is None:
+        return {}
+
+    min_ts = since_timestamp if since_timestamp else ts_range[0]
+    max_ts = ts_range[1]
+
+    # Fetch all commits touching our files
+    commits = db.get_commits_touching_files(analyzed_files, since_timestamp)
+    if not commits:
+        return {}
+
+    # Get file changes for these commits
+    commit_hashes = {c.hash for c in commits}
+    file_windows: dict[str, list[int]] = defaultdict(list)
+    file_authors: dict[str, Counter[str]] = defaultdict(Counter)
+    file_fix_count: dict[str, int] = defaultdict(int)
+    file_refactor_count: dict[str, int] = defaultdict(int)
+    file_commit_count: dict[str, int] = defaultdict(int)
+
+    window_secs = window_weeks * 7 * 86400
+    if window_secs == 0:
+        return {}
+
+    num_windows = max(1, (max_ts - min_ts) // window_secs + 1)
+
+    # Initialize window counts
+    for f in analyzed_files:
+        file_windows[f] = [0] * num_windows
+
+    # Build commit -> files mapping by querying the DB
+    # We need to get file changes per commit
+    with db._connect() as conn:
+        for commit in commits:
+            cursor = conn.execute(
+                "SELECT file_path FROM git_file_changes WHERE commit_hash = ?",
+                (commit.hash,),
+            )
+            commit_files = [row["file_path"] for row in cursor]
+
+            window_idx = min((commit.timestamp - min_ts) // window_secs, num_windows - 1)
+            subject_lower = commit.subject.lower()
+            is_fix = bool(_FIX_PATTERN.search(subject_lower))
+            is_refactor = bool(_REFACTOR_PATTERN.search(subject_lower))
+
+            for f in commit_files:
+                if f in analyzed_files:
+                    file_windows[f][window_idx] += 1
+                    file_authors[f][commit.author_email] += 1
+                    file_commit_count[f] += 1
+                    if is_fix:
+                        file_fix_count[f] += 1
+                    if is_refactor:
+                        file_refactor_count[f] += 1
+
+    # Build ChurnSeries for each file
+    results: dict[str, ChurnSeries] = {}
+
+    for file_path, counts in file_windows.items():
+        total = sum(counts)
+        if total == 0:
+            continue  # Skip files with no changes
+
+        slope = _linear_slope(counts)
+        cv = _compute_cv(counts, total)
+        trajectory = _classify_trajectory(
+            counts,
+            total,
+            slope,
+            cv,
+            slope_threshold=slope_threshold,
+            cv_threshold=cv_threshold,
+        )
+        change_entropy = compute_change_entropy(counts)
+
+        # Compute author entropy and bus_factor
+        author_counts = file_authors[file_path]
+        author_entropy = _compute_author_entropy(author_counts)
+        bus_factor = 2**author_entropy
+
+        # Compute fix and refactor ratios
+        commit_count = file_commit_count[file_path]
+        fix_ratio = file_fix_count[file_path] / commit_count if commit_count > 0 else 0.0
+        refactor_ratio = (
+            file_refactor_count[file_path] / commit_count if commit_count > 0 else 0.0
+        )
+
+        results[file_path] = ChurnSeries(
+            file_path=file_path,
+            window_counts=counts,
+            total_changes=total,
+            trajectory=trajectory,
+            slope=slope,
+            cv=cv,
+            bus_factor=bus_factor,
+            author_entropy=author_entropy,
+            fix_ratio=fix_ratio,
+            refactor_ratio=refactor_ratio,
+            change_entropy=change_entropy,
+        )
+
+    return results

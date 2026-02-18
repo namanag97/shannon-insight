@@ -236,11 +236,14 @@ def main():
     uat_dir = Path(__file__).parent
     codebases_dir = uat_dir / "codebases"
 
-    if not codebases_dir.exists():
-        print(f"ERROR: Codebases directory not found: {codebases_dir}")
-        return 1
+    # Always include src codebase (shannon-insight itself)
+    src_codebase = uat_dir.parent
+    codebases = [src_codebase]
 
-    codebases = sorted([d for d in codebases_dir.iterdir() if d.is_dir()])
+    # Add UAT codebases if they exist
+    if codebases_dir.exists():
+        codebases.extend(sorted([d for d in codebases_dir.iterdir() if d.is_dir()]))
+
     if not codebases:
         print("ERROR: No codebases found")
         return 1

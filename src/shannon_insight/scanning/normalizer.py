@@ -316,6 +316,7 @@ class TreeSitterNormalizer:
         # Extract methods with class context
         methods = self._extract_class_methods(node, code_bytes, language, name)
         fields = self._extract_class_fields(node, code_bytes, language)
+        field_types = self._extract_field_types(node, code_bytes, language)
 
         return ClassDef(
             name=name,
@@ -325,6 +326,7 @@ class TreeSitterNormalizer:
             is_abstract=is_abstract,
             start_line=start_line,
             end_line=end_line,
+            field_types=field_types,
         )
 
     def _extract_class_methods(

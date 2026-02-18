@@ -183,7 +183,7 @@ def run_qa_on_codebase(codebase_path: Path, output_dir: Path) -> QAResult:
         fact_db.create_session(session)
 
         # ═══════════════════════════════════════════════════════════════
-        # PHASE 1: Scanning
+        # PHASE 1: Scanning (parallel)
         # ═══════════════════════════════════════════════════════════════
 
         extractor = SyntaxExtractor()
@@ -205,21 +205,16 @@ def run_qa_on_codebase(codebase_path: Path, output_dir: Path) -> QAResult:
             and "build" not in str(f)
         ]
 
-        # Scan files
+        # Scan files in parallel
         t0 = time.time()
-        file_syntaxes = {}
-        for f in all_files:
-            try:
-                fs = extractor.extract(f, codebase_path)
-                if fs:
-                    file_syntaxes[fs.path] = fs
-                    # Track languages
-                    lang = fs.language
-                    result.languages[lang] = result.languages.get(lang, 0) + 1
-            except Exception as e:
-                result.errors.append(f"Scan error {f.name}: {str(e)[:50]}")
+        file_syntaxes = extractor.extract_all(all_files, codebase_path, parallel=True)
         result.scan_time = time.time() - t0
         result.files_scanned = len(file_syntaxes)
+
+        # Track languages
+        for fs in file_syntaxes.values():
+            lang = fs.language
+            result.languages[lang] = result.languages.get(lang, 0) + 1
 
         if result.files_scanned == 0:
             result.errors.append("No files scanned")

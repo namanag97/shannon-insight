@@ -73,36 +73,58 @@ from shannon_insight.infrastructure.validation import (
 from shannon_insight.session import Tier  # Re-export Tier for backward compat
 
 __all__ = [
+    # Entities
     "Entity",
     "EntityId",
     "EntityType",
+    # Store
     "FactStore",
+    # Math
     "compute_bus_factor",
     "compute_entropy",
     "compute_gini",
     "compute_percentile",
+    # Patterns
     "Finding",
     "Pattern",
     "PatternScope",
+    # Provenance
     "ProvenanceStore",
     "cleanup_stale_sessions",
+    "SignalProvenance",
+    # Relations
     "Relation",
     "RelationGraph",
     "RelationType",
+    # Session
     "SessionLogManager",
-    "SignalProvenance",
+    # Thresholds
     "ThresholdCheck",
     "compute_hotspot_median",
     "is_hotspot",
     "Tier",  # Re-exported from session.py
+    # Signals
     "Polarity",
     "Signal",
     "SignalSpec",
     "SignalStore",
     "SIGNAL_REGISTRY",
+    # Validation
     "PhaseValidationError",
     "run_all_validations",
     "validate_after_scanning",
     "validate_after_structural",
     "validate_signal_field",
+    # Runtime (NEW)
+    "RuntimeContext",
+    "Phase",
+    "PhaseMetrics",
+    "RuntimeMetrics",
+    "CircuitBreaker",
+    "ProgressCallback",
+    "CancellationError",
+    "PhaseError",
+    "ResourceExhaustedError",
+    "TimeoutError",
+    "with_timeout",
 ]

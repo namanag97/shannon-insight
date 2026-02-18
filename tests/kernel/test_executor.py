@@ -12,21 +12,18 @@ class TestPhaseExecutorProtocol:
 
     def test_protocol_defines_execute(self):
         """Test that protocol defines execute method."""
-        # Protocol should have execute in annotations
-        import typing
+        # Protocol should have execute method
+        assert hasattr(PhaseExecutor, "execute")
 
-        assert "execute" in typing.get_type_hints(PhaseExecutor) or hasattr(
-            PhaseExecutor, "execute"
-        )
-
-    def test_base_executor_has_required_attributes(self):
-        """Test that BaseExecutor has attributes that fulfill protocol."""
+    def test_base_executor_has_required_methods(self):
+        """Test that BaseExecutor has methods that fulfill protocol."""
         executor = BaseExecutor()
-        # BaseExecutor should have the required attributes
-        assert hasattr(executor, "phase")
+        # BaseExecutor should have execute method
+        assert callable(getattr(executor, "execute", None))
+        # And the class should have phase annotation
+        assert "phase" in BaseExecutor.__annotations__
         assert hasattr(executor, "timeout_seconds")
         assert hasattr(executor, "name")
-        assert hasattr(executor, "execute")
 
 
 class TestBaseExecutor:

@@ -203,18 +203,27 @@ class TestReportingExecutor:
         executor = ReportingExecutor()
         assert executor.phase == Phase.REPORTING
 
-    def test_execute_builds_result(self, mock_context, mock_store, mock_session):
+    def test_execute_builds_result(self, tmp_path, mock_session):
         """Test execute builds InsightResult."""
+        from shannon_insight.insights.store import AnalysisStore
+
+        # Create real store and context for this test
+        ctx = RuntimeContext.create(root=tmp_path)
+        store = AnalysisStore(
+            root_dir=str(tmp_path),
+            session=mock_session,
+        )
+
         # Set up empty findings
-        mock_context._findings = []
-        mock_context._pattern_findings = []
+        ctx._findings = []  # type: ignore
+        ctx._pattern_findings = []  # type: ignore
 
         executor = ReportingExecutor()
-        result = executor.execute(mock_context, mock_store, mock_session)
+        result = executor.execute(ctx, store, mock_session)
 
         assert result.success is True
-        assert hasattr(mock_context, "_insight_result")
-        assert hasattr(mock_context, "_snapshot")
+        assert hasattr(ctx, "_insight_result")
+        assert hasattr(ctx, "_snapshot")
 
 
 class TestPhaseOrder:

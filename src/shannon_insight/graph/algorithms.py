@@ -546,7 +546,7 @@ def compute_centrality_gini(pagerank: dict[str, float]) -> float:
 
 def run_code_graph_algorithms(
     code_graph: CodeGraph,
-    analysis: GraphAnalysis | None = None,
+    analysis: Optional[GraphAnalysis] = None,
     pagerank_damping: float = 0.85,
     pagerank_iterations: int = 100,
     pagerank_tolerance: float = 1e-6,

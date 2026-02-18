@@ -44,7 +44,6 @@ Design:
 from __future__ import annotations
 
 import concurrent.futures
-from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Optional
 
 from ..infrastructure.runtime import (
@@ -52,7 +51,6 @@ from ..infrastructure.runtime import (
     Phase,
     PhaseError,
     RuntimeContext,
-    RuntimeMetrics,
     TimeoutError,
 )
 from ..logging_config import get_logger
@@ -60,6 +58,7 @@ from .phases import PHASE_EXECUTORS
 from .result import PhaseResult, RuntimeResult
 
 if TYPE_CHECKING:
+    from ..insights.store import AnalysisStore
     from ..session import AnalysisSession
 
 logger = get_logger(__name__)
@@ -92,7 +91,7 @@ class RuntimeKernel:
 
     def __init__(
         self,
-        session: "AnalysisSession",
+        session: AnalysisSession,
         memory_limit_mb: int = 2048,
         total_timeout_seconds: int = 1800,
         phase_timeout_seconds: int = 300,
@@ -220,7 +219,7 @@ class RuntimeKernel:
     def _execute_phase(
         self,
         ctx: RuntimeContext,
-        store: "AnalysisStore",
+        store: AnalysisStore,
         executor,
     ) -> PhaseResult:
         """Execute a single phase with timeout and circuit breaker.
@@ -238,9 +237,7 @@ class RuntimeKernel:
         # Check circuit breaker
         if phase in ctx._circuit_breakers and ctx._circuit_breakers[phase].is_open:
             logger.warning(f"Phase {phase.name} skipped (circuit open)")
-            return PhaseResult.fail(
-                PhaseError(f"Circuit breaker open for {phase.name}", phase)
-            )
+            return PhaseResult.fail(PhaseError(f"Circuit breaker open for {phase.name}", phase))
 
         # Transition to phase
         try:
@@ -292,7 +289,7 @@ class RuntimeKernel:
 
 
 def create_runtime_kernel(
-    session: "AnalysisSession",
+    session: AnalysisSession,
     **kwargs,
 ) -> RuntimeKernel:
     """Factory function to create a RuntimeKernel.

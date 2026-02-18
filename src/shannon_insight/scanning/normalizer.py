@@ -592,12 +592,23 @@ class TreeSitterNormalizer:
         return params
 
     def _extract_return_type(self, node: Any, code_bytes: bytes, language: str) -> str | None:
-        """Extract return type annotation from function node (Python)."""
-        if language != "python":
-            return None
+        """Extract return type annotation from function node.
 
-        # Look for return_type in function definition
-        # Python: function_definition has "-> type" as return_type child
+        Supports: Python, TypeScript, Go, Java.
+        """
+        if language == "python":
+            return self._extract_return_type_python(node, code_bytes)
+        elif language in ("typescript", "tsx", "javascript"):
+            return self._extract_return_type_typescript(node, code_bytes)
+        elif language == "go":
+            return self._extract_return_type_go(node, code_bytes)
+        elif language == "java":
+            return self._extract_return_type_java(node, code_bytes)
+        return None
+
+    def _extract_return_type_python(self, node: Any, code_bytes: bytes) -> str | None:
+        """Extract return type from Python function."""
+        # Look for "type" child (return annotation)
         for child in node.children:
             if child.type == "type":
                 return self._type_node_to_str(child, code_bytes)
@@ -609,8 +620,57 @@ class TreeSitterNormalizer:
                 found_arrow = True
             elif found_arrow and child.type in ("type", "identifier", "subscript", "attribute"):
                 return self._type_node_to_str(child, code_bytes)
-
         return None
+
+    def _extract_return_type_typescript(self, node: Any, code_bytes: bytes) -> str | None:
+        """Extract return type from TypeScript/JavaScript function."""
+        # TypeScript: return_type field or type_annotation after parameters
+        for child in node.children:
+            if child.type == "type_annotation":
+                # Type annotation contains the actual type
+                for gc in child.children:
+                    if gc.type not in (":", ):  # Skip colon
+                        return self._type_node_to_str(gc, code_bytes)
+        # Also check for direct type children
+        for child in node.children:
+            if child.type in ("type_identifier", "predefined_type", "generic_type"):
+                return self._type_node_to_str(child, code_bytes)
+        return None
+
+    def _extract_return_type_go(self, node: Any, code_bytes: bytes) -> str | None:
+        """Extract return type from Go function."""
+        # Go: result field contains parameter_list with return types
+        for child in node.children:
+            if child.type == "parameter_list" and child != node.children[0]:
+                # Second parameter_list is the result (first is params)
+                # Check if this is actually a result (after params)
+                params_seen = False
+                for c in node.children:
+                    if c.type == "parameter_list":
+                        if params_seen:
+                            # This is the result
+                            return self._type_node_to_str(c, code_bytes)
+                        params_seen = True
+            # Simple return type (single type, not wrapped in parameter_list)
+            if child.type in ("type_identifier", "pointer_type", "slice_type",
+                             "array_type", "map_type", "channel_type", "qualified_type"):
+                return self._type_node_to_str(child, code_bytes)
+        return None
+
+    def _extract_return_type_java(self, node: Any, code_bytes: bytes) -> str | None:
+        """Extract return type from Java method."""
+        # Java: type comes before method name
+        # Find type child that comes before the identifier (method name)
+        found_type = None
+        for child in node.children:
+            if child.type in ("type_identifier", "void_type", "integral_type",
+                             "floating_point_type", "boolean_type", "generic_type",
+                             "array_type", "scoped_type_identifier"):
+                found_type = self._type_node_to_str(child, code_bytes)
+            elif child.type == "identifier":
+                # Hit the method name, return the type we found
+                return found_type
+        return found_type
 
     def _extract_param_types(self, node: Any, code_bytes: bytes, language: str) -> dict[str, str]:
         """Extract parameter type annotations from function node (Python)."""

@@ -1001,17 +1001,34 @@ def _build_function_index(
     return index, function_nodes, file_to_functions
 
 
-def _build_class_index(file_facts: list[FileFact]) -> dict[str, str]:
-    """Build index from class names to node IDs.
+def _build_class_index(
+    file_facts: list[FileFact],
+) -> tuple[dict[str, str], set[str], dict[str, list[str]]]:
+    """Build indexes for fast class resolution.
 
-    Maps:
+    Returns:
+        class_index: name → node_id (only unique mappings)
+        class_nodes: set of ALL node_ids (for O(1) membership check)
+        file_to_classes: file → [node_ids] (for fast same-file lookup)
+
+    Maps in class_index:
     - "ClassName" -> "file:ClassName" (if unique)
     - "file:ClassName" -> "file:ClassName" (always)
     """
+    # O(1) membership check for node IDs
+    class_nodes: set[str] = set()
+    # Fast lookup of classes by file
+    file_to_classes: dict[str, list[str]] = {}
+
     occurrences: dict[str, list[str]] = {}
     for file_fact in file_facts:
+        file_classes: list[str] = []
         for cls in file_fact.classes:
             node_id = f"{file_fact.path}:{cls.name}"
+
+            # Add to O(1) lookup structures
+            class_nodes.add(node_id)
+            file_classes.append(node_id)
 
             # Full path always maps
             occurrences.setdefault(node_id, []).append(node_id)
@@ -1019,12 +1036,14 @@ def _build_class_index(file_facts: list[FileFact]) -> dict[str, str]:
             # Short name
             occurrences.setdefault(cls.name, []).append(node_id)
 
+        file_to_classes[file_fact.path] = file_classes
+
     index: dict[str, str] = {}
     for key, nodes in occurrences.items():
         if len(nodes) == 1:
             index[key] = nodes[0]
 
-    return index
+    return index, class_nodes, file_to_classes
 
 
 def _build_import_index(imports: list[ImportFact]) -> dict[str, dict[str, str]]:

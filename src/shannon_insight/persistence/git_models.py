@@ -56,7 +56,7 @@ class GitCommit:
         return len(self.parent_hashes) > 1
 
 
-@dataclass(slots=True)
+@dataclass
 class GitFileChange:
     """One file changed in one commit.
 

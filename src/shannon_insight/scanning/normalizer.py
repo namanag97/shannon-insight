@@ -245,10 +245,12 @@ class TreeSitterNormalizer:
             if class_node is None:
                 continue
 
-            node_id = id(class_node)
-            if node_id in processed_nodes:
+            # Dedup by position (start_byte), not Python object id,
+            # since QueryCursor may return distinct objects for the same node
+            node_key = class_node.start_byte
+            if node_key in processed_nodes:
                 continue
-            processed_nodes.add(node_id)
+            processed_nodes.add(node_key)
 
             cls = self._node_to_class(class_node, code_bytes, language)
             if cls is not None:

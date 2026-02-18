@@ -418,9 +418,12 @@ class InsightKernel:
             logger.debug("No file_syntax available for fact storage")
             return
 
+        import hashlib
+        import subprocess
         import uuid
         from datetime import datetime, timezone
 
+        from .. import __version__
         from ..persistence.fact_models import AnalysisSession as FactSession
         from ..persistence.fact_models import FileFact
         from ..persistence.facts import FactDatabase
@@ -430,6 +433,22 @@ class InsightKernel:
         db_path = shannon_dir / "facts.db"
         db = FactDatabase(db_path)
 
+        # Get commit SHA
+        commit_sha = None
+        try:
+            result = subprocess.run(
+                ["git", "-C", self.root_dir, "rev-parse", "HEAD"],
+                capture_output=True, text=True, timeout=5,
+            )
+            if result.returncode == 0:
+                commit_sha = result.stdout.strip()
+        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+            pass
+
+        # Compute config hash
+        config_str = str(sorted(vars(self.session.config).items()))
+        config_hash = hashlib.sha256(config_str.encode()).hexdigest()[:16]
+
         # Create session
         session_id = str(uuid.uuid4())
         self._fact_session_id = session_id
@@ -437,10 +456,10 @@ class InsightKernel:
             id=session_id,
             started_at=datetime.now(timezone.utc),
             completed_at=None,
-            commit_sha=self.session.env.commit_sha,
+            commit_sha=commit_sha,
             analyzed_path=self.root_dir,
-            tool_version=self.session.env.tool_version,
-            config_hash=self.session.config_hash,
+            tool_version=__version__,
+            config_hash=config_hash,
             status="running",
         )
         db.create_session(fact_session)

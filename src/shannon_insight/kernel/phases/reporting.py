@@ -135,7 +135,7 @@ class ReportingExecutor(BaseExecutor):
         except Exception as e:
             logger.debug(f"No history DB available: {e}")
 
-    def _summarize(self, store: AnalysisStore) -> StoreSummary:
+    def _summarize(self, store: "AnalysisStore") -> "StoreSummary":
         """Build summary from store state."""
         from ...insights.models import StoreSummary
 

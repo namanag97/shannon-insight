@@ -40,6 +40,7 @@ class NodeType(Enum):
     FILE = "file"
     FUNCTION = "function"
     CLASS = "class"
+    TYPE = "type"  # Type annotation nodes (e.g., "str", "list[int]", "MyClass")
 
 
 class EdgeType(Enum):
@@ -49,21 +50,26 @@ class EdgeType(Enum):
     CALLS = "calls"  # FUNCTION -> FUNCTION
     INHERITS = "inherits"  # CLASS -> CLASS
     CONTAINS = "contains"  # FILE -> FUNCTION/CLASS
+    RETURNS = "returns"  # FUNCTION -> TYPE (return type)
+    PARAM_TYPE = "param_type"  # FUNCTION -> TYPE (parameter type)
+    FIELD_TYPE = "field_type"  # CLASS -> TYPE (field type)
 
 
 @dataclass
 class CodeGraph:
     """Multi-type dependency graph built from parsed facts.
 
-    This graph tracks relationships at three levels:
+    This graph tracks relationships at four levels:
     - FILE level: import dependencies between files
     - FUNCTION level: call relationships between functions
     - CLASS level: inheritance relationships between classes
+    - TYPE level: type annotation dependencies
 
     Node IDs:
     - FILE nodes: relative file path (e.g., "src/foo.py")
     - FUNCTION nodes: "file:qualified_name" (e.g., "src/foo.py:MyClass.method")
     - CLASS nodes: "file:ClassName" (e.g., "src/foo.py:MyClass")
+    - TYPE nodes: normalized type string (e.g., "str", "list[int]", "MyClass")
 
     This graph is computed from FactDatabase, not stored.
     """
@@ -72,6 +78,7 @@ class CodeGraph:
     file_nodes: set[str] = field(default_factory=set)
     function_nodes: set[str] = field(default_factory=set)  # "file:qualified_name"
     class_nodes: set[str] = field(default_factory=set)  # "file:ClassName"
+    type_nodes: set[str] = field(default_factory=set)  # Normalized type strings
 
     # Edges by type (adjacency lists: source -> [targets])
     import_edges: dict[str, list[str]] = field(default_factory=dict)  # FILE -> FILE
@@ -79,16 +86,27 @@ class CodeGraph:
     inherit_edges: dict[str, list[str]] = field(default_factory=dict)  # CLASS -> CLASS
     contains_edges: dict[str, list[str]] = field(default_factory=dict)  # FILE -> FUNC/CLASS
 
+    # Type flow edges (NEW)
+    returns_edges: dict[str, str] = field(default_factory=dict)  # FUNC -> TYPE
+    param_type_edges: dict[str, dict[str, str]] = field(default_factory=dict)  # FUNC -> {param: TYPE}
+    field_type_edges: dict[str, dict[str, str]] = field(default_factory=dict)  # CLASS -> {field: TYPE}
+
     # Reverse indexes (for efficient lookups)
     imported_by: dict[str, list[str]] = field(default_factory=dict)  # FILE <- FILE
     called_by: dict[str, list[str]] = field(default_factory=dict)  # FUNC <- FUNC
     inherited_by: dict[str, list[str]] = field(default_factory=dict)  # CLASS <- CLASS
     contained_in: dict[str, str] = field(default_factory=dict)  # FUNC/CLASS -> FILE
+    used_by: dict[str, list[str]] = field(default_factory=dict)  # TYPE <- FUNC/CLASS
 
     # Statistics
     @property
     def total_nodes(self) -> int:
-        return len(self.file_nodes) + len(self.function_nodes) + len(self.class_nodes)
+        return (
+            len(self.file_nodes)
+            + len(self.function_nodes)
+            + len(self.class_nodes)
+            + len(self.type_nodes)
+        )
 
     @property
     def total_edges(self) -> int:
@@ -97,6 +115,9 @@ class CodeGraph:
             + sum(len(v) for v in self.call_edges.values())
             + sum(len(v) for v in self.inherit_edges.values())
             + sum(len(v) for v in self.contains_edges.values())
+            + len(self.returns_edges)
+            + sum(len(v) for v in self.param_type_edges.values())
+            + sum(len(v) for v in self.field_type_edges.values())
         )
 
 

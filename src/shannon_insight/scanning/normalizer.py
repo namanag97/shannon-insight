@@ -673,10 +673,22 @@ class TreeSitterNormalizer:
         return found_type
 
     def _extract_param_types(self, node: Any, code_bytes: bytes, language: str) -> dict[str, str]:
-        """Extract parameter type annotations from function node (Python)."""
-        if language != "python":
-            return {}
+        """Extract parameter type annotations from function node.
 
+        Supports: Python, TypeScript, Go, Java.
+        """
+        if language == "python":
+            return self._extract_param_types_python(node, code_bytes)
+        elif language in ("typescript", "tsx", "javascript"):
+            return self._extract_param_types_typescript(node, code_bytes)
+        elif language == "go":
+            return self._extract_param_types_go(node, code_bytes)
+        elif language == "java":
+            return self._extract_param_types_java(node, code_bytes)
+        return {}
+
+    def _extract_param_types_python(self, node: Any, code_bytes: bytes) -> dict[str, str]:
+        """Extract parameter types from Python function."""
         param_types: dict[str, str] = {}
         param_node = self._find_child_by_type(
             node, ("parameters", "formal_parameters", "parameter_list")
@@ -685,7 +697,6 @@ class TreeSitterNormalizer:
             return param_types
 
         for child in param_node.children:
-            # Python typed parameters: typed_parameter or typed_default_parameter
             if child.type in ("typed_parameter", "typed_default_parameter"):
                 name_node = self._find_child_by_type(child, ("identifier",))
                 type_node = self._find_child_by_type(child, ("type",))
@@ -696,7 +707,76 @@ class TreeSitterNormalizer:
                     param_type = self._type_node_to_str(type_node, code_bytes)
                     if param_name and param_type:
                         param_types[param_name] = param_type
+        return param_types
 
+    def _extract_param_types_typescript(self, node: Any, code_bytes: bytes) -> dict[str, str]:
+        """Extract parameter types from TypeScript function."""
+        param_types: dict[str, str] = {}
+        param_node = self._find_child_by_type(node, ("formal_parameters",))
+        if param_node is None:
+            return param_types
+
+        for child in param_node.children:
+            if child.type in ("required_parameter", "optional_parameter"):
+                name = None
+                type_str = None
+                for gc in child.children:
+                    if gc.type == "identifier":
+                        name = gc.text.decode("utf-8", errors="ignore") if gc.text else None
+                    elif gc.type == "type_annotation":
+                        # Get the type from annotation
+                        for ggc in gc.children:
+                            if ggc.type not in (":",):
+                                type_str = self._type_node_to_str(ggc, code_bytes)
+                                break
+                if name and type_str:
+                    param_types[name] = type_str
+        return param_types
+
+    def _extract_param_types_go(self, node: Any, code_bytes: bytes) -> dict[str, str]:
+        """Extract parameter types from Go function."""
+        param_types: dict[str, str] = {}
+        # Go: first parameter_list is the params
+        for child in node.children:
+            if child.type == "parameter_list":
+                for param in child.children:
+                    if param.type == "parameter_declaration":
+                        names = []
+                        type_str = None
+                        for gc in param.children:
+                            if gc.type == "identifier":
+                                names.append(gc.text.decode("utf-8", errors="ignore") if gc.text else "")
+                            elif gc.type in ("type_identifier", "pointer_type", "slice_type",
+                                            "array_type", "map_type", "channel_type", "qualified_type",
+                                            "interface_type", "struct_type", "function_type"):
+                                type_str = self._type_node_to_str(gc, code_bytes)
+                        if type_str:
+                            for name in names:
+                                if name:
+                                    param_types[name] = type_str
+                break  # Only process first parameter_list (params, not results)
+        return param_types
+
+    def _extract_param_types_java(self, node: Any, code_bytes: bytes) -> dict[str, str]:
+        """Extract parameter types from Java method."""
+        param_types: dict[str, str] = {}
+        param_node = self._find_child_by_type(node, ("formal_parameters",))
+        if param_node is None:
+            return param_types
+
+        for child in param_node.children:
+            if child.type in ("formal_parameter", "spread_parameter"):
+                name = None
+                type_str = None
+                for gc in child.children:
+                    if gc.type == "identifier":
+                        name = gc.text.decode("utf-8", errors="ignore") if gc.text else None
+                    elif gc.type in ("type_identifier", "integral_type", "floating_point_type",
+                                    "boolean_type", "generic_type", "array_type",
+                                    "scoped_type_identifier"):
+                        type_str = self._type_node_to_str(gc, code_bytes)
+                if name and type_str:
+                    param_types[name] = type_str
         return param_types
 
     def _type_node_to_str(self, node: Any, code_bytes: bytes) -> str:

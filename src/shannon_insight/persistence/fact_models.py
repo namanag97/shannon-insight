@@ -74,7 +74,7 @@ class FunctionFact:
             call_targets=list(fn.call_targets) if fn.call_targets else [],
             class_name=fn.class_name,
             return_type=fn.return_type,
-            param_types=dict(fn.param_types) if fn.param_types else {},
+            param_types=dict(fn.param_types) if fn.param_types else None,
             is_stub=fn.is_stub,
             stub_score=fn.stub_score,
         )

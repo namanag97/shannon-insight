@@ -17,10 +17,10 @@ from __future__ import annotations
 
 import logging
 import sqlite3
+from collections.abc import Generator
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Generator
 
 from ..graph.models import CodeGraph, Community, CycleGroup, GraphAnalysis
 
@@ -203,28 +203,57 @@ class GraphStore:
             # File metrics
             self._store_metrics(conn, session_id, "FILE", "pagerank", analysis.pagerank)
             self._store_metrics(conn, session_id, "FILE", "betweenness", analysis.betweenness)
-            self._store_metrics(conn, session_id, "FILE", "in_degree",
-                               {k: float(v) for k, v in analysis.in_degree.items()})
-            self._store_metrics(conn, session_id, "FILE", "out_degree",
-                               {k: float(v) for k, v in analysis.out_degree.items()})
-            self._store_metrics(conn, session_id, "FILE", "depth",
-                               {k: float(v) for k, v in analysis.depth.items()})
-            self._store_metrics(conn, session_id, "FILE", "is_orphan",
-                               {k: 1.0 if v else 0.0 for k, v in analysis.is_orphan.items()})
+            self._store_metrics(
+                conn,
+                session_id,
+                "FILE",
+                "in_degree",
+                {k: float(v) for k, v in analysis.in_degree.items()},
+            )
+            self._store_metrics(
+                conn,
+                session_id,
+                "FILE",
+                "out_degree",
+                {k: float(v) for k, v in analysis.out_degree.items()},
+            )
+            self._store_metrics(
+                conn, session_id, "FILE", "depth", {k: float(v) for k, v in analysis.depth.items()}
+            )
+            self._store_metrics(
+                conn,
+                session_id,
+                "FILE",
+                "is_orphan",
+                {k: 1.0 if v else 0.0 for k, v in analysis.is_orphan.items()},
+            )
 
             # Function metrics
-            self._store_metrics(conn, session_id, "FUNCTION", "pagerank",
-                               analysis.function_pagerank)
-            self._store_metrics(conn, session_id, "FUNCTION", "betweenness",
-                               analysis.function_betweenness)
-            self._store_metrics(conn, session_id, "FUNCTION", "is_dead",
-                               {fn: 1.0 for fn in analysis.dead_functions})
+            self._store_metrics(
+                conn, session_id, "FUNCTION", "pagerank", analysis.function_pagerank
+            )
+            self._store_metrics(
+                conn, session_id, "FUNCTION", "betweenness", analysis.function_betweenness
+            )
+            self._store_metrics(
+                conn, session_id, "FUNCTION", "is_dead", dict.fromkeys(analysis.dead_functions, 1.0)
+            )
 
             # Class metrics
-            self._store_metrics(conn, session_id, "CLASS", "inheritance_depth",
-                               {k: float(v) for k, v in analysis.inheritance_depth.items()})
-            self._store_metrics(conn, session_id, "CLASS", "has_diamond",
-                               {cls: 1.0 for cls in analysis.diamond_classes})
+            self._store_metrics(
+                conn,
+                session_id,
+                "CLASS",
+                "inheritance_depth",
+                {k: float(v) for k, v in analysis.inheritance_depth.items()},
+            )
+            self._store_metrics(
+                conn,
+                session_id,
+                "CLASS",
+                "has_diamond",
+                dict.fromkeys(analysis.diamond_classes, 1.0),
+            )
 
             # Cycles
             for i, cycle in enumerate(analysis.cycles):
@@ -294,13 +323,11 @@ class GraphStore:
         """Load CodeGraph from database."""
         graph = CodeGraph()
         with self._connect() as conn:
-            cursor = conn.execute(
-                "SELECT * FROM graph_edges WHERE session_id = ?", (session_id,)
-            )
+            cursor = conn.execute("SELECT * FROM graph_edges WHERE session_id = ?", (session_id,))
             for row in cursor:
                 edge_type = row["edge_type"]
                 src, tgt = row["source_node"], row["target_node"]
-                src_type, tgt_type = row["source_node_type"], row["target_node_type"]
+                tgt_type = row["target_node_type"]
 
                 if edge_type == "IMPORTS":
                     graph.import_edges.setdefault(src, []).append(tgt)
@@ -332,12 +359,13 @@ class GraphStore:
         analysis = GraphAnalysis()
         with self._connect() as conn:
             # Metrics
-            cursor = conn.execute(
-                "SELECT * FROM node_metrics WHERE session_id = ?", (session_id,)
-            )
+            cursor = conn.execute("SELECT * FROM node_metrics WHERE session_id = ?", (session_id,))
             for row in cursor:
                 node, ntype, metric, val = (
-                    row["node_id"], row["node_type"], row["metric_name"], row["value"]
+                    row["node_id"],
+                    row["node_type"],
+                    row["metric_name"],
+                    row["value"],
                 )
                 if ntype == "FILE":
                     if metric == "pagerank":
@@ -390,14 +418,10 @@ class GraphStore:
                 cid, node = row["community_id"], row["node_id"]
                 analysis.node_community[node] = cid
                 comm_map.setdefault(cid, set()).add(node)
-            analysis.communities = [
-                Community(id=i, members=m) for i, m in sorted(comm_map.items())
-            ]
+            analysis.communities = [Community(id=i, members=m) for i, m in sorted(comm_map.items())]
 
             # Summary
-            cursor = conn.execute(
-                "SELECT * FROM graph_summary WHERE session_id = ?", (session_id,)
-            )
+            cursor = conn.execute("SELECT * FROM graph_summary WHERE session_id = ?", (session_id,))
             row = cursor.fetchone()
             if row:
                 analysis.modularity_score = row["modularity_score"]
@@ -417,8 +441,6 @@ class GraphStore:
     def get_summary(self, session_id: str) -> dict | None:
         """Get graph summary stats."""
         with self._connect() as conn:
-            cursor = conn.execute(
-                "SELECT * FROM graph_summary WHERE session_id = ?", (session_id,)
-            )
+            cursor = conn.execute("SELECT * FROM graph_summary WHERE session_id = ?", (session_id,))
             row = cursor.fetchone()
             return dict(row) if row else None

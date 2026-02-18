@@ -25,14 +25,13 @@ from pathlib import Path
 from threading import Lock
 from typing import TYPE_CHECKING
 
+# Import STDLIB_ROOTS for stdlib detection
+from ..graph.builder import LANGUAGE_EXTENSIONS, STDLIB_ROOTS
 from .fallback import RegexFallbackScanner
 from .languages import detect_language
 from .normalizer import TreeSitterNormalizer
-from .syntax import FileSyntax, ImportDecl
+from .syntax import FileSyntax
 from .treesitter_parser import TREE_SITTER_AVAILABLE
-
-# Import STDLIB_ROOTS for stdlib detection
-from ..graph.builder import STDLIB_ROOTS, LANGUAGE_EXTENSIONS
 
 if TYPE_CHECKING:
     pass
@@ -235,7 +234,6 @@ def resolve_all_imports(file_syntaxes: dict[str, FileSyntax]) -> None:
     """
     all_paths = set(file_syntaxes.keys())
     path_index = _build_path_index(all_paths)
-    project_prefixes = _infer_project_prefixes(all_paths)
 
     for fs in file_syntaxes.values():
         language = fs.language

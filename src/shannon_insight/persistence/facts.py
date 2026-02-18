@@ -357,7 +357,7 @@ class FactDatabase:
                 json.dumps(fn.call_targets),
                 fn.class_name,
                 fn.return_type,
-                json.dumps(fn.param_types),
+                json.dumps(fn.param_types or {}),
                 1 if fn.is_stub else 0,
                 fn.stub_score,
             ),

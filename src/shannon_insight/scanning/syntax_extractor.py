@@ -96,7 +96,9 @@ class SyntaxExtractor:
 
         # Try tree-sitter first
         if self._normalizer is not None:
-            syntax = self._normalizer.parse_file(content, rel_path, language, mtime)
+            syntax = self._normalizer.parse_file(
+                content, rel_path, language, mtime, absolute_path=str(file_path.resolve())
+            )
             if syntax is not None:
                 with self._lock:
                     self.treesitter_count += 1

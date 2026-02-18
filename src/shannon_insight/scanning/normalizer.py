@@ -612,9 +612,7 @@ class TreeSitterNormalizer:
 
         return None
 
-    def _extract_param_types(
-        self, node: Any, code_bytes: bytes, language: str
-    ) -> dict[str, str]:
+    def _extract_param_types(self, node: Any, code_bytes: bytes, language: str) -> dict[str, str]:
         """Extract parameter type annotations from function node (Python)."""
         if language != "python":
             return {}
@@ -632,7 +630,9 @@ class TreeSitterNormalizer:
                 name_node = self._find_child_by_type(child, ("identifier",))
                 type_node = self._find_child_by_type(child, ("type",))
                 if name_node and type_node:
-                    param_name = name_node.text.decode("utf-8", errors="ignore") if name_node.text else ""
+                    param_name = (
+                        name_node.text.decode("utf-8", errors="ignore") if name_node.text else ""
+                    )
                     param_type = self._type_node_to_str(type_node, code_bytes)
                     if param_name and param_type:
                         param_types[param_name] = param_type
@@ -644,7 +644,8 @@ class TreeSitterNormalizer:
         if node is None:
             return ""
         if node.text:
-            return node.text.decode("utf-8", errors="ignore").strip()
+            result: str = node.text.decode("utf-8", errors="ignore").strip()
+            return result
         return ""
 
     def _extract_call_targets(

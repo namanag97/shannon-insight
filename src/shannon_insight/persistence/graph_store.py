@@ -169,6 +169,49 @@ class GraphStore:
                         (session_id, "CONTAINS", file_path, "FILE", node, target_type),
                     )
                     counts["contains"] = counts.get("contains", 0) + 1
+
+            # TYPE FLOW edges
+            # Return type edges (FUNCTION -> TYPE)
+            for func_node, type_str in graph.returns_edges.items():
+                conn.execute(
+                    """
+                    INSERT OR REPLACE INTO graph_edges
+                    (session_id, edge_type, source_node, source_node_type,
+                     target_node, target_node_type)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """,
+                    (session_id, "RETURNS", func_node, "FUNCTION", type_str, "TYPE"),
+                )
+                counts["returns"] = counts.get("returns", 0) + 1
+
+            # Parameter type edges (FUNCTION -> TYPE with param name in metadata)
+            for func_node, param_types in graph.param_type_edges.items():
+                for param_name, type_str in param_types.items():
+                    conn.execute(
+                        """
+                        INSERT OR REPLACE INTO graph_edges
+                        (session_id, edge_type, source_node, source_node_type,
+                         target_node, target_node_type, metadata)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (session_id, "PARAM_TYPE", func_node, "FUNCTION", type_str, "TYPE", param_name),
+                    )
+                    counts["param_types"] = counts.get("param_types", 0) + 1
+
+            # Field type edges (CLASS -> TYPE with field name in metadata)
+            for class_node, field_types in graph.field_type_edges.items():
+                for field_name, type_str in field_types.items():
+                    conn.execute(
+                        """
+                        INSERT OR REPLACE INTO graph_edges
+                        (session_id, edge_type, source_node, source_node_type,
+                         target_node, target_node_type, metadata)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (session_id, "FIELD_TYPE", class_node, "CLASS", type_str, "TYPE", field_name),
+                    )
+                    counts["field_types"] = counts.get("field_types", 0) + 1
+
         return counts
 
     def _store_edges(

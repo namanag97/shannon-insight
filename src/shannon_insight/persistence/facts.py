@@ -545,6 +545,8 @@ class FactDatabase:
             nesting_depth=row["nesting_depth"],
             call_targets=json.loads(row["call_targets"]),
             class_name=row["class_name"],
+            return_type=row["return_type"],
+            param_types=json.loads(row["param_types"]) if row["param_types"] else {},
             is_stub=bool(row["is_stub"]),
             stub_score=row["stub_score"],
         )
@@ -559,6 +561,7 @@ class FactDatabase:
             bases=json.loads(row["bases"]),
             method_names=json.loads(row["method_names"]),
             field_names=json.loads(row["field_names"]),
+            field_types=json.loads(row["field_types"]) if row["field_types"] else {},
             is_abstract=bool(row["is_abstract"]),
             method_count=row["method_count"],
         )

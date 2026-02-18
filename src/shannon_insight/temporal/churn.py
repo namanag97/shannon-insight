@@ -3,10 +3,15 @@
 from __future__ import annotations
 
 import re
+import time
 from collections import Counter, defaultdict
 from math import log2
+from typing import TYPE_CHECKING
 
 from .models import ChurnSeries, GitHistory, Trajectory
+
+if TYPE_CHECKING:
+    from ..persistence.git_facts import GitFactDatabase
 
 # Keywords for fix_ratio and refactor_ratio computation.
 # Matched with word boundaries (re.search r'\b{kw}\b') to prevent false positives

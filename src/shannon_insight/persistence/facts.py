@@ -706,3 +706,324 @@ class FactDatabase:
             stats["import_count"] = cursor.fetchone()[0]
 
             return stats
+
+    # ── Graph Storage (Phase 2) ─────────────────────────────────────────
+
+    def store_graph_edges(
+        self,
+        session_id: str,
+        edge_type: str,
+        edges: dict[str, list[str]],
+        source_node_type: str,
+        target_node_type: str,
+    ) -> int:
+        """Store graph edges of a specific type.
+
+        Args:
+            session_id: Analysis session ID
+            edge_type: IMPORTS, CALLS, INHERITS, CONTAINS, TYPE_FLOW
+            edges: Adjacency dict {source: [targets]}
+            source_node_type: FILE, FUNCTION, CLASS, TYPE
+            target_node_type: FILE, FUNCTION, CLASS, TYPE
+
+        Returns:
+            Number of edges stored
+        """
+        count = 0
+        with self._connect() as conn:
+            for source, targets in edges.items():
+                for target in targets:
+                    conn.execute(
+                        """
+                        INSERT OR REPLACE INTO graph_edges
+                        (session_id, edge_type, source_node, source_node_type,
+                         target_node, target_node_type)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                        """,
+                        (session_id, edge_type, source, source_node_type,
+                         target, target_node_type),
+                    )
+                    count += 1
+        return count
+
+    def store_node_metric(
+        self,
+        session_id: str,
+        node_id: str,
+        node_type: str,
+        metric_name: str,
+        value: float,
+    ) -> None:
+        """Store a single metric for a node."""
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO node_metrics
+                (session_id, node_id, node_type, metric_name, value)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                (session_id, node_id, node_type, metric_name, value),
+            )
+
+    def store_node_metrics_batch(
+        self,
+        session_id: str,
+        node_type: str,
+        metric_name: str,
+        values: dict[str, float],
+    ) -> int:
+        """Store metrics for multiple nodes in batch.
+
+        Args:
+            session_id: Analysis session ID
+            node_type: FILE, FUNCTION, CLASS
+            metric_name: pagerank, betweenness, depth, etc.
+            values: {node_id: value}
+
+        Returns:
+            Number of metrics stored
+        """
+        with self._connect() as conn:
+            for node_id, value in values.items():
+                conn.execute(
+                    """
+                    INSERT OR REPLACE INTO node_metrics
+                    (session_id, node_id, node_type, metric_name, value)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                    (session_id, node_id, node_type, metric_name, value),
+                )
+        return len(values)
+
+    def store_graph_summary(
+        self,
+        session_id: str,
+        summary: dict,
+    ) -> None:
+        """Store graph-level summary statistics."""
+        from datetime import datetime, timezone
+
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO graph_summary
+                (session_id, file_node_count, function_node_count, class_node_count,
+                 import_edge_count, call_edge_count, inherit_edge_count, contains_edge_count,
+                 cycle_count, function_cycle_count, dead_function_count, diamond_class_count,
+                 modularity_score, centrality_gini, computed_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    session_id,
+                    summary.get("file_node_count", 0),
+                    summary.get("function_node_count", 0),
+                    summary.get("class_node_count", 0),
+                    summary.get("import_edge_count", 0),
+                    summary.get("call_edge_count", 0),
+                    summary.get("inherit_edge_count", 0),
+                    summary.get("contains_edge_count", 0),
+                    summary.get("cycle_count", 0),
+                    summary.get("function_cycle_count", 0),
+                    summary.get("dead_function_count", 0),
+                    summary.get("diamond_class_count", 0),
+                    summary.get("modularity_score", 0.0),
+                    summary.get("centrality_gini", 0.0),
+                    datetime.now(timezone.utc).isoformat(),
+                ),
+            )
+
+    def store_cycle_members(
+        self,
+        session_id: str,
+        cycle_type: str,
+        cycles: list[set[str]],
+    ) -> None:
+        """Store cycle membership information.
+
+        Args:
+            session_id: Analysis session ID
+            cycle_type: FILE or FUNCTION
+            cycles: List of sets, each set is a cycle's member nodes
+        """
+        with self._connect() as conn:
+            for cycle_id, members in enumerate(cycles):
+                for node_id in members:
+                    conn.execute(
+                        """
+                        INSERT OR REPLACE INTO cycle_members
+                        (session_id, cycle_id, cycle_type, node_id)
+                        VALUES (?, ?, ?, ?)
+                        """,
+                        (session_id, cycle_id, cycle_type, node_id),
+                    )
+
+    def store_community_members(
+        self,
+        session_id: str,
+        node_community: dict[str, int],
+    ) -> None:
+        """Store community membership from Louvain.
+
+        Args:
+            session_id: Analysis session ID
+            node_community: {node_id: community_id}
+        """
+        with self._connect() as conn:
+            for node_id, community_id in node_community.items():
+                conn.execute(
+                    """
+                    INSERT OR REPLACE INTO community_members
+                    (session_id, community_id, node_id)
+                    VALUES (?, ?, ?)
+                    """,
+                    (session_id, community_id, node_id),
+                )
+
+    # ── Graph Retrieval (Phase 2) ───────────────────────────────────────
+
+    def get_graph_edges(
+        self,
+        session_id: str,
+        edge_type: str | None = None,
+    ) -> dict[str, list[str]]:
+        """Get graph edges, optionally filtered by type.
+
+        Args:
+            session_id: Analysis session ID
+            edge_type: Optional filter (IMPORTS, CALLS, etc.)
+
+        Returns:
+            Adjacency dict {source: [targets]}
+        """
+        with self._connect() as conn:
+            if edge_type:
+                cursor = conn.execute(
+                    """
+                    SELECT source_node, target_node FROM graph_edges
+                    WHERE session_id = ? AND edge_type = ?
+                    """,
+                    (session_id, edge_type),
+                )
+            else:
+                cursor = conn.execute(
+                    """
+                    SELECT source_node, target_node FROM graph_edges
+                    WHERE session_id = ?
+                    """,
+                    (session_id,),
+                )
+
+            edges: dict[str, list[str]] = {}
+            for row in cursor.fetchall():
+                source = row["source_node"]
+                target = row["target_node"]
+                edges.setdefault(source, []).append(target)
+            return edges
+
+    def get_node_metrics(
+        self,
+        session_id: str,
+        metric_name: str | None = None,
+        node_type: str | None = None,
+    ) -> dict[str, dict[str, float]]:
+        """Get node metrics, optionally filtered.
+
+        Args:
+            session_id: Analysis session ID
+            metric_name: Optional filter by metric (pagerank, etc.)
+            node_type: Optional filter by node type (FILE, FUNCTION, etc.)
+
+        Returns:
+            Nested dict {node_id: {metric_name: value}}
+        """
+        with self._connect() as conn:
+            query = "SELECT node_id, metric_name, value FROM node_metrics WHERE session_id = ?"
+            params: list = [session_id]
+
+            if metric_name:
+                query += " AND metric_name = ?"
+                params.append(metric_name)
+            if node_type:
+                query += " AND node_type = ?"
+                params.append(node_type)
+
+            cursor = conn.execute(query, params)
+
+            result: dict[str, dict[str, float]] = {}
+            for row in cursor.fetchall():
+                node_id = row["node_id"]
+                if node_id not in result:
+                    result[node_id] = {}
+                result[node_id][row["metric_name"]] = row["value"]
+            return result
+
+    def get_graph_summary(self, session_id: str) -> dict | None:
+        """Get graph-level summary for a session."""
+        with self._connect() as conn:
+            cursor = conn.execute(
+                "SELECT * FROM graph_summary WHERE session_id = ?",
+                (session_id,),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                return None
+            return dict(row)
+
+    def get_cycle_members(
+        self,
+        session_id: str,
+        cycle_type: str | None = None,
+    ) -> list[set[str]]:
+        """Get cycles as list of node sets.
+
+        Args:
+            session_id: Analysis session ID
+            cycle_type: Optional filter (FILE or FUNCTION)
+
+        Returns:
+            List of sets, each set is a cycle's members
+        """
+        with self._connect() as conn:
+            if cycle_type:
+                cursor = conn.execute(
+                    """
+                    SELECT cycle_id, node_id FROM cycle_members
+                    WHERE session_id = ? AND cycle_type = ?
+                    ORDER BY cycle_id
+                    """,
+                    (session_id, cycle_type),
+                )
+            else:
+                cursor = conn.execute(
+                    """
+                    SELECT cycle_id, node_id FROM cycle_members
+                    WHERE session_id = ?
+                    ORDER BY cycle_id
+                    """,
+                    (session_id,),
+                )
+
+            cycles_dict: dict[int, set[str]] = {}
+            for row in cursor.fetchall():
+                cycle_id = row["cycle_id"]
+                if cycle_id not in cycles_dict:
+                    cycles_dict[cycle_id] = set()
+                cycles_dict[cycle_id].add(row["node_id"])
+
+            return list(cycles_dict.values())
+
+    def get_community_members(self, session_id: str) -> dict[str, int]:
+        """Get community membership for all nodes.
+
+        Returns:
+            {node_id: community_id}
+        """
+        with self._connect() as conn:
+            cursor = conn.execute(
+                """
+                SELECT node_id, community_id FROM community_members
+                WHERE session_id = ?
+                """,
+                (session_id,),
+            )
+            return {row["node_id"]: row["community_id"] for row in cursor.fetchall()}

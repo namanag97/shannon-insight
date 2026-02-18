@@ -4,7 +4,7 @@ from collections import defaultdict, deque
 
 from ..math.gini import Gini
 from ..math.graph import GraphMetrics
-from .models import Community, CycleGroup, DependencyGraph, GraphAnalysis
+from .models import CodeGraph, Community, CycleGroup, DependencyGraph, GraphAnalysis
 
 
 def run_graph_algorithms(

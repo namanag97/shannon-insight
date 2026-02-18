@@ -827,8 +827,8 @@ def build_code_graph_from_facts(
 
     # Build indexes for resolution
     all_paths = {f.path for f in file_facts}
-    function_index = _build_function_index(file_facts)
-    class_index = _build_class_index(file_facts)
+    function_index, function_nodes, file_to_functions = _build_function_index(file_facts)
+    class_index, class_nodes, file_to_classes = _build_class_index(file_facts)
     import_index = _build_import_index(imports)
 
     # Build FILE nodes

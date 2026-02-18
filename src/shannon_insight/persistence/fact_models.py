@@ -138,7 +138,7 @@ class ClassFact:
             bases=list(cd.bases),
             method_names=[m.name for m in cd.methods],
             field_names=list(cd.fields),
-            field_types=dict(cd.field_types) if cd.field_types else {},
+            field_types=dict(cd.field_types) if cd.field_types else None,
             is_abstract=cd.is_abstract,
             method_count=cd.method_count,
         )

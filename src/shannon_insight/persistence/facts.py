@@ -382,7 +382,7 @@ class FactDatabase:
                 json.dumps(cls.bases),
                 json.dumps(cls.method_names),
                 json.dumps(cls.field_names),
-                json.dumps(cls.field_types),
+                json.dumps(cls.field_types or {}),
                 1 if cls.is_abstract else 0,
                 cls.method_count,
             ),

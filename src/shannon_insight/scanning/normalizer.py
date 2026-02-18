@@ -350,9 +350,7 @@ class TreeSitterNormalizer:
 
         return methods
 
-    def _extract_class_fields(
-        self, class_node: Any, code_bytes: bytes, language: str
-    ) -> list[str]:
+    def _extract_class_fields(self, class_node: Any, code_bytes: bytes, language: str) -> list[str]:
         """Extract field names from a class node."""
         fields: list[str] = []
 
@@ -518,6 +516,62 @@ class TreeSitterNormalizer:
                     params.append(param_name)
 
         return params
+
+    def _extract_return_type(self, node: Any, code_bytes: bytes, language: str) -> str | None:
+        """Extract return type annotation from function node (Python)."""
+        if language != "python":
+            return None
+
+        # Look for return_type in function definition
+        # Python: function_definition has "-> type" as return_type child
+        for child in node.children:
+            if child.type == "type":
+                return self._type_node_to_str(child, code_bytes)
+
+        # Also check for "->" followed by type
+        found_arrow = False
+        for child in node.children:
+            if child.type == "->" or (child.text and child.text == b"->"):
+                found_arrow = True
+            elif found_arrow and child.type in ("type", "identifier", "subscript", "attribute"):
+                return self._type_node_to_str(child, code_bytes)
+
+        return None
+
+    def _extract_param_types(
+        self, node: Any, code_bytes: bytes, language: str
+    ) -> dict[str, str]:
+        """Extract parameter type annotations from function node (Python)."""
+        if language != "python":
+            return {}
+
+        param_types: dict[str, str] = {}
+        param_node = self._find_child_by_type(
+            node, ("parameters", "formal_parameters", "parameter_list")
+        )
+        if param_node is None:
+            return param_types
+
+        for child in param_node.children:
+            # Python typed parameters: typed_parameter or typed_default_parameter
+            if child.type in ("typed_parameter", "typed_default_parameter"):
+                name_node = self._find_child_by_type(child, ("identifier",))
+                type_node = self._find_child_by_type(child, ("type",))
+                if name_node and type_node:
+                    param_name = name_node.text.decode("utf-8", errors="ignore") if name_node.text else ""
+                    param_type = self._type_node_to_str(type_node, code_bytes)
+                    if param_name and param_type:
+                        param_types[param_name] = param_type
+
+        return param_types
+
+    def _type_node_to_str(self, node: Any, code_bytes: bytes) -> str:
+        """Convert a type node to string representation."""
+        if node is None:
+            return ""
+        if node.text:
+            return node.text.decode("utf-8", errors="ignore").strip()
+        return ""
 
     def _extract_call_targets(
         self, body_node: Any | None, code_bytes: bytes, language: str

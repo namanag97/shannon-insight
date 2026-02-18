@@ -799,3 +799,301 @@ def _resolve_dot_relative_import(
                 return path
 
     return None
+
+
+# ── Phase 2: Multi-type graph from facts ─────────────────────────────
+
+
+def build_code_graph_from_facts(
+    file_facts: list[FileFact],
+    call_targets: dict[str, list[str]],
+    class_bases: dict[str, list[str]],
+    imports: list[ImportFact],
+) -> CodeGraph:
+    """Build multi-type graph from stored facts.
+
+    This is the NEW way - uses pre-computed data from Phase 1 FactDatabase.
+
+    Args:
+        file_facts: List of FileFact from db.get_file_facts_for_session()
+        call_targets: Dict from db.get_call_targets_for_session()
+        class_bases: Dict from db.get_class_bases_for_session()
+        imports: List from db.get_imports_for_session()
+
+    Returns:
+        CodeGraph with all node types and edge types populated
+    """
+    graph = CodeGraph()
+
+    # Build indexes for resolution
+    all_paths = {f.path for f in file_facts}
+    function_index = _build_function_index(file_facts)
+    class_index = _build_class_index(file_facts)
+    import_index = _build_import_index(imports)
+
+    # Build FILE nodes
+    for fact in file_facts:
+        graph.file_nodes.add(fact.path)
+
+    # Build FUNCTION nodes and CONTAINS edges
+    for file_fact in file_facts:
+        for fn in file_fact.functions:
+            node_id = f"{file_fact.path}:{fn.qualified_name}"
+            graph.function_nodes.add(node_id)
+            graph.contains_edges.setdefault(file_fact.path, []).append(node_id)
+            graph.contained_in[node_id] = file_fact.path
+
+    # Build CALL edges
+    for file_fact in file_facts:
+        for fn in file_fact.functions:
+            caller_node = f"{file_fact.path}:{fn.qualified_name}"
+
+            for target in fn.call_targets:
+                # Resolve target to a function node
+                target_node = _resolve_call_target(
+                    target,
+                    file_fact.path,
+                    fn.class_name,
+                    function_index,
+                    import_index,
+                    all_paths,
+                )
+                if target_node and target_node in graph.function_nodes:
+                    graph.call_edges.setdefault(caller_node, []).append(target_node)
+                    graph.called_by.setdefault(target_node, []).append(caller_node)
+
+    # Build CLASS nodes and INHERIT edges
+    for class_key, bases in class_bases.items():
+        # class_key is "file:ClassName"
+        graph.class_nodes.add(class_key)
+        file_path = class_key.split(":", 1)[0]
+        graph.contains_edges.setdefault(file_path, []).append(class_key)
+        graph.contained_in[class_key] = file_path
+
+        for base in bases:
+            # Try to resolve base class to a node
+            base_node = _resolve_class(
+                base,
+                file_path,
+                class_index,
+                import_index,
+                all_paths,
+            )
+            if base_node and base_node in graph.class_nodes:
+                graph.inherit_edges.setdefault(class_key, []).append(base_node)
+                graph.inherited_by.setdefault(base_node, []).append(class_key)
+
+    # Build IMPORT edges (use resolved_path from facts)
+    for imp in imports:
+        if imp.resolved_path and imp.resolved_path in all_paths:
+            if imp.file_path != imp.resolved_path:  # Skip self-imports
+                graph.import_edges.setdefault(imp.file_path, []).append(imp.resolved_path)
+                graph.imported_by.setdefault(imp.resolved_path, []).append(imp.file_path)
+
+    return graph
+
+
+def _build_function_index(file_facts: list[FileFact]) -> dict[str, str]:
+    """Build index from function names to node IDs.
+
+    Maps:
+    - "func_name" -> "file:func_name" (if unique)
+    - "ClassName.method" -> "file:ClassName.method" (if unique)
+    - "file:qualified_name" -> "file:qualified_name" (always)
+
+    For non-unique names, multiple files define the same function,
+    so we don't create a short mapping.
+    """
+    # First pass: collect all occurrences
+    occurrences: dict[str, list[str]] = {}
+    for file_fact in file_facts:
+        for fn in file_fact.functions:
+            node_id = f"{file_fact.path}:{fn.qualified_name}"
+
+            # Full path always maps
+            occurrences.setdefault(node_id, []).append(node_id)
+
+            # Short name (qualified_name only)
+            occurrences.setdefault(fn.qualified_name, []).append(node_id)
+
+            # Just the function name (without class)
+            if fn.class_name:
+                occurrences.setdefault(fn.name, []).append(node_id)
+
+    # Second pass: create index (only unique mappings)
+    index: dict[str, str] = {}
+    for key, nodes in occurrences.items():
+        if len(nodes) == 1:
+            index[key] = nodes[0]
+        # If multiple, don't add to index (ambiguous)
+
+    return index
+
+
+def _build_class_index(file_facts: list[FileFact]) -> dict[str, str]:
+    """Build index from class names to node IDs.
+
+    Maps:
+    - "ClassName" -> "file:ClassName" (if unique)
+    - "file:ClassName" -> "file:ClassName" (always)
+    """
+    occurrences: dict[str, list[str]] = {}
+    for file_fact in file_facts:
+        for cls in file_fact.classes:
+            node_id = f"{file_fact.path}:{cls.name}"
+
+            # Full path always maps
+            occurrences.setdefault(node_id, []).append(node_id)
+
+            # Short name
+            occurrences.setdefault(cls.name, []).append(node_id)
+
+    index: dict[str, str] = {}
+    for key, nodes in occurrences.items():
+        if len(nodes) == 1:
+            index[key] = nodes[0]
+
+    return index
+
+
+def _build_import_index(imports: list[ImportFact]) -> dict[str, dict[str, str]]:
+    """Build index from imported names to their source files.
+
+    For each file, maps:
+    - imported name -> source file path
+
+    Example: if foo.py has "from bar import Baz", then:
+    - index["foo.py"]["Baz"] -> "bar.py"
+    """
+    index: dict[str, dict[str, str]] = {}
+    for imp in imports:
+        if imp.resolved_path:
+            file_imports = index.setdefault(imp.file_path, {})
+            for name in imp.names:
+                file_imports[name] = imp.resolved_path
+
+    return index
+
+
+def _resolve_call_target(
+    target: str,
+    caller_file: str,
+    caller_class: Optional[str],
+    function_index: dict[str, str],
+    import_index: dict[str, dict[str, str]],
+    all_paths: set[str],
+) -> Optional[str]:
+    """Resolve a call target string to a function node ID.
+
+    Strategy:
+    1. If target is "self.X" or "cls.X", look for method X in same class
+    2. If target matches a function in same file, use that
+    3. If target matches an imported name, follow the import
+    4. If target matches in function_index, use that
+    5. Otherwise, return None (external/stdlib call)
+    """
+    # Handle self.method and cls.method
+    if target.startswith("self.") or target.startswith("cls."):
+        method_name = target.split(".", 1)[1]
+        if caller_class:
+            # Look for ClassName.method in same file
+            qualified = f"{caller_class}.{method_name}"
+            node_id = f"{caller_file}:{qualified}"
+            if node_id in function_index.values():
+                return node_id
+            # Also check if it's in the index
+            if qualified in function_index:
+                return function_index[qualified]
+        return None
+
+    # Check same-file functions first (most common case)
+    # Try qualified name (ClassName.method)
+    same_file_node = f"{caller_file}:{target}"
+    if same_file_node in function_index.values():
+        return same_file_node
+    # Also check just the function name in same file
+    for node_id in function_index.values():
+        if node_id.startswith(f"{caller_file}:") and node_id.endswith(f".{target}"):
+            return node_id
+        if node_id == f"{caller_file}:{target}":
+            return node_id
+
+    # Check if it's an imported symbol
+    file_imports = import_index.get(caller_file, {})
+    if target in file_imports:
+        source_file = file_imports[target]
+        # Look for a function or class with this name in the source file
+        source_node = f"{source_file}:{target}"
+        if source_node in function_index.values():
+            return source_node
+        # Check if the target is a method call like "ClassName.method"
+        # In this case, we're probably calling a function in that module
+        if target in function_index:
+            return function_index[target]
+
+    # Check if the target contains a dot (method call on imported object)
+    if "." in target:
+        parts = target.split(".", 1)
+        obj_name, method = parts[0], parts[1]
+        # Check if obj_name is imported
+        if obj_name in file_imports:
+            source_file = file_imports[obj_name]
+            # Look for obj_name.method in source file (if obj_name is a class)
+            source_node = f"{source_file}:{obj_name}.{method}"
+            if source_node in function_index.values():
+                return source_node
+
+    # Try global lookup
+    if target in function_index:
+        return function_index[target]
+
+    # Not an internal call (stdlib/third-party)
+    return None
+
+
+def _resolve_class(
+    base_name: str,
+    current_file: str,
+    class_index: dict[str, str],
+    import_index: dict[str, dict[str, str]],
+    all_paths: set[str],
+) -> Optional[str]:
+    """Resolve a base class name to a class node ID.
+
+    Strategy:
+    1. If base is in same file, use that
+    2. If base is imported, follow the import
+    3. If base is in class_index (unique), use that
+    4. Otherwise, return None (external/stdlib class)
+    """
+    # Check same-file classes first
+    same_file_node = f"{current_file}:{base_name}"
+    if same_file_node in class_index.values():
+        return same_file_node
+
+    # Check if it's an imported symbol
+    file_imports = import_index.get(current_file, {})
+    if base_name in file_imports:
+        source_file = file_imports[base_name]
+        source_node = f"{source_file}:{base_name}"
+        if source_node in class_index.values():
+            return source_node
+
+    # Try global lookup (if unique)
+    if base_name in class_index:
+        return class_index[base_name]
+
+    # Handle qualified names like "module.ClassName"
+    if "." in base_name:
+        parts = base_name.rsplit(".", 1)
+        class_only = parts[-1]
+        # Check if the module part is imported
+        module_part = parts[0]
+        if module_part in file_imports:
+            source_file = file_imports[module_part]
+            source_node = f"{source_file}:{class_only}"
+            if source_node in class_index.values():
+                return source_node
+
+    # Not an internal class (stdlib/third-party like ABC, Protocol)
+    return None

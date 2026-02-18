@@ -1158,10 +1158,19 @@ def _resolve_class(
     base_name: str,
     current_file: str,
     class_index: dict[str, str],
+    class_nodes: set[str],
     import_index: dict[str, dict[str, str]],
     all_paths: set[str],
 ) -> Optional[str]:
     """Resolve a base class name to a class node ID.
+
+    Args:
+        base_name: Base class name (e.g., "BaseClass", "abc.ABC")
+        current_file: Path of the file containing the class
+        class_index: name → node_id mapping (only unique names)
+        class_nodes: O(1) set of all class node IDs
+        import_index: file → {imported_name → source_file}
+        all_paths: Set of all file paths
 
     Strategy:
     1. If base is in same file, use that
@@ -1171,7 +1180,7 @@ def _resolve_class(
     """
     # Check same-file classes first
     same_file_node = f"{current_file}:{base_name}"
-    if same_file_node in class_index.values():
+    if same_file_node in class_nodes:  # O(1) lookup
         return same_file_node
 
     # Check if it's an imported symbol
@@ -1179,7 +1188,7 @@ def _resolve_class(
     if base_name in file_imports:
         source_file = file_imports[base_name]
         source_node = f"{source_file}:{base_name}"
-        if source_node in class_index.values():
+        if source_node in class_nodes:  # O(1) lookup
             return source_node
 
     # Try global lookup (if unique)
@@ -1195,7 +1204,7 @@ def _resolve_class(
         if module_part in file_imports:
             source_file = file_imports[module_part]
             source_node = f"{source_file}:{class_only}"
-            if source_node in class_index.values():
+            if source_node in class_nodes:  # O(1) lookup
                 return source_node
 
     # Not an internal class (stdlib/third-party like ABC, Protocol)

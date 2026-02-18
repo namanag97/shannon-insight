@@ -36,15 +36,21 @@ class TreeSitterNormalizer:
         self._parser = TreeSitterParser() if TREE_SITTER_AVAILABLE else None
 
     def parse_file(
-        self, content: str, path: str, language: str, mtime: float = 0.0
+        self,
+        content: str,
+        path: str,
+        language: str,
+        mtime: float = 0.0,
+        absolute_path: str = "",
     ) -> FileSyntax | None:
         """Parse file content and return FileSyntax.
 
         Args:
             content: File content as string
-            path: File path for the result
+            path: File path for the result (relative)
             language: Detected language
             mtime: Last modified timestamp
+            absolute_path: Absolute file path for debugging
 
         Returns:
             FileSyntax with call_targets populated, or None if parsing failed
@@ -74,6 +80,7 @@ class TreeSitterNormalizer:
         lines = content.count("\n") + 1 if content else 0
         tokens = self._count_file_tokens(tree)
         complexity = self._compute_complexity(functions)
+        content_hash = FileSyntax.compute_content_hash(content)
 
         return FileSyntax(
             path=path,
@@ -83,6 +90,8 @@ class TreeSitterNormalizer:
             language=language,
             has_main_guard=has_main,
             mtime=mtime,
+            content_hash=content_hash,
+            absolute_path=absolute_path,
             _lines=lines,
             _tokens=tokens,
             _complexity=complexity,

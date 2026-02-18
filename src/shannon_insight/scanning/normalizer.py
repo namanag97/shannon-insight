@@ -450,6 +450,9 @@ class TreeSitterNormalizer:
                     # Remove default value if present
                     if "=" in type_part:
                         type_part = type_part.split("=", 1)[0].strip()
+                    # Remove trailing comment
+                    if "#" in type_part:
+                        type_part = type_part.split("#", 1)[0].strip()
                     # Validate it looks like a field (simple identifier name)
                     if name_part.isidentifier() and type_part:
                         field_types[name_part] = type_part

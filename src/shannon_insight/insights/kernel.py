@@ -129,6 +129,9 @@ class InsightKernel:
         # Sync scanned files to FactStore as entities with basic signals
         self._sync_entities(store)
 
+        # Store facts to database (if enabled)
+        self._store_facts(store)
+
         if self._debug_exporter:
             self._debug_exporter.export_scanning(store)
 

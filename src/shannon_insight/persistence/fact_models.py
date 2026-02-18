@@ -12,7 +12,7 @@ Key difference from FileSyntax:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from ..scanning.syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl

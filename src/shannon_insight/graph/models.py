@@ -9,6 +9,7 @@ Ontology levels:
 """
 
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Optional
 
 # ── Level 2: Relationships (the dependency graph) ──────────────────

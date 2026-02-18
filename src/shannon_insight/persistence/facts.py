@@ -340,8 +340,8 @@ class FactDatabase:
             INSERT INTO function_facts
             (file_fact_id, name, qualified_name, start_line, end_line,
              params, signature_tokens, decorators, body_tokens, nesting_depth,
-             call_targets, class_name, is_stub, stub_score)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             call_targets, class_name, return_type, param_types, is_stub, stub_score)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 file_fact_id,
@@ -356,6 +356,8 @@ class FactDatabase:
                 fn.nesting_depth,
                 json.dumps(fn.call_targets),
                 fn.class_name,
+                fn.return_type,
+                json.dumps(fn.param_types),
                 1 if fn.is_stub else 0,
                 fn.stub_score,
             ),

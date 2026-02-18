@@ -262,8 +262,8 @@ class GraphStore:
                         "INSERT OR REPLACE INTO cycle_members VALUES (NULL,?,?,?,?)",
                         (session_id, i, "FILE", node),
                     )
-            for i, cycle in enumerate(analysis.function_cycles):
-                for node in cycle:
+            for i, func_cycle in enumerate(analysis.function_cycles):
+                for node in func_cycle:
                     conn.execute(
                         "INSERT OR REPLACE INTO cycle_members VALUES (NULL,?,?,?,?)",
                         (session_id, i, "FUNCTION", node),

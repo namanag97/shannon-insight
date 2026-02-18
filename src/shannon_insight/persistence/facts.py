@@ -34,11 +34,10 @@ from .fact_models import (
     FunctionFact,
     ImportFact,
 )
-from ..graph.models import CodeGraph, GraphAnalysis
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 1
 
 # Schema SQL
 SCHEMA = """

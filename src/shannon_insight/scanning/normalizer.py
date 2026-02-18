@@ -391,6 +391,67 @@ class TreeSitterNormalizer:
 
         return fields
 
+    def _extract_field_types(
+        self, class_node: Any, code_bytes: bytes, language: str
+    ) -> dict[str, str]:
+        """Extract field type annotations from a class node (Python)."""
+        if language != "python":
+            return {}
+
+        field_types: dict[str, str] = {}
+
+        # Find body/block
+        body = self._find_child_by_type(class_node, ("block", "class_body"))
+        if body is None:
+            return field_types
+
+        for child in body.children:
+            # Python: expression_statement containing type annotation
+            # e.g., `name: str` or `items: list[Item]`
+            if child.type == "expression_statement":
+                for gc in child.children:
+                    # Check for typed assignment (PEP 526): name: Type = value
+                    if gc.type == "assignment":
+                        left = gc.children[0] if gc.children else None
+                        if left and left.type == "identifier" and left.text:
+                            # Look for type annotation in the form `name: type`
+                            # This is a bit tricky - Python AST structure varies
+                            pass
+
+                    # Check for type annotation without assignment: name: Type
+                    if gc.type == "type":
+                        # The previous sibling should be the identifier
+                        # Tree-sitter Python: expression_statement > type (with identifier before)
+                        pass
+
+            # Handle typed_assignment: name: type = value
+            # In tree-sitter Python, this is captured as expression_statement
+            # containing assignment with typed_parameter pattern
+
+        # Alternative: scan for pattern ": type" in class body text
+        # This is more reliable for Python class bodies
+        body_text = body.text.decode("utf-8", errors="ignore") if body.text else ""
+        lines = body_text.split("\n")
+        for line in lines:
+            line = line.strip()
+            # Skip empty lines, methods, comments
+            if not line or line.startswith("def ") or line.startswith("#"):
+                continue
+            # Look for "name: type" pattern (with optional = default)
+            if ":" in line and not line.startswith("if ") and not line.startswith("for "):
+                parts = line.split(":", 1)
+                if len(parts) == 2:
+                    name_part = parts[0].strip()
+                    type_part = parts[1].strip()
+                    # Remove default value if present
+                    if "=" in type_part:
+                        type_part = type_part.split("=", 1)[0].strip()
+                    # Validate it looks like a field (simple identifier name)
+                    if name_part.isidentifier() and type_part:
+                        field_types[name_part] = type_part
+
+        return field_types
+
     def _extract_imports(self, tree: Any, code_bytes: bytes, language: str) -> list[ImportDecl]:
         """Extract import declarations from parse tree."""
         imports: list[ImportDecl] = []

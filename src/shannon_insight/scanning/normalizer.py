@@ -207,6 +207,10 @@ class TreeSitterNormalizer:
         # Extract decorators (Python only)
         decorators = self._extract_decorators(node, code_bytes, language)
 
+        # Extract type annotations (Python only)
+        return_type = self._extract_return_type(node, code_bytes, language)
+        param_types = self._extract_param_types(node, code_bytes, language)
+
         return FunctionDef(
             name=name,
             params=params,
@@ -217,6 +221,8 @@ class TreeSitterNormalizer:
             end_line=end_line,
             call_targets=call_targets,
             decorators=decorators,
+            return_type=return_type,
+            param_types=param_types,
         )
 
     def _extract_classes(self, tree: Any, code_bytes: bytes, language: str) -> list[ClassDef]:

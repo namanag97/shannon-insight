@@ -261,7 +261,7 @@ class FileFact:
             absolute_path=fs.absolute_path,
             content_hash=fs.content_hash,
             session_id=session_id,
-            parsed_at=datetime.utcnow(),
+            parsed_at=datetime.now(timezone.utc),
             parser_type=parser_type,
             tool_version=tool_version,
             language=fs.language,

@@ -111,7 +111,7 @@ class ReportingExecutor(BaseExecutor):
             return False
 
     def _run_persistence_finders(
-        self, store: AnalysisStore, findings: list, current_findings: list
+        self, store: "AnalysisStore", findings: list, current_findings: list
     ) -> None:
         """Run persistence-based finders with DB connection."""
         from ...insights.finders import get_persistence_finders

@@ -292,9 +292,13 @@ class TreeSitterNormalizer:
         # Detect if abstract
         is_abstract = self._detect_abstract_class(node, code_bytes, language)
 
-        # Methods would require nested parsing - skip for now
-        methods: list[FunctionDef] = []
-        fields: list[str] = []
+        # Get line numbers
+        start_line = node.start_point[0] + 1
+        end_line = node.end_point[0] + 1
+
+        # Extract methods with class context
+        methods = self._extract_class_methods(node, code_bytes, language, name)
+        fields = self._extract_class_fields(node, code_bytes, language)
 
         return ClassDef(
             name=name,
@@ -302,7 +306,77 @@ class TreeSitterNormalizer:
             methods=methods,
             fields=fields,
             is_abstract=is_abstract,
+            start_line=start_line,
+            end_line=end_line,
         )
+
+    def _extract_class_methods(
+        self, class_node: Any, code_bytes: bytes, language: str, class_name: str
+    ) -> list[FunctionDef]:
+        """Extract methods from a class node with class context."""
+        methods: list[FunctionDef] = []
+
+        # Find body/block
+        body = self._find_child_by_type(class_node, ("block", "class_body", "declaration_list"))
+        if body is None:
+            return methods
+
+        for child in body.children:
+            if child.type in (
+                "function_definition",
+                "method_definition",
+                "method_declaration",
+            ):
+                func = self._node_to_function(child, code_bytes, language, [])
+                if func is not None:
+                    # Set class context
+                    func.class_name = class_name
+                    methods.append(func)
+            # Handle decorated methods
+            elif child.type == "decorated_definition":
+                func = self._node_to_function(child, code_bytes, language, [])
+                if func is not None:
+                    func.class_name = class_name
+                    methods.append(func)
+
+        return methods
+
+    def _extract_class_fields(
+        self, class_node: Any, code_bytes: bytes, language: str
+    ) -> list[str]:
+        """Extract field names from a class node."""
+        fields: list[str] = []
+
+        # Find body/block
+        body = self._find_child_by_type(class_node, ("block", "class_body", "declaration_list"))
+        if body is None:
+            return fields
+
+        for child in body.children:
+            # Python: expression_statement containing assignment
+            if child.type == "expression_statement":
+                for gc in child.children:
+                    if gc.type == "assignment":
+                        # Get left side
+                        for ggc in gc.children:
+                            if ggc.type == "identifier" and ggc.text:
+                                fields.append(ggc.text.decode("utf-8", errors="ignore"))
+                                break
+                            if ggc.type == "attribute":
+                                # self.field = ...
+                                for gggc in ggc.children:
+                                    if gggc.type == "identifier" and gggc.text:
+                                        name = gggc.text.decode("utf-8", errors="ignore")
+                                        if name != "self":
+                                            fields.append(name)
+
+            # TypeScript/Java: field_definition, property_declaration
+            if child.type in ("field_definition", "property_declaration", "field_declaration"):
+                name_node = self._find_child_by_type(child, ("identifier", "property_identifier"))
+                if name_node and name_node.text:
+                    fields.append(name_node.text.decode("utf-8", errors="ignore"))
+
+        return fields
 
     def _extract_imports(self, tree: Any, code_bytes: bytes, language: str) -> list[ImportDecl]:
         """Extract import declarations from parse tree."""

@@ -62,6 +62,7 @@ class InsightKernel:
         enable_persistence_finders: bool = False,
         debug_export_dir: str | Path | None = None,
         enable_provenance: bool = False,
+        enable_fact_storage: bool = False,
     ):
         """Initialize kernel with analysis session.
 
@@ -70,6 +71,7 @@ class InsightKernel:
             enable_persistence_finders: Enable database-backed finders
             debug_export_dir: Optional debug export directory
             enable_provenance: Enable provenance tracking (--trace flag)
+            enable_fact_storage: Enable fact storage to .shannon/facts.db
         """
         self.session = session
         self.root_dir = str(session.env.root)
@@ -77,6 +79,8 @@ class InsightKernel:
         self._wave2_analyzers = get_wave2_analyzers()
         self._persistence_finders = get_persistence_finders() if enable_persistence_finders else []
         self._enable_provenance = enable_provenance
+        self._enable_fact_storage = enable_fact_storage
+        self._fact_session_id: str | None = None
         self._debug_exporter: DebugExporter | None = None
         if debug_export_dir:
             from ..debug_export import DebugExporter

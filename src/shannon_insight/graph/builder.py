@@ -1072,10 +1072,20 @@ def _resolve_call_target(
     caller_file: str,
     caller_class: Optional[str],
     function_index: dict[str, str],
+    function_nodes: set[str],
     import_index: dict[str, dict[str, str]],
     all_paths: set[str],
 ) -> Optional[str]:
     """Resolve a call target string to a function node ID.
+
+    Args:
+        target: Call target name (e.g., "foo", "self.bar", "cls.baz")
+        caller_file: Path of the file containing the call
+        caller_class: Name of the class if call is in a method, else None
+        function_index: name → node_id mapping (only unique names)
+        function_nodes: O(1) set of all function node IDs
+        import_index: file → {imported_name → source_file}
+        all_paths: Set of all file paths
 
     Strategy:
     1. If target is "self.X" or "cls.X", look for method X in same class
@@ -1091,7 +1101,7 @@ def _resolve_call_target(
             # Look for ClassName.method in same file
             qualified = f"{caller_class}.{method_name}"
             node_id = f"{caller_file}:{qualified}"
-            if node_id in function_index.values():
+            if node_id in function_nodes:  # O(1) lookup
                 return node_id
             # Also check if it's in the index
             if qualified in function_index:
@@ -1099,27 +1109,28 @@ def _resolve_call_target(
         return None
 
     # Check same-file functions first (most common case)
-    # Try qualified name (ClassName.method)
+    # Try exact match: "file:target"
     same_file_node = f"{caller_file}:{target}"
-    if same_file_node in function_index.values():
+    if same_file_node in function_nodes:  # O(1) lookup
         return same_file_node
-    # Also check just the function name in same file
-    for node_id in function_index.values():
-        if node_id.startswith(f"{caller_file}:") and node_id.endswith(f".{target}"):
-            return node_id
-        if node_id == f"{caller_file}:{target}":
-            return node_id
+
+    # Try as method: "file:*.target" (target might be a method name)
+    # Build candidate patterns for same-file lookup
+    for candidate in function_nodes:
+        if candidate.startswith(f"{caller_file}:"):
+            # Check if it ends with .target (method match)
+            if candidate.endswith(f".{target}"):
+                return candidate
 
     # Check if it's an imported symbol
     file_imports = import_index.get(caller_file, {})
     if target in file_imports:
         source_file = file_imports[target]
-        # Look for a function or class with this name in the source file
+        # Look for a function with this name in the source file
         source_node = f"{source_file}:{target}"
-        if source_node in function_index.values():
+        if source_node in function_nodes:  # O(1) lookup
             return source_node
-        # Check if the target is a method call like "ClassName.method"
-        # In this case, we're probably calling a function in that module
+        # Check if the target is in the unique index
         if target in function_index:
             return function_index[target]
 
@@ -1132,10 +1143,10 @@ def _resolve_call_target(
             source_file = file_imports[obj_name]
             # Look for obj_name.method in source file (if obj_name is a class)
             source_node = f"{source_file}:{obj_name}.{method}"
-            if source_node in function_index.values():
+            if source_node in function_nodes:  # O(1) lookup
                 return source_node
 
-    # Try global lookup
+    # Try global lookup (unique names only)
     if target in function_index:
         return function_index[target]
 

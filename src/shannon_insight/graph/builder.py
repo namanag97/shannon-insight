@@ -877,6 +877,7 @@ def build_code_graph_from_facts(
                 base,
                 file_path,
                 class_index,
+                class_nodes,
                 import_index,
                 all_paths,
             )

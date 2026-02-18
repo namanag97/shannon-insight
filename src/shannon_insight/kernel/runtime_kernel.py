@@ -219,7 +219,7 @@ class RuntimeKernel:
     def _execute_phase(
         self,
         ctx: RuntimeContext,
-        store: AnalysisStore,
+        store: "AnalysisStore",
         executor,
     ) -> PhaseResult:
         """Execute a single phase with timeout and circuit breaker.

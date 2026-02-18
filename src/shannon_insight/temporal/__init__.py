@@ -3,6 +3,7 @@
 from .cache import CommitCache
 from .churn import build_churn_series, build_churn_series_from_db
 from .cochange import build_cochange_matrix, build_cochange_matrix_from_db
+from .compat import raw_data_to_history
 from .git_extractor import GitExtractor
 from .git_raw_extractor import GitRawExtractor
 from .models import ChurnSeries, CoChangeMatrix, GitHistory, Trajectory
@@ -19,4 +20,5 @@ __all__ = [
     "build_cochange_matrix_from_db",
     "build_churn_series",
     "build_churn_series_from_db",
+    "raw_data_to_history",
 ]

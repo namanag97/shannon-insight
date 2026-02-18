@@ -31,6 +31,75 @@ class DependencyGraph:
     unresolved_imports: dict[str, list[str]] = field(default_factory=dict)
 
 
+# ── Phase 2: Multi-type graph ──────────────────────────────────────
+
+
+class NodeType(Enum):
+    """Types of nodes in the multi-type code graph."""
+
+    FILE = "file"
+    FUNCTION = "function"
+    CLASS = "class"
+
+
+class EdgeType(Enum):
+    """Types of edges in the multi-type code graph."""
+
+    IMPORTS = "imports"  # FILE -> FILE
+    CALLS = "calls"  # FUNCTION -> FUNCTION
+    INHERITS = "inherits"  # CLASS -> CLASS
+    CONTAINS = "contains"  # FILE -> FUNCTION/CLASS
+
+
+@dataclass
+class CodeGraph:
+    """Multi-type dependency graph built from parsed facts.
+
+    This graph tracks relationships at three levels:
+    - FILE level: import dependencies between files
+    - FUNCTION level: call relationships between functions
+    - CLASS level: inheritance relationships between classes
+
+    Node IDs:
+    - FILE nodes: relative file path (e.g., "src/foo.py")
+    - FUNCTION nodes: "file:qualified_name" (e.g., "src/foo.py:MyClass.method")
+    - CLASS nodes: "file:ClassName" (e.g., "src/foo.py:MyClass")
+
+    This graph is computed from FactDatabase, not stored.
+    """
+
+    # Nodes by type
+    file_nodes: set[str] = field(default_factory=set)
+    function_nodes: set[str] = field(default_factory=set)  # "file:qualified_name"
+    class_nodes: set[str] = field(default_factory=set)  # "file:ClassName"
+
+    # Edges by type (adjacency lists: source -> [targets])
+    import_edges: dict[str, list[str]] = field(default_factory=dict)  # FILE -> FILE
+    call_edges: dict[str, list[str]] = field(default_factory=dict)  # FUNC -> FUNC
+    inherit_edges: dict[str, list[str]] = field(default_factory=dict)  # CLASS -> CLASS
+    contains_edges: dict[str, list[str]] = field(default_factory=dict)  # FILE -> FUNC/CLASS
+
+    # Reverse indexes (for efficient lookups)
+    imported_by: dict[str, list[str]] = field(default_factory=dict)  # FILE <- FILE
+    called_by: dict[str, list[str]] = field(default_factory=dict)  # FUNC <- FUNC
+    inherited_by: dict[str, list[str]] = field(default_factory=dict)  # CLASS <- CLASS
+    contained_in: dict[str, str] = field(default_factory=dict)  # FUNC/CLASS -> FILE
+
+    # Statistics
+    @property
+    def total_nodes(self) -> int:
+        return len(self.file_nodes) + len(self.function_nodes) + len(self.class_nodes)
+
+    @property
+    def total_edges(self) -> int:
+        return (
+            sum(len(v) for v in self.import_edges.values())
+            + sum(len(v) for v in self.call_edges.values())
+            + sum(len(v) for v in self.inherit_edges.values())
+            + sum(len(v) for v in self.contains_edges.values())
+        )
+
+
 # ── Level 4: Derived structures ────────────────────────────────────
 
 

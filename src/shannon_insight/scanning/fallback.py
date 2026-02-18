@@ -121,6 +121,13 @@ class RegexFallbackScanner:
 
                 bases = self._extract_bases(match, language)
 
+                # Find line numbers
+                start_pos = match.start()
+                start_line = content[:start_pos].count("\n") + 1
+
+                # Estimate class end (rough approximation)
+                end_line = self._estimate_class_end(content, start_line, language)
+
                 classes.append(
                     ClassDef(
                         name=name,
@@ -128,10 +135,42 @@ class RegexFallbackScanner:
                         methods=[],  # Would need nested parsing
                         fields=[],  # Would need nested parsing
                         is_abstract=self._detect_abstract(match, content, language),
+                        start_line=start_line,
+                        end_line=end_line,
                     )
                 )
 
         return classes
+
+    def _estimate_class_end(self, content: str, start_line: int, language: str) -> int:
+        """Estimate class end line (rough approximation)."""
+        lines = content.split("\n")
+        if start_line > len(lines):
+            return start_line
+
+        if language == "python":
+            # Look for dedent
+            base_indent = None
+            for i, line in enumerate(lines[start_line - 1 :], start=start_line):
+                if not line.strip():
+                    continue
+                indent = len(line) - len(line.lstrip())
+                if base_indent is None:
+                    base_indent = indent
+                elif indent <= base_indent and i > start_line:
+                    return i - 1
+            return len(lines)
+
+        # For brace-based languages
+        brace_count = 0
+        found_open = False
+        for i, line in enumerate(lines[start_line - 1 :], start=start_line):
+            brace_count += line.count("{") - line.count("}")
+            if "{" in line:
+                found_open = True
+            if found_open and brace_count <= 0:
+                return i
+        return len(lines)
 
     def _extract_imports(self, content: str, language: str) -> list[ImportDecl]:
         """Extract import declarations using regex."""

@@ -1,11 +1,17 @@
 """Build co-change matrix from git history."""
 
+from __future__ import annotations
+
 import math
 import time
 from collections import defaultdict
 from itertools import combinations
+from typing import TYPE_CHECKING
 
 from .models import CoChangeMatrix, CoChangePair, GitHistory
+
+if TYPE_CHECKING:
+    from ..persistence.git_facts import GitFactDatabase
 
 # Temporal decay: 90-day half-life
 _DECAY_LAMBDA = math.log(2) / 90

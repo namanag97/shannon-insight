@@ -28,8 +28,11 @@ from typing import TYPE_CHECKING
 from .fallback import RegexFallbackScanner
 from .languages import detect_language
 from .normalizer import TreeSitterNormalizer
-from .syntax import FileSyntax
+from .syntax import FileSyntax, ImportDecl
 from .treesitter_parser import TREE_SITTER_AVAILABLE
+
+# Import STDLIB_ROOTS for stdlib detection
+from ..graph.builder import STDLIB_ROOTS, LANGUAGE_EXTENSIONS
 
 if TYPE_CHECKING:
     pass

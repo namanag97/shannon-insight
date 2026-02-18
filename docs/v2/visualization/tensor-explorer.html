@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T ∈ ℝ^(N×N×K×R)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --u: 8px;
+            --black: #0a0a0a;
+            --white: #fafafa;
+            --g100: #f5f5f5;
+            --g200: #e5e5e5;
+            --g300: #d4d4d4;
+            --g400: #a3a3a3;
+            --g500: #737373;
+            --g600: #525252;
+            --sans: 'IBM Plex Sans', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            font-family: var(--sans);
+            background: var(--white);
+            color: var(--black);
+            overflow: hidden;
+        }
+
+        .container {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        /* Header */
+        header {
+            grid-column: 1 / -1;
+            padding: calc(var(--u) * 3) calc(var(--u) * 4);
+            border-bottom: 1px solid var(--g200);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .title {
+            font-family: var(--mono);
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            color: var(--g500);
+        }
+
+        /* Main tensor area */
+        main {
+            padding: calc(var(--u) * 4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        aside {
+            border-left: 1px solid var(--g200);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel {
+            padding: calc(var(--u) * 3);
+            border-bottom: 1px solid var(--g200);
+        }
+
+        .panel:last-child {
+            border-bottom: none;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .panel-title {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--g500);
+            margin-bottom: calc(var(--u) * 2);
+        }
+
+        /* Relationship selector */
+        .rel-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .rel-item {
+            display: grid;
+            grid-template-columns: 24px 20px 1fr auto;
+            gap: calc(var(--u) * 1);
+            align-items: center;
+            padding: calc(var(--u) * 1) calc(var(--u) * 1.5);
+            cursor: pointer;
+            transition: background 0.15s;
+            border: 1px solid transparent;
+        }
+
+        .rel-item:hover {
+            background: var(--g100);
+        }
+
+        .rel-item.active {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .rel-item.active .rel-weight {
+            color: var(--g400);
+        }
+
+        .rel-index {
+            font-family: var(--mono);
+            font-size: 0.6875rem;
+            color: var(--g400);
+        }
+
+        .rel-item.active .rel-index {
+            color: var(--g500);
+        }
+
+        .rel-indicator {
+            width: 12px;
+            height: 12px;
+            border: 2px solid currentColor;
+        }
+
+        .rel-indicator.filled {
+            background: currentColor;
+        }
+
+        .rel-name {
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        .rel-weight {
+            font-family: var(--mono);
+            font-size: 0.625rem;
+            color: var(--g500);
+        }
+
+        /* Time slider */
+        .time-control {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--u) * 2);
+        }
+
+        .time-label {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            min-width: 48px;
+        }
+
+        .time-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 2px;
+            background: var(--g300);
+            outline: none;
+        }
+
+        .time-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--black);
+            cursor: pointer;
+        }
+
+        /* Cell info */
+        .cell-info {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .cell-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: calc(var(--u) * 0.5) 0;
+            border-bottom: 1px solid var(--g200);
+        }
+
+        .cell-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .cell-info-label {
+            color: var(--g500);
+        }
+
+        .cell-info-value {
+            font-weight: 500;
+        }
+
+        .cell-info-value.has-edge {
+            color: var(--black);
+        }
+
+        .cell-info-value.no-edge {
+            color: var(--g400);
+        }
+
+        /* Footer */
+        footer {
+            grid-column: 1 / -1;
+            padding: calc(var(--u) * 2) calc(var(--u) * 4);
+            border-top: 1px solid var(--g200);
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.6875rem;
+            color: var(--g500);
+        }
+
+        /* Tensor visualization */
+        .tensor-space {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tensor-3d {
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(12deg) rotateY(-18deg);
+            transition: transform 0.5s ease;
+        }
+
+        .tensor-3d:hover {
+            transform: rotateX(8deg) rotateY(-12deg);
+        }
+
+        .matrix-layer {
+            position: absolute;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .matrix-layer.dimmed {
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .matrix-layer.highlighted {
+            z-index: 100;
+        }
+
+        .matrix-grid {
+            display: grid;
+            background: var(--white);
+            border: 1px solid var(--black);
+            box-shadow: 0 0 0 1px var(--g200);
+        }
+
+        .matrix-cell {
+            width: 100%;
+            height: 100%;
+            border: 0.5px solid var(--g200);
+            transition: all 0.15s;
+            position: relative;
+        }
+
+        .matrix-cell.edge {
+            background: var(--black);
+        }
+
+        .matrix-cell.edge.highlight {
+            background: var(--black);
+            box-shadow: inset 0 0 0 2px var(--white);
+        }
+
+        .matrix-cell:hover {
+            outline: 2px solid var(--black);
+            outline-offset: -2px;
+            z-index: 10;
+        }
+
+        .matrix-cell.selected {
+            outline: 2px solid var(--black);
+            outline-offset: -2px;
+            z-index: 10;
+        }
+
+        .matrix-label {
+            position: absolute;
+            font-family: var(--mono);
+            font-size: 0.6875rem;
+            color: var(--g500);
+            white-space: nowrap;
+        }
+
+        .matrix-label.top {
+            top: -20px;
+            left: 0;
+        }
+
+        .matrix-label.left {
+            left: -24px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        /* Axis labels */
+        .axis-label {
+            position: absolute;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--g400);
+        }
+
+        /* Formula display */
+        .formula-display {
+            position: absolute;
+            bottom: calc(var(--u) * 4);
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--mono);
+            font-size: 0.875rem;
+            padding: calc(var(--u) * 1.5) calc(var(--u) * 3);
+            background: var(--g100);
+            border: 1px solid var(--g300);
+        }
+
+        .formula-display .highlight {
+            background: var(--black);
+            color: var(--white);
+            padding: 0 4px;
+        }
+
+        /* Crosshair guides */
+        .crosshair {
+            position: absolute;
+            background: var(--black);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .crosshair.visible {
+            opacity: 0.1;
+        }
+
+        .crosshair.h {
+            height: 1px;
+            width: 100%;
+            left: 0;
+        }
+
+        .crosshair.v {
+            width: 1px;
+            height: 100%;
+            top: 0;
+        }
+
+        /* Edge presence indicator */
+        .edge-matrix {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2px;
+            margin-top: calc(var(--u) * 2);
+        }
+
+        .edge-cell {
+            aspect-ratio: 1;
+            border: 1px solid var(--g300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 0.5rem;
+            color: var(--g400);
+        }
+
+        .edge-cell.present {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: calc(var(--u) * 3);
+            margin-top: calc(var(--u) * 2);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--mono);
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.625rem;
+            color: var(--g500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        /* View controls */
+        .view-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .view-btn {
+            flex: 1;
+            padding: calc(var(--u) * 1) calc(var(--u) * 1.5);
+            font-family: var(--mono);
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid var(--g300);
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .view-btn:hover {
+            background: var(--g100);
+        }
+
+        .view-btn.active {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        /* Comparison view */
+        .comparison-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: calc(var(--u) * 4);
+        }
+
+        .comparison-container.active {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: calc(var(--u) * 4);
+            align-items: center;
+        }
+
+        .comparison-matrix {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: calc(var(--u) * 2);
+        }
+
+        .comparison-label {
+            font-family: var(--mono);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .comparison-sub {
+            font-size: 0.6875rem;
+            color: var(--g500);
+        }
+
+        .comparison-op {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: calc(var(--u) * 1);
+        }
+
+        .op-symbol {
+            font-family: var(--mono);
+            font-size: 2rem;
+            color: var(--g400);
+        }
+
+        .op-label {
+            font-size: 0.625rem;
+            color: var(--g500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .result-indicator {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--u) * 2);
+            margin-top: calc(var(--u) * 3);
+            padding: calc(var(--u) * 2);
+            background: var(--g100);
+        }
+
+        .result-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--g300);
+            position: relative;
+        }
+
+        .result-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: var(--black);
+            transition: width 0.3s;
+        }
+
+        .result-value {
+            font-family: var(--mono);
+            font-size: 0.875rem;
+            font-weight: 500;
+            min-width: 48px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <div class="title">T ∈ ℝ<sup>(N×N×K×R)</sup></div>
+                <div class="subtitle">The Fundamental Tensor</div>
+            </div>
+            <div class="view-controls">
+                <button class="view-btn active" data-view="tensor">Tensor</button>
+                <button class="view-btn" data-view="compare">Compare</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Tensor View -->
+            <div class="tensor-space" id="tensorView">
+                <div class="tensor-3d" id="tensor3d"></div>
+                <div class="formula-display" id="formula">
+                    T[<span id="fi">i</span>, <span id="fj">j</span>, <span id="ft">t</span>, <span id="fr">r</span>] = weight
+                </div>
+            </div>
+
+            <!-- Comparison View -->
+            <div class="comparison-container" id="compareView">
+                <div class="comparison-matrix">
+                    <div class="comparison-label">G<sub>import</sub></div>
+                    <div class="comparison-sub">Structure</div>
+                    <div class="matrix-grid" id="compareLeft" style="width: 180px; height: 180px;"></div>
+                </div>
+                <div class="comparison-op">
+                    <div class="op-symbol">∩</div>
+                    <div class="op-label">intersection</div>
+                </div>
+                <div class="comparison-matrix">
+                    <div class="comparison-label">G<sub>cochange</sub></div>
+                    <div class="comparison-sub">Behavior</div>
+                    <div class="matrix-grid" id="compareRight" style="width: 180px; height: 180px;"></div>
+                </div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="panel">
+                <div class="panel-title">Relationship Type (R)</div>
+                <div class="rel-list" id="relList"></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">Time Point (K)</div>
+                <div class="time-control">
+                    <span class="time-label" id="timeLabel">t = now</span>
+                    <input type="range" class="time-slider" id="timeSlider" min="0" max="4" value="4">
+                </div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value" id="nodeCount">12</div>
+                        <div class="stat-label">Nodes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="edgeCount">--</div>
+                        <div class="stat-label">Edges</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="density">--</div>
+                        <div class="stat-label">Density</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">Selected Cell</div>
+                <div class="cell-info" id="cellInfo">
+                    <div class="cell-info-row">
+                        <span class="cell-info-label">Position</span>
+                        <span class="cell-info-value">—</span>
+                    </div>
+                </div>
+                <div class="panel-title" style="margin-top: 16px;">Edge Presence</div>
+                <div class="edge-matrix" id="edgeMatrix"></div>
+            </div>
+        </aside>
+
+        <footer>
+            <span>T[i, j, t, r] = weight of relationship r from file i to file j at time t</span>
+            <span>N=12 files × K=5 time points × R=6 relationships</span>
+        </footer>
+    </div>
+
+    <script>
+        // Configuration
+        const N = 12; // files
+        const K = 5;  // time points
+        const CELL_SIZE = 28;
+        const LAYER_OFFSET = 50;
+
+        const RELATIONSHIPS = [
+            { id: 'R1', name: 'IMPORT', weight: '1.0', directed: true },
+            { id: 'R2', name: 'COCHANGE', weight: 'lift', directed: false },
+            { id: 'R3', name: 'AUTHOR', weight: 'jaccard', directed: false },
+            { id: 'R4', name: 'SEMANTIC', weight: 'cosine', directed: false },
+            { id: 'R5', name: 'CLONE', weight: '1-NCD', directed: false },
+            { id: 'R6', name: 'COMBINED', weight: 'Σαw', directed: false },
+        ];
+
+        const TIME_LABELS = ['t-4', 't-3', 't-2', 't-1', 'now'];
+
+        // Generate deterministic but varied edge patterns
+        function generateEdges(r, t) {
+            const edges = [];
+            const seed = r * 1000 + t * 100;
+            const density = 0.15 + (r * 0.05) + (t * 0.02);
+
+            for (let i = 0; i < N; i++) {
+                for (let j = 0; j < N; j++) {
+                    if (i === j) continue;
+                    const hash = (seed + i * 17 + j * 31) % 100;
+                    if (hash < density * 100) {
+                        edges.push([i, j]);
+                    }
+                }
+            }
+            return edges;
+        }
+
+        // Pre-generate all tensor data
+        const TENSOR = [];
+        for (let r = 0; r < 6; r++) {
+            TENSOR[r] = [];
+            for (let t = 0; t < K; t++) {
+                TENSOR[r][t] = generateEdges(r, t);
+            }
+        }
+
+        // State
+        let selectedRel = 0;
+        let selectedTime = 4;
+        let selectedCell = null;
+        let currentView = 'tensor';
+
+        // DOM elements
+        const tensor3d = document.getElementById('tensor3d');
+        const relList = document.getElementById('relList');
+        const timeSlider = document.getElementById('timeSlider');
+        const timeLabel = document.getElementById('timeLabel');
+        const cellInfo = document.getElementById('cellInfo');
+        const edgeMatrix = document.getElementById('edgeMatrix');
+        const formula = document.getElementById('formula');
+        const fi = document.getElementById('fi');
+        const fj = document.getElementById('fj');
+        const ft = document.getElementById('ft');
+        const fr = document.getElementById('fr');
+
+        // Build relationship list
+        function buildRelList() {
+            relList.innerHTML = RELATIONSHIPS.map((rel, idx) => `
+                <div class="rel-item ${idx === selectedRel ? 'active' : ''}" data-rel="${idx}">
+                    <span class="rel-index">${rel.id}</span>
+                    <span class="rel-indicator ${idx === selectedRel ? 'filled' : ''}"></span>
+                    <span class="rel-name">${rel.name}</span>
+                    <span class="rel-weight">${rel.weight}</span>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.rel-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    selectedRel = parseInt(item.dataset.rel);
+                    buildRelList();
+                    updateTensor();
+                    updateStats();
+                });
+            });
+        }
+
+        // Build tensor visualization
+        function buildTensor() {
+            tensor3d.innerHTML = '';
+
+            RELATIONSHIPS.forEach((rel, r) => {
+                const layer = document.createElement('div');
+                layer.className = 'matrix-layer';
+                layer.dataset.rel = r;
+                layer.style.transform = `translateZ(${r * LAYER_OFFSET}px) translateX(${r * 8}px) translateY(${-r * 8}px)`;
+
+                const grid = document.createElement('div');
+                grid.className = 'matrix-grid';
+                grid.style.width = `${N * CELL_SIZE}px`;
+                grid.style.height = `${N * CELL_SIZE}px`;
+                grid.style.gridTemplateColumns = `repeat(${N}, 1fr)`;
+                grid.style.gridTemplateRows = `repeat(${N}, 1fr)`;
+
+                const edges = TENSOR[r][selectedTime];
+                const edgeSet = new Set(edges.map(e => `${e[0]},${e[1]}`));
+
+                for (let i = 0; i < N; i++) {
+                    for (let j = 0; j < N; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'matrix-cell';
+                        cell.dataset.i = i;
+                        cell.dataset.j = j;
+
+                        if (edgeSet.has(`${i},${j}`)) {
+                            cell.classList.add('edge');
+                        }
+
+                        cell.addEventListener('mouseenter', () => handleCellHover(i, j, r));
+                        cell.addEventListener('click', () => handleCellClick(i, j, r));
+
+                        grid.appendChild(cell);
+                    }
+                }
+
+                const label = document.createElement('div');
+                label.className = 'matrix-label top';
+                label.textContent = rel.id;
+
+                layer.appendChild(label);
+                layer.appendChild(grid);
+                tensor3d.appendChild(layer);
+
+                // Click layer to select relationship
+                layer.addEventListener('click', (e) => {
+                    if (e.target === layer || e.target === grid) {
+                        selectedRel = r;
+                        buildRelList();
+                        updateTensor();
+                        updateStats();
+                    }
+                });
+            });
+
+            updateTensor();
+        }
+
+        // Update tensor highlighting
+        function updateTensor() {
+            document.querySelectorAll('.matrix-layer').forEach((layer, r) => {
+                if (r === selectedRel) {
+                    layer.classList.add('highlighted');
+                    layer.classList.remove('dimmed');
+                } else {
+                    layer.classList.remove('highlighted');
+                    layer.classList.add('dimmed');
+                }
+            });
+        }
+
+        // Handle cell hover
+        function handleCellHover(i, j, r) {
+            fi.textContent = i;
+            fj.textContent = j;
+            ft.textContent = TIME_LABELS[selectedTime];
+            fr.textContent = RELATIONSHIPS[r].id;
+
+            // Highlight corresponding cells across all layers
+            document.querySelectorAll('.matrix-cell').forEach(cell => {
+                cell.classList.remove('highlight');
+                if (parseInt(cell.dataset.i) === i && parseInt(cell.dataset.j) === j) {
+                    if (cell.classList.contains('edge')) {
+                        cell.classList.add('highlight');
+                    }
+                }
+            });
+        }
+
+        // Handle cell click
+        function handleCellClick(i, j, r) {
+            selectedCell = { i, j };
+            updateCellInfo(i, j);
+            updateEdgeMatrix(i, j);
+
+            // Visual selection
+            document.querySelectorAll('.matrix-cell').forEach(cell => {
+                cell.classList.remove('selected');
+                if (parseInt(cell.dataset.i) === i && parseInt(cell.dataset.j) === j) {
+                    cell.classList.add('selected');
+                }
+            });
+        }
+
+        // Update cell info panel
+        function updateCellInfo(i, j) {
+            let html = `
+                <div class="cell-info-row">
+                    <span class="cell-info-label">Position</span>
+                    <span class="cell-info-value">[${i}, ${j}]</span>
+                </div>
+                <div class="cell-info-row">
+                    <span class="cell-info-label">From</span>
+                    <span class="cell-info-value">file_${i}.py</span>
+                </div>
+                <div class="cell-info-row">
+                    <span class="cell-info-label">To</span>
+                    <span class="cell-info-value">file_${j}.py</span>
+                </div>
+            `;
+
+            RELATIONSHIPS.forEach((rel, r) => {
+                const edges = TENSOR[r][selectedTime];
+                const hasEdge = edges.some(e => e[0] === i && e[1] === j);
+                html += `
+                    <div class="cell-info-row">
+                        <span class="cell-info-label">${rel.id}</span>
+                        <span class="cell-info-value ${hasEdge ? 'has-edge' : 'no-edge'}">${hasEdge ? '1' : '0'}</span>
+                    </div>
+                `;
+            });
+
+            cellInfo.innerHTML = html;
+        }
+
+        // Update edge presence matrix
+        function updateEdgeMatrix(i, j) {
+            let html = '';
+            RELATIONSHIPS.forEach((rel, r) => {
+                const edges = TENSOR[r][selectedTime];
+                const hasEdge = edges.some(e => e[0] === i && e[1] === j);
+                html += `<div class="edge-cell ${hasEdge ? 'present' : ''}">${rel.id.replace('R', '')}</div>`;
+            });
+            edgeMatrix.innerHTML = html;
+        }
+
+        // Update statistics
+        function updateStats() {
+            const edges = TENSOR[selectedRel][selectedTime];
+            const edgeCount = edges.length;
+            const maxEdges = N * (N - 1);
+            const density = (edgeCount / maxEdges * 100).toFixed(1);
+
+            document.getElementById('edgeCount').textContent = edgeCount;
+            document.getElementById('density').textContent = density + '%';
+        }
+
+        // Time slider handler
+        timeSlider.addEventListener('input', (e) => {
+            selectedTime = parseInt(e.target.value);
+            timeLabel.textContent = `t = ${TIME_LABELS[selectedTime]}`;
+            buildTensor();
+            updateStats();
+            if (selectedCell) {
+                updateCellInfo(selectedCell.i, selectedCell.j);
+                updateEdgeMatrix(selectedCell.i, selectedCell.j);
+            }
+        });
+
+        // View switching
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentView = btn.dataset.view;
+
+                document.getElementById('tensorView').style.display = currentView === 'tensor' ? 'flex' : 'none';
+                document.getElementById('compareView').classList.toggle('active', currentView === 'compare');
+
+                if (currentView === 'compare') {
+                    buildComparison();
+                }
+            });
+        });
+
+        // Build comparison view
+        function buildComparison() {
+            const left = document.getElementById('compareLeft');
+            const right = document.getElementById('compareRight');
+
+            [left, right].forEach((container, idx) => {
+                container.innerHTML = '';
+                container.style.gridTemplateColumns = `repeat(${N}, 1fr)`;
+                container.style.gridTemplateRows = `repeat(${N}, 1fr)`;
+
+                const relIdx = idx === 0 ? 0 : 1; // IMPORT vs COCHANGE
+                const edges = TENSOR[relIdx][selectedTime];
+                const edgeSet = new Set(edges.map(e => `${e[0]},${e[1]}`));
+
+                for (let i = 0; i < N; i++) {
+                    for (let j = 0; j < N; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'matrix-cell';
+                        if (edgeSet.has(`${i},${j}`)) {
+                            cell.classList.add('edge');
+                        }
+                        container.appendChild(cell);
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        buildRelList();
+        buildTensor();
+        updateStats();
+
+        // Initialize edge matrix with empty state
+        edgeMatrix.innerHTML = RELATIONSHIPS.map(rel =>
+            `<div class="edge-cell">${rel.id.replace('R', '')}</div>`
+        ).join('');
+    </script>
+</body>
+</html>

@@ -172,3 +172,100 @@ def analyze(
     )
 
     return result, snapshot
+
+
+def analyze_v2(
+    path: str = ".",
+    config_file: Optional[Path] = None,
+    use_runtime_kernel: bool = True,
+    **overrides,
+) -> "RuntimeResult":
+    """Analyze a codebase using RuntimeKernel with full observability.
+
+    This is the new API that uses RuntimeKernel instead of InsightKernel.
+    It provides full observability with metrics, error collection, and
+    partial result support.
+
+    Args:
+        path: Path to codebase root (default: current directory)
+        config_file: Optional explicit config file path
+        use_runtime_kernel: Always True (for API consistency)
+        **overrides: Configuration overrides
+
+    Returns:
+        RuntimeResult with:
+        - findings: List of code issues
+        - snapshot: TensorSnapshot for persistence
+        - metrics: RuntimeMetrics with timing/memory data
+        - errors: List of exceptions (not swallowed)
+        - warnings: List of warning messages
+        - success/partial/cancelled: Status flags
+
+    Example:
+        >>> result = analyze_v2("/path/to/code")
+        >>> if result.success:
+        ...     print(f"Found {len(result.findings)} issues")
+        >>> print(result.metrics.summary())
+    """
+    from .kernel import RuntimeKernel
+
+    # Setup logging based on verbosity
+    verbosity = "verbose" if overrides.get("verbose") else "normal"
+    if overrides.get("quiet"):
+        verbosity = "quiet"
+    setup_logging(verbose=(verbosity == "verbose"), quiet=(verbosity == "quiet"))
+
+    logger.info(f"Starting analysis of {path} (RuntimeKernel)")
+
+    # Extract non-config overrides
+    enable_provenance = overrides.pop("enable_provenance", False)
+    memory_limit_mb = overrides.pop("memory_limit_mb", 2048)
+    total_timeout_seconds = overrides.pop("total_timeout_seconds", 1800)
+    on_progress = overrides.pop("on_progress", None)
+
+    # Load configuration
+    config = load_config(config_file=config_file, **overrides)
+
+    # Use config.enable_provenance if not explicitly overridden
+    if not enable_provenance:
+        enable_provenance = config.enable_provenance
+
+    # Clean up stale provenance sessions
+    if enable_provenance:
+        from .infrastructure.provenance import cleanup_stale_sessions
+
+        cleanup_stale_sessions(retention_hours=config.provenance_retention_hours)
+
+    # Discover environment
+    env = discover_environment(
+        Path(path),
+        allow_hidden_files=config.allow_hidden_files,
+        follow_symlinks=config.follow_symlinks,
+    )
+    logger.info(
+        f"Environment discovered: {env.file_count} files, "
+        f"{len(env.detected_languages)} languages"
+    )
+
+    # Create session
+    session = AnalysisSession(config=config, env=env)
+
+    # Run RuntimeKernel
+    kernel = RuntimeKernel(
+        session=session,
+        memory_limit_mb=memory_limit_mb,
+        total_timeout_seconds=total_timeout_seconds,
+        enable_provenance=enable_provenance,
+    )
+
+    result = kernel.run(
+        max_findings=config.max_findings,
+        on_progress=on_progress,
+    )
+
+    logger.info(
+        f"Analysis complete: {len(result.findings)} findings, "
+        f"status={result.status}"
+    )
+
+    return result

@@ -371,8 +371,8 @@ class FactDatabase:
             """
             INSERT INTO class_facts
             (file_fact_id, name, start_line, end_line, bases,
-             method_names, field_names, is_abstract, method_count)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+             method_names, field_names, field_types, is_abstract, method_count)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 file_fact_id,
@@ -382,6 +382,7 @@ class FactDatabase:
                 json.dumps(cls.bases),
                 json.dumps(cls.method_names),
                 json.dumps(cls.field_names),
+                json.dumps(cls.field_types),
                 1 if cls.is_abstract else 0,
                 cls.method_count,
             ),

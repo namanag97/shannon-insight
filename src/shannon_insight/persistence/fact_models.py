@@ -50,12 +50,12 @@ class FunctionFact:
     class_name: str | None
 
     # Type annotations (for TYPE_FLOW edges)
-    return_type: str | None  # "str", "list[int]", "None", etc.
-    param_types: dict[str, str]  # {param_name: type_str}
+    return_type: str | None = None  # "str", "list[int]", "None", etc.
+    param_types: dict[str, str] | None = None  # {param_name: type_str}
 
     # Computed
-    is_stub: bool
-    stub_score: float
+    is_stub: bool = False
+    stub_score: float = 0.0
 
     @classmethod
     def from_function_def(cls, fn: FunctionDef, file_path: str) -> FunctionFact:

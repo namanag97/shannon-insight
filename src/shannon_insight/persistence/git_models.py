@@ -34,7 +34,7 @@ class ChangeType(str, Enum):
         return cls(code[0])
 
 
-@dataclass(slots=True)
+@dataclass
 class GitCommit:
     """Raw commit data from git log.
 

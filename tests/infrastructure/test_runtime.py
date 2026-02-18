@@ -435,7 +435,10 @@ class TestRuntimeContextMemory:
                 # Allocate some memory
                 _ = [0] * 1000000
                 ctx.advance()
-                assert ctx.metrics.memory_peak_mb > 0
+                # Phase-level memory is tracked during execution
+                assert ctx.metrics.phases[Phase.SCANNING].memory_peak_mb > 0
+            # Global memory_peak_mb is aggregated on exit
+            assert ctx.metrics.memory_peak_mb > 0
 
     def test_check_memory(self):
         """Memory check returns correct status."""

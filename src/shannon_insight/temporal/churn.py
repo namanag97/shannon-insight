@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import re
-import time
 from collections import Counter, defaultdict
 from math import log2
 from typing import TYPE_CHECKING
@@ -299,8 +298,7 @@ def build_churn_series_from_db(
     if not commits:
         return {}
 
-    # Get file changes for these commits
-    commit_hashes = {c.hash for c in commits}
+    # Build data structures for churn computation
     file_windows: dict[str, list[int]] = defaultdict(list)
     file_authors: dict[str, Counter[str]] = defaultdict(Counter)
     file_fix_count: dict[str, int] = defaultdict(int)
@@ -370,9 +368,7 @@ def build_churn_series_from_db(
         # Compute fix and refactor ratios
         commit_count = file_commit_count[file_path]
         fix_ratio = file_fix_count[file_path] / commit_count if commit_count > 0 else 0.0
-        refactor_ratio = (
-            file_refactor_count[file_path] / commit_count if commit_count > 0 else 0.0
-        )
+        refactor_ratio = file_refactor_count[file_path] / commit_count if commit_count > 0 else 0.0
 
         results[file_path] = ChurnSeries(
             file_path=file_path,

@@ -121,11 +121,11 @@ class ClassFact:
     field_names: list[str]
 
     # Type annotations (for TYPE_FLOW edges)
-    field_types: dict[str, str]  # {field_name: type_str}
+    field_types: dict[str, str] | None = None  # {field_name: type_str}
 
     # Computed
-    is_abstract: bool
-    method_count: int
+    is_abstract: bool = False
+    method_count: int = 0
 
     @classmethod
     def from_class_def(cls, cd: ClassDef, file_path: str) -> ClassFact:

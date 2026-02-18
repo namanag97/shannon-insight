@@ -24,6 +24,7 @@ from ..result import PhaseResult
 
 if TYPE_CHECKING:
     from ...infrastructure.runtime import RuntimeContext
+    from ...insights.models import StoreSummary
     from ...insights.store import AnalysisStore
     from ...session import AnalysisSession
 
@@ -46,12 +47,12 @@ class ReportingExecutor(BaseExecutor):
 
     def _execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
     ) -> PhaseResult:
         """Build final result and snapshot."""
-        from ...insights.models import InsightResult, StoreSummary
+        from ...insights.models import InsightResult
         from ...insights.ranking import deduplicate_findings, rank_findings
         from ...persistence.capture import capture_tensor_snapshot
 
@@ -110,7 +111,7 @@ class ReportingExecutor(BaseExecutor):
             return False
 
     def _run_persistence_finders(
-        self, store: "AnalysisStore", findings: list, current_findings: list
+        self, store: AnalysisStore, findings: list, current_findings: list
     ) -> None:
         """Run persistence-based finders with DB connection."""
         from ...insights.finders import get_persistence_finders
@@ -134,7 +135,7 @@ class ReportingExecutor(BaseExecutor):
         except Exception as e:
             logger.debug(f"No history DB available: {e}")
 
-    def _summarize(self, store: "AnalysisStore") -> "StoreSummary":
+    def _summarize(self, store: AnalysisStore) -> StoreSummary:
         """Build summary from store state."""
         from ...insights.models import StoreSummary
 

@@ -35,6 +35,7 @@ class FunctionDef:
         end_line: Ending line number (1-indexed)
         call_targets: Syntactic call targets (None if regex-parsed)
         decorators: Decorator names (e.g., ["property", "abstractmethod"])
+        class_name: Name of containing class (None if top-level function)
     """
 
     name: str
@@ -46,6 +47,14 @@ class FunctionDef:
     end_line: int
     call_targets: list[str] | None = None
     decorators: list[str] = field(default_factory=list)
+    class_name: str | None = None  # Set when function is a method
+
+    @property
+    def qualified_name(self) -> str:
+        """Qualified name: 'ClassName.method' or 'function_name'."""
+        if self.class_name:
+            return f"{self.class_name}.{self.name}"
+        return self.name
 
     @property
     def is_stub(self) -> bool:

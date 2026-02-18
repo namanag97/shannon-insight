@@ -397,6 +397,71 @@ class InsightKernel:
                     entity_id, Signal.IMPORT_COUNT, syntax.import_count, producer=producer
                 )
 
+    def _store_facts(self, store: AnalysisStore) -> None:
+        """Store parsed facts to FactDatabase for later use.
+
+        Creates FileFact, FunctionFact, ClassFact, ImportFact records
+        in .shannon/facts.db. This enables:
+        - Incremental parsing (skip unchanged files)
+        - Rich graph building (call_targets, bases, etc.)
+        - Historical analysis of parsing results
+
+        Only runs if enable_fact_storage=True.
+        """
+        if not self._enable_fact_storage:
+            return
+
+        if not store.file_syntax.available:
+            logger.debug("No file_syntax available for fact storage")
+            return
+
+        import uuid
+        from datetime import datetime, timezone
+
+        from ..persistence.fact_models import AnalysisSession as FactSession
+        from ..persistence.fact_models import FileFact
+        from ..persistence.facts import FactDatabase
+
+        # Get or create facts database
+        shannon_dir = Path(self.root_dir) / ".shannon"
+        db_path = shannon_dir / "facts.db"
+        db = FactDatabase(db_path)
+
+        # Create session
+        session_id = str(uuid.uuid4())
+        self._fact_session_id = session_id
+        fact_session = FactSession(
+            id=session_id,
+            started_at=datetime.now(timezone.utc),
+            completed_at=None,
+            commit_sha=self.session.env.commit_sha,
+            analyzed_path=self.root_dir,
+            tool_version=self.session.env.tool_version,
+            config_hash=self.session.config_hash,
+            status="running",
+        )
+        db.create_session(fact_session)
+
+        # Store facts for each file
+        file_count = 0
+        syntax_map = store.file_syntax.value
+        for path, syntax in syntax_map.items():
+            # Determine parser type
+            parser_type = "tree-sitter" if syntax.functions and syntax.functions[0].call_targets is not None else "regex"
+
+            fact = FileFact.from_file_syntax(
+                syntax,
+                session_id,
+                self.session.env.tool_version,
+                parser_type,
+            )
+            db.store_file_fact(fact)
+            file_count += 1
+
+        # Complete session
+        db.complete_session(session_id, file_count)
+        logger.info(f"Stored {file_count} file facts to {db_path}")
+
     def _discover_files(self) -> list[Path]:
         """Discover source files using ScannerFactory logic.
 

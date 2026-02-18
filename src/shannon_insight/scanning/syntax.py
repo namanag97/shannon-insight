@@ -36,6 +36,8 @@ class FunctionDef:
         call_targets: Syntactic call targets (None if regex-parsed)
         decorators: Decorator names (e.g., ["property", "abstractmethod"])
         class_name: Name of containing class (None if top-level function)
+        return_type: Return type annotation (e.g., "str", "list[int]", "None")
+        param_types: Parameter type annotations {param_name: type_str}
     """
 
     name: str
@@ -48,6 +50,8 @@ class FunctionDef:
     call_targets: list[str] | None = None
     decorators: list[str] = field(default_factory=list)
     class_name: str | None = None  # Set when function is a method
+    return_type: str | None = None  # Type annotation for return
+    param_types: dict[str, str] = field(default_factory=dict)  # {param: type}
 
     @property
     def qualified_name(self) -> str:

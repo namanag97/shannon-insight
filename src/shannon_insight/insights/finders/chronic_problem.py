@@ -96,15 +96,10 @@ class ChronicProblemFinder:
             if not self._has_impact(store, info.files):
                 continue
 
-            # Compute severity based on CURRENT signals, not historical
-            # Base severity should reflect actual current risk
-            current_risk = self._get_current_risk(store, info.files)
-            if current_risk < 0.1:
-                continue  # File no longer risky, skip
-
-            # Enhance based on persistence (but cap reasonably)
-            persistence_boost = min(0.15, effective_count * 0.01)
-            enhanced_severity = min(0.85, current_risk + persistence_boost)
+            # Use the historical severity as base, apply multiplier
+            # This reflects the documented behavior of severity_multiplier
+            base_severity = info.severity if info.severity else 0.5
+            enhanced_severity = min(1.0, base_severity * self.severity_multiplier)
 
             # Files come directly from ChronicFindingInfo (joined from findings table)
             files = info.files

@@ -17,7 +17,7 @@ from .languages import (
     get_language_config,
 )
 from .syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
-from .syntax_extractor import SyntaxExtractor
+from .syntax_extractor import SyntaxExtractor, resolve_all_imports
 from .treesitter_parser import TREE_SITTER_AVAILABLE, TreeSitterParser
 
 __all__ = [
@@ -39,4 +39,5 @@ __all__ = [
     "TreeSitterParser",
     "RegexFallbackScanner",
     "SyntaxExtractor",
+    "resolve_all_imports",
 ]

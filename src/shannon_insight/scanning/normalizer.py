@@ -398,65 +398,117 @@ class TreeSitterNormalizer:
     def _extract_field_types(
         self, class_node: Any, code_bytes: bytes, language: str
     ) -> dict[str, str]:
-        """Extract field type annotations from a class node (Python)."""
-        if language != "python":
-            return {}
+        """Extract field type annotations from a class node.
 
+        Supports: Python, TypeScript, Go, Java.
+        """
+        if language == "python":
+            return self._extract_field_types_python(class_node, code_bytes)
+        elif language in ("typescript", "tsx", "javascript"):
+            return self._extract_field_types_typescript(class_node, code_bytes)
+        elif language == "go":
+            return self._extract_field_types_go(class_node, code_bytes)
+        elif language == "java":
+            return self._extract_field_types_java(class_node, code_bytes)
+        return {}
+
+    def _extract_field_types_python(self, class_node: Any, code_bytes: bytes) -> dict[str, str]:
+        """Extract field types from Python class using text parsing."""
         field_types: dict[str, str] = {}
-
-        # Find body/block
         body = self._find_child_by_type(class_node, ("block", "class_body"))
         if body is None:
             return field_types
 
-        for child in body.children:
-            # Python: expression_statement containing type annotation
-            # e.g., `name: str` or `items: list[Item]`
-            if child.type == "expression_statement":
-                for gc in child.children:
-                    # Check for typed assignment (PEP 526): name: Type = value
-                    if gc.type == "assignment":
-                        left = gc.children[0] if gc.children else None
-                        if left and left.type == "identifier" and left.text:
-                            # Look for type annotation in the form `name: type`
-                            # This is a bit tricky - Python AST structure varies
-                            pass
-
-                    # Check for type annotation without assignment: name: Type
-                    if gc.type == "type":
-                        # The previous sibling should be the identifier
-                        # Tree-sitter Python: expression_statement > type (with identifier before)
-                        pass
-
-            # Handle typed_assignment: name: type = value
-            # In tree-sitter Python, this is captured as expression_statement
-            # containing assignment with typed_parameter pattern
-
-        # Alternative: scan for pattern ": type" in class body text
-        # This is more reliable for Python class bodies
+        # Scan for "name: type" pattern in class body text
         body_text = body.text.decode("utf-8", errors="ignore") if body.text else ""
         lines = body_text.split("\n")
         for line in lines:
             line = line.strip()
-            # Skip empty lines, methods, comments
             if not line or line.startswith("def ") or line.startswith("#"):
                 continue
-            # Look for "name: type" pattern (with optional = default)
             if ":" in line and not line.startswith("if ") and not line.startswith("for "):
                 parts = line.split(":", 1)
                 if len(parts) == 2:
                     name_part = parts[0].strip()
                     type_part = parts[1].strip()
-                    # Remove default value if present
                     if "=" in type_part:
                         type_part = type_part.split("=", 1)[0].strip()
-                    # Remove trailing comment
                     if "#" in type_part:
                         type_part = type_part.split("#", 1)[0].strip()
-                    # Validate it looks like a field (simple identifier name)
                     if name_part.isidentifier() and type_part:
                         field_types[name_part] = type_part
+        return field_types
 
+    def _extract_field_types_typescript(self, class_node: Any, code_bytes: bytes) -> dict[str, str]:
+        """Extract field types from TypeScript class/interface."""
+        field_types: dict[str, str] = {}
+        body = self._find_child_by_type(class_node, ("class_body", "interface_body"))
+        if body is None:
+            return field_types
+
+        for child in body.children:
+            if child.type in ("public_field_definition", "field_definition",
+                             "property_signature", "property_declaration"):
+                name = None
+                type_str = None
+                for gc in child.children:
+                    if gc.type in ("property_identifier", "identifier"):
+                        name = gc.text.decode("utf-8", errors="ignore") if gc.text else None
+                    elif gc.type == "type_annotation":
+                        for ggc in gc.children:
+                            if ggc.type not in (":",):
+                                type_str = self._type_node_to_str(ggc, code_bytes)
+                                break
+                if name and type_str:
+                    field_types[name] = type_str
+        return field_types
+
+    def _extract_field_types_go(self, class_node: Any, code_bytes: bytes) -> dict[str, str]:
+        """Extract field types from Go struct."""
+        field_types: dict[str, str] = {}
+        # Go: type_spec contains struct_type with field_declaration children
+        struct_body = self._find_child_by_type(class_node, ("struct_type", "field_declaration_list"))
+        if struct_body is None:
+            return field_types
+
+        for child in struct_body.children:
+            if child.type == "field_declaration":
+                names = []
+                type_str = None
+                for gc in child.children:
+                    if gc.type == "field_identifier":
+                        names.append(gc.text.decode("utf-8", errors="ignore") if gc.text else "")
+                    elif gc.type in ("type_identifier", "pointer_type", "slice_type",
+                                    "array_type", "map_type", "channel_type", "qualified_type",
+                                    "interface_type", "struct_type", "function_type"):
+                        type_str = self._type_node_to_str(gc, code_bytes)
+                if type_str:
+                    for name in names:
+                        if name:
+                            field_types[name] = type_str
+        return field_types
+
+    def _extract_field_types_java(self, class_node: Any, code_bytes: bytes) -> dict[str, str]:
+        """Extract field types from Java class."""
+        field_types: dict[str, str] = {}
+        body = self._find_child_by_type(class_node, ("class_body", "interface_body", "enum_body"))
+        if body is None:
+            return field_types
+
+        for child in body.children:
+            if child.type == "field_declaration":
+                type_str = None
+                for gc in child.children:
+                    if gc.type in ("type_identifier", "integral_type", "floating_point_type",
+                                  "boolean_type", "generic_type", "array_type",
+                                  "scoped_type_identifier"):
+                        type_str = self._type_node_to_str(gc, code_bytes)
+                    elif gc.type == "variable_declarator":
+                        name_node = self._find_child_by_type(gc, ("identifier",))
+                        if name_node and type_str:
+                            name = name_node.text.decode("utf-8", errors="ignore") if name_node.text else None
+                            if name:
+                                field_types[name] = type_str
         return field_types
 
     def _extract_imports(self, tree: Any, code_bytes: bytes, language: str) -> list[ImportDecl]:

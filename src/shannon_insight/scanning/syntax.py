@@ -108,6 +108,8 @@ class ClassDef:
         methods: Methods defined in this class
         fields: Field/attribute names
         is_abstract: True if ABC, Protocol, or has abstractmethod
+        start_line: Starting line number (1-indexed)
+        end_line: Ending line number (1-indexed)
     """
 
     name: str
@@ -115,6 +117,13 @@ class ClassDef:
     methods: list[FunctionDef]
     fields: list[str]
     is_abstract: bool = False
+    start_line: int = 0
+    end_line: int = 0
+
+    @property
+    def method_count(self) -> int:
+        """Number of methods in this class."""
+        return len(self.methods)
 
 
 @dataclass

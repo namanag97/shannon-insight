@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS class_facts (
     bases TEXT NOT NULL,
     method_names TEXT NOT NULL,
     field_names TEXT NOT NULL,
+    field_types TEXT NOT NULL,
     is_abstract INTEGER NOT NULL,
     method_count INTEGER NOT NULL
 );

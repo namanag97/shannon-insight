@@ -1074,6 +1074,7 @@ def _resolve_call_target(
     caller_class: Optional[str],
     function_index: dict[str, str],
     function_nodes: set[str],
+    file_to_functions: dict[str, list[str]],
     import_index: dict[str, dict[str, str]],
     all_paths: set[str],
 ) -> Optional[str]:
@@ -1085,6 +1086,7 @@ def _resolve_call_target(
         caller_class: Name of the class if call is in a method, else None
         function_index: name → node_id mapping (only unique names)
         function_nodes: O(1) set of all function node IDs
+        file_to_functions: file → [node_ids] for O(1) same-file lookup
         import_index: file → {imported_name → source_file}
         all_paths: Set of all file paths
 
@@ -1115,13 +1117,12 @@ def _resolve_call_target(
     if same_file_node in function_nodes:  # O(1) lookup
         return same_file_node
 
-    # Try as method: "file:*.target" (target might be a method name)
-    # Build candidate patterns for same-file lookup
-    for candidate in function_nodes:
-        if candidate.startswith(f"{caller_file}:"):
-            # Check if it ends with .target (method match)
-            if candidate.endswith(f".{target}"):
-                return candidate
+    # Try as method in same file using file_to_functions (O(m) where m = methods in file)
+    same_file_funcs = file_to_functions.get(caller_file, [])
+    suffix = f".{target}"
+    for node_id in same_file_funcs:
+        if node_id.endswith(suffix):
+            return node_id
 
     # Check if it's an imported symbol
     file_imports = import_index.get(caller_file, {})

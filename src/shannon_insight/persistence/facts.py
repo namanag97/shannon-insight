@@ -101,6 +101,8 @@ CREATE TABLE IF NOT EXISTS function_facts (
     nesting_depth INTEGER NOT NULL,
     call_targets TEXT NOT NULL,
     class_name TEXT,
+    return_type TEXT,
+    param_types TEXT NOT NULL,
     is_stub INTEGER NOT NULL,
     stub_score REAL NOT NULL
 );

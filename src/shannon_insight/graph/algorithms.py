@@ -1,6 +1,7 @@
 """Graph algorithms: centrality, SCC, blast radius, community detection."""
 
 from collections import defaultdict, deque
+from typing import Optional
 
 from ..math.gini import Gini
 from ..math.graph import GraphMetrics

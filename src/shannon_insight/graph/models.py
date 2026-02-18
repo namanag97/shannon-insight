@@ -148,6 +148,19 @@ class GraphAnalysis:
     centrality_gini: float = 0.0  # Gini coefficient of pagerank distribution
     spectral_gap: float = 0.0  # λ₂/λ₃ (moved from SpectralSummary)
 
+    # Phase 2 additions: Function-level analysis
+    function_pagerank: dict[str, float] = field(default_factory=dict)  # FUNC -> pagerank
+    function_betweenness: dict[str, float] = field(default_factory=dict)  # FUNC -> betweenness
+    dead_functions: set[str] = field(default_factory=set)  # FUNC with no callers
+    function_cycles: list[set[str]] = field(default_factory=list)  # SCCs in call graph
+
+    # Phase 2 additions: Class-level analysis
+    inheritance_depth: dict[str, int] = field(default_factory=dict)  # CLASS -> depth
+    diamond_classes: list[str] = field(default_factory=list)  # Classes with diamond inheritance
+
+    # Phase 2 additions: Cross-cutting
+    hotspot_functions: list[str] = field(default_factory=list)  # High centrality + high churn
+
 
 # ── Level 3 + 5: Container measurements ───────────────────────────
 

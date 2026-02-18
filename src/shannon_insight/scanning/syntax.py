@@ -171,6 +171,8 @@ class FileSyntax:
         language: Detected language
         has_main_guard: True if `if __name__ == "__main__":` detected
         mtime: Last modified timestamp (for cache invalidation)
+        content_hash: SHA-256 hash of file content (for dedup/caching)
+        absolute_path: Absolute file path (for debugging)
         _lines: Cached line count (set during parsing)
         _tokens: Cached token count (set during parsing)
         _complexity: Cached complexity score (set during parsing)
@@ -183,10 +185,17 @@ class FileSyntax:
     language: str
     has_main_guard: bool = False
     mtime: float = 0.0
+    content_hash: str = ""  # SHA-256 of content
+    absolute_path: str = ""  # Full path for debugging
     # Cached metrics (set during parsing to avoid re-reading content)
     _lines: int = 0
     _tokens: int = 0
     _complexity: float = 1.0
+
+    @staticmethod
+    def compute_content_hash(content: str) -> str:
+        """Compute SHA-256 hash of content."""
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
 
     @property
     def function_count(self) -> int:

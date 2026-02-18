@@ -203,15 +203,23 @@ class TestReportingExecutor:
         executor = ReportingExecutor()
         assert executor.phase == Phase.REPORTING
 
-    def test_execute_builds_result(self, tmp_path, mock_session):
+    def test_execute_builds_result(self, tmp_path):
         """Test execute builds InsightResult."""
+        from shannon_insight.config import load_config
+        from shannon_insight.environment import discover_environment
         from shannon_insight.insights.store import AnalysisStore
+        from shannon_insight.session import AnalysisSession
 
-        # Create real store and context for this test
+        # Create real config and session for this test
+        config = load_config()
+        env = discover_environment(tmp_path)
+        session = AnalysisSession(config=config, env=env)
+
+        # Create real store and context
         ctx = RuntimeContext.create(root=tmp_path)
         store = AnalysisStore(
             root_dir=str(tmp_path),
-            session=mock_session,
+            session=session,
         )
 
         # Set up empty findings
@@ -219,7 +227,7 @@ class TestReportingExecutor:
         ctx._pattern_findings = []  # type: ignore
 
         executor = ReportingExecutor()
-        result = executor.execute(ctx, store, mock_session)
+        result = executor.execute(ctx, store, session)
 
         assert result.success is True
         assert hasattr(ctx, "_insight_result")

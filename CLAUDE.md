@@ -90,3 +90,37 @@ Phase specs in `phases/`, registry docs in `registry/`, module specs in `modules
 - `SPEC-REFERENCE.md`: Complete signal/finder/store spec
 - `FAILURE-MODES.md`: 22 common implementation bugs
 - `infrastructure.md`: Signal enum, Slot[T], FactStore patterns
+
+## v2 Architecture (Refactoring)
+
+### Layered Pipeline
+
+```
+Level 0: Fact Extraction     (files, git, identity)
+Level 1: Temporal Signals    (churn, authors, cochange)
+Level 2: Graph Construction  (5 relationship graphs)
+Level 3: Graph Algorithms    (PageRank, communities, spectral)
+Level 4: Cross-Layer         (MI, time derivatives)
+Level 5: Composites          (risk_score, health_score, delta_h)
+Level 6: Finders             (22 pattern detectors)
+```
+
+### Key Architectural Changes
+
+- **FileIdentityResolver**: Stable identity across renames (content hash + path)
+- **BlobStore**: Content-addressable storage for file contents
+- **Unified FactStore**: Replaces 3 separate DBs (snapshot, history, graph)
+- **Author normalization**: Canonical identity from multiple git aliases
+
+### New Directory Structure
+
+```
+src/shannon_insight/
+├── facts/           # NEW: Level 0 fact extraction
+├── extraction/      # NEW: unified extractors
+└── ...
+```
+
+### Reference
+
+See `docs/v2/architecture/levels/` for detailed level specs.

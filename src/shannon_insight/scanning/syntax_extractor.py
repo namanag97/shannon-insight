@@ -113,9 +113,11 @@ class SyntaxExtractor:
 
         content_hash = FileSyntax.compute_content_hash(content)
 
-        # Try FactStore cache
-        if self._fact_store is not None and self._fact_store.has_parsed_syntax(content_hash):
-            cached_syntax = self._fact_store.get_parsed_syntax(content_hash)
+        # Try FactStore cache (serialize SQLite access across threads)
+        if self._fact_store is not None:
+            with self._db_lock:
+                has_cached = self._fact_store.has_parsed_syntax(content_hash)
+                cached_syntax = self._fact_store.get_parsed_syntax(content_hash) if has_cached else None
             if cached_syntax is not None:
                 with self._lock:
                     self._cache_hits += 1

@@ -193,6 +193,7 @@ class FileSyntax:
     mtime: float = 0.0
     content_hash: str = ""  # SHA-256 of content
     absolute_path: str = ""  # Full path for debugging
+    file_id: str | None = None  # stable identity across renames
     # Cached metrics (set during parsing to avoid re-reading content)
     _lines: int = 0
     _tokens: int = 0

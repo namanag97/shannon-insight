@@ -14,27 +14,33 @@ Fallback behavior:
     3. If tree-sitter not installed: use regex fallback
 
 The fallback rate is tracked. If >20% of files use fallback, a warning is logged.
+
+Caching:
+    When a FactStore is provided, parsed results are cached by content hash.
+    Same content (regardless of path) produces the same parse result, so
+    renames and duplicates are handled automatically.
 """
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from threading import Lock
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 # Import STDLIB_ROOTS for stdlib detection
 from ..graph.builder import LANGUAGE_EXTENSIONS, STDLIB_ROOTS
 from .fallback import RegexFallbackScanner
 from .languages import detect_language
 from .normalizer import TreeSitterNormalizer
-from .syntax import FileSyntax
+from .syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 from .treesitter_parser import TREE_SITTER_AVAILABLE
 
 if TYPE_CHECKING:
-    pass
+    from ..facts.store import FactStore
 
 logger = logging.getLogger(__name__)
 
@@ -51,11 +57,18 @@ class SyntaxExtractor:
         total_count: Total files processed
     """
 
-    def __init__(self, max_workers: int | None = None) -> None:
+    def __init__(
+        self,
+        max_workers: int | None = None,
+        fact_store: FactStore | None = None,
+    ) -> None:
         """Initialize extractor with tree-sitter normalizer and regex fallback.
 
         Args:
             max_workers: Max parallel workers for extract_all(). Defaults to CPU count (max 8).
+            fact_store: Optional FactStore for content-hash caching.
+                        When provided, parsed results are cached by SHA-256 content
+                        hash, so identical files are parsed only once.
         """
         self._normalizer = TreeSitterNormalizer() if TREE_SITTER_AVAILABLE else None
         self._fallback = RegexFallbackScanner()
@@ -64,11 +77,17 @@ class SyntaxExtractor:
         self.fallback_count = 0
         self.treesitter_count = 0
         self.total_count = 0
+        self._fact_store = fact_store
+        self._cache_hits = 0
+        self._cache_misses = 0
 
     def extract(
         self, file_path: Path, root_dir: Path, content_cache: dict[str, str] | None = None
     ) -> FileSyntax | None:
         """Extract FileSyntax from a single file.
+
+        If a FactStore is configured, checks the cache by content hash first.
+        On a cache miss, parses the file and stores the result for future use.
 
         Args:
             file_path: Path to the file
@@ -92,26 +111,62 @@ class SyntaxExtractor:
         if content_cache is not None:
             content_cache[rel_path] = content
 
+        content_hash = FileSyntax.compute_content_hash(content)
+
+        # Try FactStore cache
+        if self._fact_store is not None and self._fact_store.has_parsed_syntax(content_hash):
+            cached_syntax = self._fact_store.get_parsed_syntax(content_hash)
+            if cached_syntax is not None:
+                with self._lock:
+                    self._cache_hits += 1
+                    self.total_count += 1
+                    # Count as treesitter or fallback based on cached parser_type
+                    if cached_syntax.get("parser_type") == "tree-sitter":
+                        self.treesitter_count += 1
+                    else:
+                        self.fallback_count += 1
+                return self._rehydrate_syntax(
+                    path=rel_path,
+                    content_hash=content_hash,
+                    mtime=mtime,
+                    absolute_path=str(file_path.resolve()),
+                    cached=cached_syntax,
+                )
+
+        # Cache miss -- parse normally
+        with self._lock:
+            self._cache_misses += 1
+
         # Thread-safe counter updates
         with self._lock:
             self.total_count += 1
 
         # Try tree-sitter first
+        syntax: FileSyntax | None = None
+        parser_type = "regex"
         if self._normalizer is not None:
             syntax = self._normalizer.parse_file(
                 content, rel_path, language, mtime, absolute_path=str(file_path.resolve())
             )
             if syntax is not None:
+                parser_type = "tree-sitter"
                 with self._lock:
                     self.treesitter_count += 1
-                return syntax
 
-        # Fall back to regex
-        with self._lock:
-            self.fallback_count += 1
-        return self._fallback.parse(
-            content, rel_path, language, mtime, absolute_path=str(file_path.resolve())
-        )
+        if syntax is None:
+            # Fall back to regex
+            with self._lock:
+                self.fallback_count += 1
+            syntax = self._fallback.parse(
+                content, rel_path, language, mtime, absolute_path=str(file_path.resolve())
+            )
+            parser_type = "regex"
+
+        # Store in cache
+        if self._fact_store is not None and syntax is not None:
+            self._cache_syntax(content_hash, syntax, parser_type)
+
+        return syntax
 
     def extract_all(
         self,

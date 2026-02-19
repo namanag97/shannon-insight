@@ -18,7 +18,7 @@ from __future__ import annotations
 import logging
 import sqlite3
 import uuid
-from typing import Iterator
+from collections.abc import Iterator
 
 from .models import ChangeType, FileIdentity
 

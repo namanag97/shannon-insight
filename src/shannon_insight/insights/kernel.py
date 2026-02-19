@@ -63,6 +63,7 @@ class InsightKernel:
         debug_export_dir: str | Path | None = None,
         enable_provenance: bool = False,
         enable_fact_storage: bool = False,
+        use_fact_store: bool = False,
     ):
         """Initialize kernel with analysis session.
 
@@ -72,6 +73,8 @@ class InsightKernel:
             debug_export_dir: Optional debug export directory
             enable_provenance: Enable provenance tracking (--trace flag)
             enable_fact_storage: Enable fact storage to .shannon/facts.db
+            use_fact_store: Enable persistent FactStore for caching and identity
+                           resolution. Creates .shannon/facts.db if not exists.
         """
         self.session = session
         self.root_dir = str(session.env.root)
@@ -80,7 +83,9 @@ class InsightKernel:
         self._persistence_finders = get_persistence_finders() if enable_persistence_finders else []
         self._enable_provenance = enable_provenance
         self._enable_fact_storage = enable_fact_storage
+        self._use_fact_store = use_fact_store
         self._fact_session_id: str | None = None
+        self._facts_db = None  # Lazy-initialized persistent FactStore
         self._debug_exporter: DebugExporter | None = None
         if debug_export_dir:
             from ..debug_export import DebugExporter
@@ -438,7 +443,9 @@ class InsightKernel:
         try:
             result = subprocess.run(
                 ["git", "-C", self.root_dir, "rev-parse", "HEAD"],
-                capture_output=True, text=True, timeout=5,
+                capture_output=True,
+                text=True,
+                timeout=5,
             )
             if result.returncode == 0:
                 commit_sha = result.stdout.strip()

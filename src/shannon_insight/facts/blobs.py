@@ -143,7 +143,8 @@ class BlobStore:
         row = cursor.fetchone()
         if row is None:
             return None
-        return row[0]
+        result: int = row[0]
+        return result
 
     def store_batch(self, contents: list[bytes]) -> list[str]:
         """Store multiple blobs in a single transaction.

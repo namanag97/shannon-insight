@@ -32,8 +32,8 @@ import logging
 import sqlite3
 import time
 import zlib
-from pathlib import Path
 from collections.abc import Iterator
+from pathlib import Path
 from typing import Any
 
 from .models import (

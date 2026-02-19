@@ -92,6 +92,23 @@ class InsightKernel:
 
             self._debug_exporter = DebugExporter(debug_export_dir)
 
+    def _get_facts_db(self):
+        """Get or create the persistent FactStore (lazy init).
+
+        Returns the facts.store.FactStore instance, creating it on first call
+        if use_fact_store is enabled. Returns None if not enabled.
+        """
+        if not self._use_fact_store:
+            return None
+        if self._facts_db is None:
+            from ..facts.store import FactStore as PersistentFactStore
+
+            db_path = Path(self.root_dir) / ".shannon" / "facts.db"
+            db_path.parent.mkdir(parents=True, exist_ok=True)
+            self._facts_db = PersistentFactStore.open(db_path)
+            logger.debug(f"Opened persistent FactStore at {db_path}")
+        return self._facts_db
+
     def run(
         self,
         max_findings: int = 10,
@@ -123,6 +140,11 @@ class InsightKernel:
             session=self.session,
             enable_provenance=self._enable_provenance,
         )
+
+        # Wire persistent FactStore if enabled
+        facts_db = self._get_facts_db()
+        if facts_db is not None:
+            store.facts_db = facts_db
 
         # Phase 1: Extract syntax (reads files once, caches content)
         # This replaces the old separate _scan() + _extract_syntax() steps.

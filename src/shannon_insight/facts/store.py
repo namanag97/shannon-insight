@@ -37,14 +37,11 @@ from collections.abc import Iterator
 from typing import Any
 
 from .models import (
-    ChangeType,
     CommitFact,
     ExtractedClass,
     ExtractedFunction,
     ExtractedImport,
     FileChangeFact,
-    FileIdentity,
-    FileObservation,
     ParsedSyntaxFact,
 )
 

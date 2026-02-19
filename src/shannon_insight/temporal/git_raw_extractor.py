@@ -339,5 +339,221 @@ class GitRawExtractor:
 
         return commits, file_changes
 
+    # ── FactStore identity resolution ──────────────────────────────────
+
+    def _resolve_identities(
+        self,
+        commits: list[GitCommit],
+        file_changes: list[GitFileChange],
+    ) -> None:
+        """Resolve stable file identities and persist to FactStore.
+
+        Processes commits oldest-first for correct identity chain resolution.
+        Each file change gets a stable ``file_id`` assigned. Commits and
+        changes are stored in the fact database.
+
+        Args:
+            commits: Parsed commits (may be in any order).
+            file_changes: Parsed file changes (parallel to commits via commit_hash).
+        """
+        assert self.fact_store is not None  # noqa: S101
+
+        # Build commit_hash -> list[file_change_index] for fast lookup
+        changes_by_commit: dict[str, list[int]] = {}
+        for i, fc in enumerate(file_changes):
+            changes_by_commit.setdefault(fc.commit_hash, []).append(i)
+
+        # Process oldest-first for correct identity chains
+        commits_oldest_first = sorted(commits, key=lambda c: c.timestamp)
+
+        for commit in commits_oldest_first:
+            # Store commit fact
+            self.fact_store.store_commit(
+                commit_hash=commit.hash,
+                timestamp=commit.timestamp,
+                author_email=commit.author_email,
+                author_name=commit.author_name,
+                message_subject=commit.subject,
+                message_body=commit.body or None,
+                parent_hashes=list(commit.parent_hashes),
+                is_merge=commit.is_merge,
+            )
+
+            # Resolve identity for each file change in this commit
+            for idx in changes_by_commit.get(commit.hash, []):
+                change = file_changes[idx]
+                file_id = self._resolve_single_identity(commit, change)
+                change.file_id = file_id
+
+                # Store file change fact in FactStore
+                self.fact_store.store_file_change(
+                    commit_hash=commit.hash,
+                    file_id=file_id,
+                    change_type=change.change_type.value,
+                    old_path=change.old_path,
+                    new_path=change.file_path,
+                    additions=change.additions,
+                    deletions=change.deletions,
+                )
+
+        self.fact_store.commit()
+
+    def _resolve_single_identity(
+        self,
+        commit: GitCommit,
+        change: GitFileChange,
+    ) -> str:
+        """Resolve the stable file identity for a single change.
+
+        Dispatches to the appropriate handler based on change type:
+        - ADDED/COPIED: register a new identity
+        - RENAMED: transfer identity from old_path to new_path
+        - DELETED: mark identity as dead
+        - MODIFIED: look up existing identity (implicit ADD if missing)
+
+        Args:
+            commit: The commit containing this change.
+            change: The file change to resolve.
+
+        Returns:
+            The stable file_id string.
+        """
+        assert self.fact_store is not None  # noqa: S101
+
+        if change.change_type == ChangeType.ADDED:
+            return self._identity_add(commit, change.file_path)
+
+        elif change.change_type == ChangeType.COPIED:
+            # Copy creates a new identity (not shared with source)
+            return self._identity_add(commit, change.file_path)
+
+        elif change.change_type == ChangeType.RENAMED:
+            return self._identity_rename(commit, change)
+
+        elif change.change_type == ChangeType.DELETED:
+            return self._identity_delete(commit, change.file_path)
+
+        else:  # MODIFIED
+            return self._identity_modify(commit, change.file_path)
+
+    def _identity_add(self, commit: GitCommit, file_path: str) -> str:
+        """Handle ADD: register a new file identity.
+
+        If the path already has a living identity (e.g., duplicate ADD in
+        history), reuse it instead of creating a duplicate.
+        """
+        assert self.fact_store is not None  # noqa: S101
+
+        # Check if already tracked (handles duplicate ADDs gracefully)
+        existing = self.fact_store.resolve_file_id(file_path)
+        if existing is not None:
+            return existing
+
+        file_id = str(uuid.uuid4())
+        self.fact_store.register_file_identity(
+            file_id=file_id,
+            birth_commit=commit.hash,
+            birth_path=file_path,
+            current_path=file_path,
+            is_alive=True,
+        )
+        return file_id
+
+    def _identity_rename(self, commit: GitCommit, change: GitFileChange) -> str:
+        """Handle RENAME: transfer identity from old_path to new_path.
+
+        If old_path has no known identity (partial history), create a
+        retroactive identity rooted at this commit.
+        """
+        assert self.fact_store is not None  # noqa: S101
+
+        old_path = change.old_path
+        new_path = change.file_path
+
+        if old_path is None:
+            # Malformed rename without old_path: treat as add
+            logger.warning(
+                "RENAME without old_path for %s in %s, treating as ADD",
+                new_path,
+                commit.hash,
+            )
+            return self._identity_add(commit, new_path)
+
+        # Find existing identity for old_path
+        file_id = self.fact_store.resolve_file_id(old_path)
+
+        if file_id is None:
+            # Partial history: old_path was never seen.
+            # Create a retroactive identity with old_path as birth_path.
+            file_id = str(uuid.uuid4())
+            self.fact_store.register_file_identity(
+                file_id=file_id,
+                birth_commit=commit.hash,
+                birth_path=old_path,
+                current_path=old_path,
+                is_alive=True,
+            )
+
+        # Update identity to point to new_path
+        self.fact_store.update_file_path(
+            file_id=file_id,
+            new_path=new_path,
+            timestamp=commit.timestamp,
+            is_alive=True,
+        )
+
+        return file_id
+
+    def _identity_delete(self, commit: GitCommit, file_path: str) -> str:
+        """Handle DELETE: mark identity as dead.
+
+        If the path has no known identity (partial history), create one
+        retroactively so we have a record.
+        """
+        assert self.fact_store is not None  # noqa: S101
+
+        file_id = self.fact_store.resolve_file_id(file_path)
+
+        if file_id is None:
+            # Partial history: never saw ADD for this file
+            file_id = str(uuid.uuid4())
+            self.fact_store.register_file_identity(
+                file_id=file_id,
+                birth_commit=commit.hash,
+                birth_path=file_path,
+                current_path=file_path,
+                is_alive=True,
+            )
+
+        # Mark as dead (current_path=None, is_alive=False)
+        self.fact_store.update_file_path(
+            file_id=file_id,
+            new_path=None,
+            timestamp=commit.timestamp,
+            is_alive=False,
+        )
+
+        return file_id
+
+    def _identity_modify(self, commit: GitCommit, file_path: str) -> str:
+        """Handle MODIFY: return existing identity.
+
+        If the path has no identity (partial history / shallow clone),
+        treat as an implicit ADD.
+        """
+        assert self.fact_store is not None  # noqa: S101
+
+        file_id = self.fact_store.resolve_file_id(file_path)
+        if file_id is not None:
+            return file_id
+
+        # Implicit ADD for partial history
+        logger.debug(
+            "MODIFY for unknown path %s (commit %s), treating as implicit ADD",
+            file_path,
+            commit.hash,
+        )
+        return self._identity_add(commit, file_path)
+
 
 __all__ = ["GitRawExtractor"]

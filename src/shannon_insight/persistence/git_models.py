@@ -70,6 +70,7 @@ class GitFileChange:
     deletions: int | None  # None for binary files
     change_type: ChangeType
     old_path: str | None = None  # For renames: R old -> new
+    file_id: str | None = None  # Stable identity across renames
 
     @property
     def is_binary(self) -> bool:

@@ -210,4 +210,5 @@ class BlobStore:
         cursor = self._conn.execute(
             "SELECT COALESCE(SUM(compressed_size), 0) FROM blobs"
         )
-        return cursor.fetchone()[0]
+        result: int = cursor.fetchone()[0]
+        return result

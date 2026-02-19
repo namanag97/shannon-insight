@@ -134,6 +134,9 @@ class AnalysisStore:
             root=self.root_dir,
             enable_provenance=self.enable_provenance,
         )
+        # Persistent fact store (facts.store.FactStore backed by SQLite).
+        # Set externally by the kernel when --use-facts is enabled.
+        self._facts_db: PersistentFactStore | None = None
 
     @property
     def fact_store(self) -> FactStore:

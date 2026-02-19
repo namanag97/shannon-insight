@@ -164,6 +164,7 @@ def analyze(
         session=session,
         enable_provenance=enable_provenance,
         enable_persistence_finders=enable_persistence_finders,
+        use_fact_store=use_fact_store,
     )
     result, snapshot = kernel.run(max_findings=config.max_findings)
 

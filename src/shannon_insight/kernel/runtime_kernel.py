@@ -222,6 +222,14 @@ class RuntimeKernel:
                 ctx.record_error(e)
                 ctx.transition(Phase.FAILED)
 
+        # Commit persistent FactStore if enabled
+        if store.facts_db is not None:
+            try:
+                store.facts_db.commit()
+                logger.debug("Persistent FactStore committed")
+            except Exception as e:
+                logger.warning(f"Failed to commit persistent FactStore: {e}")
+
         # Build result
         insight_result = getattr(ctx, "_insight_result", None)
         snapshot = getattr(ctx, "_snapshot", None)

@@ -153,6 +153,11 @@ class RuntimeKernel:
             enable_provenance=self.enable_provenance,
         )
 
+        # Wire persistent FactStore if enabled
+        facts_db = self._get_facts_db()
+        if facts_db is not None:
+            store.facts_db = facts_db
+
         # Track results
         errors: list[Exception] = []
         warnings: list[str] = []

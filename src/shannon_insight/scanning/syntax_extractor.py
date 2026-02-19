@@ -77,6 +77,7 @@ class SyntaxExtractor:
         self.treesitter_count = 0
         self.total_count = 0
         self._fact_store = fact_store
+        self._db_lock = Lock()  # Serialize FactStore (SQLite) access across threads
         self._cache_hits = 0
         self._cache_misses = 0
 

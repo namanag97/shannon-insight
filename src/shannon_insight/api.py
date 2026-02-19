@@ -27,7 +27,6 @@ Example:
 
 from __future__ import annotations
 
-import warnings
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
 
@@ -121,6 +120,7 @@ def analyze(
 
     # Extract non-config overrides before passing to load_config
     enable_provenance = overrides.pop("enable_provenance", False)
+    use_fact_store = overrides.pop("use_fact_store", False)
 
     # 1. Load configuration
     config = load_config(config_file=config_file, **overrides)
@@ -179,7 +179,7 @@ def analyze_v2(
     config_file: Optional[Path] = None,
     use_runtime_kernel: bool = True,
     **overrides,
-) -> "RuntimeResult":
+) -> RuntimeResult:
     """Analyze a codebase using RuntimeKernel with full observability.
 
     This is the new API that uses RuntimeKernel instead of InsightKernel.
@@ -243,8 +243,7 @@ def analyze_v2(
         follow_symlinks=config.follow_symlinks,
     )
     logger.info(
-        f"Environment discovered: {env.file_count} files, "
-        f"{len(env.detected_languages)} languages"
+        f"Environment discovered: {env.file_count} files, {len(env.detected_languages)} languages"
     )
 
     # Create session
@@ -263,9 +262,6 @@ def analyze_v2(
         on_progress=on_progress,
     )
 
-    logger.info(
-        f"Analysis complete: {len(result.findings)} findings, "
-        f"status={result.status}"
-    )
+    logger.info(f"Analysis complete: {len(result.findings)} findings, status={result.status}")
 
     return result

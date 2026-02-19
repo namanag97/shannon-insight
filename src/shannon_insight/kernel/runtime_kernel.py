@@ -96,6 +96,7 @@ class RuntimeKernel:
         total_timeout_seconds: int = 1800,
         phase_timeout_seconds: int = 300,
         enable_provenance: bool = False,
+        use_fact_store: bool = False,
     ):
         """Initialize the runtime kernel.
 
@@ -105,12 +106,16 @@ class RuntimeKernel:
             total_timeout_seconds: Total timeout in seconds (default: 1800)
             phase_timeout_seconds: Per-phase timeout in seconds (default: 300)
             enable_provenance: Enable provenance tracking
+            use_fact_store: Enable persistent FactStore for caching and
+                           identity resolution (.shannon/facts.db)
         """
         self.session = session
         self.memory_limit_mb = memory_limit_mb
         self.total_timeout_seconds = total_timeout_seconds
         self.phase_timeout_seconds = phase_timeout_seconds
         self.enable_provenance = enable_provenance
+        self.use_fact_store = use_fact_store
+        self._facts_db = None  # Lazy-initialized persistent FactStore
 
         # Phase executors (in order)
         self._executors = list(PHASE_EXECUTORS)
@@ -219,7 +224,7 @@ class RuntimeKernel:
     def _execute_phase(
         self,
         ctx: RuntimeContext,
-        store: "AnalysisStore",
+        store: AnalysisStore,
         executor,
     ) -> PhaseResult:
         """Execute a single phase with timeout and circuit breaker.

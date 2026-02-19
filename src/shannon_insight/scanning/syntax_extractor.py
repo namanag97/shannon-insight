@@ -271,6 +271,189 @@ class SyntaxExtractor:
         self.fallback_count = 0
         self.treesitter_count = 0
         self.total_count = 0
+        self._cache_hits = 0
+        self._cache_misses = 0
+
+    def cache_stats(self) -> dict[str, Any]:
+        """Return cache hit/miss statistics.
+
+        Returns:
+            Dict with 'hits', 'misses', and 'hit_rate' keys.
+        """
+        total = self._cache_hits + self._cache_misses
+        return {
+            "hits": self._cache_hits,
+            "misses": self._cache_misses,
+            "hit_rate": self._cache_hits / total if total > 0 else 0.0,
+        }
+
+    # ── Caching helpers ─────────────────────────────────────────────────
+
+    def _rehydrate_syntax(
+        self,
+        path: str,
+        content_hash: str,
+        mtime: float,
+        absolute_path: str,
+        cached: dict[str, Any],
+    ) -> FileSyntax:
+        """Reconstruct FileSyntax from cached data with current path.
+
+        The cached data contains scalar metrics. Functions, classes, and
+        imports are loaded from their respective tables.
+
+        Args:
+            path: Current relative path (may differ from original if renamed).
+            content_hash: SHA-256 of the file content.
+            mtime: Current mtime of the file.
+            absolute_path: Current absolute path for debugging.
+            cached: Dict from FactStore.get_parsed_syntax().
+
+        Returns:
+            Fully reconstructed FileSyntax.
+        """
+        assert self._fact_store is not None
+
+        # Reconstruct functions
+        cached_functions = self._fact_store.get_functions_for_content(content_hash)
+        functions = [self._rehydrate_function(f) for f in cached_functions]
+
+        # Reconstruct classes -- methods are reconstructed from the functions
+        # that have a matching class_name
+        cached_classes = self._fact_store.get_classes_for_content(content_hash)
+        classes = [
+            self._rehydrate_class(c, [f for f in functions if f.class_name == c["name"]])
+            for c in cached_classes
+        ]
+
+        # Reconstruct imports
+        cached_imports = self._fact_store.get_imports_for_content(content_hash)
+        imports = [self._rehydrate_import(i) for i in cached_imports]
+
+        return FileSyntax(
+            path=path,
+            functions=functions,
+            classes=classes,
+            imports=imports,
+            language=cached["language"],
+            has_main_guard=cached.get("has_main_guard", False),
+            mtime=mtime,
+            content_hash=content_hash,
+            absolute_path=absolute_path,
+            _lines=cached.get("lines", 0),
+            _tokens=cached.get("tokens", 0),
+            _complexity=cached.get("complexity", 1.0) or 1.0,
+        )
+
+    @staticmethod
+    def _rehydrate_function(f: dict[str, Any]) -> FunctionDef:
+        """Reconstruct a FunctionDef from cached dict."""
+        return FunctionDef(
+            name=f["name"],
+            params=f.get("params", []),
+            body_tokens=f.get("body_tokens", 0),
+            signature_tokens=max(f.get("body_tokens", 0), 1),  # not stored; approximate
+            nesting_depth=f.get("nesting_depth", 0),
+            start_line=f["start_line"],
+            end_line=f["end_line"],
+            call_targets=None,  # not cached
+            decorators=f.get("decorators", []),
+            class_name=f.get("class_name"),
+        )
+
+    @staticmethod
+    def _rehydrate_class(c: dict[str, Any], methods: list[FunctionDef]) -> ClassDef:
+        """Reconstruct a ClassDef from cached dict."""
+        return ClassDef(
+            name=c["name"],
+            bases=c.get("bases", []),
+            methods=methods,
+            fields=c.get("field_names", []),
+            is_abstract=c.get("is_abstract", False),
+            start_line=c.get("start_line", 0),
+            end_line=c.get("end_line", 0),
+        )
+
+    @staticmethod
+    def _rehydrate_import(i: dict[str, Any]) -> ImportDecl:
+        """Reconstruct an ImportDecl from cached dict."""
+        return ImportDecl(
+            source=i["source_module"],
+            names=i.get("names", []),
+            resolved_path=None,  # resolution happens later
+        )
+
+    def _cache_syntax(self, content_hash: str, syntax: FileSyntax, parser_type: str) -> None:
+        """Cache parsed syntax and its entities by content hash.
+
+        Stores scalar metrics in parsed_syntax, and all functions, classes,
+        and imports in their respective tables.
+
+        Args:
+            content_hash: SHA-256 of the file content.
+            syntax: The parsed FileSyntax to cache.
+            parser_type: ``"tree-sitter"`` or ``"regex"``.
+        """
+        assert self._fact_store is not None
+
+        self._fact_store.store_parsed_syntax(
+            content_hash=content_hash,
+            language=syntax.language,
+            lines=syntax.lines,
+            tokens=syntax.tokens,
+            complexity=int(syntax.complexity),
+            max_nesting=syntax.max_nesting,
+            has_main_guard=syntax.has_main_guard,
+            stub_ratio=syntax.stub_ratio,
+            parser_type=parser_type,
+        )
+
+        # Cache functions
+        for fn in syntax.functions:
+            self._fact_store.store_extracted_function(
+                content_hash=content_hash,
+                name=fn.name,
+                qualified_name=fn.qualified_name,
+                start_line=fn.start_line,
+                end_line=fn.end_line,
+                params=fn.params,
+                decorators=fn.decorators,
+                body_tokens=fn.body_tokens,
+                nesting_depth=fn.nesting_depth,
+                is_stub=fn.is_stub,
+                class_name=fn.class_name,
+            )
+
+        # Cache classes
+        for cls in syntax.classes:
+            self._fact_store.store_extracted_class(
+                content_hash=content_hash,
+                name=cls.name,
+                start_line=cls.start_line,
+                end_line=cls.end_line,
+                bases=cls.bases,
+                method_names=[m.name for m in cls.methods],
+                field_names=cls.fields,
+                is_abstract=cls.is_abstract,
+                method_count=cls.method_count,
+            )
+
+        # Cache imports
+        for imp in syntax.imports:
+            raw_statement = (
+                f"from {imp.source} import {', '.join(imp.names)}"
+                if imp.names
+                else f"import {imp.source}"
+            )
+            self._fact_store.store_extracted_import(
+                content_hash=content_hash,
+                raw_statement=raw_statement,
+                source_module=imp.source,
+                names=imp.names,
+                is_relative=imp.is_relative,
+            )
+
+        self._fact_store.commit()
 
 
 # ══════════════════════════════════════════════════════════════════════════════

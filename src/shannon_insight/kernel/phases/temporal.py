@@ -45,9 +45,9 @@ class TemporalExecutor(BaseExecutor):
 
     def _execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
     ) -> PhaseResult:
         """Extract git history."""
         # Check if git is available
@@ -61,12 +61,13 @@ class TemporalExecutor(BaseExecutor):
         analyzer = TemporalAnalyzer(
             max_commits=session.config.git_max_commits,
             min_commits=session.config.git_min_commits,
+            facts_db=store.facts_db,
         )
 
         try:
             # Check requirements
             if not analyzer.requires.issubset(store.available):
-                logger.debug(f"Skipping temporal: requirements not met")
+                logger.debug("Skipping temporal: requirements not met")
                 return PhaseResult.ok(items_processed=0)
 
             analyzer.analyze(store)

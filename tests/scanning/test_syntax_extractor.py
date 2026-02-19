@@ -296,3 +296,237 @@ class TestSyntaxExtractorMultiLanguage:
 
             assert result is not None
             assert result.language == "unknown"
+
+
+class TestSyntaxExtractorCaching:
+    """Tests for content-hash caching via FactStore."""
+
+    def test_cache_miss_on_first_parse(self):
+        """First extraction is a cache miss."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            result = extractor.extract(root / "test.py", root)
+
+            assert result is not None
+            stats = extractor.cache_stats()
+            assert stats["misses"] == 1
+            assert stats["hits"] == 0
+
+    def test_cache_hit_on_second_parse(self):
+        """Second extraction of same content is a cache hit."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            first = extractor.extract(root / "test.py", root)
+            second = extractor.extract(root / "test.py", root)
+
+            assert first is not None
+            assert second is not None
+            stats = extractor.cache_stats()
+            assert stats["misses"] == 1
+            assert stats["hits"] == 1
+            assert stats["hit_rate"] == 0.5
+
+    def test_different_content_is_cache_miss(self):
+        """Different content produces a different hash and a cache miss."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "a.py").write_text("def a(): pass")
+            (root / "b.py").write_text("def b(): return 42")
+
+            extractor = SyntaxExtractor(fact_store=store)
+            extractor.extract(root / "a.py", root)
+            extractor.extract(root / "b.py", root)
+
+            stats = extractor.cache_stats()
+            assert stats["misses"] == 2
+            assert stats["hits"] == 0
+
+    def test_same_content_different_path_is_cache_hit(self):
+        """Same content at a different path produces a cache hit (rename scenario)."""
+        store = FactStore.in_memory()
+        content = "def hello(): return 'world'"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "original.py").write_text(content)
+            (root / "renamed.py").write_text(content)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            first = extractor.extract(root / "original.py", root)
+            second = extractor.extract(root / "renamed.py", root)
+
+            assert first is not None
+            assert second is not None
+            # First parse: miss; second parse: hit (same content)
+            stats = extractor.cache_stats()
+            assert stats["misses"] == 1
+            assert stats["hits"] == 1
+
+            # Path should reflect current file, not original
+            assert first.path == "original.py"
+            assert second.path == "renamed.py"
+
+    def test_rehydrated_syntax_preserves_language(self):
+        """Rehydrated FileSyntax has correct language."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            first = extractor.extract(root / "test.py", root)
+            second = extractor.extract(root / "test.py", root)
+
+            assert second.language == first.language == "python"
+
+    def test_rehydrated_syntax_preserves_functions(self):
+        """Rehydrated FileSyntax has same function names."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            first = extractor.extract(root / "test.py", root)
+            second = extractor.extract(root / "test.py", root)
+
+            first_fn_names = sorted(fn.name for fn in first.functions)
+            second_fn_names = sorted(fn.name for fn in second.functions)
+            assert first_fn_names == second_fn_names
+
+    def test_rehydrated_syntax_preserves_classes(self):
+        """Rehydrated FileSyntax has same class names."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            first = extractor.extract(root / "test.py", root)
+            second = extractor.extract(root / "test.py", root)
+
+            first_cls_names = sorted(cls.name for cls in first.classes)
+            second_cls_names = sorted(cls.name for cls in second.classes)
+            assert first_cls_names == second_cls_names
+
+    def test_rehydrated_syntax_preserves_imports(self):
+        """Rehydrated FileSyntax has same import sources."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            first = extractor.extract(root / "test.py", root)
+            second = extractor.extract(root / "test.py", root)
+
+            first_imp_sources = sorted(imp.source for imp in first.imports)
+            second_imp_sources = sorted(imp.source for imp in second.imports)
+            assert first_imp_sources == second_imp_sources
+
+    def test_rehydrated_syntax_preserves_metrics(self):
+        """Rehydrated FileSyntax has same scalar metrics."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            first = extractor.extract(root / "test.py", root)
+            second = extractor.extract(root / "test.py", root)
+
+            assert second.lines == first.lines
+            assert second.has_main_guard == first.has_main_guard
+            assert second.content_hash == first.content_hash
+
+    def test_rehydrated_syntax_preserves_main_guard(self):
+        """Rehydrated FileSyntax correctly preserves has_main_guard."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor(fact_store=store)
+            first = extractor.extract(root / "test.py", root)
+            second = extractor.extract(root / "test.py", root)
+
+            assert first.has_main_guard is True
+            assert second.has_main_guard is True
+
+    def test_no_caching_without_fact_store(self):
+        """Without FactStore, no caching occurs (backward compatible)."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text(SAMPLE_PYTHON)
+
+            extractor = SyntaxExtractor()
+            extractor.extract(root / "test.py", root)
+            extractor.extract(root / "test.py", root)
+
+            stats = extractor.cache_stats()
+            # Without fact_store, everything is a cache miss (no cache lookup)
+            assert stats["hits"] == 0
+            assert stats["misses"] == 2
+
+    def test_cache_stats_hit_rate(self):
+        """cache_stats() returns correct hit_rate."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text("def foo(): pass")
+
+            extractor = SyntaxExtractor(fact_store=store)
+            extractor.extract(root / "test.py", root)  # miss
+            extractor.extract(root / "test.py", root)  # hit
+            extractor.extract(root / "test.py", root)  # hit
+
+            stats = extractor.cache_stats()
+            assert stats["hits"] == 2
+            assert stats["misses"] == 1
+            assert abs(stats["hit_rate"] - 2.0 / 3.0) < 0.01
+
+    def test_cache_stats_empty(self):
+        """cache_stats() returns 0 hit_rate when no files processed."""
+        extractor = SyntaxExtractor()
+        stats = extractor.cache_stats()
+        assert stats["hit_rate"] == 0.0
+        assert stats["hits"] == 0
+        assert stats["misses"] == 0
+
+    def test_reset_stats_clears_cache_counters(self):
+        """reset_stats() also clears cache hit/miss counters."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text("def foo(): pass")
+
+            extractor = SyntaxExtractor(fact_store=store)
+            extractor.extract(root / "test.py", root)
+            extractor.extract(root / "test.py", root)
+
+            extractor.reset_stats()
+
+            stats = extractor.cache_stats()
+            assert stats["hits"] == 0
+            assert stats["misses"] == 0
+
+    def test_file_id_field_on_file_syntax(self):
+        """FileSyntax has file_id field defaulting to None."""
+        store = FactStore.in_memory()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "test.py").write_text("def foo(): pass")
+
+            extractor = SyntaxExtractor(fact_store=store)
+            result = extractor.extract(root / "test.py", root)
+
+            assert result is not None
+            assert result.file_id is None  # default

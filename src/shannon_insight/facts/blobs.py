@@ -198,7 +198,8 @@ class BlobStore:
         cursor = self._conn.execute(
             "SELECT COALESCE(SUM(original_size), 0) FROM blobs"
         )
-        return cursor.fetchone()[0]
+        result: int = cursor.fetchone()[0]
+        return result
 
     def total_compressed_bytes(self) -> int:
         """Return the total compressed size of all stored blobs.

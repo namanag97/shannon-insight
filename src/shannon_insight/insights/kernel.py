@@ -378,9 +378,11 @@ class InsightKernel:
         - store._content_cache for later reuse
 
         Uses tree-sitter if available, falls back to regex.
+        When a persistent FactStore is available, parsed results are cached
+        by content hash for incremental re-analysis.
         """
         root = Path(self.root_dir)
-        extractor = SyntaxExtractor()
+        extractor = SyntaxExtractor(fact_store=store.facts_db)
 
         # Get file paths from environment (pre-discovered) or discover now
         if self.session.env.file_paths:

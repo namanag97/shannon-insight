@@ -363,6 +363,14 @@ class InsightKernel:
             except Exception as e:
                 logger.debug(f"Failed to write session log: {e}")
 
+        # Commit persistent FactStore if enabled
+        if store.facts_db is not None:
+            try:
+                store.facts_db.commit()
+                logger.debug("Persistent FactStore committed")
+            except Exception as e:
+                logger.warning(f"Failed to commit persistent FactStore: {e}")
+
         return result, snapshot
 
     def _extract_syntax(self, store: AnalysisStore) -> None:

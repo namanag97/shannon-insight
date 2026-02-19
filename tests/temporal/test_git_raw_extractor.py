@@ -5,10 +5,10 @@ from __future__ import annotations
 import subprocess
 import tempfile
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 
 import pytest
 
+from shannon_insight.facts.store import FactStore
 from shannon_insight.persistence.git_models import ChangeType
 from shannon_insight.temporal.git_raw_extractor import GitRawExtractor
 
@@ -104,7 +104,9 @@ class TestGitRawExtractor:
         subprocess.run(["git", "commit", "-m", "Add old.py"], cwd=git_repo, capture_output=True)
 
         subprocess.run(["git", "mv", "old.py", "new.py"], cwd=git_repo, capture_output=True)
-        subprocess.run(["git", "commit", "-m", "Rename old to new"], cwd=git_repo, capture_output=True)
+        subprocess.run(
+            ["git", "commit", "-m", "Rename old to new"], cwd=git_repo, capture_output=True
+        )
 
         extractor = GitRawExtractor(str(git_repo))
         data = extractor.extract()

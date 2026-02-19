@@ -91,8 +91,14 @@ class TemporalAnalyzer:
             except Exception as e:
                 logger.warning(f"Failed to read existing git_facts.db: {e}")
 
-        # Extract raw git data
-        extractor = GitRawExtractor(store.root_dir, max_commits=self.max_commits)
+        # Extract raw git data (with optional identity resolution via FactStore)
+        # Use facts_db from store if available, otherwise use the one from constructor
+        facts_db = getattr(store, '_facts_db', None) or self._facts_db
+        extractor = GitRawExtractor(
+            store.root_dir,
+            max_commits=self.max_commits,
+            fact_store=facts_db,
+        )
         raw_data = extractor.extract(since_sha=since_sha)
 
         if raw_data is None:

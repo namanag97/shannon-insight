@@ -120,6 +120,26 @@ class RuntimeKernel:
         # Phase executors (in order)
         self._executors = list(PHASE_EXECUTORS)
 
+    def _get_facts_db(self):
+        """Get or create the persistent FactStore (lazy init).
+
+        Returns the facts.store.FactStore instance, creating it on first call
+        if use_fact_store is enabled. Returns None if not enabled.
+        """
+        if not self.use_fact_store:
+            return None
+        if self._facts_db is None:
+            from pathlib import Path
+
+            from ..facts.store import FactStore as PersistentFactStore
+
+            root = str(self.session.env.root)
+            db_path = Path(root) / ".shannon" / "facts.db"
+            db_path.parent.mkdir(parents=True, exist_ok=True)
+            self._facts_db = PersistentFactStore.open(db_path)
+            logger.debug(f"Opened persistent FactStore at {db_path}")
+        return self._facts_db
+
     def run(
         self,
         max_findings: int = 10,

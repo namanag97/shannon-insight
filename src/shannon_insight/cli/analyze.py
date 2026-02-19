@@ -92,6 +92,11 @@ def main(
         "--trace",
         help="Enable provenance tracking for signal computation",
     ),
+    use_facts: bool = typer.Option(
+        False,
+        "--use-facts",
+        help="Enable persistent fact store for caching and identity resolution (.shannon/facts.db)",
+    ),
     version: bool = typer.Option(
         False,
         "--version",

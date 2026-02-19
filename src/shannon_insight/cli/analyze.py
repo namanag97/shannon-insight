@@ -159,6 +159,7 @@ def main(
                 workers=workers,
                 max_findings=max_findings,
                 enable_provenance=trace,
+                use_fact_store=use_facts,
             )
 
             if json_output:

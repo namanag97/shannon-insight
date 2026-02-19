@@ -115,28 +115,31 @@ class SyntaxExtractor:
 
         # Try FactStore cache (serialize all SQLite access across threads)
         if self._fact_store is not None:
+            cached_result: FileSyntax | None = None
+            cached_parser_type: str | None = None
             with self._db_lock:
                 has_cached = self._fact_store.has_parsed_syntax(content_hash)
-                cached_syntax = self._fact_store.get_parsed_syntax(content_hash) if has_cached else None
-                # Rehydrate inside the lock because it reads functions/classes/imports from SQLite
-                if cached_syntax is not None:
-                    result = self._rehydrate_syntax(
-                        path=rel_path,
-                        content_hash=content_hash,
-                        mtime=mtime,
-                        absolute_path=str(file_path.resolve()),
-                        cached=cached_syntax,
-                    )
-            if cached_syntax is not None:
+                if has_cached:
+                    cached_syntax = self._fact_store.get_parsed_syntax(content_hash)
+                    if cached_syntax is not None:
+                        cached_parser_type = cached_syntax.get("parser_type")
+                        # Rehydrate inside the lock: reads functions/classes/imports from SQLite
+                        cached_result = self._rehydrate_syntax(
+                            path=rel_path,
+                            content_hash=content_hash,
+                            mtime=mtime,
+                            absolute_path=str(file_path.resolve()),
+                            cached=cached_syntax,
+                        )
+            if cached_result is not None:
                 with self._lock:
                     self._cache_hits += 1
                     self.total_count += 1
-                    # Count as treesitter or fallback based on cached parser_type
-                    if cached_syntax.get("parser_type") == "tree-sitter":
+                    if cached_parser_type == "tree-sitter":
                         self.treesitter_count += 1
                     else:
                         self.fallback_count += 1
-                return result
+                return cached_result
 
         # Cache miss -- parse normally
         with self._lock:

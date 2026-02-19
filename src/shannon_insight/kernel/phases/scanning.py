@@ -39,9 +39,9 @@ class ScanningExecutor(BaseExecutor):
 
     def _execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
     ) -> PhaseResult:
         """Extract syntax from discovered files."""
         from ...scanning.syntax_extractor import SyntaxExtractor
@@ -55,7 +55,7 @@ class ScanningExecutor(BaseExecutor):
             return PhaseResult.ok(items_processed=0)
 
         ctx.set_phase_total(len(file_paths))
-        extractor = SyntaxExtractor()
+        extractor = SyntaxExtractor(fact_store=store.facts_db)
 
         # Extract syntax and cache content
         file_syntax = extractor.extract_all(
@@ -78,7 +78,7 @@ class ScanningExecutor(BaseExecutor):
 
         return PhaseResult.ok(items_processed=len(file_syntax))
 
-    def _sync_entities(self, store: "AnalysisStore") -> None:
+    def _sync_entities(self, store: AnalysisStore) -> None:
         """Sync file_syntax to FactStore entities with basic signals."""
         from ...infrastructure.entities import Entity, EntityId, EntityType
         from ...infrastructure.signals import Signal
@@ -91,9 +91,7 @@ class ScanningExecutor(BaseExecutor):
             entity_id = EntityId(EntityType.FILE, path)
             entity = Entity(id=entity_id, metadata={})
             store.fact_store.add_entity(entity)
-            store.fact_store.set_signal(
-                entity_id, Signal.LINES, syntax.lines, producer=producer
-            )
+            store.fact_store.set_signal(entity_id, Signal.LINES, syntax.lines, producer=producer)
             store.fact_store.set_signal(
                 entity_id, Signal.FUNCTION_COUNT, syntax.function_count, producer=producer
             )

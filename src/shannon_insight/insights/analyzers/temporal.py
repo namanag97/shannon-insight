@@ -56,9 +56,23 @@ class TemporalAnalyzer:
     requires: set[str] = set()  # No deps - git extraction is independent
     provides: set[str] = {"git_history", "cochange", "churn", "author_distances"}
 
-    def __init__(self, max_commits: int = 5000, min_commits: int = _MIN_COMMITS):
+    def __init__(
+        self,
+        max_commits: int = 5000,
+        min_commits: int = _MIN_COMMITS,
+        facts_db=None,
+    ):
+        """Initialize TemporalAnalyzer.
+
+        Args:
+            max_commits: Maximum number of commits to extract.
+            min_commits: Minimum commits for meaningful analysis.
+            facts_db: Optional persistent FactStore (facts.store.FactStore)
+                      for identity resolution in GitRawExtractor.
+        """
         self.max_commits = max_commits
         self.min_commits = min_commits
+        self._facts_db = facts_db
 
     def analyze(self, store: AnalysisStore) -> None:
         """Run temporal analysis using DB-backed git storage."""
@@ -193,9 +207,7 @@ class TemporalAnalyzer:
             f"{len(author_dists)} author distance pairs"
         )
 
-    def _build_history_from_db(
-        self, db: GitFactDatabase, analyzed_files: set[str]
-    ) -> GitHistory:
+    def _build_history_from_db(self, db: GitFactDatabase, analyzed_files: set[str]) -> GitHistory:
         """Build GitHistory from database for backward compatibility."""
         from ...temporal.models import Commit
 
@@ -364,6 +376,5 @@ class TemporalAnalyzer:
 
         for commit in history.commits:
             commit.files = [
-                f[len(prefix_slash) :] if f.startswith(prefix_slash) else f
-                for f in commit.files
+                f[len(prefix_slash) :] if f.startswith(prefix_slash) else f for f in commit.files
             ]

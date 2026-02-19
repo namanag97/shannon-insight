@@ -220,6 +220,7 @@ def analyze_v2(
 
     # Extract non-config overrides
     enable_provenance = overrides.pop("enable_provenance", False)
+    use_fact_store = overrides.pop("use_fact_store", False)
     memory_limit_mb = overrides.pop("memory_limit_mb", 2048)
     total_timeout_seconds = overrides.pop("total_timeout_seconds", 1800)
     on_progress = overrides.pop("on_progress", None)

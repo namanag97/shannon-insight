@@ -124,7 +124,8 @@ class BlobStore:
         row = cursor.fetchone()
         if row is None:
             return None
-        return row[0]
+        result: int = row[0]
+        return result
 
     def get_original_size(self, content_hash: str) -> int | None:
         """Get the original (uncompressed) size of a stored blob.

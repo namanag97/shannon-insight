@@ -186,7 +186,8 @@ class BlobStore:
             Number of distinct blobs in the store.
         """
         cursor = self._conn.execute("SELECT COUNT(*) FROM blobs")
-        return cursor.fetchone()[0]
+        result: int = cursor.fetchone()[0]
+        return result
 
     def total_original_bytes(self) -> int:
         """Return the total original size of all stored blobs.

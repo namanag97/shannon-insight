@@ -164,9 +164,10 @@ class SyntaxExtractor:
             )
             parser_type = "regex"
 
-        # Store in cache
+        # Store in cache (serialize SQLite writes across threads)
         if self._fact_store is not None and syntax is not None:
-            self._cache_syntax(content_hash, syntax, parser_type)
+            with self._db_lock:
+                self._cache_syntax(content_hash, syntax, parser_type)
 
         return syntax
 

@@ -143,6 +143,22 @@ class AnalysisStore:
         """Expose the underlying FactStore for v2 consumers."""
         return self._fact_store
 
+    @property
+    def facts_db(self) -> PersistentFactStore | None:
+        """Persistent SQLite-backed FactStore for caching and identity resolution.
+
+        This is the ``facts.store.FactStore`` (not the infrastructure FactStore).
+        When set, SyntaxExtractor uses it for content-hash caching and
+        GitRawExtractor uses it for stable file identity resolution.
+
+        Returns None when ``--use-facts`` is not enabled.
+        """
+        return self._facts_db
+
+    @facts_db.setter
+    def facts_db(self, value: PersistentFactStore | None) -> None:
+        self._facts_db = value
+
     def _sync_entities(self) -> None:
         """Sync file_syntax to FactStore entities.
 

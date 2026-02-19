@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from shannon_insight.facts.store import FactStore
 from shannon_insight.scanning.syntax import FileSyntax
 from shannon_insight.scanning.syntax_extractor import SyntaxExtractor
 from shannon_insight.scanning.treesitter_parser import (

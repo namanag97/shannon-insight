@@ -257,6 +257,7 @@ def analyze_v2(
         memory_limit_mb=memory_limit_mb,
         total_timeout_seconds=total_timeout_seconds,
         enable_provenance=enable_provenance,
+        use_fact_store=use_fact_store,
     )
 
     result = kernel.run(

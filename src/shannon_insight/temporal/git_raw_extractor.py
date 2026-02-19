@@ -9,14 +9,21 @@ Designed for accuracy AND speed:
 - Single git log call with all data
 - Streaming parse to avoid OOM on huge repos
 - Handles edge cases: merges, binaries, renames, unicode paths, pipes in subjects
+
+Optional FactStore integration:
+- When a FactStore is provided, the extractor resolves stable file identities
+  across renames and stores commits + changes into the fact database.
+- Commits are processed oldest-first for correct identity chain resolution.
+- Without a FactStore, behavior is unchanged (backward compatible).
 """
 
 from __future__ import annotations
 
 import re
 import subprocess
+import uuid
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from ..logging_config import get_logger
 from ..persistence.git_models import (
@@ -25,6 +32,9 @@ from ..persistence.git_models import (
     GitFileChange,
     GitRawData,
 )
+
+if TYPE_CHECKING:
+    from ..facts.store import FactStore
 
 logger = get_logger(__name__)
 
@@ -39,6 +49,13 @@ class GitRawExtractor:
         extractor = GitRawExtractor("/path/to/repo")
         data = extractor.extract()  # GitRawData with commits + file_changes
 
+    With FactStore (identity resolution + persistence):
+        from shannon_insight.facts.store import FactStore
+        store = FactStore.in_memory()
+        extractor = GitRawExtractor("/path/to/repo", fact_store=store)
+        data = extractor.extract()
+        # file_changes now have file_id set, and store has commits + identities
+
     Edge cases handled:
         - Merge commits (multiple parents)
         - Binary files (- - in numstat)
@@ -49,18 +66,31 @@ class GitRawExtractor:
         - Pipe characters in subjects (maxsplit parsing)
     """
 
-    def __init__(self, repo_path: str, max_commits: int = 10000):
+    def __init__(
+        self,
+        repo_path: str,
+        max_commits: int = 10000,
+        fact_store: FactStore | None = None,
+    ):
         """Initialize extractor.
 
         Args:
             repo_path: Path to git repository
             max_commits: Maximum commits to extract (newest first)
+            fact_store: Optional FactStore for identity resolution and
+                        persistence. If None, identity resolution is skipped.
         """
         self.repo_path = str(Path(repo_path).resolve())
         self.max_commits = max_commits
+        self.fact_store = fact_store
 
     def extract(self, since_sha: Optional[str] = None) -> Optional[GitRawData]:
         """Extract raw git data.
+
+        When a FactStore is configured, commits are processed oldest-first
+        for correct identity chain resolution. Each file change gets a
+        stable ``file_id`` assigned, and commits + changes are persisted
+        to the fact store.
 
         Args:
             since_sha: If provided, only extract commits after this SHA
@@ -89,6 +119,9 @@ class GitRawExtractor:
                 head_sha=head_sha,
                 oldest_sha=None,
             )
+
+        if self.fact_store is not None:
+            self._resolve_identities(commits, file_changes)
 
         oldest_sha = commits[-1].hash if commits else None
 

@@ -18,11 +18,14 @@ def populate_cochange(
     git_history: GitHistory,
     now_timestamp: int,
     window_days: int = 30,
+    file_filter: set[str] | None = None,
 ):
-    """Fill T[:,:,t,COCHANGE] with lift scores."""
-    # Group commits by time window
-    window_seconds = window_days * 86400
+    """Fill T[:,:,t,COCHANGE] with lift scores.
 
+    Args:
+        file_filter: If provided, only count co-changes between files in this
+                     set. Pass syntax_map.keys() to restrict to scanned files.
+    """
     # Count co-occurrences with decay
     cochange_counts: Counter[tuple[str, str]] = Counter()
     file_counts: Counter[str] = Counter()
@@ -33,13 +36,29 @@ def populate_cochange(
         if len(commit.files) > 50:
             continue
 
+        # Filter to known files only
+        commit_files = (
+            [f for f in commit.files if f in file_filter]
+            if file_filter is not None
+            else list(commit.files)
+        )
+
+        if len(commit_files) < 2:
+            # Need at least 2 files to form a pair
+            days_ago = (now_timestamp - commit.timestamp) / 86400
+            weight = math.exp(-DECAY_LAMBDA * days_ago)
+            for f in commit_files:
+                file_counts[f] += weight
+            total_weight += weight
+            continue
+
         days_ago = (now_timestamp - commit.timestamp) / 86400
         weight = math.exp(-DECAY_LAMBDA * days_ago)
 
-        for f in commit.files:
+        for f in commit_files:
             file_counts[f] += weight
 
-        for a, b in combinations(sorted(commit.files), 2):
+        for a, b in combinations(sorted(commit_files), 2):
             cochange_counts[(a, b)] += weight
 
         total_weight += weight

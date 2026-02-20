@@ -12,13 +12,21 @@ def populate_authors(
     tensor: RelationTensor,
     git_history: GitHistory,
     min_jaccard: float = 0.1,
+    file_filter: set[str] | None = None,
 ):
-    """Fill T[:,:,t,AUTHOR] with Jaccard similarity."""
+    """Fill T[:,:,t,AUTHOR] with Jaccard similarity.
+
+    Args:
+        file_filter: If provided, only include files in this set.
+                     Pass syntax_map.keys() to restrict to scanned files.
+    """
     # Build author sets per file
     authors_per_file: dict[str, set[str]] = defaultdict(set)
 
     for commit in git_history.commits:
         for f in commit.files:
+            if file_filter is not None and f not in file_filter:
+                continue
             authors_per_file[f].add(commit.author)
 
     # Compute pairwise Jaccard

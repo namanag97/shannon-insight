@@ -50,11 +50,13 @@ class RelationTensor:
     _finalized: bool = False
 
     def register_node(self, path: str) -> int:
-        """Register a file path and return its index."""
+        """Register a file path and return its index.
+
+        n_files is a soft pre-allocation hint. The tensor grows beyond it
+        if needed (sparse storage has no fixed-size backing array).
+        """
         if path not in self.node_index:
             idx = len(self.node_index)
-            if idx >= self.n_files:
-                raise ValueError(f"Exceeded n_files={self.n_files}")
             self.node_index[path] = idx
             self.index_node[idx] = path
         return self.node_index[path]

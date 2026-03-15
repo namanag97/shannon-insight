@@ -1,9 +1,16 @@
 """NCD-based clone detection for Phase 3.
 
 Detects copy-paste clones using Normalized Compression Distance (NCD):
-    NCD(A,B) = (C(AB) - min(C(A), C(B))) / max(C(A), C(B))
+    NCD(A,B) = (min(C(AB), C(BA)) - min(C(A), C(B))) / max(C(A), C(B))
 
-Where C(x) = len(zlib.compress(x)).
+Where C(x) = len(lzma.compress(x)).
+
+Uses lzma instead of zlib because zlib's 32KB sliding window produces
+artificially high NCD for files larger than 32KB (false negatives).
+lzma has no such window limitation.
+
+Uses bidirectional compression (min of C(AB) and C(BA)) for more accurate
+NCD since compressor order sensitivity can skew results.
 
 Clone threshold: NCD < 0.3
 
@@ -11,6 +18,7 @@ For codebases with >= 1000 files, uses MinHash + LSH for pre-filtering
 to avoid O(n²) blowup. For smaller codebases, direct pairwise is fast enough.
 """
 
+import lzma
 import zlib
 
 from .models import ClonePair

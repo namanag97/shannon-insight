@@ -26,6 +26,7 @@ Using raw values avoids circularity of computing Laplacian on percentile-uniform
 
 from __future__ import annotations
 
+import math
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:

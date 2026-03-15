@@ -118,6 +118,7 @@ class AnalysisStore:
         - author_distances: List[AuthorDistance] with author overlap metrics
         - architecture: Architecture with modules, layers, Martin metrics
         - signal_field: SignalField with all computed signals per file/module
+        - tensor: RelationTensor with 4D file relationship data
     """
 
     # Always-available inputs (set by kernel before analyzers run)

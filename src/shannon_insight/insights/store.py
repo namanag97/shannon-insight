@@ -292,6 +292,7 @@ class AnalysisStore:
             "author_distances",
             "architecture",
             "signal_field",
+            "tensor",
         ]
 
     def slot_status(self) -> dict[str, dict[str, Any]]:

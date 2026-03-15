@@ -1,20 +1,16 @@
 """Node indexing utilities."""
 from __future__ import annotations
-
 from dataclasses import dataclass
-from pathlib import Path
 
 
 @dataclass
 class NodeIndex:
     """Bidirectional mapping between file paths and integer indices."""
-
     _path_to_idx: dict[str, int]
     _idx_to_path: dict[int, str]
 
     @classmethod
     def from_paths(cls, paths: list[str]) -> NodeIndex:
-        """Create index from sorted list of paths."""
         sorted_paths = sorted(paths)
         path_to_idx = {p: i for i, p in enumerate(sorted_paths)}
         idx_to_path = {i: p for p, i in path_to_idx.items()}

@@ -116,9 +116,19 @@ class TensorBuildExecutor(BaseExecutor):
                     # Extract TF-IDF vectors from FileSemantics objects
                     tfidf_vectors: dict[str, dict[str, float]] = {}
                     for path, sem in semantics_map.items():
-                        # FileSemantics stores concepts as {term: tfidf_score}
-                        if hasattr(sem, "concepts") and sem.concepts:
-                            tfidf_vectors[path] = sem.concepts
+                        # Prefer import_fingerprint (dict[str,float]) if available
+                        if hasattr(sem, "import_fingerprint") and sem.import_fingerprint:
+                            tfidf_vectors[path] = sem.import_fingerprint
+                        # Fall back to concepts list → convert to dict
+                        elif hasattr(sem, "concepts") and sem.concepts:
+                            vec: dict[str, float] = {}
+                            for concept in sem.concepts:
+                                if hasattr(concept, "topic") and hasattr(concept, "weight"):
+                                    vec[concept.topic] = concept.weight
+                                elif hasattr(concept, "name") and hasattr(concept, "score"):
+                                    vec[concept.name] = concept.score
+                            if vec:
+                                tfidf_vectors[path] = vec
                     if tfidf_vectors:
                         populate_semantic(tensor, tfidf_vectors)
                         layers_populated.append("SEMANTIC")

@@ -531,6 +531,107 @@ class InsightKernel:
         db.complete_session(session_id, file_count)
         logger.info(f"Stored {file_count} file facts to {db_path}")
 
+    def _build_tensor(self, store: AnalysisStore) -> None:
+        """Build RelationTensor from store data and store in tensor slot.
+
+        Populates layers based on available data:
+        - IMPORT: always (needs only file_syntax)
+        - COCHANGE, AUTHOR: if git_history available
+        - SEMANTIC: if semantics available
+        - COMBINED: always (weighted sum of available layers)
+
+        Gracefully degrades — logs warning and continues on failure.
+        """
+        if not store.file_syntax.available:
+            return
+
+        syntax_map = store.file_syntax.value
+        if not syntax_map:
+            return
+
+        try:
+            import time
+
+            from ..populate import (
+                populate_authors,
+                populate_cochange,
+                populate_combined,
+                populate_imports,
+                populate_semantic,
+            )
+            from ..tensor.core import RelationTensor
+            from ..tensor.persistence import save_tensor
+
+            tensor = RelationTensor(n_files=len(syntax_map))
+
+            # Register all file paths as nodes
+            for path in syntax_map:
+                tensor.register_node(path)
+
+            layers_populated = []
+
+            # IMPORT layer
+            try:
+                populate_imports(tensor, syntax_map)
+                layers_populated.append("IMPORT")
+            except Exception as e:
+                logger.warning(f"Failed to populate IMPORT layer: {e}")
+
+            # COCHANGE and AUTHOR layers (need git_history)
+            if store.git_history.available:
+                try:
+                    now_ts = int(time.time())
+                    populate_cochange(tensor, store.git_history.value, now_ts)
+                    layers_populated.append("COCHANGE")
+                except Exception as e:
+                    logger.warning(f"Failed to populate COCHANGE layer: {e}")
+
+                try:
+                    populate_authors(tensor, store.git_history.value)
+                    layers_populated.append("AUTHOR")
+                except Exception as e:
+                    logger.warning(f"Failed to populate AUTHOR layer: {e}")
+
+            # SEMANTIC layer (needs semantics with TF-IDF vectors)
+            if store.semantics.available:
+                try:
+                    semantics_map = store.semantics.value
+                    tfidf_vectors: dict[str, dict[str, float]] = {}
+                    for path, sem in semantics_map.items():
+                        if hasattr(sem, "concepts") and sem.concepts:
+                            tfidf_vectors[path] = sem.concepts
+                    if tfidf_vectors:
+                        populate_semantic(tensor, tfidf_vectors)
+                        layers_populated.append("SEMANTIC")
+                except Exception as e:
+                    logger.warning(f"Failed to populate SEMANTIC layer: {e}")
+
+            # COMBINED layer
+            try:
+                populate_combined(tensor)
+                layers_populated.append("COMBINED")
+            except Exception as e:
+                logger.warning(f"Failed to populate COMBINED layer: {e}")
+
+            store.tensor.set(tensor, produced_by="tensor_build")
+
+            # Persist if .shannon directory exists
+            try:
+                shannon_dir = Path(self.root_dir) / ".shannon"
+                if shannon_dir.exists():
+                    save_tensor(tensor, Path(self.root_dir))
+            except Exception as e:
+                logger.debug(f"Tensor persistence skipped: {e}")
+
+            logger.info(
+                f"Tensor built: {tensor.n_nodes} nodes, {tensor.n_edges} edges, "
+                f"layers={layers_populated}"
+            )
+
+        except Exception as e:
+            logger.warning(f"Tensor build failed: {e}")
+            store.tensor.set_error(str(e), produced_by="tensor_build")
+
     def _discover_files(self) -> list[Path]:
         """Discover source files using ScannerFactory logic.
 

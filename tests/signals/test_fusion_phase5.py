@@ -341,6 +341,7 @@ class TestRiskScoreComputation:
         fs = FileSignals(
             path="/risky.py",
             churn_trajectory="CHURNING",
+            churn_cv=2.0,  # High instability
             bus_factor=1.0,
             total_changes=50,  # Must have change activity for non-zero risk
         )
@@ -354,6 +355,8 @@ class TestRiskScoreComputation:
         compute_composites(field)
 
         # High percentiles + churning + single author + active = high risk
+        # graph_impact = max(0.95, 0.95) = 0.95
+        # risk = 0.35*0.95 + 0.25*0.95 + 0.25*1.0 + 0.15*0.8 = 0.94
         assert fs.risk_score > 0.7
 
     def test_risk_score_for_inactive_file(self):

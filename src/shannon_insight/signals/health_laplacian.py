@@ -35,9 +35,13 @@ if TYPE_CHECKING:
 
 
 def compute_health_laplacian(field: SignalField, graph: DependencyGraph) -> dict[str, float]:
-    """Compute delta_h for all files.
+    """Compute delta_h for all files using a degree-weighted graph Laplacian.
 
-    delta_h(f) = raw_risk(f) - mean(raw_risk(neighbors))
+    delta_h(f) = sqrt(degree(f)) * (raw_risk(f) - mean(raw_risk(neighbors)))
+
+    The sqrt(degree) factor amplifies the signal for hub files: a hub with
+    20 neighbors that is slightly above its neighborhood average will produce
+    a much larger delta_h than a leaf with 2 neighbors and the same excess.
 
     Args:
         field: SignalField with per_file containing raw_risk values
@@ -59,18 +63,20 @@ def compute_health_laplacian(field: SignalField, graph: DependencyGraph) -> dict
 
     for path, fs in field.per_file.items():
         neighbors_in_field = neighbor_cache[path]
+        degree = len(neighbors_in_field)
 
-        if not neighbors_in_field:
+        if degree == 0:
             # Orphan: no neighbors, delta_h = 0.0
             delta_h[path] = 0.0
             continue
 
         # Compute mean raw_risk of neighbors
         neighbor_risks = [field.per_file[n].raw_risk for n in neighbors_in_field]
-        mean_neighbor_risk = sum(neighbor_risks) / len(neighbor_risks)
+        mean_neighbor_risk = sum(neighbor_risks) / degree
 
-        # delta_h = this file's risk - neighborhood mean
-        delta_h[path] = fs.raw_risk - mean_neighbor_risk
+        # Degree-weighted Laplacian: scale by sqrt(degree) so hub files
+        # with above-average risk get amplified delta_h
+        delta_h[path] = math.sqrt(degree) * (fs.raw_risk - mean_neighbor_risk)
 
     return delta_h
 

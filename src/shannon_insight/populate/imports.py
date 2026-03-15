@@ -1,18 +1,33 @@
-"""Populate IMPORT layer (R=0)."""
+"""Populate IMPORT layer (R=0) from FileSyntax import declarations.
+
+Resolves imports to file paths using the file set, handling both
+relative and absolute imports.  Weight = 1.0 for each resolved import.
+Self-imports are skipped.
+"""
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
-from ..tensor.core import RelationTensor, IMPORT
+from ..tensor.core import IMPORT
 from ..extract.models import FileSyntax
 
 
-def resolve_import(imp, source_path: str, file_set: set[str]) -> str | None:
-    """Resolve import to target file path."""
+# ---------------------------------------------------------------------------
+# Import resolution (mirrors graph/builder.py logic for tensor population)
+# ---------------------------------------------------------------------------
+
+def _resolve_import(imp: Any, source_path: str, file_set: set[str]) -> str | None:
+    """Resolve a single Import object to a target file path in *file_set*.
+
+    Handles:
+      - Relative imports (.base, ..models) using ``imp.level``
+      - Absolute imports (some.module) by dotted-path-to-slash conversion
+    """
     source_dir = str(Path(source_path).parent)
 
     if imp.is_relative:
-        # Relative import
+        # Walk up directories according to the dot-level
         target_dir = source_dir
         for _ in range(imp.level - 1):
             target_dir = str(Path(target_dir).parent)
@@ -25,7 +40,7 @@ def resolve_import(imp, source_path: str, file_set: set[str]) -> str | None:
         else:
             candidates = [f"{target_dir}/__init__.py"]
     else:
-        # Absolute import
+        # Absolute import — try with and without src/ prefix
         module_path = imp.module.replace(".", "/")
         candidates = [
             f"{module_path}.py",
@@ -35,7 +50,6 @@ def resolve_import(imp, source_path: str, file_set: set[str]) -> str | None:
         ]
 
     for candidate in candidates:
-        # Normalize
         normalized = str(Path(candidate))
         if normalized in file_set:
             return normalized
@@ -43,20 +57,32 @@ def resolve_import(imp, source_path: str, file_set: set[str]) -> str | None:
     return None
 
 
+# ---------------------------------------------------------------------------
+# Public API
+# ---------------------------------------------------------------------------
+
 def populate_imports(
-    tensor: RelationTensor,
-    syntax_map: dict[str, FileSyntax],
+    tensor: Any,
+    syntax_map: dict[str, Any],
     t: int = -1,
-):
-    """Fill T[:,:,t,IMPORT] from resolved imports."""
+) -> None:
+    """Fill T[:,:,t,IMPORT] from resolved imports.
+
+    Args:
+        tensor: A ``RelationTensor`` instance.
+        syntax_map: ``{path: FileSyntax}`` mapping — the file set is derived
+            from its keys.
+        t: Time-window index.  ``-1`` (default) means the current window
+            (``tensor.n_windows - 1``).
+    """
     file_set = set(syntax_map.keys())
 
-    # Use last time window if -1
+    # Default to the latest time window
     if t == -1:
         t = tensor.n_windows - 1
 
     for source_path, syntax in syntax_map.items():
         for imp in syntax.imports:
-            target = resolve_import(imp, source_path, file_set)
-            if target and target != source_path:
+            target = _resolve_import(imp, source_path, file_set)
+            if target and target != source_path:  # skip self-imports
                 tensor.add_edge(source_path, target, t, IMPORT, weight=1.0)

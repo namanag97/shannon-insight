@@ -1,12 +1,20 @@
 """Health Laplacian computation for signal fusion.
 
-The health Laplacian detects files that are worse than their neighbors:
+The health Laplacian detects files that are worse than their neighbors,
+using a degree-weighted (normalized) graph Laplacian:
 
-    delta_h(f) = raw_risk(f) - mean(raw_risk(neighbors(f)))
+    delta_h(f) = sqrt(degree(f)) * (raw_risk(f) - mean(raw_risk(neighbors(f))))
 
 Where:
 - raw_risk is the pre-percentile weighted risk (NOT the percentile-based risk_score)
 - neighbors are files that import f OR that f imports (undirected)
+- degree(f) is the number of neighbors of f
+
+The sqrt(degree) scaling ensures that hub files (high degree) with even
+slightly-above-average risk produce a much larger delta_h than leaf files
+(low degree) with the same excess.  This matches the normalized graph
+Laplacian: L_norm = D^{1/2} (D^{-1} L) = D^{1/2} (I - D^{-1} A),
+applied to the raw_risk signal vector.
 
 Interpretation:
 - delta_h > 0: file is worse than its neighborhood

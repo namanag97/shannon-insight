@@ -37,14 +37,13 @@ from __future__ import annotations
 
 import atexit
 import gc
-import os
 import resource
 import signal
 import sys
 import threading
 import time
-import traceback
 import uuid
+from collections.abc import Generator, Iterator
 from contextlib import ExitStack, contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -55,13 +54,8 @@ from typing import (
     Any,
     Callable,
     Dict,
-    Generator,
-    Generic,
-    Iterator,
     List,
     Optional,
-    Set,
-    TypeVar,
 )
 
 if TYPE_CHECKING:
@@ -87,6 +81,7 @@ class Phase(Enum):
     SCANNING = auto()  # Syntax extraction
     STRUCTURAL = auto()  # Graph building
     TEMPORAL = auto()  # Git history analysis
+    TENSOR_BUILD = auto()  # Build relationship tensor
     FUSION = auto()  # Signal computation
     PATTERNS = auto()  # Finding detection
     REPORTING = auto()  # Output generation
@@ -395,7 +390,7 @@ class RuntimeContext:
         memory_limit_mb: int = 2048,
         total_timeout_seconds: int = 1800,
         progress_callback: Optional[ProgressCallback] = None,
-    ) -> "RuntimeContext":
+    ) -> RuntimeContext:
         """Create a new runtime context.
 
         Args:
@@ -432,7 +427,7 @@ class RuntimeContext:
     # Context Manager Protocol
     # ─────────────────────────────────────────────────────────────────────
 
-    def __enter__(self) -> "RuntimeContext":
+    def __enter__(self) -> RuntimeContext:
         """Enter the runtime context."""
         self._start()
         return self
@@ -442,7 +437,7 @@ class RuntimeContext:
         self._stop(exc_val)
         return False  # Don't suppress exceptions
 
-    async def __aenter__(self) -> "RuntimeContext":
+    async def __aenter__(self) -> RuntimeContext:
         """Async context manager entry."""
         self._start()
         return self
@@ -656,10 +651,14 @@ class RuntimeContext:
         """
         # Validate ordering (except for terminal states)
         if phase not in (Phase.COMPLETE, Phase.FAILED, Phase.CANCELLED):
-            current_idx = _PHASE_ORDER.index(self.current_phase) if self.current_phase in _PHASE_ORDER else -1
+            current_idx = (
+                _PHASE_ORDER.index(self.current_phase) if self.current_phase in _PHASE_ORDER else -1
+            )
             target_idx = _PHASE_ORDER.index(phase)
             if target_idx < current_idx:
-                raise ValueError(f"Invalid phase transition: {self.current_phase.name} -> {phase.name}")
+                raise ValueError(
+                    f"Invalid phase transition: {self.current_phase.name} -> {phase.name}"
+                )
 
         # Check circuit breaker
         if phase in self._circuit_breakers and self._circuit_breakers[phase].is_open:
@@ -856,9 +855,7 @@ class RuntimeContext:
     # Utility Methods
     # ─────────────────────────────────────────────────────────────────────
 
-    def iter_with_progress(
-        self, items: List[Any], desc: str = "Processing"
-    ) -> Iterator[Any]:
+    def iter_with_progress(self, items: List[Any], desc: str = "Processing") -> Iterator[Any]:
         """Iterate over items with progress tracking and cancellation checks.
 
         Args:

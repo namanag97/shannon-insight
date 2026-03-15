@@ -2,7 +2,7 @@
 
 Three tiers based on codebase size:
 - ABSOLUTE (<15 files): No percentiles, use absolute thresholds only
-- BAYESIAN (15-50): Bayesian percentiles with flat priors (v2.0: same as standard)
+- BAYESIAN (15-49): Bayesian percentiles with shrinkage toward the median
 - FULL (50+): Standard percentile normalization
 
 Percentile formula (FM-4 prevention): pctl(x) = |{v: v <= x}| / |values|

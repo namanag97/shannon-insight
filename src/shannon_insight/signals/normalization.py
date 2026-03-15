@@ -93,7 +93,8 @@ def normalize(field: SignalField) -> None:
 
     Modifies field.per_file[*].percentiles in place.
     ABSOLUTE tier: returns immediately, no percentiles computed.
-    BAYESIAN/FULL tier: computes standard percentiles (Bayesian uses flat priors = same).
+    BAYESIAN tier: computes percentiles with Bayesian shrinkage toward the median.
+    FULL tier: computes standard percentiles (no shrinkage).
     """
     if field.tier == Tier.ABSOLUTE:
         # < 15 files: no percentiles, use absolute thresholds only

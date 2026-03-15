@@ -29,7 +29,8 @@ def compute_gini(values: list[float]) -> float:
     # i is 1-indexed: enumerate gives 0-based, so use (i + 1)
     weighted_sum = sum((i + 1) * v for i, v in enumerate(sorted_values))
 
-    return (2 * weighted_sum) / (n * total) - (n + 1) / n
+    gini_value = (2 * weighted_sum) / (n * total) - (n + 1) / n
+    return max(0.0, min(1.0, gini_value))
 
 
 def compute_entropy(counts: dict[str, int]) -> float:

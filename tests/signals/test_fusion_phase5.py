@@ -410,14 +410,16 @@ class TestRiskScoreComputation:
         assert fs.risk_score > 0.0
 
     def test_instability_factor_dormant(self):
-        """DORMANT trajectory gives churn_factor of 0.3.
+        """DORMANT trajectory gives instability_factor of 0.0 (churn_cv defaults to 0).
 
-        With additive formula:
-        risk = 0.25*pctl_pr + 0.20*pctl_blast + 0.20*pctl_cog + 0.20*churn_factor + 0.15*bf_term
+        With additive formula (graph_impact merges pagerank + blast_radius):
+        graph_impact = max(pctl_pr, pctl_blast) = max(0.5, 0.5) = 0.5
+        risk = 0.35*graph_impact + 0.25*pctl_cog + 0.25*instab + 0.15*bf_term
 
-        With percentiles of 0.5, DORMANT churn_factor (0.3), bus_factor=1.0 (max=1.0, so bf_term=0):
-        risk = 0.25*0.5 + 0.20*0.5 + 0.20*0.5 + 0.20*0.3 + 0.15*0.0
-             = 0.125 + 0.10 + 0.10 + 0.06 + 0.0 = 0.385
+        With percentiles of 0.5, churn_cv=0, bus_factor=1.0:
+        bf_term = 1 - 1.0/5.0 = 0.8
+        risk = 0.35*0.5 + 0.25*0.5 + 0.25*0.0 + 0.15*0.8
+             = 0.175 + 0.125 + 0.0 + 0.12 = 0.42
         """
         field = SignalField(tier=Tier.FULL)
         fs = FileSignals(
@@ -431,9 +433,8 @@ class TestRiskScoreComputation:
 
         compute_composites(field)
 
-        # With DORMANT churn_factor=0.3 (additive term 0.20*0.3=0.06)
-        # vs CHURNING churn_factor=1.0 (additive term 0.20*1.0=0.20)
-        # The difference is 0.14 lower risk for DORMANT
+        # With churn_cv=0 (dormant): instab_factor=0
+        # risk = 0.35*0.5 + 0.25*0.5 + 0.25*0.0 + 0.15*0.8 = 0.42
         assert 0.35 < fs.risk_score < 0.45
 
 

@@ -120,6 +120,13 @@ def normalize(field: SignalField) -> None:
             # Apply effective percentile (floor check)
             pctl = effective_percentile(signal_name, float(raw), pctl)
 
+            # For BAYESIAN tier, apply shrinkage to reduce noise from small sample sizes.
+            # With few files each one is a large percentile jump; shrinkage pulls
+            # extreme values toward the median so composite scores stay stable.
+            if field.tier == Tier.BAYESIAN:
+                n_files = len(values)
+                pctl = shrink_percentile(pctl, n_files)
+
             fs.percentiles[signal_name] = pctl
 
 

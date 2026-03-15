@@ -388,7 +388,9 @@ class TestRiskScoreComputation:
         compute_composites(field)
 
         # SAFE_BUS_FACTOR=5.0 fixed cap: bf_term = 1 - 1.0/5.0 = 0.8, instab=0
-        assert abs(fs.risk_score - 0.7375) < 0.01
+        # graph_impact = max(0.95, 0.95) = 0.95
+        # risk = 0.35*0.95 + 0.25*0.95 + 0.25*0 + 0.15*0.8 = 0.69
+        assert abs(fs.risk_score - 0.69) < 0.01
 
     def test_instability_factor_churning(self):
         """CHURNING trajectory gives churn_factor of 1.0."""

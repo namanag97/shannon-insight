@@ -259,7 +259,8 @@ class FileSyntax:
         # Gini formula: G = (2 * sum(i * x_i)) / (n * sum(x_i)) - (n + 1) / n
         # where i is 1-indexed
         numerator = sum((i + 1) * v for i, v in enumerate(values))
-        return (2 * numerator) / (n * total) - (n + 1) / n
+        gini_value = (2 * numerator) / (n * total) - (n + 1) / n
+        return max(0.0, min(1.0, gini_value))
 
     # ── Metrics properties (for FileMetrics compatibility) ──────────────
 

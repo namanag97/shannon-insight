@@ -97,6 +97,7 @@ _PHASE_ORDER = [
     Phase.SCANNING,
     Phase.STRUCTURAL,
     Phase.TEMPORAL,
+    Phase.TENSOR_BUILD,
     Phase.FUSION,
     Phase.PATTERNS,
     Phase.REPORTING,

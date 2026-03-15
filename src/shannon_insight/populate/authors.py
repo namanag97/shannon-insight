@@ -1,35 +1,40 @@
-"""Populate AUTHOR layer (R=2)."""
+"""Populate AUTHOR layer (R=2) from git history using Jaccard similarity.
+
+For every pair of files that share at least one author, the Jaccard index
+|A inter B| / |A union B| is computed over each file's author set.
+Only edges with Jaccard >= *min_jaccard* are stored.  The relation is
+symmetric, so both (a,b) and (b,a) are added.
+"""
 from __future__ import annotations
 
 from collections import defaultdict
 from itertools import combinations
+from typing import Any
 
-from ..tensor.core import RelationTensor, AUTHOR
-from ..extract.models import GitHistory
+from ..tensor.core import AUTHOR
 
 
 def populate_authors(
-    tensor: RelationTensor,
-    git_history: GitHistory,
+    tensor: Any,
+    git_history: Any,
     min_jaccard: float = 0.1,
-    file_filter: set[str] | None = None,
-):
-    """Fill T[:,:,t,AUTHOR] with Jaccard similarity.
+) -> None:
+    """Fill T[:,:,t,AUTHOR] with Jaccard similarity of author sets.
 
     Args:
-        file_filter: If provided, only include files in this set.
-                     Pass syntax_map.keys() to restrict to scanned files.
+        tensor: A ``RelationTensor`` instance.
+        git_history: Object with a ``.commits`` list.  Each commit has
+            ``.files`` (iterable of paths) and ``.author`` (str).
+        min_jaccard: Minimum Jaccard similarity to emit an edge.
     """
     # Build author sets per file
     authors_per_file: dict[str, set[str]] = defaultdict(set)
 
     for commit in git_history.commits:
         for f in commit.files:
-            if file_filter is not None and f not in file_filter:
-                continue
             authors_per_file[f].add(commit.author)
 
-    # Compute pairwise Jaccard
+    # Pairwise Jaccard
     files = list(authors_per_file.keys())
     t = tensor.n_windows - 1
 
@@ -38,13 +43,12 @@ def populate_authors(
         authors_b = authors_per_file[b]
 
         intersection = len(authors_a & authors_b)
-        union = len(authors_a | authors_b)
-
-        if union == 0:
+        if intersection == 0:
             continue
 
+        union = len(authors_a | authors_b)
         jaccard = intersection / union
 
         if jaccard >= min_jaccard:
             tensor.add_edge(a, b, t, AUTHOR, weight=jaccard)
-            tensor.add_edge(b, a, t, AUTHOR, weight=jaccard)
+            tensor.add_edge(b, a, t, AUTHOR, weight=jaccard)  # symmetric

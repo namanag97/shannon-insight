@@ -395,7 +395,7 @@ def build_churn_series_from_db(
         # Compute author entropy and bus_factor
         author_counts = file_authors[file_path]
         author_entropy = _compute_author_entropy(author_counts)
-        bus_factor = 2**author_entropy
+        bus_factor = compute_bus_factor(dict(author_counts))
 
         # Compute fix and refactor ratios
         commit_count = file_commit_count[file_path]

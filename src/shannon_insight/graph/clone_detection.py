@@ -33,10 +33,26 @@ LSH_FILE_THRESHOLD = 1000
 MIN_FILE_SIZE = 10
 
 
+def _compress(data: bytes) -> int:
+    """Return compressed size using lzma (unlimited window).
+
+    Uses lzma for files > 32KB where zlib's 32KB sliding window
+    would produce artificially high NCD. Falls back to zlib for
+    smaller data where the window limitation doesn't apply and
+    zlib is faster.
+    """
+    if len(data) > 32 * 1024:
+        return len(lzma.compress(data, preset=3))  # preset 3 = fast but good
+    return len(zlib.compress(data, level=6))
+
+
 def compute_ncd(content_a: bytes, content_b: bytes) -> float:
     """Compute Normalized Compression Distance between two byte strings.
 
-    NCD(A,B) = (C(AB) - min(C(A), C(B))) / max(C(A), C(B))
+    Uses bidirectional compression for better accuracy:
+        NCD(A,B) = (min(C(AB), C(BA)) - min(C(A), C(B))) / max(C(A), C(B))
+
+    Uses lzma for files > 32KB to avoid zlib's window limitation.
 
     Args:
         content_a: First file content
@@ -48,17 +64,18 @@ def compute_ncd(content_a: bytes, content_b: bytes) -> float:
     if not content_a or not content_b:
         return 1.0  # Empty content = maximally different
 
-    c_a = len(zlib.compress(content_a, level=6))
-    c_b = len(zlib.compress(content_b, level=6))
-    c_ab = len(zlib.compress(content_a + content_b, level=6))
+    c_a = _compress(content_a)
+    c_b = _compress(content_b)
+    c_ab = _compress(content_a + content_b)
+    c_ba = _compress(content_b + content_a)
 
-    max_c = max(c_a, c_b)
-    if max_c == 0:
-        return 1.0
+    denominator = max(c_a, c_b)
+    if denominator == 0:
+        return 0.0
 
-    ncd = (c_ab - min(c_a, c_b)) / max_c
+    numerator = min(c_ab, c_ba) - min(c_a, c_b)
     # Clamp to [0, 1] - NCD can theoretically exceed 1 due to compression overhead
-    return max(0.0, min(1.0, ncd))
+    return max(0.0, min(1.0, numerator / denominator))
 
 
 def detect_clones(

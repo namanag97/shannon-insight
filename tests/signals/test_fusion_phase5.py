@@ -363,10 +363,11 @@ class TestRiskScoreComputation:
         """Inactive file (no changes) gets risk based on structural position.
 
         Must set raw pagerank > 0.001 so the zero-impact guard passes.
-        Formula uses churn_cv=0 (dormant → instab_factor=0) and SAFE_BUS_FACTOR=5.0:
+        Formula uses churn_cv=0 (dormant -> instab_factor=0) and SAFE_BUS_FACTOR=5.0:
         bf_term = 1 - 1.0/5.0 = 0.8
-        risk = 0.25*0.95 + 0.20*0.95 + 0.20*0.95 + 0.20*0 + 0.15*0.8
-             = 0.2375 + 0.19 + 0.19 + 0.0 + 0.12 = 0.7375
+        graph_impact = max(0.95, 0.95) = 0.95
+        risk = 0.35*0.95 + 0.25*0.95 + 0.25*0 + 0.15*0.8
+             = 0.3325 + 0.2375 + 0.0 + 0.12 = 0.69
         """
         field = SignalField(tier=Tier.FULL)
         fs = FileSignals(

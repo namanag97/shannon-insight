@@ -260,8 +260,8 @@ def _classify_trajectory(
 def _compute_author_entropy(author_counts: Counter[str]) -> float:
     """Compute Shannon entropy of author commit distribution.
 
-    Higher entropy = more diverse authorship = better bus factor.
-    Single author = 0 entropy = bus_factor of 1.
+    Higher entropy = more diverse authorship.
+    Single author = 0 entropy.
 
     Returns:
         Entropy in bits.

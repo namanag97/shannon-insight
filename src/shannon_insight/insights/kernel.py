@@ -598,8 +598,15 @@ class InsightKernel:
                     semantics_map = store.semantics.value
                     tfidf_vectors: dict[str, dict[str, float]] = {}
                     for path, sem in semantics_map.items():
-                        if hasattr(sem, "concepts") and sem.concepts:
-                            tfidf_vectors[path] = sem.concepts
+                        if hasattr(sem, "import_fingerprint") and sem.import_fingerprint:
+                            tfidf_vectors[path] = sem.import_fingerprint
+                        elif hasattr(sem, "concepts") and sem.concepts:
+                            vec: dict[str, float] = {}
+                            for concept in sem.concepts:
+                                if hasattr(concept, "topic") and hasattr(concept, "weight"):
+                                    vec[concept.topic] = concept.weight
+                            if vec:
+                                tfidf_vectors[path] = vec
                     if tfidf_vectors:
                         populate_semantic(tensor, tfidf_vectors)
                         layers_populated.append("SEMANTIC")

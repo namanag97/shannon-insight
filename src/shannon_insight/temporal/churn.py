@@ -102,7 +102,7 @@ def build_churn_series(
         # Compute author entropy and bus_factor
         author_counts = file_authors[file_path]
         author_entropy = _compute_author_entropy(author_counts)
-        bus_factor = 2**author_entropy  # Number of equivalent authors
+        bus_factor = compute_bus_factor(dict(author_counts))
 
         # Compute fix and refactor ratios
         commit_count = file_commit_count[file_path]
@@ -124,6 +124,38 @@ def build_churn_series(
         )
 
     return results
+
+
+def compute_bus_factor(author_contributions: dict[str, int]) -> int:
+    """Bus factor = minimum authors needed to cover 80% of contributions.
+
+    Uses greedy set-cover approximation: sort authors by contribution
+    descending, accumulate until >= 80% of total is covered.
+
+    Returns:
+        Count of authors (int). 0 if no contributions, 1 for single author.
+    """
+    if not author_contributions:
+        return 0
+
+    total = sum(author_contributions.values())
+    if total == 0:
+        return 0
+
+    # Sort authors by contribution descending
+    sorted_authors = sorted(author_contributions.values(), reverse=True)
+
+    cumulative = 0
+    bus_factor = 0
+    threshold = 0.80 * total
+
+    for contribution in sorted_authors:
+        cumulative += contribution
+        bus_factor += 1
+        if cumulative >= threshold:
+            break
+
+    return bus_factor
 
 
 def _linear_slope(values: list[int]) -> float:

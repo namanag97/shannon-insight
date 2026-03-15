@@ -8,9 +8,10 @@ Phases (in order):
 2. SCANNING - Extract syntax (tree-sitter or regex)
 3. STRUCTURAL - Build graph, compute centrality
 4. TEMPORAL - Extract git history, churn
-5. FUSION - Compute signals and composites
-6. PATTERNS - Detect code issues
-7. REPORTING - Rank findings, capture snapshot
+5. TENSOR_BUILD - Build 4D relationship tensor
+6. FUSION - Compute signals and composites
+7. PATTERNS - Detect code issues
+8. REPORTING - Rank findings, capture snapshot
 """
 
 from .discovery import DiscoveryExecutor
@@ -20,12 +21,14 @@ from .reporting import ReportingExecutor
 from .scanning import ScanningExecutor
 from .structural import StructuralExecutor
 from .temporal import TemporalExecutor
+from .tensor_build import TensorBuildExecutor
 
 __all__ = [
     "DiscoveryExecutor",
     "ScanningExecutor",
     "StructuralExecutor",
     "TemporalExecutor",
+    "TensorBuildExecutor",
     "FusionExecutor",
     "PatternsExecutor",
     "ReportingExecutor",
@@ -37,6 +40,7 @@ PHASE_EXECUTORS = [
     ScanningExecutor(),
     StructuralExecutor(),
     TemporalExecutor(),
+    TensorBuildExecutor(),
     FusionExecutor(),
     PatternsExecutor(),
     ReportingExecutor(),

@@ -65,6 +65,28 @@ ABSOLUTE_FLOORS: dict[str, float] = {
     "lines": 20.0,  # Tiny files only
 }
 
+# Bayesian shrinkage parameters for small codebases (BAYESIAN tier, 15-49 files).
+# With only ~20 files each file is a ~5% percentile jump, making raw empirical
+# percentiles noisy.  Shrinkage pulls extreme values toward the prior (median),
+# reducing noise that would otherwise propagate into composite scores.
+SHRINKAGE_STRENGTH = 15  # prior strength parameter (pseudo-observations)
+PRIOR_PERCENTILE = 0.5   # shrink toward the median
+
+
+def shrink_percentile(empirical_pctl: float, n_files: int) -> float:
+    """Apply Bayesian shrinkage to pull extreme percentiles toward 0.5 for small samples.
+
+    Uses a Beta-Binomial style update: the empirical percentile is treated as
+    n_files observations and blended with SHRINKAGE_STRENGTH prior observations
+    centered at PRIOR_PERCENTILE.  As n_files grows the prior is overwhelmed.
+    For FULL tier (>=50 files) no shrinkage is applied.
+    """
+    if n_files >= 50:  # FULL tier — enough data, no shrinkage needed
+        return empirical_pctl
+    return (n_files * empirical_pctl + SHRINKAGE_STRENGTH * PRIOR_PERCENTILE) / (
+        n_files + SHRINKAGE_STRENGTH
+    )
+
 
 def normalize(field: SignalField) -> None:
     """Compute percentiles for all numeric signals.

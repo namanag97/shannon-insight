@@ -76,7 +76,7 @@ class ChurnSeries:
 
     # Phase 3 additions:
     cv: float = 0.0  # Coefficient of variation (was computed but discarded)
-    bus_factor: float = 1.0  # 2^H where H = Shannon entropy of author distribution
+    bus_factor: int = 1  # Minimum authors to cover 80% of contributions (set-cover)
     author_entropy: float = 0.0  # Shannon entropy of per-file author commit distribution
     fix_ratio: float = 0.0  # fraction of commits with fix keywords in subject
     refactor_ratio: float = 0.0  # fraction of commits with refactor keywords in subject

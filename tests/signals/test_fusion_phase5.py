@@ -698,8 +698,9 @@ class TestRawRiskComputation:
         """Raw risk computed correctly from max-normalized signals.
 
         Formula uses SAFE_BUS_FACTOR=5.0 fixed cap (not relative to codebase max).
-        bus_factor=1.0 → bf_term = 1 - 1.0/5.0 = 0.8
-        churn_cv=2.0 → instab_factor = min(2.0/2.0, 1.0) = 1.0
+        bus_factor=1.0 -> bf_term = 1 - 1.0/5.0 = 0.8
+        churn_cv=2.0 -> instab_factor = min(2.0/2.0, 1.0) = 1.0
+        graph_impact_raw = max(0.5/1.0, 25/50) = max(0.5, 0.5) = 0.5
         """
         fs = FileSignals(
             path="/test.py",
@@ -716,9 +717,10 @@ class TestRawRiskComputation:
 
         raw = compute_raw_risk(fs, max_pr, max_blast, max_cog)
 
-        # 0.25 * 0.5 + 0.20 * 0.5 + 0.20 * 0.5 + 0.20 * 1.0 + 0.15 * 0.8
-        # = 0.125 + 0.10 + 0.10 + 0.20 + 0.12 = 0.645
-        assert abs(raw - 0.645) < 0.01
+        # graph_impact_raw = max(0.5, 0.5) = 0.5
+        # 0.35 * 0.5 + 0.25 * 0.5 + 0.25 * 1.0 + 0.15 * 0.8
+        # = 0.175 + 0.125 + 0.25 + 0.12 = 0.67
+        assert abs(raw - 0.67) < 0.01
 
     def test_raw_risk_division_by_zero_guard(self):
         """Raw risk handles zero max values."""

@@ -1,78 +1,76 @@
-"""Populate COCHANGE layer (R=1)."""
+"""Populate COCHANGE layer (R=1) from git history using lift-based association rules.
+
+Rules:
+  - Skip commits touching >50 files (bulk commits).
+  - Apply exponential decay: weight = exp(-lambda * days_ago),
+    lambda = ln(2)/90 (90-day half-life).
+  - Compute lift: P(A inter B) / (P(A) * P(B)).
+  - Only add edges where lift > 1.0.
+  - Symmetric: both (a,b) and (b,a) are stored.
+"""
 from __future__ import annotations
 
 import math
 from collections import Counter
 from itertools import combinations
+from typing import Any
 
-from ..tensor.core import RelationTensor, COCHANGE
-from ..extract.models import GitHistory
+from ..tensor.core import COCHANGE
 
-
-# 90-day half-life
-DECAY_LAMBDA = math.log(2) / 90
+# 90-day half-life for exponential decay
+_DECAY_LAMBDA = math.log(2) / 90
 
 
 def populate_cochange(
-    tensor: RelationTensor,
-    git_history: GitHistory,
+    tensor: Any,
+    git_history: Any,
     now_timestamp: int,
     window_days: int = 30,
-    file_filter: set[str] | None = None,
-):
+) -> None:
     """Fill T[:,:,t,COCHANGE] with lift scores.
 
     Args:
-        file_filter: If provided, only count co-changes between files in this
-                     set. Pass syntax_map.keys() to restrict to scanned files.
+        tensor: A ``RelationTensor`` instance.
+        git_history: Object with a ``.commits`` list.  Each commit has
+            ``.files`` (iterable of paths) and ``.timestamp`` (unix seconds).
+        now_timestamp: Reference unix timestamp (typically ``time.time()``).
+        window_days: Size of the time window in days (used for future
+            multi-window support; currently all edges go to the latest
+            window).
     """
-    # Count co-occurrences with decay
+    # Accumulate weighted co-occurrence and marginal counts
     cochange_counts: Counter[tuple[str, str]] = Counter()
     file_counts: Counter[str] = Counter()
     total_weight = 0.0
 
     for commit in git_history.commits:
-        # Skip bulk commits
+        # Skip bulk / mass-reformatting commits
         if len(commit.files) > 50:
             continue
 
-        # Filter to known files only
-        commit_files = (
-            [f for f in commit.files if f in file_filter]
-            if file_filter is not None
-            else list(commit.files)
-        )
+        commit_files = list(commit.files)
 
-        if len(commit_files) < 2:
-            # Need at least 2 files to form a pair
-            days_ago = (now_timestamp - commit.timestamp) / 86400
-            weight = math.exp(-DECAY_LAMBDA * days_ago)
-            for f in commit_files:
-                file_counts[f] += weight
-            total_weight += weight
-            continue
+        days_ago = max((now_timestamp - commit.timestamp) / 86400, 0)
+        weight = math.exp(-_DECAY_LAMBDA * days_ago)
 
-        days_ago = (now_timestamp - commit.timestamp) / 86400
-        weight = math.exp(-DECAY_LAMBDA * days_ago)
-
+        # Marginals
         for f in commit_files:
             file_counts[f] += weight
 
-        for a, b in combinations(sorted(commit_files), 2):
-            cochange_counts[(a, b)] += weight
+        # Pairwise co-occurrence (sorted key for canonical pair ordering)
+        if len(commit_files) >= 2:
+            for a, b in combinations(sorted(commit_files), 2):
+                cochange_counts[(a, b)] += weight
 
         total_weight += weight
 
     if total_weight == 0:
         return
 
-    # Compute lift and populate tensor
-    min_count = 3
+    # Compute lift and populate the tensor
+    t = tensor.n_windows - 1  # current window
 
     for (a, b), count in cochange_counts.items():
-        if count < min_count:
-            continue
-
         p_ab = count / total_weight
         p_a = file_counts[a] / total_weight
         p_b = file_counts[b] / total_weight
@@ -83,8 +81,5 @@ def populate_cochange(
         lift = p_ab / (p_a * p_b)
 
         if lift > 1.0:
-            # Determine time window
-            t = tensor.n_windows - 1  # Current window
-
             tensor.add_edge(a, b, t, COCHANGE, weight=lift)
-            tensor.add_edge(b, a, t, COCHANGE, weight=lift)  # Symmetric
+            tensor.add_edge(b, a, t, COCHANGE, weight=lift)  # symmetric

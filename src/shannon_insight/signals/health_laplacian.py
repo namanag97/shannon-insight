@@ -79,11 +79,16 @@ def compute_raw_risk(
 
     Same weights as risk_score but on raw (normalized-by-max) values:
 
-    raw_risk = 0.25 * (pagerank / max_pagerank)
-             + 0.20 * (blast_radius_size / max_blast)
-             + 0.20 * (cognitive_load / max_cognitive)
-             + 0.20 * instability_factor
+    graph_impact_raw = max(pagerank / max_pagerank, blast_radius_size / max_blast)
+
+    raw_risk = 0.35 * graph_impact_raw
+             + 0.25 * (cognitive_load / max_cognitive)
+             + 0.25 * instability_factor
              + 0.15 * (1 - bus_factor / SAFE_BUS_FACTOR)
+
+    graph_impact_raw merges pagerank and blast_radius into a single term because
+    both derive from the same import graph and are highly correlated.
+    Using max() avoids double-counting while still capturing the stronger signal.
 
     bus_factor uses fixed cap (SAFE_BUS_FACTOR=5.0), not relative-to-max,
     to match the composites.py formula exactly.
@@ -94,11 +99,12 @@ def compute_raw_risk(
     pr_term = fs.pagerank / max_pagerank if max_pagerank > 0 else 0.0
     blast_term = fs.blast_radius_size / max_blast if max_blast > 0 else 0.0
     cog_term = fs.cognitive_load / max_cognitive if max_cognitive > 0 else 0.0
+    graph_impact_raw = max(pr_term, blast_term)
     instab_factor = min(fs.churn_cv / 2.0, 1.0) if fs.churn_cv > 0 else 0.0
     bf_term = max(0.0, 1.0 - fs.bus_factor / _SAFE_BUS_FACTOR)
 
     raw_risk = (
-        0.25 * pr_term + 0.20 * blast_term + 0.20 * cog_term + 0.20 * instab_factor + 0.15 * bf_term
+        0.35 * graph_impact_raw + 0.25 * cog_term + 0.25 * instab_factor + 0.15 * bf_term
     )
 
     return max(0.0, min(1.0, raw_risk))

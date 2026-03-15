@@ -68,11 +68,16 @@ def _compute_risk_score(fs: FileSignals) -> float:
 
     Additive weighted sum (from registry/composites.md):
 
-    risk_score = 0.25 × pctl(pagerank)
-               + 0.20 × pctl(blast_radius_size)
-               + 0.20 × pctl(cognitive_load)
-               + 0.20 × instability_factor
+    graph_impact = max(pctl(pagerank), pctl(blast_radius_size))
+
+    risk_score = 0.35 × graph_impact
+               + 0.25 × pctl(cognitive_load)
+               + 0.25 × instability_factor
                + 0.15 × (1 - bus_factor / 5.0)
+
+    graph_impact merges pagerank and blast_radius into a single term because
+    both derive from the same import graph and are highly correlated.
+    Using max() avoids double-counting while still capturing the stronger signal.
 
     instability_factor = min(churn_cv / 2.0, 1.0) — continuous, no cliff at trajectory boundary
     bus_factor capped at SAFE_BUS_FACTOR=5.0 (fixed cap, not relative to codebase max)
@@ -89,14 +94,14 @@ def _compute_risk_score(fs: FileSignals) -> float:
     pctl_blast = fs.percentiles.get("blast_radius_size", 0.0)
     pctl_cog = fs.percentiles.get("cognitive_load", 0.0)
 
+    graph_impact = max(pctl_pr, pctl_blast)
     instability_factor = min(fs.churn_cv / 2.0, 1.0) if fs.churn_cv > 0 else 0.0
     bf_term = max(0.0, 1.0 - fs.bus_factor / _SAFE_BUS_FACTOR)
 
     risk = (
-        0.25 * pctl_pr
-        + 0.20 * pctl_blast
-        + 0.20 * pctl_cog
-        + 0.20 * instability_factor
+        0.35 * graph_impact
+        + 0.25 * pctl_cog
+        + 0.25 * instability_factor
         + 0.15 * bf_term
     )
 

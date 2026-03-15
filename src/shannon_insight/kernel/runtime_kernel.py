@@ -25,14 +25,15 @@ Usage:
     >>> print(result.metrics.summary())
 
 Design:
-    The kernel orchestrates 7 phases in order:
+    The kernel orchestrates 8 phases in order:
     1. DISCOVERY - Find source files
     2. SCANNING - Extract syntax
     3. STRUCTURAL - Build graph, compute centrality
     4. TEMPORAL - Extract git history
-    5. FUSION - Compute signals
-    6. PATTERNS - Detect issues
-    7. REPORTING - Rank and capture snapshot
+    5. TENSOR_BUILD - Build 4D relationship tensor
+    6. FUSION - Compute signals
+    7. PATTERNS - Detect issues
+    8. REPORTING - Rank and capture snapshot
 
     Each phase:
     - Has a dedicated PhaseExecutor

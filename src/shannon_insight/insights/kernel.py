@@ -212,7 +212,11 @@ class InsightKernel:
             except PhaseValidationError as e:
                 logger.warning(f"Structural validation failed: {e}")
 
-        # Phase 2b: Run Wave 2 analyzers (signal fusion, after all Wave 1)
+        # Phase 2b: Build RelationTensor from available data
+        _progress("Building tensor...")
+        self._build_tensor(store)
+
+        # Phase 2c: Run Wave 2 analyzers (signal fusion, after all Wave 1)
         _progress("Computing signals...")
         for analyzer in self._wave2_analyzers:
             try:

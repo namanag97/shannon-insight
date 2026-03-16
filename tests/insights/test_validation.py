@@ -1,5 +1,7 @@
 """Tests for phase validation contracts.
 
+from __future__ import annotations
+
 Tests cover:
     - validate_after_scanning: empty store, file_syntax presence
     - validate_after_structural: graceful skip, orphan nodes, reverse adjacency

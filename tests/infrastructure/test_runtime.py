@@ -333,7 +333,7 @@ class TestRuntimeContextProgress:
             with RuntimeContext.create(root=tmpdir) as ctx:
                 ctx.transition(Phase.SCANNING)
                 ctx.set_phase_total(10)
-                for i in range(10):
+                for _i in range(10):
                     ctx.advance()
                 metrics = ctx.metrics.phases[Phase.SCANNING]
                 assert metrics.items_total == 10

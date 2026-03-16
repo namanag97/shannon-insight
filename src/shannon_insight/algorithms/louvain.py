@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import numpy as np
 from scipy import sparse
-from collections import defaultdict
 
 
 def louvain(
@@ -61,7 +60,7 @@ def louvain(
             # Find neighbors' communities (both in- and out-neighbors)
             out_neighbors = A[i].nonzero()[1]
             in_neighbors = A[:, i].nonzero()[0]
-            neighbor_comms = set(community[j] for j in out_neighbors)
+            neighbor_comms = {community[j] for j in out_neighbors}
             neighbor_comms.update(community[j] for j in in_neighbors)
             neighbor_comms.add(current_comm)
 

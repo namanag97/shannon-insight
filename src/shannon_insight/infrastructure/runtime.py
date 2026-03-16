@@ -197,7 +197,7 @@ class RuntimeMetrics:
     run_id: str = ""
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
-    phases: Dict[Phase, PhaseMetrics] = field(default_factory=dict)
+    phases: dict[Phase, PhaseMetrics] = field(default_factory=dict)
 
     # Resource tracking
     memory_limit_mb: float = 0.0
@@ -216,7 +216,7 @@ class RuntimeMetrics:
         end = self.completed_at or datetime.now(timezone.utc)
         return (end - self.started_at).total_seconds()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export metrics as dictionary for JSON serialization."""
         return {
             "run_id": self.run_id,
@@ -350,7 +350,7 @@ class RuntimeContext:
     warnings: List[str] = field(default_factory=list)
 
     # Circuit breakers per phase
-    _circuit_breakers: Dict[Phase, CircuitBreaker] = field(default_factory=dict, repr=False)
+    _circuit_breakers: dict[Phase, CircuitBreaker] = field(default_factory=dict, repr=False)
 
     # Progress callback
     _progress_callback: Optional[ProgressCallback] = field(default=None, repr=False)
@@ -774,7 +774,7 @@ class RuntimeContext:
         """
         self._checkpoint_path = path
 
-    def save_checkpoint(self, data: Dict[str, Any]) -> None:
+    def save_checkpoint(self, data: dict[str, Any]) -> None:
         """Save checkpoint data.
 
         Args:
@@ -798,7 +798,7 @@ class RuntimeContext:
             json.dump(checkpoint, f)
         tmp_path.rename(self._checkpoint_path)
 
-    def load_checkpoint(self) -> Optional[Dict[str, Any]]:
+    def load_checkpoint(self) -> Optional[dict[str, Any]]:
         """Load checkpoint data if available.
 
         Returns:

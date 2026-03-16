@@ -265,7 +265,7 @@ class CircuitBreaker:
     reset_timeout_seconds: float = 60.0
 
     _failure_count: int = field(default=0, repr=False)
-    _last_failure_time: Optional[float] = field(default=None, repr=False)
+    _last_failure_time: float | None = field(default=None, repr=False)
     _state: str = field(default="CLOSED", repr=False)
 
     def record_failure(self) -> None:

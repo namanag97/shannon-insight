@@ -383,7 +383,7 @@ class RuntimeContext:
     def create(
         cls,
         root: str | Path,
-        config: Optional[AnalysisConfig] = None,
+        config: AnalysisConfig | None = None,
         env: Optional[Environment] = None,
         memory_limit_mb: int = 2048,
         total_timeout_seconds: int = 1800,

@@ -1,11 +1,9 @@
 """Tests for RuntimeContext — the execution container infrastructure."""
 
-import gc
 import tempfile
 import threading
 import time
 from pathlib import Path
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -21,7 +19,6 @@ from shannon_insight.infrastructure.runtime import (
     TimeoutError,
     with_timeout,
 )
-
 
 # ---------------------------------------------------------------------------
 # Phase Tests
@@ -47,6 +44,7 @@ class TestPhase:
             "SCANNING",
             "STRUCTURAL",
             "TEMPORAL",
+            "TENSOR_BUILD",
             "FUSION",
             "PATTERNS",
             "REPORTING",

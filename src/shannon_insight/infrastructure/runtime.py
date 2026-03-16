@@ -353,7 +353,7 @@ class RuntimeContext:
     _circuit_breakers: dict[Phase, CircuitBreaker] = field(default_factory=dict, repr=False)
 
     # Progress callback
-    _progress_callback: Optional[ProgressCallback] = field(default=None, repr=False)
+    _progress_callback: ProgressCallback | None = field(default=None, repr=False)
 
     # Resource cleanup stack
     _cleanup_stack: ExitStack = field(default_factory=ExitStack, repr=False)
@@ -387,7 +387,7 @@ class RuntimeContext:
         env: Optional[Environment] = None,
         memory_limit_mb: int = 2048,
         total_timeout_seconds: int = 1800,
-        progress_callback: Optional[ProgressCallback] = None,
+        progress_callback: ProgressCallback | None = None,
     ) -> RuntimeContext:
         """Create a new runtime context.
 

@@ -359,7 +359,7 @@ class RuntimeContext:
     _cleanup_stack: ExitStack = field(default_factory=ExitStack, repr=False)
 
     # Checkpoint path
-    _checkpoint_path: Optional[Path] = field(default=None, repr=False)
+    _checkpoint_path: Path | None = field(default=None, repr=False)
 
     # Original signal handlers (for restoration)
     _original_sigint: Any = field(default=None, repr=False)

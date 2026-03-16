@@ -145,7 +145,7 @@ class CancellationError(RuntimeError):
 class PhaseError(RuntimeError):
     """A phase failed to complete."""
 
-    def __init__(self, message: str, phase: Phase, cause: Optional[Exception] = None):
+    def __init__(self, message: str, phase: Phase, cause: Exception | None = None):
         super().__init__(message, phase, recoverable=True)
         self.cause = cause
 
@@ -458,7 +458,7 @@ class RuntimeContext:
         # Register cleanup at interpreter exit
         atexit.register(self._emergency_cleanup)
 
-    def _stop(self, error: Optional[Exception] = None) -> None:
+    def _stop(self, error: Exception | None = None) -> None:
         """Shutdown the runtime context."""
         self.metrics.completed_at = datetime.now(timezone.utc)
 
@@ -681,7 +681,7 @@ class RuntimeContext:
 
         return True
 
-    def complete_phase(self, error: Optional[Exception] = None) -> None:
+    def complete_phase(self, error: Exception | None = None) -> None:
         """Mark current phase as complete.
 
         Args:

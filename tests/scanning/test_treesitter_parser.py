@@ -38,11 +38,13 @@ class TestTreeSitterParser:
         parser = TreeSitterParser()
         assert parser is not None
 
+    @pytest.mark.skipif(not _PYTHON_SUPPORTED, reason="tree-sitter-python not installed")
     def test_python_in_supported_languages(self):
         """Python is a supported language."""
         languages = get_supported_languages()
         assert "python" in languages
 
+    @pytest.mark.skipif(not _PYTHON_SUPPORTED, reason="tree-sitter-python not installed")
     def test_parse_python_returns_tree(self):
         """parse() returns a tree for valid Python."""
         parser = TreeSitterParser()
@@ -57,6 +59,7 @@ class TestTreeSitterParser:
         tree = parser.parse(b"some code", "unknown_language")
         assert tree is None
 
+    @pytest.mark.skipif(not _PYTHON_SUPPORTED, reason="tree-sitter-python not installed")
     def test_query_returns_captures(self):
         """query() returns captures."""
         parser = TreeSitterParser()

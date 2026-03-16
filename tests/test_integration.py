@@ -48,7 +48,7 @@ class TestSmokeTests:
     def test_bare_command_works(self):
         """shannon-insight with path argument should analyze the given path."""
         result = subprocess.run(
-            ["shannon-insight", "test_codebase"],
+            ["shannon-insight", "--cli", "test_codebase"],
             capture_output=True,
             text=True,
         )
@@ -57,7 +57,7 @@ class TestSmokeTests:
     def test_path_option(self):
         """shannon-insight <path> should work."""
         result = subprocess.run(
-            ["shannon-insight", "test_codebase"],
+            ["shannon-insight", "--cli", "test_codebase"],
             capture_output=True,
             text=True,
         )

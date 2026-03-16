@@ -346,8 +346,8 @@ class RuntimeContext:
 
     # Observability
     metrics: RuntimeMetrics = field(default_factory=RuntimeMetrics)
-    errors: List[RuntimeError] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
+    errors: list[RuntimeError] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
 
     # Circuit breakers per phase
     _circuit_breakers: dict[Phase, CircuitBreaker] = field(default_factory=dict, repr=False)
@@ -853,7 +853,7 @@ class RuntimeContext:
     # Utility Methods
     # ─────────────────────────────────────────────────────────────────────
 
-    def iter_with_progress(self, items: List[Any], desc: str = "Processing") -> Iterator[Any]:
+    def iter_with_progress(self, items: list[Any], desc: str = "Processing") -> Iterator[Any]:
         """Iterate over items with progress tracking and cancellation checks.
 
         Args:

@@ -384,7 +384,7 @@ class RuntimeContext:
         cls,
         root: str | Path,
         config: AnalysisConfig | None = None,
-        env: Optional[Environment] = None,
+        env: Environment | None = None,
         memory_limit_mb: int = 2048,
         total_timeout_seconds: int = 1800,
         progress_callback: ProgressCallback | None = None,

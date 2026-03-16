@@ -586,6 +586,10 @@ class TestFactDatabase:
 class TestIntegrationWithSyntaxExtractor:
     """Integration tests with real file parsing."""
 
+    @pytest.mark.skipif(
+        not _has_tree_sitter_python(),
+        reason="tree-sitter-python not installed",
+    )
     def test_real_file_parsing_preserves_call_targets(self):
         """Test that real file parsing + fact storage preserves call_targets."""
         with tempfile.TemporaryDirectory() as tmp:
@@ -614,7 +618,11 @@ class TestIntegrationWithSyntaxExtractor:
 
             # Store facts
             for fs in syntax_map.values():
-                parser_type = "tree-sitter" if fs.functions and fs.functions[0].call_targets is not None else "regex"
+                parser_type = (
+                    "tree-sitter"
+                    if fs.functions and fs.functions[0].call_targets is not None
+                    else "regex"
+                )
                 fact = FileFact.from_file_syntax(fs, session_id, "0.8.0", parser_type)
                 db.store_file_fact(fact)
 

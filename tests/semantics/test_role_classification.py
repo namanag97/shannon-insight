@@ -1,5 +1,7 @@
 """Tests for role classification decision tree."""
 
+from __future__ import annotations
+
 from shannon_insight.scanning.syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 from shannon_insight.semantics import Role, classify_role
 

@@ -1,5 +1,7 @@
 """Unit tests for graph/builder.py and graph/algorithms.py."""
 
+from __future__ import annotations
+
 from shannon_insight.graph.algorithms import (
     _coarsen_graph,
     compute_blast_radius,

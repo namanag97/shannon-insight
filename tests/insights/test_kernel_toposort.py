@@ -1,5 +1,7 @@
 """Tests for graphlib-based topological sorting of analyzers."""
 
+from __future__ import annotations
+
 import pytest
 
 from shannon_insight.insights.kernel_toposort import (

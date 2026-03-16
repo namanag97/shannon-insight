@@ -28,6 +28,14 @@ from shannon_insight.scanning import SyntaxExtractor
 from shannon_insight.scanning.syntax import ClassDef, FileSyntax, FunctionDef, ImportDecl
 
 
+def _has_tree_sitter_python() -> bool:
+    try:
+        import tree_sitter_python  # noqa: F401
+        return True
+    except ImportError:
+        return False
+
+
 class TestFunctionFact:
     """Tests for FunctionFact model."""
 

@@ -8,6 +8,8 @@ from shannon_insight.scanning.treesitter_parser import (
     get_supported_languages,
 )
 
+_PYTHON_SUPPORTED = TREE_SITTER_AVAILABLE and "python" in get_supported_languages()
+
 
 class TestTreeSitterAvailability:
     """Test tree-sitter availability detection."""

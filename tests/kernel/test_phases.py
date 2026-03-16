@@ -1,7 +1,6 @@
 """Tests for individual phase executors."""
 
-from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -15,7 +14,6 @@ from shannon_insight.kernel.phases import (
     StructuralExecutor,
     TemporalExecutor,
 )
-from shannon_insight.kernel.result import PhaseResult
 
 
 @pytest.fixture
@@ -246,6 +244,7 @@ class TestPhaseOrder:
             Phase.SCANNING,
             Phase.STRUCTURAL,
             Phase.TEMPORAL,
+            Phase.TENSOR_BUILD,
             Phase.FUSION,
             Phase.PATTERNS,
             Phase.REPORTING,

@@ -167,7 +167,7 @@ class PhaseMetrics:
     items_failed: int = 0
     memory_start_mb: float = 0.0
     memory_peak_mb: float = 0.0
-    error: Optional[str] = None
+    error: str | None = None
 
     @property
     def duration_seconds(self) -> float:

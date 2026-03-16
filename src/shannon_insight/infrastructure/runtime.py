@@ -798,7 +798,7 @@ class RuntimeContext:
             json.dump(checkpoint, f)
         tmp_path.rename(self._checkpoint_path)
 
-    def load_checkpoint(self) -> Optional[dict[str, Any]]:
+    def load_checkpoint(self) -> dict[str, Any] | None:
         """Load checkpoint data if available.
 
         Returns:

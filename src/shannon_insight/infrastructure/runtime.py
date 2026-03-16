@@ -110,7 +110,7 @@ _PHASE_ORDER = [
 class RuntimeError(Exception):
     """Base class for all runtime errors."""
 
-    def __init__(self, message: str, phase: Optional[Phase] = None, recoverable: bool = True):
+    def __init__(self, message: str, phase: Phase | None = None, recoverable: bool = True):
         super().__init__(message)
         self.phase = phase
         self.recoverable = recoverable
@@ -120,7 +120,7 @@ class RuntimeError(Exception):
 class TimeoutError(RuntimeError):
     """Operation exceeded time limit."""
 
-    def __init__(self, message: str, timeout_seconds: float, phase: Optional[Phase] = None):
+    def __init__(self, message: str, timeout_seconds: float, phase: Phase | None = None):
         super().__init__(message, phase, recoverable=True)
         self.timeout_seconds = timeout_seconds
 
@@ -923,7 +923,7 @@ class RuntimeContext:
 # ---------------------------------------------------------------------------
 
 
-def with_timeout(seconds: float, phase: Optional[Phase] = None):
+def with_timeout(seconds: float, phase: Phase | None = None):
     """Decorator to add timeout to a function.
 
     Args:

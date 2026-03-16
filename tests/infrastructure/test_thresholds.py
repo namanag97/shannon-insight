@@ -1,7 +1,5 @@
 """Tests for ThresholdCheck — tier-aware threshold checking for finders.
 
-from __future__ import annotations
-
 Tests cover:
     - FULL tier: percentile-based above/below
     - BAYESIAN tier: percentile-based (same logic as FULL)
@@ -12,6 +10,8 @@ Tests cover:
     - Hotspot filtering helper
     - Edge cases: empty signal field, missing percentiles, missing attributes
 """
+
+from __future__ import annotations
 
 from __future__ import annotations
 

@@ -160,8 +160,8 @@ class PhaseMetrics:
     """Metrics for a single phase."""
 
     phase: Phase
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
     items_total: int = 0
     items_processed: int = 0
     items_failed: int = 0
@@ -195,8 +195,8 @@ class RuntimeMetrics:
     """Aggregate metrics for the entire run."""
 
     run_id: str = ""
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
     phases: dict[Phase, PhaseMetrics] = field(default_factory=dict)
 
     # Resource tracking

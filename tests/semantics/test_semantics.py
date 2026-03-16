@@ -1,5 +1,7 @@
 """Tests for semantic analysis (concepts, naming, completeness)."""
 
+from __future__ import annotations
+
 import pytest
 
 from shannon_insight.scanning.syntax import ClassDef, FileSyntax, FunctionDef

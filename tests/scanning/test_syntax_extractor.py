@@ -217,7 +217,7 @@ class TestSyntaxExtractorFallback:
                 assert fn.call_targets is None
 
 
-@pytest.mark.skipif(not TREE_SITTER_AVAILABLE, reason="tree-sitter not installed")
+@pytest.mark.skipif(not _PYTHON_SUPPORTED, reason="tree-sitter-python not installed")
 class TestSyntaxExtractorTreeSitter:
     """Tests requiring tree-sitter."""
 

@@ -1,5 +1,7 @@
 """Tests for v2 AnalysisStore with Slot[T] wrapper."""
 
+from __future__ import annotations
+
 import pytest
 
 from shannon_insight.infrastructure.entities import EntityId, EntityType

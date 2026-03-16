@@ -139,7 +139,7 @@ class TestSmokeTests:
     def test_default_output_is_quiet(self):
         """Default output should not contain INFO log lines."""
         result = subprocess.run(
-            ["shannon-insight", "test_codebase"],
+            ["shannon-insight", "--cli", "test_codebase"],
             capture_output=True,
             text=True,
         )

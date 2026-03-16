@@ -1,5 +1,7 @@
 """Tests for ThresholdCheck tier-aware threshold strategy."""
 
+from __future__ import annotations
+
 from shannon_insight.infrastructure.thresholds import ThresholdCheck
 from shannon_insight.session import Tier
 from shannon_insight.signals.registry import Signal

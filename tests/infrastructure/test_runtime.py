@@ -526,7 +526,7 @@ class TestRuntimeContextIntegration:
                 with ctx.phase_context(Phase.DISCOVERY):
                     files = list(Path(tmpdir).glob("*.py"))
                     ctx.set_phase_total(len(files))
-                    for f in files:
+                    for _f in files:
                         ctx.advance()
 
                 # Scanning phase

@@ -8,25 +8,26 @@ Use the production kernel (RuntimeKernel from kernel/runtime_kernel.py) for
 real workloads. Use this module as a reference or for testing the new tensor
 pipeline (tensor/, extract/, populate/, algorithms/, cross_layer/, finders/).
 """
+
 from __future__ import annotations
 
-from pathlib import Path
 import time
+from pathlib import Path
 
-from .context import RuntimeContext, Phase
-from .fresh_result import AnalysisResult
-
-from ..tensor.core import RelationTensor
-from ..extract.syntax import extract_syntax
-from ..extract.git import extract_git_history
 from ..extract.concepts import compute_tfidf
-from ..populate.imports import populate_imports
-from ..populate.cochange import populate_cochange
-from ..populate.authors import populate_authors
-from ..populate.semantic import populate_semantic
-from ..populate.combined import populate_combined
-from ..signals.fusion import compute_all_signals
+from ..extract.git import extract_git_history
+from ..extract.syntax import extract_syntax
 from ..finders.catalog import run_finders
+from ..populate.authors import populate_authors
+from ..populate.clones import populate_clones
+from ..populate.cochange import populate_cochange
+from ..populate.combined import populate_combined
+from ..populate.imports import populate_imports
+from ..populate.semantic import populate_semantic
+from ..signals.fusion import compute_all_signals
+from ..tensor.core import RelationTensor
+from .context import Phase, RuntimeContext
+from .fresh_result import AnalysisResult
 
 
 class FreshKernel:
@@ -89,10 +90,20 @@ class FreshKernel:
         syntax_map = {}
 
         # Find files
-        exclude = self.config.get("exclude_patterns", [
-            "__pycache__", ".git", "node_modules", ".venv", "venv",
-            "*.pyc", "*.pyo", "*.so", "*.dylib",
-        ])
+        exclude = self.config.get(
+            "exclude_patterns",
+            [
+                "__pycache__",
+                ".git",
+                "node_modules",
+                ".venv",
+                "venv",
+                "*.pyc",
+                "*.pyo",
+                "*.so",
+                "*.dylib",
+            ],
+        )
 
         for path in self.root.rglob("*"):
             if not path.is_file():
@@ -125,8 +136,9 @@ class FreshKernel:
 
     def _compute_churn(self, git_history) -> dict:
         """Compute per-file churn metrics."""
-        from collections import Counter, defaultdict
         import math
+        from collections import Counter, defaultdict
+
         import numpy as np
 
         # Group changes by file
@@ -149,10 +161,7 @@ class FreshKernel:
             min_ts = min(timestamps)
             windows = [(ts - min_ts) // window_size for ts in timestamps]
             window_counts = Counter(windows)
-            counts = (
-                [window_counts.get(i, 0) for i in range(max(windows) + 1)]
-                if windows else [0]
-            )
+            counts = [window_counts.get(i, 0) for i in range(max(windows) + 1)] if windows else [0]
 
             # Stats
             total = len(timestamps)
@@ -175,7 +184,7 @@ class FreshKernel:
                 if p > 0:
                     entropy -= p * math.log2(p)
 
-            bus_factor = 2 ** entropy
+            bus_factor = 2**entropy
 
             # Fix ratio
             fix_count = sum(1 for c in git_history.commits if path in c.files and c.is_fix)

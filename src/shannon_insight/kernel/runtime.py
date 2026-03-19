@@ -221,6 +221,10 @@ class FreshKernel:
         tfidf, _ = compute_tfidf({p: s.identifiers for p, s in syntax_map.items()})
         populate_semantic(tensor, tfidf)
 
+        # Clone layer (if clone_pairs available in context)
+        # Clone detection is expensive so we skip it here in FreshKernel
+        # It will be populated by the main kernel when clone_pairs are available
+
         # Combined
         populate_combined(tensor)
 

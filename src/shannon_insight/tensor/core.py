@@ -1,7 +1,9 @@
 """Core 4D relationship tensor: T ∈ ℝ^(N × N × K × R)."""
+
 from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import Iterator
+
 import numpy as np
 from scipy import sparse
 
@@ -10,8 +12,9 @@ IMPORT = 0
 COCHANGE = 1
 AUTHOR = 2
 SEMANTIC = 3
-COMBINED = 4
-RELATION_NAMES = ["IMPORT", "COCHANGE", "AUTHOR", "SEMANTIC", "COMBINED"]
+CLONE = 4
+COMBINED = 5
+RELATION_NAMES = ["IMPORT", "COCHANGE", "AUTHOR", "SEMANTIC", "CLONE", "COMBINED"]
 
 
 @dataclass
@@ -25,6 +28,7 @@ class RelationTensor:
 
     Storage: Dict[(t, r), csr_matrix] for efficient slicing.
     """
+
     n_files: int
     n_windows: int = 12
     n_relations: int = 5

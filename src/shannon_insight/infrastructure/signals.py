@@ -94,6 +94,7 @@ class Signal(Enum):
     CYCLE_MEMBER = "cycle_member"  # 20a - True if file is in a circular dependency SCC
     CYCLE_SIZE = "cycle_size"  # 20b - Number of files in the same SCC (0 for non-members)
     PHANTOM_IMPORT_COUNT = "phantom_import_count"  # 21
+    HIDDEN_COUPLING_COUNT = "hidden_coupling_count"  # 21a - cross-layer: cochange minus import
     BROKEN_CALL_COUNT = "broken_call_count"  # 22
     COMMUNITY = "community"  # 23
     COMPRESSION_RATIO = "compression_ratio"  # 24

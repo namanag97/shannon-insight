@@ -94,7 +94,7 @@ class TestSignalEnum:
     def test_signal_count_is_64(self):
         from shannon_insight.infrastructure.signals import Signal
 
-        assert len(Signal) == 67, f"Expected 64 signals, got {len(Signal)}"
+        assert len(Signal) == 68, f"Expected 64 signals, got {len(Signal)}"
 
     def test_per_file_signals_exist(self):
         """Signals 1-38 (per-file)."""

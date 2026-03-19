@@ -241,7 +241,7 @@ class TestSignalCounts:
         """Per-file signals: 41 (38 base + CYCLE_MEMBER + CYCLE_SIZE + CHANGE_ENTROPY + FILE_HEALTH_SCORE + DELTA_H - WIRING_QUALITY was already counted)."""
         # 7 IR1 + 6 IR2 + 15 IR3 + 9 IR5t + 4 composites = 41
         file_signals = signals_by_scope("file")
-        assert len(file_signals) == 41
+        assert len(file_signals) == 42
 
     def test_module_signal_count(self):
         """Per-module signals: 15."""

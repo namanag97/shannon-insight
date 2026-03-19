@@ -5,6 +5,7 @@ This phase constructs a RelationTensor with layers:
 - COCHANGE: from git_history co-change patterns
 - AUTHOR: from git_history author overlap (Jaccard)
 - SEMANTIC: from TF-IDF concept vectors (if available)
+- CLONE: from NCD clone detection (if clone_pairs available)
 - COMBINED: weighted sum of all available layers
 
 Populates:
@@ -13,6 +14,7 @@ Populates:
 Graceful degradation:
 - If git_history unavailable: skip COCHANGE and AUTHOR layers
 - If semantics unavailable: skip SEMANTIC layer
+- If clone_pairs unavailable: skip CLONE layer
 - Always populate IMPORT (only needs file_syntax)
 - Always populate COMBINED (works with whatever layers exist)
 """
@@ -66,7 +68,6 @@ class TensorBuildExecutor(BaseExecutor):
             return PhaseResult.ok(items_processed=0)
 
         try:
-            from ...tensor.core import RelationTensor
             from ...populate import (
                 populate_authors,
                 populate_cochange,
@@ -74,6 +75,7 @@ class TensorBuildExecutor(BaseExecutor):
                 populate_imports,
                 populate_semantic,
             )
+            from ...tensor.core import RelationTensor
 
             # Create tensor
             tensor = RelationTensor(n_files=n_files)

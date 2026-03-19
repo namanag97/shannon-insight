@@ -780,6 +780,7 @@ class TestSingleOwner:
             "signals/fusion",
             "temporal/churn",
             "architecture",
+            "cross_layer/hidden_coupling",
         }
         actual_producers = {m.produced_by for m in REGISTRY.values()}
         unknown = actual_producers - known_producers

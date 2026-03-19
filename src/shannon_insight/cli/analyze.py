@@ -167,6 +167,9 @@ def main(
                 use_fact_store=use_facts,
             )
 
+            if save:
+                _save_snapshot(snapshot, target)
+
             if json_output:
                 _output_json(result, snapshot)
             else:

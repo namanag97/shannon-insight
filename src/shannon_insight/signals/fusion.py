@@ -210,6 +210,30 @@ class FusionPipeline:
         fs.refactor_ratio = churn.refactor_ratio
         fs.change_entropy = getattr(churn, "change_entropy", 0.0)
 
+    def _fill_from_tensor(self) -> None:
+        """Fill cross-layer signals from RelationTensor.
+
+        Uses cross_layer functions to derive signals that require
+        comparing multiple tensor layers (e.g., COCHANGE minus IMPORT).
+        """
+        if not self.store.tensor.available:
+            return
+
+        tensor = self.store.tensor.value
+
+        # Per-file hidden coupling count: files co-changing but not importing
+        try:
+            from shannon_insight.cross_layer import hidden_coupling_count
+
+            counts = hidden_coupling_count(tensor)
+            for node_idx, count in counts.items():
+                path = tensor.node_path(node_idx)
+                fs = self.field.per_file.get(path)
+                if fs:
+                    fs.hidden_coupling_count = count
+        except Exception:
+            pass  # Graceful degradation if tensor layers are empty
+
     def _compute_cognitive_load(self, syntax) -> float:
         """Compute cognitive load from FileSyntax.
 

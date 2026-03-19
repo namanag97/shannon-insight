@@ -31,7 +31,7 @@ class RelationTensor:
 
     n_files: int
     n_windows: int = 12
-    n_relations: int = 5
+    n_relations: int = 6
 
     # Node index: path ↔ int (bidirectional)
     _node_to_idx: dict[str, int] = field(default_factory=dict)

@@ -286,6 +286,48 @@ class TemporalAnalyzer:
         prefix_slash = prefix + "/"
         return {prefix_slash + f for f in file_paths}
 
+    def _normalize_churn_keys(
+        self, churn: dict, store_files: set[str], root_dir: str
+    ) -> dict:
+        """Strip repo-root prefix from churn keys to match store-relative paths.
+
+        Churn is built with repo-relative paths (e.g. test_codebase/foo.go)
+        but the store uses root-relative paths (e.g. foo.go). This strips
+        the prefix so signal fusion can look up churn by store path.
+        """
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "--show-toplevel"],
+                cwd=root_dir,
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+            if result.returncode != 0:
+                return churn
+            repo_root = Path(result.stdout.strip()).resolve()
+        except Exception:
+            return churn
+
+        root_path = Path(root_dir).resolve()
+        try:
+            prefix = str(root_path.relative_to(repo_root))
+        except ValueError:
+            return churn
+
+        if prefix == ".":
+            return churn
+
+        prefix_slash = prefix + "/"
+        normalized = {}
+        for key, value in churn.items():
+            if key.startswith(prefix_slash):
+                new_key = key[len(prefix_slash):]
+                normalized[new_key] = value
+            else:
+                normalized[key] = value
+        return normalized
+
     def _sync_to_fact_store(self, store: AnalysisStore, churn, cochange) -> None:
         """Sync temporal analysis results to FactStore.
 

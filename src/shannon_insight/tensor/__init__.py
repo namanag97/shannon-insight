@@ -11,6 +11,7 @@ __all__ = [
     "COCHANGE",
     "AUTHOR",
     "SEMANTIC",
+    "CLONE",
     "COMBINED",
     "RELATION_NAMES",
     "save_tensor",

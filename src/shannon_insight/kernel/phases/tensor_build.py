@@ -140,6 +140,16 @@ class TensorBuildExecutor(BaseExecutor):
             else:
                 logger.debug("No semantics available, skipping SEMANTIC layer")
 
+            # CLONE layer — needs clone_pairs
+            if store.clone_pairs.available:
+                try:
+                    populate_clones(tensor, store.clone_pairs.value)
+                    layers_populated.append("CLONE")
+                except Exception as e:
+                    logger.warning(f"Failed to populate CLONE layer: {e}")
+            else:
+                logger.debug("No clone_pairs available, skipping CLONE layer")
+
             # COMBINED layer — always runs (works with whatever layers exist)
             try:
                 populate_combined(tensor)

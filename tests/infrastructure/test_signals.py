@@ -35,7 +35,7 @@ class TestSignalEnum:
 
     def test_total_signal_count(self) -> None:
         """There are exactly 64 signals in the enum."""
-        assert len(Signal) == 67
+        assert len(Signal) == 68
 
     def test_all_values_are_strings(self) -> None:
         """Every Signal value is a non-empty string."""
@@ -174,7 +174,7 @@ class TestSignalEnum:
         #   Composites extended: +FILE_HEALTH_SCORE, +DELTA_H (2 → 4)
         # 15 module + 11 global = 26
         # 41 + 26 = 67
-        assert len(Signal) == 67
+        assert len(Signal) == 68
 
 
 # ---------------------------------------------------------------------------
@@ -192,7 +192,7 @@ class TestRegistry:
 
     def test_registry_count(self) -> None:
         """REGISTRY has exactly 64 entries."""
-        assert len(REGISTRY) == 67
+        assert len(REGISTRY) == 68
 
     def test_no_extra_entries(self) -> None:
         """REGISTRY has no entries that aren't Signal enum members."""
@@ -516,7 +516,7 @@ class TestHelperFunctions:
         global_s = signals_by_scope("global")
         assert file_s | module_s | global_s == set(Signal)
         # No overlaps
-        assert len(file_s) + len(module_s) + len(global_s) == 67
+        assert len(file_s) + len(module_s) + len(global_s) == 68
 
     def test_signals_by_polarity_coverage(self) -> None:
         """Every signal has exactly one polarity that is accounted for."""
@@ -524,7 +524,7 @@ class TestHelperFunctions:
         good = signals_by_polarity("high_is_good")
         neutral = signals_by_polarity("neutral")
         assert bad | good | neutral == set(Signal)
-        assert len(bad) + len(good) + len(neutral) == 67
+        assert len(bad) + len(good) + len(neutral) == 68
 
 
 # ---------------------------------------------------------------------------

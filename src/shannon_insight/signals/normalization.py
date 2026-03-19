@@ -39,6 +39,7 @@ NORMALIZABLE_SIGNALS = [
     "blast_radius_size",
     # "depth" excluded: registry says percentileable=False
     "phantom_import_count",
+    "hidden_coupling_count",
     "compression_ratio",
     "semantic_coherence",
     "cognitive_load",
@@ -70,7 +71,7 @@ ABSOLUTE_FLOORS: dict[str, float] = {
 # percentiles noisy.  Shrinkage pulls extreme values toward the prior (median),
 # reducing noise that would otherwise propagate into composite scores.
 SHRINKAGE_STRENGTH = 15  # prior strength parameter (pseudo-observations)
-PRIOR_PERCENTILE = 0.5   # shrink toward the median
+PRIOR_PERCENTILE = 0.5  # shrink toward the median
 
 
 def shrink_percentile(empirical_pctl: float, n_files: int) -> float:

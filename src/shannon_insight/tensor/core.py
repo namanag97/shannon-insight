@@ -24,7 +24,7 @@ class RelationTensor:
 
     N = number of files
     K = number of time windows (default 12 months)
-    R = 5 relationship types (IMPORT, COCHANGE, AUTHOR, SEMANTIC, COMBINED)
+    R = 6 relationship types (IMPORT, COCHANGE, AUTHOR, SEMANTIC, CLONE, COMBINED)
 
     Storage: Dict[(t, r), csr_matrix] for efficient slicing.
     """

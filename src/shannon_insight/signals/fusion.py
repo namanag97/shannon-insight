@@ -78,6 +78,9 @@ class FusionPipeline:
             self._fill_from_temporal(fs)
             self.field.per_file[path] = fs
 
+        # Fill cross-layer signals from tensor
+        self._fill_from_tensor()
+
         # Fill hierarchical context (parent_dir, module_path, etc.)
         self._fill_hierarchy()
 

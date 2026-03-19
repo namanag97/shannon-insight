@@ -238,6 +238,7 @@ def _serialize_file_signals(fs: FileSignals) -> dict[str, Any]:
         "compression_ratio",
         "semantic_coherence",
         "cognitive_load",
+        "hidden_coupling_count",
         "total_changes",
         "churn_trajectory",
         "churn_slope",

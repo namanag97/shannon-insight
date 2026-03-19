@@ -594,6 +594,19 @@ register(
 
 register(
     SignalMeta(
+        signal=Signal.HIDDEN_COUPLING_COUNT,
+        dtype=int,
+        scope="file",
+        percentileable=True,
+        polarity="high_is_bad",
+        absolute_threshold=0.0,
+        produced_by="cross_layer/hidden_coupling",
+        phase=4,
+    )
+)
+
+register(
+    SignalMeta(
         signal=Signal.BROKEN_CALL_COUNT,
         dtype=int,
         scope="file",

@@ -554,6 +554,7 @@ class InsightKernel:
 
             from ..populate import (
                 populate_authors,
+                populate_clones,
                 populate_cochange,
                 populate_combined,
                 populate_imports,

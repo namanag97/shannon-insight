@@ -92,6 +92,11 @@ def main(
         "--trace",
         help="Enable provenance tracking for signal computation",
     ),
+    save: bool = typer.Option(
+        False,
+        "--save",
+        help="Save snapshot to .shannon/history.db for trend tracking",
+    ),
     use_facts: bool = typer.Option(
         False,
         "--use-facts",

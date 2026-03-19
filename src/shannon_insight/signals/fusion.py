@@ -436,8 +436,16 @@ class FusionPipeline:
             arch = self.store.architecture.value
             g.violation_rate = arch.violation_rate
 
-        # Conway alignment from Phase 3 author distances
-        if self.store.author_distances.available and self.store.architecture.available:
+        # Conway alignment — prefer tensor-based computation, fall back to author distances
+        if self.store.tensor.available:
+            try:
+                from shannon_insight.cross_layer import conway_alignment as _conway
+
+                g.conway_alignment = _conway(self.store.tensor.value)
+            except Exception:
+                pass  # Fall through to author_distances below
+
+        if g.conway_alignment == 1.0 and self.store.author_distances.available and self.store.architecture.available:
             author_dists = self.store.author_distances.value
             arch = self.store.architecture.value
 

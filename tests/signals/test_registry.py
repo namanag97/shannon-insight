@@ -18,7 +18,7 @@ class TestSignalEnum:
 
     def test_signal_count(self):
         """Must have exactly 64 signals (from spec)."""
-        assert len(Signal) == 67
+        assert len(Signal) == 68
 
     def test_per_file_scanning_signals(self):
         """IR1 scanning signals (#1-7)."""

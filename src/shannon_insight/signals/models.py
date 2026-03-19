@@ -58,8 +58,13 @@ class FileSignals:
     broken_call_count: int = 0  # 0 until CALL edges exist
     community: int = -1
     compression_ratio: float = 0.0
-    semantic_coherence: float = 0.5  # 0.5 = neutral when semantics unavailable; 1/(1+entropy) otherwise
+    semantic_coherence: float = (
+        0.5  # 0.5 = neutral when semantics unavailable; 1/(1+entropy) otherwise
+    )
     cognitive_load: float = 0.0
+
+    # Cross-layer (tensor-derived)
+    hidden_coupling_count: int = 0  # Files co-changing with this one but not importing
 
     # IR5t (temporal) - signals #27-34
     total_changes: int = 0
@@ -79,7 +84,9 @@ class FileSignals:
     risk_score: float = 0.0  # percentile-based composite (#35)
     wiring_quality: float = 1.0  # (#36)
     file_health_score: float = 1.0  # Per-file health composite
-    delta_h: float = 0.0  # Health Laplacian: raw_risk - mean(raw_risk of neighbours); + = worse than context
+    delta_h: float = (
+        0.0  # Health Laplacian: raw_risk - mean(raw_risk of neighbours); + = worse than context
+    )
 
     # Percentiles (filled by normalization)
     percentiles: dict[str, float] = field(default_factory=dict)

@@ -497,7 +497,7 @@ class TestHelperFunctions:
     def test_signals_by_scope_file(self) -> None:
         """File-scope signals include the expected count (41 = 38 base + CYCLE_MEMBER + CYCLE_SIZE + CHANGE_ENTROPY + FILE_HEALTH_SCORE + DELTA_H - WIRING_QUALITY already in base)."""
         file_signals = signals_by_scope("file")
-        assert len(file_signals) == 41
+        assert len(file_signals) == 42
 
     def test_signals_by_scope_module(self) -> None:
         """Module-scope signals include the expected count."""

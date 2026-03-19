@@ -93,7 +93,7 @@ class TemporalAnalyzer:
 
         # Extract raw git data (with optional identity resolution via FactStore)
         # Use facts_db from store if available, otherwise use the one from constructor
-        facts_db = getattr(store, '_facts_db', None) or self._facts_db
+        facts_db = getattr(store, "_facts_db", None) or self._facts_db
         extractor = GitRawExtractor(
             store.root_dir,
             max_commits=self.max_commits,
@@ -193,6 +193,10 @@ class TemporalAnalyzer:
 
         # Normalize git paths in history to match file paths
         self._normalize_git_paths(history, store.root_dir)
+
+        # Normalize churn keys: strip repo-root prefix to match store-relative paths
+        store_files = set(store.files.keys())
+        churn = self._normalize_churn_keys(churn, store_files, store.root_dir)
 
         # Set store slots
         store.git_history.set(history, produced_by=self.name)

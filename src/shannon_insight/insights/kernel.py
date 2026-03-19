@@ -614,6 +614,14 @@ class InsightKernel:
                 except Exception as e:
                     logger.warning(f"Failed to populate SEMANTIC layer: {e}")
 
+            # CLONE layer
+            if store.clone_pairs.available:
+                try:
+                    populate_clones(tensor, store.clone_pairs.value)
+                    layers_populated.append("CLONE")
+                except Exception as e:
+                    logger.warning(f"Failed to populate CLONE layer: {e}")
+
             # COMBINED layer
             try:
                 populate_combined(tensor)

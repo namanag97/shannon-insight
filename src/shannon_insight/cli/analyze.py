@@ -202,6 +202,18 @@ def main(
         )
 
 
+def _save_snapshot(snapshot, target: Path) -> None:
+    """Save snapshot to .shannon/history.db."""
+    from ..persistence.database import HistoryDatabase
+
+    shannon_dir = target / ".shannon"
+    shannon_dir.mkdir(parents=True, exist_ok=True)
+    db_path = shannon_dir / "history.db"
+    db = HistoryDatabase(db_path)
+    snapshot_id = db.save_snapshot(snapshot)
+    console.print(f"[dim]Snapshot #{snapshot_id} saved to {db_path}[/dim]")
+
+
 def _output_json(result, snapshot):
     """Output results in JSON format."""
     import json

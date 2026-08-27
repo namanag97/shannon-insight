@@ -7,7 +7,6 @@ HERE=Path(__file__).resolve().parent
 
 def J(p): return json.loads((ROOT/p).read_text(encoding='utf-8'))
 def L(p): return [json.loads(x) for x in (ROOT/p).read_text(encoding='utf-8').splitlines() if x.strip()]
-def exists(p): return (ROOT/p).exists()
 def main():
     master=L('research/product_ontology/closure_program/master-batches.jsonl')
     q=J('research/product_ontology/qualification_program/effective-summary.json')
@@ -18,7 +17,6 @@ def main():
     occ=J('research/domain_atlas/universes/source_systems/occurrence-registry-summary.json')
     dsg=J('research/domain_atlas/universes/data_shapes/effective-gap-summary.json')
     ctx=J('research/domain_atlas/context_map/manifest.json')
-    readiness=J('research/product_ontology/dossier_readiness/summary.json')
     statuses={}
     statuses['B00_TRUTH_CONVERGENCE']={'state':'STRUCTURALLY_DONE_MONITOR','remaining':'freshness/digest enforcement for future generated corpora','machine_addressable':True}
     statuses['B01_SOURCE_AUTHORITY']={'state':'AUTHORITY_BLOCKED','remaining':23,'machine_addressable':False}

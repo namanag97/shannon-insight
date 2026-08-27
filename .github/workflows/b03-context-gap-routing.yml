@@ -1,0 +1,46 @@
+name: B03 Context Gap Routing
+
+on:
+  push:
+    branches:
+      - 'closure/b03-gap-*'
+    paths:
+      - research/domain_atlas/context_map/gaps.jsonl
+      - research/domain_atlas/context_map/build_effective_gap_routing.py
+      - .github/workflows/b03-context-gap-routing.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 research/domain_atlas/context_map/build_effective_gap_routing.py
+      - name: Validate and persist
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('research/domain_atlas/context_map')
+          src=[json.loads(x) for x in (p/'gaps.jsonl').read_text().splitlines() if x.strip()]
+          out=[json.loads(x) for x in (p/'effective-gap-routing.jsonl').read_text().splitlines() if x.strip()]
+          assert len(src)==len(out)==28
+          assert {x['gap_id'] for x in src}=={x['gap_id'] for x in out}
+          assert all(x['effective_status']=='ROUTED_STILL_OPEN' and x['completion_claim'] is False for x in out)
+          print('PASS 28/28 context gaps routed without closure promotion')
+          PY
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/context_map/effective-gap-routing.jsonl research/domain_atlas/context_map/effective-gap-routing-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "closure: generate B03 context gap routing [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

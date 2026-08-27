@@ -1,0 +1,16 @@
+{
+  "source_id": "src_gleif_level_2",
+  "title": "Level 2 Data: Who Owns Whom",
+  "url": "https://www.gleif.org/en/lei-data/access-and-use-lei-data/level-2-data-who-owns-whom",
+  "issuing_authority": "Global Legal Entity Identifier Foundation",
+  "evidence_roles": ["standard", "governance"],
+  "bounded_claims": [
+    "The Global LEI System represents direct and ultimate accounting-consolidating parent relationships for reporting legal entities.",
+    "Relationship records include typed relationship, dates, validation and reporting information."
+  ],
+  "non_authority_scope": [
+    "Accounting-consolidation parentage is not a universal acquisition, brand, product or semantic-ownership model.",
+    "Missing LEI relationship data does not prove that no relationship exists."
+  ],
+  "accessed_on": "2026-08-27"
+}

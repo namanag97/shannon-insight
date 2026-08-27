@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "taxonomy_id": "evidence-entity-identity-and-relations",
+  "status": "review_candidate_unratified",
+  "entity_kinds": [
+    {"kind_id": "legal_entity", "definition": "A legally constituted entity identified under an applicable registry or authoritative legal record."},
+    {"kind_id": "organization", "definition": "An organized body whose legal status may be unresolved or out of scope."},
+    {"kind_id": "brand", "definition": "A market-facing name or identity that may be operated by one or more legal entities."},
+    {"kind_id": "product", "definition": "An offered product or service with its own lifecycle and provider relationship."},
+    {"kind_id": "project", "definition": "A coordinated body of work or maintained open-source project, not automatically a legal entity or product."},
+    {"kind_id": "foundation", "definition": "A foundation or stewarding organization, distinct from projects it hosts."},
+    {"kind_id": "standards_body", "definition": "An authority that publishes standards or specifications within a declared scope."},
+    {"kind_id": "consortium", "definition": "A multi-party association or collaboration that may lack a single operating legal identity."},
+    {"kind_id": "public_agency", "definition": "A public-sector authority or agency established by law or government action."},
+    {"kind_id": "research_institution", "definition": "An institution whose relevant role is research or scholarship."},
+    {"kind_id": "professional_body", "definition": "A membership, accreditation or professional governance organization."},
+    {"kind_id": "software_artifact", "definition": "A versioned software or data artifact distinct from its project, product and operator."}
+  ],
+  "relationship_kinds": [
+    {"relation_id": "operates", "definition": "An entity operates a product, service or brand during a declared valid-time interval."},
+    {"relation_id": "maintains", "definition": "An entity maintains a project or artifact without necessarily owning its semantics."},
+    {"relation_id": "stewards", "definition": "An entity has a declared stewardship role for a project, standard or vocabulary."},
+    {"relation_id": "product_of", "definition": "A product is offered by a provider entity under a bounded evidence claim."},
+    {"relation_id": "project_of", "definition": "A project is hosted or governed by an organization or foundation."},
+    {"relation_id": "subsidiary_of", "definition": "A legal entity is a subsidiary of another under an identified authority and valid time."},
+    {"relation_id": "direct_accounting_parent_of", "definition": "A legal entity is the direct accounting-consolidating parent under the applicable reporting scope."},
+    {"relation_id": "ultimate_accounting_parent_of", "definition": "A legal entity is the ultimate accounting-consolidating parent under the applicable reporting scope."},
+    {"relation_id": "acquired_by", "definition": "A bounded acquisition event relates predecessor and acquiring entities without implying product or semantic identity."},
+    {"relation_id": "merged_into", "definition": "An entity ceased or changed through a documented merger into another entity."},
+    {"relation_id": "renamed_to", "definition": "The same entity adopted a documented successor name at a valid time."},
+    {"relation_id": "predecessor_of", "definition": "An entity, product, project or artifact precedes another without asserting identity."},
+    {"relation_id": "successor_of", "definition": "An entity, product, project or artifact succeeds another without asserting identity."},
+    {"relation_id": "new_version_of", "definition": "A versioned resource is a modified or updated edition of another resource."},
+    {"relation_id": "version_of", "definition": "A versioned resource is an instance of an unversioned or concept-level resource."},
+    {"relation_id": "alternate_identifier_for", "definition": "An authoritative identifier maps to the same entity within the identifier authority's scope."}
+  ],
+  "relationship_required_fields": [
+    "subject_entity_id",
+    "relation_id",
+    "object_entity_id",
+    "valid_from",
+    "valid_to",
+    "evidence_claim_id",
+    "authority_scope",
+    "verification_state"
+  ],
+  "resolution_laws": [
+    "No relation is inferred from a normalized name match.",
+    "Every temporal or ownership relation requires a claim-bound evidence locator.",
+    "Legal-entity parentage does not imply product ownership, semantic authority or implementation responsibility.",
+    "Version and succession relations preserve kind and scope instead of collapsing all predecessors into one identity."
+  ],
+  "completion_claim": false
+}

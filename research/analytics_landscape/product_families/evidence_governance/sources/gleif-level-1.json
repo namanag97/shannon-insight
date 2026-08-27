@@ -1,0 +1,16 @@
+{
+  "source_id": "src_gleif_level_1",
+  "title": "Level 1 Data: Who is Who",
+  "url": "https://www.gleif.org/en/lei-data/access-and-use-lei-data/level-1-data-who-is-who",
+  "issuing_authority": "Global Legal Entity Identifier Foundation",
+  "evidence_roles": ["standard", "governance"],
+  "bounded_claims": [
+    "LEI reference data can provide authoritative who-is-who information for legal entities within the Global LEI System.",
+    "Historical and current LEI records can be retrieved from the Global LEI Index."
+  ],
+  "non_authority_scope": [
+    "Not every organization, project, product, brand or foundation has an LEI.",
+    "An LEI identifies a legal entity, not every product or project it operates."
+  ],
+  "accessed_on": "2026-08-27"
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "horizontal-evidence-identity-and-claim-governance",
+  "as_of": "2026-08-27",
+  "status": "review_candidate_unratified",
+  "sovereign_question": "What evidence entity, bounded claim, locator, role and gate state may the horizontal research corpus assert without confusing adoption, provenance, semantic authority, implementation qualification or executed acceptance?",
+  "negative_charter": [
+    "Does not define product or bounded-context semantics.",
+    "Does not promote an organization, brand, product, project or foundation into a canonical product.",
+    "Does not infer legal identity, acquisition, rename, parentage, control or succession from names, domains or shared branding.",
+    "Does not treat a homepage or source URL as proof of a bounded claim.",
+    "Does not treat an independent product implementation as semantic authority.",
+    "Does not convert a proposed evidence role into semantic ratification.",
+    "Does not invent implementation qualification or executed vertical acceptance.",
+    "Does not require optional AI or agent functionality."
+  ],
+  "owned_artifacts": [
+    "EvidenceEntityRecord",
+    "EvidenceIdentityGap",
+    "EvidenceClaim",
+    "EvidenceLocator",
+    "EvidenceRoleAssignment",
+    "EvidenceGateState",
+    "EvidenceGovernanceFrontier"
+  ],
+  "gate_order": [
+    "RESEARCH_PROPOSAL",
+    "SEMANTIC_RATIFICATION",
+    "IMPLEMENTATION_QUALIFICATION",
+    "EXECUTED_ACCEPTANCE"
+  ],
+  "gate_laws": [
+    "Research proposal may prepare evidence and decisions but may not mint semantic authority.",
+    "Semantic ratification requires a named authority decision over an exact payload.",
+    "Implementation qualification requires reproducible implementation evidence against an exact contract.",
+    "Executed acceptance requires a physical occurrence and acceptance receipt for the declared vertical and environment.",
+    "Later gates imply neither portability nor a different gate unless an explicit contract says so."
+  ],
+  "locator_requirements": {
+    "required_fields": [
+      "source_url",
+      "selector_kind",
+      "selector_value",
+      "source_state",
+      "locator_state",
+      "exact_claim_support"
+    ],
+    "exact_support_requires": [
+      "stable selector or record identifier",
+      "recoverable source representation or source-state identifier",
+      "validator-confirmed match to the bounded claim"
+    ],
+    "recognized_selector_kinds": [
+      "uri_fragment",
+      "text_quote",
+      "text_position",
+      "json_pointer",
+      "xpath",
+      "csv_fragment",
+      "pdf_page_region",
+      "record_identifier"
+    ]
+  },
+  "non_collapse_laws": [
+    "organization != legal_entity",
+    "legal_entity != brand",
+    "brand != product",
+    "product != project",
+    "project != foundation",
+    "foundation != standards_body",
+    "name_similarity != identity",
+    "shared_domain_or_branding != legal_identity",
+    "source_url != claim_locator",
+    "homepage != product_capability_evidence",
+    "adoption_evidence != semantic_authority",
+    "provenance_attribution != ownership_authority",
+    "parent_relationship != acquisition",
+    "acquisition != product_succession",
+    "rename != same_entity_without_valid_time_evidence",
+    "version_relation != corporate_identity_relation",
+    "proposed_evidence_role != ratified_evidence_role",
+    "semantic_ratification != implementation_qualification",
+    "implementation_qualification != executed_acceptance",
+    "generated_ledger != repaired_source_debt"
+  ],
+  "primary_source_cards": [
+    "sources/w3c-prov-o.json",
+    "sources/w3c-web-annotation.json",
+    "sources/datacite-metadata-schema-4-7.json",
+    "sources/gleif-level-1.json",
+    "sources/gleif-level-2.json"
+  ],
+  "completion_claim": false
+}

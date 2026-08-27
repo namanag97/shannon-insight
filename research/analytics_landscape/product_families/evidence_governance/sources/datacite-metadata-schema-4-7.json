@@ -1,0 +1,16 @@
+{
+  "source_id": "src_datacite_metadata_schema_4_7",
+  "title": "DataCite Metadata Schema 4.7 and Versioning Guidance",
+  "url": "https://schema.datacite.org/",
+  "issuing_authority": "DataCite",
+  "evidence_roles": ["standard", "governance"],
+  "bounded_claims": [
+    "Versioned resources can use typed relations such as IsPreviousVersionOf, IsNewVersionOf, HasVersion and IsVersionOf.",
+    "Resource identity and version succession should be represented explicitly rather than inferred from titles."
+  ],
+  "non_authority_scope": [
+    "Version relations for citable resources do not establish corporate acquisition, legal parentage or semantic ownership.",
+    "DataCite metadata does not qualify an implementation."
+  ],
+  "accessed_on": "2026-08-27"
+}

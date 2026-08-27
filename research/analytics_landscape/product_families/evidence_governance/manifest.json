@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "horizontal-evidence-governance",
+  "as_of": "2026-08-27",
+  "status": "review_candidate_unratified",
+  "source_corpus": "research/analytics_landscape/product_families/manifest.json",
+  "source_model": "source_model.py",
+  "builder": "build.py",
+  "validator": "validate.py",
+  "record_schema": "evidence-governance.schema.json",
+  "policies": [
+    "policy.json",
+    "evidence-role-taxonomy.json",
+    "entity-identity-taxonomy.json"
+  ],
+  "primary_source_cards": [
+    "sources/w3c-prov-o.json",
+    "sources/w3c-web-annotation.json",
+    "sources/datacite-metadata-schema-4-7.json",
+    "sources/gleif-level-1.json",
+    "sources/gleif-level-2.json"
+  ],
+  "generated_outputs": [
+    "generated/entity-registry.jsonl",
+    "generated/identity-gaps.jsonl",
+    "generated/organization-membership-claims.jsonl",
+    "generated/research-source-registry.jsonl",
+    "generated/research-membership-claims.jsonl",
+    "generated/frontier.jsonl",
+    "generated/summary.json"
+  ],
+  "governed_requirements": [
+    "HR03_CANONICALIZE_ORGANIZATION_IDENTITY",
+    "HR04_BIND_EVIDENCE_TO_CLAIMS",
+    "HR05_RESEARCH_REFERENCE_ROLES"
+  ],
+  "completion_claim": false
+}

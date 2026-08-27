@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "taxonomy_id": "controlled-evidence-roles",
+  "status": "review_candidate_unratified",
+  "roles": [
+    {
+      "role_id": "foundational_theory",
+      "definition": "Defines or analyzes concepts, formal properties or explanatory theory.",
+      "sufficient_for": ["research proposal when bound to the exact theoretical claim"],
+      "not_sufficient_for": ["implementation qualification", "executed acceptance"]
+    },
+    {
+      "role_id": "algorithm",
+      "definition": "Defines a computational or analytical method, its assumptions, operations or complexity.",
+      "sufficient_for": ["candidate method contract when the exact algorithmic claim is located"],
+      "not_sufficient_for": ["provider qualification", "domain-semantic authority"]
+    },
+    {
+      "role_id": "architecture",
+      "definition": "Provides component, boundary, interface, lifecycle or deployment structure evidence.",
+      "sufficient_for": ["candidate architecture or seam falsification"],
+      "not_sufficient_for": ["semantic ratification", "physical execution proof"]
+    },
+    {
+      "role_id": "standard",
+      "definition": "Provides normative requirements or controlled vocabulary from an identified standards authority.",
+      "sufficient_for": ["candidate conformance obligations within the standard's exact scope"],
+      "not_sufficient_for": ["universal product boundary", "implementation qualification"]
+    },
+    {
+      "role_id": "empirical_validation",
+      "definition": "Reports observations, experiments, benchmarks or measured outcomes relevant to a bounded claim.",
+      "sufficient_for": ["empirical support within the studied population and method"],
+      "not_sufficient_for": ["universal truth", "executed repository acceptance"]
+    },
+    {
+      "role_id": "human_factors",
+      "definition": "Provides evidence about human work, cognition, accessibility, interaction, safety or organizational behavior.",
+      "sufficient_for": ["candidate human-work and experience requirements"],
+      "not_sufficient_for": ["runtime qualification", "business authority"]
+    },
+    {
+      "role_id": "governance",
+      "definition": "Defines authority, accountability, assurance, policy, risk, privacy, security or audit obligations.",
+      "sufficient_for": ["candidate governance constraints within its issuing scope"],
+      "not_sufficient_for": ["provider implementation evidence", "vertical acceptance"]
+    },
+    {
+      "role_id": "product_boundary_evidence",
+      "definition": "Helps falsify merge, split, demotion, externalization or ownership decisions for a product boundary.",
+      "sufficient_for": ["candidate boundary adjudication when independent lifecycle and negative evidence are present"],
+      "not_sufficient_for": ["product ratification by itself"]
+    },
+    {
+      "role_id": "adoption_evidence",
+      "definition": "Shows that an independently operated product, project or organization addresses some related job or capability.",
+      "sufficient_for": ["discovering candidate needs, seams or provider patterns"],
+      "not_sufficient_for": ["canonical semantics", "product completeness", "implementation qualification"]
+    },
+    {
+      "role_id": "implementation_reference",
+      "definition": "Describes a concrete provider, project, API, runtime or technical implementation.",
+      "sufficient_for": ["candidate provider contract and implementation pattern research"],
+      "not_sufficient_for": ["semantic authority", "independent qualification"]
+    },
+    {
+      "role_id": "unclassified_research_evidence",
+      "definition": "Explicit debt used when committed metadata cannot defensibly assign a narrower controlled role.",
+      "sufficient_for": ["preserving the source for later review"],
+      "not_sufficient_for": ["any semantic, implementation, qualification or acceptance gate"]
+    }
+  ],
+  "assignment_laws": [
+    "A source may serve multiple roles for different bounded claims.",
+    "A role applies to a source-claim binding, not permanently to the source.",
+    "Heuristic role proposals remain unratified.",
+    "Independent products are adoption evidence, never default semantic authority."
+  ],
+  "completion_claim": false
+}

@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.dev/schemas/horizontal-evidence-governance/1.0.0",
+  "title": "Horizontal evidence identity and claim governance records",
+  "type": "object",
+  "$defs": {
+    "nonCompletion": {
+      "type": "boolean",
+      "const": false
+    },
+    "httpsUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "evidenceLocator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_url",
+        "selector_kind",
+        "selector_value",
+        "source_state",
+        "locator_state",
+        "exact_claim_support"
+      ],
+      "properties": {
+        "source_url": {"$ref": "#/$defs/httpsUrl"},
+        "selector_kind": {"type": ["string", "null"]},
+        "selector_value": {"type": ["string", "null"]},
+        "source_state": {"type": ["string", "null"]},
+        "locator_state": {
+          "enum": [
+            "RESOURCE_ONLY_EXACT_SELECTOR_MISSING",
+            "RESOURCE_IDENTIFIER_ONLY",
+            "FRAGMENT_PRESENT_UNVERIFIED",
+            "EXACT_SELECTOR_VERIFIED"
+          ]
+        },
+        "exact_claim_support": {"type": "boolean"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"exact_claim_support": {"const": true}}},
+          "then": {
+            "properties": {
+              "selector_kind": {"type": "string", "minLength": 1},
+              "selector_value": {"type": "string", "minLength": 1},
+              "source_state": {"type": "string", "minLength": 1},
+              "locator_state": {"const": "EXACT_SELECTOR_VERIFIED"}
+            }
+          }
+        }
+      ]
+    },
+    "roleAssignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["roles", "role_state", "rationale"],
+      "properties": {
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "foundational_theory",
+              "algorithm",
+              "architecture",
+              "standard",
+              "empirical_validation",
+              "human_factors",
+              "governance",
+              "product_boundary_evidence",
+              "adoption_evidence",
+              "implementation_reference",
+              "unclassified_research_evidence"
+            ]
+          }
+        },
+        "role_state": {
+          "enum": [
+            "CONTROLLED_ADOPTION_ROLE",
+            "PROPOSED_UNRATIFIED",
+            "UNCLASSIFIED_EXPLICIT_DEBT",
+            "RATIFIED"
+          ]
+        },
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "entityRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_id",
+        "display_name",
+        "primary_url",
+        "source_declared_kind",
+        "canonical_entity_kind",
+        "identity_state",
+        "authoritative_identifiers",
+        "aliases",
+        "source_family_ids",
+        "semantic_authority",
+        "completion_claim"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "pattern": "^org_"},
+        "display_name": {"type": "string", "minLength": 1},
+        "primary_url": {"$ref": "#/$defs/httpsUrl"},
+        "source_declared_kind": {"type": "string", "minLength": 1},
+        "canonical_entity_kind": {"type": "string", "minLength": 1},
+        "identity_state": {
+          "enum": ["PROVISIONAL_INTERNAL_HANDLE", "AUTHORITATIVELY_RESOLVED"]
+        },
+        "authoritative_identifiers": {"type": "array", "items": {"type": "object"}},
+        "aliases": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "source_family_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^hpf_"}
+        },
+        "semantic_authority": {"type": "boolean", "const": false},
+        "completion_claim": {"$ref": "#/$defs/nonCompletion"}
+      }
+    },
+    "evidenceClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "claim_kind",
+        "subject_id",
+        "predicate",
+        "object_id",
+        "statement",
+        "family_id",
+        "evidence_bindings",
+        "role_assignment",
+        "claim_state",
+        "semantic_authority",
+        "implementation_qualification",
+        "executed_acceptance",
+        "completion_claim"
+      ],
+      "properties": {
+        "claim_id": {"type": "string", "pattern": "^claim_"},
+        "claim_kind": {"type": "string", "minLength": 1},
+        "subject_id": {"type": "string", "minLength": 1},
+        "predicate": {"type": "string", "minLength": 1},
+        "object_id": {"type": "string", "minLength": 1},
+        "statement": {"type": "string", "minLength": 20},
+        "family_id": {"type": "string", "pattern": "^hpf_"},
+        "evidence_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/evidenceLocator"}
+        },
+        "role_assignment": {"$ref": "#/$defs/roleAssignment"},
+        "claim_state": {
+          "enum": [
+            "UNVERIFIED_EXPLICIT_DEBT",
+            "PROPOSED_UNRATIFIED",
+            "SEMANTICALLY_RATIFIED"
+          ]
+        },
+        "semantic_authority": {"type": "boolean", "const": false},
+        "implementation_qualification": {"type": "boolean", "const": false},
+        "executed_acceptance": {"type": "boolean", "const": false},
+        "completion_claim": {"$ref": "#/$defs/nonCompletion"}
+      }
+    },
+    "identityGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gap_id",
+        "entity_id",
+        "status",
+        "required_reviews",
+        "inference_prohibitions",
+        "completion_claim"
+      ],
+      "properties": {
+        "gap_id": {"type": "string", "pattern": "^identity_gap_org_"},
+        "entity_id": {"type": "string", "pattern": "^org_"},
+        "status": {"const": "OPEN_EXPLICIT_DEBT"},
+        "required_reviews": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "inference_prohibitions": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "completion_claim": {"$ref": "#/$defs/nonCompletion"}
+      }
+    }
+  }
+}

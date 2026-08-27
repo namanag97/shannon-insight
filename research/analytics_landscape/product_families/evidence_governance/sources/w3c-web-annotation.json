@@ -1,0 +1,16 @@
+{
+  "source_id": "src_w3c_web_annotation",
+  "title": "Web Annotation Data Model",
+  "url": "https://www.w3.org/TR/annotation-model/",
+  "issuing_authority": "World Wide Web Consortium",
+  "evidence_roles": ["standard", "architecture"],
+  "bounded_claims": [
+    "Selectors can identify a segment of a source using fragments, exact text or positions.",
+    "A source state can help identify the intended representation of a changing resource."
+  ],
+  "non_authority_scope": [
+    "A selector does not prove that the selected passage supports the claim.",
+    "The model does not ratify evidence roles or product boundaries."
+  ],
+  "accessed_on": "2026-08-27"
+}

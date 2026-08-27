@@ -1,0 +1,76 @@
+{
+  "protocol_id": "protocol.data_sharing_exact_scope.edition1",
+  "edition": 1,
+  "as_of": "2026-08-27",
+  "product_ref": "product.data_sharing_exchange",
+  "abstract_contract_ref": "library.data_sharing_contract",
+  "canonical_projection_ref": "library.persistence.sharing_contract",
+  "implementation_profiles": [
+    {
+      "id": "implementation.data_sharing.functional_copy_on_write.v1",
+      "control_identity": "same_campaign_reference_implementation",
+      "state_model": "copy_on_write_functional"
+    },
+    {
+      "id": "implementation.data_sharing.append_only_event_reducer.v1",
+      "control_identity": "same_campaign_reference_implementation",
+      "state_model": "append_only_event_reducer"
+    }
+  ],
+  "exact_contract": {
+    "decisions": [
+      "cut_resolution_policy",
+      "recipient_binding_policy",
+      "purpose_binding_policy",
+      "grant_scope_policy",
+      "revocation_policy",
+      "recall_policy",
+      "export_policy"
+    ],
+    "operations": [
+      "draft_share",
+      "publish_share",
+      "resolve_shared_cut",
+      "adjudicate_grant",
+      "create_subscription",
+      "record_disclosure",
+      "revoke_grant",
+      "recall_cut",
+      "export_share"
+    ],
+    "invariants": [
+      "share grant subscription disclosure and consumption are distinct",
+      "every disclosure binds exact cut recipient purpose grant and policy",
+      "revoked grants authorize no new disclosure",
+      "source semantic ownership never transfers",
+      "recall retains unresolved downstream residuals"
+    ],
+    "refusals": [
+      "provider_authority_missing",
+      "shared_cut_unresolved",
+      "recipient_unresolved",
+      "purpose_unbound",
+      "policy_refused",
+      "grant_expired_or_revoked",
+      "recall_incomplete",
+      "export_incomplete"
+    ]
+  },
+  "required_profiles": [
+    "positive_lifecycle",
+    "all_refusal_codes",
+    "revocation_monotonicity",
+    "recall_residual_preservation",
+    "source_semantic_owner_preservation",
+    "deterministic_replay",
+    "cross_implementation_differential"
+  ],
+  "resource_budget": {
+    "max_operations_per_case": 64,
+    "max_shared_objects": 32,
+    "max_recipients": 32,
+    "network_access": false,
+    "ambient_io": false
+  },
+  "promotion_law": "Executed test success is evidence only. Same-campaign implementations cannot satisfy independent implementation or independent appraisal gates, and no product, provider or portable offer is promoted by this protocol."
+}

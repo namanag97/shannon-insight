@@ -1,0 +1,42 @@
+{
+  "as_of": "2026-08-27",
+  "counts": {
+    "differential_cases": 3,
+    "implementation_cases": 24,
+    "implementations": 2,
+    "refusal_classes": 8
+  },
+  "edition": 1,
+  "files": {
+    "README.md": {
+      "bytes": 1903,
+      "sha256": "6ed62e314f727e3256c3afbbfd10f033bc2b6fc0722e3698b4215b4db757d6c0"
+    },
+    "implementation_functional.py": {
+      "bytes": 8356,
+      "sha256": "e1d44c3142a83afd1270fc58ac7534ee336f6aee4dbffe32525ce50e8f82420e"
+    },
+    "implementation_reducer.py": {
+      "bytes": 9271,
+      "sha256": "01da38aa924903d7b744989c97bb17272bb5847cafb04d970b84b2c5bdb4ab36"
+    },
+    "protocol.json": {
+      "bytes": 2480,
+      "sha256": "f66cb6e7854f32eea0874af9d4cbd57549232f2f0d201e3d5ebaecd99f1294f0"
+    },
+    "qualification-binding.json": {
+      "bytes": 1149,
+      "sha256": "b81d1a44553f65ef95fd45c0583cea061152b17b2eac7b5dab0497e4f1410d89"
+    },
+    "run_execution.py": {
+      "bytes": 12557,
+      "sha256": "df108cc2d006c5f5ef9dc2efb31229434888f7785c3790b7a2167ce74a16f5ff"
+    },
+    "runs/run-20260827-linux-x86_64-python3_13-001/receipt.json": {
+      "bytes": 6963,
+      "sha256": "d4ced1b8201800ad58a5ebfe99962d918ec45778bef1440ac02c33f9de1fa0cb"
+    }
+  },
+  "manifest_id": "manifest.data_sharing_exact_scope.edition1",
+  "qualification_claim": false
+}

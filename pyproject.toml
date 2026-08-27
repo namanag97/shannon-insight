@@ -48,6 +48,7 @@ dev = [
     "pytest-cov>=4.0.0",
     "jsonschema>=4.0.0",
     "mypy>=1.0.0",
+    "types-psutil>=7.0.0",
     "ruff>=0.1.0",
     "build>=0.10.0",
     "twine>=4.0.0",
@@ -148,7 +149,9 @@ known-first-party = ["shannon_insight"]
 line-ending = "auto"
 
 [tool.mypy]
-python_version = "3.9"
+# Runtime compatibility is exercised independently across Python 3.9-3.13.
+# Static analysis runs on Python 3.12 so current NumPy/SciPy stub syntax is admitted.
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false

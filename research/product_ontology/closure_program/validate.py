@@ -18,10 +18,15 @@ tranches = load("closure-tranches.jsonl")
 batch = load("source-authority-ratification-batch.jsonl")
 closure_summary = json.loads((HERE / "summary.json").read_text(encoding="utf-8"))
 assert len(tranches) == 9
-assert sum(row["quotient_count"] for row in tranches) == 686
 rebase_summary = json.loads((HERE.parent / "research_convergence_rebase/summary.json").read_text(encoding="utf-8"))
+assert sum(row["quotient_count"] for row in tranches) == rebase_summary["current_gap_quotients"]
 assert sum(row["atom_count"] for row in tranches) == rebase_summary["current_gap_atoms"]
-assert len(batch) == 23 and len({row["family_ref"] for row in batch}) == 23
+assert sum(row["research_residual_quotient_count"] for row in tranches) == rebase_summary["research_residual_quotients"]
+assert sum(row["research_residual_atom_count"] for row in tranches) == rebase_summary["research_residual_atoms"]
+assert len(batch) == closure_summary["source_authority_prepared_payload_count"]
+assert len({row["family_ref"] for row in batch}) == len(batch)
+assert closure_summary["source_authority_current_family_count"] == next(row["quotient_count"] for row in tranches if row["gap_kind"] == "source-authority")
+assert closure_summary["source_authority_unprepared_family_count"] == next(row["research_residual_quotient_count"] for row in tranches if row["gap_kind"] == "source-authority")
 assert all(row["status"] == "READY_FOR_NAMED_RATIFIER_REVIEW" for row in batch)
 assert all(all(row["checks"].values()) for row in batch)
 assert closure_summary["canonical_gaps_closed"] == 0
@@ -37,4 +42,4 @@ for script in (
         raise SystemExit((result.stdout + "\n" + result.stderr).strip())
     print(result.stdout.strip())
 
-print(f"PASS closure cockpit: 686 historical quotients / {rebase_summary['current_gap_atoms']:,} atoms retained as trace; live master frontier validated separately; first 23 source-authority decisions are ratifier-ready")
+print(f"PASS closure cockpit: {rebase_summary['prior_gap_quotients']} prior-snapshot quotients retained as provenance; {rebase_summary['current_gap_quotients']} live quotients / {rebase_summary['current_gap_atoms']:,} atoms; {rebase_summary['research_residual_quotients']} research residual quotients / {rebase_summary['research_residual_atoms']} atoms; {len(batch)} source-authority decisions prepared")

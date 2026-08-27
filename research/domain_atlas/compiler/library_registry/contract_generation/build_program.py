@@ -26,7 +26,7 @@ AS_OF = "2026-08-26"
 EXECUTION_WAVES = [
     ("wave0_boundary_and_shapes", ["candidate_data_shapes"]),
     ("wave1_shared_foundations", ["shared_semantic_foundations", "representation_codec"]),
-    ("wave2_execution_spine", ["connector_protocol", "messaging_coordination", "persistence_lakehouse", "pipeline_dataflow", "query_compilation_execution", "runtime_resource_control"]),
+    ("wave2_execution_spine", ["application_behavior", "connector_protocol", "messaging_coordination", "persistence_lakehouse", "pipeline_dataflow", "query_compilation_execution", "runtime_resource_control"]),
     ("wave3_assurance_and_control", ["governance_metadata_ontology", "lineage_provenance_evidence", "quality_reconciliation", "security_privacy_trust"]),
     ("wave4_analytical_methods", ["analytical_method_kernels", "experimentation_lifecycle", "forecasting_lifecycle", "geospatial_analytics", "operations_research", "predictive_analytics", "semantic_metrics_formulas"]),
     ("wave5_consumption_and_commercial", ["consumption_bi_visualization", "platform_commercial_support"]),

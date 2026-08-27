@@ -1,36 +1,36 @@
 {
   "as_of": "2026-08-27",
-  "authority_review_ready_templates": 527,
-  "blocked_templates": 125,
-  "boundary_dockets": 460,
+  "authority_review_ready_templates": 535,
+  "blocked_templates": 126,
+  "boundary_dockets": 467,
   "boundary_dockets_blocked": 102,
-  "boundary_dockets_ready": 358,
+  "boundary_dockets_ready": 365,
   "canonical_gaps_closed": 0,
   "canonical_mutations_allowed": 0,
   "collision_dockets": 146,
   "completion_claim": false,
   "edition": 1,
-  "family_constitution_dockets": 23,
+  "family_constitution_dockets": 24,
   "input_snapshot": {
-    "aggregate_sha256": "68b3413f55fb279f62f523f392f0d7b39a7244007661c052cd7c30f9f18675b0",
+    "aggregate_sha256": "8e307d38a7a7af5dc1742e4da2247cec939032af66a858f7be9dd0a1fca3ed1d",
     "files": [
       {
-        "bytes": 65817,
+        "bytes": 67834,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/source-authority-packets.jsonl",
-        "record_count": 23,
-        "sha256": "aab53dc56ea1ad9f0125a65b19d0c09a390ce2e116a94062e44e6bb74a2e89cc"
+        "record_count": 24,
+        "sha256": "f9b770fce59202e9d44274ba9ebc28b182da5a40e5fefe3c262303168cd241bf"
       },
       {
-        "bytes": 70325,
+        "bytes": 72722,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/readiness-audits.jsonl",
-        "record_count": 23,
-        "sha256": "0908105269a133a1e54e000d6364d678dec096cc3cb1130f015ca4a9d57bf9db"
+        "record_count": 24,
+        "sha256": "c23f8be0eb5b6c46545b978818f2afdb885b2a6eeffc3d2fd4ceee4196cb56b7"
       },
       {
-        "bytes": 392275,
+        "bytes": 398176,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/boundary-falsification-clusters.jsonl",
-        "record_count": 460,
-        "sha256": "63322714d6fd7d09bde4f96c876f72cfa04a3e80c8d99e865bee815a686e5c5f"
+        "record_count": 467,
+        "sha256": "05638d62138e7c601afecb1abc3b7fbcf7e18358cf4f7fa55a1540709dbe03b4"
       },
       {
         "bytes": 143562,
@@ -39,22 +39,22 @@
         "sha256": "348951f4addebfb90361549f79df5676a12c232fa9e6aeb9b6d92af34dbcb228"
       },
       {
-        "bytes": 69715,
+        "bytes": 73434,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/family-constitutions.jsonl",
-        "record_count": 23,
-        "sha256": "e819bde3390f7dab507d31799c44bb8a4182ba852471cdc50bc6d2bf9a131941"
+        "record_count": 24,
+        "sha256": "71cd5d4573b15bd71b93df473cde3e50886aa4e89ba611aef1ce267e7d7af479"
       },
       {
-        "bytes": 1383960,
+        "bytes": 1422735,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/family-axis-ratification-packet-templates.jsonl",
-        "record_count": 368,
-        "sha256": "2b1008fe046fcb8bc95210abbc236eee86901a1b2697fb829ab5f6910e8cd920"
+        "record_count": 384,
+        "sha256": "07184c6afe32e144d4136f4f9261dd25e5808c4fac1c6a27c860b948a1781bac"
       }
     ],
-    "snapshot_id": "snapshot.p1b-input.68b3413f55fb279f"
+    "snapshot_id": "snapshot.p1b-input.8e307d38a7a7af5d"
   },
   "program_id": "program.p1b-foundation-authority-adjudication.v1",
-  "ratification_packet_templates": 652,
+  "ratification_packet_templates": 661,
   "ratified_decisions": 0,
-  "source_authority_dockets": 23
+  "source_authority_dockets": 24
 }

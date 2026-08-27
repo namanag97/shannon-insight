@@ -1,13 +1,18 @@
 {
   "architecture_patterns": 1,
+  "artifact_classes": 11,
   "binding_phases": 7,
+  "build_policies": 8,
   "completion_claim": false,
   "components": 6,
   "constitutional_laws": 12,
+  "data_analytics_planes": 15,
   "frontier_classes": 5,
-  "ir_stages": 11,
-  "ir_transforms": 11,
+  "ir_join_rules": 10,
+  "ir_stages": 17,
+  "ir_transforms": 23,
   "operating_modes": 3,
   "outcomes": 2,
-  "products_promoted": 0
+  "products_promoted": 0,
+  "python_toolchain_roles": 9
 }

@@ -3,20 +3,20 @@
   "completion_claim": false,
   "files": {
     "axis-adjudication-workstreams.jsonl": {
-      "bytes": 34244,
-      "sha256": "a229da54a469f5664cfd23e29ca7bbfc609227e9a0708d6541078c442f1c9b7a"
+      "bytes": 34939,
+      "sha256": "89400c2416bc069587faf52f5f262b36ac6efcf4514065fa66abbcd4bb236918"
     },
     "coordinate-cluster-challenges.jsonl": {
-      "bytes": 1196506,
-      "sha256": "ba8f5c23b0aeffdc0097403734cc927038bcb9118a494fb49390e414256b6d74"
+      "bytes": 1218905,
+      "sha256": "a3eabdd94a315cbf57f5cf42be249366166633a6d5892f7adf2c033bbdc00cf1"
     },
     "member-adjudication-occurrences.jsonl": {
-      "bytes": 4641990,
-      "sha256": "bfafa7917a31817439652c704d018d5881feffe35a1cd8a3455693709412614a"
+      "bytes": 4685813,
+      "sha256": "ff0c6d5296188b5115cf80cd3c5c96ef74082472af2825ffb05fd815565a45c7"
     },
     "summary.json": {
       "bytes": 609,
-      "sha256": "2bda553f11ad5e867611dc8bba29eec31a42e72ddb05fcaa7f72c2d756026e07"
+      "sha256": "735807bd11174d0a25b8f1909a404a349addfa4f824fbf4927f9d11918199ede"
     }
   },
   "manifest_id": "manifest.targeted-evidence-cluster-adjudication.v1"

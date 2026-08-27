@@ -1,19 +1,19 @@
 {
-  "all_axis_combined_routes": 10784,
-  "all_axis_existing_primary_routes": 9545,
-  "all_axis_expected_member_cells": 10784,
+  "all_axis_combined_routes": 10912,
+  "all_axis_existing_primary_routes": 9652,
+  "all_axis_expected_member_cells": 10912,
   "as_of": "2026-08-27",
   "canonical_gaps_closed": 0,
-  "combined_routes_in_partial_axes": 4044,
+  "combined_routes_in_partial_axes": 4092,
   "completion_claim": false,
   "coordinate_answers_supplied": 0,
-  "existing_primary_routes": 2805,
-  "expected_cells_in_partial_axes": 4044,
+  "existing_primary_routes": 2832,
+  "expected_cells_in_partial_axes": 4092,
   "member_applicability_decisions": 0,
   "owner_decisions": 0,
   "partial_coordinate_packages": 6,
   "program_id": "program.coordinate-route-completion.v1",
-  "research_clusters": 214,
+  "research_clusters": 223,
   "source_evidence_bindings_supplied": 0,
-  "supplemental_routes": 1239
+  "supplemental_routes": 1260
 }

@@ -3,34 +3,34 @@
   "as_of": "2026-08-27",
   "canonical_exact_gaps_closed": 0,
   "canonical_mutations_allowed": 0,
-  "compiler_lowering_gates": 674,
+  "compiler_lowering_gates": 682,
   "completion_claim": false,
   "dockets_with_collision_dependencies": 108,
-  "dockets_with_shared_symbol_dependencies": 225,
+  "dockets_with_shared_symbol_dependencies": 232,
   "edition": 1,
-  "exact_contract_dockets": 674,
-  "execution_packages": 57,
-  "family_semantic_kernels": 23,
+  "exact_contract_dockets": 682,
+  "execution_packages": 60,
+  "family_semantic_kernels": 24,
   "input_snapshot": {
-    "aggregate_sha256": "011b449c5d239ad31fb2057806a27c7696e067df57ba169621340d997ad90c7f",
+    "aggregate_sha256": "90239934ee52d5c8ee822d6c2a7c2731bd6c13b845f44cdeb79ac717a44ef7f9",
     "files": [
       {
-        "bytes": 1139815,
+        "bytes": 1153060,
         "path": "research/domain_atlas/compiler/library_registry/exact_api_closure/closure-queue.jsonl",
-        "record_count": 674,
-        "sha256": "7cc595bdde30a918175066bb1ee34160224acdcf32845a025b7aba7ea7a7855c"
+        "record_count": 682,
+        "sha256": "5bb5b02721f69f3bb1b12d435d73bcde28d7042def390486297f2f99f4f69030"
       },
       {
-        "bytes": 197457,
+        "bytes": 207439,
         "path": "research/domain_atlas/compiler/library_registry/exact_api_closure/research-batches.jsonl",
-        "record_count": 57,
-        "sha256": "925e123b0e55591d0e9b347fdc802c60c04ca21c6fb9075df3f51f6ccd5ecb62"
+        "record_count": 60,
+        "sha256": "d143a3cdfe43e9e8057a3d4e8c02b5ad10dd940f9805ee06a7b7f3ce3b921318"
       },
       {
-        "bytes": 1370134,
+        "bytes": 1386311,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/library-instance-proposals.jsonl",
-        "record_count": 674,
-        "sha256": "72d08b8ab83b124fb1a166b990a89250dcc1b434a9b6863144f28e11ab283270"
+        "record_count": 682,
+        "sha256": "33474b6343fffb2428115f462e4f53a81025afe9d3cc3f0994716827f8a8bdba"
       },
       {
         "bytes": 28612,
@@ -39,16 +39,16 @@
         "sha256": "156a0011d40323bd95cc00a2db2c5b87325f76b54772d8b1a2378cf66ada401b"
       },
       {
-        "bytes": 69715,
+        "bytes": 73434,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/family-constitutions.jsonl",
-        "record_count": 23,
-        "sha256": "e819bde3390f7dab507d31799c44bb8a4182ba852471cdc50bc6d2bf9a131941"
+        "record_count": 24,
+        "sha256": "71cd5d4573b15bd71b93df473cde3e50886aa4e89ba611aef1ce267e7d7af479"
       },
       {
-        "bytes": 392275,
+        "bytes": 398176,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/boundary-falsification-clusters.jsonl",
-        "record_count": 460,
-        "sha256": "63322714d6fd7d09bde4f96c876f72cfa04a3e80c8d99e865bee815a686e5c5f"
+        "record_count": 467,
+        "sha256": "05638d62138e7c601afecb1abc3b7fbcf7e18358cf4f7fa55a1540709dbe03b4"
       },
       {
         "bytes": 143562,
@@ -57,58 +57,58 @@
         "sha256": "348951f4addebfb90361549f79df5676a12c232fa9e6aeb9b6d92af34dbcb228"
       },
       {
-        "bytes": 100700,
+        "bytes": 104377,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/work-packages.jsonl",
-        "record_count": 57,
-        "sha256": "44e7ce2b84161ffa01c4dca31badd08123ee4686f880745523fc5c0c117b0642"
+        "record_count": 60,
+        "sha256": "26aa154104baecb4a593c66e053fb50ba68c1de622b095bb4f896325cb1484d6"
       },
       {
-        "bytes": 6855357,
+        "bytes": 6926710,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/structured_projection/exact-contract-input-candidates.jsonl",
-        "record_count": 674,
-        "sha256": "8664984007f6da20bcf8282b982ddc575324eb654eb4ab7b256ae86e95b6d34e"
+        "record_count": 682,
+        "sha256": "aadadf96e0d6cf629c5da970a62995504d8831f6697dc5774d4cd20b21822b17"
       },
       {
-        "bytes": 70325,
+        "bytes": 72722,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/readiness-audits.jsonl",
-        "record_count": 23,
-        "sha256": "0908105269a133a1e54e000d6364d678dec096cc3cb1130f015ca4a9d57bf9db"
+        "record_count": 24,
+        "sha256": "c23f8be0eb5b6c46545b978818f2afdb885b2a6eeffc3d2fd4ceee4196cb56b7"
       },
       {
-        "bytes": 65817,
+        "bytes": 67834,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/source-authority-packets.jsonl",
-        "record_count": 23,
-        "sha256": "aab53dc56ea1ad9f0125a65b19d0c09a390ce2e116a94062e44e6bb74a2e89cc"
+        "record_count": 24,
+        "sha256": "f9b770fce59202e9d44274ba9ebc28b182da5a40e5fefe3c262303168cd241bf"
       },
       {
-        "bytes": 1101754,
+        "bytes": 1117558,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1b_foundation_authority_adjudication/ratification-packet-templates.jsonl",
-        "record_count": 652,
-        "sha256": "64e534e89add6e378f3498ef2d82b225ba41309da0256a5e69e169cf7c45d641"
+        "record_count": 661,
+        "sha256": "04c48e2d4d961b5144939a9264b4c584f400eb3d150d25451e25d26d30f23e30"
       },
       {
-        "bytes": 579155,
+        "bytes": 592694,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p2_owner_adjudication/occurrence-relation-proposals.jsonl",
-        "record_count": 666,
-        "sha256": "28f4d4033854b4d8dcfb1d5286c357028c2a47c4f5eef124667a8cdb94ad6a2b"
+        "record_count": 681,
+        "sha256": "faaac720472f5fbff5dd88698c10cd5e8c3a07d9763b9ff70acea1684564d1c7"
       },
       {
-        "bytes": 534303,
+        "bytes": 551646,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p2_owner_adjudication/owner-ratification-packet-templates.jsonl",
-        "record_count": 210,
-        "sha256": "361cfc684f169b9a4589065dd1e0940ef9f13634bd0f02a08c389ad3da5aecab"
+        "record_count": 217,
+        "sha256": "69a1e18e6e9e0c4bc4405ecd7a7e997a6567bb60e32f68e64660bbf47fa16f87"
       },
       {
-        "bytes": 1195093,
+        "bytes": 1224809,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/family-axis-review-dockets.jsonl",
-        "record_count": 368,
-        "sha256": "6686ad3ae372029939f9fa9dc6a089ef6e1d48816d87753b40e8c016cb1f055f"
+        "record_count": 384,
+        "sha256": "502758e2eb96563855ca87073fa0a2508c75d6b36863d5cd908d90222f3d8914"
       },
       {
-        "bytes": 1383960,
+        "bytes": 1422735,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/family-axis-ratification-packet-templates.jsonl",
-        "record_count": 368,
-        "sha256": "2b1008fe046fcb8bc95210abbc236eee86901a1b2697fb829ab5f6910e8cd920"
+        "record_count": 384,
+        "sha256": "07184c6afe32e144d4136f4f9261dd25e5808c4fac1c6a27c860b948a1781bac"
       },
       {
         "bytes": 0,
@@ -117,18 +117,18 @@
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       },
       {
-        "bytes": 129492,
+        "bytes": 130152,
         "path": "research/domain_atlas/compiler/library_registry/dependency-edges.jsonl",
-        "record_count": 196,
-        "sha256": "884a17354c9904f73c53d6ca9d1783d5edd59713c11c68422ae6c52cd016d3bd"
+        "record_count": 197,
+        "sha256": "f1b5431e01e3e65104d738186bfa7c14176fab02ba9c65cfe5dce212a4e130c5"
       }
     ],
-    "snapshot_id": "snapshot.p5-input.011b449c5d239ad3"
+    "snapshot_id": "snapshot.p5-input.90239934ee52d5c8"
   },
   "lowered_exact_contract_candidates": 0,
   "populated_archetype_obligation_kernels": 15,
   "program_id": "program.p5-exact-contract-adjudication.v1",
-  "ratification_packet_templates": 674,
+  "ratification_packet_templates": 682,
   "ratified_exact_contracts": 0,
   "verified_prerequisite_bindings": 0
 }

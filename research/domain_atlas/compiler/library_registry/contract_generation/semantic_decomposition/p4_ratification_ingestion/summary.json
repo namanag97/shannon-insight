@@ -7,31 +7,31 @@
   "completion_claim": false,
   "edition": 1,
   "input_snapshot": {
-    "aggregate_sha256": "2de4c75729323603bac9c44bc39f130cdd885b79b2a6ec8477c518fca31237e5",
+    "aggregate_sha256": "752e168587af3fb97c9950fb20b4141854ee5fe6feb1a955b4332dfb32f620b2",
     "files": [
       {
-        "bytes": 1101754,
+        "bytes": 1117558,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1b_foundation_authority_adjudication/ratification-packet-templates.jsonl",
-        "record_count": 652,
-        "sha256": "64e534e89add6e378f3498ef2d82b225ba41309da0256a5e69e169cf7c45d641"
+        "record_count": 661,
+        "sha256": "04c48e2d4d961b5144939a9264b4c584f400eb3d150d25451e25d26d30f23e30"
       },
       {
-        "bytes": 534303,
+        "bytes": 551646,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p2_owner_adjudication/owner-ratification-packet-templates.jsonl",
-        "record_count": 210,
-        "sha256": "361cfc684f169b9a4589065dd1e0940ef9f13634bd0f02a08c389ad3da5aecab"
+        "record_count": 217,
+        "sha256": "69a1e18e6e9e0c4bc4405ecd7a7e997a6567bb60e32f68e64660bbf47fa16f87"
       },
       {
-        "bytes": 1383960,
+        "bytes": 1422735,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/family-axis-ratification-packet-templates.jsonl",
-        "record_count": 368,
-        "sha256": "2b1008fe046fcb8bc95210abbc236eee86901a1b2697fb829ab5f6910e8cd920"
+        "record_count": 384,
+        "sha256": "07184c6afe32e144d4136f4f9261dd25e5808c4fac1c6a27c860b948a1781bac"
       },
       {
-        "bytes": 2669376,
+        "bytes": 2700922,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p5_exact_contract_adjudication/exact-contract-ratification-packet-templates.jsonl",
-        "record_count": 674,
-        "sha256": "53c14d47fc64015ee623e0420bd3c6a993f4feb0c22beea541861e4ba5ae41c2"
+        "record_count": 682,
+        "sha256": "01b9593d7209e1c63f7f0cfe3521fc5b906e9d2e5f715aaa655acbac516fadec"
       },
       {
         "bytes": 0,
@@ -46,12 +46,12 @@
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       }
     ],
-    "snapshot_id": "snapshot.p4-input.2de4c75729323603"
+    "snapshot_id": "snapshot.p4-input.752e168587af3fb9"
   },
   "program_id": "program.p4-ratification-ingestion.v1",
   "receipt_refusals": 0,
   "submitted_ratification_receipts": 0,
-  "total_templates": 1904,
-  "unratified_templates": 1904,
+  "total_templates": 1944,
+  "unratified_templates": 1944,
   "verified_ratifications": 0
 }

@@ -7,15 +7,15 @@
   "axis": "authority_and_trust",
   "canonical_gaps_closed": 0,
   "completion_claim": false,
-  "family_extension_candidates": 23,
+  "family_extension_candidates": 24,
   "family_source_evidence_bindings_supplied": 0,
   "member_applicability_decisions": 0,
   "owner_decisions": 0,
   "primary_sources": 12,
   "program_id": "program.authority-trust-coordinate-ontology-and-rebase.v1",
-  "research_clusters": 38,
+  "research_clusters": 39,
   "routes_with_lexical_discovery_projection": 23,
-  "routes_with_no_member_authority_trust_evidence": 651,
-  "structural_family_dockets": 23,
-  "target_member_routes": 674
+  "routes_with_no_member_authority_trust_evidence": 659,
+  "structural_family_dockets": 24,
+  "target_member_routes": 682
 }

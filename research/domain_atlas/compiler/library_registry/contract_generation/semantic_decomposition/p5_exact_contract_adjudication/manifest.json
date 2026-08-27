@@ -3,32 +3,32 @@
   "completion_claim": false,
   "files": {
     "archetype-obligation-kernels.jsonl": {
-      "bytes": 91321,
-      "sha256": "8f77d30ce83415eace61ba531b8162bfc0573cb867581704bcab9954580f1741"
+      "bytes": 92177,
+      "sha256": "0cb0d1bccd61a757c3dcd635a8f596a793458ab915606f3d2c416d03e7b42cc4"
     },
     "compiler-lowering-gates.jsonl": {
-      "bytes": 1757355,
-      "sha256": "df7819bf60cb5911ca81ad87c29b48ed9dbbb82956e2604665dfd34017393ef5"
+      "bytes": 1778175,
+      "sha256": "30a564a36e2ff6d8e2a7ce8841fa2fe22b3f4e43a0d6f0b184e8935cd9995093"
     },
     "contract-dimension-ontology.json": {
       "bytes": 710,
       "sha256": "c195343eb0968935b9d4de55466010aa418a1e4420a3885747dddbeaa6a6ead4"
     },
     "exact-contract-dockets.jsonl": {
-      "bytes": 5613796,
-      "sha256": "fc2f017390f83aeaf6146bfed601f7749a86e1069e2d46774facd15b5b12d4f9"
+      "bytes": 5680096,
+      "sha256": "62c9294dad2a66971b8f895be7a895111fdd8a1fa89d882f013311935c148fa6"
     },
     "exact-contract-ratification-packet-templates.jsonl": {
-      "bytes": 2669376,
-      "sha256": "53c14d47fc64015ee623e0420bd3c6a993f4feb0c22beea541861e4ba5ae41c2"
+      "bytes": 2700922,
+      "sha256": "01b9593d7209e1c63f7f0cfe3521fc5b906e9d2e5f715aaa655acbac516fadec"
     },
     "execution-packages.jsonl": {
-      "bytes": 121700,
-      "sha256": "ced9025c35fd2839ac38c10fa509cee2173c484d6773747f178adb15ad41f9e2"
+      "bytes": 124987,
+      "sha256": "902f09caa9d3393406c91c7d76644914dc76ba5a0de860fe20656f1270ae1c93"
     },
     "family-semantic-kernels.jsonl": {
-      "bytes": 134335,
-      "sha256": "c793cf78e0c0acd170471f788d3dd4b8448914e930fc82af6fd073fdebd673c8"
+      "bytes": 137879,
+      "sha256": "9b9d04bfb2cd39c402ba21f39fcd701bc3cb522dbe2ce0e8e5df3ce7c6cd6e88"
     },
     "ratification-contract.json": {
       "bytes": 1689,
@@ -36,7 +36,7 @@
     },
     "summary.json": {
       "bytes": 6217,
-      "sha256": "5bc26a4c968bd6bee0f48da8e23e1eab21ed93e2be891f29a6ea184ef8ed7d98"
+      "sha256": "5de348baa0327f7c0337b5071123d576cc047dd7cfdc12549901561e2c8f7e51"
     }
   },
   "manifest_id": "manifest.p5-exact-contract-adjudication.v1"

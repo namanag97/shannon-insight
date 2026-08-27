@@ -24,8 +24,8 @@ def main() -> int:
     summary = built["summary"]
     assert len(records) == len(CAMPAIGNS) == 6
     assert {row["axis"] for row in records} == set(CAMPAIGNS)
-    assert summary["targeted_work_packages"] == 103
-    assert summary["targeted_library_occurrences"] == 2805
+    assert summary["targeted_work_packages"] == sum(row["targeted_work_packages"] for row in records)
+    assert summary["targeted_library_occurrences"] == sum(row["targeted_library_occurrences"] for row in records)
     assert summary["routed_work_packages"] == summary["targeted_work_packages"]
     assert summary["routed_library_occurrences"] == summary["targeted_library_occurrences"]
     assert summary["unrouted_axes"] == [] and summary["unrouted_work_packages"] == 0
@@ -45,8 +45,9 @@ def main() -> int:
         for row in records
     )
     print(
-        "PASS targeted evidence coverage: all 6 live targeted axes, 103 family-axis packages "
-        "and 2,805 library occurrences have exact non-closing campaign routes"
+        f"PASS targeted evidence coverage: all {len(records)} live targeted axes, "
+        f"{summary['targeted_work_packages']} family-axis packages and "
+        f"{summary['targeted_library_occurrences']} library occurrences have exact non-closing campaign routes"
     )
     return 0
 

@@ -8,16 +8,16 @@
   "duplicate_symbol_counts": {
     "operation": 73,
     "trait": 24,
-    "type": 113
+    "type": 120
   },
   "edition": 1,
-  "families": 23,
-  "family_axis_packets": 46,
+  "families": 24,
+  "family_axis_packets": 48,
   "finding": "Public API vocabulary supplies bounded candidate carriers and operations, but exact-name collisions, ambiguous global symbol ownership and suffix ambiguity require shared-foundation versus homonym adjudication before compiler type unification.",
-  "global_duplicate_symbol_ids": 210,
+  "global_duplicate_symbol_ids": 217,
   "grain_candidates": 285,
   "identity_candidates": 249,
-  "libraries": 674,
+  "libraries": 682,
   "program_id": "program.semantic-axis.p0-identity-grain.v1",
   "status": "ACTIVE_OWNER_ADJUDICATION_REQUIRED",
   "type_and_operation_candidates": 534

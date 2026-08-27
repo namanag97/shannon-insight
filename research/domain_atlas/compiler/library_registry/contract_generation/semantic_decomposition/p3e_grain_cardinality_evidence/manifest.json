@@ -3,16 +3,16 @@
   "completion_claim": false,
   "files": {
     "evidence-candidates.jsonl": {
-      "bytes": 31147,
-      "sha256": "4aaa6dcd97408c487b3faad2d90fb568e57efd757509d1c9d17ab956e99aa07d"
+      "bytes": 32639,
+      "sha256": "beeb09a4c4ccaf1e20d4b262532cd108fd8603083555664de32b803a35faaaf9"
     },
     "family-evidence-dockets.jsonl": {
-      "bytes": 47270,
-      "sha256": "055057b6450abb980f231ba1368190fa14b010a31b4bb2ec4718947b7d57dac7"
+      "bytes": 48553,
+      "sha256": "e3d6fdb6dcc62abde074531556dc1c7008f3c3cb4cf315a9dcc73cd4b1fc9c2d"
     },
     "summary.json": {
       "bytes": 349,
-      "sha256": "50682e7f3f4c1908ffb6f29d1041543533a01c8c198feb8b4efbb0111ffb6d0e"
+      "sha256": "c0f6fb6201363aaf158214d197d9df657dd089085ee5d20d3df5eadcaf191dea"
     }
   },
   "manifest_id": "manifest.p3e.grain-cardinality-evidence.v1"

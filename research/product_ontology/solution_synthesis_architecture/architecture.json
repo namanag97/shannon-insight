@@ -13,17 +13,23 @@
   "corpus_router_ref": "research/product_ontology/corpus_architecture_router/manifest.json",
   "corpus_routing_law": "Every governed research file has one explicit package route into a bounded mechanism, IR transition, resolution frontier, binding phase and authority; record occurrence routing does not confer semantic authority.",
   "ir_refs": [
+    "ir.synthesis.analytical-design-ir",
     "ir.synthesis.application-behavior-ir",
     "ir.synthesis.authority-effect-ir",
     "ir.synthesis.business-intent-ir",
     "ir.synthesis.capability-requirement-ir",
     "ir.synthesis.contract-graph-ir",
     "ir.synthesis.deployment-blueprint-ir",
+    "ir.synthesis.domain-context-ir",
     "ir.synthesis.evidence-acceptance-ir",
+    "ir.synthesis.experience-delivery-ir",
+    "ir.synthesis.implementation-offer-ir",
     "ir.synthesis.logical-dataflow-ir",
     "ir.synthesis.physical-binding-ir",
     "ir.synthesis.product-composition-ir",
-    "ir.synthesis.semantic-intent-ir"
+    "ir.synthesis.qualification-evidence-ir",
+    "ir.synthesis.semantic-intent-ir",
+    "ir.synthesis.source-estate-requirement-ir"
   ],
   "kind": "ARCHITECTURE_PATTERN_NOT_PRODUCT",
   "mode_refs": [

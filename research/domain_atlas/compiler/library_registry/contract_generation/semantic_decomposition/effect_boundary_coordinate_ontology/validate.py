@@ -9,9 +9,9 @@ def main():
  b=build();s=b["summary"]
  assert len(b["archetypes"])==len({r["archetype_id"] for r in b["archetypes"]})==42
  assert len(b["kernels"])==len({r["kernel_id"] for r in b["kernels"]})==60
- assert len(b["dockets"])==len(b["extensions"])==23
- assert len(b["members"])==len({r["library_ref"] for r in b["members"]})==674 and sum(r["library_count"] for r in b["clusters"])==674
- assert s["routes_with_explicit_source_effect_projection"]==674 and s["routes_with_no_effect_projection"]==0
+ assert len(b["dockets"])==len(b["extensions"])==s["structural_family_dockets"]
+ assert len(b["members"])==len({r["library_ref"] for r in b["members"]})==s["target_member_routes"] and sum(r["library_count"] for r in b["clusters"])==len(b["members"])
+ assert s["routes_with_explicit_source_effect_projection"]+s["routes_with_no_effect_projection"]==len(b["members"])
  assert s["family_source_evidence_bindings_supplied"]==s["member_applicability_decisions"]==s["owner_decisions"]==s["canonical_gaps_closed"]==0 and not s["completion_claim"]
- print(f"PASS effect-boundary coordinate ontology: 674 exact members partition losslessly into {s['research_clusters']} effect-stage clusters; all evidence bindings and decisions remain open");return 0
+ print(f"PASS effect-boundary coordinate ontology: {len(b['members'])} exact members partition losslessly into {s['research_clusters']} effect-stage clusters; all evidence bindings and decisions remain open");return 0
 if __name__=="__main__":raise SystemExit(main())

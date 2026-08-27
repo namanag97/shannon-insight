@@ -119,9 +119,9 @@
   "completion_claim": false,
   "coverage_id": "coverage.semantic-axis.constitutions.v1",
   "edition": 1,
-  "execution_rule": "Ratify five global phase constitutions once; then process 23 family exception matrices per axis. Never copy full constitutions into 674 libraries and never infer applicability from lexical matches.",
-  "family_axis_matrix_count": 368,
-  "family_count": 23,
+  "execution_rule": "Ratify 5 global phase constitutions once; then process 24 family exception matrices per axis. Never copy full constitutions into every exact library candidate and never infer applicability from lexical matches.",
+  "family_axis_matrix_count": 384,
+  "family_count": 24,
   "phases": [
     {
       "axes": [

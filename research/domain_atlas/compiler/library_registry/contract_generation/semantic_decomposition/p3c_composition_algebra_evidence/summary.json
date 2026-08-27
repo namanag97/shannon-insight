@@ -3,10 +3,10 @@
   "axis": "composition_algebra",
   "canonical_gaps_closed": 0,
   "completion_claim": false,
-  "family_dockets": 22,
+  "family_dockets": 23,
   "member_applicability_decisions": 0,
   "owner_decisions": 0,
-  "primary_evidence_candidates": 22,
+  "primary_evidence_candidates": 23,
   "program_id": "program.p3c.composition-algebra-evidence.v1",
-  "represented_library_occurrences": 619
+  "represented_library_occurrences": 626
 }

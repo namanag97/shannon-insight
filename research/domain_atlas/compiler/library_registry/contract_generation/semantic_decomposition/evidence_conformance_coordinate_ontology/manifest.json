@@ -15,28 +15,28 @@
       "sha256": "28c2bfba3505f412f2b4dfbbaede06355976b875d58d2e3d6a04bba3e6188043"
     },
     "extension-candidates.jsonl": {
-      "bytes": 46027,
-      "sha256": "b38bb361918f20abbbfd1162e771445f03cebd9647224067fc0cc27d46729f9e"
+      "bytes": 47190,
+      "sha256": "4059685c51fc53ace753d56083919ad036d828d8b8fea7a7c894abd3518ffa45"
     },
     "member-evidence-conformance-routes.jsonl": {
-      "bytes": 874433,
-      "sha256": "902bf5fd73ddd974841316f5ec24824373faa346b94dab9cc5e5d843a76ea04f"
+      "bytes": 884836,
+      "sha256": "61ee23b637cf2d6a69dcf7890fe722dad7fc869f8a3931b455136af711f0e823"
     },
     "member-research-clusters.jsonl": {
-      "bytes": 89171,
-      "sha256": "3ec5173da2517cde0300a15dbf1f0da8fc735262910709d9b3943864e3a393cb"
+      "bytes": 92221,
+      "sha256": "798b6a73260816ce660f056bf0252375950f7d07c3ea9f10a8915fdb01947ce5"
     },
     "primary-sources.jsonl": {
       "bytes": 5759,
       "sha256": "464614ee494ec80c9568f2f4aaabb8da1cf724eb90f84fdd7bcd1a6878cda8cb"
     },
     "structural-family-dockets.jsonl": {
-      "bytes": 36359,
-      "sha256": "8ce8f391f0fe3f0c4bd40de09a72dbe4d1d49a9c9180bfb68ee723e5a95e281f"
+      "bytes": 37105,
+      "sha256": "a019a58ffa952b9b28822468cdb8fd02e39774a637fa0b2f3bfaffd0ed1f9600"
     },
     "summary.json": {
       "bytes": 770,
-      "sha256": "5ca7963ff49f3a7dbe79b8e3a437910d594bbb7afd93809fb9ff53d74269f4cd"
+      "sha256": "1092577187ef649b2b42165f7ac58d5c8776447cad0515d7528442800123ff67"
     }
   },
   "manifest_id": "manifest.evidence-conformance-coordinate-ontology-and-rebase.v1"

@@ -1416,12 +1416,13 @@ STR = {"type": "string", "minLength": 1}
 BOOL = {"type": "boolean"}
 INT = {"type": "integer"}
 STRINGS = array()
+PARAMETER_TYPES = {"type": "array", "items": STR, "minItems": 1}
 
 EXACT_OPERATION_SCHEMA = {
     "type": "object", "additionalProperties": False,
     "required": ["operation_ref", "name", "input_types", "output_type", "purity", "effect_intent_type", "receipt_type", "refusal_types"],
     "properties": {
-        "operation_ref": STR, "name": STR, "input_types": STRINGS, "output_type": STR,
+        "operation_ref": STR, "name": STR, "input_types": PARAMETER_TYPES, "output_type": STR,
         "purity": {"enum": ["pure", "effectful_explicit", "unresolved_refuse"]},
         "effect_intent_type": {"type": ["string", "null"]}, "receipt_type": {"type": ["string", "null"]},
         "refusal_types": STRINGS,

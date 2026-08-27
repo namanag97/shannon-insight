@@ -156,8 +156,8 @@ def validate_common(
     axis: str,
     built: dict[str, Any],
     outputs: dict[str, str],
-    expected_family_count: int,
-    expected_library_occurrences: int,
+    expected_family_count: int | None = None,
+    expected_library_occurrences: int | None = None,
 ) -> None:
     for name, text in outputs.items():
         assert (output_dir / name).is_file(), f"missing {name}"
@@ -165,6 +165,10 @@ def validate_common(
 
     targets = [row for row in load_jsonl(targets_path) if row["axis"] == axis]
     target_by_family = {row["family_id"]: row for row in targets}
+    if expected_family_count is None:
+        expected_family_count = len(target_by_family)
+    if expected_library_occurrences is None:
+        expected_library_occurrences = sum(row["library_count"] for row in targets)
     candidates = built["candidates"]
     dockets = built["dockets"]
     assert len(target_by_family) == len(claims) == len(candidates) == len(dockets) == expected_family_count

@@ -6,7 +6,8 @@ HERE=Path(__file__).resolve().parent
 
 def load_jsonl(p): return [json.loads(x) for x in Path(p).read_text(encoding='utf-8').splitlines() if x.strip()]
 def main():
-    base=load_jsonl(HERE/'master-batches.jsonl')
+    master=load_jsonl(HERE/'master-batches.jsonl')
+    base=master[:16]
     program=load_jsonl(HERE/'program-level-gates.jsonl')
     expanded=load_jsonl(HERE/'expanded-batches.jsonl')
     summary=json.loads((HERE/'expanded-summary.json').read_text(encoding='utf-8'))
@@ -23,16 +24,12 @@ def main():
     for row in expanded:
         for dep in row.get('depends_on',[]):
             if dep not in by_id: errors.append(f"{row['batch_id']}: unknown dependency {dep}")
-    required={
-      'B16_OPEN_WORLD_COVERAGE_NOVELTY':{'B07_INDUSTRY_CANONICAL_REFERENCE_CLOSURE','B08_SOURCE_SYSTEM_AND_OCCURRENCE_CLOSURE','B09_DATA_SHAPE_OPERATION_TOTALITY'},
-      'B17_INTENT_TO_SOLUTION_COMPOSITION':{'B10_IMPLEMENTATION_IDENTITY_AND_BUILD','B11_EXACT_SCOPE_CONFORMANCE_AND_INDEPENDENT_APPRAISAL','B16_OPEN_WORLD_COVERAGE_NOVELTY'},
-      'B18_APPLICATION_HUMAN_EFFECT_BOUNDARY':{'B17_INTENT_TO_SOLUTION_COMPOSITION'},
-      'B19_MULTI_PRODUCT_SYSTEM_ACCEPTANCE':{'B12_SECOND_IMPLEMENTATION_PORTABILITY_EXIT','B13_PHYSICAL_BINDING_SLO_SECURITY_COST','B18_APPLICATION_HUMAN_EFFECT_BOUNDARY'},
-      'B20_CONTINUOUS_VALIDITY_INVALIDATION':{'B14_TWO_VERTICAL_EXECUTED_ACCEPTANCE','B15_TWO_RELEASE_CHANGE_AND_RATIFICATION','B19_MULTI_PRODUCT_SYSTEM_ACCEPTANCE'},
-    }
-    for bid,deps in required.items():
-        if set(by_id[bid]['depends_on'])!=deps: errors.append(f'{bid}: dependency law drift')
-    b18=by_id['B18_APPLICATION_HUMAN_EFFECT_BOUNDARY']
+    canonical_tail={r['batch_id']:r for r in master[16:]}
+    if [r['batch_id'] for r in program] != [r['batch_id'] for r in master[16:]]:
+        errors.append('program gate IDs drift from canonical master frontier')
+    for bid,canonical in canonical_tail.items():
+        if set(by_id[bid]['depends_on'])!=set(canonical['depends_on']): errors.append(f'{bid}: dependency law drift')
+    b18=next(r for r in program if r['batch_id'].startswith('B18_'))
     required_laws={'analytic_result != recommendation','recommendation != human_decision','human_decision != authorization','authorization != executed_business_effect','executed_business_effect != confirmed_outcome'}
     if not required_laws<=set(b18.get('non_collapse_laws',[])): errors.append('B18 core non-collapse laws incomplete')
     for row in program:

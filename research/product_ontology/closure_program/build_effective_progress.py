@@ -25,7 +25,8 @@ def main():
     program=J('research/product_ontology/closure_program/program-work-surfaces-summary.json')
     statuses={}
     statuses['B00_TRUTH_CONVERGENCE']={'state':'STRUCTURALLY_DONE_MONITOR','remaining':'future generated-corpus freshness/digest enforcement','machine_addressable':True}
-    statuses['B01_SOURCE_AUTHORITY']={'state':'AUTHORITY_BLOCKED','remaining':23,'machine_addressable':False}
+    closure=json.loads((ROOT/'research/product_ontology/closure_program/summary.json').read_text())
+    statuses['B01_SOURCE_AUTHORITY']={'state':'RESEARCH_AND_AUTHORITY_BLOCKED','remaining':{'prepared_awaiting_ratification':closure['source_authority_prepared_payload_count'],'unprepared_research_residual':closure['source_authority_unprepared_family_count']},'machine_addressable':True}
     statuses['B02_SEMANTIC_OWNER_UNIQUENESS']={'state':'PARTIAL_RESEARCH_AUTHORITY_BLOCKED','remaining':'8 legacy ambiguities research-adjudicated; global uniqueness proof and accountable ratification remain','machine_addressable':True}
     context_gap_count=ctx_route.get('gap_count',ctx_route.get('counts',{}).get('gaps'))
     statuses['B03_CONTEXT_MAP_RATIFICATION']={'state':'ROUTED_RESEARCH_AUTHORITY_AND_EVIDENCE_OPEN','remaining':{'routed_context_gaps':context_gap_count,'unrouted':ctx_route.get('unrouted_gap_count',0)},'machine_addressable':True}
@@ -40,11 +41,11 @@ def main():
     statuses['B11_EXACT_SCOPE_CONFORMANCE_AND_INDEPENDENT_APPRAISAL']={'state':'MACHINE_ACTIVE_FACTORED_INDEPENDENCE_BLOCKED','remaining':{'harness_campaigns':harness['harness_campaign_count'],'exact_scope_verdicts_required':harness['semantic_contract_scope_count'],'independent_appraisal_still_required':True},'machine_addressable':True}
     for bid in ['B12_SECOND_IMPLEMENTATION_PORTABILITY_EXIT','B13_PHYSICAL_BINDING_SLO_SECURITY_COST','B14_TWO_VERTICAL_EXECUTED_ACCEPTANCE','B15_TWO_RELEASE_CHANGE_AND_RATIFICATION']:
         statuses[bid]={'state':'DOWNSTREAM_PHYSICAL_OR_INDEPENDENT_EVIDENCE_BLOCKED','remaining':'see qualification, provider-target and vertical-acceptance ledgers','machine_addressable':False}
-    statuses['B16_OPEN_WORLD_COVERAGE_NOVELTY']={'state':'MACHINE_ACTIVE','remaining':{'coverage_coordinates':program['b16_coverage_coordinates'],'occupation_coordinates':program.get('b16_occupation_major_group_coordinates',0),'profession_foundation_missing':program.get('b16_missing_profession_foundation',False),'accepted_novelty_runs':0},'machine_addressable':True}
-    statuses['B17_INTENT_TO_SOLUTION_COMPOSITION']={'state':'MACHINE_ACTIVE_STRUCTURAL_SEEDS','remaining':{'seeded_solution_challenges':program['b17_seeded_solution_challenges'],'accepted':0},'machine_addressable':True}
-    statuses['B18_APPLICATION_HUMAN_EFFECT_BOUNDARY']={'state':'MACHINE_ACTIVE_UNEXECUTED','remaining':program['b18_human_effect_obligations'],'machine_addressable':True}
+    statuses['B16_OPEN_WORLD_COVERAGE_AND_NOVELTY']={'state':'MACHINE_ACTIVE','remaining':{'coverage_coordinates':program['b16_coverage_coordinates'],'occupation_coordinates':program.get('b16_occupation_major_group_coordinates',0),'profession_foundation_missing':program.get('b16_missing_profession_foundation',False),'accepted_novelty_runs':0},'machine_addressable':True}
+    statuses['B17_INTENT_TO_SOLUTION_SYNTHESIS']={'state':'MACHINE_ACTIVE_STRUCTURAL_SEEDS','remaining':{'seeded_solution_challenges':program['b17_seeded_solution_challenges'],'accepted':0},'machine_addressable':True}
+    statuses['B18_APPLICATION_HUMAN_AUTHORITY_AND_EFFECT']={'state':'MACHINE_ACTIVE_UNEXECUTED','remaining':program['b18_human_effect_obligations'],'machine_addressable':True}
     statuses['B19_MULTI_PRODUCT_SYSTEM_ACCEPTANCE']={'state':'MACHINE_ACTIVE_REQUIRES_PHYSICAL_STACK','remaining':program['b19_system_fault_obligations'],'machine_addressable':True}
-    statuses['B20_CONTINUOUS_VALIDITY_INVALIDATION']={'state':'MACHINE_ACTIVE_UNEXECUTED','remaining':program['b20_invalidation_obligations'],'machine_addressable':True}
+    statuses['B20_CONTINUOUS_VALIDITY_AND_DECOMMISSION']={'state':'MACHINE_ACTIVE_UNEXECUTED','remaining':program['b20_invalidation_obligations'],'machine_addressable':True}
     rows=[]
     for b in master:
         s=statuses[b['batch_id']]

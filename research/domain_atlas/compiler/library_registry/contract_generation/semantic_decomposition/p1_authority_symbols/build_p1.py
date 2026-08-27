@@ -487,6 +487,16 @@ def research_archetype(packet: dict[str, Any]) -> str:
         return POLICY_LANE_EXACT_ARCHETYPES[symbol_ref]
     if symbol_ref.startswith("type.contract.platform-commercial-support."):
         return "DOMAIN_CONTRACT_AND_ADAPTER_BOUNDARY"
+    if symbol_ref in {"type.contract.application.effect_receipt", "type.contract.application.execution_receipt"}:
+        return "EVIDENCE_RECEIPT_APPRAISAL_AND_RESULT"
+    if symbol_ref == "type.contract.application.effect_intent":
+        return "DOMAIN_CONTRACT_AND_ADAPTER_BOUNDARY"
+    if symbol_ref == "type.contract.application.integration_event":
+        return "ACTIVITY_EVENT_AND_AUDIT_OCCURRENCE"
+    if symbol_ref == "type.contract.application.state_transition":
+        return "TIME_LIFECYCLE_AND_CONTROL"
+    if symbol_ref in {"type.contract.application.command", "type.contract.application.query"}:
+        return "DOMAIN_CONTRACT_AND_ADAPTER_BOUNDARY"
     if symbol_ref == "type.action":
         return "ACTIVITY_EVENT_AND_AUDIT_OCCURRENCE"
     if symbol_ref in {"type.algorithm_suite", "type.cryptoperiod"}:
@@ -782,6 +792,8 @@ REFINED_CATCHALL_SYMBOLS = {
     "trait.prunerowgroups", "trait.verifychecksum", "type.baselineartifact", "type.geometry",
     "type.region", "type.spatialweights", "trait.isolationbackend", "trait.targetbackend",
     "trait.partition", "type.attemptid",
+    "type.contract.application.command", "type.contract.application.effect_intent",
+    "type.contract.application.integration_event", "type.contract.application.query",
 }
 
 
@@ -1975,6 +1987,11 @@ TIME_ROLE_DETAILS: dict[str, dict[str, Any]] = {
         "candidate_disposition": "QUALIFY_LOCAL_SYMBOL_IDS",
         "local_requirements": ["governed record/reliance withdrawal versus materialized relation negative update", "subject and prior edition/value identity, transition occurrence and effective time", "issuer authority, reason, replacement/supersession and downstream propagation", "retraction kept separate from correction, invalidation, deletion, erasure, recall and compensation"],
     },
+    "APPLICATION_STATE_TRANSITION": {
+        "semantic_position": "APPLICATION_AGGREGATE_OR_WORKFLOW_TRANSITION_RECORD_UNDER_AN_EXACT_STATE_MACHINE_EDITION",
+        "candidate_disposition": "FAMILY_SHARED_OWNER_AND_IMPORTS",
+        "local_requirements": ["subject and prior/new state identities", "command, invariant and expected-version binding", "transition occurrence and effective/recording times", "authorization, emitted events, refusals and effect handoff kept separate"],
+    },
 }
 
 
@@ -1985,6 +2002,7 @@ def classify_time_role(symbol_ref: str) -> str:
         "type.disposition_due": "DISPOSITION_ELIGIBILITY_DUE",
         "type.event_time": "SOURCE_EVENT_OCCURRENCE_TIME",
         "type.retraction": "QUALIFIED_RETRACTION_TRANSITION",
+        "type.contract.application.state_transition": "APPLICATION_STATE_TRANSITION",
     }[symbol_ref]
 
 
@@ -2289,6 +2307,8 @@ def classify_evidence_role(symbol_ref: str) -> str:
         "type.decision_receipt": "POLICY_DECISION_EVIDENCE_RECORD",
         "type.verificationresult": "VERIFICATION_APPRAISAL_RESULT",
         "type.experimentconclusionappraisal": "CLAIM_APPRAISAL_RESULT",
+        "type.contract.application.effect_receipt": "RUNTIME_EXECUTION_RECEIPT",
+        "type.contract.application.execution_receipt": "RUNTIME_EXECUTION_RECEIPT",
     }[symbol_ref]
 
 

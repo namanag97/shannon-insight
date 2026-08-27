@@ -48,15 +48,15 @@ def main() -> int:
     templates = load_jsonl(HERE / "exact-contract-ratification-packet-templates.jsonl")
     gates = load_jsonl(HERE / "compiler-lowering-gates.jsonl")
 
-    assert len(dockets) == summary["exact_contract_dockets"] == 674
+    assert len(dockets) == summary["exact_contract_dockets"]
     assert len(archetype_kernels) == summary["archetype_obligation_kernels"] == 19
     assert summary["populated_archetype_obligation_kernels"] == 15
-    assert len(family_kernels) == summary["family_semantic_kernels"] == 23
-    assert len(packages) == summary["execution_packages"] == 57
-    assert len(templates) == summary["ratification_packet_templates"] == 674
-    assert len(gates) == summary["compiler_lowering_gates"] == 674
-    assert summary["dockets_with_shared_symbol_dependencies"] == 225
-    assert summary["dockets_with_collision_dependencies"] == 108
+    assert len(family_kernels) == summary["family_semantic_kernels"]
+    assert len(packages) == summary["execution_packages"]
+    assert len(templates) == summary["ratification_packet_templates"] == len(dockets)
+    assert len(gates) == summary["compiler_lowering_gates"] == len(dockets)
+    assert summary["dockets_with_shared_symbol_dependencies"] == sum(bool(row["shared_symbol_occurrence_proposal_refs"]) for row in dockets)
+    assert summary["dockets_with_collision_dependencies"] == sum(bool(row["cross_owner_collision_refs"]) for row in dockets)
     assert summary["verified_prerequisite_bindings"] == 0
     assert summary["ratified_exact_contracts"] == summary["lowered_exact_contract_candidates"] == 0
     assert summary["canonical_mutations_allowed"] == summary["canonical_exact_gaps_closed"] == 0
@@ -93,15 +93,15 @@ def main() -> int:
     assert all(row["contract_dimensions"] == CONTRACT_DIMENSIONS for row in dockets)
 
     all_p2_refs = [ref for row in dockets for ref in row["shared_symbol_occurrence_proposal_refs"]]
-    assert len(all_p2_refs) == len(set(all_p2_refs)) == len(p2_occurrences) == 666
+    assert len(all_p2_refs) == len(set(all_p2_refs)) == len(p2_occurrences)
     assert set(all_p2_refs) == set(p2_occurrences)
     all_p3_refs = [ref for row in dockets for ref in row["family_axis_docket_refs"]]
-    assert len(all_p3_refs) == 674 * 16
+    assert len(all_p3_refs) == len(dockets) * 16
     assert set(all_p3_refs) == set(p3_dockets)
-    assert collections.Counter(len(row["family_axis_docket_refs"]) for row in dockets) == {16: 674}
-    assert collections.Counter(len(row["family_axis_ratification_template_refs"]) for row in dockets) == {16: 674}
-    assert collections.Counter(row["boundary_disposition"] for row in dockets) == {"UNADJUDICATED": 674}
-    assert collections.Counter(row["status"] for row in dockets) == {"BLOCKED_EXACT_CONTRACT_LOWERING": 674}
+    assert collections.Counter(len(row["family_axis_docket_refs"]) for row in dockets) == {16: len(dockets)}
+    assert collections.Counter(len(row["family_axis_ratification_template_refs"]) for row in dockets) == {16: len(dockets)}
+    assert collections.Counter(row["boundary_disposition"] for row in dockets) == {"UNADJUDICATED": len(dockets)}
+    assert collections.Counter(row["status"] for row in dockets) == {"BLOCKED_EXACT_CONTRACT_LOWERING": len(dockets)}
 
     for docket in dockets:
         closure = closures[docket["closure_ref"]]
@@ -162,14 +162,14 @@ def main() -> int:
     assert len(family_member_refs) == len(set(family_member_refs)) == len(dockets)
     assert set(family_member_refs) == set(docket_by_id)
     assert {row["family_ref"] for row in family_kernels} == set(families)
-    assert sum(row["member_count"] for row in family_kernels) == 674
+    assert sum(row["member_count"] for row in family_kernels) == len(dockets)
     assert all(len(row["family_axis_docket_refs"]) == 16 for row in family_kernels)
 
     package_member_refs = [ref for row in packages for ref in row["docket_refs"]]
     assert len(package_member_refs) == len(set(package_member_refs)) == len(dockets)
     assert set(package_member_refs) == set(docket_by_id)
     assert {row["research_batch_ref"] for row in packages} == set(batches)
-    assert sum(row["docket_count"] for row in packages) == 674
+    assert sum(row["docket_count"] for row in packages) == len(dockets)
 
     template_by_docket = {row["docket_ref"]: row for row in templates}
     gate_by_docket = {row["docket_ref"]: row for row in gates}
@@ -193,7 +193,7 @@ def main() -> int:
         assert template["canonical_gaps_closed"] == gate["canonical_gaps_closed"] == 0
         assert not template["completion_claim"] and not gate["completion_claim"]
 
-    print("PASS P5 exact-contract adjudication: 674 exact dockets wire losslessly into 19 archetype, 23 family and 57 execution quotients; all 10,784 axis and 666 symbol-occurrence dependencies remain explicit; 674 lowering gates refuse with 0 ratified or canonical contracts")
+    print(f"PASS P5 exact-contract adjudication: {len(dockets)} exact dockets wire losslessly into {len(archetype_kernels)} archetype, {len(family_kernels)} family and {len(packages)} execution quotients; all {len(all_p3_refs)} axis and {len(all_p2_refs)} symbol-occurrence dependencies remain explicit; {len(gates)} lowering gates refuse with 0 ratified or canonical contracts")
     return 0
 
 

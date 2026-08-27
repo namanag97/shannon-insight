@@ -36,8 +36,8 @@ def main() -> int:
     assert len(kernels) == len({row["kernel_id"] for row in kernels}) == 41
     assert all(row["operator_archetype_ref"] in archetype_ids for row in kernels)
     assert all(row["applicability"] == "UNRESOLVED_PER_OPERATOR_AND_USE_SITE" for row in kernels)
-    assert len(extensions) == 22
-    assert len(members) == len({row["library_ref"] for row in members}) == 619
+    assert len(extensions) == summary["family_extension_candidates"]
+    assert len(members) == len({row["library_ref"] for row in members}) == summary["target_member_routes"]
     assert all(row["required_operator_and_use_site_inventory"] == "NOT_YET_SUPPLIED" for row in members)
     assert all(row["required_operand_and_result_coordinate_profiles"] == "NOT_YET_SUPPLIED" for row in members)
     assert all(row["required_law_and_precondition_profiles"] == "NOT_YET_SUPPLIED" for row in members)
@@ -49,8 +49,7 @@ def main() -> int:
     assert len(cluster_members) == len(set(cluster_members)) == len(members)
     assert set(cluster_members) == {row["library_ref"] for row in members}
 
-    assert summary["target_member_routes"] == 619
-    assert summary["routes_with_lexical_discovery_projection"] + summary["routes_with_no_member_operator_evidence"] == 619
+    assert summary["routes_with_lexical_discovery_projection"] + summary["routes_with_no_member_operator_evidence"] == len(members)
     assert summary["operator_use_site_inventories_supplied"] == 0
     assert summary["operator_coordinate_profiles_supplied"] == 0
     assert summary["member_applicability_decisions"] == 0
@@ -58,7 +57,7 @@ def main() -> int:
     assert summary["canonical_gaps_closed"] == 0
     assert not summary["completion_claim"]
     print(
-        f"PASS P3C composition/algebra coordinate ontology: 619 exact members partition losslessly "
+        f"PASS P3C composition/algebra coordinate ontology: {len(members)} exact members partition losslessly "
         f"into {summary['research_clusters']} operator-aware clusters; all applicability remains open"
     )
     return 0

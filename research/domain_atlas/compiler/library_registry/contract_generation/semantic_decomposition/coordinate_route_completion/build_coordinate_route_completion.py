@@ -16,6 +16,18 @@ PARTIAL_PACKAGES={
  "partiality_and_uncertainty":"p3u_partiality_uncertainty_coordinate_ontology",
  "composition_algebra":"p3c_composition_algebra_coordinate_ontology",
 }
+FULL_PACKAGES={
+ "authority_and_trust":"authority_trust_coordinate_ontology",
+ "effect_boundary":"effect_boundary_coordinate_ontology",
+ "evidence_and_conformance":"evidence_conformance_coordinate_ontology",
+ "privacy_security_safety":"privacy_security_safety_coordinate_ontology",
+ "representation":"representation_coordinate_ontology",
+ "resources_and_failure":"resources_failure_coordinate_ontology",
+ "semantic_object":"semantic_object_coordinate_ontology",
+ "semantic_role":"semantic_role_coordinate_ontology",
+ "compatibility_and_evolution":"compatibility_evolution_coordinate_ontology",
+ "time":"time_coordinate_ontology",
+}
 
 def load_json(p:Path)->Any:return json.loads(p.read_text())
 def load_jsonl(p:Path)->list[dict[str,Any]]:return [json.loads(x) for x in p.read_text().splitlines() if x.strip()]
@@ -30,7 +42,7 @@ def coordinate_surface(ontology:dict[str,Any])->dict[str,Any]:
  return {"axis_native_coordinate_fields":{k:ontology[k] for k in keys},"non_collapse_law_refs":[f"{ontology['ontology_id']}#non-collapse-{i:02d}" for i,_ in enumerate(ontology.get("non_collapse_laws",[]),1)]}
 
 def build()->dict[str,Any]:
- pre=[r for r in load_jsonl(PRECLASS) if r["axis"] in PARTIAL_PACKAGES]
+ all_pre=load_jsonl(PRECLASS);pre=[r for r in all_pre if r["axis"] in PARTIAL_PACKAGES]
  pre_by_axis:dict[str,list[dict[str,Any]]]=defaultdict(list)
  for r in pre:pre_by_axis[r["axis"]].append(r)
  routes=[];axis_rows=[]
@@ -45,7 +57,13 @@ def build()->dict[str,Any]:
  clusters=[]
  for i,(key,refs) in enumerate(sorted(grouped.items()),1):
   axis,family,preclass,facets=key;clusters.append({"record_kind":"supplemental_axis_coordinate_research_cluster","cluster_id":f"cluster.coordinate-completion.{axis.replace('_','-')}.{i:03d}","axis":axis,"family_ref":family,"source_preclassification":preclass,"source_candidate_facets":list(facets),"library_refs":sorted(refs),"library_count":len(refs),"research_route":"FULL_BEARER_COORDINATE_RESEARCH_REQUIRED_NO_TARGETED_EVIDENCE_ROUTE","source_evidence_binding":"UNRESOLVED","member_applicability":"UNRESOLVED","owner_decision":"UNRESOLVED","canonical_gaps_closed":0,"completion_claim":False})
- summary={"program_id":"program.coordinate-route-completion.v1","as_of":AS_OF,"partial_coordinate_packages":len(axis_rows),"expected_cells_in_partial_axes":sum(r["expected_member_axis_cells"] for r in axis_rows),"existing_primary_routes":sum(r["primary_member_routes"] for r in axis_rows),"supplemental_routes":len(routes),"combined_routes_in_partial_axes":sum(r["combined_member_routes"] for r in axis_rows),"all_axis_expected_member_cells":10784,"all_axis_existing_primary_routes":9545,"all_axis_combined_routes":9545+len(routes),"research_clusters":len(clusters),"source_evidence_bindings_supplied":0,"coordinate_answers_supplied":0,"member_applicability_decisions":0,"owner_decisions":0,"canonical_gaps_closed":0,"completion_claim":False}
+ full_primary_routes=0
+ for axis,package in FULL_PACKAGES.items():
+  member_path=next((SEM/package).glob("member-*-routes.jsonl"));member_refs={r["library_ref"] for r in load_jsonl(member_path)}
+  expected_refs={r["library_ref"] for r in all_pre if r["axis"]==axis};assert member_refs==expected_refs,(axis,len(member_refs),len(expected_refs))
+  full_primary_routes+=len(member_refs)
+ all_primary_routes=full_primary_routes+sum(r["primary_member_routes"] for r in axis_rows)
+ summary={"program_id":"program.coordinate-route-completion.v1","as_of":AS_OF,"partial_coordinate_packages":len(axis_rows),"expected_cells_in_partial_axes":sum(r["expected_member_axis_cells"] for r in axis_rows),"existing_primary_routes":sum(r["primary_member_routes"] for r in axis_rows),"supplemental_routes":len(routes),"combined_routes_in_partial_axes":sum(r["combined_member_routes"] for r in axis_rows),"all_axis_expected_member_cells":len(all_pre),"all_axis_existing_primary_routes":all_primary_routes,"all_axis_combined_routes":all_primary_routes+len(routes),"research_clusters":len(clusters),"source_evidence_bindings_supplied":0,"coordinate_answers_supplied":0,"member_applicability_decisions":0,"owner_decisions":0,"canonical_gaps_closed":0,"completion_claim":False}
  return {"routes":routes,"axis_rows":axis_rows,"clusters":clusters,"summary":summary}
 
 def outputs()->dict[str,str]:

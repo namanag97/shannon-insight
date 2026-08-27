@@ -304,7 +304,7 @@ def outputs() -> dict[str, str]:
         "edition": 1,
         "as_of": AS_OF,
         "input_snapshot": snap,
-        "total_templates": 1904,
+        "total_templates": len(blocked) + len(ledger),
         "submitted_ratification_receipts": len(load_jsonl(RECEIPTS)),
         "authority_verification_receipts": len(load_jsonl(VERIFICATIONS)),
         "verified_ratifications": len(ledger),

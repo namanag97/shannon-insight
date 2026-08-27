@@ -3,10 +3,10 @@
   "axis": "order_and_topology",
   "canonical_gaps_closed": 0,
   "completion_claim": false,
-  "family_dockets": 23,
+  "family_dockets": 24,
   "member_applicability_decisions": 0,
   "owner_decisions": 0,
-  "primary_evidence_candidates": 23,
+  "primary_evidence_candidates": 24,
   "program_id": "program.p3o.order-topology-evidence.v1",
-  "represented_library_occurrences": 623
+  "represented_library_occurrences": 631
 }

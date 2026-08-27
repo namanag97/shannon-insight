@@ -6,20 +6,20 @@
       "sha256": "dba69d9def61050544ed550b747d6aee754d01190d24c8f3fbe0a2c0f92271e2"
     },
     "family-axis-review-packages.jsonl": {
-      "bytes": 1762682,
-      "sha256": "32ebdc8e936fae221aed6d36c5ec89692e07e989558c823b15a5f1559f2c6f51"
+      "bytes": 1792077,
+      "sha256": "0d538d117a83671cc1be6d1ee7e73adbc2edb3a3131b3048c0441b6fae8b3fb1"
     },
     "foundation-evidence-claims.jsonl": {
       "bytes": 5380,
       "sha256": "5a9d98105e71c24d3fcf5fc690870e2b06d32226d193bb1eb118df6696551708"
     },
     "library-semantic-signatures.jsonl": {
-      "bytes": 3291622,
-      "sha256": "d5f16ffc26cf52c3d44024bc7ffed86c6857d26051caf1440fb8dfc025885037"
+      "bytes": 3334343,
+      "sha256": "4d93597d812d45aac2a8ffdd5f4a98bdc861739e021088e8a29805912f33d70e"
     },
     "semantic-axis-lanes.jsonl": {
-      "bytes": 29471,
-      "sha256": "fa19cd843642c7123c63f29718bedde39e16c35eb5e432ac0a14371fa8ddd0bb"
+      "bytes": 29887,
+      "sha256": "7c9bea513514117bee1ec396ddac68202f28b750c3a9d9c1ad6c7e79184590b7"
     },
     "semantic-axis-ontology.json": {
       "bytes": 36922,
@@ -30,12 +30,12 @@
       "sha256": "69db70935e7035079d1b1c48f34eaf5671407ddc7b00ace253ddc98bb55464c9"
     },
     "semantic-research-queue.jsonl": {
-      "bytes": 803769,
-      "sha256": "bd56f3497c63698377c003c5c1e2004d6a02509ff05ff1fab330a909b52ccf3e"
+      "bytes": 825926,
+      "sha256": "409aaa75cf83029b534f493f4225c66f9aa4e9e2d1437eab1d6a34166f9fe094"
     },
     "summary.json": {
       "bytes": 7781,
-      "sha256": "948369d2383144e063617961cfa247763e16bc42ec8afd3fccac55da04df5821"
+      "sha256": "3a27bfe8146045d92556fb7ecc0690f6879b185ec165b70e8f83bf29c2b595b1"
     }
   },
   "manifest_id": "manifest.semantic-axis-decomposition.v1"

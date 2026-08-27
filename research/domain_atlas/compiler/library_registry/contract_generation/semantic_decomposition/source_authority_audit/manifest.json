@@ -2,8 +2,8 @@
   "as_of": "2026-08-26",
   "files": {
     "readiness-audits.jsonl": {
-      "bytes": 70325,
-      "sha256": "0908105269a133a1e54e000d6364d678dec096cc3cb1130f015ca4a9d57bf9db"
+      "bytes": 72722,
+      "sha256": "c23f8be0eb5b6c46545b978818f2afdb885b2a6eeffc3d2fd4ceee4196cb56b7"
     },
     "source-authority-decision.schema.json": {
       "bytes": 3282,
@@ -11,11 +11,11 @@
     },
     "summary.json": {
       "bytes": 671,
-      "sha256": "2b5075351190ae75d3efb8062ff73e8cb85d3b2e6f2e07a7ba75c3481b332504"
+      "sha256": "0b69c75c642c251dbec796ef4f119f2ebd66773c46c86a2b67f6d55d28bee7c7"
     },
     "validator-receipts.jsonl": {
-      "bytes": 28600,
-      "sha256": "701cf26dfbcbacd63aa55c05b93305460d2284c30d0172af801427197a095631"
+      "bytes": 29747,
+      "sha256": "e2932a81df9481c749a01c2a23a280ac68fb8a965c1dc28d2aa8635b532c1fe8"
     }
   },
   "manifest_id": "manifest.family-source-authority-audit.v1"

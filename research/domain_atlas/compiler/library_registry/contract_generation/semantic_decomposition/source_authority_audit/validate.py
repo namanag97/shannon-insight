@@ -10,13 +10,14 @@ def main()->int:
     for n,c in manifest["files"].items():
         d=(HERE/n).read_bytes();assert len(d)==c["bytes"] and hashlib.sha256(d).hexdigest()==c["sha256"]
     b=build();audits=b["audits"];receipts={x["receipt_id"]:x for x in b["receipts"]}
-    assert len(audits)==len(receipts)==23 and sum(x["library_count"] for x in audits)==674
+    family_count=len(audits);library_count=sum(x["library_count"] for x in audits)
+    assert family_count==len(receipts)==b["summary"]["families"]
     assert all(x["validator_receipt_ref"] in receipts and x["canonical"] is False and x["authority_decision"]=="UNRESOLVED" for x in audits)
     assert all(x["validator_result"]=="PASS" and x["status"]=="SOURCE_AUTHORITY_DECISION_REQUIRED" for x in audits)
     for x in audits:
         receipt=receipts[x["validator_receipt_ref"]];assert receipt["tree_digest_before"]==receipt["tree_digest_after"]==tree_digest(REPO/x["source_directory"])
-    assert b["summary"]["validator_passes"]==23 and b["summary"]["ratified_source_authorities"]==b["summary"]["canonical_source_corpora"]==0
-    print(f"PASS source-authority audit: 23 current validator receipts cover 674 libraries; {b['summary']['structurally_strong_candidates']} structurally strong candidates, authority remains unresolved")
+    assert b["summary"]["validator_passes"]==family_count and b["summary"]["ratified_source_authorities"]==b["summary"]["canonical_source_corpora"]==0
+    print(f"PASS source-authority audit: {family_count} current validator receipts cover {library_count} libraries; {b['summary']['structurally_strong_candidates']} structurally strong candidates, authority remains unresolved")
     return 0
 
 if __name__=="__main__":raise SystemExit(main())

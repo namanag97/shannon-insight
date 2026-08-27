@@ -15,8 +15,8 @@
       "sha256": "aa9e89a116030dc92458eb4e094e0e1af661aed615f71cb8fcb6e198a92b354a"
     },
     "family-axis-factorizations.jsonl": {
-      "bytes": 1152957,
-      "sha256": "b1a1916bef2f66abacf9ef76bdf718d3c41483438572fff57bbf2eb28cfb7dad"
+      "bytes": 1182575,
+      "sha256": "062ce49c50a2124c63396af782846258549716f8b69ad6fc0c57f70ec17c6f7f"
     },
     "primary-sources.jsonl": {
       "bytes": 1783,
@@ -24,7 +24,7 @@
     },
     "summary.json": {
       "bytes": 590,
-      "sha256": "d3f3a168897e4ab19dcb1c304c6c0638878a52131e7106a20e32f15877beaba3"
+      "sha256": "47eed0f96c4ede864325cc8fc7f9443e8a63569d851a02f3657210ef6df553b6"
     }
   },
   "manifest_id": "manifest.semantic-decision-locus-factorization.v1"

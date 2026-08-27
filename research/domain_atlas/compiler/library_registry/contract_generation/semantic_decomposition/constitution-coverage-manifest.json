@@ -3,15 +3,15 @@
   "files": {
     "constitution-coverage-summary.json": {
       "bytes": 471,
-      "sha256": "1253d7f8df3fd0d72bbd28a9027a8d2186de5bbd0fc516839e8a890c318f220c"
+      "sha256": "d4a74d31271c7fc2ccf56e5f3e3586cd150c6a9ed68a8f4a167706ad91b2ff35"
     },
     "constitution-coverage.json": {
-      "bytes": 7377,
-      "sha256": "50fb994ce207389c03a73ec4561db4bbbf0de31ac0a8fa559cc2e343b840db64"
+      "bytes": 7390,
+      "sha256": "6c56dae03edd68c84b44d399026fa2c6cda1455af41a5c6864c7bf796d356dfe"
     },
     "family-inheritance-queue.jsonl": {
-      "bytes": 481238,
-      "sha256": "70475d0f07bfc119d72f9164d787cb61aecbd8b1bb2e1b011611d6e7fac02978"
+      "bytes": 501774,
+      "sha256": "6197d99000853dd45294ef173c21411be507a3fc631f71412b7d8dbe412eeb35"
     }
   },
   "manifest_id": "manifest.semantic-axis.constitution-coverage.v1"

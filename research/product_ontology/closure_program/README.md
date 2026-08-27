@@ -4,7 +4,7 @@ This package is the operational cockpit for converting researched proposals into
 
 ## Two projections, deliberately distinct
 
-`closure-tranches.jsonl` is the historical semantic-convergence quotient projection produced from `research_convergence_rebase`. It remains trace evidence for the 686 quotient campaign and MUST NOT be used as the live downstream readiness headline after newer corpora reclassify work.
+`closure-tranches.jsonl` is the live semantic-convergence quotient projection produced from `research_convergence_rebase`. The rebase summary separately retains the immutable 686-quotient campaign as prior-snapshot provenance. The live projection MUST NOT imply that prior research dispositions cover newly introduced or expanded atoms.
 
 `master-batches.jsonl` and `master-summary.json` are the current dependency-ordered closure frontier. They consume the latest committed dossier-readiness, effective qualification, industry integration, context-map, source-system, data-shape, analytical-method and provider-target summaries.
 

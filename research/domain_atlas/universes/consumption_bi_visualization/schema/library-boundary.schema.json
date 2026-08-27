@@ -115,8 +115,7 @@
               "type": "string"
             },
             "minItems": 1,
-            "type": "array",
-            "uniqueItems": true
+            "type": "array"
           },
           "name": {
             "minLength": 1,

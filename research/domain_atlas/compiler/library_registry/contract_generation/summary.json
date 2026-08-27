@@ -3,12 +3,12 @@
   "completion_claim": false,
   "counts": {
     "archetypes": 19,
-    "clusters": 460,
-    "constitutions": 23,
+    "clusters": 467,
+    "constitutions": 24,
     "cross_owner_collisions": 146,
     "execution_waves": 7,
-    "proposals": 674,
-    "work_packages": 57
+    "proposals": 682,
+    "work_packages": 60
   },
   "edition": 1,
   "laws": [
@@ -20,13 +20,13 @@
   ],
   "program_id": "program.bulk-contract-generation.v1",
   "proposal_counts_by_confidence": {
-    "HEURISTIC_REVIEW_REQUIRED": 150,
-    "MECHANICAL_HIGH": 524
+    "HEURISTIC_REVIEW_REQUIRED": 151,
+    "MECHANICAL_HIGH": 531
   },
   "proposal_counts_by_primary_archetype": {
     "archetype.contract.canonicalizer_normalizer": 6,
-    "archetype.contract.conformance_oracle": 34,
-    "archetype.contract.effect_port": 27,
+    "archetype.contract.conformance_oracle": 35,
+    "archetype.contract.effect_port": 29,
     "archetype.contract.encoder_serializer": 4,
     "archetype.contract.evidence_receipt_protocol": 6,
     "archetype.contract.lifecycle_reducer": 8,
@@ -36,8 +36,8 @@
     "archetype.contract.policy_evaluator": 56,
     "archetype.contract.provider_adapter": 43,
     "archetype.contract.registry_resolver": 7,
-    "archetype.contract.runtime_mechanism": 81,
-    "archetype.contract.semantic_algebra": 380,
+    "archetype.contract.runtime_mechanism": 83,
+    "archetype.contract.semantic_algebra": 383,
     "archetype.contract.target_backend": 4
   },
   "status": "ACTIVE_INCOMPLETE"

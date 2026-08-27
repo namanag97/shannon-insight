@@ -1,19 +1,19 @@
 {
   "as_of": "2026-08-27",
-  "blocked_dockets": 110,
-  "candidate_clusters": 1300,
-  "candidate_exception_clusters": 1042,
+  "blocked_dockets": 115,
+  "candidate_clusters": 1343,
+  "candidate_exception_clusters": 1074,
   "canonical_gaps_closed": 0,
   "completion_claim": false,
-  "family_axis_dockets": 368,
+  "family_axis_dockets": 384,
   "member_applicability_decisions": 0,
-  "member_axis_cells": 10784,
+  "member_axis_cells": 10912,
   "owner_decisions": 0,
   "program_id": "program.semantic-research-frontier.v1",
   "research_lanes": 3,
-  "review_ready_dockets": 258,
+  "review_ready_dockets": 269,
   "semantic_axes": 16,
   "targeted_axes_with_campaign_routes": 6,
-  "targeted_family_packages": 103,
-  "targeted_library_occurrences": 2805
+  "targeted_family_packages": 107,
+  "targeted_library_occurrences": 2832
 }

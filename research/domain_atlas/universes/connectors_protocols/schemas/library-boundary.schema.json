@@ -3,9 +3,27 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "allowed_dependency_kinds": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 0,
+      "type": "array",
+      "uniqueItems": true
+    },
     "cancellation": {
       "items": {
         "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 0,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "capability_dependencies": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
         "type": "string"
       },
       "minItems": 0,

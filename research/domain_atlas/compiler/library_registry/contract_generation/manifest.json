@@ -2,8 +2,8 @@
   "as_of": "2026-08-26",
   "files": {
     "boundary-falsification-clusters.jsonl": {
-      "bytes": 392275,
-      "sha256": "63322714d6fd7d09bde4f96c876f72cfa04a3e80c8d99e865bee815a686e5c5f"
+      "bytes": 398176,
+      "sha256": "05638d62138e7c601afecb1abc3b7fbcf7e18358cf4f7fa55a1540709dbe03b4"
     },
     "contract-archetypes.jsonl": {
       "bytes": 28612,
@@ -14,24 +14,24 @@
       "sha256": "348951f4addebfb90361549f79df5676a12c232fa9e6aeb9b6d92af34dbcb228"
     },
     "execution-waves.jsonl": {
-      "bytes": 10764,
-      "sha256": "dfed11450cea8d382d6d3cbbc318471fdd9bb412fdbaad190681ae6445b9b31f"
+      "bytes": 10986,
+      "sha256": "6342d7693b9ceb2337daffde233516aff2ea32260d0946c7705ad68533cda6d3"
     },
     "family-constitutions.jsonl": {
-      "bytes": 69715,
-      "sha256": "e819bde3390f7dab507d31799c44bb8a4182ba852471cdc50bc6d2bf9a131941"
+      "bytes": 73434,
+      "sha256": "71cd5d4573b15bd71b93df473cde3e50886aa4e89ba611aef1ce267e7d7af479"
     },
     "library-instance-proposals.jsonl": {
-      "bytes": 1370134,
-      "sha256": "72d08b8ab83b124fb1a166b990a89250dcc1b434a9b6863144f28e11ab283270"
+      "bytes": 1386311,
+      "sha256": "33474b6343fffb2428115f462e4f53a81025afe9d3cc3f0994716827f8a8bdba"
     },
     "summary.json": {
       "bytes": 1653,
-      "sha256": "9cd3b22e25c2f09d15a40117bc592d50aaf345f54aa1ef93eaa8a29dd30648aa"
+      "sha256": "2b5ece2b7b1fc0be7e7c2211a57c9b83aa2eaa2c993c4f0931131301c75a4666"
     },
     "work-packages.jsonl": {
-      "bytes": 100700,
-      "sha256": "44e7ce2b84161ffa01c4dca31badd08123ee4686f880745523fc5c0c117b0642"
+      "bytes": 104377,
+      "sha256": "26aa154104baecb4a593c66e053fb50ba68c1de622b095bb4f896325cb1484d6"
     }
   },
   "manifest_id": "manifest.bulk-contract-generation.v1"

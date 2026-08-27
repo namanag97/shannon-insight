@@ -1085,12 +1085,13 @@ def id_schema(pattern: str = r"^[a-z][a-z0-9_-]*(\.[a-z0-9_-]+)+$") -> dict[str,
 
 STR = {"type": "string", "minLength": 1}
 ARR_STR = {"type": "array", "items": STR, "minItems": 1, "uniqueItems": True}
+PARAM_TYPES = {"type": "array", "items": STR, "minItems": 1}
 STATUS = {"type": "string", "enum": ["candidate", "candidate_evidence"]}
 NULLABLE_STR = {"type": ["string", "null"]}
 OPERATION_SCHEMA = {
     "type": "object", "additionalProperties": False,
     "properties": {
-        "operation_ref": STR, "name": STR, "input_types": ARR_STR, "output_type": STR,
+        "operation_ref": STR, "name": STR, "input_types": PARAM_TYPES, "output_type": STR,
         "purity": {"enum": ["pure", "effectful_explicit", "unresolved_refuse"]},
         "effect_intent_type": NULLABLE_STR, "receipt_type": NULLABLE_STR,
         "refusal_types": ARR_STR,

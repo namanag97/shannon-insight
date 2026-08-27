@@ -23,6 +23,12 @@ from axis_evidence_campaign import (  # noqa: E402
 
 
 CLAIMS: dict[str, dict[str, Any]] = {
+    "constitution.family.application_behavior": {
+        "title": "State Chart XML (SCXML) 1.0", "publisher": "W3C", "url": "https://www.w3.org/TR/scxml/",
+        "claim": "SCXML distinguishes one state-machine session, its active state configuration, individual states, transitions and queued external or internal event occurrences; a configuration can contain multiple active atomic states.",
+        "coordinates": ["state_machine_session", "active_configuration", "state", "transition", "event_occurrence"], "limit": "SCXML supplies execution notation and processing semantics; it does not establish an application's aggregate identity, persistence boundary, business case grain or authorization scope.",
+        "negative": "one event, transition, active state, complete configuration and application aggregate are the same grain",
+    },
     "constitution.family.connector_protocol": {
         "title": "Debezium signaling and incremental snapshots", "publisher": "Debezium", "url": "https://debezium.io/documentation/reference/stable/configuration/signalling.html",
         "claim": "Incremental snapshot execution distinguishes a requested snapshot, tables, chunks/windows and emitted change records; those grains have different completion and resume semantics.",

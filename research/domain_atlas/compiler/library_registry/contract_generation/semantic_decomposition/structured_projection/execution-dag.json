@@ -85,7 +85,7 @@
       ]
     },
     {
-      "count": 23,
+      "count": 24,
       "exit_gate": "Each family has an editioned canonical source schema or an explicit unresolved/rejected disposition.",
       "node_id": "dag.semantic.source-authority",
       "work_kind": "family_source_authority",
@@ -112,11 +112,12 @@
         "work.source-authority.020",
         "work.source-authority.021",
         "work.source-authority.022",
-        "work.source-authority.023"
+        "work.source-authority.023",
+        "work.source-authority.024"
       ]
     },
     {
-      "count": 30,
+      "count": 31,
       "exit_gate": "P0 identity/equality and grain/cardinality evidence vacancies are decided or remain explicitly owned.",
       "node_id": "dag.semantic.targeted-evidence.phase1",
       "work_kind": "targeted_evidence",
@@ -150,16 +151,16 @@
         "work.structured-axis-evidence.027",
         "work.structured-axis-evidence.028",
         "work.structured-axis-evidence.029",
-        "work.structured-axis-evidence.030"
+        "work.structured-axis-evidence.030",
+        "work.structured-axis-evidence.031"
       ]
     },
     {
-      "count": 51,
+      "count": 53,
       "exit_gate": "State/change, order/topology and partiality/uncertainty evidence vacancies are decided or remain explicitly owned.",
       "node_id": "dag.semantic.targeted-evidence.phase2",
       "work_kind": "targeted_evidence",
       "work_refs": [
-        "work.structured-axis-evidence.031",
         "work.structured-axis-evidence.032",
         "work.structured-axis-evidence.033",
         "work.structured-axis-evidence.034",
@@ -209,18 +210,18 @@
         "work.structured-axis-evidence.078",
         "work.structured-axis-evidence.079",
         "work.structured-axis-evidence.080",
-        "work.structured-axis-evidence.081"
+        "work.structured-axis-evidence.081",
+        "work.structured-axis-evidence.082",
+        "work.structured-axis-evidence.083",
+        "work.structured-axis-evidence.084"
       ]
     },
     {
-      "count": 22,
+      "count": 23,
       "exit_gate": "Composition laws, losses, conflicts and optimization permissions are decided or remain explicitly owned.",
       "node_id": "dag.semantic.targeted-evidence.phase5",
       "work_kind": "targeted_evidence",
       "work_refs": [
-        "work.structured-axis-evidence.082",
-        "work.structured-axis-evidence.083",
-        "work.structured-axis-evidence.084",
         "work.structured-axis-evidence.085",
         "work.structured-axis-evidence.086",
         "work.structured-axis-evidence.087",
@@ -239,12 +240,16 @@
         "work.structured-axis-evidence.100",
         "work.structured-axis-evidence.101",
         "work.structured-axis-evidence.102",
-        "work.structured-axis-evidence.103"
+        "work.structured-axis-evidence.103",
+        "work.structured-axis-evidence.104",
+        "work.structured-axis-evidence.105",
+        "work.structured-axis-evidence.106",
+        "work.structured-axis-evidence.107"
       ]
     },
     {
-      "count": 46,
-      "exit_gate": "All 23 families have explicit identity/equality and grain/cardinality defaults, exceptions, evidence and unresolved owners.",
+      "count": 48,
+      "exit_gate": "Every family has explicit identity/equality and grain/cardinality defaults, exceptions, evidence and unresolved owners.",
       "node_id": "dag.semantic.p0-family-identity-grain",
       "work_kind": "p0_family_identity_grain_adjudication",
       "work_refs": [
@@ -261,7 +266,7 @@
       ]
     },
     {
-      "count": 368,
+      "count": 384,
       "exit_gate": "Every family-axis has a ratified default or unresolved reason and all member exceptions are explicit.",
       "node_id": "dag.semantic.family-applicability",
       "work_kind": "family_axis_owner_decisions",
@@ -270,7 +275,7 @@
       ]
     },
     {
-      "count": 674,
+      "count": 682,
       "exit_gate": "Every retained library has an exact editioned API, laws, refusals, bounds, evidence and dependency contract or remains rejected/unresolved.",
       "node_id": "dag.semantic.exact-contracts",
       "work_kind": "exact_library_contract_adjudication",
@@ -279,7 +284,7 @@
       ]
     },
     {
-      "count": 674,
+      "count": 682,
       "exit_gate": "Exact implementations pass scoped conformance; portability claims require independent implementations.",
       "node_id": "dag.semantic.implementation-conformance",
       "work_kind": "implementation_and_provider_qualification",
@@ -288,7 +293,7 @@
       ]
     },
     {
-      "count": 674,
+      "count": 682,
       "exit_gate": "Boundary generality and product acceptance are evidenced in at least two unrelated verticals where required.",
       "node_id": "dag.semantic.vertical-acceptance",
       "work_kind": "unrelated_vertical_and_product_acceptance",

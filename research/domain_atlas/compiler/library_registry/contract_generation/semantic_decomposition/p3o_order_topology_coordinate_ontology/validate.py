@@ -32,8 +32,8 @@ def main() -> int:
     assert len(archetypes) == len({row["archetype_id"] for row in archetypes}) == 20
     assert len(kernels) == len({row["kernel_id"] for row in kernels}) == 32
     assert all(row["applicability"] == "UNRESOLVED_PER_OPERATION_AND_RELATION" for row in kernels)
-    assert len(extensions) == 23
-    assert len(members) == len({row["library_ref"] for row in members}) == 623
+    assert len(extensions) == summary["family_extension_candidates"]
+    assert len(members) == len({row["library_ref"] for row in members}) == summary["target_member_routes"]
     assert all(row["required_endpoint_and_relation_inventory"] == "NOT_YET_SUPPLIED" for row in members)
     assert all(row["required_relation_coordinate_profiles"] == "NOT_YET_SUPPLIED" for row in members)
     assert all(row["required_path_and_scope_contracts"] == "NOT_YET_SUPPLIED" for row in members)
@@ -45,18 +45,16 @@ def main() -> int:
     assert len(cluster_members) == len(set(cluster_members)) == len(members)
     assert set(cluster_members) == {row["library_ref"] for row in members}
 
-    assert summary["target_member_routes"] == 623
-    assert summary["research_clusters"] == 58
-    assert summary["routes_with_lexical_discovery_projection"] == 65
-    assert summary["routes_with_no_member_relation_evidence"] == 558
+    assert summary["research_clusters"] == len(clusters)
+    assert summary["routes_with_lexical_discovery_projection"] + summary["routes_with_no_member_relation_evidence"] == len(members)
     assert summary["relation_coordinate_profiles_supplied"] == 0
     assert summary["member_applicability_decisions"] == 0
     assert summary["owner_decisions"] == 0
     assert summary["canonical_gaps_closed"] == 0
     assert not summary["completion_claim"]
     print(
-        "PASS P3O order/topology coordinate ontology: 623 exact members partition losslessly "
-        "into 58 relation-aware clusters; all relation applicability remains open"
+        f"PASS P3O order/topology coordinate ontology: {len(members)} exact members partition losslessly "
+        f"into {len(clusters)} relation-aware clusters; all relation applicability remains open"
     )
     return 0
 

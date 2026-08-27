@@ -39,6 +39,7 @@ def main() -> int:
     source_reference_chain = read_json(ROOT / "research/domain_atlas/universes/source_systems/source-acquisition-reference-summary.json")
     effective_shape_gaps = read_json(ROOT / "research/domain_atlas/universes/data_shapes/effective-gap-summary.json")
     synthesis = read_json(ROOT / "research/product_ontology/solution_synthesis_architecture/summary.json")
+    closure = read_json(ROOT / "research/product_ontology/closure_program/summary.json")
     human_work = read_json(ROOT / "research/domain_atlas/universes/human_work_review_adjudication/manifest.json")
     effect_boundary = read_json(ROOT / "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/effect_boundary_coordinate_ontology/summary.json")
     vertical_acceptance = read_json(ROOT / "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p8_vertical_acceptance_tensor/summary.json")
@@ -63,8 +64,8 @@ def main() -> int:
         {
             "batch_id": "B01_SOURCE_AUTHORITY",
             "depends_on": ["B00_TRUTH_CONVERGENCE"],
-            "scope": "Named source/schema authority decisions for the 23 prepared source-family payloads and independent verification receipts.",
-            "current": {"ratifier_ready_payloads": 23, "ratified": 0},
+            "scope": "Research any unprepared live source family, then obtain named source/schema authority decisions and independent verification receipts for every current family.",
+            "current": {"current_source_families": closure["source_authority_current_family_count"], "ratifier_ready_payloads": closure["source_authority_prepared_payload_count"], "unprepared_source_families": closure["source_authority_unprepared_family_count"], "ratified": 0},
             "exit_condition": "Each source family has accept/modify/reject authority receipt plus independent verifier receipt; no agent assertion substitutes.",
             "status": "AWAITING_HUMAN_AUTHORITY",
             "authority_refs": ["research/product_ontology/closure_program/source-authority-ratification-batch.jsonl"],

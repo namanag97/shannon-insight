@@ -7,16 +7,16 @@
       "sha256": "3275c49af9193ce87e6a671e3e5aece79b4dd6c164d425f7b4e16606e553b907"
     },
     "extension-candidates.jsonl": {
-      "bytes": 40310,
-      "sha256": "68014e583bb86d038ccc4051c8f134e69eb6bdc56e35e5bd488d40a84c8d9f97"
+      "bytes": 41308,
+      "sha256": "e4a2ef844c008066169a31c5b1f9ded78011202f142b22e67e117989f1e3d1cb"
     },
     "member-composition-routes.jsonl": {
-      "bytes": 804864,
-      "sha256": "797a925f6ccc0b2c949e1c4e933e9ce42498cd0f8cfae688eced8a8f457df5bd"
+      "bytes": 813898,
+      "sha256": "a25912fd01308e7a2c1b4c429899472e09c1a6b165038264e6bd135d7f6a4780"
     },
     "member-research-clusters.jsonl": {
-      "bytes": 89083,
-      "sha256": "b9e3e5b7beee6a8bbef754d18f94c609e946b05ddbd9cc8b3cf8c9a83fd74c0c"
+      "bytes": 91888,
+      "sha256": "ede98a0a058eb9147baa2021775c68748a2ba174635ad966511a048753c7c569"
     },
     "operator-archetypes.jsonl": {
       "bytes": 11270,
@@ -32,7 +32,7 @@
     },
     "summary.json": {
       "bytes": 637,
-      "sha256": "0a3d7dbc48f41404497d79a66757edaccf30f694e84d05936eb0f9f65882cf2f"
+      "sha256": "71bddcca10fec45d6c9ef42f766d342eec83c0cbf2a9afa589045dda21c5056c"
     }
   },
   "manifest_id": "manifest.p3c.composition-algebra-coordinate-ontology-and-rebase.v1"

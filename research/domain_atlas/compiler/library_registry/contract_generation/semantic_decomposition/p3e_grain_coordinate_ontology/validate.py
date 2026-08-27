@@ -33,8 +33,8 @@ def main() -> int:
         library_ref for docket in dockets for library_ref in docket["library_refs"]
     }
     routed_members = {row["library_ref"] for row in routes}
-    assert len(dockets) == len(extensions) == 23
-    assert len(routes) == len(routed_members) == len(expected_members) == 638
+    assert len(dockets) == len(extensions)
+    assert len(routes) == len(routed_members) == len(expected_members) == summary["target_member_routes"]
     assert routed_members == expected_members
     assert sum(row["library_count"] for row in clusters) == len(routes)
     assert {row["research_cluster_ref"] for row in routes} == {
@@ -52,8 +52,7 @@ def main() -> int:
     assert all(row["owner_decision"] == "UNRESOLVED" for row in extensions)
     assert all(row["canonical_gaps_closed"] == 0 and not row["completion_claim"] for row in routes + clusters + extensions)
 
-    assert summary["target_member_routes"] == 638
-    assert summary["routes_with_lexical_discovery_projection"] + summary["routes_with_no_member_operation_evidence"] == 638
+    assert summary["routes_with_lexical_discovery_projection"] + summary["routes_with_no_member_operation_evidence"] == len(routes)
     assert summary["operation_positioned_profiles_supplied"] == 0
     assert summary["member_applicability_decisions"] == 0
     assert summary["owner_decisions"] == 0

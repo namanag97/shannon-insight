@@ -6,7 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 
-from build_semantic_decomposition import AXES, HERE, build, outputs
+from build_semantic_decomposition import AXES, GENERATION, HERE, build, outputs, rows
 
 
 def main() -> int:
@@ -26,12 +26,16 @@ def main() -> int:
     lanes = built["axis_lanes"]
     phases = built["execution_phases"]
     axis_names = {axis["axis"] for axis in AXES}
+    proposal_count = len(rows(GENERATION / "library-instance-proposals.jsonl"))
+    family_count = len({row["family_id"] for row in signatures})
+    expected_package_count = family_count * len(AXES)
     assert len(AXES) == len(axis_names) == 16
     assert sum(len(axis["facets"]) for axis in AXES) >= 90
     assert len(realizations) == sum(len(axis["facets"]) for axis in AXES) == 109
     assert len({row["realization_id"] for row in realizations}) == 109
     realization_refs = {row["realization_id"] for row in realizations}
-    assert len(signatures) == 674 and len({row["library_ref"] for row in signatures}) == 674
+    assert len(signatures) == proposal_count
+    assert len({row["library_ref"] for row in signatures}) == proposal_count
     assert all({row["axis"] for row in signature["axis_selections"]} == axis_names for signature in signatures)
     assert all(len(signature["axis_selections"]) == 16 for signature in signatures)
     for signature in signatures:
@@ -55,20 +59,20 @@ def main() -> int:
     refs = [member["signature_ref"] + "\0" + package["axis"] for package in packages for member in package["member_signatures"]]
     expected = [signature["signature_id"] + "\0" + axis for signature in signatures for axis in axis_names]
     assert sorted(refs) == sorted(expected)
-    assert len(queue) == len(packages) == 368
+    assert len(queue) == len(packages) == expected_package_count
     assert {row["work_package_ref"] for row in queue} == {row["work_package_id"] for row in packages}
-    assert [row["rank"] for row in queue] == list(range(1, 369))
+    assert [row["rank"] for row in queue] == list(range(1, expected_package_count + 1))
     assert [row["priority_score"] for row in queue] == sorted((row["priority_score"] for row in queue), reverse=True)
     assert all(row["unresolved_library_count"] + row["candidate_ratification_count"] == row["library_count"] for row in queue)
     assert len(lanes) == 16 and {row["axis"] for row in lanes} == axis_names
-    assert all(row["family_count"] == 23 for row in lanes)
+    assert all(row["family_count"] == family_count for row in lanes)
     assert sorted(ref for lane in lanes for ref in lane["family_work_package_refs_in_priority_order"]) == sorted(row["work_package_id"] for row in packages)
     assert len(phases) == 5
     assert len({ref for phase in phases for ref in phase["axis_lane_refs"]}) == 16
     assert phases[0]["depends_on_phase_refs"] == []
     assert all(phase["depends_on_phase_refs"] == [phases[index - 1]["phase_id"]] for index, phase in enumerate(phases) if index > 0)
     assert built["summary"]["completion_claim"] is False
-    print(f"PASS semantic-axis decomposition: 674 libraries have complete 16-axis discovery signatures; {len(realizations)} facets have realization dispositions; {len(packages)} ranked family-axis research packages preserve unresolved owner decisions")
+    print(f"PASS semantic-axis decomposition: {proposal_count} libraries have complete 16-axis discovery signatures; {len(realizations)} facets have realization dispositions; {len(packages)} ranked family-axis research packages preserve unresolved owner decisions")
     return 0
 
 

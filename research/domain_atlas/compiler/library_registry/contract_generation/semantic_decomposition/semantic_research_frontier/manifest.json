@@ -3,16 +3,16 @@
   "completion_claim": false,
   "files": {
     "axis-frontier.jsonl": {
-      "bytes": 21799,
-      "sha256": "e2d340effaeb3bf3897a463e0fad7f4934377711e5b74b1659abd1000697d461"
+      "bytes": 21828,
+      "sha256": "b87280dab6000cbcb579e7664670f2193aab0c790e377704c822a46c64235334"
     },
     "research-lanes.jsonl": {
       "bytes": 3066,
-      "sha256": "08fc16ea90d97a0e27e3ca3a4be8d96bbfe97ed553f909037a56a2f5e2027ba6"
+      "sha256": "9c4ef83f7649da682981c5df45f0b60a03f6bab991af8d3fc6e1ad12eabd3569"
     },
     "summary.json": {
       "bytes": 558,
-      "sha256": "db63ecdc82dc715197ea0e4543fc22e1b5d0fc9436f03fc537343602bd11b8d0"
+      "sha256": "67723b79de6fa0e91c1b2b7a2b9f89a9cf624229d86036daefa2e016b76bc9bb"
     }
   },
   "manifest_id": "manifest.semantic-research-frontier.v1"

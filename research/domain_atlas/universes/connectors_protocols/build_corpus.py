@@ -148,7 +148,7 @@ def build_schemas() -> None:
             "input_types": strings_schema(), "output_types": strings_schema(), "configuration_contracts": strings_schema(),
             "error_contracts": strings_schema(), "laws": strings_schema(), "oracles": strings_schema(),
             "resource_contracts": strings_schema(), "concurrency": strings_schema(), "cancellation": strings_schema(),
-            "dependencies": strings_schema(), "receipts": strings_schema(1), "removal_seams": strings_schema(1), "evidence_refs": refs_schema(1),
+            "dependencies": strings_schema(), "capability_dependencies": refs_schema(), "allowed_dependency_kinds": strings_schema(), "receipts": strings_schema(1), "removal_seams": strings_schema(1), "evidence_refs": refs_schema(1),
         }),
         "conformance-test": record_schema("Connector conformance test", "test_id", ["name", "scope", "preconditions", "stimulus", "oracle", "expected_receipts", "allowed_outcomes", "distinguishes", "destructive", "evidence_refs"], {
             "name": {"type": "string"}, "scope": {"type": "string"}, "preconditions": strings_schema(1), "stimulus": strings_schema(1),

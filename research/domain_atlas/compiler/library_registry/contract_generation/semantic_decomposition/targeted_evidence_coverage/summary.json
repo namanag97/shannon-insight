@@ -6,11 +6,11 @@
   "owner_decisions": 0,
   "program_id": "program.targeted-semantic-axis-campaign-coverage.v1",
   "registered_campaigns": 6,
-  "routed_library_occurrences": 2805,
-  "routed_work_packages": 103,
+  "routed_library_occurrences": 2832,
+  "routed_work_packages": 107,
   "targeted_axes": 6,
-  "targeted_library_occurrences": 2805,
-  "targeted_work_packages": 103,
+  "targeted_library_occurrences": 2832,
+  "targeted_work_packages": 107,
   "unrouted_axes": [],
   "unrouted_work_packages": 0
 }

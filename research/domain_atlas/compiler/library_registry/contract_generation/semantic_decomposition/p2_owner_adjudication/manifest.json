@@ -11,52 +11,52 @@
       "sha256": "af54633e0edfe45a791dfd3df022671b32ff7d86b688406824b1aacaa90e41fd"
     },
     "occurrence-disposition-candidates.jsonl": {
-      "bytes": 827191,
-      "sha256": "4c9940434494ae67be9b7d296b5eba078d7381bb6ec15d24cce6fd387d48b086"
+      "bytes": 846440,
+      "sha256": "6637dfb4c74f1a0478ff643efc275127296ab96e4e71ba3c4e75b6500ade5925"
     },
     "occurrence-relation-proposals.jsonl": {
-      "bytes": 579155,
-      "sha256": "28f4d4033854b4d8dcfb1d5286c357028c2a47c4f5eef124667a8cdb94ad6a2b"
+      "bytes": 592694,
+      "sha256": "faaac720472f5fbff5dd88698c10cd5e8c3a07d9763b9ff70acea1684564d1c7"
     },
     "owner-adjudication-challenge-packages.jsonl": {
-      "bytes": 63124,
-      "sha256": "a062f14f60eae53bc196af8b8810054fcf4c8d1ac939d17e8fe9ba38e28b4cf4"
+      "bytes": 66590,
+      "sha256": "e04c9c579fe25876639c90b25160cf8502c73db328a26b16da06bf81640399e3"
     },
     "owner-adjudication-dockets.jsonl": {
-      "bytes": 772432,
-      "sha256": "39e7d5bfaab641b6def5996dce12d101ec9d227b27f5f76b2bb790b30130747a"
+      "bytes": 795478,
+      "sha256": "72ab5a4d6d1e1b4eac113f28fb1004e7e4085308d1a83ab5c9a6d39671262086"
     },
     "owner-decision-units.jsonl": {
-      "bytes": 183335,
-      "sha256": "0d3da3e601153a87b8a061e8ed8098fff2cc5aff814b39f4422eb3cd0635ed84"
+      "bytes": 189874,
+      "sha256": "eef1a72ee616f4632624472d746d61488759c1bccdb124433619636ff4a5f441"
     },
     "owner-decision-waves.jsonl": {
-      "bytes": 42069,
-      "sha256": "08831f515f0731b08fec7bad1c36f06b5e14157f2eeae7c1318ab1427f4382b9"
+      "bytes": 43518,
+      "sha256": "3f9663e965d543d104908fcfd717ae100ff6e63a9982b9b9f2cefd104f7951a8"
     },
     "owner-proposal-counterfactuals.jsonl": {
-      "bytes": 186481,
-      "sha256": "44b7786efba3e311bc10db89d71b31d2d6fb463dda853f7b4836c9bb3cfec7dc"
+      "bytes": 192848,
+      "sha256": "c037bcb271270b2eea48e7a25caeb4aa8cf4a073ca055c96d64ebdb1bf19ad3e"
     },
     "owner-proposals.jsonl": {
-      "bytes": 518824,
-      "sha256": "13abd72cdad73f6f6b78c900fa2d32ee0056d669173757cdaf7826b728adce77"
+      "bytes": 532962,
+      "sha256": "076cdd4f6f34e9c608143446392d1ec99aadbe6b829e223b2965cdafbeb25185"
     },
     "owner-ratification-packet-templates.jsonl": {
-      "bytes": 534303,
-      "sha256": "361cfc684f169b9a4589065dd1e0940ef9f13634bd0f02a08c389ad3da5aecab"
+      "bytes": 551646,
+      "sha256": "69a1e18e6e9e0c4bc4405ecd7a7e997a6567bb60e32f68e64660bbf47fa16f87"
     },
     "proposal-conflicts.jsonl": {
-      "bytes": 93724,
-      "sha256": "56cb678cbc0844ab86c6c72939c9d5841e05ffd166f74a65459debce73522cef"
+      "bytes": 96886,
+      "sha256": "1c59f876e5d4171c83ae3867b1d6c61048a4e602fc90a99f6361c9ff40a6ab27"
     },
     "ratification-contract.json": {
       "bytes": 1318,
       "sha256": "c65a9f0fa3040a3880a7308cc63a5f50eae6c5617a41d9175746126d3c5519da"
     },
     "summary.json": {
-      "bytes": 9023,
-      "sha256": "f76846c3ea87e840bfd6793ed648e618cc699c53c97cefe820552a70947710d5"
+      "bytes": 9024,
+      "sha256": "8aaca9e86d879f52eadfafe7583eac6712bdae787f086fd533694d25f8aff02c"
     }
   },
   "manifest_id": "manifest.p2-owner-adjudication.v1"

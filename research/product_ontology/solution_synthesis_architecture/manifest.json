@@ -12,13 +12,38 @@
     },
     {
       "path": "ir-stages.jsonl",
-      "records": 11,
-      "sha256": "3ea87162585e1a11c918df7c8797b7da4da69004f82e90910e9f2ed146bdf4a9"
+      "records": 17,
+      "sha256": "41524f4526412df78be1ada5c6822b08f54ea604e721965a26b3077efbb3d6ea"
     },
     {
       "path": "ir-transforms.jsonl",
+      "records": 23,
+      "sha256": "eac6660b6b9fd26960e7a74c61a0758c7fad456757e06c19647c8521e9475d49"
+    },
+    {
+      "path": "ir-join-rules.jsonl",
+      "records": 10,
+      "sha256": "e21a5c97e882c2189833c4d2d4752e740658b63bf20e89e9f20aa09a9b9fa303"
+    },
+    {
+      "path": "data-analytics-planes.jsonl",
+      "records": 15,
+      "sha256": "5925338c0695bc3a176d14c8af4f1719098ad2f98e9a7270d6d6a747a88325ea"
+    },
+    {
+      "path": "python-toolchain-roles.jsonl",
+      "records": 9,
+      "sha256": "86cb864deced9357def1723d32f1cc14987cd72077fedb7d72c879a1358ef218"
+    },
+    {
+      "path": "artifact-classes.jsonl",
       "records": 11,
-      "sha256": "618828a12a7e5e70a821088f7486645f4d3a64044e92adb7ea4ca43193e2c7cb"
+      "sha256": "88161cd584b9f7269e3926a1421ea8ff8d54d026b35146484e86d8d29ac2187a"
+    },
+    {
+      "path": "build-policies.jsonl",
+      "records": 8,
+      "sha256": "cf9aec676aad11eae63f4a9f994a72b32e012ec6ae4f69e1c6f7a3cbf06ab8d1"
     },
     {
       "path": "compilation-frontier.jsonl",
@@ -43,15 +68,20 @@
   ],
   "summary": {
     "architecture_patterns": 1,
+    "artifact_classes": 11,
     "binding_phases": 7,
+    "build_policies": 8,
     "completion_claim": false,
     "components": 6,
     "constitutional_laws": 12,
+    "data_analytics_planes": 15,
     "frontier_classes": 5,
-    "ir_stages": 11,
-    "ir_transforms": 11,
+    "ir_join_rules": 10,
+    "ir_stages": 17,
+    "ir_transforms": 23,
     "operating_modes": 3,
     "outcomes": 2,
-    "products_promoted": 0
+    "products_promoted": 0,
+    "python_toolchain_roles": 9
   }
 }

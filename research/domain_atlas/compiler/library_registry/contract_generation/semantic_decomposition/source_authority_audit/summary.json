@@ -3,16 +3,16 @@
   "canonical_source_corpora": 0,
   "completion_claim": false,
   "edition": 1,
-  "families": 23,
+  "families": 24,
   "finding": "Validation coverage is broad, but structural controls and source authority remain separate. Missing schemas/manifests are explicit rather than hidden by passing domain validators.",
-  "libraries": 674,
+  "libraries": 682,
   "missing_control_counts": {},
   "program_id": "program.family-source-authority-audit.v1",
   "ratified_source_authorities": 0,
   "readiness_counts": {
-    "STRUCTURALLY_STRONG_SOURCE_CANDIDATE_NOT_CANONICAL": 23
+    "STRUCTURALLY_STRONG_SOURCE_CANDIDATE_NOT_CANONICAL": 24
   },
   "status": "ACTIVE_AUTHORITY_DECISIONS_OPEN",
-  "structurally_strong_candidates": 23,
-  "validator_passes": 23
+  "structurally_strong_candidates": 24,
+  "validator_passes": 24
 }

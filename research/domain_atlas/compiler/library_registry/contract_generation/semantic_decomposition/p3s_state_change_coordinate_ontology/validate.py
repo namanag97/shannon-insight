@@ -32,8 +32,8 @@ def main() -> int:
     assert len(archetypes) == len({row["archetype_id"] for row in archetypes}) == 12
     assert len(kernels) == len({row["kernel_id"] for row in kernels}) == 31
     assert all(row["applicability"] == "UNRESOLVED_PER_TRANSITION" for row in kernels)
-    assert len(extensions) == 23
-    assert len(members) == len({row["library_ref"] for row in members}) == 629
+    assert len(extensions) == summary["family_extension_candidates"]
+    assert len(members) == len({row["library_ref"] for row in members}) == summary["target_member_routes"]
     assert all(row["required_state_subject_profiles"] == "NOT_YET_SUPPLIED" for row in members)
     assert all(row["required_lifecycle_editions"] == "NOT_YET_SUPPLIED" for row in members)
     assert all(row["required_transition_inventory"] == "NOT_YET_SUPPLIED" for row in members)
@@ -45,9 +45,7 @@ def main() -> int:
     assert len(cluster_members) == len(set(cluster_members)) == len(members)
     assert set(cluster_members) == {row["library_ref"] for row in members}
 
-    assert summary["target_member_routes"] == 629
-    assert summary["routes_with_lexical_discovery_projection"] == 84
-    assert summary["routes_with_no_member_state_subject_evidence"] == 545
+    assert summary["routes_with_lexical_discovery_projection"] + summary["routes_with_no_member_state_subject_evidence"] == len(members)
     assert summary["state_subject_profiles_supplied"] == 0
     assert summary["transition_inventories_supplied"] == 0
     assert summary["member_applicability_decisions"] == 0
@@ -55,7 +53,7 @@ def main() -> int:
     assert summary["canonical_gaps_closed"] == 0
     assert not summary["completion_claim"]
     print(
-        "PASS P3S state/change coordinate ontology: 629 exact members partition losslessly into "
+        f"PASS P3S state/change coordinate ontology: {len(members)} exact members partition losslessly into "
         f"{len(clusters)} bearer-aware research clusters; all lifecycle decisions remain open"
     )
     return 0

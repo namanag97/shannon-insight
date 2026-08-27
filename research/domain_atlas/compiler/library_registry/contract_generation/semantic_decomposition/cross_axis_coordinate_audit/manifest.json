@@ -3,8 +3,8 @@
   "completion_claim": false,
   "files": {
     "axis-package-inventory.jsonl": {
-      "bytes": 70654,
-      "sha256": "e2b14ee190d7877f072b817105c0616b3da05355baf1e546a68ea5c4cbd870b7"
+      "bytes": 71481,
+      "sha256": "10bf6df5636aadb0df7b20a1a4d97d79c3596cde42c8d267f16e8f0304f5303e"
     },
     "compiler-ir-coverage.jsonl": {
       "bytes": 13259,
@@ -15,12 +15,12 @@
       "sha256": "410b433bdf1a22ef68c220f075150885b4ca90fd2e95f8a111591549a2f5d5d3"
     },
     "family-axis-quotient-audits.jsonl": {
-      "bytes": 633528,
-      "sha256": "52646292e191c090b2e24bcfea24a017422468d5630cf3ef88514b1a292bcf56"
+      "bytes": 647648,
+      "sha256": "e0e5d45dd64a1ca2db6b28a8d22200ad0a0bdda81fb1eeae17efcd560397af83"
     },
     "summary.json": {
       "bytes": 1124,
-      "sha256": "c0756cbd3b791c20cb856dc04123996ae779a29144dbd0a825a3bff91eedee21"
+      "sha256": "6f50f3bdb6d8ed1880cbf2718ed1131388a7e189778a9adf8cfe785b549e803b"
     }
   },
   "manifest_id": "manifest.cross-axis-coordinate-audit.v1"

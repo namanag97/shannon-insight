@@ -1,58 +1,58 @@
 {
   "as_of": "2026-08-27",
-  "authority_review_ready_templates": 258,
-  "blocked_dockets": 110,
+  "authority_review_ready_templates": 269,
+  "blocked_dockets": 115,
   "canonical_exact_gaps_closed": 0,
   "completion_claim": false,
   "edition": 1,
-  "family_axis_dockets": 368,
+  "family_axis_dockets": 384,
   "input_snapshot": {
-    "aggregate_sha256": "6af3a53374e44184be01fd7adb665a2e6f6804fefc57d7483e42972b4c35f7a2",
+    "aggregate_sha256": "0c30c39db0205af32b20141cf205bf5228a5e6b950c1eb472e183d4d95a4890d",
     "files": [
       {
-        "bytes": 437929,
+        "bytes": 455857,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/applicability_matrices/family-axis-applicability-matrices.jsonl",
-        "record_count": 368,
-        "sha256": "2b7173de2490feb69bb0080507d98874791439e61d7fe90d0f0cfbf648e3d475"
+        "record_count": 384,
+        "sha256": "926b546abf323187cabda7a949c0a84d103aa59aea07d583e33e0e11aaaaef47"
       },
       {
-        "bytes": 1833233,
+        "bytes": 1879760,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/applicability_matrices/family-axis-decision-clusters.jsonl",
-        "record_count": 1300,
-        "sha256": "ce99a0d3f1b6c5336e484833d49df566926d24b16f1fdf18872a5080ee88e2ae"
+        "record_count": 1343,
+        "sha256": "d35fcc1d5f422f9fbba178e87f6b0eb448bdb8ccc4fc5f1b8530dd6faf972d63"
       },
       {
-        "bytes": 12199648,
+        "bytes": 12351375,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/applicability_matrices/member-preclassifications.jsonl",
-        "record_count": 10784,
-        "sha256": "b93ceeddca8d17649816c0a43ef54ce89d4e8b8cfe593e7f923f008325448583"
+        "record_count": 10912,
+        "sha256": "69d79d6bf74a97a70cccfea39bd2588b78cdaecc0a6f61235a64cf2fbd5bff0b"
       },
       {
-        "bytes": 21215798,
+        "bytes": 21464343,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/structured_projection/structured-axis-evidence.jsonl",
-        "record_count": 10784,
-        "sha256": "e893db8e5c4667e3e32bf736a4c7ce10496353c601bf0793ff1ce414e80ab6c3"
+        "record_count": 10912,
+        "sha256": "aa4d6b0654952597fe661fc310c399e31886742e520fdd0361f4be3772f37e42"
       },
       {
-        "bytes": 264244,
+        "bytes": 270948,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/structured_projection/targeted-evidence-work-packages.jsonl",
-        "record_count": 103,
-        "sha256": "8a19db0c185d90e75ccb5440d6ac311ba83f7dad9f88d1d0ffb4773e9cbdf3a4"
+        "record_count": 107,
+        "sha256": "79547b8e215d4b0fbbdc00cc1ddf8de2b9937bbe79fd7f4a24f792e92d59371d"
       },
       {
-        "bytes": 21737,
+        "bytes": 22529,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/applicability_matrices/review-waves.jsonl",
         "record_count": 5,
-        "sha256": "d01e2db3064db674a4de20b05ef6eb76b7151519707e5037683bfea6fa647b6d"
+        "sha256": "51c382ef888c376c84b57a38d6ae426a540248c07eb084a2ada4a1351dabe9a5"
       }
     ],
-    "snapshot_id": "snapshot.p3-input.6af3a53374e44184"
+    "snapshot_id": "snapshot.p3-input.0c30c39db0205af3"
   },
   "program_id": "program.p3-family-axis-applicability-adjudication.v1",
-  "ratification_packet_templates": 368,
+  "ratification_packet_templates": 384,
   "ratified_family_axis_defaults": 0,
   "ratified_member_exceptions": 0,
-  "represented_member_axis_cells": 10784,
-  "review_packages": 33,
-  "review_ready_dockets": 258
+  "represented_member_axis_cells": 10912,
+  "review_packages": 34,
+  "review_ready_dockets": 269
 }

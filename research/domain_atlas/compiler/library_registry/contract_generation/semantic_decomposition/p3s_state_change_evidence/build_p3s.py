@@ -16,6 +16,15 @@ from axis_evidence_campaign import build_campaign, campaign_outputs, write_outpu
 
 
 CLAIMS: dict[str, dict[str, Any]] = {
+    "constitution.family.application_behavior": {
+        "title": "State Chart XML (SCXML) 1.0",
+        "publisher": "W3C",
+        "url": "https://www.w3.org/TR/scxml/",
+        "claim": "SCXML transition processing distinguishes current configuration, enabled transitions, exit and entry sets, executable content, event queues and the resulting stable configuration.",
+        "coordinates": ["current_configuration", "triggering_event", "enabled_transition_set", "exit_set", "entry_set", "resulting_configuration"],
+        "limit": "SCXML defines a state-machine notation and processing algorithm; it does not prove domain invariants, storage durability, business authorization, exactly-once effects or equivalence with an application's aggregate lifecycle.",
+        "negative": "receiving an event, selecting a transition, persisting aggregate state and completing every external effect are one atomic state change",
+    },
     "constitution.family.analytical_method_kernels": {
         "title": "OCEL 2.0 Specification",
         "publisher": "OCEL Standard",

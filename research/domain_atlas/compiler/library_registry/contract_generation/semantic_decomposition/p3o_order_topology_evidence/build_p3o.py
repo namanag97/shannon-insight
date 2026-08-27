@@ -16,6 +16,15 @@ from axis_evidence_campaign import build_campaign, campaign_outputs, write_outpu
 
 
 CLAIMS: dict[str, dict[str, Any]] = {
+    "constitution.family.application_behavior": {
+        "title": "Business Process Model and Notation (BPMN) 2.0.2",
+        "publisher": "Object Management Group",
+        "url": "https://www.omg.org/spec/BPMN/2.0.2",
+        "claim": "BPMN distinguishes sequence flow within a process from message flow between participants and uses gateways to express branching, merging, forking and joining rather than treating every drawn edge as one order relation.",
+        "coordinates": ["process", "participant", "activity", "sequence_flow", "message_flow", "gateway_split_or_join"],
+        "limit": "BPMN specifies process notation and execution-related semantics; it does not establish domain-event global order, message delivery guarantees, aggregate consistency or provider portability.",
+        "negative": "sequence flow, message flow, causal order, delivery order and transaction commit order are interchangeable",
+    },
     "constitution.family.analytical_method_kernels": {
         "title": "Transforming Object-Centric Event Logs to Temporal Event Knowledge Graphs (Extended Version)",
         "publisher": "Shahrzad Khayatbashi, Olaf Hartig and Amin Jalali",

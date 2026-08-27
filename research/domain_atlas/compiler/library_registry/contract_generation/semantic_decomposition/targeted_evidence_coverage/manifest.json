@@ -3,12 +3,12 @@
   "completion_claim": false,
   "files": {
     "campaign-coverage.jsonl": {
-      "bytes": 25182,
-      "sha256": "68bde936dd0956e6303a07bc88b4722a6a9be6ea6de99a5257d9124ec9303bfd"
+      "bytes": 25950,
+      "sha256": "00f4f8fd33e912d1f89e453fc385cf0c0e5bf2e349fb6a16736214eeb6f6512f"
     },
     "summary.json": {
       "bytes": 468,
-      "sha256": "8e740cba0c3148fcff753f5dd48790434247f429640612bc881e0e1fe04e03a0"
+      "sha256": "06a5c937abad2ee1614d72fadfd2393a91e052354adcc2b2ed5f824d8fbb3347"
     }
   },
   "manifest_id": "manifest.targeted-semantic-axis-campaign-coverage.v1"

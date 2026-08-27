@@ -28,6 +28,10 @@
     "removal_seam": {
       "type": "string"
     },
+    "semantic_owner_context": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
     "status": {
       "const": "candidate"
     },
@@ -45,7 +49,8 @@
     "must_not_own",
     "dependency_direction",
     "removal_seam",
-    "test_boundary"
+    "test_boundary",
+    "semantic_owner_context"
   ],
   "type": "object"
 }

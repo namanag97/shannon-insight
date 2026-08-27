@@ -16,11 +16,11 @@
     },
     "summary.json": {
       "bytes": 2628,
-      "sha256": "04fa25ead25d9d43094e6b1e07dd5ca70e485fc7d425196f69dd93b360e441d2"
+      "sha256": "53e4a17682cf4b3a3cd6734aadac8390639ca66de3c87b3b02848995cde4edf1"
     },
     "unratified-template-index.jsonl": {
-      "bytes": 700228,
-      "sha256": "8e96262ed774565a5a2e8374a96bf3f16b42f5a1c27b8d6d360389411ef0d65e"
+      "bytes": 715056,
+      "sha256": "ee10a027244e58fe21a3ce25736712521f8623327a68ec3da20f3b7d8b9df699"
     },
     "verified-ratification-ledger.jsonl": {
       "bytes": 0,

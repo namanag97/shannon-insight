@@ -11,9 +11,12 @@ def load_jsonl(p:Path): return [json.loads(x) for x in p.read_text(encoding='utf
 def dump_jsonl(p:Path, rows): p.write_text(''.join(json.dumps(r,sort_keys=True)+'\n' for r in rows),encoding='utf-8')
 
 def main():
-    base=load_jsonl(HERE/'master-batches.jsonl')
+    master=load_jsonl(HERE/'master-batches.jsonl')
+    if len(master)!=21 or any(not row['batch_id'].startswith(f'B{i:02d}_') for i,row in enumerate(master)):
+        raise SystemExit('expected canonical B00-B20 master frontier')
+    base=master[:16]
+    canonical_program=master[16:]
     base_ids={r['batch_id'] for r in base}
-    required_base={f'B{i:02d}_' for i in range(16)}
     if len(base)!=16 or len(base_ids)!=16:
         raise SystemExit('expected exactly B00-B15 base spine')
 
@@ -75,6 +78,19 @@ def main():
         'status':'OPEN_PROGRAM_GATE','completion_claim':False,
       },
     ]
+    # The master frontier owns canonical IDs, dependencies, live state, scope and
+    # exit conditions.  This package adds proof/refusal detail; it must not mint a
+    # second vocabulary for B16-B20.
+    merged_program=[]
+    for detail, canonical in zip(program, canonical_program, strict=True):
+        if detail['batch_id'][:3] != canonical['batch_id'][:3]:
+            raise SystemExit(f"program gate order mismatch: {detail['batch_id']} vs {canonical['batch_id']}")
+        merged_program.append({**detail, **canonical, 'record_kind':'program_level_closure_gate',
+                               'question':detail['question'],
+                               'required_artifacts':detail['required_artifacts'],
+                               'refusals':detail['refusals'],
+                               **({'non_collapse_laws':detail['non_collapse_laws']} if 'non_collapse_laws' in detail else {})})
+    program=merged_program
     all_rows=base+program
     ids={r['batch_id'] for r in all_rows}
     for row in all_rows:
@@ -84,7 +100,7 @@ def main():
     dump_jsonl(HERE/'expanded-batches.jsonl',all_rows)
     summary={
       'report_id':'expanded_program_closure_frontier','as_of':'2026-08-27','base_batch_count':len(base),'program_level_gate_count':len(program),'expanded_batch_count':len(all_rows),'program_level_gate_ids':[r['batch_id'] for r in program],
-      'application_and_solution_completion_requires':['B16_OPEN_WORLD_COVERAGE_NOVELTY','B17_INTENT_TO_SOLUTION_COMPOSITION','B18_APPLICATION_HUMAN_EFFECT_BOUNDARY','B19_MULTI_PRODUCT_SYSTEM_ACCEPTANCE','B20_CONTINUOUS_VALIDITY_INVALIDATION'],
+      'application_and_solution_completion_requires':[r['batch_id'] for r in program],
       'all_program_gates_open':True,'completion_claim':False,
       'status':'EXPANDED_B00_B20_DAG_DEFINED_NO_PROGRAM_COMPLETION_CLAIM'
     }

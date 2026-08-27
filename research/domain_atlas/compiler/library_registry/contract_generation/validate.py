@@ -61,7 +61,13 @@ def main() -> int:
     assert all("No exact public name" in row["generation_prohibition"] for row in proposals)
 
     expected_families = {f"constitution.family.{batch['research_family']}" for batch in batches}
+    configured_wave_families = {
+        f"constitution.family.{family}"
+        for wave in waves
+        for family in wave["research_families"]
+    }
     assert {row["family_id"] for row in constitutions} == expected_families
+    assert configured_wave_families == expected_families
     assert all(row["status"] == "OWNER_RESEARCH_AND_ADJUDICATION_REQUIRED" for row in constitutions)
     assert all(len(row["required_truth_planes"]) == 12 for row in constitutions)
     assert all(len(row["required_constitution_sections"]) >= 13 for row in constitutions)

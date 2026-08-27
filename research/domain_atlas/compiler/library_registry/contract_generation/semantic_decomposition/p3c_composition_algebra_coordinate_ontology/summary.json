@@ -3,7 +3,7 @@
   "axis": "composition_algebra",
   "canonical_gaps_closed": 0,
   "completion_claim": false,
-  "family_extension_candidates": 22,
+  "family_extension_candidates": 23,
   "member_applicability_decisions": 0,
   "operator_archetypes": 28,
   "operator_coordinate_profiles_supplied": 0,
@@ -12,8 +12,8 @@
   "owner_decisions": 0,
   "primary_sources": 10,
   "program_id": "program.p3c.composition-algebra-coordinate-ontology-and-rebase.v1",
-  "research_clusters": 76,
-  "routes_with_lexical_discovery_projection": 101,
-  "routes_with_no_member_operator_evidence": 518,
-  "target_member_routes": 619
+  "research_clusters": 79,
+  "routes_with_lexical_discovery_projection": 103,
+  "routes_with_no_member_operator_evidence": 523,
+  "target_member_routes": 626
 }

@@ -6,15 +6,15 @@
   "coordinate_answers_supplied": 0,
   "cross_axis_seams_per_library": 20,
   "exact_contracts_selected": 0,
-  "libraries": 674,
-  "library_axis_requirements": 10784,
+  "libraries": 682,
+  "library_axis_requirements": 10912,
   "member_applicability_decisions": 0,
   "owner_decisions": 0,
-  "primary_route_requirements": 9545,
+  "primary_route_requirements": 9652,
   "program_id": "program.library-coordinate-binding-projection.v1",
   "refusal_precedence_profiles_supplied": 0,
   "semantic_axes": 16,
   "semantic_seam_appraisals": 0,
   "structural_seam_negative_twins_passed": 120,
-  "supplemental_vacancy_requirements": 1239
+  "supplemental_vacancy_requirements": 1260
 }

@@ -1,30 +1,73 @@
 #!/usr/bin/env python3
-"""Validate the semantic gap topology and its dependency order."""
+"""Validate the semantic gap topology against the live canonical graph.
+
+Cardinalities are deliberately derived from the upstream records. Adding a
+family, library, symbol, or vertical obligation must expand the topology rather
+than require a maintainer to bless a new magic number in this validator.
+"""
 from __future__ import annotations
 
 import hashlib
 import json
+from pathlib import Path
+from typing import Any
 
-from build_gap_topology import HERE, METHOD_SIGNATURE_FIELDS, ONTOLOGY, build, outputs, schema
+from build_gap_topology import (
+    CONTRACT_GENERATION,
+    HERE,
+    METHOD_SIGNATURE_FIELDS,
+    ONTOLOGY,
+    SEM,
+    build,
+    outputs,
+    schema,
+)
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text())
+
+
+def load_jsonl(path: Path) -> list[dict[str, Any]]:
+    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+
+
+def assert_projection(summary: dict[str, Any], prefix: str, source: dict[str, Any], mapping: dict[str, str]) -> None:
+    for target_key, source_key in mapping.items():
+        assert summary[f"{prefix}{target_key}"] == source[source_key], (
+            f"{prefix}{target_key}", summary[f"{prefix}{target_key}"], source[source_key]
+        )
 
 
 def main() -> int:
+    # Checked-in projections must be the byte-for-byte deterministic result of
+    # the current builders and their digest manifest must describe those bytes.
     for name, text in outputs().items():
         assert (HERE / name).is_file() and (HERE / name).read_text() == text, f"stale {name}"
-    manifest = json.loads((HERE / "manifest.json").read_text())
+    manifest = load_json(HERE / "manifest.json")
     for name, claim in manifest["files"].items():
         data = (HERE / name).read_bytes()
         assert len(data) == claim["bytes"] and hashlib.sha256(data).hexdigest() == claim["sha256"], name
-    built = build(); programs = built["programs"]; clusters = built["clusters"]; method_kernels = built["method_kernels"]; bands = built["bands"]
-    p6 = json.loads((HERE.parent / "p6_implementation_qualification/summary.json").read_text())
-    p7 = json.loads((HERE.parent / "p7_offer_binding_qualification/summary.json").read_text())
-    p8 = json.loads((HERE.parent / "p8_vertical_acceptance_tensor/summary.json").read_text())
-    required = set(schema()["required"]); program_ids = {row["program_id"] for row in programs}
+
+    built = build()
+    programs = built["programs"]
+    clusters = built["clusters"]
+    method_kernels = built["method_kernels"]
+    bands = built["bands"]
+    summary = built["summary"]
+    lattice = built["lattice"]
+
+    # Structural losslessness of programs, clusters, reusable closure methods,
+    # and dependency bands.
+    required = set(schema()["required"])
+    program_ids = {row["program_id"] for row in programs}
     assert len(programs) == len(program_ids) == 8 and programs[0]["depends_on_program_refs"] == []
     assert all(set(row["depends_on_program_refs"]) <= program_ids for row in programs)
     assert all(set(row) == required for row in clusters)
     assert [row["execution_rank"] for row in clusters] == list(range(1, len(clusters) + 1))
-    assert all(row["program_ref"] in program_ids and row["atom_count"] > 0 and row["canonical_gaps_closed"] == 0 for row in clusters)
+    assert all(row["program_ref"] in program_ids and row["atom_count"] > 0 for row in clusters)
+    assert all(row["canonical_gaps_closed"] == 0 and row["status"] == "OPEN_BATCHABLE_CLUSTER" for row in clusters)
+
     assert len(method_kernels) == 10
     kernel_members = [ref for row in method_kernels for ref in row["member_cluster_refs"]]
     assert len(kernel_members) == len(set(kernel_members)) == len(clusters)
@@ -37,6 +80,7 @@ def main() -> int:
         assert all({field: row[field] for field in METHOD_SIGNATURE_FIELDS} == kernel["signature"] for row in members)
         assert not kernel["completion_claim"] and kernel["canonical_gaps_closed"] == 0
     assert sum(row["represented_atom_count"] for row in method_kernels) == sum(row["atom_count"] for row in clusters)
+
     assert len(ONTOLOGY["classification_axes"]) >= 15 and len(ONTOLOGY["non_collapse_laws"]) >= 7
     assert len(bands) == 10 and [row["order"] for row in bands] == list(range(1, 11))
     band_ids = {row["band_id"] for row in bands}
@@ -45,218 +89,142 @@ def main() -> int:
     assert len(scheduled) == len(set(scheduled)) == len(clusters)
     assert set(scheduled) == {row["cluster_id"] for row in clusters}
     assert all(not row["completion_claim"] and row["cluster_count"] > 0 for row in bands)
-    assert len(built["lattice"]["levels"]) == 9
-    assert built["lattice"]["compression_metrics"]["library_contract_atoms"] == 674
-    assert built["lattice"]["compression_metrics"]["product_evidence_vacancies"] == p6["represented_evidence_vacancies"]
-    assert built["summary"]["symbol_owner_execution_units"] == 108
-    assert built["summary"]["symbol_research_coordination_programs"] == 17
-    assert built["summary"]["symbol_research_coordination_lanes"] == 36
-    assert built["summary"]["archetype_semantic_axis_research_lanes"] == 157
-    assert built["summary"]["symbol_packets_with_bounded_primary_research"] == 210
-    assert built["summary"]["symbol_packets_open_primary_research"] == 0
-    assert built["summary"]["symbol_packets_still_requiring_owner_adjudication"] == 210
-    assert built["summary"]["symbol_owner_adjudication_dockets"] == 210
-    assert built["summary"]["symbol_occurrence_disposition_candidates"] == 666
-    assert built["summary"]["symbol_owner_decision_waves"] == 4
-    assert built["summary"]["symbol_owner_proposals"] == 210
-    assert built["summary"]["symbol_owner_proposals_with_named_candidates"] == 116
-    assert built["summary"]["symbol_owner_proposals_blocked"] == 94
-    assert built["summary"]["symbol_occurrence_relation_proposals"] == 666
-    assert built["summary"]["symbol_occurrence_relation_proposals_unresolved"] == 345
-    assert built["summary"]["symbol_owner_proposal_conflicts"] == 118
-    assert built["summary"]["symbol_owner_proposal_counterfactuals"] == 210
-    assert built["summary"]["symbol_owner_proposal_counterfactual_instabilities"] == 15
-    assert built["summary"]["symbol_owner_challenge_packages"] == 29
-    assert built["summary"]["symbol_owner_ratification_packet_templates"] == 210
-    assert built["summary"]["symbol_owner_ratification_packet_templates_ready_for_review"] == 92
-    assert built["summary"]["family_axis_applicability_dockets"] == 368
-    assert built["summary"]["family_axis_applicability_review_packages"] == 33
-    assert built["summary"]["family_axis_applicability_review_ready"] == 258
-    assert built["summary"]["family_axis_applicability_blocked"] == 110
-    assert built["summary"]["grain_cardinality_evidence_candidates"] == 23
-    assert built["summary"]["grain_cardinality_evidence_dockets"] == 23
-    assert built["summary"]["grain_cardinality_evidence_represented_library_occurrences"] == 638
-    assert built["summary"]["grain_coordinate_transformation_kernels"] == 24
-    assert built["summary"]["grain_coordinate_member_routes"] == 638
-    assert built["summary"]["grain_coordinate_research_clusters"] == 78
-    assert built["summary"]["grain_coordinate_operation_profiles_supplied"] == 0
-    assert built["summary"]["state_change_evidence_candidates"] == 23
-    assert built["summary"]["state_change_evidence_dockets"] == 23
-    assert built["summary"]["state_change_evidence_represented_library_occurrences"] == 629
-    assert built["summary"]["state_change_subject_archetypes"] == 12
-    assert built["summary"]["state_change_transition_kernels"] == 31
-    assert built["summary"]["state_change_member_routes"] == 629
-    assert built["summary"]["state_change_research_clusters"] == 58
-    assert built["summary"]["state_change_subject_profiles_supplied"] == 0
-    assert built["summary"]["order_topology_evidence_candidates"] == 23
-    assert built["summary"]["order_topology_evidence_dockets"] == 23
-    assert built["summary"]["order_topology_evidence_represented_library_occurrences"] == 623
-    assert built["summary"]["order_topology_relation_archetypes"] == 20
-    assert built["summary"]["order_topology_relation_kernels"] == 32
-    assert built["summary"]["order_topology_member_routes"] == 623
-    assert built["summary"]["order_topology_research_clusters"] == 58
-    assert built["summary"]["order_topology_relation_profiles_supplied"] == 0
-    assert built["summary"]["composition_algebra_evidence_candidates"] == 22
-    assert built["summary"]["composition_algebra_evidence_dockets"] == 22
-    assert built["summary"]["composition_algebra_evidence_represented_library_occurrences"] == 619
-    assert built["summary"]["composition_algebra_operator_archetypes"] == 28
-    assert built["summary"]["composition_algebra_operator_kernels"] == 41
-    assert built["summary"]["composition_algebra_member_routes"] == 619
-    assert built["summary"]["composition_algebra_research_clusters"] == 76
-    assert built["summary"]["composition_algebra_operator_profiles_supplied"] == 0
-    assert built["summary"]["identity_equality_evidence_candidates"] == 7
-    assert built["summary"]["identity_equality_evidence_dockets"] == 7
-    assert built["summary"]["identity_equality_evidence_represented_library_occurrences"] == 223
-    assert built["summary"]["identity_equality_bearer_archetypes"] == 24
-    assert built["summary"]["identity_equality_kernels"] == 42
-    assert built["summary"]["identity_equality_member_routes"] == 223
-    assert built["summary"]["identity_equality_research_clusters"] == 24
-    assert built["summary"]["identity_equality_relation_profiles_supplied"] == 0
-    assert built["summary"]["partiality_uncertainty_evidence_candidates"] == 5
-    assert built["summary"]["partiality_uncertainty_evidence_dockets"] == 5
-    assert built["summary"]["partiality_uncertainty_evidence_represented_library_occurrences"] == 73
-    assert built["summary"]["partiality_uncertainty_bearer_archetypes"] == 20
-    assert built["summary"]["partiality_uncertainty_kernels"] == 42
-    assert built["summary"]["partiality_uncertainty_member_routes"] == 73
-    assert built["summary"]["partiality_uncertainty_research_clusters"] == 6
-    assert built["summary"]["partiality_uncertainty_profiles_supplied"] == 0
-    assert built["summary"]["time_temporal_bearer_archetypes"] == 25
-    assert built["summary"]["time_temporal_operation_kernels"] == 48
-    assert built["summary"]["time_structural_family_dockets"] == 23
-    assert built["summary"]["time_member_routes"] == 674
-    assert built["summary"]["time_research_clusters"] == 52
-    assert built["summary"]["time_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["time_coordinate_profiles_supplied"] == 0
-    assert built["summary"]["semantic_object_bearer_archetypes"] == 33
-    assert built["summary"]["semantic_object_operation_kernels"] == 55
-    assert built["summary"]["semantic_object_structural_family_dockets"] == 23
-    assert built["summary"]["semantic_object_member_routes"] == 674
-    assert built["summary"]["semantic_object_research_clusters"] == 186
-    assert built["summary"]["semantic_object_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["semantic_object_coordinate_profiles_supplied"] == 0
-    assert built["summary"]["semantic_role_archetypes"] == 46
-    assert built["summary"]["semantic_role_operation_kernels"] == 54
-    assert built["summary"]["semantic_role_structural_family_dockets"] == 23
-    assert built["summary"]["semantic_role_member_routes"] == 674
-    assert built["summary"]["semantic_role_research_clusters"] == 201
-    assert built["summary"]["semantic_role_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["semantic_role_coordinate_profiles_supplied"] == 0
-    assert built["summary"]["authority_trust_bearer_archetypes"] == 44
-    assert built["summary"]["authority_trust_operation_kernels"] == 55
-    assert built["summary"]["authority_trust_structural_family_dockets"] == 23
-    assert built["summary"]["authority_trust_member_routes"] == 674
-    assert built["summary"]["authority_trust_research_clusters"] == 38
-    assert built["summary"]["authority_trust_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["authority_trust_coordinate_profiles_supplied"] == 0
-    assert built["summary"]["effect_boundary_bearer_archetypes"] == 42
-    assert built["summary"]["effect_boundary_operation_kernels"] == 60
-    assert built["summary"]["effect_boundary_structural_family_dockets"] == 23
-    assert built["summary"]["effect_boundary_member_routes"] == 674
-    assert built["summary"]["effect_boundary_research_clusters"] == 53
-    assert built["summary"]["effect_boundary_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["effect_boundary_coordinate_profiles_supplied"] == 0
-    assert built["summary"]["evidence_conformance_bearer_archetypes"] == 44
-    assert built["summary"]["evidence_conformance_operation_kernels"] == 59
-    assert built["summary"]["evidence_conformance_structural_family_dockets"] == 23
-    assert built["summary"]["evidence_conformance_member_routes"] == 674
-    assert built["summary"]["evidence_conformance_research_clusters"] == 69
-    assert built["summary"]["evidence_conformance_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["evidence_conformance_coordinate_profiles_supplied"] == 0
-    assert built["summary"]["representation_bearer_archetypes"] == 48
-    assert built["summary"]["representation_operation_kernels"] == 60
-    assert built["summary"]["representation_structural_family_dockets"] == 23
-    assert built["summary"]["representation_member_routes"] == 674
-    assert built["summary"]["representation_research_clusters"] == 90
-    assert built["summary"]["representation_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["representation_directional_preservation_profiles_supplied"] == 0
-    assert built["summary"]["compatibility_evolution_bearer_archetypes"] == 50
-    assert built["summary"]["compatibility_evolution_operation_kernels"] == 72
-    assert built["summary"]["compatibility_evolution_structural_family_dockets"] == 23
-    assert built["summary"]["compatibility_evolution_member_routes"] == 674
-    assert built["summary"]["compatibility_evolution_research_clusters"] == 40
-    assert built["summary"]["compatibility_evolution_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["compatibility_evolution_directional_vectors_supplied"] == 0
-    assert built["summary"]["compatibility_evolution_change_lifecycle_profiles_supplied"] == 0
-    assert built["summary"]["privacy_security_safety_bearer_archetypes"] == 60
-    assert built["summary"]["privacy_security_safety_operation_kernels"] == 80
-    assert built["summary"]["privacy_security_safety_structural_family_dockets"] == 23
-    assert built["summary"]["privacy_security_safety_member_routes"] == 674
-    assert built["summary"]["privacy_security_safety_research_clusters"] == 60
-    assert built["summary"]["privacy_security_safety_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["privacy_profiles_supplied"] == 0
-    assert built["summary"]["security_profiles_supplied"] == 0
-    assert built["summary"]["safety_profiles_supplied"] == 0
-    assert built["summary"]["resources_failure_bearer_archetypes"] == 55
-    assert built["summary"]["resources_failure_operation_kernels"] == 80
-    assert built["summary"]["resources_failure_structural_family_dockets"] == 23
-    assert built["summary"]["resources_failure_member_routes"] == 674
-    assert built["summary"]["resources_failure_research_clusters"] == 61
-    assert built["summary"]["resources_failure_family_source_evidence_bindings_supplied"] == 0
-    assert built["summary"]["finite_resource_profiles_supplied"] == 0
-    assert built["summary"]["total_failure_profiles_supplied"] == 0
-    assert built["summary"]["targeted_evidence_axes"] == 6
-    assert built["summary"]["targeted_evidence_work_packages"] == 103
-    assert built["summary"]["targeted_evidence_library_occurrences"] == 2805
-    assert built["summary"]["targeted_evidence_unrouted_axes"] == 0
-    assert built["summary"]["targeted_evidence_unrouted_work_packages"] == 0
-    assert built["summary"]["semantic_frontier_axes"] == 16
-    assert built["summary"]["semantic_frontier_lanes"] == 3
-    assert built["summary"]["semantic_frontier_member_axis_cells"] == 10784
-    assert built["summary"]["semantic_frontier_review_ready_dockets"] == 258
-    assert built["summary"]["semantic_frontier_blocked_dockets"] == 110
-    assert built["summary"]["semantic_decision_bearer_archetypes"] == 10
-    assert built["summary"]["semantic_decision_axis_profiles"] == 16
-    assert built["summary"]["semantic_decision_family_axis_factorizations"] == 368
-    assert built["summary"]["semantic_decision_member_axis_cells_preserved"] == 10784
-    assert built["summary"]["semantic_decision_coordinate_refined_axes"] == 16
-    assert built["summary"]["semantic_decision_coordinate_refined_target_member_routes"] == 9545
-    assert built["summary"]["foundation_authority_templates"] == 652
-    assert built["summary"]["foundation_authority_templates_ready_for_review"] == 527
-    assert built["summary"]["foundation_authority_templates_blocked"] == 125
-    assert built["summary"]["ratification_ingestion_templates"] == 1904
-    assert built["summary"]["ratification_ingestion_verified"] == 0
-    assert built["summary"]["canonical_delta_candidates"] == 0
-    assert built["summary"]["exact_contract_adjudication_dockets"] == 674
-    assert built["summary"]["exact_contract_archetype_kernels"] == 19
-    assert built["summary"]["exact_contract_family_kernels"] == 23
-    assert built["summary"]["exact_contract_execution_packages"] == 57
-    assert built["summary"]["exact_contract_lowering_gates"] == 674
-    assert built["summary"]["implementation_concrete_reference_resolutions"] == p6["concrete_reference_resolutions"]
-    assert built["summary"]["implementation_qualification_scope_kernels"] == p6["qualification_scope_kernels"]
-    assert built["summary"]["implementation_shared_qualification_scopes"] == p6["shared_qualification_scope_kernels"]
-    assert built["summary"]["implementation_independent_slots"] == p6["implementation_slots"]
-    assert built["summary"]["implementation_subject_dockets"] == p6["subject_dockets"]
-    assert built["summary"]["implementation_evidence_vacancy_packages"] == p6["evidence_vacancy_packages"]
-    assert built["summary"]["implementation_compiler_selection_gates"] == p6["selection_gates"]
-    assert built["summary"]["implementation_product_dockets"] == p6["product_qualification_dockets"]
-    assert built["summary"]["qualified_implementations"] == 0
-    assert built["summary"]["selected_implementation_offers"] == 0
-    assert built["summary"]["build_ready_products"] == 0
-    assert built["summary"]["implementation_qualification_profile_kernels"] == p7["qualification_profile_kernels"]
-    assert built["summary"]["implementation_conformance_context_workstreams"] == p7["conformance_context_workstreams"]
-    assert built["summary"]["implementation_represented_context_obligations"] == p7["represented_subject_context_occurrences"]
-    assert built["summary"]["implementation_offer_intake_templates"] == p7["implementation_offer_intake_templates"]
-    assert built["summary"]["semantic_physical_binding_gates"] == p7["semantic_physical_binding_gates"]
-    assert built["summary"]["authorized_semantic_physical_bridges"] == 0
-    assert built["summary"]["vertical_acceptance_slots"] == p8["unrelated_vertical_slots"]
-    assert built["summary"]["vertical_acceptance_gate_classes"] == p8["acceptance_gate_classes"]
-    assert built["summary"]["vertical_acceptance_slot_gate_obligations"] == p8["slot_gate_obligations"]
-    assert built["summary"]["vertical_acceptance_products_with_structural_pilots"] == p8["products_with_any_structural_pilot"]
-    assert built["summary"]["vertical_acceptance_products_with_two_structural_pilots"] == p8["products_with_two_unrelated_structural_pilots"]
-    assert built["summary"]["executed_vertical_acceptances"] == 0
-    assert built["summary"]["ratified_symbol_owners"] == 0
-    assert built["summary"]["ratified_symbol_occurrence_dispositions"] == 0
-    assert set(built["summary"]["open_primary_research_archetypes"]) == set()
+    assert len(lattice["levels"]) == 9
+
+    # Current graph size comes from canonical records, never a validator constant.
+    exact_inputs = load_jsonl(SEM / "structured_projection/exact-contract-input-candidates.jsonl")
+    family_constitutions = load_jsonl(CONTRACT_GENERATION / "family-constitutions.jsonl")
+    axes = load_json(SEM / "semantic-axis-ontology.json")["axes"]
+    family_count = len(family_constitutions)
+    library_count = len(exact_inputs)
+    semantic_cell_count = library_count * len(axes)
+    assert lattice["compression_metrics"]["library_contract_atoms"] == library_count
+    assert summary["exact_contract_adjudication_dockets"] == library_count
+    assert summary["exact_contract_lowering_gates"] == library_count
+    assert summary["semantic_frontier_member_axis_cells"] == semantic_cell_count
+    assert summary["semantic_decision_member_axis_cells_preserved"] == semantic_cell_count
+    assert summary["family_axis_applicability_dockets"] == family_count * len(axes)
+    assert summary["semantic_decision_family_axis_factorizations"] == family_count * len(axes)
+
+    # Full coordinate ontologies route every exact library once. Targeted legacy
+    # evidence tranches are intentionally allowed to cover subsets.
+    full_coordinates = {
+        "time_": "time_coordinate_ontology",
+        "semantic_object_": "semantic_object_coordinate_ontology",
+        "semantic_role_": "semantic_role_coordinate_ontology",
+        "authority_trust_": "authority_trust_coordinate_ontology",
+        "effect_boundary_": "effect_boundary_coordinate_ontology",
+        "evidence_conformance_": "evidence_conformance_coordinate_ontology",
+        "representation_": "representation_coordinate_ontology",
+        "compatibility_evolution_": "compatibility_evolution_coordinate_ontology",
+        "privacy_security_safety_": "privacy_security_safety_coordinate_ontology",
+        "resources_failure_": "resources_failure_coordinate_ontology",
+    }
+    for prefix, directory in full_coordinates.items():
+        coordinate = load_json(SEM / directory / "summary.json")
+        assert coordinate["structural_family_dockets"] == family_count, directory
+        assert coordinate["target_member_routes"] == library_count, directory
+        assert summary[f"{prefix}structural_family_dockets"] == family_count, directory
+        assert summary[f"{prefix}member_routes"] == library_count, directory
+
+    # Exact projections of independently generated upstream adjudication stages.
+    p1 = load_json(SEM / "p1_authority_symbols/summary.json")
+    p2 = load_json(SEM / "p2_owner_adjudication/summary.json")
+    p3 = load_json(SEM / "p3_applicability_adjudication/summary.json")
+    p1b = load_json(SEM / "p1b_foundation_authority_adjudication/summary.json")
+    p4 = load_json(SEM / "p4_ratification_ingestion/summary.json")
+    p5 = load_json(SEM / "p5_exact_contract_adjudication/summary.json")
+    p6 = load_json(SEM / "p6_implementation_qualification/summary.json")
+    p7 = load_json(SEM / "p7_offer_binding_qualification/summary.json")
+    p8 = load_json(SEM / "p8_vertical_acceptance_tensor/summary.json")
+
+    assert_projection(summary, "symbol_", p2, {
+        "owner_execution_units": "owner_decision_units",
+        "owner_adjudication_dockets": "symbol_dockets",
+        "occurrence_disposition_candidates": "represented_occurrences",
+        "owner_decision_waves": "owner_decision_waves",
+        "owner_proposals": "owner_proposals",
+        "owner_proposals_with_named_candidates": "owner_proposals_with_named_candidates",
+        "owner_proposals_blocked": "owner_proposals_blocked",
+        "occurrence_relation_proposals": "occurrence_relation_proposals",
+        "occurrence_relation_proposals_unresolved": "occurrence_relation_proposals_unresolved",
+        "owner_proposal_conflicts": "proposal_conflicts",
+        "owner_proposal_counterfactuals": "proposal_counterfactuals",
+        "owner_proposal_counterfactual_instabilities": "counterfactually_unstable_owner_proposals",
+        "owner_challenge_packages": "owner_adjudication_challenge_packages",
+        "owner_ratification_packet_templates": "ratification_packet_templates",
+        "owner_ratification_packet_templates_ready_for_review": "ratification_packet_templates_ready_for_authority_review",
+    })
+    assert summary["symbol_packets_with_bounded_primary_research"] == p1["total_symbol_packets_with_bounded_primary_research"]
+    assert summary["symbol_packets_open_primary_research"] == p1["remaining_unresearched_symbol_packets"] == 0
+    assert summary["symbol_packets_still_requiring_owner_adjudication"] == p1["total_owner_unratified_symbol_packets"]
+
+    assert_projection(summary, "family_axis_applicability_", p3, {
+        "dockets": "family_axis_dockets",
+        "review_packages": "review_packages",
+        "review_ready": "review_ready_dockets",
+        "blocked": "blocked_dockets",
+    })
+    assert summary["foundation_authority_templates"] == p1b["ratification_packet_templates"]
+    assert summary["foundation_authority_templates_ready_for_review"] == p1b["authority_review_ready_templates"]
+    assert summary["foundation_authority_templates_blocked"] == p1b["blocked_templates"]
+    assert summary["ratification_ingestion_templates"] == p4["total_templates"]
+    assert summary["ratification_ingestion_verified"] == p4["verified_ratifications"] == 0
+    assert summary["canonical_delta_candidates"] == p4["canonical_delta_candidates"] == 0
+    assert summary["exact_contract_adjudication_dockets"] == p5["exact_contract_dockets"]
+    assert summary["exact_contract_archetype_kernels"] == p5["archetype_obligation_kernels"]
+    assert summary["exact_contract_family_kernels"] == p5["family_semantic_kernels"]
+    assert summary["exact_contract_execution_packages"] == p5["execution_packages"]
+
+    assert_projection(summary, "implementation_", p6, {
+        "concrete_reference_resolutions": "concrete_reference_resolutions",
+        "qualification_scope_kernels": "qualification_scope_kernels",
+        "shared_qualification_scopes": "shared_qualification_scope_kernels",
+        "independent_slots": "implementation_slots",
+        "subject_dockets": "subject_dockets",
+        "evidence_vacancy_packages": "evidence_vacancy_packages",
+        "compiler_selection_gates": "selection_gates",
+        "product_dockets": "product_qualification_dockets",
+    })
+    assert summary["implementation_qualification_profile_kernels"] == p7["qualification_profile_kernels"]
+    assert summary["implementation_conformance_context_workstreams"] == p7["conformance_context_workstreams"]
+    assert summary["implementation_represented_context_obligations"] == p7["represented_subject_context_occurrences"]
+    assert summary["implementation_offer_intake_templates"] == p7["implementation_offer_intake_templates"]
+    assert summary["semantic_physical_binding_gates"] == p7["semantic_physical_binding_gates"]
+    assert summary["vertical_acceptance_slots"] == p8["unrelated_vertical_slots"]
+    assert summary["vertical_acceptance_gate_classes"] == p8["acceptance_gate_classes"]
+    assert summary["vertical_acceptance_slot_gate_obligations"] == p8["slot_gate_obligations"]
+    assert summary["vertical_acceptance_products_with_structural_pilots"] == p8["products_with_any_structural_pilot"]
+    assert summary["vertical_acceptance_products_with_two_structural_pilots"] == p8["products_with_two_unrelated_structural_pilots"]
+    assert lattice["compression_metrics"]["product_evidence_vacancies"] == p6["represented_evidence_vacancies"]
+
+    # Authority/evidence gates are fail-closed. Structural expansion must never
+    # manufacture decisions, qualified offers, builds, or vertical acceptance.
+    zero_gates = (
+        "source_authorities_ratified", "ratification_ingestion_verified", "canonical_delta_candidates",
+        "qualified_implementations", "selected_implementation_offers", "build_ready_products",
+        "authorized_semantic_physical_bridges", "executed_vertical_acceptances",
+        "ratified_symbol_owners", "ratified_symbol_occurrence_dispositions", "canonical_exact_gaps_closed",
+    )
+    assert all(summary[key] == 0 for key in zero_gates)
+    assert summary["open_primary_research_archetypes"] == []
     assert sum(row["atom_count"] for row in clusters if row["gap_kind"] == "symbol-research-batch") == 0
-    assert sum(row["atom_count"] for row in clusters if row["gap_kind"] == "symbol-owner-adjudication-batch") == 191
-    assert built["summary"]["product_gate_execution_units"] == p6["evidence_vacancy_packages"]
-    assert built["summary"]["closure_method_kernels"] == 10
+    assert summary["product_gate_execution_units"] == p6["evidence_vacancy_packages"]
+    assert summary["closure_method_kernels"] == len(method_kernels) == 10
+    assert summary["represented_gap_atoms"] == sum(row["atom_count"] for row in clusters)
+    assert not summary["completion_claim"]
+
     symbol_band = next(row for row in bands if row["band_id"] == "band.semantic-closure.02-symbols")
-    assert len(symbol_band["parallel_lane_refs"]) == 4
+    assert len(symbol_band["parallel_lane_refs"]) == p2["owner_decision_waves"]
     assert all(ref.startswith("wave.p2.owner.") for ref in symbol_band["parallel_lane_refs"])
-    assert built["summary"]["represented_gap_atoms"] == sum(row["atom_count"] for row in clusters)
-    assert built["summary"]["completion_claim"] is False and built["summary"]["canonical_exact_gaps_closed"] == 0
-    print(f"PASS gap topology: {len(clusters)} attributable clusters factor losslessly into {len(method_kernels)} closure-method kernels and cover {built['summary']['represented_gap_atoms']} open atoms in 10 dependency bands; contract work joins {p7['qualification_profile_kernels']} qualification profiles/{p7['conformance_context_workstreams']} conformance workstreams and {p8['slot_gate_obligations']} vertical obligations join {p8['acceptance_gate_classes']} acceptance workstreams; all bindings and acceptances refuse; zero gaps falsely closed")
+
+    print(
+        f"PASS gap topology: {len(clusters)} attributable clusters factor losslessly into "
+        f"{len(method_kernels)} closure-method kernels and cover {summary['represented_gap_atoms']} open atoms; "
+        f"the live graph contains {family_count} families, {library_count} exact library candidates and "
+        f"{semantic_cell_count} member-axis cells; all authority, implementation-selection and vertical "
+        "acceptance gates remain fail-closed"
+    )
     return 0
 
 

@@ -7,15 +7,15 @@
   "compatibility_evolution_operation_kernels": 72,
   "completion_claim": false,
   "directional_compatibility_vectors_supplied": 0,
-  "family_extension_candidates": 23,
+  "family_extension_candidates": 24,
   "family_source_evidence_bindings_supplied": 0,
   "member_applicability_decisions": 0,
   "owner_decisions": 0,
   "primary_sources": 14,
   "program_id": "program.compatibility-evolution-coordinate-ontology-and-rebase.v1",
-  "research_clusters": 40,
+  "research_clusters": 41,
   "routes_with_lexical_evolution_projection": 61,
-  "routes_with_no_evolution_projection": 613,
-  "structural_family_dockets": 23,
-  "target_member_routes": 674
+  "routes_with_no_evolution_projection": 621,
+  "structural_family_dockets": 24,
+  "target_member_routes": 682
 }

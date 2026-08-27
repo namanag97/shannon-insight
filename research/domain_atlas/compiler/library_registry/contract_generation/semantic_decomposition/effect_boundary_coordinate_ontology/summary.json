@@ -7,15 +7,15 @@
   "effect_boundary_coordinate_profiles_supplied": 0,
   "effect_boundary_operation_kernels": 60,
   "effect_stage_inventories_supplied": 0,
-  "family_extension_candidates": 23,
+  "family_extension_candidates": 24,
   "family_source_evidence_bindings_supplied": 0,
   "member_applicability_decisions": 0,
   "owner_decisions": 0,
   "primary_sources": 12,
   "program_id": "program.effect-boundary-coordinate-ontology-and-rebase.v1",
-  "research_clusters": 53,
-  "routes_with_explicit_source_effect_projection": 674,
+  "research_clusters": 55,
+  "routes_with_explicit_source_effect_projection": 682,
   "routes_with_no_effect_projection": 0,
-  "structural_family_dockets": 23,
-  "target_member_routes": 674
+  "structural_family_dockets": 24,
+  "target_member_routes": 682
 }

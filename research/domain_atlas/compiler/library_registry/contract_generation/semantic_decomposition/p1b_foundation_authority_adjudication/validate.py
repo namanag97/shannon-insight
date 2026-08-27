@@ -38,15 +38,13 @@ def main() -> int:
     family_dockets = load_jsonl(HERE / "family-constitution-dockets.jsonl")
     templates = load_jsonl(HERE / "ratification-packet-templates.jsonl")
 
-    assert len(sources) == summary["source_authority_dockets"] == 23
-    assert len(collision_dockets) == summary["collision_dockets"] == 146
-    assert len(boundary_dockets) == summary["boundary_dockets"] == 460
-    assert summary["boundary_dockets_ready"] == 358
-    assert summary["boundary_dockets_blocked"] == 102
-    assert len(family_dockets) == summary["family_constitution_dockets"] == 23
-    assert len(templates) == summary["ratification_packet_templates"] == 652
-    assert summary["authority_review_ready_templates"] == 527
-    assert summary["blocked_templates"] == 125
+    assert len(sources) == summary["source_authority_dockets"]
+    assert len(collision_dockets) == summary["collision_dockets"]
+    assert len(boundary_dockets) == summary["boundary_dockets"]
+    assert summary["boundary_dockets_ready"] + summary["boundary_dockets_blocked"] == len(boundary_dockets)
+    assert len(family_dockets) == summary["family_constitution_dockets"] == len(sources)
+    assert len(templates) == summary["ratification_packet_templates"]
+    assert summary["authority_review_ready_templates"] + summary["blocked_templates"] == len(templates)
     assert summary["ratified_decisions"] == summary["canonical_mutations_allowed"] == summary["canonical_gaps_closed"] == 0
     assert not summary["completion_claim"]
 
@@ -77,10 +75,10 @@ def main() -> int:
 
     assert {row["boundary_cluster_ref"] for row in boundary_dockets} == set(boundaries)
     boundary_library_refs = [ref for row in boundary_dockets for ref in row["library_refs"]]
-    assert len(boundary_library_refs) == len(set(boundary_library_refs)) == 674
+    assert len(boundary_library_refs) == len(set(boundary_library_refs))
     assert collections.Counter(row["status"] for row in boundary_dockets) == {
-        "READY_FOR_SEMANTIC_OWNER_REVIEW": 358,
-        "BLOCKED_BY_COLLISION_ADJUDICATION": 102,
+        "READY_FOR_SEMANTIC_OWNER_REVIEW": summary["boundary_dockets_ready"],
+        "BLOCKED_BY_COLLISION_ADJUDICATION": summary["boundary_dockets_blocked"],
     }
     collision_template_ids = {
         row["collision_ref"]: row["ratification_template_ref"] for row in collision_dockets
@@ -107,14 +105,14 @@ def main() -> int:
         assert docket["status"] == "BLOCKED_BY_SOURCE_BOUNDARY_COLLISION_AND_AXIS_PREREQUISITES"
 
     assert collections.Counter(row["template_kind"] for row in templates) == {
-        "P1B_SOURCE_AUTHORITY": 23,
-        "P1B_CROSS_OWNER_COLLISION": 146,
-        "P1B_BOUNDED_CONTEXT_BOUNDARY": 460,
-        "P1B_FAMILY_CONSTITUTION": 23,
+        "P1B_SOURCE_AUTHORITY": len(sources),
+        "P1B_CROSS_OWNER_COLLISION": len(collision_dockets),
+        "P1B_BOUNDED_CONTEXT_BOUNDARY": len(boundary_dockets),
+        "P1B_FAMILY_CONSTITUTION": len(family_dockets),
     }
     assert collections.Counter(row["status"] for row in templates) == {
-        "READY_FOR_NAMED_AUTHORITY_REVIEW": 527,
-        "BLOCKED_BY_UNRATIFIED_PREREQUISITES": 125,
+        "READY_FOR_NAMED_AUTHORITY_REVIEW": summary["authority_review_ready_templates"],
+        "BLOCKED_BY_UNRATIFIED_PREREQUISITES": summary["blocked_templates"],
     }
     for row in templates:
         assert row["required_receipt_fields"] == TEMPLATE_CONTRACTS[row["template_kind"]]["required_receipt_fields"]
@@ -124,7 +122,7 @@ def main() -> int:
         assert not row["completion_claim"]
         assert all(ref in template_by_id or ref in p3_templates for ref in row["required_prerequisite_template_refs"])
 
-    print("PASS P1B foundation authority: 23 source, 146 collision, 460 boundary and 23 family decisions yield 652 exact templates; 527 review-ready, 125 prerequisite-blocked, 0 ratified or canonical decisions")
+    print(f"PASS P1B foundation authority: {len(sources)} source, {len(collision_dockets)} collision, {len(boundary_dockets)} boundary and {len(family_dockets)} family decisions yield {len(templates)} exact templates; {summary['authority_review_ready_templates']} review-ready, {summary['blocked_templates']} prerequisite-blocked, 0 ratified or canonical decisions")
     return 0
 
 

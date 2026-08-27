@@ -2,28 +2,28 @@
   "as_of": "2026-08-26",
   "files": {
     "family-axis-applicability-matrices.jsonl": {
-      "bytes": 437929,
-      "sha256": "2b7173de2490feb69bb0080507d98874791439e61d7fe90d0f0cfbf648e3d475"
+      "bytes": 455857,
+      "sha256": "926b546abf323187cabda7a949c0a84d103aa59aea07d583e33e0e11aaaaef47"
     },
     "family-axis-decision-clusters.jsonl": {
-      "bytes": 1833233,
-      "sha256": "ce99a0d3f1b6c5336e484833d49df566926d24b16f1fdf18872a5080ee88e2ae"
+      "bytes": 1879760,
+      "sha256": "d35fcc1d5f422f9fbba178e87f6b0eb448bdb8ccc4fc5f1b8530dd6faf972d63"
     },
     "member-preclassifications.jsonl": {
-      "bytes": 12199648,
-      "sha256": "b93ceeddca8d17649816c0a43ef54ce89d4e8b8cfe593e7f923f008325448583"
+      "bytes": 12351375,
+      "sha256": "69d79d6bf74a97a70cccfea39bd2588b78cdaecc0a6f61235a64cf2fbd5bff0b"
     },
     "owner-decision.schema.json": {
       "bytes": 3714,
       "sha256": "7013cf86aed072e21988b9f3286e272157027575a503c8d62c2f3a6393d7d1f6"
     },
     "review-waves.jsonl": {
-      "bytes": 21737,
-      "sha256": "d01e2db3064db674a4de20b05ef6eb76b7151519707e5037683bfea6fa647b6d"
+      "bytes": 22529,
+      "sha256": "51c382ef888c376c84b57a38d6ae426a540248c07eb084a2ada4a1351dabe9a5"
     },
     "summary.json": {
       "bytes": 780,
-      "sha256": "ee339534758aaa4f3788f380554e9223057f5915b787794565f8d69263bb5936"
+      "sha256": "ae8267329483f2887a8645d55f01ab3a135693314d49c61631a882ddd462c766"
     }
   },
   "manifest_id": "manifest.semantic-axis.applicability-matrices.v1"

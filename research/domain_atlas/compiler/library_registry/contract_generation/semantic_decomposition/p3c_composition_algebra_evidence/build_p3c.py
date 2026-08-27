@@ -16,6 +16,15 @@ from axis_evidence_campaign import build_campaign, campaign_outputs, write_outpu
 
 
 CLAIMS: dict[str, dict[str, Any]] = {
+    "constitution.family.application_behavior": {
+        "title": "Sagas",
+        "publisher": "Hector Garcia-Molina and Kenneth Salem, ACM SIGMOD",
+        "url": "https://doi.org/10.1145/38713.38742",
+        "claim": "A saga composes a long-lived transaction from an ordered sequence of component transactions and associates compensating transactions with committed components; compensation is an explicit semantic construction rather than an automatic inverse or storage rollback.",
+        "coordinates": ["saga", "component_transaction", "commit_prefix", "compensating_transaction", "forward_or_backward_recovery"],
+        "limit": "The paper defines a transaction-management technique; it does not prove a compensation is a true business inverse, authorize effects, supply workflow portability or make arbitrary operations associative or commutative.",
+        "negative": "workflow composition is ordinary function composition and every completed effect has an automatic exact inverse",
+    },
     "constitution.family.analytical_method_kernels": {
         "title": "Hierarchical process mining for scalable software analysis",
         "publisher": "Sander J. J. Leemans, Eindhoven University of Technology",

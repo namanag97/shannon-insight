@@ -27,6 +27,7 @@ def sha(path):
 
 
 def main():
+    rebase_summary = json.loads((REBASE / "summary.json").read_text(encoding="utf-8"))
     rebased = [
         row for row in load(REBASE / "rebased-gap-dispositions.jsonl")
         if row.get("research_addressable") is True
@@ -56,6 +57,8 @@ def main():
             "gap_kind": gap_kind,
             "quotient_count": len(rows),
             "atom_count": sum(row["current_atom_count"] for row in rows),
+            "research_residual_quotient_count": sum(bool(row.get("research_vacancy")) for row in rows),
+            "research_residual_atom_count": sum(row.get("research_residual_atoms", 0) for row in rows),
             "closure_condition": closure,
             "research_only_can_finish": gap_kind not in {"implementation", "qualification", "product-gate"},
             "status": "IN_PROGRESS" if gap_kind == "source-authority" else "BLOCKED_BY_PREDECESSOR",
@@ -100,14 +103,20 @@ def main():
     write(HERE / "closure-tranches.jsonl", tranches)
     write(HERE / "source-authority-ratification-batch.jsonl", appraisals)
     summary = {
-        "gap_quotients": len(all_rows),
-        "gap_atoms": sum(row["current_atom_count"] for row in all_rows),
+        "prior_snapshot_gap_quotients": rebase_summary["prior_gap_quotients"],
+        "current_gap_quotients": len(all_rows),
+        "current_gap_atoms": sum(row["current_atom_count"] for row in all_rows),
         "research_candidate_quotients": len(rebased),
+        "research_residual_quotients": sum(bool(row.get("research_vacancy")) for row in rebased),
+        "research_residual_atoms": sum(row.get("research_residual_atoms", 0) for row in rebased),
         "physical_governance_quotients": len(physical),
         "source_authority_prechecks_complete": sum(row["status"] == "READY_FOR_NAMED_RATIFIER_REVIEW" for row in appraisals),
         "source_authority_prechecks_refused": sum(row["status"] == "PRECHECK_REFUSED" for row in appraisals),
         "canonical_gaps_closed": 0,
-        "next_required_action": "A named project semantic authority must accept, modify, or reject each of the 23 exact source-family payloads; a separate verifier must attest the resulting receipt before P4 ingestion.",
+        "source_authority_current_family_count": next(row["quotient_count"] for row in tranches if row["gap_kind"] == "source-authority"),
+        "source_authority_prepared_payload_count": len(appraisals),
+        "source_authority_unprepared_family_count": next(row["research_residual_quotient_count"] for row in tranches if row["gap_kind"] == "source-authority"),
+        "next_required_action": "Research and prepare the newly introduced source-family payload; then a named project semantic authority must accept, modify, or reject all current source-family payloads and a separate verifier must attest each receipt before P4 ingestion.",
         "completion_claim": False,
     }
     (HERE / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")

@@ -3,8 +3,8 @@
   "completion_claim": false,
   "files": {
     "extension-candidates.jsonl": {
-      "bytes": 41704,
-      "sha256": "017089ab97b8f80ee21c77e2408f9725f01c96b69314bc683d1c03b56d7982cc"
+      "bytes": 42745,
+      "sha256": "b7c6ff7b163b8940827b7a80440cc4657d2374ed719c5bc8dcee38db06bceb42"
     },
     "grain-coordinate-ontology.json": {
       "bytes": 6130,
@@ -15,12 +15,12 @@
       "sha256": "25a56663b1b2ff68940447ca74469b3b6c796ffff9d79b1ea8ef1305219704d4"
     },
     "member-operation-routes.jsonl": {
-      "bytes": 745159,
-      "sha256": "e863c799832073fb257c0c963d79b876ad9c82088b21f0748c4f556150c7cb48"
+      "bytes": 754343,
+      "sha256": "bec08c58e389a463820f47100b87d60ea0082e42dbea7813a8319751c4585566"
     },
     "member-research-clusters.jsonl": {
-      "bytes": 84101,
-      "sha256": "d62d4b624520bfa9c6836e3f1e7df6d5480327daba57b2c61adda23da2c08edc"
+      "bytes": 85139,
+      "sha256": "84bf8904356df2806b2166702a6c6385ccdf4892560ca221ebd150c17d3ab579"
     },
     "primary-sources.jsonl": {
       "bytes": 2385,
@@ -28,7 +28,7 @@
     },
     "summary.json": {
       "bytes": 556,
-      "sha256": "80e7ddc5afe93a2fa0032ef4666e9f16a07d60acd48a128be09940daa13ec631"
+      "sha256": "b3c48594f16455558018ef30e4329fe054be7d1dac9e0af00c36fd20789503c3"
     }
   },
   "manifest_id": "manifest.p3e.grain-coordinate-ontology-and-rebase.v1"

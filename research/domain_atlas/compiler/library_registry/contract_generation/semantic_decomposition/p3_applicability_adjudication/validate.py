@@ -44,12 +44,12 @@ def main() -> int:
     evidence = load_jsonl(EVIDENCE)
     targeted = load_jsonl(TARGETED_PACKAGES)
 
-    assert len(dockets) == summary["family_axis_dockets"] == len(matrices) == 368
-    assert len(packages) == summary["review_packages"] == 33
-    assert len(templates) == summary["ratification_packet_templates"] == 368
-    assert summary["represented_member_axis_cells"] == len(members) == 10784
-    assert summary["review_ready_dockets"] == summary["authority_review_ready_templates"] == 258
-    assert summary["blocked_dockets"] == 110
+    assert len(dockets) == summary["family_axis_dockets"] == len(matrices)
+    assert len(packages) == summary["review_packages"]
+    assert len(templates) == summary["ratification_packet_templates"] == len(dockets)
+    assert summary["represented_member_axis_cells"] == len(members)
+    assert summary["review_ready_dockets"] == summary["authority_review_ready_templates"]
+    assert summary["review_ready_dockets"] + summary["blocked_dockets"] == len(dockets)
     assert summary["ratified_family_axis_defaults"] == summary["ratified_member_exceptions"] == 0
     assert summary["canonical_exact_gaps_closed"] == 0 and not summary["completion_claim"]
 
@@ -69,16 +69,12 @@ def main() -> int:
     targeted_ids = {row["work_package_id"] for row in targeted}
     docket_by_id = {row["docket_id"]: row for row in dockets}
     assert len(matrix_by_id) == len(matrices)
-    assert len(cluster_by_id) == len(clusters) == 1300
+    assert len(cluster_by_id) == len(clusters)
     assert len(member_by_id) == len(members)
     assert len(docket_by_id) == len(dockets)
     assert {row["matrix_ref"] for row in dockets} == set(matrix_by_id)
-    assert collections.Counter(row["review_class"] for row in dockets) == {
-        "REVIEW_READY_MODAL_EXCEPTIONS": 204,
-        "BLOCKED_EVIDENCE_VACANCY": 103,
-        "REVIEW_READY_UNIFORM": 54,
-        "BLOCKED_NO_UNIQUE_MODAL": 7,
-    }
+    review_classes = collections.Counter(row["review_class"] for row in dockets)
+    assert set(review_classes) <= set(REVIEW_ONTOLOGY) and sum(review_classes.values()) == len(dockets)
 
     docket_cluster_refs = [ref for row in dockets for ref in row["cluster_refs"]]
     docket_member_refs = [ref for row in dockets for ref in row["member_preclassification_refs"]]
@@ -134,8 +130,8 @@ def main() -> int:
     assert len(template_by_docket) == len(templates) == len(dockets)
     assert set(template_by_docket) == set(docket_by_id)
     assert collections.Counter(row["status"] for row in templates) == {
-        "READY_FOR_NAMED_AUTHORITY_REVIEW": 258,
-        "BLOCKED_BY_REVIEW_PACKAGE": 110,
+        "READY_FOR_NAMED_AUTHORITY_REVIEW": summary["review_ready_dockets"],
+        "BLOCKED_BY_REVIEW_PACKAGE": summary["blocked_dockets"],
     }
     for docket_id, template in template_by_docket.items():
         docket = docket_by_id[docket_id]
@@ -153,7 +149,7 @@ def main() -> int:
         expected_status = "READY_FOR_NAMED_AUTHORITY_REVIEW" if docket["status"] == "READY_FOR_FAMILY_AXIS_REVIEW" else "BLOCKED_BY_REVIEW_PACKAGE"
         assert template["status"] == expected_status
 
-    print("PASS P3 applicability adjudication: 10,784 member-axis cells remain exact in 368 dockets; 258 are review-ready, 110 blocked, all factor losslessly into 33 semantic-axis review packages; 0 ratified defaults or canonical mutations")
+    print(f"PASS P3 applicability adjudication: {len(members)} member-axis cells remain exact in {len(dockets)} dockets; {summary['review_ready_dockets']} are review-ready, {summary['blocked_dockets']} blocked, all factor losslessly into {len(packages)} semantic-axis review packages; 0 ratified defaults or canonical mutations")
     return 0
 
 

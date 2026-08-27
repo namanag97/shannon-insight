@@ -1,9 +1,9 @@
 {
   "as_of": "2026-08-26",
   "axes": 16,
-  "axis_cells": 10784,
+  "axis_cells": 10912,
   "bounded_primary_evidence_claims": 6,
-  "candidate_cells": 2616,
+  "candidate_cells": 2656,
   "completion_claim": false,
   "coverage_by_axis": {
     "authority_and_trust": {
@@ -15,7 +15,7 @@
         "provider_claim": 3
       },
       "candidate_facet_occurrences": 24,
-      "unresolved_cells": 651
+      "unresolved_cells": 659
     },
     "compatibility_and_evolution": {
       "candidate_cells": 61,
@@ -25,44 +25,44 @@
         "semantic_edition": 14
       },
       "candidate_facet_occurrences": 61,
-      "unresolved_cells": 613
+      "unresolved_cells": 621
     },
     "composition_algebra": {
-      "candidate_cells": 119,
+      "candidate_cells": 121,
       "candidate_facet_counts": {
         "graph": 39,
         "objective_and_constraints": 19,
         "policy_precedence": 5,
-        "relational": 25,
-        "sequential_or_process": 31,
+        "relational": 26,
+        "sequential_or_process": 32,
         "set_or_lattice": 18
       },
-      "candidate_facet_occurrences": 137,
-      "unresolved_cells": 555
+      "candidate_facet_occurrences": 139,
+      "unresolved_cells": 561
     },
     "effect_boundary": {
-      "candidate_cells": 674,
+      "candidate_cells": 682,
       "candidate_facet_counts": {
-        "effectful_runtime": 122,
+        "effectful_runtime": 124,
         "ffi_boundary": 5,
         "pure_effect_intents": 88,
-        "pure_no_io": 459
+        "pure_no_io": 465
       },
-      "candidate_facet_occurrences": 674,
+      "candidate_facet_occurrences": 682,
       "unresolved_cells": 0
     },
     "evidence_and_conformance": {
-      "candidate_cells": 91,
+      "candidate_cells": 94,
       "candidate_facet_counts": {
         "benchmark_or_statistical": 10,
         "differential_oracle": 2,
         "fuzz_or_adversarial": 5,
         "model_or_state_oracle": 4,
-        "receipt_or_attestation": 40,
-        "runtime_observation": 34
+        "receipt_or_attestation": 43,
+        "runtime_observation": 35
       },
-      "candidate_facet_occurrences": 95,
-      "unresolved_cells": 583
+      "candidate_facet_occurrences": 99,
+      "unresolved_cells": 588
     },
     "grain_and_cardinality": {
       "candidate_cells": 119,
@@ -75,20 +75,20 @@
         "stream_or_unbounded": 12
       },
       "candidate_facet_occurrences": 133,
-      "unresolved_cells": 555
+      "unresolved_cells": 563
     },
     "identity_and_equality": {
-      "candidate_cells": 233,
+      "candidate_cells": 238,
       "candidate_facet_counts": {
         "canonical_equivalence": 43,
         "content_addressed": 30,
-        "occurrence_identity": 122,
-        "opaque_identity": 50,
+        "occurrence_identity": 126,
+        "opaque_identity": 51,
         "value_equality": 19,
-        "versioned_identity": 26
+        "versioned_identity": 27
       },
-      "candidate_facet_occurrences": 290,
-      "unresolved_cells": 441
+      "candidate_facet_occurrences": 296,
+      "unresolved_cells": 444
     },
     "order_and_topology": {
       "candidate_cells": 84,
@@ -100,106 +100,106 @@
         "total_order": 15
       },
       "candidate_facet_occurrences": 93,
-      "unresolved_cells": 590
+      "unresolved_cells": 598
     },
     "partiality_and_uncertainty": {
-      "candidate_cells": 53,
+      "candidate_cells": 56,
       "candidate_facet_counts": {
         "approximate_or_lossy": 3,
-        "interval_or_bound": 32,
+        "interval_or_bound": 35,
         "optional_missing_null": 6,
         "probabilistic": 11,
         "three_or_multi_valued": 2
       },
-      "candidate_facet_occurrences": 54,
-      "unresolved_cells": 621
+      "candidate_facet_occurrences": 57,
+      "unresolved_cells": 626
     },
     "privacy_security_safety": {
-      "candidate_cells": 85,
+      "candidate_cells": 86,
       "candidate_facet_counts": {
         "confidentiality_or_secret": 5,
         "hazard_or_fail_safe": 2,
-        "integrity_or_provenance": 42,
+        "integrity_or_provenance": 43,
         "least_privilege": 22,
         "purpose_or_consent": 8,
         "residency_or_locality": 2,
         "retention_or_erasure": 11
       },
-      "candidate_facet_occurrences": 92,
-      "unresolved_cells": 589
+      "candidate_facet_occurrences": 93,
+      "unresolved_cells": 596
     },
     "representation": {
-      "candidate_cells": 175,
+      "candidate_cells": 176,
       "candidate_facet_counts": {
         "encoded_bytes_or_container": 19,
         "logical_schema": 13,
         "physical_layout": 22,
         "published_language_or_profile": 17,
-        "semantic_native": 92,
+        "semantic_native": 93,
         "wire_protocol_or_dto": 42
       },
-      "candidate_facet_occurrences": 205,
-      "unresolved_cells": 499
+      "candidate_facet_occurrences": 206,
+      "unresolved_cells": 506
     },
     "resources_and_failure": {
-      "candidate_cells": 55,
+      "candidate_cells": 57,
       "candidate_facet_counts": {
         "backpressure_or_overload": 2,
         "cancellation": 14,
         "capacity_or_quota": 8,
         "deadline_or_timeout": 4,
-        "finite_budget": 15,
+        "finite_budget": 16,
         "partial_or_partition_failure": 11,
-        "retry_and_idempotency": 12
+        "retry_and_idempotency": 13
       },
-      "candidate_facet_occurrences": 66,
-      "unresolved_cells": 619
+      "candidate_facet_occurrences": 68,
+      "unresolved_cells": 625
     },
     "semantic_object": {
-      "candidate_cells": 312,
+      "candidate_cells": 318,
       "candidate_facet_counts": {
-        "claim_or_evidence": 45,
+        "claim_or_evidence": 48,
         "entity_or_occurrence": 48,
-        "event_or_fact": 27,
-        "plan_or_intent": 48,
+        "event_or_fact": 29,
+        "plan_or_intent": 51,
         "relation_or_graph": 43,
         "representation_artifact": 51,
         "resource_or_capability": 48,
-        "rule_or_policy": 38,
-        "state_or_snapshot": 29,
+        "rule_or_policy": 39,
+        "state_or_snapshot": 31,
         "value": 21
       },
-      "candidate_facet_occurrences": 398,
-      "unresolved_cells": 362
+      "candidate_facet_occurrences": 409,
+      "unresolved_cells": 364
     },
     "semantic_role": {
-      "candidate_cells": 391,
+      "candidate_cells": 397,
       "candidate_facet_counts": {
         "compare_or_reconcile": 74,
-        "coordinate_lifecycle": 32,
-        "decide_or_optimize": 75,
-        "derive_or_transform": 89,
-        "describe_or_observe": 46,
+        "coordinate_lifecycle": 35,
+        "decide_or_optimize": 76,
+        "derive_or_transform": 91,
+        "describe_or_observe": 48,
         "execute_effect": 36,
-        "persist_or_retrieve": 74,
+        "persist_or_retrieve": 78,
         "plan_or_compile": 85,
         "validate_or_conform": 115
       },
-      "candidate_facet_occurrences": 626,
-      "unresolved_cells": 283
+      "candidate_facet_occurrences": 638,
+      "unresolved_cells": 285
     },
     "state_and_change": {
-      "candidate_cells": 101,
+      "candidate_cells": 104,
       "candidate_facet_counts": {
         "append_only_event": 3,
-        "compensation_or_reversal": 14,
+        "compensation_or_reversal": 15,
         "immutable_value": 38,
-        "lifecycle_transition": 22,
+        "lifecycle_transition": 24,
         "snapshot_and_delta": 20,
         "versioned_mutation": 14
       },
-      "candidate_facet_occurrences": 111,
-      "unresolved_cells": 573
+      "candidate_facet_occurrences": 114,
+      "unresolved_cells": 578
     },
     "time": {
       "candidate_cells": 40,
@@ -213,15 +213,15 @@
         "validity_time": 1
       },
       "candidate_facet_occurrences": 42,
-      "unresolved_cells": 634
+      "unresolved_cells": 642
     }
   },
   "edition": 1,
   "facet_modules": 109,
   "facet_realizations": 109,
   "facet_realizations_with_existing_refs": 63,
-  "family_axis_review_packages": 368,
-  "library_signatures": 674,
+  "family_axis_review_packages": 384,
+  "library_signatures": 682,
   "program_id": "program.semantic-axis-decomposition.v1",
   "realization_counts_by_kind": {
     "COMPOSE_FOUNDATIONS": 22,
@@ -253,7 +253,7 @@
   "scaling_law": "Ratify reusable family-axis modules and store only per-library applicability and exceptions; never infer authority from lexical matches.",
   "semantic_axis_execution_lanes": 16,
   "semantic_axis_execution_phases": 5,
-  "semantic_research_queue_items": 368,
+  "semantic_research_queue_items": 384,
   "status": "ACTIVE_INCOMPLETE",
-  "unresolved_cells": 8168
+  "unresolved_cells": 8256
 }

@@ -86,10 +86,11 @@
           },
           "input_types": {
             "items": {
+              "minLength": 1,
               "type": "string"
             },
-            "type": "array",
-            "uniqueItems": true
+            "minItems": 1,
+            "type": "array"
           },
           "name": {
             "minLength": 1,

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.dev/schemas/python-module-allocation.schema.json",
+  "title": "Python implementation module allocation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_kind",
+    "module_path",
+    "top_level_owner_key",
+    "ownership_layer",
+    "application_id",
+    "allocation_basis",
+    "local_application_semantic_owner",
+    "horizontal_semantic_authority",
+    "implementation_posture",
+    "coverage_coordinate_refs",
+    "direct_test_file_count",
+    "source_sha256",
+    "completion_claim"
+  ],
+  "properties": {
+    "record_kind": {"const": "python_module_allocation"},
+    "module_path": {"type": "string", "pattern": "^src/shannon_insight/.+\\.py$"},
+    "top_level_owner_key": {"type": "string", "minLength": 1},
+    "ownership_layer": {
+      "enum": [
+        "PUBLIC_COMPATIBILITY_FACADE",
+        "SOURCE_ACQUISITION",
+        "NORMALIZED_FACT_AND_IDENTITY",
+        "ANALYTICAL_METHOD_KERNEL",
+        "ANALYSIS_ORCHESTRATION",
+        "EVIDENCE_RESULT_AND_HISTORY",
+        "EXPERIENCE_AND_DELIVERY",
+        "APPLICATION_RUNTIME_SUPPORT"
+      ]
+    },
+    "application_id": {"const": "application.codebase_engineering_intelligence"},
+    "allocation_basis": {"type": "string", "minLength": 15},
+    "local_application_semantic_owner": {"type": "boolean"},
+    "horizontal_semantic_authority": {"const": false},
+    "implementation_posture": {"enum": ["APPLICATION_IMPLEMENTATION", "REUSABLE_METHOD_CANDIDATE_UNQUALIFIED", "COMPATIBILITY_OR_SUPPORT"]},
+    "coverage_coordinate_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^hpf_[a-z0-9_]+$"}
+    },
+    "direct_test_file_count": {"type": "integer", "minimum": 0},
+    "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "completion_claim": {"const": false}
+  }
+}

@@ -10,9 +10,33 @@
       "bytes": 213810,
       "sha256": "f16d6e4808c44e188b82dc6f08e0ddb080053c50618ba7e68d5308ee7affcbc1"
     },
+    "bi-reporting-split-adjudications.jsonl": {
+      "bytes": 12925,
+      "sha256": "26c49abab5a5ab6939117250dd34bb7e2506d0a4ab94a82fc391888612ae72b6"
+    },
+    "bi-reporting-split-ddd-dossiers.jsonl": {
+      "bytes": 15961,
+      "sha256": "d632ad6463ca8f36a8c7dc8adb6926dcf0ac7ea9ee7a92bda638a9d2a59e7e85"
+    },
+    "bi-reporting-split-library-allocations.jsonl": {
+      "bytes": 10435,
+      "sha256": "67b96900ab249719ef00c362a9ea8ec620e499c17d63a1cb8640459e3792f15b"
+    },
+    "bi-reporting-split-migration-plan.jsonl": {
+      "bytes": 2807,
+      "sha256": "d5c0e6490bd03c7007f57ead234e6341c76bf2394493e9071a7cab9b14d4c942"
+    },
     "evidence.jsonl": {
-      "bytes": 19484,
-      "sha256": "caad63337f82e41ec12655cfaa1a7abf9143e6779f8a57fd3ebbfd1e3efc7ede"
+      "bytes": 28342,
+      "sha256": "60c8e51d302e1c32135df7121fa4112dfe2b5f2d14b9e0e0a81afb92229c49f7"
+    },
+    "external-38-family-frontier-crosswalk.jsonl": {
+      "bytes": 22134,
+      "sha256": "7d30e320b7184f8bedc13c68e836b46a181fd1992061fae5fcb7cc8cd054c4b1"
+    },
+    "frontier-level-non-collapse-laws.jsonl": {
+      "bytes": 1297,
+      "sha256": "c1e2f2d59605d78d56cdbc62d5f8e6ea92e171a58f716609b52e9882e5dbe913"
     },
     "input-snapshot.json": {
       "bytes": 1337,
@@ -47,8 +71,8 @@
       "sha256": "593d21eadcb7b7691441503ba54bf981e4b85596bd771f835d32cdd29187c8ef"
     },
     "summary.json": {
-      "bytes": 706,
-      "sha256": "5c390acbaa964df7fff33f6bf3a17827cf463a96dd8bd8021c50384d93141814"
+      "bytes": 1021,
+      "sha256": "f626680cb70156704644ead69b8f6cd55b6693dd6722b39426c49d6fe28b789d"
     }
   },
   "manifest_id": "manifest.presentation-experience-gap-audit.v1"

@@ -19,8 +19,10 @@ because it emitted pixels or ARIA text.
 
 ## Boundary posture
 
-- `BI Reporting` is challenged for a possible split between interactive exploration and
-  formal reporting/publication.
+- `BI Reporting` now has an evidence-backed, unratified split adjudication into
+  `Interactive Analytics Exploration` and `Formal Reporting & Publication`. Both candidates
+  pass the ten-axis product test; canonical graph migration, qualification, vertical
+  acceptance and ratification remain open.
 - `Embedded Analytics` and `Analytical Notebook` remain existing product boundaries with
   narrower presentation imports.
 - Spreadsheet/grid and generic scientific/3D experiences require product split tests.
@@ -30,6 +32,26 @@ because it emitted pixels or ARIA text.
   lifecycles.
 - Accessibility equivalence is a constitutional requirement and library family, not an
   optional feature or standalone product.
+
+## External 38-family challenge
+
+The externally proposed 38-family map is preserved losslessly in
+`external-38-family-frontier-crosswalk.jsonl`, but its rows are not automatically products.
+Every row is classified as a product, product cluster, method/library family, shared semantic
+foundation, cross-cutting constitution, candidate split, or research vacancy and is mapped to
+exact retained product identities.
+
+The crosswalk falsifies several incoming "missing" claims: notebooks, experimentation,
+forecasting, simulation, optimization, graph, geospatial, predictive-model lifecycle,
+planning, activation and optional agent/model extensions already have retained boundaries.
+Only two rows survive as genuine new boundary-research vacancies in this pass:
+
+- analytical content management and collaboration;
+- subscriptions, alerts and insight delivery.
+
+This yields a typed coverage frontier above the product registry rather than an unjustified
+second product registry. `frontier-level-non-collapse-laws.jsonl` makes the essential level
+distinctions executable.
 
 ## Build and validate
 

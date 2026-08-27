@@ -22,6 +22,14 @@ from source_model import (
     SOURCES,
     SPECIALIZED_COMPATIBILITY,
 )
+from split_model import (
+    LIBRARY_ALLOCATIONS,
+    MIGRATION_STEPS,
+    SPLIT_ADJUDICATIONS,
+    SPLIT_DDD_DOSSIERS,
+    SPLIT_SOURCES,
+)
+from frontier_model import FRONTIER_CROSSWALK, FRONTIER_LAWS, FRONTIER_SOURCES
 
 
 INPUTS = {
@@ -106,6 +114,7 @@ def input_snapshot() -> dict[str, Any]:
 
 
 def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
+    all_sources = SOURCES + SPLIT_SOURCES + FRONTIER_SOURCES
     retained_rows = load_jsonl(INPUTS["retained_products"])
     retained_products = {row["local_subject_ref"] for row in retained_rows}
     bi_bindings = load_jsonl(INPUTS["bi_bindings"])
@@ -290,7 +299,7 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "program_id": "program.presentation-experience-gap-audit.v1",
         "record_kind": "presentation_experience_gap_audit_summary",
         "as_of": AS_OF,
-        "primary_or_official_sources": len(SOURCES),
+        "primary_or_official_sources": len(all_sources),
         "semantic_axes": len(axes),
         "artifact_kinds": len(artifacts),
         "analytical_result_kinds": len(results),
@@ -301,6 +310,14 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "existing_library_routes": sum(row["exact_existing_library_ref"] is not None for row in libraries),
         "candidate_library_vacancies": sum(row["status"] == "CANDIDATE_VACANCY" for row in libraries),
         "noncollapse_laws": len(laws),
+        "boundary_split_adjudications": 1,
+        "strong_candidate_products": 2,
+        "candidate_complete_ddd_dossiers": len(SPLIT_DDD_DOSSIERS),
+        "split_library_allocations": len(LIBRARY_ALLOCATIONS),
+        "planned_hard_cut_migration_steps": len(MIGRATION_STEPS),
+        "external_frontier_rows_adjudicated": len(FRONTIER_CROSSWALK),
+        "frontier_level_noncollapse_laws": len(FRONTIER_LAWS),
+        "frontier_genuine_research_vacancies": sum(row["disposition"] == "GENUINE_RESEARCH_VACANCY" for row in FRONTIER_CROSSWALK),
         "open_gaps": len(gaps),
         "ratified_products": 0,
         "ratified_contracts": 0,
@@ -309,7 +326,7 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "status": "RESEARCH_AUDIT_ACTIVE_INCOMPLETE",
     }
     return {
-        "evidence": SOURCES,
+        "evidence": all_sources,
         "semantic_axes": axes,
         "artifact_kinds": artifacts,
         "result_kinds": results,
@@ -319,6 +336,12 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "artifact_axis_obligations": axis_obligations,
         "compatibility_cells": compatibility,
         "open_gaps": gaps,
+        "split_adjudications": SPLIT_ADJUDICATIONS,
+        "split_library_allocations": LIBRARY_ALLOCATIONS,
+        "split_migration_steps": MIGRATION_STEPS,
+        "split_ddd_dossiers": SPLIT_DDD_DOSSIERS,
+        "frontier_crosswalk": FRONTIER_CROSSWALK,
+        "frontier_laws": FRONTIER_LAWS,
         "input_snapshot": input_snapshot(),
         "summary": summary,
     }
@@ -335,6 +358,12 @@ FILES = {
     "artifact_axis_obligations": "artifact-axis-obligations.jsonl",
     "compatibility_cells": "result-artifact-compatibility.jsonl",
     "open_gaps": "open-gaps.jsonl",
+    "split_adjudications": "bi-reporting-split-adjudications.jsonl",
+    "split_library_allocations": "bi-reporting-split-library-allocations.jsonl",
+    "split_migration_steps": "bi-reporting-split-migration-plan.jsonl",
+    "split_ddd_dossiers": "bi-reporting-split-ddd-dossiers.jsonl",
+    "frontier_crosswalk": "external-38-family-frontier-crosswalk.jsonl",
+    "frontier_laws": "frontier-level-non-collapse-laws.jsonl",
 }
 
 

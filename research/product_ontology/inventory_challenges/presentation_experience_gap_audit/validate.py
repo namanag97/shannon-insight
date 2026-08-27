@@ -45,9 +45,15 @@ def main() -> int:
     obligations = built["artifact_axis_obligations"]
     cells = built["compatibility_cells"]
     gaps = built["open_gaps"]
+    split_adjudications = built["split_adjudications"]
+    allocations = built["split_library_allocations"]
+    migration = built["split_migration_steps"]
+    dossiers = built["split_ddd_dossiers"]
+    frontier = built["frontier_crosswalk"]
+    frontier_laws = built["frontier_laws"]
     summary = built["summary"]
 
-    require(len(sources) >= 35, "primary/official source floor not met")
+    require(len(sources) >= 50, "primary/official source floor not met")
     require(len({row["source_id"] for row in sources}) == len(sources), "duplicate source id")
     require(all(row["bounded_claim"] and row["authority_limit"] for row in sources), "unbounded evidence claim")
     evidence_ids = {row["source_id"] for row in sources}
@@ -75,6 +81,34 @@ def main() -> int:
     require({row["name"] for row in artifacts} >= {"dashboard", "paginated_report", "regulatory_report", "notebook", "spreadsheet_workbook", "map_view", "graph_view", "waveform_view", "volume_3d_view", "embedded_view", "alert_occurrence", "accessible_equivalent"}, "critical presentation artifacts missing")
     require({row["name"] for row in results} >= {"forecast", "causal_effect", "optimization_solution", "simulation_ensemble", "process_model", "geospatial_feature", "image_inspection", "signal_window_spectrum", "scientific_mesh_volume"}, "critical analytical results missing")
     require({row["law_id"] for row in laws} >= {"law.presentation.dashboard_alert", "law.presentation.selection_decision", "law.presentation.embed_authority", "law.presentation.render_conformance"}, "critical non-collapse laws missing")
+    require(len(split_adjudications) == 3, "split adjudication cardinality drift")
+    split = [row for row in split_adjudications if row["record_kind"] == "presentation_product_split_adjudication"]
+    candidates = [row for row in split_adjudications if row["record_kind"] == "presentation_product_boundary_adjudication"]
+    require(len(split) == 1 and split[0]["source_product_ref"] == "product.bi_reporting", "BI reporting source split missing")
+    require(len(candidates) == 2, "two target product adjudications required")
+    require(all(row["score_total"] == 20 and row["verdict"] == "STRONG_PRODUCT" for row in candidates), "split targets did not pass the ten-axis test")
+    require(all(set(row["split_test"]) == {"user", "job", "adoption", "semantics", "authority", "lifecycle", "operation", "economics", "interface", "market_evidence"} for row in candidates), "split-test axes incomplete")
+    require(all(all(axis["score"] == 2 and set(axis["evidence_refs"]) <= evidence_ids for axis in row["split_test"].values()) for row in candidates), "split-test evidence unresolved")
+    require(all(row["ratification"] == "WITHHELD" for row in split_adjudications), "split was falsely ratified")
+    require(len(allocations) == 20 and len({row["allocation_id"] for row in allocations}) == 20, "library allocation is incomplete or duplicated")
+    require({row["library_ref"] for row in allocations} >= {"library.presentation.interaction_state", "library.presentation.selection_algebra", "library.presentation.report_run", "library.presentation.publication_lifecycle", "library.consumption.alert_state"}, "critical split libraries missing")
+    require(all(row["status"] == "PROPOSED_UNRATIFIED" for row in allocations), "library ownership fabricated")
+    require(len(migration) == 8 and [row["order"] for row in migration] == list(range(1, 9)), "hard-cut migration plan is not total and ordered")
+    require(all(row["status"] == "PLANNED_NOT_EXECUTED" for row in migration), "migration execution fabricated")
+    require(any(row["phase"] == "HARD_CUT" and "compatibility alias" in row["requirement"] for row in migration), "no-alias hard cut missing")
+    require(len(dossiers) == 2 and {row["product_ref"] for row in dossiers} == {"product.interactive_analytics_exploration", "product.formal_reporting_publication"}, "candidate DDD dossiers missing")
+    required_ddd = {"domain_vision_statement", "subdomain_classification", "bounded_context_boundary", "ubiquitous_language_policy", "context_map", "anti_corruption_layers", "published_language", "value_objects", "entities", "aggregates", "aggregate_roots", "aggregate_invariants", "commands", "domain_events", "refusal_failure_catalog", "domain_services", "application_services", "repositories", "factories", "specifications", "state_machine", "policies_and_reactions", "sagas_and_process_managers", "read_models_and_projections", "integration_event_policy", "concurrency_and_idempotency", "time_model", "event_storming_swimlanes", "nonfunctional_laws"}
+    require(all(set(row["strategic_and_tactical_ddd"]) == required_ddd for row in dossiers), "candidate DDD dossier field coverage drift")
+    require(all(row["status"] == "COMPLETE_CANDIDATE_NOT_RATIFIED" and row["completion_claim"] is False for row in dossiers), "candidate DDD dossier overclaims authority")
+    require(summary["boundary_split_adjudications"] == 1 and summary["strong_candidate_products"] == 2, "split summary drift")
+    retained_refs = {row["local_subject_ref"] for row in load_jsonl(INPUTS["retained_products"])}
+    require(len(frontier) == 38 and [row["frontier_id"] for row in frontier] == [f"H{i:02d}" for i in range(1, 39)], "external frontier is not losslessly represented")
+    require(all(set(row["retained_product_refs"]) <= retained_refs for row in frontier), "frontier crosswalk references unknown retained products")
+    require(all(row["adjudicated_ontology_level"] and row["disposition"] and row["bounded_finding"] for row in frontier), "frontier row lacks typed disposition")
+    require({row["disposition"] for row in frontier} >= {"COVERED", "SPLIT_CANDIDATE", "DO_NOT_PROMOTE_AS_ONE_PRODUCT", "GENUINE_RESEARCH_VACANCY", "COVERED_DO_NOT_COLLAPSE"}, "frontier dispositions collapsed")
+    require(sum(row["disposition"] == "GENUINE_RESEARCH_VACANCY" for row in frontier) == 2, "genuine frontier vacancy count drift")
+    require(len(frontier_laws) == 5 and {row["law"] for row in frontier_laws} >= {"analytical_method_family != operated_product", "product_cluster != bounded_context", "shared_intermediate_representation != product", "machine_or_library != product"}, "frontier ontology-level laws incomplete")
+    require(summary["external_frontier_rows_adjudicated"] == 38 and summary["frontier_genuine_research_vacancies"] == 2, "frontier summary drift")
 
     if errors:
         for error in errors:
@@ -85,6 +119,8 @@ def main() -> int:
         f"{len(sources)} sources; {len(artifacts)} artifacts x {len(results)} result kinds = {len(cells)} compatibility cells; "
         f"{len(obligations)} artifact-axis obligations; {len(hypotheses)} product hypotheses; "
         f"{len(libraries)} library seams; {len(laws)} non-collapse laws; {len(gaps)} open gaps; "
+        f"1 adjudicated split, 2 strong candidate products, {len(allocations)} allocated libraries; "
+        f"38 external frontier rows typed with 2 genuine research vacancies; "
         "0 ratified products/contracts/implementations"
     )
     return 0

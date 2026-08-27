@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 from urllib.parse import urlparse
 
 
@@ -18,6 +19,10 @@ def load(path: Path):
 def valid_url(value: str) -> bool:
     parsed = urlparse(value)
     return parsed.scheme == "https" and bool(parsed.netloc)
+
+
+def normalized_name(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.casefold())
 
 
 def main() -> int:
@@ -57,6 +62,7 @@ def main() -> int:
     require(len(families) == 38, "cross-shard family count drift")
 
     global_orgs: dict[str, tuple[str, str, str]] = {}
+    global_org_names: dict[str, str] = {}
     global_refs: dict[str, tuple] = {}
     company_floor = gates.get("min_companies_per_family", 25)
     for family in families:
@@ -81,6 +87,8 @@ def main() -> int:
 
         coverage = family.get("coverage", {})
         require(coverage.get("organization_count") == len(orgs), f"declared organization count stale {ident}")
+        require(coverage.get("company_count") == len(companies), f"declared company count stale {ident}")
+        require(coverage.get("company_floor") == company_floor, f"family company floor drift {ident}")
         require(coverage.get("research_count") == len(refs), f"declared research count stale {ident}")
         require(coverage.get("organization_floor") == gates.get("min_organizations_per_family"), f"family organization floor drift {ident}")
         require(coverage.get("research_floor") == gates.get("min_research_references_per_family"), f"family research floor drift {ident}")
@@ -93,6 +101,11 @@ def main() -> int:
                 require(global_orgs[row["id"]] == definition, f"conflicting organization definition {row['id']}")
             else:
                 global_orgs[row["id"]] = definition
+            name_key = normalized_name(row["name"])
+            if name_key in global_org_names:
+                require(global_org_names[name_key] == row["id"], f"duplicate normalized organization identity {row['name']}")
+            else:
+                global_org_names[name_key] = row["id"]
         for row in refs:
             definition = (row["title"], row["url"], row["kind"], tuple(row["tags"]), row.get("year"))
             require(row["id"].startswith("ref_"), f"invalid research id {row.get('id')}")
@@ -107,6 +120,18 @@ def main() -> int:
         crosswalk = [json.loads(line) for line in crosswalk_path.read_text().splitlines() if line.strip()]
         require([row.get("frontier_id") for row in crosswalk] == [f"H{i:02d}" for i in range(1, 39)], "canonical frontier crosswalk is not complete")
         require(all(row.get("adjudicated_ontology_level") and row.get("disposition") for row in crosswalk), "canonical frontier row lacks ontology disposition")
+        require(all(row.get("completion_claim") is False for row in crosswalk), "coverage crosswalk must not claim completion")
+        require(all(row.get("ratification") != "RATIFIED" for row in crosswalk), "coverage crosswalk must not ratify products")
+
+    hardening_path = HERE / "consolidation-hardening-audit.jsonl"
+    require(hardening_path.is_file(), "consolidation hardening audit missing")
+    if hardening_path.is_file():
+        hardening = [json.loads(line) for line in hardening_path.read_text().splitlines() if line.strip()]
+        require([row.get("requirement_id", "")[:4] for row in hardening] == [f"HR{i:02d}" for i in range(1, 11)], "hardening audit must cover HR01..HR10 in order")
+        allowed_statuses = {"SATISFIED_ENFORCED", "PARTIAL_EXPLICIT_DEBT", "OPEN_EXPLICIT_DEBT"}
+        require(all(row.get("status") in allowed_statuses for row in hardening), "hardening audit has an unknown status")
+        require(all(row.get("evidence") for row in hardening), "hardening audit row lacks evidence")
+        require(all(row.get("open_work") for row in hardening if row.get("status") != "SATISFIED_ENFORCED"), "unresolved hardening audit row lacks open work")
 
     if errors:
         for error in errors:

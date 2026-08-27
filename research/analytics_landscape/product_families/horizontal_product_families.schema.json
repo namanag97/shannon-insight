@@ -24,7 +24,7 @@
         "negative_charter": {"type": "array", "minItems": 1, "items": {"type": "string"}},
         "organization_ids": {"type": "array", "minItems": 25, "uniqueItems": true, "items": {"type": "string", "pattern": "^org_[a-z0-9_]+$"}},
         "research_ids": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string", "pattern": "^ref_[a-z0-9_]+$"}},
-        "coverage": {"type": "object", "required": ["organization_floor", "organization_count", "research_floor", "research_count", "status"]},
+        "coverage": {"type": "object", "required": ["organization_floor", "organization_count", "company_floor", "company_count", "research_floor", "research_count", "status"]},
         "required_product_surfaces": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string"}}
       }
     },

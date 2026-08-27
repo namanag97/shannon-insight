@@ -14,14 +14,20 @@ research/product_ontology/inventory_challenges/
 ```
 
 Every shard must contain exactly the manifest-declared families, at least 25 distinct
-organizations, at least 25 entries explicitly classified as companies, at least eight research or
+organizations, an independently declared and recomputed company count of at least 25, at least eight research or
 standards references, and internally consistent coverage counts. These are breadth floors, not
 proof of completeness, product promotion, semantic ratification, implementation qualification or
 vertical acceptance.
+
+The validator also rejects conflicting or duplicate normalized organization identities and any
+crosswalk row that claims completion or product ratification. Parent/acquisition normalization,
+claim-bound product evidence, evidence-role tagging, and complete sovereign seam ownership remain
+explicit downstream research debts; a passing breadth validator does not discharge them.
+The exact satisfied/partial/open disposition of the ten consolidation requirements is recorded in
+`consolidation-hardening-audit.jsonl`.
 
 Validate from the repository root:
 
 ```bash
 python3 research/analytics_landscape/product_families/validate.py
 ```
-

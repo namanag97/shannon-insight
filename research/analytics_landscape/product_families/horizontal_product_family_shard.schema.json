@@ -26,10 +26,12 @@
         "coverage": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["organization_floor", "organization_count", "research_floor", "research_count", "status"],
+          "required": ["organization_floor", "organization_count", "company_floor", "company_count", "research_floor", "research_count", "status"],
           "properties": {
             "organization_floor": {"type": "integer", "minimum": 25},
             "organization_count": {"type": "integer", "minimum": 25},
+            "company_floor": {"type": "integer", "minimum": 25},
+            "company_count": {"type": "integer", "minimum": 25},
             "research_floor": {"type": "integer", "minimum": 8},
             "research_count": {"type": "integer", "minimum": 8},
             "status": {"enum": ["seeded", "review_candidate", "reviewed", "stale"]}

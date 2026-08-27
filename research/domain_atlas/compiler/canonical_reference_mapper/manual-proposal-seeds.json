@@ -536,6 +536,78 @@
       "confidence": "low"
     },
     {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.process_mining",
+      "target_refs": ["analytics.process.process_discovery", "analytics.process.process_conformance_checking", "analytics.process.process_enhancement"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_method_family_decomposition",
+      "confidence": "high",
+      "authority_evidence_refs": ["authority.ieee.process_mining_manifesto"],
+      "rationale": "The IEEE Task Force manifesto positions process mining as a family for improving, redesigning, controlling and supporting operational processes, and distinguishes discovery, conformance checking and enhancement. The local label therefore supports a family decomposition rather than one subtype; each occurrence still requires review of its event evidence, process model and decision purpose.",
+      "information_loss": [
+        "The targets do not replace the local process population, event-log completeness, case identity, process model, decision owner or intervention policy.",
+        "The label does not establish event-log conformance, discovery quality, enhancement effect, provider implementation or runtime qualification."
+      ],
+      "uncertainties": [
+        "A source occurrence may intentionally mean only discovery, conformance checking, enhancement, or a different process-mining use.",
+        "The candidate targets remain hypotheses and require independent semantic review against materially distinct source contexts."
+      ]
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.constrained_optimization",
+      "target_refs": ["or.method.constraint_optimization"],
+      "relation": "narrower",
+      "mapping_semantics": "situated_method_to_constraint_optimization_family",
+      "confidence": "high",
+      "authority_evidence_refs": ["authority.google.or_tools.constraint_optimization", "authority.google.or_tools.cp_sat"],
+      "rationale": "The OR-Tools documentation makes variables, constraints, feasibility and optimization explicit, and separately documents the integer-domain and termination-status boundaries of CP-SAT. The local label is therefore a candidate situated instance of constraint optimization, but neither a solver choice nor an optimality claim is inferred.",
+      "information_loss": [
+        "The mapping does not supply the local objective, variable domains, constraint algebra, feasible-set definition, optimality criterion, solver status or resource budget.",
+        "It does not decide between constraint programming, mixed-integer programming, linear programming or another constrained formulation, and does not qualify a provider or runtime."
+      ],
+      "uncertainties": [
+        "The source label may denote a CP, MIP, LP, heuristic or hybrid implementation that cannot be selected from the label alone.",
+        "The candidate target remains a hypothesis and requires independent review of model laws and the source decision contract."
+      ]
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.causal_rca",
+      "target_refs": ["analytics.diagnostic_rca.root_cause_analysis"],
+      "relation": "narrower",
+      "mapping_semantics": "causal_root_cause_to_root_cause_family",
+      "confidence": "medium",
+      "authority_evidence_refs": ["authority.pearl.causal_calculus"],
+      "rationale": "Pearl's causal-calculus paper distinguishes observational conditioning from intervention and structural-equation semantics. The local label is therefore a candidate narrower form of root-cause analysis, while the mapping explicitly refuses to infer causal identification, intervention validity or a causal estimand from RCA wording.",
+      "information_loss": [
+        "The root-cause target does not establish a causal graph, intervention, confounding control, identification assumptions, estimand, counterfactual or refutation evidence.",
+        "The mapping does not replace the source failure mechanism, evidence chain, authority to act, or post-intervention evaluation contract."
+      ],
+      "uncertainties": [
+        "Some occurrences may use causal language for structured diagnostic decomposition without a defensible causal design.",
+        "The candidate target remains a hypothesis and requires independent review of causal assumptions and evidence for each source context."
+      ]
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.temporal_network_analysis",
+      "target_refs": ["analytics.graph_network.temporal_graph_analysis"],
+      "relation": "narrower",
+      "mapping_semantics": "temporal_network_to_temporal_graph_family",
+      "confidence": "high",
+      "authority_evidence_refs": ["authority.holme_saramaki.temporal_networks"],
+      "rationale": "Holme and Saramäki describe temporal networks in which edge-activation timing affects network dynamics and static aggregation can lose temporal ordering. The local label is therefore a candidate narrower temporal-network practice within temporal-graph analysis, without inferring a graph schema, metric, event process or time granularity.",
+      "information_loss": [
+        "The target does not supply temporal granularity, event ordering, time-respecting paths, observation process, graph construction, metric, model or evaluation law.",
+        "The mapping does not establish that the source uses event-level temporal networks rather than longitudinal snapshots, nor does it qualify a provider or runtime."
+      ],
+      "uncertainties": [
+        "A source occurrence may mean a longitudinal graph comparison or another time-varying graph representation rather than temporal-network analysis in the paper's sense.",
+        "The candidate target remains a hypothesis and requires independent review of the source graph and time contracts."
+      ]
+    },
+    {
       "reference_domain": "source_system_class",
       "raw_ref": "core banking and deposit account system",
       "target_refs": ["source.regulated_vertical.core_banking"],

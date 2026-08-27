@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accessed_at": {
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "type": "string"
+    },
+    "authority_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "authority_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "primary_url": {
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "publication_year": {
+      "maximum": 2100,
+      "minimum": 1900,
+      "type": "integer"
+    },
+    "publisher_or_authors": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "record_kind": {
+      "const": "canonical_reference_authority_evidence"
+    },
+    "related_urls": {
+      "items": {
+        "format": "uri",
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "source_kind": {
+      "enum": [
+        "official_method_body",
+        "official_product_documentation",
+        "primary_research_paper"
+      ]
+    },
+    "status": {
+      "const": "verified_primary_evidence"
+    },
+    "supports": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "authority_id",
+    "title",
+    "publisher_or_authors",
+    "source_kind",
+    "primary_url",
+    "accessed_at",
+    "authority_scope",
+    "supports",
+    "limitations",
+    "status"
+  ],
+  "title": "Canonical-reference authority evidence",
+  "type": "object"
+}

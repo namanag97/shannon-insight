@@ -7,9 +7,9 @@
       "sha256": "12f60a0aae9015bfa82ff95325ae965877fc2942062491fd8b188be16eed2cdb"
     },
     "candidate-mappings.jsonl": {
-      "bytes": 589094,
-      "records": 186,
-      "sha256": "d9b4e518d66bbb6a7cc8bbc0b8ea8d534c30064137f221174a2b26e7ba33ab60"
+      "bytes": 615070,
+      "records": 190,
+      "sha256": "dabe924ee9bd43ec7032dfa29362e9b0fd6eda1ffdc82b5ef51402bcc9fcd510"
     },
     "canonical-candidate-index.jsonl": {
       "bytes": 3805848,
@@ -22,14 +22,14 @@
       "sha256": "d0553bc9537ca73ce2d2d425a7848d16b264fae841671271b2d9cc9494f29b5d"
     },
     "coverage-report.json": {
-      "bytes": 4803,
+      "bytes": 5168,
       "records": 1,
-      "sha256": "c6507585c835c5886f2a0c4095cf5e103baf8f5cc5dec94748c32a6df58f090a"
+      "sha256": "27a7292cd6db0ffcb6905409bdb82f211c494975bdeff624cf7a4a964b6498cc"
     },
     "coverage-report.jsonl": {
-      "bytes": 3869,
+      "bytes": 4204,
       "records": 1,
-      "sha256": "7daee831c85fbcaa9ae89a8aeab5a8807127039fb23472a0c2cac7d192e07541"
+      "sha256": "f7de6e97162363c37a04bb283db162d57a287f37c5ffd2f72bae0d14c8255f56"
     },
     "missing-concept-proposals.jsonl": {
       "bytes": 475146,
@@ -47,19 +47,24 @@
       "sha256": "835d79e78fdcb143e41ba210e38522dd333e2619f7559fa08058b773a7c3e8ad"
     },
     "review-batches.jsonl": {
-      "bytes": 219507,
+      "bytes": 219631,
       "records": 68,
-      "sha256": "56a99690159af92e04e6323c59b498555bb45f4f40cdf12afe4650db5dfb998a"
+      "sha256": "398bb53a7daaff7f3134b4b7847189b0f471de7dc2e3125d2c08dda072901ef3"
     },
     "schemas/alias-assertion.schema.json": {
       "bytes": 292,
       "records": 1,
       "sha256": "e56a3602a9336eed4d58af17e4bb1fb643ab3bec2a8257e96215706248606bc1"
     },
-    "schemas/candidate-mapping.schema.json": {
-      "bytes": 483,
+    "schemas/authority-evidence.schema.json": {
+      "bytes": 1818,
       "records": 1,
-      "sha256": "d96f9c4a076d3320e2ca6531d5cd48b79cfa0d6dc2699ead994d887eb41c657e"
+      "sha256": "ce956508bc93639f715b35cfc6cf013ef242c70c72d7d7929334227e5ba9e5ba"
+    },
+    "schemas/candidate-mapping.schema.json": {
+      "bytes": 1818,
+      "records": 1,
+      "sha256": "bf1d403c44d80d14c81fd045badeccb3d3479631cfaed794a80ba013e298b94e"
     },
     "schemas/canonical-candidate.schema.json": {
       "bytes": 367,
@@ -127,18 +132,24 @@
       "sha256": "e4eb7cf2d32709f3581ad7f1f92a33a3ab51c95b3827b3ffa881f51e702928ed"
     },
     "triage-records.jsonl": {
-      "bytes": 4935205,
+      "bytes": 4935357,
       "records": 4169,
-      "sha256": "07995874d630d69ea37bf4169eca3c83dff200e692b6608677baa07f22259449"
+      "sha256": "02ea92a1f37cef2b0200d10b6eade1aef4339be0c6b8b1003874fb00ef73b990"
     },
     "universe-id-census.jsonl": {
-      "bytes": 15442668,
-      "records": 42064,
-      "sha256": "021c1c1c63f0c6243076101892b4e91fc9c0ab14499c10dbcafeecceb95af666"
+      "bytes": 15540678,
+      "records": 42316,
+      "sha256": "400775bd5a3b536cd17bbc60348b28872fa72c3c2390439427b806daf316d585"
     }
   },
   "edition": 1,
   "generator": "build_mapper.py",
+  "input_authority_evidence": "compiler/canonical_reference_mapper/authority-evidence.jsonl",
+  "input_authority_evidence_records": 5,
+  "input_authority_evidence_sha256": "1563f8c8895837aeefee9108a4379898e7e02fb59071ef16896581eda2dd7764",
+  "input_manual_proposal_seed_count": 190,
+  "input_manual_proposal_seeds": "compiler/canonical_reference_mapper/manual-proposal-seeds.json",
+  "input_manual_proposal_seeds_sha256": "b7e4141f93a4af58548bb6b47253b0d9adc376ee496f84dc9067da80860086e1",
   "input_queue": "industries/canonical-reference-review-queue.jsonl",
   "input_queue_records": 4169,
   "input_queue_sha256": "ea9f0a4842ec04188f4f9c06e08df6d08302b0da3991a21c3588952fbd0fdba6",

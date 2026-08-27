@@ -61,16 +61,25 @@ reviewed against extracted source contexts and canonical definitions/contracts/e
 proposals remain `proposed`, require independent review, retain loss and uncertainty, and set
 `adjudicated: false`. The generator never turns an alignment or score into a semantic proposal.
 
+`authority-evidence.jsonl` is a separate, checked-in provenance ledger for primary papers, official
+method-body material, and official product documentation used to motivate selected proposals.
+Authority records are evidence of a method boundary—not ontology ratification, provider
+qualification, runtime support, or acceptance of any individual vertical occurrence. A seed that
+uses external authority must name its evidence IDs; the validator fails closed on unknown IDs,
+missing limitations, or missing URLs.
+
 ## Artifacts
 
 - `source-occurrences.jsonl` — every exact occurrence that contributed to the current queue.
 - `source-definitions.jsonl` — one contextual, non-adjudicated definition record per queue item.
-- `canonical-candidate-index.jsonl` — 3,806 candidate targets from the required canonical corpora.
+- `canonical-candidate-index.jsonl` — 3,814 candidate targets from the required canonical corpora.
 - `universe-id-census.jsonl` — every ID-shaped declaration/reference read from all universe JSON.
 - `alias-assertions.jsonl` — only aliases declared by source records and inherited official
   crosswalk assertions; a crosswalk is explicitly not mislabeled as an alias.
 - `namespace-alignments.jsonl` — mechanical matching only.
 - `candidate-mappings.jsonl` — evidence/law-reviewed proposals with relation, loss and uncertainty.
+- `authority-evidence.jsonl` — five primary/official evidence records with scope and limitations;
+  this is an input ledger, not an adjudication output.
 - `missing-concept-proposals.jsonl` — open vertical-extension and universe-gap proposals.
 - `collisions-homonyms.jsonl` — raw normalization collisions, canonical homonyms and ambiguous
   alignments.
@@ -79,13 +88,21 @@ proposals remain `proposed`, require independent review, retain loss and uncerta
 - `negative-tests.jsonl` — false twins the validator must continue to refuse.
 - `coverage-report.json` and `coverage-report.jsonl` — exact counts by domain, pack, relation,
   confidence and review focus.
-- `schemas/` — JSON Schema contracts for every generated record family.
-- `manifest.json` — input digest plus artifact byte/digest/count receipts.
+- `schemas/` — JSON Schema contracts for every generated record family, including authority
+  evidence and nested mapping provenance.
+- `manifest.json` — queue, manual-seed and authority-ledger input digests plus artifact
+  byte/digest/count receipts.
 
 The 398 local industry identities all receive open extension/missing-concept proposals even when a
 broader ISIC candidate is also proposed. This is intentional: a broad horizontal mapping must not
 erase a case-specific vertical boundary. The corpus also preserves source-system surface
 decompositions, method/practice layer distinctions and explicit gaps such as a CCR limit engine.
+
+The current B07 analytical tranche adds four loss-aware proposals covering 148 occurrences:
+`method.process_mining` (47), `method.constrained_optimization` (37), `method.causal_rca` (35),
+and `method.temporal_network_analysis` (29). They increase the mapper from 186 to 190 proposals
+and remain proposed/unratified; the 4,169-item source queue and its unresolved status are
+unchanged.
 
 ## Rebuild and validate
 
@@ -105,8 +122,9 @@ python3 research/domain_atlas/compiler/canonical_reference_mapper/validate_mappe
 
 A normal rebuild is deterministic. `--check` compares bytes without writing. The validator fails on
 missing/duplicate queue coverage, source drift, target drift, silent rewrites, undeclared aliases,
-semantic force attached to string matching, missing evidence, false twins, incomplete review-focus
-coverage, fewer than 100 manual proposals, or any `adjudicated` output status.
+semantic force attached to string matching, missing/unknown authority evidence, missing evidence,
+false twins, incomplete review-focus coverage, fewer than 100 manual proposals, or any
+`adjudicated` output status.
 
 ## Current edition posture
 

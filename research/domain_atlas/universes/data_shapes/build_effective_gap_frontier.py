@@ -46,7 +46,8 @@ def main():
         rows.append({'record_kind':'effective_data_shape_gap_disposition','gap_id':gid,'historical_area':gap['area'],'historical_severity':gap['severity'],'effective_status':status,'owning_batch':batch,'remaining_work':remaining,'evidence_refs':refs,'completion_claim':False})
     (HERE/'effective-gap-frontier.jsonl').write_text(''.join(json.dumps(r,sort_keys=True)+'\n' for r in rows),encoding='utf-8')
     counts={}
-    for r in rows: counts[r['effective_status']]=counts.get(r['effective_status'],0)+1
+    for r in rows:
+        counts[r['effective_status']]=counts.get(r['effective_status'],0)+1
     summary={'report_id':'data_shape_effective_gap_frontier','as_of':'2026-08-27','historical_gap_count':len(rows),'effective_status_counts':dict(sorted(counts.items())),'end_to_end_closed_gap_count':0,'completion_claim':False,'status':'CURRENT_GAP_DISPOSITIONS_EXPLICIT_NO_END_TO_END_COMPLETION_CLAIM'}
     (HERE/'effective-gap-summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n',encoding='utf-8')
     print(json.dumps(summary,sort_keys=True));return 0

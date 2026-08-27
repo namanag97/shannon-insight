@@ -1,0 +1,18 @@
+{
+  "already_resolved_or_exact_candidate_count": 143,
+  "as_of": "2026-08-27",
+  "assigned_reference_count": 4026,
+  "canonical_mappings_inferred": 0,
+  "completion_claim": false,
+  "raw_review_queue_count": 4169,
+  "remaining_by_domain": {
+    "analytical_practice": 1898,
+    "industry_classification": 398,
+    "source_system_class": 360,
+    "typed_operation": 1370
+  },
+  "remaining_reference_count": 4026,
+  "report_id": "b07_unresolved_reference_campaign_factoring",
+  "research_campaign_count": 51,
+  "status": "ALL_REMAINING_REFERENCES_ROUTED_TO_BULK_RESEARCH_CAMPAIGNS_NO_SEMANTIC_VERDICTS_INFERRED"
+}

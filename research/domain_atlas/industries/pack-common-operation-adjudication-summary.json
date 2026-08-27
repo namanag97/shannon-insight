@@ -1,0 +1,10 @@
+{
+  "as_of": "2026-08-27",
+  "canonical_ledger_row_count": 41,
+  "completion_claim": false,
+  "decision_count": 32,
+  "occurrence_impact": 2779,
+  "report_id": "b07_pack_common_operation_adjudication_tranche",
+  "semantic_ratifications_created": 0,
+  "status": "RESEARCH_DISPOSITIONS_MERGED_AUTHORITY_WITHHELD"
+}

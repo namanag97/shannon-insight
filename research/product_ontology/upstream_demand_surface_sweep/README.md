@@ -19,3 +19,11 @@ is decomposed across existing products rather than promoted as a legal-industry 
 
 No global candidate, product, library or gap count changes until the corresponding boundary and
 contract packages are adjudicated and propagated through the normal registry pipeline.
+
+The second sweep adds transaction/trade/logistics, advertising, research-study, stress, pricing,
+sustainability, platform-estate, asset-maintenance, CAPA, enterprise-risk and contract-obligation
+boundaries. Strong product hypotheses remain **proposed-unratified** until each receives the same
+DDD, exact-library, compiler-gap and global projection treatment as Project & Portfolio Controls.
+Established mathematical families are recorded as library contracts rather than inflated into
+products. Vertical order, accounting, procurement, insurance and capital-markets lifecycles remain
+semantic inputs and solution-pack falsifiers unless SAN is explicitly asked to operate them.

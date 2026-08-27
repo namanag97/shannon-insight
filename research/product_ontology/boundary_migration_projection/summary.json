@@ -6,13 +6,13 @@
   "completion_claim": false,
   "cross_context_reconciliations": 2,
   "deferred_candidates": 4,
-  "global_product_candidates": 77,
+  "global_product_candidates": 78,
   "legacy_crosswalks": 15,
   "merge_candidates": 9,
   "migration_work_packages": 13,
   "nonretained_product_candidates": 13,
   "program_id": "program.product-boundary-migration-projection.v1",
   "responsibility_assignments_ratified": 0,
-  "retained_product_candidates": 64,
+  "retained_product_candidates": 65,
   "solution_pack_product_edge_migrations": 1
 }

@@ -3,24 +3,24 @@
   "completion_claim": false,
   "files": {
     "acceptance-class-workstreams.jsonl": {
-      "bytes": 129659,
-      "sha256": "2677cc1a14676939374129c178e2acf585be5c310a4ef68421685715926a0fe7"
+      "bytes": 131651,
+      "sha256": "6376ecbaf2297a906815434a2b34c870510b22ab9574b5732017c2074f986ee9"
     },
     "product-two-vertical-acceptance-gates.jsonl": {
-      "bytes": 57360,
-      "sha256": "934ac2710399820e5ba235fb03ab8965b6c54506880756d4581d4c850643a427"
+      "bytes": 58228,
+      "sha256": "af58143352f979611c9b67cafca06f656c25153c7e594d618551bc8df966ddcc"
     },
     "product-vertical-slot-dockets.jsonl": {
-      "bytes": 195922,
-      "sha256": "1ea8d735087f1be4443ff2f75cb3e9e6132cb92c7f246be32c996d0395bc4bd4"
+      "bytes": 198840,
+      "sha256": "fb30c387e1c5e00d715496bf39b2ce4cc1b4307e5fd60b22fdbc3a2ab75b5b3e"
     },
     "summary.json": {
       "bytes": 2118,
-      "sha256": "889c181e9d065f04480bc8ec689477930e4bb4de8e281258613a0619df6f456f"
+      "sha256": "f44c96d9a9a0ad54e0fc1bca64299444628276b5d3340a0d2c3e898c22c12640"
     },
     "vertical-acceptance-intake-templates.jsonl": {
-      "bytes": 146252,
-      "sha256": "832b87e6b4f25e6b8598fbdfc70e189b0dbc0104bb00b402916a0e287475b057"
+      "bytes": 148558,
+      "sha256": "a2a784eb9f2fa6b01a0e86366833eb9878b677e47400c3e86a194a26e45b9fb0"
     }
   },
   "manifest_id": "manifest.p8-vertical-acceptance-tensor.v1"

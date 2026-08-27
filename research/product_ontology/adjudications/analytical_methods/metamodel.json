@@ -136,7 +136,17 @@
     "approval != publication != delivery != execution",
     "comparison != selection proposal != consensus != approval != commitment",
     "goal != objective != preference != policy != hard constraint != resource capacity",
-    "replan != mutation of historical plan"
+    "replan != mutation of historical plan",
+    "analytics service != application logic != control effect",
+    "baseline != current schedule != completion forecast",
+    "change request != approval != baseline revision",
+    "cost control != financial ledger",
+    "forecast at completion != approved change",
+    "payment application != payment",
+    "planning alternative != authorized baseline",
+    "progress observation != admitted progress != earned value",
+    "rollup never mutates source project state",
+    "variance != causal explanation"
   ],
   "record_kinds": {
     "artifact": {

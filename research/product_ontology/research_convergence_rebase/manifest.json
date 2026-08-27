@@ -4,15 +4,15 @@
   "files": {
     "physical-governance-gate-deltas.jsonl": {
       "bytes": 27895,
-      "sha256": "0133f031bc48a42a99d18f82d9d338ab93203f0d8bc301587aacf88109aa5df8"
+      "sha256": "5a757de447eb2aa164ec33b3ee7ab367f14cdbdf320b6aecb23ec80c62f12dfa"
     },
     "rebased-gap-dispositions.jsonl": {
-      "bytes": 1478540,
-      "sha256": "a67d589b754a113b71d02044400f5337edd46e1c145ec827f65f042eb538b60c"
+      "bytes": 1479245,
+      "sha256": "044504cc4624b374af82c5f93131dce300cfec9a5fd9bb7e8c0188bfcdabb7ea"
     },
     "summary.json": {
       "bytes": 637,
-      "sha256": "540bcb44f5d4e86588b858cafeecdd5888fcf4635253589a8fe784c4606f90d5"
+      "sha256": "793738d26cf2e0f3bbd88c611518c70b57dccb68ab87ad7de4e3112ff8dad801"
     }
   },
   "manifest_id": "manifest.product-ontology-research-convergence-rebase.v1"

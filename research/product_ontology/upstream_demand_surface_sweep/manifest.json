@@ -2,8 +2,8 @@
   "files": [
     {
       "path": "evidence.jsonl",
-      "records": 16,
-      "sha256": "4cde30a4049f016e90a81ac08237dd646ede8531f308aa3b6aec8528b5040265"
+      "records": 35,
+      "sha256": "66916189ef80bf8e8a03f4ef9ae85f92670c79eaa2a756dee0e86bc3f5e4c39c"
     },
     {
       "path": "demand-surfaces.jsonl",
@@ -12,35 +12,35 @@
     },
     {
       "path": "universal-laws.jsonl",
-      "records": 12,
-      "sha256": "6ddfefac89b0230614a8500d23e659825e27e689bf3fca3ee0f3b1d7465b3625"
+      "records": 22,
+      "sha256": "e4538b234508e59c5d73039325d37f10df9f514eb3f263a7b7a0bf6b55735cf7"
     },
     {
       "path": "boundary-hypotheses.jsonl",
-      "records": 10,
-      "sha256": "72186d0832c359111d1258349918d48de2d496b0ef1f1926c5de8ff1bb7e7ba0"
+      "records": 20,
+      "sha256": "2e354b3c07fb93179529dab4606596c11da6f8759b7464fe7473ac8759948a93"
     },
     {
       "path": "library-contract-hypotheses.jsonl",
-      "records": 53,
-      "sha256": "1de60db6de53e21d56684ceaeb886c54023dc0a7f685d3c9227155a35a68ceb3"
+      "records": 148,
+      "sha256": "fad8bec1b48c896aa2ec40048946bbe46568d8451ddb4718cdc2935ae94aebed"
     },
     {
       "path": "vertical-pack-requirements.jsonl",
-      "records": 5,
-      "sha256": "851cf1beb06b498d3186778961ed65115671c208d2493c05cc92e223b15f35f6"
+      "records": 13,
+      "sha256": "2a33c12829e1b00fcff283aa5804425f66e68aa4f3fa4c821b6e0dc26e6a9f9d"
     }
   ],
   "summary": {
-    "boundary_hypotheses": 10,
+    "boundary_hypotheses": 20,
     "canonical_mutations": 0,
     "completion_claim": false,
     "demand_surfaces": 8,
-    "library_contract_hypotheses": 53,
-    "promote_presumptive": 5,
-    "promote_strong": 1,
-    "sources": 16,
-    "universal_laws": 12,
-    "vertical_pack_deltas": 5
+    "library_contract_hypotheses": 148,
+    "promote_presumptive": 7,
+    "promote_strong": 7,
+    "sources": 35,
+    "universal_laws": 22,
+    "vertical_pack_deltas": 13
   }
 }

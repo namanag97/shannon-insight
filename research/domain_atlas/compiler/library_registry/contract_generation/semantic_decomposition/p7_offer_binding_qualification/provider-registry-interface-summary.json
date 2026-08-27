@@ -10,7 +10,7 @@
   "qualification_assessments": 25,
   "qualified_assessments": 0,
   "record_kind": "provider_registry_interface_summary",
-  "semantic_capability_refs": 522,
+  "semantic_capability_refs": 535,
   "semantic_physical_identifier_intersection": 0,
   "status": "OPEN_NO_SEMANTIC_IMPLEMENTATION_BRIDGES",
   "target_occurrences": 20

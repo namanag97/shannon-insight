@@ -3848,6 +3848,395 @@
       "operated": false,
       "semantic_owner_ref": "semantic.integrated_planning",
       "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.project_portfolio_controls",
+      "definition": "Owns authorized baseline, status cut, performance measurement, change, supersession, rollup and control-period meanings.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "semantic_contract",
+      "name": "Project and portfolio control semantics",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": true,
+      "artifact_id": "product.project_portfolio_controls",
+      "automation_modality": {
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation never invents authorized scope, budget, schedule, progress evidence, accounting truth, approval rights, baseline changes, corrective effects or completion truth.",
+        "law": "Analytics, statistical models, learned systems, LLMs and agents may provide attributed findings, forecasts, explanations or proposals only; deterministic baseline, period, authority, change, evidence and effect laws determine admissibility.",
+        "postures": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "removal_law": "Removing every optional model, LLM and agent preserves baseline authorization, status cuts, earned-value arithmetic, variance, forecast-at-completion, change control, rebaselining, rollup, close and audit; an explicitly required unavailable aid yields capability_unavailable."
+      },
+      "commands": [
+        "open_control_system",
+        "propose_baseline",
+        "authorize_baseline",
+        "open_status_cut",
+        "admit_progress_and_actual_cost",
+        "seal_status_cut",
+        "measure_performance",
+        "forecast_completion",
+        "open_change_case",
+        "record_change_decision",
+        "publish_successor_baseline",
+        "roll_up_portfolio",
+        "close_control_period",
+        "publish_control_report"
+      ],
+      "definition": "Operates authorized delivery baselines and governed performance/change lifecycles across projects, programmes and portfolios.",
+      "events": [
+        "control_system_opened",
+        "baseline_proposed",
+        "baseline_authorized",
+        "status_cut_opened",
+        "progress_and_actual_cost_admitted",
+        "status_cut_sealed",
+        "performance_measured",
+        "completion_forecast_published",
+        "change_case_opened",
+        "change_decision_recorded",
+        "successor_baseline_published",
+        "portfolio_rolled_up",
+        "control_period_closed",
+        "control_report_published"
+      ],
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "harmed_parties": [
+        "worker",
+        "supplier",
+        "contractor",
+        "customer",
+        "sponsor",
+        "public_funder",
+        "community_or_environment",
+        "downstream_operator"
+      ],
+      "invariants": [
+        "planning alternative != authorized baseline",
+        "baseline != current schedule != completion forecast",
+        "progress observation != admitted progress != earned value",
+        "variance != causal explanation",
+        "forecast at completion != approved change",
+        "change request != approval != baseline revision",
+        "cost control != financial ledger",
+        "payment application != payment",
+        "analytics service != application logic != control effect",
+        "rollup never mutates source project state"
+      ],
+      "jobs": [
+        "Authorize and preserve a delivery baseline; admit period progress and actual-cost evidence; measure schedule/cost performance; forecast completion; govern change and rebaseline; roll up without corrupting source projects; close and report exact periods."
+      ],
+      "kind": "product",
+      "lifecycle_states": [
+        "definition_draft",
+        "baseline_proposed",
+        "baseline_validation",
+        "baseline_authorization_pending",
+        "baseline_authorized",
+        "period_open",
+        "status_collection",
+        "status_sealed",
+        "measurement_pending",
+        "variance_review",
+        "forecast_published",
+        "change_open",
+        "change_decision_pending",
+        "change_approved",
+        "baseline_revision_pending",
+        "successor_baseline_authorized",
+        "period_close_pending",
+        "period_closed",
+        "superseded",
+        "recalled",
+        "refused"
+      ],
+      "name": "Project & Portfolio Controls",
+      "negative_mission": "Does not choose planning alternatives; own detailed scheduling algorithms; issue identity, delegation or approval authority; own contracts, commitments, invoices, payments or ledger truth; execute work or corrective actions; own raw telemetry; infer causes by default; or treat analytics findings as control effects.",
+      "operated": true,
+      "outcomes": [
+        "authorized_traceable_baseline",
+        "immutable_status_cut",
+        "qualified_performance_measurement",
+        "explicit_variance_and_completion_forecast",
+        "authority_bearing_change_decision",
+        "traceable_successor_baseline",
+        "non_mutating_portfolio_rollup",
+        "auditable_period_close_report"
+      ],
+      "refusals": [
+        "control_scope_ambiguous",
+        "baseline_incoherent",
+        "authorization_missing",
+        "status_cut_incomplete",
+        "progress_evidence_insufficient",
+        "actual_cost_cut_unbound",
+        "measurement_method_unbound",
+        "cuts_incomparable",
+        "uncertainty_unreported",
+        "change_impact_incomplete",
+        "change_authority_missing",
+        "maker_checker_violated",
+        "baseline_delta_untraceable",
+        "portfolio_membership_ambiguous",
+        "period_close_exception_open",
+        "disclosure_denied"
+      ],
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "sovereign_question": "Given an authorized scope-schedule-cost baseline and an exact status cut, what controlled performance, variance, completion forecast and governed change state exists for a project, programme or portfolio, and what may be reported or revised without rewriting history or acquiring execution authority?",
+      "status": "candidate",
+      "users": [
+        "project_controls_manager",
+        "project_manager",
+        "programme_manager",
+        "portfolio_owner",
+        "control_account_manager",
+        "scheduler",
+        "cost_engineer",
+        "change_control_board",
+        "sponsor",
+        "assurance_reviewer"
+      ]
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.controls_system_definition",
+      "definition": "Provide exact project-control controls system definition semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Controls System Definition",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.authorized_baseline_edition",
+      "definition": "Provide exact project-control authorized baseline edition semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Authorized Baseline Edition",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.scope_control_account_structure",
+      "definition": "Provide exact project-control scope control account structure semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Scope Control Account Structure",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.schedule_baseline_control",
+      "definition": "Provide exact project-control schedule baseline control semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Schedule Baseline Control",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.cost_baseline_control",
+      "definition": "Provide exact project-control cost baseline control semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Cost Baseline Control",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.resource_baseline_binding",
+      "definition": "Provide exact project-control resource baseline binding semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Resource Baseline Binding",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.progress_status_cut",
+      "definition": "Provide exact project-control progress status cut semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Progress Status Cut",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.earned_value_measurement",
+      "definition": "Provide exact project-control earned value measurement semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Earned Value Measurement",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.variance_forecast_at_completion",
+      "definition": "Provide exact project-control variance forecast at completion semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Variance Forecast At Completion",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.change_control_case",
+      "definition": "Provide exact project-control change control case semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Change Control Case",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.baseline_revision_rebaseline",
+      "definition": "Provide exact project-control baseline revision rebaseline semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Baseline Revision Rebaseline",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.portfolio_program_rollup",
+      "definition": "Provide exact project-control portfolio program rollup semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Portfolio Program Rollup",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_controls.control_period_close_reporting",
+      "definition": "Provide exact project-control control period close reporting semantics.",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "kind": "capability",
+      "name": "Control Period Close Reporting",
+      "operated": false,
+      "semantic_owner_ref": "semantic.project_portfolio_controls",
+      "status": "specified_candidate"
     }
   ],
   "binding_gaps": [
@@ -4119,6 +4508,201 @@
         "product.integrated_planning_workbench"
       ],
       "statement": "No current compiler contribution implements the complete provider-neutral vertical vocabulary acl contract with its exact public types, decisions, laws and refusals.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.controls_system_definition"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for controls_system_definition with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.controls_system_definition",
+      "missing_contracts": [
+        "controls_system_definition"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral controls system definition contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.authorized_baseline_edition"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for authorized_baseline_edition with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.authorized_baseline_edition",
+      "missing_contracts": [
+        "authorized_baseline_edition"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral authorized baseline edition contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.scope_control_account_structure"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for scope_control_account_structure with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.scope_control_account_structure",
+      "missing_contracts": [
+        "scope_control_account_structure"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral scope control account structure contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.schedule_baseline_control"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for schedule_baseline_control with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.schedule_baseline_control",
+      "missing_contracts": [
+        "schedule_baseline_control"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral schedule baseline control contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.cost_baseline_control"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for cost_baseline_control with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.cost_baseline_control",
+      "missing_contracts": [
+        "cost_baseline_control"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral cost baseline control contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.resource_baseline_binding"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for resource_baseline_binding with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.resource_baseline_binding",
+      "missing_contracts": [
+        "resource_baseline_binding"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral resource baseline binding contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.progress_status_cut"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for progress_status_cut with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.progress_status_cut",
+      "missing_contracts": [
+        "progress_status_cut"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral progress status cut contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.earned_value_measurement"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for earned_value_measurement with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.earned_value_measurement",
+      "missing_contracts": [
+        "earned_value_measurement"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral earned value measurement contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.variance_forecast_at_completion"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for variance_forecast_at_completion with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.variance_forecast_at_completion",
+      "missing_contracts": [
+        "variance_forecast_at_completion"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral variance forecast at completion contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.change_control_case"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for change_control_case with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.change_control_case",
+      "missing_contracts": [
+        "change_control_case"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral change control case contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.baseline_revision_rebaseline"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for baseline_revision_rebaseline with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.baseline_revision_rebaseline",
+      "missing_contracts": [
+        "baseline_revision_rebaseline"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral baseline revision rebaseline contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.portfolio_program_rollup"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for portfolio_program_rollup with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.portfolio_program_rollup",
+      "missing_contracts": [
+        "portfolio_program_rollup"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral portfolio program rollup contract.",
+      "status": "open"
+    },
+    {
+      "abstract_library_refs": [
+        "library.project_controls.control_period_close_reporting"
+      ],
+      "compiler_disposition": "Add an editioned pure project-controls library for control_period_close_reporting with executable laws, finite bounds, exact refusals and two independently qualified implementations.",
+      "gap_id": "gap.project_controls.control_period_close_reporting",
+      "missing_contracts": [
+        "control_period_close_reporting"
+      ],
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "statement": "No current compiler contribution implements the complete provider-neutral control period close reporting contract.",
       "status": "open"
     }
   ],
@@ -6250,6 +6834,292 @@
       "qualification_profile_refs": [],
       "status": "candidate_not_bound",
       "substitution_law": "Plan identity scope grain horizon scenario assumptions alternatives conflicts authority state publication variance evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.controls_system_definition",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.controls_system_definition",
+      "blocking_gap_refs": [
+        "gap.project_controls.controls_system_definition"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.authorized_baseline_edition",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.authorized_baseline_edition",
+      "blocking_gap_refs": [
+        "gap.project_controls.authorized_baseline_edition"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.scope_control_account_structure",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.scope_control_account_structure",
+      "blocking_gap_refs": [
+        "gap.project_controls.scope_control_account_structure"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.schedule_baseline_control",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.schedule_baseline_control",
+      "blocking_gap_refs": [
+        "gap.project_controls.schedule_baseline_control"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.cost_baseline_control",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.cost_baseline_control",
+      "blocking_gap_refs": [
+        "gap.project_controls.cost_baseline_control"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.resource_baseline_binding",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.resource_baseline_binding",
+      "blocking_gap_refs": [
+        "gap.project_controls.resource_baseline_binding"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.progress_status_cut",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.progress_status_cut",
+      "blocking_gap_refs": [
+        "gap.project_controls.progress_status_cut"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.earned_value_measurement",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.earned_value_measurement",
+      "blocking_gap_refs": [
+        "gap.project_controls.earned_value_measurement"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.variance_forecast_at_completion",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.variance_forecast_at_completion",
+      "blocking_gap_refs": [
+        "gap.project_controls.variance_forecast_at_completion"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.change_control_case",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.change_control_case",
+      "blocking_gap_refs": [
+        "gap.project_controls.change_control_case"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.baseline_revision_rebaseline",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.baseline_revision_rebaseline",
+      "blocking_gap_refs": [
+        "gap.project_controls.baseline_revision_rebaseline"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.portfolio_program_rollup",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.portfolio_program_rollup",
+      "blocking_gap_refs": [
+        "gap.project_controls.portfolio_program_rollup"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
+    },
+    {
+      "abstract_library_ref": "library.project_controls.control_period_close_reporting",
+      "bindability": "structurally_partial_blocking_gap",
+      "binding_map_id": "binding.project_controls.control_period_close_reporting",
+      "blocking_gap_refs": [
+        "gap.project_controls.control_period_close_reporting"
+      ],
+      "composition_law": "Project-controls semantics are exact and product-owned; planning, scheduling, finance, contract, authority, analytics and execution remain typed imports.",
+      "concrete_library_refs": [],
+      "concrete_requirement_refs": [],
+      "cross_provider_differential_required": true,
+      "fallback_law": "refuse",
+      "minimum_qualified_implementations_per_required_contract": 1,
+      "modality_posture": "deterministic_core",
+      "portable_claim_minimum_independent_implementations": 2,
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "qualification_profile_refs": [],
+      "status": "candidate_not_bound",
+      "substitution_law": "Baseline identity, status cuts, measurement, change authority, history, reporting evidence and typed refusals survive implementation substitution."
     }
   ],
   "boundary_decisions": [
@@ -6985,6 +7855,95 @@
       "supersedes": [
         "candidate.product.integrated_planning_workbench"
       ]
+    },
+    {
+      "decision_id": "decision.methods.project_portfolio_controls",
+      "disposition": "strong_product_candidate",
+      "evidence_refs": [
+        "source.project_controls.doe_evms",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.iso21508",
+        "source.project_controls.oracle_payment",
+        "source.project_controls.oracle_unifier"
+      ],
+      "rationale": "ISO 21508 establishes cross-sector project/programme/portfolio applicability; GAO and DOE independently govern baseline, measurement and change lifecycles; Primavera independently operates the same first-class states. The lifecycle remains distinct from integrated planning, scheduling engines, finance, workflow, analytics and execution.",
+      "split_test": {
+        "adoption": {
+          "evidence_refs": [
+            "source.project_controls.oracle_unifier",
+            "source.project_controls.oracle_payment"
+          ],
+          "score": 2
+        },
+        "authority": {
+          "evidence_refs": [
+            "source.project_controls.doe_evms",
+            "source.project_controls.oracle_payment"
+          ],
+          "score": 2
+        },
+        "economics": {
+          "evidence_refs": [
+            "source.project_controls.iso21508",
+            "source.project_controls.oracle_unifier"
+          ],
+          "score": 2
+        },
+        "interface": {
+          "evidence_refs": [
+            "source.project_controls.doe_evms",
+            "source.project_controls.oracle_unifier"
+          ],
+          "score": 2
+        },
+        "job": {
+          "evidence_refs": [
+            "source.project_controls.iso21508",
+            "source.project_controls.gao_schedule"
+          ],
+          "score": 2
+        },
+        "lifecycle": {
+          "evidence_refs": [
+            "source.project_controls.doe_evms",
+            "source.project_controls.oracle_unifier"
+          ],
+          "score": 2
+        },
+        "market_evidence": {
+          "evidence_refs": [
+            "source.project_controls.oracle_unifier",
+            "source.project_controls.oracle_payment"
+          ],
+          "score": 2
+        },
+        "operation": {
+          "evidence_refs": [
+            "source.project_controls.gao_schedule",
+            "source.project_controls.oracle_unifier"
+          ],
+          "score": 2
+        },
+        "semantics": {
+          "evidence_refs": [
+            "source.project_controls.iso21508",
+            "source.project_controls.doe_evms",
+            "source.project_controls.oracle_unifier"
+          ],
+          "score": 2
+        },
+        "user": {
+          "evidence_refs": [
+            "source.project_controls.iso21508",
+            "source.project_controls.doe_evms"
+          ],
+          "score": 2
+        }
+      },
+      "subject_ref": "product.project_portfolio_controls",
+      "supersedes": [
+        "candidate.product.project_portfolio_controls"
+      ]
     }
   ],
   "contract_id": "contract.product_adjudication.analytical_methods.v0_1_0",
@@ -7173,6 +8132,28 @@
       "disposition": "promote_product_and_split_exact_planning_libraries",
       "edition": 1,
       "legacy_ref": "candidate.product.integrated_planning_workbench"
+    },
+    {
+      "canonical_refs": [
+        "product.project_portfolio_controls",
+        "semantic.project_portfolio_controls",
+        "library.project_controls.authorized_baseline_edition",
+        "library.project_controls.baseline_revision_rebaseline",
+        "library.project_controls.change_control_case",
+        "library.project_controls.control_period_close_reporting",
+        "library.project_controls.controls_system_definition",
+        "library.project_controls.cost_baseline_control",
+        "library.project_controls.earned_value_measurement",
+        "library.project_controls.portfolio_program_rollup",
+        "library.project_controls.progress_status_cut",
+        "library.project_controls.resource_baseline_binding",
+        "library.project_controls.schedule_baseline_control",
+        "library.project_controls.scope_control_account_structure",
+        "library.project_controls.variance_forecast_at_completion"
+      ],
+      "disposition": "promote_horizontal_product_and_split_exact_control_libraries",
+      "edition": 1,
+      "legacy_ref": "candidate.product.project_portfolio_controls"
     }
   ],
   "ddd_dossiers": [
@@ -11255,6 +12236,443 @@
           "PublicationAudience",
           "ReleaseScope",
           "VarianceProfile"
+        ]
+      }
+    },
+    {
+      "dossier_id": "ddd.project_controls.project_portfolio_controls",
+      "product_ref": "product.project_portfolio_controls",
+      "product_truth": {
+        "harmed_parties": [
+          "worker",
+          "supplier",
+          "contractor",
+          "customer",
+          "sponsor",
+          "public_funder",
+          "community_or_environment",
+          "downstream_operator"
+        ],
+        "jobs": [
+          "Authorize and preserve a delivery baseline; admit period progress and actual-cost evidence; measure schedule/cost performance; forecast completion; govern change and rebaseline; roll up without corrupting source projects; close and report exact periods."
+        ],
+        "measurable_outcomes": [
+          "authorized_traceable_baseline",
+          "immutable_status_cut",
+          "qualified_performance_measurement",
+          "explicit_variance_and_completion_forecast",
+          "authority_bearing_change_decision",
+          "traceable_successor_baseline",
+          "non_mutating_portfolio_rollup",
+          "auditable_period_close_report"
+        ],
+        "negative_mission": "Does not choose planning alternatives; own detailed scheduling algorithms; issue identity, delegation or approval authority; own contracts, commitments, invoices, payments or ledger truth; execute work or corrective actions; own raw telemetry; infer causes by default; or treat analytics findings as control effects.",
+        "sovereign_question": "Given an authorized scope-schedule-cost baseline and an exact status cut, what controlled performance, variance, completion forecast and governed change state exists for a project, programme or portfolio, and what may be reported or revised without rewriting history or acquiring execution authority?",
+        "users": [
+          "project_controls_manager",
+          "project_manager",
+          "programme_manager",
+          "portfolio_owner",
+          "control_account_manager",
+          "scheduler",
+          "cost_engineer",
+          "change_control_board",
+          "sponsor",
+          "assurance_reviewer"
+        ]
+      },
+      "status": "candidate_not_ratified",
+      "strategic_and_tactical_ddd": {
+        "aggregate_invariants": [
+          "planning alternative != authorized baseline",
+          "baseline != current schedule != completion forecast",
+          "progress observation != admitted progress != earned value",
+          "variance != causal explanation",
+          "forecast at completion != approved change",
+          "change request != approval != baseline revision",
+          "cost control != financial ledger",
+          "payment application != payment",
+          "analytics service != application logic != control effect",
+          "rollup never mutates source project state",
+          "published results bind exact baseline status method provider authority and time cuts",
+          "unknown state remains unknown until reconciled",
+          "optional automation never closes missing evidence or authority"
+        ],
+        "aggregate_roots": [
+          "ControlSystem",
+          "AuthorizedBaseline",
+          "StatusCut",
+          "PerformanceAssessment",
+          "ChangeControlCase",
+          "BaselineRevision",
+          "PortfolioRollup",
+          "ControlPeriod"
+        ],
+        "aggregates": [
+          {
+            "consistency": "ControlSystem changes only through editioned commands with exact authority, cuts, evidence, version and typed refusals.",
+            "root": "ControlSystem"
+          },
+          {
+            "consistency": "AuthorizedBaseline changes only through editioned commands with exact authority, cuts, evidence, version and typed refusals.",
+            "root": "AuthorizedBaseline"
+          },
+          {
+            "consistency": "StatusCut changes only through editioned commands with exact authority, cuts, evidence, version and typed refusals.",
+            "root": "StatusCut"
+          },
+          {
+            "consistency": "PerformanceAssessment changes only through editioned commands with exact authority, cuts, evidence, version and typed refusals.",
+            "root": "PerformanceAssessment"
+          },
+          {
+            "consistency": "ChangeControlCase changes only through editioned commands with exact authority, cuts, evidence, version and typed refusals.",
+            "root": "ChangeControlCase"
+          },
+          {
+            "consistency": "BaselineRevision changes only through editioned commands with exact authority, cuts, evidence, version and typed refusals.",
+            "root": "BaselineRevision"
+          },
+          {
+            "consistency": "PortfolioRollup changes only through editioned commands with exact authority, cuts, evidence, version and typed refusals.",
+            "root": "PortfolioRollup"
+          },
+          {
+            "consistency": "ControlPeriod changes only through editioned commands with exact authority, cuts, evidence, version and typed refusals.",
+            "root": "ControlPeriod"
+          }
+        ],
+        "anti_corruption_layers": [
+          "acl.integrated_planning_to_baseline",
+          "acl.schedule_engine",
+          "acl.finance_actual_cost",
+          "acl.contract_commitment_payment",
+          "acl.progress_evidence",
+          "acl.identity_authority",
+          "acl.analytics_findings",
+          "acl.corrective_effect"
+        ],
+        "application_services": [
+          "AuthorizeBaselineUseCase",
+          "CollectAndSealStatusUseCase",
+          "MeasureAndForecastUseCase",
+          "DecideChangeUseCase",
+          "PublishSuccessorBaselineUseCase",
+          "RollupPortfolioUseCase",
+          "CloseAndReportPeriodUseCase"
+        ],
+        "bounded_context_boundary": {
+          "inside": [
+            "control-system editions",
+            "authorized scope schedule cost and resource baselines",
+            "control accounts and responsibility structure",
+            "data dates status cuts and evidence admission",
+            "earned-value and variance measurement",
+            "completion control forecasts",
+            "change cases decisions and successor baselines",
+            "programme and portfolio rollups",
+            "control-period close and reports"
+          ],
+          "outside": [
+            "planning alternative selection",
+            "schedule engine algorithms",
+            "contract commitment invoice payment and ledger truth",
+            "generic workflow",
+            "identity delegation and approval issuance",
+            "source telemetry",
+            "root-cause and other analytical method semantics",
+            "corrective action execution and actual outcome truth"
+          ]
+        },
+        "commands": [
+          "open_control_system",
+          "propose_baseline",
+          "authorize_baseline",
+          "open_status_cut",
+          "admit_progress_and_actual_cost",
+          "seal_status_cut",
+          "measure_performance",
+          "forecast_completion",
+          "open_change_case",
+          "record_change_decision",
+          "publish_successor_baseline",
+          "roll_up_portfolio",
+          "close_control_period",
+          "publish_control_report"
+        ],
+        "concurrency_and_idempotency": [
+          "optimistic aggregate editions",
+          "commands bind edition and idempotency key",
+          "authorized baselines and sealed status cuts are immutable",
+          "parallel evidence occurrences retain identity",
+          "unknown external effects reconcile before retry",
+          "rollups use frozen membership and source cuts"
+        ],
+        "context_map": [
+          {
+            "neighbor_ref": "product.integrated_planning_workbench",
+            "relationship": "customer_supplier",
+            "translation": "consume selected delivery intent; controls creates an authorized measurement baseline only through its own authority transition"
+          },
+          {
+            "neighbor_ref": "context.scheduling_engine",
+            "relationship": "anti_corruption_layer",
+            "translation": "consume schedule calculations and current editions without transferring baseline authority"
+          },
+          {
+            "neighbor_ref": "context.finance_ledger",
+            "relationship": "anti_corruption_layer",
+            "translation": "consume exact actual-cost cuts; controls never becomes ledger truth"
+          },
+          {
+            "neighbor_ref": "context.contract_procurement",
+            "relationship": "anti_corruption_layer",
+            "translation": "consume commitments changes and payment-application facts without treating approval as payment"
+          },
+          {
+            "neighbor_ref": "context.identity_authority_policy",
+            "relationship": "conformist_with_acl",
+            "translation": "consume decision rights delegation maker-checker and revocation evidence"
+          },
+          {
+            "neighbor_ref": "context.analytics_services",
+            "relationship": "open_host_service_consumer",
+            "translation": "consume attributed statistics predictions diagnoses and scenarios as findings only"
+          },
+          {
+            "neighbor_ref": "context.operational_execution",
+            "relationship": "separate_ways",
+            "translation": "execution owns corrective effects and observed outcomes"
+          }
+        ],
+        "domain_events": [
+          "control_system_opened",
+          "baseline_proposed",
+          "baseline_authorized",
+          "status_cut_opened",
+          "progress_and_actual_cost_admitted",
+          "status_cut_sealed",
+          "performance_measured",
+          "completion_forecast_published",
+          "change_case_opened",
+          "change_decision_recorded",
+          "successor_baseline_published",
+          "portfolio_rolled_up",
+          "control_period_closed",
+          "control_report_published"
+        ],
+        "domain_services": [
+          "BaselineAuthorityService",
+          "StatusAdmissionService",
+          "PerformanceMeasurementService",
+          "VarianceForecastService",
+          "ChangeControlService",
+          "RebaselineService",
+          "PortfolioRollupService",
+          "ControlPeriodCloseService"
+        ],
+        "domain_vision_statement": "Own provider-neutral authorized delivery-baseline, status, performance, change and control-reporting lifecycles without acquiring planning, finance, contract, analytics or execution authority.",
+        "entities": [
+          "ControlSystem",
+          "AuthorizedBaseline",
+          "StatusCut",
+          "PerformanceAssessment",
+          "ChangeControlCase",
+          "BaselineRevision",
+          "PortfolioRollup",
+          "ControlPeriod",
+          "ControlAccount",
+          "WorkPackage",
+          "ProgressObservation",
+          "MeasurementOccurrence",
+          "ChangeProposal",
+          "ApprovalDecision",
+          "ControlReportEdition"
+        ],
+        "event_storming_swimlanes": [
+          "project_manager",
+          "project_controls_manager",
+          "control_account_manager",
+          "scheduler",
+          "cost_engineer",
+          "progress_evidence_owner",
+          "finance_owner",
+          "contract_owner",
+          "change_control_board",
+          "sponsor",
+          "analytics_provider",
+          "execution_owner",
+          "assurance_reviewer"
+        ],
+        "factories": [
+          "ControlSystemFactory",
+          "AuthorizedBaselineFactory",
+          "StatusCutFactory",
+          "PerformanceAssessmentFactory",
+          "ChangeControlCaseFactory",
+          "BaselineRevisionFactory",
+          "PortfolioRollupFactory",
+          "ControlPeriodFactory"
+        ],
+        "integration_event_policy": "Only editioned baseline, status admission, measurement, forecast, change decision, successor baseline, rollup and close/report facts cross the boundary. Planning alternatives, ledger and contract truth, raw provider internals, analytical findings and execution effects remain external.",
+        "nonfunctional_laws": [
+          "finite projects accounts activities periods changes inputs attempts runtime memory output cost and deadlines",
+          "cooperative cancellation and typed partial validity",
+          "determinism rounding currency calendars tolerances and aggregation are explicit",
+          "all receipts bind exact semantic data authority provider and time cuts",
+          "cross-provider differential and negative twins",
+          "provider identity cannot change control meaning",
+          "fail closed on missing baseline evidence or authority",
+          "recovery never duplicates effects or rewrites history",
+          "Removing every optional model, LLM and agent preserves baseline authorization, status cuts, earned-value arithmetic, variance, forecast-at-completion, change control, rebaselining, rollup, close and audit; an explicitly required unavailable aid yields capability_unavailable."
+        ],
+        "policies_and_reactions": [
+          "when baseline authority is missing refuse activation",
+          "when a data date closes freeze its status cut",
+          "when progress evidence is insufficient preserve unknown",
+          "when thresholds are breached open review but do not infer cause",
+          "when change is approved require a traceable successor-baseline transition",
+          "when a baseline changes preserve prior editions and in-flight disposition",
+          "when analytics proposes action require external decision and effect authority",
+          "when optional automation is removed preserve the deterministic control lifecycle"
+        ],
+        "published_language": [
+          "ControlSystemEdition",
+          "AuthorizedBaselineEdition",
+          "ControlAccount",
+          "StatusCut",
+          "ProgressAdmission",
+          "PerformanceMeasurement",
+          "VarianceAnalysis",
+          "CompletionForecast",
+          "ChangeControlCase",
+          "ChangeDecision",
+          "BaselineRevision",
+          "PortfolioRollup",
+          "ControlPeriodClose",
+          "ControlReportEdition",
+          "TypedRefusal"
+        ],
+        "read_models_and_projections": [
+          "AuthorizedBaselineView",
+          "ControlAccountView",
+          "CurrentScheduleAgainstBaselineView",
+          "StatusEvidenceView",
+          "EarnedValueView",
+          "VarianceForecastView",
+          "ChangeCaseView",
+          "BaselineHistoryView",
+          "PortfolioControlView",
+          "PeriodCloseView",
+          "ControlEvidenceView"
+        ],
+        "refusal_failure_catalog": [
+          "control_scope_ambiguous",
+          "baseline_incoherent",
+          "authorization_missing",
+          "status_cut_incomplete",
+          "progress_evidence_insufficient",
+          "actual_cost_cut_unbound",
+          "measurement_method_unbound",
+          "cuts_incomparable",
+          "uncertainty_unreported",
+          "change_impact_incomplete",
+          "change_authority_missing",
+          "maker_checker_violated",
+          "baseline_delta_untraceable",
+          "portfolio_membership_ambiguous",
+          "period_close_exception_open",
+          "disclosure_denied",
+          "provider_failure",
+          "resource_exhausted",
+          "cancelled",
+          "unknown_terminal_state",
+          "optional_assistance_unavailable"
+        ],
+        "repositories": [
+          "ControlSystemRepository",
+          "AuthorizedBaselineRepository",
+          "StatusCutRepository",
+          "PerformanceAssessmentRepository",
+          "ChangeControlCaseRepository",
+          "BaselineRevisionRepository",
+          "PortfolioRollupRepository",
+          "ControlPeriodRepository"
+        ],
+        "sagas_and_process_managers": [
+          "BaselineAuthorizationProcess",
+          "StatusPeriodProcess",
+          "MeasurementAndForecastProcess",
+          "ChangeControlProcess",
+          "BaselineRevisionProcess",
+          "PortfolioRollupProcess",
+          "ControlPeriodCloseProcess"
+        ],
+        "specifications": [
+          "BaselineCoherenceSpecification",
+          "AuthorizationSpecification",
+          "StatusCutCompletenessSpecification",
+          "ProgressEvidenceSpecification",
+          "MeasurementComparabilitySpecification",
+          "ChangeImpactSpecification",
+          "MakerCheckerSpecification",
+          "BaselineDeltaSpecification",
+          "PortfolioRollupSpecification",
+          "PeriodCloseSpecification"
+        ],
+        "state_machine": {
+          "baseline": [
+            "proposed",
+            "validation",
+            "authorization_pending",
+            "authorized",
+            "active",
+            "revision_pending",
+            "superseded",
+            "recalled"
+          ],
+          "change_case": [
+            "draft",
+            "impact_assessment",
+            "decision_pending",
+            "approved",
+            "rejected",
+            "returned",
+            "incorporated",
+            "withdrawn"
+          ],
+          "status_cut": [
+            "open",
+            "collecting",
+            "admission_review",
+            "sealed",
+            "measured",
+            "closed"
+          ]
+        },
+        "subdomain_classification": "core_horizontal_project_programme_portfolio_controls_product",
+        "time_model": [
+          "baseline validity and recording time are distinct",
+          "data date observation admission accounting forecast decision and publication times are distinct",
+          "calendars rates authority and policies are editioned",
+          "change effective time never rewrites prior validity",
+          "portfolio rollups bind exact membership and source cuts"
+        ],
+        "ubiquitous_language_policy": "Plan alternative, authorized baseline, current schedule, status cut, progress observation, earned value, actual cost, variance, forecast, change proposal, approval, baseline revision, corrective action, execution effect and outcome are non-interchangeable.",
+        "value_objects": [
+          "ControlSystemId",
+          "EditionId",
+          "ProjectProgrammePortfolioRef",
+          "CalendarRef",
+          "DataDate",
+          "ScopeCut",
+          "ScheduleCut",
+          "BudgetCut",
+          "ResourceCut",
+          "ActualCostCut",
+          "AuthorizationRef",
+          "FormulaEdition",
+          "RollupProfile"
         ]
       }
     }
@@ -15972,6 +17390,668 @@
         "AuthorityMapping",
         "LossDeclaration"
       ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "control_scope",
+        "policy_edition",
+        "calendar",
+        "cutoff",
+        "compatibility"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "control-system edition is immutable",
+        "portfolio programme project and control account grains remain explicit"
+      ],
+      "library_id": "library.project_controls.controls_system_definition",
+      "operations": [
+        "open_control_system",
+        "bind_scope_policy_calendar",
+        "publish_control_system_edition"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.controls_system_definition"
+      ],
+      "refusals": [
+        "control_scope_ambiguous",
+        "calendar_unbound",
+        "policy_conflict"
+      ],
+      "types": [
+        "ControlSystemId",
+        "ControlSystemEdition",
+        "ControlScope",
+        "ControlPolicyRef",
+        "CalendarRef",
+        "CutoffPolicy"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "baseline_identity",
+        "scope_schedule_budget_coherence",
+        "authorization",
+        "effective_time"
+      ],
+      "dependencies": [
+        "library.project_controls.controls_system_definition"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "baseline is not current plan current schedule or forecast",
+        "only authorized editions measure controlled performance"
+      ],
+      "library_id": "library.project_controls.authorized_baseline_edition",
+      "operations": [
+        "propose_baseline",
+        "validate_baseline",
+        "authorize_baseline",
+        "supersede_baseline"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.authorized_baseline_edition"
+      ],
+      "refusals": [
+        "baseline_incoherent",
+        "authorization_missing",
+        "effective_time_invalid"
+      ],
+      "types": [
+        "BaselineId",
+        "BaselineEdition",
+        "AuthorizationRef",
+        "ScopeCut",
+        "ScheduleCut",
+        "BudgetCut",
+        "BaselineStatus"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "scope_completeness",
+        "control_account_grain",
+        "responsible_owner",
+        "rollup_path"
+      ],
+      "dependencies": [
+        "library.project_controls.authorized_baseline_edition"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "authorized scope and organizational responsibility are distinct",
+        "each controlled work element has an accountable control path"
+      ],
+      "library_id": "library.project_controls.scope_control_account_structure",
+      "operations": [
+        "bind_work_scope",
+        "assign_control_account",
+        "validate_responsibility_matrix",
+        "version_structure"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.scope_control_account_structure"
+      ],
+      "refusals": [
+        "scope_gap",
+        "control_account_overlap",
+        "responsible_owner_missing"
+      ],
+      "types": [
+        "WorkBreakdownStructure",
+        "OrganizationBreakdownStructure",
+        "ControlAccountId",
+        "WorkPackageId",
+        "ResponsibilityAssignment"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "schedule_admission",
+        "logic_quality",
+        "criticality",
+        "variance_semantics"
+      ],
+      "dependencies": [
+        "library.project_controls.scope_control_account_structure"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "scheduling calculation is imported",
+        "current schedule never mutates baseline history"
+      ],
+      "library_id": "library.project_controls.schedule_baseline_control",
+      "operations": [
+        "admit_schedule_edition",
+        "compare_to_schedule_baseline",
+        "record_critical_path",
+        "publish_schedule_variance"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.schedule_baseline_control"
+      ],
+      "refusals": [
+        "schedule_logic_invalid",
+        "baseline_cut_missing",
+        "variance_semantics_missing"
+      ],
+      "types": [
+        "ScheduleEdition",
+        "ActivityId",
+        "Dependency",
+        "Milestone",
+        "CriticalPath",
+        "ScheduleVariance"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "budget_admission",
+        "time_phasing",
+        "reserve_classification",
+        "cost_variance_semantics"
+      ],
+      "dependencies": [
+        "library.project_controls.scope_control_account_structure"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "control budget is not general ledger truth",
+        "management reserve and distributed budget never collapse"
+      ],
+      "library_id": "library.project_controls.cost_baseline_control",
+      "operations": [
+        "admit_budget_edition",
+        "time_phase_budget",
+        "reconcile_control_budget",
+        "publish_cost_variance"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.cost_baseline_control"
+      ],
+      "refusals": [
+        "budget_reconciliation_failed",
+        "reserve_classification_missing",
+        "ledger_cut_unbound"
+      ],
+      "types": [
+        "BudgetEdition",
+        "TimePhasedBudget",
+        "CostElement",
+        "ManagementReserve",
+        "UndistributedBudget",
+        "CostVariance"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "resource_identity",
+        "availability_validity",
+        "rate_applicability",
+        "variance_semantics"
+      ],
+      "dependencies": [
+        "library.project_controls.authorized_baseline_edition"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "resource plan is not resource ownership or actual use",
+        "rates and availability are editioned imports"
+      ],
+      "library_id": "library.project_controls.resource_baseline_binding",
+      "operations": [
+        "bind_resource_requirement",
+        "admit_availability_cut",
+        "bind_rate_edition",
+        "assess_resource_variance"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.resource_baseline_binding"
+      ],
+      "refusals": [
+        "resource_owner_unbound",
+        "availability_stale",
+        "rate_inapplicable"
+      ],
+      "types": [
+        "ResourceRequirement",
+        "ResourceAssignment",
+        "AvailabilityCut",
+        "RateEdition",
+        "ResourceVariance"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "data_date",
+        "evidence_admission",
+        "progress_method",
+        "actual_cut_validity"
+      ],
+      "dependencies": [
+        "library.project_controls.schedule_baseline_control",
+        "library.project_controls.cost_baseline_control"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "progress claim observation admission and earned value are distinct",
+        "sealed status cuts are immutable"
+      ],
+      "library_id": "library.project_controls.progress_status_cut",
+      "operations": [
+        "open_status_cut",
+        "admit_progress_evidence",
+        "admit_actual_cost_cut",
+        "seal_status_cut"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.progress_status_cut"
+      ],
+      "refusals": [
+        "data_date_invalid",
+        "progress_evidence_insufficient",
+        "actual_cost_cut_unbound"
+      ],
+      "types": [
+        "StatusCutId",
+        "DataDate",
+        "ProgressObservation",
+        "CompletionEvidence",
+        "ActualCostCut",
+        "StatusAdmission"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "measurement_technique",
+        "formula_edition",
+        "comparability",
+        "rounding"
+      ],
+      "dependencies": [
+        "library.project_controls.progress_status_cut"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "planned value earned value and actual cost remain distinct",
+        "earned value requires admitted objective progress evidence"
+      ],
+      "library_id": "library.project_controls.earned_value_measurement",
+      "operations": [
+        "calculate_planned_value",
+        "calculate_earned_value",
+        "calculate_actual_cost",
+        "derive_performance_indices"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.earned_value_measurement"
+      ],
+      "refusals": [
+        "measurement_technique_unbound",
+        "progress_not_admitted",
+        "cuts_incomparable"
+      ],
+      "types": [
+        "PlannedValue",
+        "EarnedValue",
+        "ActualCost",
+        "PerformanceIndex",
+        "MeasurementTechnique",
+        "MeasurementReceipt"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "variance_significance",
+        "forecast_method",
+        "assumption_cut",
+        "uncertainty_posture"
+      ],
+      "dependencies": [
+        "library.project_controls.earned_value_measurement"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "variance is not causal explanation",
+        "forecast at completion is not approved change or commitment"
+      ],
+      "library_id": "library.project_controls.variance_forecast_at_completion",
+      "operations": [
+        "analyze_variance",
+        "forecast_completion",
+        "compare_forecast_methods",
+        "publish_control_forecast"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.variance_forecast_at_completion"
+      ],
+      "refusals": [
+        "variance_threshold_unbound",
+        "forecast_method_unqualified",
+        "uncertainty_unreported"
+      ],
+      "types": [
+        "VarianceAnalysis",
+        "EstimateToComplete",
+        "EstimateAtCompletion",
+        "VarianceAtCompletion",
+        "ForecastAssumption",
+        "Uncertainty"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "change_class",
+        "impact_scope",
+        "decision_authority",
+        "disposition"
+      ],
+      "dependencies": [
+        "library.project_controls.variance_forecast_at_completion"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "change proposal impact assessment approval and baseline revision are distinct",
+        "approval never rewrites prior baselines"
+      ],
+      "library_id": "library.project_controls.change_control_case",
+      "operations": [
+        "open_change_case",
+        "assess_scope_schedule_cost_impact",
+        "request_change_decision",
+        "approve_reject_or_return_change"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.change_control_case"
+      ],
+      "refusals": [
+        "impact_incomplete",
+        "decision_authority_missing",
+        "maker_checker_violated"
+      ],
+      "types": [
+        "ChangeCaseId",
+        "ChangeProposal",
+        "ImpactAssessment",
+        "DecisionRightRef",
+        "ChangeDecision",
+        "Disposition"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "change_incorporation",
+        "effective_period",
+        "history_preservation",
+        "in_flight_disposition"
+      ],
+      "dependencies": [
+        "library.project_controls.change_control_case"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "authorized change does not become baseline until incorporated",
+        "rebaseline supersedes and never erases history"
+      ],
+      "library_id": "library.project_controls.baseline_revision_rebaseline",
+      "operations": [
+        "draft_baseline_revision",
+        "validate_authorized_change",
+        "publish_successor_baseline",
+        "dispose_in_flight_work"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.baseline_revision_rebaseline"
+      ],
+      "refusals": [
+        "change_not_authorized",
+        "delta_untraceable",
+        "in_flight_disposition_unknown"
+      ],
+      "types": [
+        "BaselineRevision",
+        "BeforeAfterDelta",
+        "EffectivePeriod",
+        "SupersessionLink",
+        "InFlightDisposition"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "membership_cut",
+        "aggregation_rule",
+        "comparability",
+        "residual_disposition"
+      ],
+      "dependencies": [
+        "library.project_controls.variance_forecast_at_completion"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "rollup does not mutate source projects",
+        "numeric aggregation never creates semantic comparability"
+      ],
+      "library_id": "library.project_controls.portfolio_program_rollup",
+      "operations": [
+        "bind_rollup_profile",
+        "aggregate_control_results",
+        "reconcile_residuals",
+        "publish_portfolio_view"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.portfolio_program_rollup"
+      ],
+      "refusals": [
+        "membership_cut_ambiguous",
+        "projects_incomparable",
+        "residual_unbounded"
+      ],
+      "types": [
+        "PortfolioRef",
+        "ProgrammeRef",
+        "ProjectRef",
+        "RollupProfile",
+        "AggregationResidual",
+        "ComparabilityFinding"
+      ]
+    },
+    {
+      "class": "semantic_policy_pure",
+      "decisions": [
+        "period_cutoff",
+        "close_readiness",
+        "exception_disposition",
+        "audience_disclosure"
+      ],
+      "dependencies": [
+        "library.project_controls.portfolio_program_rollup",
+        "library.project_controls.baseline_revision_rebaseline"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "source.project_controls.iso21508",
+        "source.project_controls.gao_schedule",
+        "source.project_controls.doe_evms",
+        "source.project_controls.oracle_unifier",
+        "source.project_controls.oracle_payment"
+      ],
+      "invariants": [
+        "period close freezes a reporting cut not project reality",
+        "reporting never grants corrective-action authority"
+      ],
+      "library_id": "library.project_controls.control_period_close_reporting",
+      "operations": [
+        "open_control_period",
+        "evaluate_close_gates",
+        "resolve_or_carry_exception",
+        "close_period",
+        "publish_control_report"
+      ],
+      "owner_ref": "semantic.project_portfolio_controls",
+      "product_refs": [
+        "product.project_portfolio_controls"
+      ],
+      "provides": [
+        "capability.project_controls.control_period_close_reporting"
+      ],
+      "refusals": [
+        "required_cut_missing",
+        "close_exception_open",
+        "disclosure_denied"
+      ],
+      "types": [
+        "ControlPeriod",
+        "CloseChecklist",
+        "Exception",
+        "ControlReportEdition",
+        "DisclosureProfile",
+        "CloseReceipt"
+      ]
     }
   ],
   "negative_scope": "Does not ratify products, qualify implementations, enumerate every algorithm or vertical use case, promote a method name into a product, authorize business action, or require models, LLMs or agents where a deterministic implementation satisfies the declared intent.",
@@ -16470,6 +18550,61 @@
       "expected_result": "retain proposal provenance and deterministic refusal",
       "prohibited_claim": "A model or agent proposal closes missing assumptions constraints evidence or authority.",
       "test_id": "negative.planning.agent_authority"
+    },
+    {
+      "expected_result": "require a separate coherent authorization transition",
+      "prohibited_claim": "A planning alternative is an authorized control baseline.",
+      "test_id": "negative.project_controls.planning_baseline"
+    },
+    {
+      "expected_result": "preserve immutable editions and explicit variance",
+      "prohibited_claim": "The current schedule or forecast may overwrite the baseline.",
+      "test_id": "negative.project_controls.baseline_current"
+    },
+    {
+      "expected_result": "require evidence admission and declared measurement technique",
+      "prohibited_claim": "A progress claim automatically earns value.",
+      "test_id": "negative.project_controls.progress_earned"
+    },
+    {
+      "expected_result": "publish variance only and invoke a separate diagnostic contract",
+      "prohibited_claim": "Variance proves its root cause.",
+      "test_id": "negative.project_controls.variance_cause"
+    },
+    {
+      "expected_result": "require an approved change and successor baseline",
+      "prohibited_claim": "Forecast at completion changes the authorized baseline.",
+      "test_id": "negative.project_controls.forecast_change"
+    },
+    {
+      "expected_result": "require traceable incorporation and publication",
+      "prohibited_claim": "Change approval is the revised baseline.",
+      "test_id": "negative.project_controls.approval_revision"
+    },
+    {
+      "expected_result": "bind exact ledger cuts through an ACL",
+      "prohibited_claim": "Project cost control is financial-ledger truth.",
+      "test_id": "negative.project_controls.cost_ledger"
+    },
+    {
+      "expected_result": "require external payment-effect evidence",
+      "prohibited_claim": "An approved payment application proves payment.",
+      "test_id": "negative.project_controls.payment_effect"
+    },
+    {
+      "expected_result": "require application decision and effect authority",
+      "prohibited_claim": "An analytics subscription or finding may directly mutate control state.",
+      "test_id": "negative.project_controls.analytics_control"
+    },
+    {
+      "expected_result": "publish residuals without source mutation",
+      "prohibited_claim": "Portfolio rollup may repair or overwrite source projects.",
+      "test_id": "negative.project_controls.rollup_mutation"
+    },
+    {
+      "expected_result": "retain proposal provenance and refuse missing authority",
+      "prohibited_claim": "A model or agent may supply missing baseline evidence or approval.",
+      "test_id": "negative.project_controls.agent_authority"
     }
   ],
   "non_collapse_laws": [
@@ -16544,7 +18679,17 @@
     "approval != publication != delivery != execution",
     "comparison != selection proposal != consensus != approval != commitment",
     "goal != objective != preference != policy != hard constraint != resource capacity",
-    "replan != mutation of historical plan"
+    "replan != mutation of historical plan",
+    "analytics service != application logic != control effect",
+    "baseline != current schedule != completion forecast",
+    "change request != approval != baseline revision",
+    "cost control != financial ledger",
+    "forecast at completion != approved change",
+    "payment application != payment",
+    "planning alternative != authorized baseline",
+    "progress observation != admitted progress != earned value",
+    "rollup never mutates source project state",
+    "variance != causal explanation"
   ],
   "offers": [
     {
@@ -17014,6 +19159,22 @@
       "predicate": "packages",
       "relation_id": "relation.planning.packaged",
       "to_ref": "product.integrated_planning_workbench"
+    },
+    {
+      "binding_phase": "compile_time",
+      "edition": 1,
+      "from_ref": "product.project_portfolio_controls",
+      "predicate": "requires",
+      "relation_id": "relation.project_controls.requires.planning",
+      "to_ref": "product.integrated_planning_workbench"
+    },
+    {
+      "binding_phase": "runtime",
+      "edition": 1,
+      "from_ref": "product.project_portfolio_controls",
+      "predicate": "requires",
+      "relation_id": "relation.project_controls.requires.forecasting",
+      "to_ref": "product.forecasting_workbench"
     }
   ],
   "requirements": [
@@ -17735,6 +19896,123 @@
       "minimum_qualified_offers": 1,
       "refusal": "no_qualified_vertical_vocabulary_acl_implementation",
       "requirement_id": "requirement.analytics_planning.vertical_vocabulary_acl",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.controls_system_definition",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_controls_system_definition_implementation",
+      "requirement_id": "requirement.project_controls.controls_system_definition",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.authorized_baseline_edition",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_authorized_baseline_edition_implementation",
+      "requirement_id": "requirement.project_controls.authorized_baseline_edition",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.scope_control_account_structure",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_scope_control_account_structure_implementation",
+      "requirement_id": "requirement.project_controls.scope_control_account_structure",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.schedule_baseline_control",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_schedule_baseline_control_implementation",
+      "requirement_id": "requirement.project_controls.schedule_baseline_control",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.cost_baseline_control",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_cost_baseline_control_implementation",
+      "requirement_id": "requirement.project_controls.cost_baseline_control",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.resource_baseline_binding",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_resource_baseline_binding_implementation",
+      "requirement_id": "requirement.project_controls.resource_baseline_binding",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.project_controls.progress_status_cut",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_progress_status_cut_implementation",
+      "requirement_id": "requirement.project_controls.progress_status_cut",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.earned_value_measurement",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_earned_value_measurement_implementation",
+      "requirement_id": "requirement.project_controls.earned_value_measurement",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.variance_forecast_at_completion",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_variance_forecast_at_completion_implementation",
+      "requirement_id": "requirement.project_controls.variance_forecast_at_completion",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.change_control_case",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_change_control_case_implementation",
+      "requirement_id": "requirement.project_controls.change_control_case",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.baseline_revision_rebaseline",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_baseline_revision_rebaseline_implementation",
+      "requirement_id": "requirement.project_controls.baseline_revision_rebaseline",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_controls.portfolio_program_rollup",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_portfolio_program_rollup_implementation",
+      "requirement_id": "requirement.project_controls.portfolio_program_rollup",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.project_controls.control_period_close_reporting",
+      "consumer_ref": "product.project_portfolio_controls",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_control_period_close_reporting_implementation",
+      "requirement_id": "requirement.project_controls.control_period_close_reporting",
       "status": "unbound"
     }
   ],
@@ -19559,6 +21837,56 @@
       "source_id": "source.planning.oracle.approvals",
       "title": "Setting Up Approvals in Planning",
       "uri": "https://docs.oracle.com/en/cloud/saas/planning-budgeting-cloud/pln-tutorial-approvals/index.html"
+    },
+    {
+      "claim": "Defines earned-value guidance applicable to any organization and sector and to projects, programmes and portfolios of any size or complexity.",
+      "publisher": "ISO",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "The catalogue page establishes horizontal applicability and standard scope, not a complete portable software contract or implementation qualification.",
+      "source_class": "international_standard",
+      "source_id": "source.project_controls.iso21508",
+      "title": "ISO 21508:2026 Earned value management in project and programme management",
+      "uri": "https://www.iso.org/standard/87899.html"
+    },
+    {
+      "claim": "Separates comprehensive schedule construction, performance measurement baselines, schedule updates, risk analysis and controlled baseline changes.",
+      "publisher": "U.S. Government Accountability Office",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "Audit guidance supports semantic seams and laws but does not dictate provider packaging or qualify a runtime implementation.",
+      "source_class": "official_government_guidance",
+      "source_id": "source.project_controls.gao_schedule",
+      "title": "Schedule Assessment Guide: Best Practices for Project Schedules",
+      "uri": "https://www.gao.gov/products/gao-16-89g"
+    },
+    {
+      "claim": "Treats EVMS integration, planning/scheduling, performance measurement baselines and change-control management as governed project-control processes.",
+      "publisher": "U.S. Department of Energy",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "DOE guidance carries government capital-project context and does not prove universal workflow, authority or implementation choices.",
+      "source_class": "official_government_guidance",
+      "source_id": "source.project_controls.doe_evms",
+      "title": "EVMS Implementation Guidance",
+      "uri": "https://www.energy.gov/projectmanagement/evms-implementation-guidance"
+    },
+    {
+      "claim": "Independently persists project requests, schedules and baselines, estimates, budgets, cost sheets, cash flow, change orders and approval-bearing business processes.",
+      "publisher": "Oracle Primavera Unifier",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "A provider implementation is adoption evidence for seams, not ownership of their portable semantics or proof that construction-specific DTOs generalize unchanged.",
+      "source_class": "official_product_documentation",
+      "source_id": "source.project_controls.oracle_unifier",
+      "title": "Starting a Project by Using Business Processes",
+      "uri": "https://docs.oracle.com/en/industries/construction-engineering/primavera-unifier/26/accelerator-user/startingaprojectbyusingbusinessprocesses-10302014a.html"
+    },
+    {
+      "claim": "Separates a payment application lifecycle and approval state from its referenced commitment, change commits, schedule of values and actual payment.",
+      "publisher": "Oracle Primavera Unifier",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "Supports non-collapse laws only; payment applications remain contract/cost-control imports and do not make project controls the financial-ledger authority.",
+      "source_class": "official_product_documentation",
+      "source_id": "source.project_controls.oracle_payment",
+      "title": "Payment Application Business Process",
+      "uri": "https://docs.oracle.com/en/industries/construction-engineering/primavera-unifier/26/accelerator-user/paymentapplicationbusinessprocess-10296630a.html"
     }
   ],
   "status": "evidence_backed_adjudicated_candidate_not_ratified"

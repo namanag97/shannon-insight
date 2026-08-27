@@ -3,40 +3,40 @@
   "completion_claim": false,
   "files": {
     "compiler-selection-gates.jsonl": {
-      "bytes": 581744,
-      "sha256": "7c12403b1a7a9f74e0506a0f46f630a4f32a0faeda1383e8fe9269925c3ee1ca"
+      "bytes": 596667,
+      "sha256": "41e746aba950d38621b472cfaa88f4e9f0dbfd6f36d2b8890f2e9a9c18f0e1b8"
     },
     "concrete-reference-resolutions.jsonl": {
       "bytes": 356619,
       "sha256": "a4d46ce6493fe4bd07f9ea5a6eb7a7be861845b8b63889fe4e257c59dfad9b65"
     },
     "evidence-vacancy-packages.jsonl": {
-      "bytes": 96814,
-      "sha256": "0ed8291ed0458525db6b974b13ee85b9aae90ba0f95af6877a4f824261e4859d"
+      "bytes": 98436,
+      "sha256": "6ccb2a31aacbe6640c4a87ebb4e9c8de16cd835689adaf1ed9d5fffd501d4acd"
     },
     "gate-execution-kernels.jsonl": {
       "bytes": 11680,
       "sha256": "8bda913b61877ce4c66401d5f9e2e513ee4abb917257b2f076157f978fe988d7"
     },
     "product-qualification-dockets.jsonl": {
-      "bytes": 276434,
-      "sha256": "659e456cdc9281be4dd1af2c9cb11d6383636de54610f20b3c2f616f34f6f156"
+      "bytes": 281970,
+      "sha256": "fb98e9a2b5ac6e3425b06f70bb73c7e654ae64029d63ee0fc0e89d5c8729eeff"
     },
     "qualification-scope-kernels.jsonl": {
-      "bytes": 911162,
-      "sha256": "4754ff36432a565aac8663eed043b705c2dd03772fadd00d3dc6bb61c6560b27"
+      "bytes": 932687,
+      "sha256": "c852d2f6366b1d466c649897f3cf8b8f8d012d2b6ded776ff6c41c3fa33f9c2e"
     },
     "resolution-ontology.json": {
       "bytes": 186,
       "sha256": "b2078042c674c5f9b01779f18836da3a6a06e28b559ee210e5d9e106b194e306"
     },
     "subject-dockets.jsonl": {
-      "bytes": 1423233,
-      "sha256": "a0311332f2d21b355db028a46d678823f626262e6b79831f0fa14c4758739bd4"
+      "bytes": 1457178,
+      "sha256": "81351aebdf049bd6f24b64bb677c2a287b8ab5735f04c15bf203691724264c35"
     },
     "summary.json": {
       "bytes": 3132,
-      "sha256": "441ca5620d6dd7f498019ebc790f12ebd8e13f5a417929d906b9e8d7b670b79a"
+      "sha256": "beada98abea4109ee7a0c92cef4cccc268060e3ae4801d8517e4511241a050d5"
     }
   },
   "manifest_id": "manifest.p6-implementation-qualification.v1"

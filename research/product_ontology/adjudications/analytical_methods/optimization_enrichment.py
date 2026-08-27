@@ -18,6 +18,7 @@ from forecasting_enrichment import enrich_forecasting
 from geospatial_enrichment import enrich_geospatial
 from graph_workbench_enrichment import enrich_graph_workbench
 from planning_enrichment import enrich_planning
+from project_controls_enrichment import enrich_project_controls
 from process_mining_enrichment import enrich_process
 from simulation_enrichment import enrich_simulation
 
@@ -274,7 +275,7 @@ def enrich(source: dict[str, Any]) -> dict[str, Any]:
 
 def source_bytes() -> bytes:
     source = json.loads(SOURCE.read_text(encoding="utf-8"))
-    return (json.dumps(enrich_planning(enrich_graph_workbench(enrich_geospatial(enrich_experimentation(enrich_forecasting(enrich_simulation(enrich_process(enrich(source)))))))), ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode()
+    return (json.dumps(enrich_project_controls(enrich_planning(enrich_graph_workbench(enrich_geospatial(enrich_experimentation(enrich_forecasting(enrich_simulation(enrich_process(enrich(source))))))))), ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode()
 
 
 def main() -> int:

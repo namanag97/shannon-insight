@@ -1,12 +1,12 @@
 {
-  "boundary_hypotheses": 10,
+  "boundary_hypotheses": 20,
   "canonical_mutations": 0,
   "completion_claim": false,
   "demand_surfaces": 8,
-  "library_contract_hypotheses": 53,
-  "promote_presumptive": 5,
-  "promote_strong": 1,
-  "sources": 16,
-  "universal_laws": 12,
-  "vertical_pack_deltas": 5
+  "library_contract_hypotheses": 148,
+  "promote_presumptive": 7,
+  "promote_strong": 7,
+  "sources": 35,
+  "universal_laws": 22,
+  "vertical_pack_deltas": 13
 }

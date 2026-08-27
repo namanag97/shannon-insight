@@ -62,6 +62,13 @@ from planning_enrichment import (
     PRODUCT_FIELDS as PLANNING_PRODUCT_FIELDS,
     local_library as planning_local_library,
 )
+from project_controls_enrichment import (
+    DDD_FIELDS as PROJECT_CONTROLS_DDD_FIELDS,
+    KEYS as PROJECT_CONTROLS_KEYS,
+    PRODUCT as PROJECT_CONTROLS_PRODUCT,
+    PRODUCT_FIELDS as PROJECT_CONTROLS_PRODUCT_FIELDS,
+    local_library as project_controls_local_library,
+)
 from process_mining_enrichment import (
     CONCRETE as PROCESS_CONCRETE,
     DDD_FIELDS as PROCESS_DDD_FIELDS,
@@ -151,6 +158,7 @@ def main() -> int:
         "product.geospatial_workbench", "product.simulation_environment",
         "product.graph_analysis_workbench",
         "product.integrated_planning_workbench",
+        "product.project_portfolio_controls",
     }
     require(product_ids == expected_products, "analytical product identity set drifted")
 
@@ -207,6 +215,10 @@ def main() -> int:
     require(all(planning_product.get(field) not in (None, [], {}) for field in PLANNING_PRODUCT_FIELDS), "planning product truth incomplete")
     require(planning_product["automation_modality"]["default"] == "DETERMINISTIC_CORE_ONLY", "ambient model/agent default in planning")
     require("removal_law" in planning_product["automation_modality"] and "hard_work_law" in planning_product["automation_modality"], "planning automation doctrine incomplete")
+    project_controls_product = artifacts[PROJECT_CONTROLS_PRODUCT]
+    require(all(project_controls_product.get(field) not in (None, [], {}) for field in PROJECT_CONTROLS_PRODUCT_FIELDS), "project controls product truth incomplete")
+    require(project_controls_product["automation_modality"]["default"] == "DETERMINISTIC_CORE_ONLY", "ambient model/agent default in project controls")
+    require("removal_law" in project_controls_product["automation_modality"] and "hard_work_law" in project_controls_product["automation_modality"], "project controls automation doctrine incomplete")
 
     graph: dict[str, list[str]] = defaultdict(list)
     for ident, row in libraries.items():
@@ -391,14 +403,15 @@ def main() -> int:
     qualification_profiles |= extension_profiles
     binding_maps = {row["binding_map_id"]: row for row in data["binding_maps"]}
     binding_gaps = {row["gap_id"]: row for row in data["binding_gaps"]}
-    require(len(binding_maps) == len(libraries) == 65 + len(PLANNING_KEYS), "every abstract analytical library group must have exactly one binding map")
+    require(len(binding_maps) == len(libraries) == 65 + len(PLANNING_KEYS) + len(PROJECT_CONTROLS_KEYS), "every abstract analytical library group must have exactly one binding map")
     require({row["abstract_library_ref"] for row in binding_maps.values()} == set(libraries), "analytical binding-map coverage drift")
     expected_graph_gap_ids = {
         f"gap.analytics_graph_workbench.{key}"
         for key in GRAPH_WORKBENCH_KEYS if not GRAPH_WORKBENCH_CONCRETE[key]
     }
     expected_planning_gap_ids = {f"gap.analytics_planning.{key}" for key in PLANNING_KEYS}
-    require(set(binding_gaps) == expected_graph_gap_ids | expected_planning_gap_ids, "analytical binding gaps are not the exact graph-workbench and integrated-planning vacancies")
+    expected_project_controls_gap_ids = {f"gap.project_controls.{key}" for key in PROJECT_CONTROLS_KEYS}
+    require(set(binding_gaps) == expected_graph_gap_ids | expected_planning_gap_ids | expected_project_controls_gap_ids, "analytical binding gaps are not the exact graph-workbench, integrated-planning and project-controls vacancies")
     require(
         len(extension_offers) == 6
         and all(row.get("status") == "declared" and row.get("conformance_receipts") == [] for row in extension_offers.values()),
@@ -700,9 +713,29 @@ def main() -> int:
     planning_provides = {ref for ident in planning_libraries for ref in libraries[ident]["provides"]}
     require(planning_requirements == planning_provides and len(planning_requirements) == len(PLANNING_KEYS), "integrated-planning requirement/library capability coverage drift")
 
+    project_controls_libraries = {project_controls_local_library(key) for key in PROJECT_CONTROLS_KEYS}
+    project_controls_maps = {
+        row["abstract_library_ref"]: row
+        for row in binding_maps.values()
+        if PROJECT_CONTROLS_PRODUCT in row.get("product_refs", [])
+    }
+    require(set(project_controls_maps) == project_controls_libraries and len(project_controls_maps) == len(PROJECT_CONTROLS_KEYS), "project-controls product-library map coverage drift")
+    require(
+        all(
+            row["bindability"] == "structurally_partial_blocking_gap"
+            and not row["concrete_library_refs"]
+            and row["blocking_gap_refs"] == [f"gap.project_controls.{key}"]
+            for key, row in ((key, project_controls_maps[project_controls_local_library(key)]) for key in PROJECT_CONTROLS_KEYS)
+        ),
+        "project-controls vacancy was hidden or bound to an invented compiler implementation",
+    )
+    project_controls_requirements = {row["capability_ref"] for row in data["requirements"] if row["consumer_ref"] == PROJECT_CONTROLS_PRODUCT}
+    project_controls_provides = {ref for ident in project_controls_libraries for ref in libraries[ident]["provides"]}
+    require(project_controls_requirements == project_controls_provides and len(project_controls_requirements) == len(PROJECT_CONTROLS_KEYS), "project-controls requirement/library capability coverage drift")
+
     dossiers = data["ddd_dossiers"]
     dossier_by_product = {row.get("product_ref"): row for row in dossiers}
-    require(len(dossiers) == 8 and set(dossier_by_product) == {OPTIMIZATION_PRODUCT, PROCESS_PRODUCT, SIMULATION_PRODUCT, FORECAST_PRODUCT, EXPERIMENT_PRODUCT, GEOSPATIAL_PRODUCT, GRAPH_WORKBENCH_PRODUCT, PLANNING_PRODUCT}, "analytical DDD dossier identity drift")
+    require(len(dossiers) == 9 and set(dossier_by_product) == {OPTIMIZATION_PRODUCT, PROCESS_PRODUCT, SIMULATION_PRODUCT, FORECAST_PRODUCT, EXPERIMENT_PRODUCT, GEOSPATIAL_PRODUCT, GRAPH_WORKBENCH_PRODUCT, PLANNING_PRODUCT, PROJECT_CONTROLS_PRODUCT}, "analytical DDD dossier identity drift")
     for product_ref, fields, label in (
         (OPTIMIZATION_PRODUCT, OPTIMIZATION_DDD_FIELDS, "optimizer"),
         (PROCESS_PRODUCT, PROCESS_DDD_FIELDS, "process"),
@@ -712,6 +745,7 @@ def main() -> int:
         (GEOSPATIAL_PRODUCT, GEOSPATIAL_DDD_FIELDS, "geospatial"),
         (GRAPH_WORKBENCH_PRODUCT, GRAPH_WORKBENCH_DDD_FIELDS, "graph workbench"),
         (PLANNING_PRODUCT, PLANNING_DDD_FIELDS, "integrated planning"),
+        (PROJECT_CONTROLS_PRODUCT, PROJECT_CONTROLS_DDD_FIELDS, "project controls"),
     ):
         dossier = dossier_by_product.get(product_ref, {})
         ddd = dossier.get("strategic_and_tactical_ddd", {})
@@ -735,6 +769,7 @@ def main() -> int:
     require({f"negative.geospatial.{key}" for key in ["territory_geometry", "crs_drop", "axis_epoch", "repair_truth", "raster_resolution", "proximity_reachability", "match_identity", "association_cause", "map_action", "agent_authority"]} <= negative_ids, "geospatial negative twins missing")
     require({f"negative.graph_workbench.{key}" for key in ["method_product", "ontology_truth", "projection_truth", "path_cause", "centrality_authority", "community_identity", "run_success", "benchmark_universal", "publication_action", "agent_authority"]} <= negative_ids, "graph workbench negative twins missing")
     require({f"negative.planning.{key}" for key in ["fact_forecast_plan", "scenario_plan", "objective_authority", "feasibility_selection", "comparison_approval", "consensus_authority", "approval_effect", "variance_rewrite", "vertical_ownership", "agent_authority"]} <= negative_ids, "integrated-planning negative twins missing")
+    require({f"negative.project_controls.{key}" for key in ["planning_baseline", "baseline_current", "progress_earned", "variance_cause", "forecast_change", "approval_revision", "cost_ledger", "payment_effect", "analytics_control", "rollup_mutation", "agent_authority"]} <= negative_ids, "project-controls negative twins missing")
     assistance = libraries.get("library.analytical_assistance_port", {})
     require(assistance.get("class") == "optional_modality_port", "model/agent assistance is not optional")
     require("proposal_has_no_authority" in assistance.get("invariants", []), "model/agent port lacks non-authority law")
@@ -750,7 +785,7 @@ def main() -> int:
         f"{len(evidence)} sources; {len(artifacts)} artifacts; {len(product_ids)} product candidates; "
         f"{len(libraries)} library contracts; {len(data['ownership'])} owned meanings; "
         f"{len(data['requirements'])} unbound requirements; {len(data['offers'])} unqualified offers; "
-        f"{len(data['binding_maps'])} compiler binding maps including 9 optimizer, 7 process, 6 simulation, 8 forecast, 8 experiment, 13 geospatial, 7 graph-workbench and 13 integrated-planning maps; 8 complete product DDDs; {len(data['binding_gaps'])} explicit graph-workbench/planning binding gaps; "
+        f"{len(data['binding_maps'])} compiler binding maps including 9 optimizer, 7 process, 6 simulation, 8 forecast, 8 experiment, 13 geospatial, 7 graph-workbench, 13 integrated-planning and 13 project-controls maps; 9 complete product DDDs; {len(data['binding_gaps'])} explicit graph-workbench/planning/project-controls binding gaps; "
         f"{len(data['crosswalks'])} legacy crosswalks"
     )
     return 0

@@ -6,6 +6,8 @@ on:
       - 'closure/b04-*'
     paths:
       - research/analytics_landscape/product_families/**
+      - research/product_ontology/closure_program/**
+      - research/product_ontology/corpus_architecture_router/**
       - .github/workflows/b04-evidence-governance.yml
   pull_request:
     paths:
@@ -25,13 +27,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Materialize B04 hardening source
-        run: python3 .github/bootstrap-b04-evidence-governance-hardening.py
       - name: Build evidence-governance projections
         run: python3 research/analytics_landscape/product_families/build_evidence_governance.py
       - name: Validate horizontal source corpus
@@ -51,14 +50,31 @@ jobs:
           python3 research/product_ontology/corpus_architecture_router/build_router.py
           python3 research/product_ontology/corpus_architecture_router/validate.py
       - name: Validate repository ontology registry
-        continue-on-error: true
         run: python3 research/product_ontology/validate_registry.py
+      - name: Reject uncommitted projection drift
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --exit-code -- \
+            research/analytics_landscape/product_families \
+            research/product_ontology/closure_program \
+            research/product_ontology/corpus_architecture_router
       - name: Persist deterministic projections
         if: github.event_name != 'pull_request'
         run: |
           git config user.name "shannon-insight-research-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add \
+            research/analytics_landscape/product_families/evidence-governance-summary.json \
+            research/analytics_landscape/product_families/evidence-governance-frontier.jsonl \
+            research/analytics_landscape/product_families/research-reference-role-projection.jsonl \
+            research/analytics_landscape/product_families/research-reference-family-claims.jsonl \
+            research/analytics_landscape/product_families/organization-family-membership-claims.jsonl \
+            research/analytics_landscape/product_families/organization-identity-projection.jsonl \
+            research/analytics_landscape/product_families/organization-identity-gaps.jsonl \
+            research/analytics_landscape/product_families/evidence-upgrade-campaigns.jsonl \
+            research/analytics_landscape/product_families/evidence-upgrade-campaign-summary.json \
+            research/product_ontology/closure_program \
+            research/product_ontology/corpus_architecture_router
           if git diff --cached --quiet; then
             echo "B04 projections and derived inventories already current"
             exit 0

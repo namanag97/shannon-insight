@@ -1,0 +1,63 @@
+name: Python Implementation Fit
+
+on:
+  push:
+    branches:
+      - 'architecture/python-implementation-fit-*'
+    paths:
+      - src/shannon_insight/**
+      - tests/**
+      - pyproject.toml
+      - research/analytics_landscape/product_families/families_*.json
+      - research/implementation_architecture/python_product_fit/**
+      - .github/workflows/python-implementation-fit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-validate:
+    if: ${{ !contains(github.event.head_commit.message, '[skip python-fit]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install fail-closed schema validator
+        run: python -m pip install 'jsonschema>=4.18.0'
+      - name: Build allocation and retain diagnostic output
+        id: build
+        shell: bash
+        run: |
+          set +e
+          python3 research/implementation_architecture/python_product_fit/build_module_allocation.py
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Persist deterministic projection
+        run: |
+          git config user.name "shannon-insight-architecture-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/implementation_architecture/python_product_fit/module-allocation.jsonl \
+                  research/implementation_architecture/python_product_fit/dependency-boundary-findings.jsonl \
+                  research/implementation_architecture/python_product_fit/implementation-crosswalk.jsonl \
+                  research/implementation_architecture/python_product_fit/summary.json \
+                  research/implementation_architecture/python_product_fit/manifest.json
+          if git diff --cached --quiet; then
+            echo "Python implementation-fit projection already current"
+            exit 0
+          fi
+          git commit -m "architecture: generate Python implementation fit [skip python-fit]"
+          git push origin HEAD:${{ github.ref_name }}
+      - name: Refuse unknown or unparsable source ownership
+        if: ${{ steps.build.outputs.status != '0' }}
+        run: |
+          cat research/implementation_architecture/python_product_fit/summary.json
+          exit 1
+      - name: Validate deterministic fit corpus
+        run: python3 research/implementation_architecture/python_product_fit/validate.py --determinism

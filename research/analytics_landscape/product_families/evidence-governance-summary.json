@@ -1,0 +1,24 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "controlled_evidence_roles": [
+    "algorithm",
+    "architecture",
+    "empirical_validation",
+    "foundational_theory",
+    "governance",
+    "human_factors",
+    "product_boundary_evidence",
+    "standard"
+  ],
+  "family_count": 38,
+  "identity_relationships_fully_adjudicated_count": 0,
+  "organization_family_membership_claim_count": 1012,
+  "report_id": "horizontal_evidence_governance_projection",
+  "research_references_with_controlled_roles": 85,
+  "status": "ROLES_ENFORCED_CLAIMS_BOUND_WEAK_EVIDENCE_AND_IDENTITY_RELATIONSHIPS_OPEN",
+  "strong_exact_product_membership_claim_count": 0,
+  "unique_organization_count": 232,
+  "unique_research_reference_count": 85,
+  "weak_membership_claim_count": 1012
+}

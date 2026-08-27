@@ -1,0 +1,5 @@
+{"occurrence_count": 2, "origin_packs": ["manufacturing_industrial"], "queue_id": "refq.typed_operation.a5d47a4311d759db", "raw_ref": "publish", "reference_domain": "typed_operation", "status": "OPEN_SEMANTIC_RESEARCH"}
+{"occurrence_count": 1, "origin_packs": ["telecom_media_tech"], "queue_id": "refq.typed_operation.19ef6c55dfb402b0", "raw_ref": "op.compare_presentation", "reference_domain": "typed_operation", "status": "OPEN_SEMANTIC_RESEARCH"}
+{"occurrence_count": 1, "origin_packs": ["public_education"], "queue_id": "refq.typed_operation.b95ad6cec031b583", "raw_ref": "operation.audit_representation", "reference_domain": "typed_operation", "status": "OPEN_SEMANTIC_RESEARCH"}
+{"occurrence_count": 1, "origin_packs": ["public_education"], "queue_id": "refq.typed_operation.47eed14e27f2179a", "raw_ref": "operation.construct_reporting_clock", "reference_domain": "typed_operation", "status": "OPEN_SEMANTIC_RESEARCH"}
+{"occurrence_count": 1, "origin_packs": ["public_education"], "queue_id": "refq.typed_operation.58ced5f728a34507", "raw_ref": "operation.publish_correction", "reference_domain": "typed_operation", "status": "OPEN_SEMANTIC_RESEARCH"}

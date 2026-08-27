@@ -1,0 +1,59 @@
+{
+  "as_of": "2026-08-27",
+  "campaign_count": 51,
+  "completion_claim": false,
+  "largest_campaigns": [
+    {
+      "campaign_id": "campaign.b07.analytical_practice.method_other_specialist",
+      "distinct_reference_count": 968,
+      "occurrence_count": 1442
+    },
+    {
+      "campaign_id": "campaign.b07.typed_operation.operation_other_specialist",
+      "distinct_reference_count": 616,
+      "occurrence_count": 4715
+    },
+    {
+      "campaign_id": "campaign.b07.typed_operation.estimate_infer_score",
+      "distinct_reference_count": 213,
+      "occurrence_count": 1237
+    },
+    {
+      "campaign_id": "campaign.b07.source_system_class.source_other_specialist",
+      "distinct_reference_count": 175,
+      "occurrence_count": 175
+    },
+    {
+      "campaign_id": "campaign.b07.analytical_practice.optimization_operations_research",
+      "distinct_reference_count": 144,
+      "occurrence_count": 454
+    },
+    {
+      "campaign_id": "campaign.b07.typed_operation.identity_join_alignment",
+      "distinct_reference_count": 132,
+      "occurrence_count": 507
+    },
+    {
+      "campaign_id": "campaign.b07.analytical_practice.descriptive_metric_decomposition",
+      "distinct_reference_count": 126,
+      "occurrence_count": 503
+    },
+    {
+      "campaign_id": "campaign.b07.industry_classification.industry_pack.built_food_environment",
+      "distinct_reference_count": 125,
+      "occurrence_count": 376
+    },
+    {
+      "campaign_id": "campaign.b07.typed_operation.quality_validate_reconcile",
+      "distinct_reference_count": 123,
+      "occurrence_count": 1068
+    },
+    {
+      "campaign_id": "campaign.b07.analytical_practice.simulation_scenario",
+      "distinct_reference_count": 96,
+      "occurrence_count": 346
+    }
+  ],
+  "reference_count": 4026,
+  "report_id": "b07_campaign_briefs"
+}

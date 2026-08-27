@@ -15,7 +15,11 @@ Current live facts include:
 - 0 open structural compiler gaps after the canonical 59-gap rebase;
 - 912 effective qualification evidence vacancies, not the older 917 raw-snapshot vacancies;
 - 1,613 researched industry analytical cases across 9 broad challenge packs;
-- 4,169 raw canonical-reference review records across industry/method/operation/source identities, of which 3 are research-resolved candidates and 4,166 remain open at the effective research layer;
+- 4,169 raw canonical-reference review records, of which 3 are research-resolved candidates and
+  4,166 remain effectively open across industry/method/operation/source identities;
+- 137 conservative exact-alias candidates covering 127 methods, 8 typed operations and 2 source
+  classes, representing 644 occurrences and factored into 31 owner-review batches; exact matching
+  is explicitly prohibited from closing a semantic decision;
 - 171 open-world source-system classes;
 - a seven-stage non-collapse topology from source class through governed data cut;
 - 1 complete synthetic SQLite reference chain spanning all seven identities, still neither production-qualified nor independently appraised;

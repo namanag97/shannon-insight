@@ -10,6 +10,8 @@ summary = json.loads((HERE / "master-summary.json").read_text(encoding="utf-8"))
 readiness = json.loads((ROOT / "research/product_ontology/dossier_readiness/summary.json").read_text(encoding="utf-8"))
 qualification = json.loads((ROOT / "research/product_ontology/qualification_program/effective-summary.json").read_text(encoding="utf-8"))
 industries = json.loads((ROOT / "research/domain_atlas/industries/integration-audit.json").read_text(encoding="utf-8"))
+industry_effective = json.loads((ROOT / "research/domain_atlas/industries/canonical-reference-effective-summary.json").read_text(encoding="utf-8"))
+industry_review = json.loads((ROOT / "research/domain_atlas/industries/canonical-reference-machine-review-summary.json").read_text(encoding="utf-8"))
 context_map = json.loads((ROOT / "research/domain_atlas/context_map/manifest.json").read_text(encoding="utf-8"))
 source_systems = json.loads((ROOT / "research/domain_atlas/universes/source_systems/coverage-report.json").read_text(encoding="utf-8"))
 data_shapes = json.loads((ROOT / "research/domain_atlas/universes/data_shapes/coverage-report.json").read_text(encoding="utf-8"))
@@ -47,7 +49,10 @@ assert cases == 1613 == summary["industry_analytical_case_count"]
 assert summary["retained_product_count"] == readiness["retained_product_count"] == 66
 assert summary["library_subject_count"] == qualification["library_qualification_subject_count"] == 539
 assert summary["effective_evidence_vacancy_count"] == qualification["effective_evidence_vacancy_count"] == 912
-assert summary["industry_canonical_reference_queue_count"] == industries["canonical_reference_review_queue_records"] == 4169
+assert summary["industry_canonical_reference_raw_queue_count"] == industries["canonical_reference_review_queue_records"] == industry_effective["raw_queue_records"] == 4169
+assert summary["industry_canonical_reference_queue_count"] == industry_effective["remaining_open_research_records"] == 4166
+assert summary["industry_canonical_reference_research_resolved_count"] == industry_effective["research_resolved_candidate_records"] == 3
+assert summary["industry_canonical_reference_machine_review_candidate_count"] == industry_review["source_candidate_records"] == 137
 assert summary["context_count"] == context_map["counts"]["contexts"] == 144
 assert summary["source_system_class_count"] == source_systems["class_records"] == 171
 assert summary["data_shape_logical_count"] == data_shapes["counts"]["logical_shapes"] == 177
@@ -59,12 +64,15 @@ assert summary["completion_claim"] is False
 assert rows[4]["current"]["weak_membership_claims"] == evidence_governance["weak_membership_claim_count"]
 assert rows[5]["current"]["falsification_contracts"] == boundary_falsification["falsification_contract_count"]
 assert rows[6]["current"]["exact_semantic_contract_scopes"] == contract_scopes["semantic_contract_scope_count"]
-assert rows[7]["current"]["remaining_open_research_records"] == canonical_refs["remaining_open_research_records"]
 assert rows[7]["current"]["unresolved_method_refs"] == canonical_refs["method_reference_frontier"]["remaining_open_research_distinct"]
 assert rows[8]["current"]["retained_occurrences"] == source_occurrences["retained_occurrence_count"]
 assert rows[8]["current"]["source_acquisition_identity_stages"] == len(source_topology["nodes"]) == 7
 assert rows[8]["current"]["complete_reference_chains"] == source_reference_chain["governed_data_cuts"] == 1
 assert rows[9]["current"]["end_to_end_closed_gaps"] == effective_shape_gaps["end_to_end_closed_gap_count"]
+assert rows[7]["current"]["unresolved_method_refs"] == industry_effective["method_reference_frontier"]["remaining_open_research_distinct"] == 2028
+assert rows[7]["current"]["effective_open_review_records"] == industry_effective["remaining_open_research_records"]
+assert rows[7]["current"]["machine_review_batches"] == industry_review["review_batch_count"] == 31
+assert rows[7]["current"]["machine_exact_alias_candidate_occurrences"] == industry_review["source_candidate_occurrences"] == 644
 assert rows[14]["current"]["nominal_gate_obligations"] == qualification["retained_product_count"] * 2 * 8 == 1056
 assert rows[16]["current"]["coverage_planes"] == len(coverage_planes)
 assert rows[17]["current"]["ir_stages"] == synthesis["ir_stages"]

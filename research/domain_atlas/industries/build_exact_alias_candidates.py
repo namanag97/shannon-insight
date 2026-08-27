@@ -62,11 +62,13 @@ def main() -> int:
     practices = load_jsonl(ATLAS / "universes/analytics_types/candidate-practices.jsonl")
     operations = load_jsonl(ATLAS / "universes/operations/operation-candidates.jsonl")
     source_classes = load_jsonl(ATLAS / "universes/source_systems/source-classes.jsonl")
+    industry_nodes = load_jsonl(HERE / "foundation/isic-rev5.nodes.jsonl")
 
     indexes: dict[str, dict[str, set[str]]] = {
         "analytical_practice": defaultdict(set),
         "typed_operation": defaultdict(set),
         "source_system_class": defaultdict(set),
+        "industry_classification": defaultdict(set),
     }
 
     for practice in practices:
@@ -83,24 +85,34 @@ def main() -> int:
 
     for source_class in source_classes:
         target = source_class["class_id"]
-        # `inherited_seed_refs` are explicit compatibility/lineage aliases published by the
-        # source-system universe itself. They are stronger than a guessed textual synonym.
         values = [source_class["class_id"], source_class["name"], *source_class.get("inherited_seed_refs", [])]
         for value in values:
             for form in strict_forms(value, ("source.",)):
                 add_form(indexes["source_system_class"], form, target)
+
+    for node in industry_nodes:
+        target = node["record_id"]
+        # Only the official code, exact official title, or canonical node ID may create
+        # an automatic candidate. Local vertical taxonomies remain local unless an
+        # accountable crosswalk says otherwise.
+        values = [node["record_id"], node["scheme_code"], node["title"]]
+        for value in values:
+            for form in strict_forms(value, ("industry.", "isic.", "isic5.")):
+                add_form(indexes["industry_classification"], form, target)
+
+    prefixes = {
+        "analytical_practice": ("method.",),
+        "typed_operation": ("operation.", "op."),
+        "source_system_class": ("source.",),
+        "industry_classification": ("industry.", "isic.", "isic5."),
+    }
 
     rows: list[dict] = []
     for source in queue:
         domain = source["reference_domain"]
         if domain not in indexes or source["queue_id"] in manual_ids:
             continue
-        if domain == "analytical_practice":
-            form = norm(source["raw_ref"], ("method.",))
-        elif domain == "typed_operation":
-            form = norm(source["raw_ref"], ("operation.", "op."))
-        else:
-            form = norm(source["raw_ref"], ("source.",))
+        form = norm(source["raw_ref"], prefixes[domain])
         targets = sorted(indexes[domain].get(form, set()))
         if len(targets) != 1:
             continue
@@ -109,12 +121,14 @@ def main() -> int:
             basis.append("method namespace removal and uniquely matching trailing generic method noun are permitted")
         elif domain == "typed_operation":
             basis.append("operation/op namespace removal is permitted; operation verb/noun tokens are otherwise preserved")
-        else:
+        elif domain == "source_system_class":
             basis.append("source namespace removal and canonical-record inherited_seed_refs are permitted explicit aliases")
+        else:
+            basis.append("only official ISIC Rev.5 node ID, scheme code, or official title may create an automatic industry candidate")
         rows.append({
             "record_kind": "canonical_reference_machine_alias_candidate",
             "candidate_id": "autoalias." + hashlib.sha256(source["queue_id"].encode()).hexdigest()[:16],
-            "edition": 2,
+            "edition": 3,
             "queue_id": source["queue_id"],
             "reference_domain": domain,
             "raw_ref": source["raw_ref"],
@@ -130,14 +144,16 @@ def main() -> int:
                 "string similarity beyond exact normalized equality",
                 "semantic broadening or narrowing",
                 "provider or vertical vocabulary promoted to universal semantics",
+                "local vertical classification silently collapsed into ISIC economic activity",
                 "authority promotion",
                 "compiler substitution before ratification",
             ],
         })
 
     rows.sort(key=lambda row: (row["reference_domain"], row["queue_id"]))
-    output = HERE / "canonical-reference-auto-alias-candidates.jsonl"
-    output.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8")
+    (HERE / "canonical-reference-auto-alias-candidates.jsonl").write_text(
+        "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8"
+    )
     domain_counts = Counter(row["reference_domain"] for row in rows)
     domain_occurrences = Counter()
     for row in rows:
@@ -145,7 +161,7 @@ def main() -> int:
     summary = {
         "report_id": "industry_canonical_reference_auto_alias_candidates",
         "as_of": "2026-08-27",
-        "edition": 2,
+        "edition": 3,
         "completion_claim": False,
         "raw_review_queue_records": len(queue),
         "manual_research_resolutions": len(manual),

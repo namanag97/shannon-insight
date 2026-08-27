@@ -11,7 +11,7 @@
     "typed_operation": 8
   },
   "completion_claim": false,
-  "edition": 2,
+  "edition": 3,
   "machine_exact_alias_candidate_occurrences": 644,
   "machine_exact_alias_candidate_records": 137,
   "manual_research_resolutions": 3,

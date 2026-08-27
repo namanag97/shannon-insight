@@ -14,10 +14,14 @@ OUTPUT = HERE / "audit.json"
 EVIDENCE_FILES = [
     "shannon-python-placement.json",
     "shannon-python-module-crosswalk.jsonl",
+    "summary.json",
     "shannon-python-source-totality.json",
     "shannon-codebase-intelligence-ddd.json",
+    "shannon-codebase-intelligence-ddd-summary.json",
     "shannon-python-extraction-candidates.jsonl",
+    "shannon-python-extraction-summary.json",
     "shannon-python-placement-evidence.jsonl",
+    "shannon-python-placement-evidence-summary.json",
     "manifest.json",
 ]
 VALIDATOR_FILES = [

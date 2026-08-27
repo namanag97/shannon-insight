@@ -8,6 +8,7 @@ on:
       - research/domain_atlas/industries/apply_high_impact_operation_adjudications.py
       - research/domain_atlas/industries/apply_pack_common_operation_adjudications.py
       - research/domain_atlas/industries/build_vertical_overlay_classification.py
+      - research/domain_atlas/industries/type_residual_reference_gaps.py
       - research/domain_atlas/industries/validate_vertical_overlay_classification.py
       - research/domain_atlas/industries/canonical-reference-extension-gaps.jsonl
       - research/domain_atlas/industries/canonical-reference-research-evidence.jsonl
@@ -37,9 +38,23 @@ jobs:
         run: python3 research/domain_atlas/industries/build_vertical_overlay_classification.py
       - name: Validate 398 overlay identities against exact case/evidence extents
         run: python3 research/domain_atlas/industries/validate_vertical_overlay_classification.py
-      - name: Recompute unresolved B07 frontier
+      - name: Validate generated overlay records against JSON Schemas
+        run: |
+          python3 -m pip install --quiet jsonschema
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          import jsonschema
+          p=Path('research/domain_atlas/industries/foundation')
+          scheme_schema=json.loads((p/'schema/classification-scheme.schema.json').read_text())
+          node_schema=json.loads((p/'schema/vertical-analytical-overlay-node.schema.json').read_text())
+          for line in (p/'vertical-analytical-overlay-schemes.jsonl').read_text().splitlines(): jsonschema.validate(json.loads(line),scheme_schema)
+          for line in (p/'vertical-analytical-overlay-nodes.jsonl').read_text().splitlines(): jsonschema.validate(json.loads(line),node_schema)
+          print('PASS overlay JSON schemas')
+          PY
+      - name: Recompute pre-residual B07 frontier
         run: python3 research/domain_atlas/industries/build_unresolved_frontier_profile.py
-      - name: Verify combined largest-frontier reduction
+      - name: Verify researched operation and industry reduction
         run: |
           python3 - <<'PY'
           import json
@@ -49,21 +64,42 @@ jobs:
           rows=[json.loads(x) for x in (p/'canonical-reference-adjudications.jsonl').read_text().splitlines() if x.strip()]
           ops=[r for r in rows if r.get('research_tranche') in {'b07.high_impact_operations.2026_08_27','b07.pack_common_operations.2026_08_27'}]
           ind=[r for r in rows if r.get('research_tranche')=='b07.vertical_overlay_classification.2026_08_27']
-          assert len(ops)==38, len(ops)
-          assert len(ind)==398, len(ind)
-          assert s['remaining_unresolved_records']==3590, s
-          assert s['remaining_unresolved_occurrences']==10305, s
-          assert s['remaining_occurrences_by_domain']['typed_operation']==5491, s
-          assert s['remaining_records_by_domain']['typed_operation']==1332, s
-          assert 'industry_classification' not in s['remaining_records_by_domain'], s
-          assert all(not r.get('completion_claim') and r['status']=='research_resolved_candidate_not_ratified' for r in ops+ind)
-          print('PASS: 436 research decisions; 9,167 B07 occurrence obligations dispositioned; industry classification frontier canonicalized; authority withheld')
+          assert len(ops)==38 and len(ind)==398
+          assert s['remaining_unresolved_records']==3590 and s['remaining_unresolved_occurrences']==10305, s
+          assert s['remaining_occurrences_by_domain']=={'analytical_practice':4453,'source_system_class':361,'typed_operation':5491}, s
+          print('PASS researched frontiers: 436 decisions / 9,167 occurrences; 3,590 residual rows remain to type')
+          PY
+      - name: Type every residual reference as an exact extension obligation
+        run: python3 research/domain_atlas/industries/type_residual_reference_gaps.py
+      - name: Recompute final B07 frontier
+        run: python3 research/domain_atlas/industries/build_unresolved_frontier_profile.py
+      - name: Verify zero anonymous B07 references
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('research/domain_atlas/industries')
+          s=json.loads((p/'unresolved-frontier-profile-summary.json').read_text())
+          r=json.loads((p/'canonical-reference-residual-summary.json').read_text())
+          queue=[json.loads(x) for x in (p/'canonical-reference-review-queue.jsonl').read_text().splitlines() if x.strip()]
+          ledger=[json.loads(x) for x in (p/'canonical-reference-adjudications.jsonl').read_text().splitlines() if x.strip()]
+          auto=[json.loads(x) for x in (p/'canonical-reference-auto-alias-candidates.jsonl').read_text().splitlines() if x.strip()]
+          current=[json.loads(x) for x in (p/'canonical-reference-current-method-candidates.jsonl').read_text().splitlines() if x.strip()]
+          accounted={x['queue_id'] for x in ledger+auto+current}
+          assert len(queue)==4169 and len(accounted)==4169, (len(queue),len(accounted))
+          assert r['typed_residual_gap_count']==3590 and r['typed_residual_occurrences']==10305, r
+          assert r['residual_gaps_by_domain']=={'analytical_practice':1898,'source_system_class':360,'typed_operation':1332}, r
+          assert s['remaining_unresolved_records']==0 and s['remaining_unresolved_occurrences']==0, s
+          assert s['remaining_records_by_domain']=={} and s['remaining_occurrences_by_domain']=={}, s
+          assert all(not x.get('completion_claim') for x in ledger)
+          print('PASS B07 structural closure: 4,169/4,169 refs accounted; 0 anonymous unresolved refs; 3,590 typed semantic extension gaps remain open')
           PY
       - name: Persist generated B07 state
         run: |
           git config user.name "shannon-insight-research-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/domain_atlas/industries/canonical-reference-adjudications.jsonl \
+                  research/domain_atlas/industries/canonical-reference-residual-*.json* \
                   research/domain_atlas/industries/pack-common-operation-adjudication-summary.json \
                   research/domain_atlas/industries/unresolved-frontier-*.json* \
                   research/domain_atlas/industries/foundation/vertical-analytical-overlay-*.json*
@@ -71,5 +107,5 @@ jobs:
             echo "B07 largest-frontier state already current"
             exit 0
           fi
-          git commit -m "research: close largest B07 operation and industry frontiers [skip ci]"
+          git commit -m "closure: account for every B07 reference with exact disposition or typed gap [skip ci]"
           git push origin HEAD:${{ github.ref_name }}

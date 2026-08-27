@@ -1,0 +1,107 @@
+name: Shannon Python Placement Merge Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/shannon_insight/**
+      - pyproject.toml
+      - research/analytics_landscape/product_families/**
+      - research/product_ontology/implementation_placement/**
+      - tests/**
+      - .github/workflows/shannon-python-placement-gate.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  placement-foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - name: Regenerate the complete placement foundation
+        run: |
+          python3 research/product_ontology/implementation_placement/build_shannon_python_placement.py
+          python3 research/product_ontology/implementation_placement/build_shannon_python_source_totality.py
+          python3 research/product_ontology/implementation_placement/build_shannon_python_extraction_frontier.py
+          python3 research/product_ontology/implementation_placement/build_shannon_codebase_intelligence_ddd.py
+          python3 research/product_ontology/implementation_placement/build_python_placement_evidence.py
+          python3 research/product_ontology/implementation_placement/build_manifest.py
+          python3 research/product_ontology/implementation_placement/build_audit.py
+      - name: Require committed generated state
+        run: git diff --exit-code -- research/product_ontology/implementation_placement/
+      - name: Run every placement validator
+        run: |
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_placement.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_schemas.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_source_totality.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_extraction_frontier.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_codebase_intelligence_ddd.py
+          python3 research/product_ontology/implementation_placement/validate_python_placement_evidence.py
+          python3 research/product_ontology/implementation_placement/validate_manifest.py
+          python3 research/product_ontology/implementation_placement/validate_audit.py
+      - name: Run placement regression suite
+        run: |
+          pytest -q \
+            tests/research/test_shannon_python_placement.py \
+            tests/research/test_shannon_python_placement_schema.py \
+            tests/research/test_shannon_python_source_totality.py \
+            tests/research/test_shannon_python_extraction_frontier.py \
+            tests/research/test_shannon_codebase_intelligence_ddd.py \
+            tests/research/test_shannon_python_placement_evidence.py \
+            tests/research/test_shannon_python_implementation_placement_manifest.py \
+            tests/research/test_shannon_python_placement_audit.py
+
+  lint-type-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - run: ruff check src/ tests/
+      - run: ruff format --check src/ tests/
+      - run: mypy src/
+      - run: python -m build
+      - run: twine check dist/*
+
+  compatibility:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e '.[dev]'
+      - run: pytest tests/ -q
+
+  merge:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    needs:
+      - placement-foundation
+      - lint-type-build
+      - compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge the validated PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr merge "$PR_NUMBER" --repo "$GH_REPO" --merge --delete-branch=false

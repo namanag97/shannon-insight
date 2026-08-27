@@ -1,0 +1,126 @@
+{
+  "$id": "https://san.example/spec/provider-target/qualification_receipt_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capability_class_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_class": {
+      "enum": [
+        "documentation_review",
+        "executed_test",
+        "independently_appraised_test"
+      ]
+    },
+    "evidence_object_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "execution_receipt_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "independent_appraisal": {
+      "type": "boolean"
+    },
+    "invalidation_triggers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "observed_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "outcome": {
+      "enum": [
+        "qualified",
+        "rejected",
+        "inconclusive"
+      ]
+    },
+    "performance_result": {
+      "enum": [
+        "pass",
+        "fail",
+        "inconclusive",
+        "not_tested"
+      ]
+    },
+    "qualification_receipt_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "semantic_conformance": {
+      "enum": [
+        "pass",
+        "fail",
+        "inconclusive",
+        "not_tested"
+      ]
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "target_occurrence_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "test_or_oracle": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "qualification_receipt_id",
+    "edition",
+    "status",
+    "subject_ref",
+    "target_occurrence_ref",
+    "capability_class_refs",
+    "semantic_conformance",
+    "performance_result",
+    "outcome",
+    "evidence_class",
+    "independent_appraisal",
+    "test_or_oracle",
+    "evidence_refs",
+    "evidence_object_refs",
+    "execution_receipt_refs",
+    "observed_at",
+    "invalidation_triggers"
+  ],
+  "title": "Scoped qualification receipt",
+  "type": "object"
+}

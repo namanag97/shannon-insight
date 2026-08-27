@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "extension-candidates.jsonl": {
+      "bytes": 41464,
+      "sha256": "72934c35f04544c52413bf6741353848f0f741cc54623bf0db12ff6b4f200b61"
+    },
+    "member-relation-routes.jsonl": {
+      "bytes": 788618,
+      "sha256": "cb30255db2f0df56330b12bdd008b69520a16930099153cc76bcdb41483a6eaa"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 68975,
+      "sha256": "eb264f47f0d7b842cc51b7e45bf01b132bc2713ee8569eb67a80415758fb0abe"
+    },
+    "order-topology-coordinate-ontology.json": {
+      "bytes": 4236,
+      "sha256": "6524d063b8dcf2adb43add37baa06c4b23a807be67059593e8345c1e61687118"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 3326,
+      "sha256": "027e7b5cf949755f6cb66a8689c64c13b3bfd70ea959ddcb1993da38601a423c"
+    },
+    "relation-archetypes.jsonl": {
+      "bytes": 7911,
+      "sha256": "d0fd11b8d5ae359a90b46b377f3f807a65b88a688b1543b0bcdc4768168047e7"
+    },
+    "relation-kernels.jsonl": {
+      "bytes": 31532,
+      "sha256": "ab1a60c89d495a415eeb9a207a40ec2a2373e97f8598f60d22172b027b553eba"
+    },
+    "summary.json": {
+      "bytes": 582,
+      "sha256": "4c5b8fd0e2735b91e214be845d1151de9b4f07d788997c21735034908057b2e4"
+    }
+  },
+  "manifest_id": "manifest.p3o.order-topology-coordinate-ontology-and-rebase.v1"
+}

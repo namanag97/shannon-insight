@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "issuer": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "evidence_source"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    },
+    "supports": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "url": {
+      "format": "uri",
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "source_id",
+    "title",
+    "issuer",
+    "url",
+    "supports"
+  ],
+  "title": "Evidence source candidate",
+  "type": "object"
+}

@@ -1,0 +1,50 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "boundary-lenses.jsonl": {
+      "records": 12,
+      "sha256": "30747605ec96e54d6849aecce05fb46461b0565dd397aacce5062ba9903a2e86"
+    },
+    "boundary-verdicts.jsonl": {
+      "records": 3,
+      "sha256": "8140c84229f697bc29353e1db755d4e5a8d9fd1e76420e9cf5567994286f9da3"
+    },
+    "bounded-contexts.jsonl": {
+      "records": 3,
+      "sha256": "c42bb16b33a9c603b0eec6471d16d9340632075ba9f1ca3f2e02c906304dd8eb"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 9,
+      "sha256": "3c265102647d03ae2e3ad02f66d2ee7360c286124ea46cdc609673066da0a8df"
+    },
+    "decision-points.jsonl": {
+      "records": 68,
+      "sha256": "78779093d52c15c61a2bd5e3a521171fc18023e847a971501504ea7cbb284392"
+    },
+    "library-contracts.jsonl": {
+      "records": 3,
+      "sha256": "d5832f89bb45a626842c864c00cee3a0104a7a6623ef6b5fd3f7c9967229b398"
+    },
+    "negative-twins.jsonl": {
+      "records": 25,
+      "sha256": "cd7bdd9c8332b369b82ab927f587e89536fa4aea342d52aa02c4c38b82cd6ef0"
+    },
+    "operations.jsonl": {
+      "records": 22,
+      "sha256": "87250319a77fafef99eca742e8d8bd8205a4b8d8d35b6f21998222923935f4a3"
+    },
+    "qualification-profiles.jsonl": {
+      "records": 3,
+      "sha256": "b010b7aefc4d17d7d6311a4fd164c068549553c8ab0d52662e3aacb5874593a9"
+    },
+    "sources.jsonl": {
+      "records": 17,
+      "sha256": "6e85bdec88e1c7d215be91daf07076c4358a8c1a64df20076db97396308122e6"
+    }
+  },
+  "manifest_id": "declaration_reference_closure_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

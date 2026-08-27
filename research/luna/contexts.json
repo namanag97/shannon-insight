@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "source": "DAT decomposition supplied in the independent SSPEC federation audit",
+  "contexts": [
+    {"id": "DAT-001", "name": "Data Collection Semantics", "domain": "product", "aliases": ["dataset collection semantics"]},
+    {"id": "DAT-002", "name": "Data Product Semantics", "domain": "product", "aliases": ["data products", "data product contract"]},
+    {"id": "DAT-003", "name": "Data Distribution Semantics", "domain": "product", "aliases": ["dataset distribution", "data distribution"]},
+    {"id": "DAT-004", "name": "Analytical Data Service Semantics", "domain": "product", "aliases": ["data service", "analytics API"]},
+    {"id": "DAT-006", "name": "Data Cut Semantics", "domain": "product", "aliases": ["consistent data cut", "snapshot cut"]},
+    {"id": "DAT-007", "name": "Analytical Publication Lifecycle", "domain": "product", "aliases": ["data publication lifecycle"]},
+
+    {"id": "DAT-008", "name": "Source Observation Contract", "domain": "acquisition", "aliases": ["source system observation", "read-only source access"]},
+    {"id": "DAT-009", "name": "Discovery Inventory Cut", "domain": "acquisition", "aliases": ["source inventory", "metadata discovery snapshot"]},
+    {"id": "DAT-010", "name": "Extraction Read Semantics", "domain": "acquisition", "aliases": ["data extraction", "source extraction", "SAP extraction"], "profile": "sap-extraction"},
+    {"id": "DAT-011", "name": "Snapshot Acquisition", "domain": "acquisition", "aliases": ["initial load", "full extraction", "consistent snapshot"]},
+    {"id": "DAT-012", "name": "Continuation Acquisition", "domain": "acquisition", "aliases": ["incremental extraction", "continuation token"]},
+    {"id": "DAT-013", "name": "Change Feed Semantics", "domain": "acquisition", "aliases": ["change data capture", "CDC", "change feed"]},
+    {"id": "DAT-014", "name": "Data Delivery Subscription Semantics", "domain": "acquisition", "aliases": ["data subscription", "delivery subscription"]},
+    {"id": "DAT-015", "name": "Snapshot-Continuation Stitching", "domain": "acquisition", "aliases": ["snapshot CDC stitching", "initial load delta handoff"]},
+    {"id": "DAT-016", "name": "Committed Application Fact Intake", "domain": "acquisition", "aliases": ["transactional fact intake", "committed fact ingestion"]},
+
+    {"id": "DAT-017", "name": "Changelog Representation", "domain": "stream", "aliases": ["changelog encoding", "CDC envelope"]},
+    {"id": "DAT-018", "name": "Record Order and Sequence Profile", "domain": "stream", "aliases": ["record ordering", "event sequence"]},
+    {"id": "DAT-019", "name": "Event-Time Attribution", "domain": "stream", "aliases": ["event time", "event timestamp semantics"]},
+    {"id": "DAT-020", "name": "Watermark and Frontier Semantics", "domain": "stream", "aliases": ["watermarks", "progress frontier"]},
+    {"id": "DAT-021", "name": "Window, Trigger and Pane Semantics", "domain": "stream", "aliases": ["stream windows", "triggers panes"]},
+    {"id": "DAT-022", "name": "Stateful Dataflow Semantics", "domain": "stream", "aliases": ["stateful stream processing", "dataflow state"]},
+    {"id": "DAT-023", "name": "Analytical Finality, Correction and Retraction", "domain": "stream", "aliases": ["late data correction", "result retraction", "stream finality"]},
+    {"id": "DAT-024", "name": "Dataflow Recovery Equivalence", "domain": "stream", "aliases": ["exactly once recovery", "checkpoint recovery", "savepoint recovery"]},
+
+    {"id": "DAT-025", "name": "Relational Collection Algebra", "domain": "modality", "aliases": ["relational algebra", "SQL semantics"]},
+    {"id": "DAT-026", "name": "Document and Variant Algebra", "domain": "modality", "aliases": ["document data", "JSON variant semantics"]},
+    {"id": "DAT-027", "name": "Property Graph and Path Algebra", "domain": "modality", "aliases": ["property graph", "graph query", "path algebra"]},
+    {"id": "DAT-028", "name": "Time-Series Algebra", "domain": "modality", "aliases": ["time series semantics", "temporal aggregation"]},
+    {"id": "DAT-029", "name": "Spatial Data Algebra", "domain": "modality", "aliases": ["geospatial semantics", "spatial query"]},
+    {"id": "DAT-030", "name": "Array and Tensor Algebra", "domain": "modality", "aliases": ["array database", "tensor data"]},
+    {"id": "DAT-031", "name": "Search and Ranking Algebra", "domain": "modality", "aliases": ["information retrieval", "search ranking"]},
+    {"id": "DAT-032", "name": "Vector and Embedding Retrieval Algebra", "domain": "modality", "aliases": ["vector search", "embedding retrieval", "ANN"]},
+    {"id": "DAT-033", "name": "Event and Object-Centric Process Algebra", "domain": "modality", "aliases": ["process mining", "object-centric event log"]},
+
+    {"id": "DAT-034", "name": "Grain and Dimensional Semantics", "domain": "analytics", "aliases": ["fact grain", "dimensional modeling"]},
+    {"id": "DAT-035", "name": "Metric Definition and Evaluation", "domain": "analytics", "aliases": ["metrics layer", "semantic metrics"]},
+    {"id": "DAT-036", "name": "Aggregate, Cube and Additivity Semantics", "domain": "analytics", "aliases": ["OLAP cube", "additive measures"]},
+    {"id": "DAT-037", "name": "Analytical Estimate Product Semantics", "domain": "analytics", "aliases": ["statistical estimate", "estimate data product"]},
+    {"id": "DAT-038", "name": "Forecast Product Semantics", "domain": "analytics", "aliases": ["forecast data product", "time series forecast"]},
+    {"id": "DAT-039", "name": "Experiment Analysis Semantics", "domain": "analytics", "aliases": ["A/B testing", "experiment analysis"]},
+    {"id": "DAT-040", "name": "Causal Analysis Semantics", "domain": "analytics", "aliases": ["causal inference", "causal analysis"]},
+    {"id": "DAT-041", "name": "Feature Dataset and Point-in-Time Semantics", "domain": "analytics", "aliases": ["feature store", "point-in-time join", "training-serving skew"]},
+    {"id": "DAT-042", "name": "Training and Evaluation Dataset Semantics", "domain": "analytics", "aliases": ["ML dataset", "evaluation dataset"]},
+    {"id": "DAT-043", "name": "Retrieval-Augmented Data Product Semantics", "domain": "analytics", "aliases": ["RAG data product", "retrieval augmented generation data"]},
+    {"id": "DAT-058", "name": "Data Statistics and Distribution Summary", "domain": "analytics", "aliases": ["data profiling", "distribution statistics"]},
+
+    {"id": "DAT-044", "name": "Incremental Computation Semantics", "domain": "incremental", "aliases": ["incremental computation", "incremental view maintenance"]},
+    {"id": "DAT-045", "name": "Materialized Result Semantics", "domain": "incremental", "aliases": ["materialized view", "cached analytical result"]},
+    {"id": "DAT-047", "name": "Refresh and Freshness Semantics", "domain": "incremental", "aliases": ["data freshness", "refresh policy"]},
+    {"id": "DAT-048", "name": "Backfill and Historical Recompute", "domain": "incremental", "aliases": ["data backfill", "historical recomputation"]},
+    {"id": "DAT-049", "name": "Replay, Reprocess, Reproduce and Restate", "domain": "incremental", "aliases": ["pipeline replay", "data reprocessing", "reproducibility"]},
+    {"id": "DAT-050", "name": "Analytical Restatement Semantics", "domain": "incremental", "aliases": ["metric restatement", "analytical correction"]},
+
+    {"id": "DAT-051", "name": "Analytical Table and Snapshot Semantics", "domain": "serving", "aliases": ["table format snapshot", "analytical snapshot"]},
+    {"id": "DAT-052", "name": "Row Change Feed and Delete Representation", "domain": "serving", "aliases": ["row-level changes", "delete files", "tombstones"]},
+    {"id": "DAT-053", "name": "Analytical Serving Cut and Consistency", "domain": "serving", "aliases": ["serving consistency", "query snapshot consistency"]},
+    {"id": "DAT-054", "name": "Semantic Query and Metric Serving", "domain": "serving", "aliases": ["semantic layer", "metrics API", "metric serving"]},
+    {"id": "DAT-055", "name": "Data Share and Federated Distribution", "domain": "serving", "aliases": ["data sharing", "data federation", "clean share"]},
+    {"id": "DAT-056", "name": "Clean-Room Analysis Contract", "domain": "serving", "aliases": ["data clean room", "privacy-preserving collaboration"]}
+  ],
+  "topic_profiles": [
+    {
+      "id": "sap-extraction",
+      "name": "SAP data extraction and replication",
+      "context_id": "DAT-010",
+      "aliases": ["SAP extraction", "SAP CDC", "SAP ODP", "SAP SLT", "SAP Datasphere replication"],
+      "query_terms": [
+        "SAP S/4HANA extraction",
+        "SAP ECC extraction",
+        "SAP BW extraction",
+        "Operational Data Provisioning ODP",
+        "Operational Delta Queue ODQ",
+        "ABAP CDS extraction",
+        "SAP Landscape Transformation Replication Server SLT",
+        "SAP Datasphere replication flow",
+        "SAP OData extraction",
+        "SAP HANA SDI SDA",
+        "SAP full load delta CDC"
+      ],
+      "required_facets": [
+        "source product and release",
+        "source object type",
+        "snapshot consistency",
+        "delta or CDC mechanism",
+        "snapshot-to-delta handoff",
+        "deletes and before-images",
+        "ordering and checkpoints",
+        "authorizations and network path",
+        "licensing and permitted APIs",
+        "volume, partitioning, and throttling",
+        "schema change behavior",
+        "monitoring, replay, and recovery",
+        "target compatibility"
+      ],
+      "authoritative_domains": [
+        "help.sap.com",
+        "support.sap.com",
+        "me.sap.com",
+        "api.sap.com",
+        "community.sap.com"
+      ]
+    }
+  ]
+}

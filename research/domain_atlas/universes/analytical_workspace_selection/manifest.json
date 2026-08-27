@@ -1,0 +1,42 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "boundary-lens-adjudication.jsonl": {
+      "records": 12,
+      "sha256": "39c8cab6210864160d4a6c9ad9131b6ba19bec6456f5f8bcf61f8501ef96b12d"
+    },
+    "boundary-verdicts.jsonl": {
+      "records": 3,
+      "sha256": "4b47112cfe014914cab25ea12f54ecb4ab9fde139bfcbe62079e2d75a99f4e4f"
+    },
+    "bounded-contexts.jsonl": {
+      "records": 5,
+      "sha256": "682f3620f783d8e8aa55ccf924c2b6ab6b4a905028f99b5174fdf16557687787"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 15,
+      "sha256": "bd1497dbc203bfc9eea7fa73f13a6c8d97786ea79793bb9cc3c7e1a445005bed"
+    },
+    "decision-points.jsonl": {
+      "records": 99,
+      "sha256": "ab8059e18bd82f692e8bf997705a7a28d099ae71c548f33468eeb0e73f0398c9"
+    },
+    "library-contracts.jsonl": {
+      "records": 5,
+      "sha256": "469f3432e3955545c5774328c02aadc727d3920d4f9b5e7b6f5b22f8a0ec33eb"
+    },
+    "negative-twins.jsonl": {
+      "records": 40,
+      "sha256": "b89985cd94de8bf390ba9cb32ad0f9da0962d8d47e9da681a7000a0a2468307a"
+    },
+    "sources.jsonl": {
+      "records": 24,
+      "sha256": "9ba3aedcc2abf036793b0082d1bcc6abb3d69fd1182aecfce01ed15725c4f788"
+    }
+  },
+  "manifest_id": "analytical_workspace_selection_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

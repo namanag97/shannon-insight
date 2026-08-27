@@ -1,0 +1,162 @@
+{
+ "axis": "grain_and_cardinality",
+ "owned_question": "At what granularity does this fact, metric, or record exist, and what cardinality constraints (uniqueness, fan-out of one-to-many aggregation, fan-in of many-source reconciliation) must hold for every number derived from it to keep referring to the same thing?",
+ "terms": [
+  {
+   "term": "grain",
+   "gloss": "exactly what one row/fact/metric observation represents, e.g. 'one line item on a retail sales receipt'; declared before dimensions and measures and treated as a binding contract",
+   "authority": "Kimball Group dimensional modeling techniques",
+   "confidence": "high"
+  },
+  {
+   "term": "atomic vs summary grain",
+   "gloss": "the finest level a business process captures data, versus pre-aggregated rolls; atomic grain withstands unpredictable queries, summaries assume questions in advance",
+   "authority": "Kimball Group",
+   "confidence": "high"
+  },
+  {
+   "term": "sample frame",
+   "gloss": "the explicit mapping between an inspected subset and the target population/lot; a statistic is only meaningful relative to its sampling scheme (lot-by-lot inspection indexed by AQL)",
+   "authority": "ISO 2859-1",
+   "confidence": "medium"
+  },
+  {
+   "term": "cardinality constraint",
+   "gloss": "declared bound on how many values may occur in a column or match a key: UNIQUE, PRIMARY KEY, FOREIGN KEY multiplicity; SQL-standard-level machinery for asserting grain at rest",
+   "authority": "ISO/IEC 9075 (Database Language SQL)",
+   "confidence": "medium"
+  },
+  {
+   "term": "measurand",
+   "gloss": "the particular quantity intended to be measured; redefining the measurand changes what the reported value refers to even at identical numeric magnitude",
+   "authority": "JCGM 200:2012 (VIM)",
+   "confidence": "high"
+  },
+  {
+   "term": "fan-out obligation",
+   "gloss": "when an occurrence-grain fact aggregates upward to a coarser grain, the metric must declare which additive/semi-additive/non-additive rules preserve meaning (e.g. rates and balances do not sum)",
+   "authority": "synthesis from Kimball fact-table semantics",
+   "confidence": "high"
+  },
+  {
+   "term": "fan-in / reconciliation grain",
+   "gloss": "when two sources are matched (dedup, entity resolution, ledger reconciliation), matching happens at a declared key grain; joining at mismatched grains multiplies rows or silently drops duplicates",
+   "authority": "standard relational join semantics + Kimball 'never mix grains in one table'",
+   "confidence": "high"
+  },
+  {
+   "term": "information loss on roll-up",
+   "gloss": "aggregation collapses intragrain variation; drill-down cannot recover detail that was never retained, so coarser output never claims finer provenance",
+   "authority": "synthesis (Kimball atomic-vs-summary; VIM measurand identity)",
+   "confidence": "high"
+  }
+ ],
+ "non_collapse_laws": [
+  "an aggregate grain never inherits its components' uniqueness; a monthly total is not a row-for-row stand-in for the daily events it summed",
+  "a sampled statistic never crosses to population grain without a declared sample frame; no frame, no extrapolation",
+  "each distinct grain gets its own table/definition; mixing two grains in one fact set is a model error, not a convenience",
+  "an aggregated metric only flows through roll-up with a declared aggregation rule; non-additive measures (rates, balances, temperatures) refuse plain summation",
+  "drill-down returns only what was retained below the current grain; missing lower-grain detail is reported as lost, never imputed as if observed",
+  "a match/join/reconciliation keys onto a single declared grain; auto-merging records whose natural grains differ is forbidden until both sides are lifted to one declared grain",
+  "redefining the measurand (population, frame, time bucket, unit) produces a new quantity lineage, not a corrected old one"
+ ],
+ "carrier_requirements": [
+  "every published metric carries an explicit grain declaration: entity counted, occurrence type, time bucket, filter/population",
+  "stored tables carry machine-checkable cardinality constraints (key uniqueness, FK multiplicity) evaluated at write time",
+  "aggregation operators carry additivity class tags so fan-out through sums/averages/ratios is validated, not assumed",
+  "reconciliation outputs carry their match-key grain and a duplicate-collision report rather than silent multipliers or dedup",
+  "sampling-derived statistics carry their frame reference and design effect; drill-down surfaces expose which children were retained"
+ ],
+ "operations_or_relations": [
+  "declare_grain",
+  "check_cardinality",
+  "assert_uniqueness",
+  "roll_up (with additivity-rule dispatch)",
+  "drill_down (with retention disclosure)",
+  "match_at_grain (reconciliation keyed to declared grain)",
+  "declare_sample_frame",
+  "detect_fan_out_violation (double counting on joins)",
+  "split_by_grain (separate tables per grain)"
+ ],
+ "invariants": [
+  "one row = exactly one declared grain instance; duplicate detection against the declared grain is enforced",
+  "sum over children of a faithful roll-up equals the parent within declared uncertainty; a delta without an event lineage fails the audit",
+  "joining on a non-unique key at occurrence grain yields row multiplication flagged as error, not accepted as result",
+  "any statistic presented at population grain cites its frame; any statistic citing no frame is presentationally marked sampled-or-unknown",
+  "irreversibility ledger: every roll-up records what lower-grain information became unrecoverable"
+ ],
+ "refusals": [
+  "refuse to publish a rate or balance aggregated by summation across periods",
+  "refuse to merge two sources on inferred identity when their grains differ without an explicit lifting step",
+  "refuse population-level claims from a sample absent a declared sampling scheme and extrapolation basis",
+  "refuse drill-down promises into grains never stored",
+  "refuse a UNIQUE claim that write-time cardinality checking cannot reach (e.g. cross-system merges post-constraint)"
+ ],
+ "counterexamples": [
+  "daily conversion-rate series averaged into a monthly rate: averaging ratios misweights days; correct path recomputes numerator/denominator sums at month grain — intraday spikes were already lost at daily grain and are irrecoverable at monthly",
+  "two customer systems auto-merged on email at account grain while one stores device-occurrence grain: one account matches N device rows and revenue double-counts by fan-out factor N",
+  "AQL acceptance decision on a lot extrapolated to 'supplier defect rate' with no frame statement: lot-by-lot attribute schemes license accept/reject decisions, not population parameter estimates",
+  "'1,048 unique visitors' printed next to '3,204 sessions' without grain labels invites readers to treat counts at different grains as comparable metrics"
+ ],
+ "authority_limit": "This axis governs referential integrity of quantities across granularity changes — what a number is about and which cardinality obligations survive transformation. It does not own measurement accuracy (uncertainty budgets), semantic correctness of definitions beyond their stated scope, or access/security policy on data.",
+ "sources": [
+  {
+   "id": "kimball-grain",
+   "title": "Grain — Dimensional Modeling Techniques, Kimball Group",
+   "uri": "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/grain/",
+   "class": "community-standard methodology page (official site)",
+   "verified": true,
+   "note": "Declaring grain is pivotal; binding contract; prefer atomic grain; each grain gets its own fact table.",
+   "confidence": "high"
+  },
+  {
+   "id": "ibm-grain",
+   "title": "Dimensional modeling: identify the grain — IBM Docs",
+   "uri": "https://www.ibm.com/docs/en/ida/9.1.1?topic=phase-step-identify-grain",
+   "class": "vendor documentation corroborating Kimball four-step method",
+   "verified": true,
+   "confidence": "high"
+  },
+  {
+   "id": "iso9075-sql",
+   "title": "ISO/IEC 9075 (Database Language SQL) — UNIQUE/PK/FK cardinality constraints",
+   "uri": "https://www.iso.org/standard/76583.html",
+   "class": "international standard",
+   "verified": false,
+   "note": "iso.org returns 403 to automated fetch; landing-page identifier recorded but full text unfetchable here.",
+   "confidence": "medium"
+  },
+  {
+   "id": "iso2859-1",
+   "title": "ISO 2859-1 Sampling procedures for inspection by attributes — Part 1: AQL-indexed lot-by-lot sampling schemes (2024 edition)",
+   "uri": "https://www.iso.org/obp/ui/#iso:std:iso:2859:-1",
+   "class": "international standard",
+   "verified": false,
+   "note": "Title/scope corroborated via secondary citations; iso.org fetch blocked (403); text unfetchable.",
+   "confidence": "medium"
+  },
+  {
+   "id": "jcgm200-vim",
+   "title": "JCGM 200:2012 International Vocabulary of Metrology (VIM) — Basic and general concepts and associated terms",
+   "uri": "https://www.bipm.org/en/committees/jc/jcgm/publications",
+   "class": "BIPM/JCGM normative vocabulary",
+   "verified": true,
+   "note": "Confirmed listed on BIPM JCGM publications page; VIM concept pages support measurand identity across redefinition.",
+   "confidence": "high"
+  },
+  {
+   "id": "kimball-four-step",
+   "title": "The Kimball Group Reader / The Data Warehouse Toolkit ch. 1-2 — four-step dimensional design (business process → grain → dimensions → facts)",
+   "book_ref": "Kimball & Ross, The Data Warehouse Toolkit, 3rd ed., Wiley, 2013",
+   "class": "book chapter, community standard",
+   "verified": false,
+   "note": "Print source, not fetchable online; same content reflected in verified kimballgroup.com technique pages above.",
+   "confidence": "medium"
+  }
+ ],
+ "evidence_vacancies_if_any": [
+  "Direct-text verification of ISO/IEC 9075 constraint clauses (e.g., exact UNIQUE/PRIMARY KEY semantics wording) blocked by iso.org 403 — vacancy pending access to the standard text or an approved mirror.",
+  "ISO 2859-1:2024 edition details (clause numbering for switching rules, AQL tables) unverified from primary text — vacancy; only title/scope confirmed via secondary sources.",
+  "No primary source located for a formal fan-out/double-counting invariant on joins at mixed grains; currently synthesized from Kimball 'do not mix grains' + relational bag semantics — a citable treatment (e.g., Galindo-Legaria & Rosenthal on outerjoin/cardinality) would close this vacancy."
+ ]
+}

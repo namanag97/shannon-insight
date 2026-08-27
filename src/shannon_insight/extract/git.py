@@ -1,4 +1,5 @@
 """Git history extraction."""
+
 from __future__ import annotations
 
 import subprocess
@@ -17,7 +18,10 @@ def extract_git_history(repo_path: Path, max_commits: int = 10000) -> GitHistory
 def _parse_commits(repo_path: Path, max_commits: int) -> list[Commit]:
     """Parse git log for commit metadata."""
     cmd = [
-        "git", "-C", str(repo_path), "log",
+        "git",
+        "-C",
+        str(repo_path),
+        "log",
         f"-n{max_commits}",
         "--format=%H|%at|%ae|%s",
         "--name-only",
@@ -38,13 +42,15 @@ def _parse_commits(repo_path: Path, max_commits: int) -> list[Commit]:
         if "|" in line and line.count("|") == 3:
             # Save previous commit
             if current_hash:
-                commits.append(Commit(
-                    hash=current_hash,
-                    timestamp=current_ts,
-                    author=current_author,
-                    subject=current_subject,
-                    files=tuple(current_files),
-                ))
+                commits.append(
+                    Commit(
+                        hash=current_hash,
+                        timestamp=current_ts,
+                        author=current_author,
+                        subject=current_subject,
+                        files=tuple(current_files),
+                    )
+                )
 
             # Parse new commit
             parts = line.split("|", 3)
@@ -58,13 +64,15 @@ def _parse_commits(repo_path: Path, max_commits: int) -> list[Commit]:
 
     # Save last commit
     if current_hash:
-        commits.append(Commit(
-            hash=current_hash,
-            timestamp=current_ts,
-            author=current_author,
-            subject=current_subject,
-            files=tuple(current_files),
-        ))
+        commits.append(
+            Commit(
+                hash=current_hash,
+                timestamp=current_ts,
+                author=current_author,
+                subject=current_subject,
+                files=tuple(current_files),
+            )
+        )
 
     return commits
 
@@ -72,7 +80,10 @@ def _parse_commits(repo_path: Path, max_commits: int) -> list[Commit]:
 def _parse_changes(repo_path: Path, max_commits: int) -> list[FileChange]:
     """Parse git log --numstat for file changes."""
     cmd = [
-        "git", "-C", str(repo_path), "log",
+        "git",
+        "-C",
+        str(repo_path),
+        "log",
         f"-n{max_commits}",
         "--format=%H",
         "--numstat",
@@ -98,12 +109,14 @@ def _parse_changes(repo_path: Path, max_commits: int) -> list[FileChange]:
                 add_str, del_str, path = parts[0], parts[1], parts[2]
                 additions = int(add_str) if add_str.isdigit() else 0
                 deletions = int(del_str) if del_str.isdigit() else 0
-                changes.append(FileChange(
-                    commit_hash=current_hash,
-                    path=path,
-                    change_type="M",
-                    additions=additions,
-                    deletions=deletions,
-                ))
+                changes.append(
+                    FileChange(
+                        commit_hash=current_hash,
+                        path=path,
+                        change_type="M",
+                        additions=additions,
+                        deletions=deletions,
+                    )
+                )
 
     return changes

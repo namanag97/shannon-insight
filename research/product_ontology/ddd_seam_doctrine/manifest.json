@@ -1,0 +1,33 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "boundary-kinds.jsonl": {
+      "records": 11,
+      "sha256": "ffa774e9e968a5a604e4bd37854507f361e44e9ed65d7232031c43f96ff327fb"
+    },
+    "metadata-discovery-seam-audit.jsonl": {
+      "records": 7,
+      "sha256": "e73e82e7d117f10f70996cbf054688f43ff227d84175bcae6be2447825ed74d7"
+    },
+    "negative-tests.jsonl": {
+      "records": 12,
+      "sha256": "723ac6761f4c7103c06b0f7807936456bec7fa8db93923de2d9dbb6e55024ea1"
+    },
+    "seam-discovery-procedure.jsonl": {
+      "records": 12,
+      "sha256": "0cf9ec9dc0ca18a9738f2f83a338cef4b2c8d09e989efbc154555c51806fe283"
+    },
+    "seam-forces.jsonl": {
+      "records": 15,
+      "sha256": "3b3d09a54bd688740db52b8ccd832625fd56e6f35af5b011471b899dcef8fcaa"
+    },
+    "sources.jsonl": {
+      "records": 7,
+      "sha256": "7d612d661178ed63414b3d574ca479aff492de3ccc84e24a9a037ac58a26ae5a"
+    }
+  },
+  "manifest_id": "ddd_product_seam_doctrine_v0_1_0",
+  "status": "researched_candidate"
+}

@@ -1,0 +1,17 @@
+{
+  "as_of": "2026-08-27",
+  "axis_native_projection_axes": 9,
+  "canonical_gaps_closed": 0,
+  "compiler_lowering_ready_axes": 0,
+  "completion_claim": false,
+  "member_applicability_decisions": 0,
+  "member_coordinate_answers": 0,
+  "native_common_surface_axes": 7,
+  "normalized_coordinate_surfaces": 16,
+  "normalized_refusal_surfaces": 16,
+  "normalized_total_outcome_surfaces": 16,
+  "owner_decisions": 0,
+  "program_id": "program.coordinate-compiler-ir-normalization.v1",
+  "refusal_precedence_profiles_supplied": 0,
+  "semantic_axes": 16
+}

@@ -1,0 +1,60 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/innovation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "innovation_id": {
+      "pattern": "^qor\\.innovation\\.",
+      "type": "string"
+    },
+    "limitation": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "relevance": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_refs": {
+      "items": {
+        "pattern": "^qor\\.src\\.",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "researched_candidate_not_adjudicated"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "edition",
+    "status",
+    "year",
+    "description",
+    "relevance",
+    "source_refs",
+    "limitation"
+  ],
+  "title": "Recent quality innovation candidate",
+  "type": "object"
+}

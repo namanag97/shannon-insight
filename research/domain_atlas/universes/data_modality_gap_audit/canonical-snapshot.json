@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-25",
+  "counts": {
+    "invalid_inferences": 77,
+    "operations": 167,
+    "representation_crosswalks": 62,
+    "shapes": 177,
+    "sources": 90,
+    "types": 108
+  },
+  "crosswalk_policy": "All target IDs are explicit declarations; no names were used to infer equivalence.",
+  "files": {
+    "classification-axes.json": {
+      "bytes": 25585,
+      "sha256": "559de167c28efa4bf9d1db769dc7b71bf635a1d69dbc4d56ff535a01a07fbeca"
+    },
+    "invalid-inference-matrix.jsonl": {
+      "bytes": 54527,
+      "sha256": "1e5403620cb129cf77e83851025196b66b648af58c6fc4f5caa3ca450a479f08"
+    },
+    "operation-totality-matrix.jsonl": {
+      "bytes": 108671,
+      "sha256": "bbfe0fdc2216c3ba2d6de6665d56c9fcc8fd807e716ddebd162daf1aa229bf5e"
+    },
+    "representation-crosswalks.jsonl": {
+      "bytes": 74041,
+      "sha256": "38624341b938d3c63fa59ce46203b1980616dbf191bf9ab208742f4380fc504c"
+    },
+    "shape-records.jsonl": {
+      "bytes": 294403,
+      "sha256": "cf0f78b768c1b4ea65008508518084c211e6bdecd262f11024159abc5b2ff8c3"
+    },
+    "sources.jsonl": {
+      "bytes": 41284,
+      "sha256": "b578565b220faca14302bca00bd9c528039904c0f47c1c19ddfa180c1affe9d9"
+    },
+    "type-records.jsonl": {
+      "bytes": 206754,
+      "sha256": "0ca9780c14452d4dca2cb84b7a48dc28d6690791ee4ea1e3a30349d9ae6991f6"
+    }
+  },
+  "registry": "san.domain-atlas.data-shapes"
+}

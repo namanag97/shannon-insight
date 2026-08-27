@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract.product_adjudication.platform_control.v0_1_0",
+  "counts": {
+    "artifact": 108,
+    "artifact_kind_definition": 13,
+    "boundary_decision": 11,
+    "capability_offer": 6,
+    "capability_requirement": 46,
+    "evidence_source": 40,
+    "legacy_crosswalk": 6,
+    "library_contract": 50,
+    "negative_test": 35,
+    "product_ddd_dossier": 4,
+    "product_library_binding_map": 50,
+    "relation": 11,
+    "semantic_ownership": 29
+  },
+  "derived": {
+    "legacy_crosswalks": 6,
+    "portable_offers": 0,
+    "product_candidates": 4,
+    "qualified_offers": 0,
+    "unbound_requirements": 46
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "aa796d50c733debe0928f5b41b9a7063b53624d67fcbf91d430a52298ea40a4a",
+    "artifacts.jsonl": "2c5d017be1184d7a78024278843ccb09b8858111da178d51f72d3809719ac0af",
+    "boundary-decisions.jsonl": "fe8a399f319048c39ca1fd2e1b92531d477f37216bfaeed98584aba2a7eaa14e",
+    "evidence.jsonl": "80de537e1bfed53593dabfbe054940a6149af1615e575fccd10cb6193d9cd1b8",
+    "legacy-crosswalks.jsonl": "7d8ce8ab1cc6789b8fc3a3315a47d319878d3630ac2c3c8fd9904a39e18e8e31",
+    "library-contracts.jsonl": "87572c39d23dda50efb195ef6bdec747354f94ac295dcacfd5d1b05907058c84",
+    "metamodel.json": "bab6bf7d1091f93591b879cecd5e608acd2d66c1ad29839ac2aae042d55b866c",
+    "negative-tests.jsonl": "768ee7177c610cf478fa4bf90c05ae4481c3ec92c0e66a9e73612323703f689e",
+    "offers.jsonl": "fd71a590a7958e556f667be4a089bc3aedbef039a484bc7ee1f5b98671a2a08f",
+    "product-ddd-dossiers.jsonl": "77868710aad93752cdec951bc6a56ceea79788e1288aa415d31d067d66e8e9b3",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "39b32f70437b6c3f8dfb3d60a492c5298717ba59a085a855ad493d68e47398a3",
+    "registry.jsonl": "f6a2dc38fce5183fe369b99bfc7d65cf3f0026b9946951c35870ccdb585fda61",
+    "relations.jsonl": "682a3ea266d1ee2ca42fc6ad62e8c8735101a64cb578a29d88ba55e72495b4b8",
+    "requirements.jsonl": "af2b2d9bcd8c375f7f5b26bbd7d323c5cacdbac94193dfb16ea4dd25845e0226",
+    "semantic-ownership.jsonl": "82537f826a9e73fbe481a9145539de6ed5706df7063bb7e857e3514a51ef8600"
+  },
+  "negative_scope": "Does not ratify products, qualify providers, grant effect authority, own business/domain intent, collapse telemetry into health, or treat cost normalization as billing truth.",
+  "scope": "Horizontal intent compilation, data-product developer platform, runtime resource control, provider qualification, platform operations and FinOps allocation boundaries.",
+  "source_sha256": "cc491443c29b1d028a7eff47f7ba0100d398ea4f506e4dc62e9f1cbe85fb5af6",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

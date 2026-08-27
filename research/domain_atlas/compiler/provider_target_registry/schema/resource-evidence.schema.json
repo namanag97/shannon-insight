@@ -1,0 +1,98 @@
+{
+  "$id": "https://san.example/spec/provider-target/resource_evidence_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "binding_eligible": {
+      "type": "boolean"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_kind": {
+      "enum": [
+        "documented_limit",
+        "probed_limit",
+        "list_price",
+        "measured_cost",
+        "observed_usage",
+        "quota_observation"
+      ]
+    },
+    "method": {
+      "type": "string"
+    },
+    "metric": {
+      "type": "string"
+    },
+    "observed_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "recheck_triggers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "resource_evidence_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "retrieved_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "value": {
+      "type": [
+        "number",
+        "integer",
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "resource_evidence_id",
+    "edition",
+    "status",
+    "evidence_kind",
+    "subject_ref",
+    "metric",
+    "value",
+    "unit",
+    "scope",
+    "method",
+    "source_refs",
+    "observed_at",
+    "retrieved_at",
+    "binding_eligible",
+    "recheck_triggers"
+  ],
+  "title": "Resource, limit or cost evidence",
+  "type": "object"
+}

@@ -47,9 +47,9 @@ class StructuralExecutor(BaseExecutor):
 
     def _execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
     ) -> PhaseResult:
         """Run structural analyzers."""
         from ...insights.analyzers import get_default_analyzers

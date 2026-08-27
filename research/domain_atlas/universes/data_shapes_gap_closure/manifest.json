@@ -1,0 +1,41 @@
+{
+  "audit_input": "domain_atlas/universes/data_modality_gap_audit",
+  "bundle_id": "san.domain-atlas.data-shapes-gap-closure",
+  "canonical_input": "domain_atlas/universes/data_shapes",
+  "completeness_claim": false,
+  "coverage": {
+    "bounded_context_candidates": 33,
+    "canonical_adjudications": 33,
+    "compiler_requirements": 33,
+    "innovations_2021_2026": 22,
+    "invalid_inferences": 33,
+    "library_boundaries": 33,
+    "open_gaps": 20,
+    "operation_totality_cells": 99,
+    "primary_sources": 182,
+    "provider_qualification_requirements": 56,
+    "representation_crosswalks": 23,
+    "shape_type_constructs": 132
+  },
+  "edition": 1,
+  "files": [
+    "README.md",
+    "build_candidate.py",
+    "canonical-adjudications.jsonl",
+    "compiler-requirements.jsonl",
+    "context-candidates.jsonl",
+    "coverage-report.json",
+    "gaps.jsonl",
+    "innovations-2021-2026.jsonl",
+    "invalid-inferences.jsonl",
+    "library-boundaries.jsonl",
+    "operation-totality.jsonl",
+    "provider-qualifications.jsonl",
+    "representation-crosswalks.jsonl",
+    "shape-type-candidates.jsonl",
+    "sources.jsonl",
+    "validate_candidate.py"
+  ],
+  "generated_at": "2026-08-25",
+  "status": "candidate_extension_and_adjudication_bundle"
+}

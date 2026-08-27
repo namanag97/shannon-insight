@@ -1,0 +1,161 @@
+{
+  "artifact_refs": [
+    "artifact.example.pipeline_bundle"
+  ],
+  "bindings": [
+    "binding.example.source",
+    "binding.example.runtime",
+    "binding.example.sink"
+  ],
+  "decision_trace_refs": [
+    "trace.example.plan_decisions"
+  ],
+  "definition_edition": 1,
+  "definition_ref": "pipeline.example.customer_cdc",
+  "edition": 1,
+  "logical_graph_digest": "sha256:example-logical-graph-digest-not-a-real-artifact",
+  "physical_stages": [
+    {
+      "exchange_refs": [
+        "edge.example.snapshot_handoff",
+        "edge.example.cdc_handoff"
+      ],
+      "node_refs": [
+        "node.example.snapshot",
+        "node.example.cdc"
+      ],
+      "operator_offer_refs": [
+        "offer.example.source_connector"
+      ],
+      "parallelism": 2,
+      "stage_id": "stage.example.ingress"
+    },
+    {
+      "exchange_refs": [
+        "edge.example.handoff_normalize"
+      ],
+      "node_refs": [
+        "node.example.handoff",
+        "node.example.normalize"
+      ],
+      "operator_offer_refs": [
+        "offer.example.stateful_stream_runtime"
+      ],
+      "parallelism": 4,
+      "stage_id": "stage.example.compute"
+    },
+    {
+      "exchange_refs": [
+        "edge.example.normalize_sink"
+      ],
+      "node_refs": [
+        "node.example.sink"
+      ],
+      "operator_offer_refs": [
+        "offer.example.transactional_table_sink"
+      ],
+      "parallelism": 4,
+      "stage_id": "stage.example.commit"
+    }
+  ],
+  "plan_id": "plan.example.customer_cdc.generic_stream_v1",
+  "proof_results": [
+    {
+      "evidence_refs": [
+        "evidence.example.graph_lawful"
+      ],
+      "requirement_ref": "requirement.pipeline.graph_lawful",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.ports_compatible"
+      ],
+      "requirement_ref": "requirement.pipeline.ports_compatible",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.unbounded_progress"
+      ],
+      "requirement_ref": "requirement.pipeline.unbounded_progress",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.state_bounded"
+      ],
+      "requirement_ref": "requirement.pipeline.state_bounded",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.incremental_equivalence"
+      ],
+      "requirement_ref": "requirement.pipeline.incremental_equivalence",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.source_cut"
+      ],
+      "requirement_ref": "requirement.pipeline.source_cut",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.snapshot_change_complete"
+      ],
+      "requirement_ref": "requirement.pipeline.snapshot_change_complete",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.source_replay"
+      ],
+      "requirement_ref": "requirement.pipeline.source_replay",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.channel_finite"
+      ],
+      "requirement_ref": "requirement.pipeline.channel_finite",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.partition_laws"
+      ],
+      "requirement_ref": "requirement.pipeline.partition_laws",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.checkpoint_recovery"
+      ],
+      "requirement_ref": "requirement.pipeline.checkpoint_recovery",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.sink_effect"
+      ],
+      "requirement_ref": "requirement.pipeline.sink_effect",
+      "result": "proven"
+    },
+    {
+      "evidence_refs": [
+        "evidence.example.end_to_end_delivery"
+      ],
+      "requirement_ref": "requirement.pipeline.end_to_end_delivery",
+      "result": "proven"
+    }
+  ],
+  "resource_estimate": {
+    "network_bytes_per_second_upper": 104857600,
+    "parallelism": 4,
+    "state_bytes_upper": 10737418240
+  },
+  "status": "validated"
+}

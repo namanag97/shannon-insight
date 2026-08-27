@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "bearer-archetypes.jsonl": {
+      "bytes": 8555,
+      "sha256": "72f23bf8b31d1c8b04043a28b565a90e4135aff14445c2a4a7a5a210e6a17b12"
+    },
+    "extension-candidates.jsonl": {
+      "bytes": 6522,
+      "sha256": "a4c746c9698695aeefc82274a4b990f8282d1a9ce07323bc8d2bc0b6c33e5e47"
+    },
+    "member-partiality-uncertainty-routes.jsonl": {
+      "bytes": 100329,
+      "sha256": "dad0254ce136b1c91f94c144bd3c5f977a4108ae546bb64245c336c3474c22a2"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 8140,
+      "sha256": "27bf9136c2ae194d3cc4729d96edc71508046ea250274a02bf7a809b5190eafd"
+    },
+    "partiality-uncertainty-coordinate-ontology.json": {
+      "bytes": 5865,
+      "sha256": "f0923fa1f2fcfaa8d989af4d4ff8b57249cf9ddac63d72e79caad46ee0b28631"
+    },
+    "partiality-uncertainty-kernels.jsonl": {
+      "bytes": 69831,
+      "sha256": "469dbb5fdba9550395d1c502ac8806dcabc155adc0b7ee2362fb654e14606b7c"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 4521,
+      "sha256": "d94d96546f1bb9c3c7b7820056eabecaa1b9d625d5a0f88de65e9968c5d9ae90"
+    },
+    "summary.json": {
+      "bytes": 672,
+      "sha256": "fd8f20368c023e59f2a2b4864f2d6d2c97414c9b7b16497660e840f3f91c322b"
+    }
+  },
+  "manifest_id": "manifest.p3u.partiality-uncertainty-coordinate-ontology-and-rebase.v1"
+}

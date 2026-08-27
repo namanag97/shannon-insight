@@ -1,0 +1,225 @@
+{
+  "candidate_count": 1062,
+  "completion_claim": false,
+  "duplicate_label_review_queue": {
+    "apply backpressure": [
+      "operation.stream_window.apply_backpressure",
+      "operation.runtime_resource.apply_backpressure"
+    ]
+  },
+  "edition": 1,
+  "families": [
+    {
+      "candidate_count": 21,
+      "family_id": "operation.discovery_metadata",
+      "operation_kind": "validator",
+      "semantic_owner_candidate": "dat.source-discovery"
+    },
+    {
+      "candidate_count": 20,
+      "family_id": "operation.connector_session",
+      "operation_kind": "effect_intent",
+      "semantic_owner_candidate": "dat.connector-session"
+    },
+    {
+      "candidate_count": 30,
+      "family_id": "operation.snapshot_extract",
+      "operation_kind": "effectful_runtime",
+      "semantic_owner_candidate": "dat.source-read"
+    },
+    {
+      "candidate_count": 30,
+      "family_id": "operation.change_capture",
+      "operation_kind": "stateful_transform",
+      "semantic_owner_candidate": "dat.change-capture"
+    },
+    {
+      "candidate_count": 30,
+      "family_id": "operation.delivery_sink",
+      "operation_kind": "effectful_runtime",
+      "semantic_owner_candidate": "dat.sink-delivery"
+    },
+    {
+      "candidate_count": 31,
+      "family_id": "operation.framing_serialization",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.encoding"
+    },
+    {
+      "candidate_count": 23,
+      "family_id": "operation.compression_integrity",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.encoding-integrity"
+    },
+    {
+      "candidate_count": 30,
+      "family_id": "operation.schema_type",
+      "operation_kind": "validator",
+      "semantic_owner_candidate": "dat.schema-type"
+    },
+    {
+      "candidate_count": 31,
+      "family_id": "operation.quality_validation",
+      "operation_kind": "validator",
+      "semantic_owner_candidate": "dat.quality"
+    },
+    {
+      "candidate_count": 30,
+      "family_id": "operation.canonical_normalize",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.canonical"
+    },
+    {
+      "candidate_count": 38,
+      "family_id": "operation.relational_algebra",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.relational-algebra"
+    },
+    {
+      "candidate_count": 29,
+      "family_id": "operation.nested_shape",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.shape"
+    },
+    {
+      "candidate_count": 30,
+      "family_id": "operation.identity_entity",
+      "operation_kind": "stateful_transform",
+      "semantic_owner_candidate": "dat.identity-resolution"
+    },
+    {
+      "candidate_count": 28,
+      "family_id": "operation.reconciliation",
+      "operation_kind": "reducer",
+      "semantic_owner_candidate": "dat.reconciliation"
+    },
+    {
+      "candidate_count": 37,
+      "family_id": "operation.temporal",
+      "operation_kind": "stateful_transform",
+      "semantic_owner_candidate": "dat.temporal"
+    },
+    {
+      "candidate_count": 36,
+      "family_id": "operation.stream_window",
+      "operation_kind": "stateful_transform",
+      "semantic_owner_candidate": "dat.stream"
+    },
+    {
+      "candidate_count": 37,
+      "family_id": "operation.aggregation_measure",
+      "operation_kind": "reducer",
+      "semantic_owner_candidate": "dat.measure"
+    },
+    {
+      "candidate_count": 30,
+      "family_id": "operation.statistical_kernel",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.statistical-kernel"
+    },
+    {
+      "candidate_count": 31,
+      "family_id": "operation.sampling_partition",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.sampling"
+    },
+    {
+      "candidate_count": 28,
+      "family_id": "operation.graph",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.graph"
+    },
+    {
+      "candidate_count": 33,
+      "family_id": "operation.spatial",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.spatial"
+    },
+    {
+      "candidate_count": 31,
+      "family_id": "operation.content_signal",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.content-signal"
+    },
+    {
+      "candidate_count": 28,
+      "family_id": "operation.process_event",
+      "operation_kind": "stateful_transform",
+      "semantic_owner_candidate": "dat.process-event"
+    },
+    {
+      "candidate_count": 37,
+      "family_id": "operation.optimization_simulation",
+      "operation_kind": "planner",
+      "semantic_owner_candidate": "dat.decision-model"
+    },
+    {
+      "candidate_count": 27,
+      "family_id": "operation.object_storage",
+      "operation_kind": "effectful_runtime",
+      "semantic_owner_candidate": "dat.object-storage"
+    },
+    {
+      "candidate_count": 32,
+      "family_id": "operation.analytical_table",
+      "operation_kind": "effectful_runtime",
+      "semantic_owner_candidate": "dat.analytical-table"
+    },
+    {
+      "candidate_count": 28,
+      "family_id": "operation.index_search",
+      "operation_kind": "effectful_runtime",
+      "semantic_owner_candidate": "dat.index-search"
+    },
+    {
+      "candidate_count": 34,
+      "family_id": "operation.orchestration",
+      "operation_kind": "planner",
+      "semantic_owner_candidate": "dat.orchestration"
+    },
+    {
+      "candidate_count": 31,
+      "family_id": "operation.runtime_resource",
+      "operation_kind": "effect_intent",
+      "semantic_owner_candidate": "dat.resource-control"
+    },
+    {
+      "candidate_count": 32,
+      "family_id": "operation.transaction_consistency",
+      "operation_kind": "state_transition",
+      "semantic_owner_candidate": "dat.transaction"
+    },
+    {
+      "candidate_count": 30,
+      "family_id": "operation.lineage_provenance",
+      "operation_kind": "evidence_emitter",
+      "semantic_owner_candidate": "dat.lineage-provenance"
+    },
+    {
+      "candidate_count": 31,
+      "family_id": "operation.security_privacy",
+      "operation_kind": "effect_intent",
+      "semantic_owner_candidate": "dat.security-privacy"
+    },
+    {
+      "candidate_count": 31,
+      "family_id": "operation.governance_lifecycle",
+      "operation_kind": "state_transition",
+      "semantic_owner_candidate": "dat.governance"
+    },
+    {
+      "candidate_count": 28,
+      "family_id": "operation.version_migration",
+      "operation_kind": "planner",
+      "semantic_owner_candidate": "dat.compatibility-migration"
+    },
+    {
+      "candidate_count": 29,
+      "family_id": "operation.output_consumption",
+      "operation_kind": "pure_transform",
+      "semantic_owner_candidate": "dat.output"
+    }
+  ],
+  "family_count": 35,
+  "status": "hypothesis_queue"
+}

@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "bounded-context.json": {
+      "bytes": 2412,
+      "sha256": "5fb737f9c5cf7bda8b56cda7bdac33f53608a26e64b7d84b696316af955b8aac"
+    },
+    "expert-learning-profiles.jsonl": {
+      "bytes": 7811,
+      "sha256": "b9c4b86bbcce5d692533afad5bc506aab7288888e6179bb0ce8230b51729b531"
+    },
+    "geospatial-method-taxonomy.jsonl": {
+      "bytes": 13650,
+      "sha256": "97415538a359dbc565ceed271067d8671b08f900fc5f8213e07387001e00b2f9"
+    },
+    "innovation-records.jsonl": {
+      "bytes": 4583,
+      "sha256": "c3e39e1dec51b2fa683a160d2e3eafeb7319723a8a49abef8b71f36f1faf9f2c"
+    },
+    "library-axis-decision-candidates.jsonl": {
+      "bytes": 451610,
+      "sha256": "3ccd376010d5caa94260bc7444e1ffc4f20f67e8bd9f4605be30870eea639686"
+    },
+    "library-semantic-bindings.jsonl": {
+      "bytes": 30207,
+      "sha256": "5c3589c28d7cbf12fa34cc022d604fcc9399dfefbead09a30c1e6d57f01ea976"
+    },
+    "non-collapse-laws.jsonl": {
+      "bytes": 15889,
+      "sha256": "e7ed1a0488c767098f78ed313349a7e5a4d8adc29298c106f8974fdae6208abb"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 18478,
+      "sha256": "8af13d38d659014363e83bf675a89a7c21703efdcabdd7b5e47df3d47da8eaa6"
+    },
+    "product-capability-boundary-findings.jsonl": {
+      "bytes": 4871,
+      "sha256": "d6837400361f3644d38cd822cc77ecf3b0574b7e8ebe59cf14af79b46041f32b"
+    },
+    "semantic-modules.jsonl": {
+      "bytes": 17247,
+      "sha256": "2bb5ff0e9c896f0628830b967fdfb0d5b38994ce8c51b2337bf5e1e62ef795f4"
+    },
+    "summary.json": {
+      "bytes": 618,
+      "sha256": "0d689ccae501df7a33cff376e0a2942ba73b8ac3e1084e04f9faab1a7a5c9068"
+    }
+  },
+  "manifest_id": "manifest.geospatial-analytics-semantic-slice.v1"
+}

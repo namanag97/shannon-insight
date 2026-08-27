@@ -1,0 +1,87 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.statistical-inference-semantic-slice.v1",
+  "inside": [
+    "analysis question, target population, sampling frame/design and analysis population",
+    "estimand and editioned analysis specification",
+    "variable roles, data types, missingness and survey-weight semantics",
+    "probability/distribution and randomness semantics",
+    "descriptive/exploratory analysis",
+    "estimators, sampling distributions, intervals and resampling",
+    "tests, error/power, multiplicity and sequential evidence",
+    "regression/GLM, probabilistic inference, diagnostics and robustness",
+    "sensitivity, meta-analysis and bounded finding construction",
+    "reproducibility, replication and generalizability distinctions"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.measurement-metrology",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.causal-inference-semantic-slice",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.predictive-analytics-semantic-slice",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.signal-condition-semantic-slice",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.forecasting-workbench",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.quality-reconciliation",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.notebook-document",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.decision-effect-authority",
+      "relationship": "anti_corruption_layer"
+    }
+  ],
+  "outside": [
+    "domain-specific measurement ownership",
+    "causal identification and intervention semantics",
+    "predictive feature/scoring/model lifecycle",
+    "time-series, survival, spatial, process and graph semantics",
+    "data acquisition/storage/query execution",
+    "publication authority and operational decision/effect",
+    "LLM or agent authority"
+  ],
+  "published_language": [
+    "AnalysisQuestion",
+    "TargetPopulation",
+    "SamplingFrameEdition",
+    "SamplingDesign",
+    "AnalysisPopulation",
+    "Estimand",
+    "AnalysisSpecificationEdition",
+    "DataCut",
+    "VariableRole",
+    "MissingnessAssumption",
+    "SurveyWeightProfile",
+    "ProbabilityModel",
+    "EstimatorSpecification",
+    "Estimate",
+    "IntervalEstimate",
+    "HypothesisFamily",
+    "TestResult",
+    "MultiplicityPolicy",
+    "DiagnosticFinding",
+    "SensitivityResult",
+    "AnalyticalFinding",
+    "ReproducibilityReceipt"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can a declared question, population, design, data cut and assumptions be transformed into bounded estimates, uncertainty and findings without collapsing samples into populations, estimators into estimands, p-values into truth, reproducibility into replication or findings into decisions?"
+}

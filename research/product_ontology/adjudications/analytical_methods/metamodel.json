@@ -1,0 +1,240 @@
+{
+  "$id": "https://san.example/spec/analytical_methods-adjudication-metamodel-v0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "artifact_kinds": {
+    "architecture_pattern": {
+      "definition": "A reusable arrangement with no adoption, operation or semantic-owner identity.",
+      "kind": "architecture_pattern"
+    },
+    "capability": {
+      "definition": "Typed behavior required or offered by products and implementations.",
+      "kind": "capability"
+    },
+    "implementation": {
+      "definition": "A concrete project or component requiring qualification.",
+      "kind": "implementation"
+    },
+    "interface": {
+      "definition": "A versioned interaction contract without an operated promise.",
+      "kind": "interface"
+    },
+    "library_contract": {
+      "definition": "A pure or effect-bounded reusable implementation boundary.",
+      "kind": "library_contract"
+    },
+    "neighboring_product": {
+      "definition": "A product outside this slice whose authority is imported rather than re-owned.",
+      "kind": "neighboring_product"
+    },
+    "product": {
+      "definition": "An independently adopted and operated outcome promise that remains a candidate until ratified.",
+      "kind": "product"
+    },
+    "provider_class": {
+      "definition": "A class of operated offers, not a qualified occurrence.",
+      "kind": "provider_class"
+    },
+    "resource_class": {
+      "definition": "A finite runtime or persistence resource requirement.",
+      "kind": "resource_class"
+    },
+    "semantic_contract": {
+      "definition": "Owner of meanings, states, invariants and refusals.",
+      "kind": "semantic_contract"
+    },
+    "solution_pack": {
+      "definition": "A vertical composition carrying industry language, rules, sources and defaults.",
+      "kind": "solution_pack"
+    },
+    "standard": {
+      "definition": "An exact external edition that specializes an interface or semantic contract.",
+      "kind": "standard"
+    },
+    "suite": {
+      "definition": "Commercial or operational packaging of independently governed products.",
+      "kind": "suite"
+    }
+  },
+  "binding_phases": [
+    "authoring",
+    "compile_time",
+    "deployment_time",
+    "runtime",
+    "qualification_time"
+  ],
+  "contract_id": "contract.product_adjudication.analytical_methods.v0_1_0",
+  "edition": 1,
+  "non_collapse_laws": [
+    "business question != analytical practice != formal method != algorithm != kernel/library != execution environment != product",
+    "method family != independently adopted product",
+    "library or package != operated product",
+    "estimate != fact != forecast != causal effect != authorized decision",
+    "feasible or optimal solution != executable or authorized business action",
+    "anomaly score != incident, defect or root cause",
+    "recorded graph path != temporal order != derivation != causal path",
+    "event-log projection != source-system process truth",
+    "forecast origin, horizon, information cut and uncertainty are inseparable",
+    "spatial result without CRS, support and accuracy is incomplete",
+    "text index or token feature != document meaning or authoritative extraction",
+    "media detection without calibration and operating conditions is incomplete",
+    "simulation result != prediction and one stochastic run != distribution",
+    "suite packaging does not transfer method semantics or business authority",
+    "optional model, LLM or agent assistance does not create semantics, validation, evidence sufficiency, decision authority or effect rights",
+    "agent availability != completed deterministic work; parsing, typechecking, constraint solving, numerical execution, qualification, authorization and receipt verification remain explicit compiler obligations",
+    "graph analysis method family != graph analysis workbench product",
+    "source relation != graph projection != graph occurrence != workspace",
+    "ontology profile import != ontology authority",
+    "algorithm plan != run != result != publication",
+    "path != cause; centrality != authority; community != real-world identity",
+    "benchmark conformance != universal qualification or portability",
+    "published graph result != decision or effect",
+    "decision problem != mathematical model != solver provider != solve attempt != result != selected plan != authorized action != outcome",
+    "feasible != bounded-quality != proved-optimal",
+    "hard constraint != soft constraint != objective",
+    "heuristic quality != optimality proof",
+    "model or agent proposal != accepted formulation or authority",
+    "unknown != infeasible != unbounded != numerical failure != cancelled",
+    "EKG != temporal EKG",
+    "OCED core != OCEL 2.0 != serialization != provider occurrence",
+    "bottleneck association != causal constraint != intervention authority",
+    "case projection != object-centric truth",
+    "deviation != defect != root cause",
+    "discovered model != process truth",
+    "person != paper != contribution != method != representation != algorithm != implementation != dataset != standard",
+    "predictive model or agent proposal != deterministic process evidence",
+    "source event != generated state event",
+    "model or agent proposal != accepted simulation semantics or evidence",
+    "real system != digital twin != conceptual model != executable simulation model != provider artifact",
+    "run completion != valid output estimate != validation",
+    "scenario != forecast != observed future",
+    "scenario comparison != causal effect != optimized decision != authorized action",
+    "seed != random-stream partition != independence evidence != replay receipt",
+    "verification != calibration != validation != universal truth",
+    "base forecast != reconciled forecast != override proposal != approved forecast != publication",
+    "coherence != accuracy and historical best != future truth",
+    "model family != algorithm != fitted forecaster != provider != forecast run",
+    "model or agent proposal != accepted target method override evidence or authority",
+    "observation != forecast != plan != decision != action != outcome",
+    "point estimate != quantile != interval != sample path != distribution",
+    "scenario != forecast and forecast != fact",
+    "eligibility != assignment != treatment delivery != exposure != outcome",
+    "estimate != conclusion != selected decision != release != outcome",
+    "feature flag or delivery provider != experiment platform",
+    "hypothesis != prospective protocol != analysis plan",
+    "integrity finding != pause decision != stopping decision != release decision",
+    "model or agent proposal != protocol evidence authority or approval",
+    "randomization != assignment persistence != exposure capture",
+    "CRS != datum != coordinate epoch != axis order != dimensionality != support != accuracy",
+    "address or place match score != identity or jurisdiction truth",
+    "geometric proximity != network reachability",
+    "map or published result != decision != operational location effect",
+    "model or agent proposal != accepted spatial semantics evidence or authority",
+    "source geometry or raster != repaired transformed resampled interpolated or classified derivative",
+    "spatial association or hotspot != causal effect",
+    "territory != feature identity != geometry != layer != map != analytical result",
+    "actual != forecast != scenario != plan alternative != approved plan != release != execution != effect != outcome",
+    "approval != publication != delivery != execution",
+    "comparison != selection proposal != consensus != approval != commitment",
+    "goal != objective != preference != policy != hard constraint != resource capacity",
+    "replan != mutation of historical plan"
+  ],
+  "record_kinds": {
+    "artifact": {
+      "identity_key": "artifact_id",
+      "source_section": "artifacts"
+    },
+    "artifact_kind_definition": {
+      "identity_key": "kind",
+      "source_section": "artifact_kinds"
+    },
+    "boundary_decision": {
+      "identity_key": "decision_id",
+      "source_section": "boundary_decisions"
+    },
+    "capability_offer": {
+      "identity_key": "offer_id",
+      "source_section": "offers"
+    },
+    "capability_requirement": {
+      "identity_key": "requirement_id",
+      "source_section": "requirements"
+    },
+    "evidence_source": {
+      "identity_key": "source_id",
+      "source_section": "sources"
+    },
+    "legacy_crosswalk": {
+      "identity_key": "legacy_ref",
+      "source_section": "crosswalks"
+    },
+    "library_contract": {
+      "identity_key": "library_id",
+      "source_section": "libraries"
+    },
+    "negative_test": {
+      "identity_key": "test_id",
+      "source_section": "negative_tests"
+    },
+    "product_ddd_dossier": {
+      "identity_key": "dossier_id",
+      "source_section": "ddd_dossiers"
+    },
+    "product_library_binding_gap": {
+      "identity_key": "gap_id",
+      "source_section": "binding_gaps"
+    },
+    "product_library_binding_map": {
+      "identity_key": "binding_map_id",
+      "source_section": "binding_maps"
+    },
+    "relation": {
+      "identity_key": "relation_id",
+      "source_section": "relations"
+    },
+    "semantic_ownership": {
+      "identity_key": "meaning_id",
+      "source_section": "ownership"
+    }
+  },
+  "relation_predicates": [
+    "packaged_as",
+    "packages",
+    "offers",
+    "requires",
+    "governed_by",
+    "specializes",
+    "implements",
+    "realizes"
+  ],
+  "split_test_axes": [
+    "user",
+    "job",
+    "adoption",
+    "semantics",
+    "authority",
+    "lifecycle",
+    "operation",
+    "economics",
+    "interface",
+    "market_evidence"
+  ],
+  "split_test_verdicts": {
+    "defer": [
+      7,
+      12
+    ],
+    "merge_or_reclassify": [
+      0,
+      6
+    ],
+    "presumptive_product": [
+      13,
+      16
+    ],
+    "strong_product_candidate": [
+      17,
+      20
+    ]
+  },
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

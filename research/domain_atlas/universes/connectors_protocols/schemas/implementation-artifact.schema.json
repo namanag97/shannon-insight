@@ -1,0 +1,120 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/artifact_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "enum": [
+        "reference_fixture",
+        "library",
+        "sidecar",
+        "service",
+        "runtime_plugin",
+        "generated_adapter"
+      ]
+    },
+    "binding_eligible": {
+      "type": "boolean"
+    },
+    "build_identity": {
+      "type": "object"
+    },
+    "conformance_receipt_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 0,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "connector_class_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "declared_capability_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "dependency_lock": {
+      "type": "object"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "license_supply_chain": {
+      "type": "object"
+    },
+    "name": {
+      "type": "string"
+    },
+    "protocol_profiles": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "qualified_capability_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 0,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "security_posture": {
+      "type": "object"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    },
+    "version_lifecycle": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "edition",
+    "status",
+    "name",
+    "artifact_kind",
+    "build_identity",
+    "connector_class_refs",
+    "protocol_profiles",
+    "declared_capability_refs",
+    "qualified_capability_refs",
+    "dependency_lock",
+    "license_supply_chain",
+    "security_posture",
+    "version_lifecycle",
+    "conformance_receipt_refs",
+    "binding_eligible"
+  ],
+  "title": "Connector implementation artifact",
+  "type": "object"
+}

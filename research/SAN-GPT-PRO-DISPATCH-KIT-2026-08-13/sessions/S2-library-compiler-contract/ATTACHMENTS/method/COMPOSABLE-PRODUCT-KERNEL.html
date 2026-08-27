@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAN Product Composition Architecture</title>
+<style>
+:root{
+  --ink:#16181d; --ink-2:#3d434e; --ink-3:#6b7280;
+  --paper:#fbfaf8; --panel:#fff; --rule:#e2ddd5; --rule-2:#cfc8bd;
+  --accent:#2f4a7a; --accent-soft:#eef2f8;
+  --block:#8f2d2d; --block-soft:#fdf1f0;
+  --warn:#8a5a12; --warn-soft:#fdf6e8;
+  --ok:#2f5d3f; --ok-soft:#eef5ef;
+  --new:#5a3a86; --new-soft:#f4f0fa;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{display:grid;grid-template-columns:290px minmax(0,1fr);max-width:1560px;margin:0 auto}
+nav{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;border-right:1px solid var(--rule);padding:24px 18px 60px;background:var(--panel)}
+nav .brand{font-weight:700;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+nav .sub{font-size:11.5px;color:var(--ink-3);margin:2px 0 18px;line-height:1.4}
+nav ol{list-style:none;margin:0;padding:0}
+nav a{display:block;text-decoration:none;color:var(--ink-2);font-size:13px;padding:3.5px 8px;border-radius:4px}
+nav a:hover{background:var(--accent-soft);color:var(--accent)}
+nav .sec>a{font-weight:600;color:var(--ink)}
+nav .sub-list{list-style:none;padding:0 0 4px 12px;margin:0}
+nav .sub-list a{font-size:12px;color:var(--ink-3);padding:2px 8px}
+main{padding:44px 54px 140px;max-width:1100px}
+header.doc{border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:28px}
+h1{font-size:31px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+.edition{font-size:13px;color:var(--ink-3);font-variant:tabular-nums}
+dl.meta{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;margin:20px 0 0;font-size:14.5px}
+dl.meta dt{font-weight:650;color:var(--ink-2)}
+dl.meta dd{margin:0}
+h2{font-size:22px;margin:52px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--rule-2);letter-spacing:-.01em;scroll-margin-top:16px}
+h3{font-size:16.5px;margin:30px 0 10px;scroll-margin-top:16px}
+h4{font-size:13.5px;margin:20px 0 7px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.05em}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 13px;padding-left:22px}
+li{margin:0 0 5px}
+code{font:13px/1.5 var(--mono);background:#f2efe9;padding:1px 5px;border-radius:3px;color:#3a2f28}
+pre{background:#1e2128;color:#dfe3ea;padding:15px 18px;border-radius:6px;overflow-x:auto;margin:0 0 16px;font:12.5px/1.62 var(--mono)}
+pre code{background:none;padding:0;color:inherit;font-size:inherit}
+.kw{color:#c98fd4}.ty{color:#7fc4e8}.st{color:#c3d98a}.cm{color:#7f8899;font-style:italic}.at{color:#e5a663}
+table{border-collapse:collapse;width:100%;margin:0 0 18px;font-size:13.4px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{background:#f4f1ec;font-weight:650;font-size:12.3px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);border-bottom:1.5px solid var(--rule-2)}
+tbody tr:hover{background:#faf8f5}
+td code{font-size:12.2px}
+.num{font-variant:tabular-nums;white-space:nowrap}
+.norm{font-weight:700;font-size:.92em}
+.id{font:12.4px var(--mono);color:var(--accent);font-weight:600;white-space:nowrap}
+.nu{display:inline-block;font:10px var(--sans);font-weight:700;letter-spacing:.06em;color:var(--new);background:var(--new-soft);border:1px solid #d9cdea;padding:0 5px;border-radius:3px;vertical-align:2px}
+.fx{display:inline-block;font:10px var(--sans);font-weight:700;letter-spacing:.06em;color:var(--block);background:var(--block-soft);border:1px solid #eccfcf;padding:0 5px;border-radius:3px;vertical-align:2px}
+.box{border-left:3px solid;padding:13px 17px;margin:0 0 18px;border-radius:0 5px 5px 0;font-size:14.2px}
+.box p:last-child,.box ol:last-child,.box ul:last-child{margin-bottom:0}
+.box .lbl{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;margin-bottom:5px}
+.block{background:var(--block-soft);border-color:var(--block)}.block .lbl{color:var(--block)}
+.ruling{background:var(--accent-soft);border-color:var(--accent)}.ruling .lbl{color:var(--accent)}
+.warnb{background:var(--warn-soft);border-color:var(--warn)}.warnb .lbl{color:var(--warn)}
+.newb{background:var(--new-soft);border-color:var(--new)}.newb .lbl{color:var(--new)}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:3px;vertical-align:1px}
+.p-block{background:var(--block);color:#fff}.p-owed{background:var(--warn);color:#fff}
+.p-ok{background:var(--ok);color:#fff}.p-spec{background:var(--accent);color:#fff}.p-new{background:var(--new);color:#fff}
+.ascii{background:var(--panel);border:1px solid var(--rule-2);padding:14px 16px;border-radius:5px;overflow-x:auto;font:12px/1.45 var(--mono);color:var(--ink-2);margin:0 0 18px;white-space:pre}
+.count-strip{display:flex;flex-wrap:wrap;border:1px solid var(--rule-2);border-radius:5px;overflow:hidden;margin:0 0 20px}
+.count-strip div{flex:1 1 92px;padding:10px 12px;border-right:1px solid var(--rule);background:var(--panel)}
+.count-strip div:last-child{border-right:none}
+.count-strip b{display:block;font-size:20px;font-variant:tabular-nums;line-height:1.1;color:var(--accent)}
+.count-strip span{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3)}
+footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3)}
+footer a{color:var(--accent)}
+@media (max-width:1000px){.wrap{grid-template-columns:1fr}nav{position:static;height:auto;border-right:none;border-bottom:1px solid var(--rule)}main{padding:28px 20px 80px}}
+@media print{nav{display:none}.wrap{display:block}main{padding:0;max-width:none}pre{background:#f4f4f4;color:#111;border:1px solid #ccc}.kw,.ty,.st,.cm,.at{color:#111}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="brand">SAN Platform</div>
+  <div class="sub">Product Composition<br>Architecture · edition 3<br>constitution → application → deployment</div>
+  <ol>
+    <li class="sec"><a href="#s0">0. The correction</a></li>
+    <li class="sec"><a href="#s0b">0b. Constitution compiler</a></li>
+    <li class="sec"><a href="#s0c">0c. Closures and editions</a></li>
+    <li class="sec"><a href="#s0d">0d. Current conformance</a></li>
+    <li class="sec"><a href="#s0e">0e. Library ref + data</a></li>
+    <li class="sec"><a href="#s0f">0f. Post-draft refinement</a></li>
+    <div style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 4px;padding-left:8px">I · Structure</div>
+    <li class="sec"><a href="#s1">1. Five dimensions</a></li>
+    <li class="sec"><a href="#s2">2. The package ladder</a></li>
+    <li class="sec"><a href="#s3">3. One package algebra</a></li>
+    <li class="sec"><a href="#s4">4. The family contract</a></li>
+    <li class="sec"><a href="#s5">5. Species · profile · instance</a></li>
+    <div style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 4px;padding-left:8px">II · Algebra</div>
+    <li class="sec"><a href="#s6">6. The decision algebra</a></li>
+    <li class="sec"><a href="#s7">7. Merge algebras</a></li>
+    <li class="sec"><a href="#s8">8. Encapsulation &amp; re-export</a></li>
+    <li class="sec"><a href="#s9">9. Five contract modes</a></li>
+    <li class="sec"><a href="#s10">10. Binding rules</a></li>
+    <div style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 4px;padding-left:8px">III · Compiler</div>
+    <li class="sec"><a href="#s11">11. Coverage audit</a></li>
+    <li class="sec"><a href="#s12">12. Contribution discipline</a></li>
+    <li class="sec"><a href="#s13">13. Four products</a></li>
+    <li class="sec"><a href="#s14">14. Finite construction</a></li>
+    <li class="sec"><a href="#s15">15. Resolvers &amp; binder</a></li>
+    <div style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 4px;padding-left:8px">IV · Worked</div>
+    <li class="sec"><a href="#s16">16. Supplier Onboarding</a></li>
+    <li class="sec"><a href="#s17">17. <code>approvable</code></a></li>
+    <li class="sec"><a href="#s18">18. Fabric &amp; Host</a></li>
+    <li class="sec"><a href="#s19">19. The runtime chain</a></li>
+    <div style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 4px;padding-left:8px">V · Realization</div>
+    <li class="sec"><a href="#s20">20. Artifacts &amp; linking</a></li>
+    <li class="sec"><a href="#s21">21. Repository packaging</a></li>
+    <li class="sec"><a href="#s22">22. The boundary test</a></li>
+    <li class="sec"><a href="#s23">23. Eighteen compiler laws</a></li>
+    <li class="sec"><a href="#s24">24. The build program</a></li>
+    <li class="sec"><a href="#s25">25. The product equation</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<header class="doc">
+  <h1>SAN Product Composition Architecture</h1>
+  <div class="edition">Architecture · edition 3 · 2026-08-06 · constitution → application → deployment</div>
+  <div class="box note"><span class="lbl">Shelf</span>
+    <a href="PURE-LIBRARY-CONSTITUTION.html">Constitution</a> ·
+    <a href="architecture/domain-libraries/pure-library-rules.md">R01–R44</a> ·
+    <a href="SOFTWARE-DOMAIN-LIBRARY-METHOD.html">Method</a> ·
+    <a href="../toolkit/FAMILY-SPECS.md">FAMILY-SPECS ledger (all family specs)</a> ·
+    <a href="../toolkit/reference/docs/REFERENCE-FAMILY-SPEC.html">Reference (in flight)</a> ·
+    <a href="PROGRAM.html">Program dashboard</a></div>
+  <dl class="meta">
+    <dt>Status</dt><dd><span class="pill p-owed">Derived architecture</span> This document explains the compiler/product architecture and has no independent library-rule authority. “Composable Product Kernel” is a historical working name, not one executable, crate, runtime kernel or replacement Factory.</dd>
+    <dt>Relationship</dt><dd>The current shelf is discovered from the indexed normative HTML sources rather than a frozen count. Sovereign families are leaves of this structure; <strong>Organization is explicitly classified as a composed pack over those leaves</strong>, not another leaf.</dd>
+    <dt>Governing rules</dt><dd><code>docs/PURE-LIBRARY-CONSTITUTION.html</code>. Where this document is silent, that governs; §0.3 records the edition-2 separation ruling.</dd>
+    <dt>The question</dt><dd><em>How do we partition the enterprise-software universe into libraries and products that are independently correct, expose every lawful decision, compose without private coupling, and compile into one coherent application?</em></dd>
+    <dt>The answer, in one line</dt><dd>A pure Constitution Compiler seals the legal categories, arrows and proof vocabulary; invariant-bearing family libraries contribute typed descriptors under that edition; an application compiler resolves products, decisions, contracts and artifacts into a provider-neutral <code>AppRelease</code>; read-only auditors prove obligations; a separate deployment binder selects certified runtime and provider offers.</dd>
+  </dl>
+  <p style="margin-top:16px">All rule words and exact shared types in this document are explanatory quotations or projections of <a href="PURE-LIBRARY-CONSTITUTION.html"><code>PURE-LIBRARY-CONSTITUTION.html</code></a>. That file is the single normative HTML authority for all reusable libraries. This document may not add, weaken or fork a library rule.</p>
+</header>
+
+<div class="box block">
+  <span class="lbl">Edition 3 source-authority and separation ruling</span>
+  <p>The old SAN toolkit is deprecated evidence, explicitly including <code>toolkit/factory/**</code>, <code>toolkit/foundation/**</code>, old chassis/kernel/platform families and their local descriptors, registries, compilers, IRs and envelopes. This architecture <span class="norm">MUST NOT</span> import, wrap, extend or place canonical code in those trees. Recovered semantics require a symbol-level disposition and fresh proof.</p>
+  <p>The composition architecture has five separately owned boundaries, not one god-compiler: <strong>(0)</strong> a pure constitutional metamodel, <strong>(1)</strong> a Constitution Compiler, <strong>(2)</strong> an application compiler/linker, <strong>(3)</strong> obligation and coverage auditors, and <strong>(4)</strong> a deployment binder. The Constitution Compiler defines what later compilers may say; it does not compile applications. Runtime/provider binding is not part of a pure family and not part of application semantic closure.</p>
+  <p>The 24 concern axes are review lenses over explicit obligations. They are neither domain boundaries, mandatory fields, compiler passes nor an executable weave. A lens may reveal a missing contract; it may not mutate an artifact graph.</p>
+</div>
+<div class="ascii">   GREENFIELD OWNERSHIP — FIVE SEPARATE BOUNDARIES
+
+   0  CONSTITUTION METAMODEL         pure typed records and laws
+                         │ explicit constitutional source
+                         ▼
+   1  CONSTITUTION COMPILER          → immutable ConstitutionEdition
+                         │ defines legal categories, arrows and proofs
+   Family Rust libraries │ contribute native semantics + typed descriptors
+                         ▼
+   2  APPLICATION COMPILER/LINKER    → provider-neutral AppRelease
+                         │
+             ┌───────────┴───────────┐
+             ▼                       ▼
+   3  COVERAGE AUDITORS         sealed semantic application graph
+      read-only proofs/gaps            │
+                                      ▼
+   4  DEPLOYMENT BINDER          runtime/resource/provider offers
+      separate lifecycle         → deployment-specific DeploymentPlan
+
+   Running state is reported truth, not a fourth compiled semantic product.
+
+   FORBIDDEN: Constitution Compiler creating app artifacts
+              family-local application compiler · old Factory dependency
+              coverage pass mutating meaning · provider value in AppRelease</div>
+
+<div class="count-strip">
+  <div><b>7</b><span>constitutional maps</span></div>
+  <div><b>9</b><span>product layers</span></div>
+  <div><b>5</b><span>contract modes</span></div>
+  <div><b>11</b><span>merge algebras</span></div>
+  <div><b>24</b><span>concern axes</span></div>
+  <div><b>3</b><span>compiled editions</span></div>
+  <div><b>4</b><span>solvers</span></div>
+  <div><b>18</b><span>compiler laws</span></div>
+  <div><b>12</b><span>build steps</span></div>
+  <div><b>4</b><span>coverage statuses</span></div>
+  <div><b>8</b><span>decision classes</span></div>
+  <div><b>1</b><span>proof product</span></div>
+</div>
+
+<!-- ============ 0 ============ -->
+<h2 id="s0">0. The correction</h2>
+<h3>0.1 The question that was not being asked</h3>
+<div class="box block">
+  <span class="lbl">YAML is irrelevant to the architectural problem</span>
+  <p>YAML, Rust syntax, a visual editor and an API are <strong>authoring carriers</strong>. Choosing among them answers nothing. The root methodological error of the earlier work was designing a <em>grammar</em> before enumerating everything the grammar had to cover — and declaring "capability packs plus an IR" while leaving the module system, composition semantics, decision algebra, runtime linking and recursive product structure undefined repeats that error one level up.</p>
+</div>
+<div class="ascii">   WHAT "A BAG OF LIBRARIES" LEAVES UNDEFINED
+
+   ┌──────────────────────────────────────────────────────────────────┐
+   │  1  A recursive module and product system                        │
+   │  2  A typed decision and customization algebra                   │
+   │  3  A typed import/export contract system                        │
+   │  4  An artifact-construction algebra                             │
+   │  5  Read-only concern coverage and obligation audits             │
+   │  6  A deterministic constraint and conflict solver               │
+   │  7  A separately staged runtime contract binder                  │
+   │  8  A separately staged physical-provider binder                 │
+   │  9  A completeness and proof system                              │
+   └──────────────────────────────────────────────────────────────────┘
+
+   Without these, "prebuilt libraries + references + customization"
+   is a slogan. They do not form one compiler: semantic closure, audit and
+   deployment binding have different inputs, authorities and lifecycles.</div>
+
+<h3>0.2 Where the family shelf fits</h3>
+<div class="ascii">   THIS DOCUMENT                          THE FAMILY SPECIFICATIONS
+   ─────────────                          ─────────────────────────
+
+   L7  Solution
+   L6  Application                        Each family spec answers:
+   L5  Domain module                        · one sovereign question
+   L4  Archetype                            · its owned and excluded language
+   L3  Capability                         Organization composed pack
+   L2  Species / profile                    · its crates and proofs
+   L1  SOVEREIGN FAMILY  ◀────────────────  substrate families · Identifier
+   L0  Invariant kernel                     Instant · Causality · Bitemporality
+                                            Path · Namespace · Locator · Calendar
+
+   The family specs prove each leaf is CORRECT.
+   This document defines how leaves COMPOSE into a product.
+
+   Neither substitutes for the other. A perfect leaf with no composition
+   algebra is a library nobody can assemble; a composition algebra over
+   unproven leaves assembles nonsense deterministically.</div>
+
+<h3 id="s0-3">0.3 Alignment with the Constitution</h3>
+<table>
+<thead><tr><th style="width:32%">This document</th><th style="width:30%">Constitution</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Passes return contributions; no pass mutates arbitrary IR (§12)</td><td>§7.8 artifact-class rule; P8 families emit requirements, not mutations</td><td><span class="pill p-ok">aligned</span> — and §12 is the mechanism §7.8 needs</td></tr>
+<tr><td>Every decision names owner, phase, merge algebra, migration effect (§6)</td><td>§6.2 three coordinates; §6.4 <code>MergeContract</code> with a per-key partial order</td><td><span class="pill p-ok">aligned</span> — §7 supplies the eleven algebras the Constitution calls archetypes</td></tr>
+<tr><td>Hidden child decisions must be fixed, assigned, defaulted, derived, delegated or deferred (§8)</td><td>§9.1 "a composite MUST NOT silently drop a child decision"</td><td><span class="pill p-ok">aligned</span> — <em>encapsulation cannot mean disappearance</em></td></tr>
+<tr><td>Logical packages ≠ Rust crates (§21)</td><td>§11 modules first; no crate list is a template</td><td><span class="pill p-ok">aligned</span></td></tr>
+<tr><td>One driver per execution algebra (§20)</td><td>§7.6, and the retraction of "one kernel runs every <code>decide</code>/<code>fold</code>"</td><td><span class="pill p-ok">aligned</span></td></tr>
+<tr><td><strong>Read-only coverage</strong> across applicable concern lenses (§11)</td><td>R01–R44 and explicit proof obligations</td><td><span class="pill p-ok">aligned</span> — axes discover gaps but never author or mutate meaning</td></tr>
+</tbody>
+</table>
+<div class="box warnb">
+  <span class="lbl">The superseded weaving model</span>
+  <p><em>Weaving</em> is aspect-oriented vocabulary, and aspect systems have a documented failure mode: <strong>pointcut fragility</strong> — a change in base code silently causes join points to enter or leave an aspect's scope. A large completion matrix is not comprehensible by inspection, and per-cell provenance explains one result without making the whole explicable.</p>
+  <p><strong>The resolution is stricter than pass discipline.</strong> A family or capability emits <em>typed contributions</em> — declare artifact, require contract, offer contract, define or assign a decision, impose a constraint, require an obligation, add a proof obligation, or open a gap — and <strong>never obtains mutable access to an application graph</strong>. An artifact constructor may derive only artifacts whose identity formula and output kind it owns. Coverage auditors are read-only. Target lowerers own only their target representations. The 24-axis matrix is a <em>derived audit view</em>, not the executable model.</p>
+  <p>Store artifacts, decisions, contracts, constraints, obligations, derivations, proofs and gaps. <em>Derive</em> coverage. Not the other way round.</p>
+</div>
+
+<h2 id="s0b">0b. Phase 1 — the Constitution Compiler</h2>
+<div class="box ruling">
+  <span class="lbl">The missing prerequisite</span>
+  <p>Phase 1 builds a deterministic typed <strong>Constitution Compiler</strong>. It compiles the platform's categories, ownership claims, legal arrows, contract modes, decision algebras, laws, proof obligations, mechanisms, provider capabilities and product-layer rules into one immutable <code>ConstitutionEdition</code>. That edition defines what later application and deployment compilers are allowed to say.</p>
+  <p>The Constitution Compiler is a platform-control product. It is not a sovereign software-domain family, application compiler, runtime, package manager, provider registry or replacement for native Rust family APIs.</p>
+</div>
+<div class="ascii">   THREE LEVELS — NEVER ONE SELF-DESCRIBING METAMODEL
+
+   RUST METAMODEL
+      closed native types + pure validation/linking algorithms
+                         │ admits
+                         ▼
+   SAN CONSTITUTION SOURCE
+      explicit catalog of maps, laws, contracts and ownership rulings
+                         │ compile
+                         ▼
+   CONSTITUTION EDITION
+      immutable validated indices + proofs + gaps + coverage projection
+      + semantic digest + classified delta from the previous edition</div>
+<h3>0b.1 Seven constitutional maps</h3>
+<table>
+<thead><tr><th style="width:12%">Map</th><th style="width:30%">Owns</th><th>Does not imply</th></tr></thead>
+<tbody>
+<tr><td class="id">M0</td><td>foundation vocabularies and universal contracts</td><td>one universal god-library or full Identifier dependency for bootstrap symbols</td></tr>
+<tr><td class="id">M1</td><td>application artifact-kind grammar</td><td>application instances or generated SQL/UI</td></tr>
+<tr><td class="id">M2</td><td>24 obligation axes and their classes</td><td>24 families, 24 compiler passes or authored coverage cells</td></tr>
+<tr><td class="id">M3</td><td>sovereign contexts and semantic ownership</td><td>one context per crate, service or database</td></tr>
+<tr><td class="id">M4</td><td>generic execution mechanisms and their guarantees</td><td>provider selection or semantic ownership</td></tr>
+<tr><td class="id">M5</td><td>physical providers and operating compositions</td><td>provider values in portable family or application semantics</td></tr>
+<tr><td class="id">M6</td><td>product ladder and legal downward composition</td><td>Phase-1 archetype/capability expansion</td></tr>
+</tbody>
+</table>
+<p>These maps are orthogonal typed graphs, not one hierarchy. The obligation is the ownership atom; an <code>Artifact × Axis</code> cell is only a derived report over its obligations. Coverage auditors may report <code>Satisfied</code>, <code>NotApplicable(reason)</code>, <code>Contested</code> or <code>Gap</code>; they may not author meaning.</p>
+<div class="ascii">   ARTIFACT SOURCE CLASSES — CLOSED PER CONSTITUTION EDITION
+
+   PortableSemantic         plan · contract · policy · requirement
+   InstitutionalEvent       accepted command · committed fact · grant · decision
+   FoldedInstitutionalState projection of authoritative events
+   RuntimeObservation       health · usage · reported state · telemetry
+   BoundProof               environment/reference/provider satisfaction evidence
+   GeneratedTarget          SQL · UI · API · topic · manifest · SDK
+
+   LEGAL DIRECTION EXAMPLES
+     event → folded state                    yes
+     portable requirement → bound proof      yes, through deployment binding
+     observation → portable semantic plan    no
+     bound proof → AppRelease identity        no
+     generated target → semantic source       no</div>
+<h3>0b.2 Phase-1 scope boundary</h3>
+<table>
+<thead><tr><th style="width:50%">MUST produce</th><th>MUST NOT contain</th></tr></thead>
+<tbody><tr><td>canonical metamodel · M0–M6 typed data · typed arrows · deterministic batch compiler · structured diagnostics · contract linker · three-algebra decision checker · ownership/stewardship checker · mechanism/provider sufficiency · obligation model and derived coverage · law/proof/gap closure · evolution classifier · canonical edition/digest · generated maps/counts/docs · explain graph · explicit workspace inventory</td><td>application declaration grammar · application artifact expansion/lowering · SQL/UI generation · runtime engines · stores or network listeners · provider SDKs · deployment execution · tenant business data · dynamic discovery · executable extensions · full package version solving</td></tr></tbody>
+</table>
+<h3>0b.3 Pure authority and explicit registration</h3>
+<pre><code><span class="kw">pub struct</span> ConstitutionSource {
+    identity: ConstitutionIdentity,
+    semantic_edition: SemanticEdition,
+    foundation_vocabularies: BTreeMap&lt;VocabularyIdentity, VocabularySpec&gt;,
+    artifact_kinds: BTreeMap&lt;ArtifactKindIdentity, ArtifactKindSpec&gt;,
+    artifact_source_classes: BTreeMap&lt;ArtifactSourceClassIdentity, ArtifactSourceClassSpec&gt;,
+    epistemic_policies: BTreeMap&lt;EpistemicPolicyIdentity, EpistemicPolicySpec&gt;,
+    obligation_axes: BTreeMap&lt;ObligationAxisIdentity, ObligationAxisSpec&gt;,
+    contexts: BTreeMap&lt;ContextIdentity, ContextSpec&gt;,
+    contracts: ContractSource,
+    decision_authorities: BTreeMap&lt;DecisionAuthorityIdentity, DecisionAuthoritySpec&gt;,
+    resolution_modes: BTreeMap&lt;ResolutionModeIdentity, ResolutionModeSpec&gt;,
+    binding_phases: BTreeMap&lt;BindingPhaseIdentity, BindingPhaseSpec&gt;,
+    mechanisms: BTreeMap&lt;MechanismIdentity, MechanismSpec&gt;,
+    provider_capabilities: BTreeMap&lt;ProviderCapabilityIdentity, ProviderCapabilitySpec&gt;,
+    product_layers: BTreeMap&lt;ProductLayerIdentity, ProductLayerSpec&gt;,
+    laws: BTreeMap&lt;LawIdentity, LawSpec&gt;,
+    proof_obligations: BTreeMap&lt;ProofObligationIdentity, ProofObligationSpec&gt;,
+    gaps: BTreeMap&lt;GapIdentity, GapSpec&gt;,
+    evolution: ConstitutionEvolutionSpec,
+}</code></pre>
+<pre><code><span class="kw">pub fn</span> compile_constitution(
+    source: &amp;ConstitutionSource,
+    previous: Option&lt;&amp;ConstitutionEdition&gt;,
+    evidence: &amp;ProofInventory,
+    policy: &amp;CompilePolicy,
+) -&gt; Result&lt;ConstitutionEdition, DiagnosticSet&gt;;</code></pre>
+<p>The core performs no file/network I/O, clock read, environment read, Cargo query, random-ID generation or global registration. A CLI gathers explicit inputs. The authoritative catalog is explicitly enumerated; <code>linkme</code>, <code>inventory</code>, linker sections and “whatever the binary happened to include” are forbidden as constitutional authority. A proc macro may generate DTO/schema/span boilerplate but may not invent owners, decisions, defaults or implicit registration.</p>
+<div class="box ruling"><span class="lbl">Shared-contract admission is fail-closed</span><p>The compiler admits exactly one owner header per contract identity and exact semantic edition. A consumer edge must name its declaring consumer and cite an existing owner header; the owner never authors a mirror export edge. The compiler rejects payload shadows, owner disagreement, illegal artifact-source flow, epistemic strengthening without adjudication, phase inversion, obligation weakening, scope/cardinality incompatibility, missing or ambiguous offers, bare-boolean satisfaction and dependency cycles. Export views, seam matrices and tier diagrams are generated only after these checks.</p></div>
+<div class="ascii">   FIXED, TYPED STAGES
+
+   admit → index → classify → build graphs → verify ownership
+     → link contracts → close decisions → close mechanisms
+     → close compositions → close proofs/gaps → derive coverage
+     → classify evolution → canonicalize and seal
+
+   Each stage consumes an admitted prior-stage value and returns a new value.
+   No dynamic pass registry. No arbitrary mutable IR. Batch output is authority;
+   an incremental shell may cache queries only if output is byte-identical.</div>
+
+<h2 id="s0c">0c. Seven closures and three compiled editions</h2>
+<div class="ascii">   1 PRODUCT CLOSURE       product references and legal containment
+   2 SEMANTIC CLOSURE      family decisions + semantic contracts
+   3 ARTIFACT CLOSURE      required application artifacts exist
+   4 OBLIGATION CLOSURE    each applicable obligation is discharged or a gap
+   5 EXECUTION CLOSURE     each state/effect requirement has a mechanism
+   6 PHYSICAL CLOSURE      mechanisms bind certified providers in an environment
+   7 PROOF CLOSURE         laws and bindings carry required evidence
+
+   ConstitutionEdition     legal language, maps, arrows and proof vocabulary
+             │
+             ▼
+   AppRelease              portable application meaning; provider-neutral
+             │
+             ▼
+   DeploymentPlan          environment/provider-bound; no tenant business data
+             │ reconcile
+             ▼
+   Reported running state  observation, not a compiled semantic edition</div>
+<p>The Constitution Compiler validates the categories and relations used by all seven closures; it does not perform the application closures themselves. The application compiler consumes one exact <code>ConstitutionEdition</code>. The deployment binder consumes one exact <code>AppRelease</code>. A runtime agent reconciles a signed <code>DeploymentPlan</code> and reports observations.</p>
+<h3>0c.1 Constitutional arrow laws</h3>
+<div class="ascii">   classification totality         one primary architectural class
+   context admission               complete human-ratified boundary evidence
+   obligation ownership totality   exactly one accountable owner per obligation
+   semantic dependency acyclicity  cycles break through contracts/bootstrap refs
+   contract totality               binding proof or named gap
+   mechanism sufficiency           execution guarantee satisfies requirement
+   physical binding totality       certified provider per production composition
+   single stewardship              context × state × scope × epoch has one steward
+   artifact-source separation      plan ≠ fact ≠ folded state ≠ observation ≠ proof
+   provider blindness              no provider value in portable semantics
+   decision completeness/effect    every branch named; every choice changes output
+   operation completeness          typed IO/refusals/context/bounds/effects/proofs
+   proof closure                   positive and negative obligations met
+   gap honesty                     waiver never rewrites Gap into Satisfied
+   determinism                     reorder-equivalent source → identical edition
+   explanation closure             every output traces to source/law/binding/proof
+   evolution legality              every delta classified; transfers use handoff
+   explicit registration           link presence never creates constitutional truth</div>
+
+<h2 id="s0d">0d. Current family-spec conformance</h2>
+<div class="box warnb">
+  <span class="lbl">Result: zero fully conforming specifications</span>
+  <p><strong>No current HTML family specification conforms to this architecture end to end.</strong> This is a manual pre-admission audit, not a compiled certificate: the greenfield Constitution Compiler does not yet exist, so no spec can honestly claim machine-checked constitutional conformance. Several are strong candidate inputs; none closes classification, native API, decision/contract algebra, operation manifest, proofs/gaps, evolution and source-authority together.</p>
+</div>
+<h3>0d.1 The admission gate used for this audit</h3>
+<p>A document is not conformant because it is detailed, contains Rust-shaped pseudocode, or has a nearby compiling crate. It must supply one coherent source record for every row below. A missing row is a document defect; an open proof is an honest implementation gap; importing deprecated platform authority is a source-authority failure.</p>
+<table>
+<thead><tr><th style="width:8%">Gate</th><th style="width:29%">Required source</th><th>Admission condition</th></tr></thead>
+<tbody>
+<tr><td class="id">C01</td><td>architectural classification and boundary</td><td>exactly one primary class; sovereign question, owned language, explicit exclusions and suppliers agree</td></tr>
+<tr><td class="id">C02</td><td>native semantic API</td><td>owned values, operations, refusals and optional state machines are complete without compiler/runtime/provider types</td></tr>
+<tr><td class="id">C03</td><td>decision catalog</td><td>every lawful choice names authority, binding phase, absence fate, compatibility effect and output consequence</td></tr>
+<tr><td class="id">C04</td><td>three decision algebras</td><td>contribution merge, requirement join and offer-satisfaction are separately total and typed; no generic “strictness” shortcut</td></tr>
+<tr><td class="id">C05</td><td>published contracts</td><td>every import/export has owner, mode, layer, direction, version/edition semantics and typed passport</td></tr>
+<tr><td class="id">C06</td><td>operation manifest</td><td>each operation declares typed input/output/refusals, determinism, resource bounds, effects and epistemic result</td></tr>
+<tr><td class="id">C07</td><td>artifact and source-class closure</td><td>each card/fact/plan/proof is classified; constructors are owned; plans, facts, folded state, observations and proofs never collapse</td></tr>
+<tr><td class="id">C08</td><td>execution boundary</td><td>pure semantics expose portable requirements only; mechanisms, runtime parts and providers remain outside the family</td></tr>
+<tr><td class="id">C09</td><td>proof and honest-gap closure</td><td>positive and negative laws name evidence; unproved claims remain gaps and waivers never become satisfaction</td></tr>
+<tr><td class="id">C10</td><td>evolution</td><td>compatibility, editions, migrations, recall/retirement and semantic deltas are explicit</td></tr>
+<tr><td class="id">C11</td><td>constitutional contribution</td><td>one authorable <code>ContextSpec</code> projects the preceding source; the compiler alone derives <code>ContextDescriptor</code></td></tr>
+<tr><td class="id">C12</td><td>clean authority</td><td>no canonical dependency on deprecated Factory, foundation, chassis, registry, compiler, IR or envelope types</td></tr>
+</tbody>
+</table>
+<div class="box note">
+  <span class="lbl">Evidence location — generated, not copied into this normative architecture</span>
+  <p>Mutable family status and counts live in <code>toolkit/FAMILY-SPECS.md</code> and the generated reports under <code>target/architecture/</code>. Run <code>scripts/verify_family_specs.py</code>, <code>scripts/extract_family_seams.py</code> and <code>scripts/inventory_family_candidates.py</code> against the current worktree. The HTML checker proves document structure only; the seam report proves inventory only; the candidate census proves physical/dependency posture only. None certifies semantic acceptance, reciprocal compatibility, implementation, wiring or providers.</p>
+  <p>The architecture-level result remains exact: no source receives a compiled <code>ContextDescriptor</code> until the greenfield constitutional metamodel and compiler exist, and no candidate depending on deprecated <code>san-family-contract</code> can satisfy C12.</p>
+</div>
+<div class="box note">
+  <span class="lbl">Archived second-pass snapshot — superseded as current status</span>
+  <p>All sixteen sources were re-read end-to-end by independent review agents against C01–C12
+  and the <code>toolkit/FAMILY-SPECS.md</code> remaining-work columns. Results: <strong>~50 documentary defects fixed in place</strong> with per-file
+  resolution-log rows (Canonical Form 5 · Digest 13 · Encoding 4 · Text 1 · Rate 2, incl. a ContextSpec
+  identity contradicting its own export edges · Bitemporality 5, applied during a concurrent third-party
+  rewrite of that file); Quantity, Money, Instant, Causality, Calendar and Organization needed no edits.
+  Every ledger remaining-work item was verified to exist inside its spec as a declared gap — nothing was
+  silently absent. <strong>~26 semantic inconsistencies were flagged for human triage, not fixed</strong>
+  (concentrations: Digest 8 — incl. two incompatible <code>digest_tuple</code> signatures and a
+  §7.2-vs-§10 refusal-vocabulary disagreement; Encoding 8 — incl. a phantom <code>ED-12</code> key;
+  Canonical Form 5; Bitemporality — nine dangling §16 citations left by the concurrent rewrite; Money —
+  phantom <code>AllocationRequest</code>, plus cross-family A17 debt: Money imports
+  <code>ExactDecimal*</code> where Quantity edition 2 exports <code>ExactMagnitude*</code>, and Money's
+  target signatures use Instant's superseded <code>AtomicInstantStamp</code>; Instant — decision rows
+  omit an explicit mode field and Matrix 3 uses three refusal codes defined nowhere). Verified clean at
+  document level: Causality (zero fencing residue), Calendar (all 21 operations = ContextSpec, line-exact),
+  Organization (zero sovereignty residues — genuinely a pack-decomposition source), Text.
+  Naming plane: Identifier (edition 6), Namespace (4.2) and Locator (5) were under <em>active
+  concurrent rewrite</em> during the pass; fixes were kept strictly documentary (Namespace missing nav
+  entry; Locator event-census 23→25 and dangling legacy gap IDs; Identifier log paragraph), and the
+  Namespace↔Locator seam is verified RECONCILED verbatim on both sides
+  (<code>PublicationAuthorityRequirement/Projection/Proof</code>). One A17/M-02 violation is
+  <em>in progress</em>: Identifier edition 6's new two-witness model
+  (<code>NamespaceDefinitionWitness</code> + <code>NamespaceIssuanceWitness</code>) diverges from
+  Namespace 4.2's single law-fixed <code>IssuanceAuthorityWitness</code>, with an
+  ownership-direction contradiction at the same seam — recorded in both resolution logs under
+  G-ID-02/NS-P08, not repaired mid-redesign. Path needed zero edits.
+  The zero result above stands: these passes changed document fitness, not C09/C11/C12 closure.</p>
+</div>
+<div class="box note">
+  <span class="lbl">0d.3 · The acceptance-wave defect classes — folded 2026-08-06</span>
+  <p><strong>The central finding: local specs look complete while cross-family composition fails.</strong>
+  A specification describing the right concepts does not yet define one executable, mutually
+  compatible contract. Seven defect classes, each with its kill-rule; the acceptance wave audits
+  every family against all seven before any implementation adoption:</p>
+  <p><strong>D1 · Seam disagreement.</strong> Identifier/Namespace mint-authority ownership;
+  Canonical/Digest prepared-bytes-vs-proof; Instant/Calendar/Bitemporality mapping contracts;
+  Quantity/Rate conversion types; Causality relation-proof vs Bitemporality sequence expectation.
+  <em>Kill-rule:</em> similar names are not compatibility — every real edge resolves to one exact
+  <code>ContractEdgeSpec</code> identity, edition, payload, guarantees, cardinality, phase, witness
+  and refusal ON BOTH SIDES, or is an explicit owned gap. The current generated census is
+  <code>target/architecture/family-seam-catalog.json</code>; mutable counts are evidence, not
+  normative prose. Until every real edge is exact or an owned gap, the DAG is NOT frozen.</p>
+  <p><strong>D2 · Unimplementable native APIs.</strong> Private values without constructors; results
+  without observers; undefined types in public signatures; prose arrows instead of Rust contracts;
+  refusals requiring information absent from inputs; state machines without genesis, admission, or
+  total matrices. <em>Kill-rule:</em> constructor×observer sufficiency + exact-signature manifest
+  closure (§14.1 of the Constitution) run per family; a refusal's evidence must be derivable from
+  the operation's declared inputs.</p>
+  <p><strong>D3 · Non-executable decisions.</strong> Decision values that never reach an operation;
+  missing authority × resolution mode × binding phase; algebras in prose. <em>Kill-rule:</em> every
+  decision row names the exact output/operation it changes (decision-effectiveness trace), and the
+  three algebras are total typed functions, not adjectives.</p>
+  <p><strong>D4 · Epistemic overreach.</strong> Caller-supplied instants treated as "current";
+  partial history returning NeverAsserted; observations promoted to register truth; local evidence
+  claiming global uniqueness; recall enforced without a disposition witness. <em>Kill-rule:</em>
+  every output carries its epistemic class (mathematical · admitted · claim · observation ·
+  adjudicated), and no operation's output class exceeds its inputs' classes without a named
+  adjudication step.</p>
+  <p><strong>D5 · State/crash/resource incompleteness.</strong> Hidden streaming sessions in
+  "stateless" families; obligations losable between prepare and commit; series without genesis or
+  idempotency records; bounds promised but no budget accepted; unbounded vectors in bounded results.
+  <em>Kill-rule:</em> the twelve-generator sweep's partiality/resource rows are mandatory where any
+  session, stream, or obligation exists; every bounded claim names the input that carries the budget.</p>
+  <p><strong>D6 · Evidence ahead of reality.</strong> 16/16 structural checks prove document shape
+  only; tests exercising prior editions prove nothing about this one; first verticals that end inside
+  the family or in fixtures are not composition proof. <em>Kill-rule:</em> proof artifacts name the
+  exact spec edition and digest they exercise; a first vertical must cross at least one real
+  cross-family seam to a consumer that implements the contract.</p>
+  <p><strong>D7 · Missing implementation supplier.</strong> The constitutional metamodel/compiler
+  does not exist; 30/33 candidate packages transitively depend on deprecated suppliers.
+  <em>Kill-rule:</em> no wholesale adoption; salvage only through symbol-level convergence records;
+  the spec compiler is the unblocking dependency for C11 across every row.</p>
+  <p><strong>Amendments folded 2026-08-06 (second acceptance pass).</strong>
+  The seam census is regenerated after every source change; the report named above is authoritative
+  for counts and source-set digest. Quantity/Money/Rate disagreement on the exact-magnitude contract
+  was the headline defect that established the rule.
+  <strong>D2 sharpened — one-symbol law:</strong> one public semantic Rust symbol ↕ one exact stable
+  operation descriptor; grouped rows ("parse/format/verify operations") are insufficient; admission
+  constructors, borrowed observers, variant inspection, exact refusal types, static↔dynamic
+  refinement and direct-vs-card parity are each individually owed.
+  <strong>D4 sharpened — witness rule:</strong> "globally unique", "complete history", "currently
+  trusted", "no prior reuse", "coverage complete" are unknowable from local values; each requires a
+  bounded, authority-issued witness carrying subject, scope, observation time, freshness, provenance
+  and verification rules.
+  <strong>D5 sharpened — four-tier resource lattice:</strong> portable workload requirement ·
+  organization policy ceiling · implementation capacity offer · per-call execution budget are FOUR
+  distinct artifacts, never one "limit"; unbounded inputs, proof output, arbitrary-precision
+  arithmetic, canonical bytes, collection growth and explanation output each need typed exhaustion
+  outcomes; arbitrary-precision work is never O(1).
+  <strong>D8 · Immutable/current-truth mixing (new).</strong> Recall status, current eligibility,
+  reachability and trust disposition MUST NOT live inside immutable cards/passports (Money FX/currency
+  catalogs are the standing example; Identifier profiles, Namespace authority, Locator reachability
+  and implementation certificates carry the same risk). <em>Kill-rule — the admission triangle:</em>
+  immutable definition/card + fresh subject-bound observation + declared use intent → current-use
+  admission; no leg may be folded into another.
+  <strong>D9 · Obligation propagation (new).</strong> Sensitivity, disclosure, retention, logging,
+  caching, provenance and tenant obligations must survive composition: every binary operation defines
+  a conservative obligation JOIN or refuses typed; obligations absent from the result carrier are
+  unenforceable downstream.
+  <strong>D6 sharpened — real-vertical rule:</strong> a vertical proves consumer input → admitted
+  values → exact operation → typed result/refusal → serialized output → compatibility consequence,
+  against an ACTUAL consumer ("Orders may later adopt Money" is not evidence while Orders still uses
+  saturating integer money).</p>
+</div>
+<h3>0d.2 Archived candidate-by-candidate disposition</h3>
+<p><strong>The following table is retained only as review provenance.</strong> It is not current acceptance evidence and must not be used to select a family. The live source is <code>toolkit/FAMILY-SPECS.md</code> plus generated reports and the latest independent semantic review. A later repair can invalidate every “stable” or “partial” label below without changing this architecture.</p>
+<table>
+<thead><tr><th style="width:20%">Candidate</th><th style="width:13%">Class</th><th>Blocking document/architecture defects</th><th style="width:10%">Verdict</th></tr></thead>
+<tbody>
+<tr><td>Canonical Form</td><td>foundation algebra</td><td>edition-3 target source now supplies C01–C08 and C10–C11; C09 proof closure remains open. Current Rust retains effectful <code>std::io::Write</code>, family-local closure machinery and deprecated <code>san-family-contract</code>; generated authority, parity and resource evidence are also open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Digest</td><td>foundation algebra</td><td>edition-3 target source now supplies classification, immutable-suite/governed-use ownership, five card classes, nine decisions with three algebras, fourteen operations, four composition traces and one ContextSpec. Current Rust retains <code>MessageCommitment</code>, local <code>close/project</code>, hexadecimal text behavior and deprecated <code>san-family-contract</code>; generated authority, clean implementation and first-vertical proof remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Encoding</td><td>foundation algebra</td><td>hostile canonicality corpus, finalization/resource laws, parity and complete descriptor contribution remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Text</td><td>foundation products</td><td>one physical toolkit contains four logical products; public implementation still owns display columns and lacks separate manifests/certificates</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Quantity · Money · Rate</td><td>foundation algebras</td><td>native API manifests improved, but public API authority, reference-data passports, generated descriptors and proof closure remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Instant</td><td>sovereign family</td><td>boundary is credible; supplier evidence, complete generated decision/API authority and interaction proofs remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Identifier</td><td>sovereign family</td><td>strongest broad candidate; Series contextual totality/operability, external-series gaps, clean supplier seams and constitutional descriptor proof remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Namespace</td><td>sovereign family</td><td>shared three-algebra contract adaptation, foundation-clean Identity/Tenancy references, recovery/proof and golden-thread closure remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Causality</td><td>foundation/semantic algebra</td><td>spec moved fencing to Coordination/Lease but Rust and evidence still own it; implementation and descriptor disagree</td><td><span class="pill p-block">fail</span></td></tr>
+<tr><td>Bitemporality</td><td>sovereign semantic family</td><td>corrected <code>RecordPosition</code>, intent operations, restatement disposition and external obligation seams are not yet reflected consistently</td><td><span class="pill p-block">fail</span></td></tr>
+<tr><td>Locator</td><td>sovereign family</td><td>resolution/contact-plan split is credible; state/rebuild, refresh/backpressure, capacity/health/cost and proof closure remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Path</td><td>foundation/semantic algebra</td><td>core boundary is credible; full rule disposition, passports, feed freshness/epistemics and constitutional descriptor remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Calendar</td><td>sovereign family</td><td>reference-data supplier contracts, leap-second admission, public API authority and external proof remain open</td><td><span class="pill p-owed">partial</span></td></tr>
+<tr><td>Organization</td><td>composed pack</td><td>body still models several independent authorities as one mega-family; component context contracts and pack bindings do not yet exist</td><td><span class="pill p-block">decompose</span></td></tr>
+</tbody>
+</table>
+<p><strong>Closest candidates are not certified candidates.</strong> Identifier has the richest decision and proof inventory; Instant has the cleanest family boundary; Namespace has the strongest state/source-class model. Each still fails at least one constitutional gate. The authoritative detailed ledger remains <code>toolkit/FAMILY-SPECS.md</code>.</p>
+
+<h2 id="s0e">0e. The library-reference plus admitted-data law</h2>
+<div class="box law">
+  <span class="lbl">The application construction law</span>
+  <p>A reusable family is complete only when a prebuilt Rust library reference and admitted family-owned data can be composed without generating a second business implementation. Rust owns executable semantics. Data selects, narrows and composes only the lawful variation that the library publishes.</p>
+</div>
+<div class="ascii">PREBUILT RUST LIBRARY
+  invariants · admitted types · pure engines · refusals · seam contracts
+                         │ pinned immutable LibraryRef
+                         ▼
+AUTHORED SEMANTIC DATA
+  definition cards · profiles · contributions · requirements · selections
+                         │ family admission + Constitution Compiler
+                         ▼
+ADMITTED SOURCE
+  one ContextSpec · admitted cards · typed provenance · no hidden defaults
+                         │ application linker
+                         ▼
+PORTABLE APPLICATION CLOSURE
+  pinned refs · resolved decisions · exact contract bindings
+  unresolved provider/resource requirements · proofs · gaps
+                         │ separate deployment binder
+                         ▼
+BOUND RECIPE
+  certified implementations · resources · secrets-by-reference · topology
+
+  Build-time observations cannot enter the portable closure.
+  Deployment values cannot change family semantics.</div>
+
+<h3>0e.1 The one authorable constitutional source</h3>
+<div class="box invariant">
+  <span class="lbl">One shape, not one look-alike manifest per family</span>
+  <p>Every family contributes exactly one <code>ContextSpec</code> using the field vocabulary below. Fields are logical products and may be modules in Rust; they do not imply crates. Conditional products use an empty collection or <code>None</code> with the family’s explicit absence ruling. A family may not rename fields, replace exact members with range shorthand, add a family-local manifest dialect or smuggle a linked library artifact into authored source.</p>
+</div>
+<div class="box ruling"><span class="lbl">Canonical type is declared once</span><p>The exact <code>ContextSpec</code>, <code>PublicItemSpec</code>, <code>InternalModuleSpec</code>, <code>ContractHeader</code>, <code>ContractRequirementSpec</code>, <code>ContractOfferSpec</code>, <code>ContractEdgeSpec</code> and <code>FamilySurfaceEdition</code> definitions live only in <a href="PURE-LIBRARY-CONSTITUTION.html#s7-9">the Constitution’s shared-metamodel section</a>. This architecture consumes those types and deliberately does not reproduce them.</p></div>
+<p>Every member is an exact declared identity, never <code>OP-01..OP-20</code>, an unexpanded prose constant, a crate module path or an implementation symbol accidentally standing in for a semantic descriptor. <code>ContextSpec</code> contains no <code>library_ref</code>, implementation identity, provider offer, certificate result, environment binding, secret, runtime observation, generated count or compiled descriptor. The application linker supplies immutable <code>LibraryRef</code>s; the deployment binder supplies certified implementations and providers. The Constitution Compiler validates and projects this source—it does not discover missing meaning from Rust.</p>
+<p>Metamodel source identities use the bootstrap grammar <code>&lt;context&gt;.&lt;kind&gt;.&lt;ubiquitous-name&gt;@&lt;edition&gt;</code> with lowercase ASCII kebab segments. They are neither business Identifier-family values nor Rust crate paths. Human row numbers such as <code>OP-01</code> are aliases only and cannot enter compiled identity.</p>
+<p>Cross-family arrows use the Constitution’s one exact <code>ContractHeader</code> and consumer-owned <code>ContractEdgeSpec</code>: identity, exact semantic edition, semantic owner, kind, interaction mode, artifact-source policy, epistemic policy, scope, authority, binding phase, payload type, guarantees, cardinality, applicability, obligations, provenance and lifecycle; plus consumer, cited contract identity, accepted edition requirement, requirement, compatible-offer shape, requirement-join algebra, satisfaction algebra, typed witness and typed refusal. The fourth trace matrix and every owner→consumer export view are generated from those records. They are not prose compatibility tables. A missing owner header remains an explicit consumer gap; the owner never authors a duplicate export edge.</p>
+
+<h3>0e.2 What a card is—and is not</h3>
+<table>
+<thead><tr><th style="width:24%">Artifact</th><th>Ruling</th></tr></thead>
+<tbody>
+<tr><td>Definition card</td><td>Family-owned immutable semantic data that applications author, select or exchange: for example a digest separation-domain definition or an identifier profile.</td></tr>
+<tr><td>Profile card</td><td>A named, law-preserving bundle of explicit decisions. A profile may supply values or derivations, but never introduce a behavior branch absent from the native library.</td></tr>
+<tr><td>Contribution card</td><td>An authorized candidate assignment with provenance. Several contributions are combined by the decision's own contribution algebra.</td></tr>
+<tr><td>Requirement card</td><td>A portable typed demand. Several consumers join requirements using the requirement algebra; the result remains unbound until a compatible offer is proven.</td></tr>
+<tr><td>Selection card</td><td>An explicit reference to an admitted definition/profile/offer. Absence is <code>required</code>, <code>derived-by-law</code>, or <code>intentionally-none</code>; never an ambient fallback.</td></tr>
+<tr><td>Not a card</td><td>Runtime observations, secrets, credentials, provider handles, mutable health, generated implementation code, arbitrary JSON bags, builder-only knobs or family-local registry entries.</td></tr>
+</tbody>
+</table>
+<p>A family publishes cards only when it owns authorable, selectable or exchangeable data. Otherwise it publishes an explicit empty-card ruling. Card publication is not mandatory anatomy.</p>
+
+<h3>0e.3 Four mandatory trace matrices</h3>
+<table>
+<thead><tr><th style="width:28%">Matrix</th><th>Closure condition</th></tr></thead>
+<tbody>
+<tr><td><code>decision → card/profile field</code></td><td>Every authorable decision has exactly one typed data entrance, authority and provenance rule; non-authorable laws are marked invariant rather than assigned a fake field.</td></tr>
+<tr><td><code>decision → admitted native value</code></td><td>Direct Rust construction and declaration construction invoke the same admission function and reach the same semantic value.</td></tr>
+<tr><td><code>decision → operation/refusal/proof</code></td><td>Every decision demonstrably changes at least one constructor, observer, enforcer, transition, publication, refusal or proof obligation.</td></tr>
+<tr><td><code>import/export → neighbor contract</code></td><td>Every DAG edge names exact identity, edition, mode, scope, guarantees, cardinality, phase and typed satisfaction witness. Importing sibling internals is forbidden.</td></tr>
+</tbody>
+</table>
+
+<h3>0e.4 The three decision algebras are not one merge function</h3>
+<div class="ascii">authorized contributions
+  Contribution&lt;K&gt; × Contribution&lt;K&gt;
+             │ family-owned merge partial order
+             ▼
+  ResolvedDecision&lt;K&gt; | ContributionConflict&lt;K&gt;
+
+consumer requirements
+  Requirement&lt;K&gt; × Requirement&lt;K&gt;
+             │ family-owned join partial order
+             ▼
+  JoinedRequirement&lt;K&gt; | RequirementConflict&lt;K&gt;
+
+provider/library offer + joined requirement
+  Offer&lt;K&gt; × JoinedRequirement&lt;K&gt;
+             │ exact typed satisfaction relation
+             ▼
+  SatisfactionWitness&lt;K&gt; | OfferMismatch&lt;K&gt;
+
+  None of the three returns bool. None uses universal "strictest wins".</div>
+
+<h3>0e.5 Candidate foundation and reference DAG</h3>
+<div class="ascii">P0 · REPRESENTATION / VALUE
+  Canonical Form ───────────────▶ Digest
+  Encoding  ◀─ public seam ───── Text
+  Quantity ─────────────────────▶ Rate
+      └─────────────────────────▶ Money
+
+P1 · TIME / ORDER
+  Instant ──────────────────────▶ Calendar
+      ├─────────────────────────▶ Bitemporality
+      └─ supplied witness seam ─▶ Causality
+
+P2 · NAMING / ADDRESSING
+  DigestWitness ────────────────┐
+  Encoding contract ────────────┤
+  supplied Instant material ────┼▶ Identifier ─▶ Namespace ─▶ Path ─▶ Locator
+                                └───────────────────────────────────────┘
+
+P3 · INSTITUTIONAL COMPOSITION
+  Identifier + Instant/Bitemporality ─▶ Organization component contexts
+                                      ─▶ Organization composed pack
+
+  Arrow = exact public passport or call contract, never shared internals.
+  This is a candidate DAG: a family review may remove an unnecessary edge.
+  The compiled contract graph, not this drawing, is final authority.</div>
+
+<h3>0e.6 Decision completeness record required from every family</h3>
+<pre><code><span class="kw">struct</span> DecisionDescriptor&lt;K&gt; {
+    id: DecisionId,
+    semantic_type: TypeRef,
+    owner: AuthorityRef,
+    binding_phase: BindingPhase,
+    contribution_algebra: ContributionAlgebraRef&lt;K&gt;,
+    requirement_algebra: RequirementAlgebraRef&lt;K&gt;,
+    satisfaction_algebra: SatisfactionAlgebraRef&lt;K&gt;,
+    absence: AbsenceFate,               <span class="cm">// Required | Derived(rule) | IntentionallyNone</span>
+    provenance: ProvenanceRequirement,
+    validation: ValidationRuleSet,
+    compatibility: CompatibilityEffect,
+    evidence: EvidenceRequirement,
+    consequences: NonEmpty&lt;DecisionConsequence&gt;,
+}</code></pre>
+<p>Representation choice, compiler implementation, provider binding, registry mechanism and wire codec are not automatically semantic decisions. They become decisions only when the owning family proves that applications lawfully vary their meaning. Conversely, every behavior-affecting constant, fallback, feature flag or builder-only knob must either become a descriptor above or be justified as an invariant.</p>
+
+<h2 id="s0f">0f. Mandatory post-draft refinement protocol</h2>
+<div class="box law">
+  <span class="lbl">Run after the model exists</span>
+  <p>This protocol is not an outline generator and must not replace domain discovery. Run it only after the first complete family draft has a charter, ontology, laws, native API, decisions, seams, evolution model and proof plan. Its job is adversarial refinement: find ground-truth mistakes, misplaced concepts, accidental crates, uncovered artifacts, unenforced laws, impossible combinations and vacuous completeness before ratification or implementation.</p>
+</div>
+<div class="ascii">DOMAIN WORK FIRST
+  research → ontology → boundary → laws → decisions → native API
+  → seams → source/cards → evolution → proof plan → COMPLETE FIRST DRAFT
+                                                        │
+                                                        ▼
+POST-DRAFT REFINEMENT
+  ground census → placement → physical-boundary test → profile/species collapse
+  → coverage audit
+  → enforcement-locus solve → conflict solve → input-class audit
+  → explain/provenance audit → first-vertical proof
+                                                        │
+                                                        ▼
+RATIFICATION INPUT
+  corrected spec + honest gaps + implementation work graph
+
+POST-IMPLEMENTATION REPEAT
+  exact symbols + compile/tests/wiring/providers + non-vacuous evidence</div>
+
+<h3>0f.0 Agent execution contract</h3>
+<div class="box invariant">
+  <span class="lbl">Completion means refined, not merely drafted</span>
+  <p>The drafting agent performs the protocol <strong>after</strong> completing the family work, never while using it to invent the family. Its entry criterion is a complete first draft containing the charter, boundary and non-ownership, ontology, laws, native operations and refusals, decision catalog and three algebras, source/card model, exact seams, evolution policy, proof obligations and a proposed physical layout. The agent then executes PDR-01 through PDR-10 in order and appends the required disposition block to the owning family specification. It may not report the family complete, ratifiable or implementation-ready until every pass has an evidenced disposition.</p>
+  <p>A separate acceptance reviewer verifies the disposition against the repository and the Constitution. The author’s assertion is not acceptance evidence. After implementation, the implementation agent repeats the same protocol with exact symbols, compilation, tests, runnable wiring, provider posture and the first real vertical. A green specification review never upgrades implementation status.</p>
+</div>
+<div class="box warning">
+  <span class="lbl">Ground truth is evidence, not supplier authority</span>
+  <p>Finding an existing crate, compiler, card surface or algorithm prevents a false “missing” claim, but does not make that implementation canonical. The census must classify it under the repository Constitution and choose exactly one disposition: retain as a ratification candidate; salvage named laws, algorithms or vectors through an explicit semantic delta; replace at the proven owner boundary; or tombstone as deprecated inventory. “It exists” does not authorize importing it, while “it is deprecated” does not authorize rebuilding the same responsibility under a new name.</p>
+</div>
+
+<h4>End-of-work agent task card</h4>
+<p>This task card is executed only when the first complete draft is otherwise ready to be handed off. It is a correction loop, not a parallel drafting checklist.</p>
+<pre><code>ENTRY
+  complete charter + boundary + ontology + laws + native API/refusals
+  + decisions/three algebras + source/cards + exact seams
+  + evolution/proof plan + proposed physical layout
+
+AUTHOR REFINEMENT
+  1. freeze the draft revision being reviewed
+  2. execute PDR-01..PDR-10 against that exact revision
+  3. correct the specification; do not merely record discovered defects
+  4. append one normalized disposition block with exact evidence
+  5. repeat affected passes after every semantic or boundary correction
+
+INDEPENDENT ACCEPTANCE
+  6. reviewer re-runs the census, boundary test, seam reconciliation,
+     decision reachability, artifact coverage and first vertical
+  7. author resolves every rejected or contradictory PASS
+  8. reviewer records acceptance evidence; self-acceptance is invalid
+
+EXIT
+  no BLOCKED item; no unexplained NOT_APPLICABLE; no target-vertical Gap;
+  every deferred Gap has owner + reopening evidence; exact implementation
+  work graph is derivable from corrected semantics
+
+POST-IMPLEMENTATION
+  repeat against code with symbols + release compile + tests + static gates
+  + linker/assembly closure + runnable path + provider/certificate posture</code></pre>
+<p>A family is <strong>draft-complete</strong> before this task starts, <strong>specification-accepted</strong> only after its correction loop and independent review close, and <strong>implementation-accepted</strong> only after the post-implementation repeat closes. These states are not interchangeable.</p>
+<p>Every reviewed family specification must end with one post-draft disposition block in this form:</p>
+<pre><code>POST-DRAFT REFINEMENT DISPOSITION
+family / edition:
+first draft completed at:
+reviewed repository revision:
+
+PDR-01 ground census          status · evidence paths/symbols · corrections
+PDR-02 placement              status · item → class → owner/destination
+PDR-03 physical boundaries    status · proposed crate/module → passed test(s)
+PDR-04 profile/species        status · collapsed/retained variants + reason
+PDR-05 artifact coverage      status · non-empty artifact graph + Gap ledger
+PDR-06 enforcement loci       status · law → selected locus → proof
+PDR-07 semantic conflicts     status · impossible set → minimal conflict core
+PDR-08 input classes          status · input → class/authority/time/binding
+PDR-09 explain/provenance     status · artifact → complete explain chain
+PDR-10 first vertical         status · exact path + deliberate deferred Gaps
+
+corrections applied:
+remaining gaps:
+implementation work graph:
+acceptance reviewer / evidence:</code></pre>
+<p>Allowed pass statuses are <code>PASS</code>, <code>PASS_WITH_CORRECTION</code>, <code>GAP(case, owner, reopening evidence)</code> and <code>BLOCKED(reason)</code>. <code>NOT_APPLICABLE</code> is permitted only with a proof-bearing reason. Blank rows, narrative “covered elsewhere”, planned evidence and aggregate percentage scores are not dispositions.</p>
+
+<h3>0f.1 The ten refinement passes</h3>
+<table>
+<thead><tr><th style="width:8%">Pass</th><th style="width:23%">Question</th><th>Required output</th></tr></thead>
+<tbody>
+<tr><td class="id">PDR-01</td><td>Ground-truth census</td><td>Search exact crate paths, manifests, symbols, specs, generated artifacts, consumers and tests before recommending anything. For every alleged gap report <code>REAL · PARTIAL · STUB · SPEC_ONLY · DUPLICATE · DEAD · UNKNOWN</code> with file/symbol, compile evidence, exercising tests, runnable wiring and provider posture. Recommending an already-existing compiler or card library is a failed review.</td></tr>
+<tr><td class="id">PDR-02</td><td>Placement ruling</td><td>Classify every discovered item as concern, family capability, invariant, decision/configuration, compiler pass, runtime engine, module, crate, port, adapter, reference data, card, profile, proof or coverage lens. Each class has one allowed destination; a noun is not a crate proposal.</td></tr>
+<tr><td class="id">PDR-03</td><td>Physical-boundary justification</td><td>Apply the five-part crate test: independently versioned contract; materially different dependency profile; distinct consistency/state model that needs mechanical isolation; independently useful consumer boundary; or material compilation/security/ownership/deployment benefit. A split needs at least one evidenced reason. Otherwise use a module. Crate count is a symptom; the axis of division is the diagnosis.</td></tr>
+<tr><td class="id">PDR-04</td><td>Profile/species collapse</td><td>Re-test every proposed family/crate: if existing laws and decisions suffice, represent the variant as a profile; if laws narrow coherently, use a species; do not make “session identifier” and “invoice identifier” separate identifier libraries.</td></tr>
+<tr><td class="id">PDR-05</td><td>Artifact × concern coverage</td><td>Build coverage only over a non-empty, enumerated artifact graph. Every applicable cell is <code>Provided</code>, <code>Derived</code>, <code>Delegated</code> with exact family/contract/minimum edition, <code>Empty</code> with proof-bearing reason, or <code>Gap</code> with case/owner/reopening evidence. An empty artifact set cannot certify completeness.</td></tr>
+<tr><td class="id">PDR-06</td><td>Enforcement-locus solve</td><td>For every law/invariant identify the selected enforcement locus: Rust type, smart constructor, canonical admission, database constraint, aggregate decision, workflow, asynchronous reconciliation, deployment gate or human review. The domain expert declares truth; compilation chooses only among compatible mechanisms and records why.</td></tr>
+<tr><td class="id">PDR-07</td><td>Semantic conflict solve</td><td>Generate decision/profile interaction combinations and name impossible sets in domain language. Examples: stateless token + immediate revocation SLO; anonymous actor + attested action class; offline grace + immediate revocation; hard deletion + mandatory evidence retention. Fail closure with a minimal conflict core, never arbitrary precedence.</td></tr>
+<tr><td class="id">PDR-08</td><td>Input-class audit</td><td>Classify every input as domain declaration, capability selection, organization policy, jurisdiction policy, governed business configuration, reference data, environment binding, secret, operational observation or execution evidence. Each class has its own authority, time model, mutability, artifact class and binding phase. Calling all of them “config” is a defect.</td></tr>
+<tr><td class="id">PDR-09</td><td>Explain/provenance audit</td><td>For every artifact require an explain graph: constructor/derivation, source declaration, selected profile, contributing pack, laws/decisions that constrained it, defaults or absence ruling, imported witnesses, dependents and proof/gap state. If an output cannot be explained, it cannot be sealed.</td></tr>
+<tr><td class="id">PDR-10</td><td>First-vertical proof</td><td>Name the smallest real end-to-end consumer that exercises the family's public contract, plus deliberate <code>Gap</code>s for deferred capability. A completeness matrix without one real artifact/operation path is vacuous. After implementation, repeat the pass with compile, tests, linker closure, runtime wiring and production-provider evidence.</td></tr>
+</tbody>
+</table>
+
+<h3>0f.2 Coverage triangulation—four lenses, no false proof</h3>
+<p>No finite review proves that a domain contains every concept the world may later reveal. Ratification therefore requires four differently constructed coverage lenses. Agreement supports a bounded claim for the named research corpus, edition and application span; disagreement creates a typed <code>Gap</code>. “The domain is complete” and a saturation count without a recorded corpus are forbidden claims.</p>
+<table>
+<thead><tr><th style="width:18%">Lens</th><th style="width:34%">Procedure</th><th>Bounded claim</th></tr></thead>
+<tbody>
+<tr><td>Saturation</td><td>Sample materially different world, standards, failure and implementation contexts; record the semantic delta from each; state the stop rule and lineage so copied sources are not counted as independent.</td><td>No new concept appeared in the named corpus during the declared stopping window.</td></tr>
+<tr><td>Census totality</td><td>Every observed term receives an owner, semantic class and disposition; no miscellaneous bucket and no unexplained synonym.</td><td>Nothing observed in that corpus remains unplaced.</td></tr>
+<tr><td>Failure-museum closure</td><td>Every relevant historical failure maps to a law, refusal, proof obligation or owned gap; every law maps back to at least one counterexample or constructive need.</td><td>No catalogued failure is silently unaddressed.</td></tr>
+<tr><td>Constructive span</td><td>Build the minimal lawful witness and the strongest named regulated witness through public contracts, admitted data and declared seams, with no bespoke implementation or escape hatch.</td><td>The declared span is expressible and composable, not merely described.</td></tr>
+</tbody>
+</table>
+<p>These lenses are not statistically independent and their agreement is not a completeness theorem. PDR-05 records the exact corpus, deltas, uncovered artifacts and constructive witnesses so a later edition can reproduce or challenge the claim.</p>
+
+<h3>0f.3 Proportional deviation generation</h3>
+<p>Apply the following minimum guide words to every applicable value, operation, flow, state, decision, card, contract and artifact. Each cell records a lawful result, typed refusal, external fault, impossible-by-construction proof, or owned gap. The list is a repeatable lower bound, not a universal proof of all edge cases.</p>
+<div class="ascii">cardinality   zero · one · many · duplicate · at/over bound
+ordering      permutation · interleaving · out-of-order · confluence
+time          boundaries · as-of/now · skew · civil anomalies · stale truth
+identity      alias · collision · re-key · merge · split · confusable
+lifecycle     before birth · after retirement/recall/restore · terminal replay
+partiality    crash cut · half-apply · resume · duplicate/replay
+concurrency   competing writers · reader during change · TOCTOU
+authority     unauthorized/cross-tenant · existence/timing/error leakage
+epistemics    claim/fact/observation/unknown confusion
+evolution     old/new and mixed editions · unknown vocabulary members
+resource      exact limit · exhaustion · amplification · transitive closure
+disclosure    Debug/log/error/schema/tombstone and derived-data leakage
+
+Add when applicable: numeric/representation extremes · corrupt/Byzantine input
+· dependency/partition failure · cancellation/backpressure · bootstrap/restore
+· jurisdiction/retention/erasure conflicts · batch/stream boundaries.</div>
+<p>Review depth follows semantic shape: value algebras require constructor×observer, dual/zero/idempotent and seam HAZOP sweeps; decisions add feature-model conflicts and covering arrays; state adds total state×command×context classification and control-loop analysis; safety-, money- and erasure-sensitive families require bidirectional hazard traceability and mutation evidence. Expensive sweeps are conditional on shape, never copied as ritual.</p>
+
+<h3>0f.4 Family and split detectors</h3>
+<table>
+<thead><tr><th style="width:22%">Detector</th><th>Ruling</th></tr></thead>
+<tbody>
+<tr><td>Positive family test</td><td>A sovereign family needs a unique question, owned language, irreducible laws, owned semantics, more than one credible consumer and no more honest owner. A foundation algebra may own stateless universal semantics; an enterprise function pack composes families and must not masquerade as one.</td></tr>
+<tr><td>Concept split</td><td>Different cardinality, identity criterion, lifecycle, authority, time, rebuildability, consistency, failure, privacy or epistemic status creates a presumption of distinct <em>concepts</em>. It creates a new family or crate only when sovereign question, law/change boundary and the physical-boundary test also pass.</td></tr>
+<tr><td>Repository convergence</td><td>Repeated historical cuts are evidence only after common ancestry and copied terminology are accounted for. Deprecated implementations may reveal a boundary; repetition in a rotten tree cannot ratify it.</td></tr>
+<tr><td>Interrogative placement</td><td>Each owner answers one primary question. A term may appear in several contexts as a typed projection, but exactly one context owns each meaning. Placement collisions require an ownership ruling, not forced deletion of legitimate consumers.</td></tr>
+<tr><td>Seam thinness</td><td>Thin published contracts support a cut. Fat bidirectional access to internals signals a wrong cut, a missing published language/ACL, or an unmodeled coordination protocol; it is evidence to investigate, not an automatic merge command.</td></tr>
+</tbody>
+</table>
+
+<h3>0f.5 State confession and public-surface closure</h3>
+<div class="box law">
+  <span class="lbl">State semantics are owned; persistence is bound</span>
+  <p>A family declares <code>None</code>, process-local, durable, coordinated or external-authority state in <code>state_models</code>. A stateful pure family owns commands, events, decide/evolve or another named execution algebra and typed effect intents. It never owns a store or driver. The portable application closure carries durability, consistency, retention and capacity requirements; the deployment binder selects certified storage/runtime offers. Actual register contents and observations never enter the build-time closure. This becomes “impossible to bypass” only when dependency gates and generic-loader wiring prove there is no alternate persistence path.</p>
+</div>
+<div class="ascii">SPEC OPERATION DESCRIPTORS                    RUST PUBLIC SURFACE
+id · exact types · results/refusals            rustdoc/public-API inventory
+determinism · bounds · decisions · edition     features · traits · macros
+                    │                         │
+                    └──────── bidirectional diff ────────┘
+ spec-only operation → implementation defect
+ code-only public semantic operation → specification defect
+ grouped row hiding several public symbols → specification defect
+
+ constructor × observer grid → necessary sufficiency evidence
+ law/refusal/resource/evolution proofs → semantic completeness evidence</div>
+<p>Rust has a public source/API and semantic compatibility contract, not a stable binary ABI unless a separately governed ABI is deliberately published. Rustdoc JSON or <code>cargo public-api</code> can inventory symbols but cannot certify behavior. Compatibility anchors therefore derive from canonical operation/type/contract descriptors, while cargo-semver checks, compile witnesses, law tests, refusal/resource vectors and constructor×observer coverage provide separate evidence. The grid is necessary, not by itself sufficient.</p>
+
+<h3>0f.6 Placement table</h3>
+<table>
+<thead><tr><th style="width:24%">Discovered thing</th><th>Destination</th><th>Must not become</th></tr></thead>
+<tbody>
+<tr><td>Owned semantic question + laws</td><td>foundation algebra or sovereign family</td><td>a config key, adapter or compiler pass</td></tr>
+<tr><td>Law-preserving coherent variant</td><td>species</td><td>a sibling family by naming convention</td></tr>
+<tr><td>Decision assignments/default bundle</td><td>profile/card data</td><td>a crate or feature flag</td></tr>
+<tr><td>Pure semantic transformation</td><td>native engine/module</td><td>a runtime service</td></tr>
+<tr><td>Source validation/derivation</td><td>shared compiler pass owned by the relevant compiler product</td><td>a family-local compiler framework</td></tr>
+<tr><td>External capability claim</td><td>provider-neutral port</td><td>a vendor type in family semantics</td></tr>
+<tr><td>Physical implementation</td><td>certified adapter/runtime part</td><td>a family decision or application card</td></tr>
+<tr><td>World facts with external cadence</td><td>passported reference data</td><td>an unexplained source enum</td></tr>
+<tr><td>Cross-cutting completeness question</td><td>read-only coverage lens</td><td>a second owning family or graph-mutating weaver</td></tr>
+<tr><td>Sellable/composed outcome</td><td>capability/archetype/application/pack</td><td>a god-family or new Rust crate per SKU</td></tr>
+</tbody>
+</table>
+
+<h3>0f.7 Ownership and audit axes are not duplicate domains</h3>
+<p>Authority, Time, Evidence and similar names may appear both as owning families and as audit axes. The meanings differ: an owning family publishes contracts and laws; an audit axis asks what obligations apply to each artifact. A coverage pass may only report <code>Provided</code>, <code>Derived</code>, <code>Delegated</code>, <code>Empty</code> or <code>Gap</code>. It cannot claim ownership or mutate the artifact graph. Every delegated cell names exactly one owner contract and minimum compatible edition, preventing two passes from silently owning the same meaning.</p>
+
+<h3>0f.8 Distinctions the refinement gate preserves</h3>
+<table>
+<thead><tr><th style="width:28%">Do not conflate</th><th>Ruling</th></tr></thead>
+<tbody>
+<tr><td>Evidence vs observability</td><td>Evidence proves business/control facts and actions; observability reports the health and behavior of a running system.</td></tr>
+<tr><td>Quality vs evidence</td><td>Quality proves software and models are correct; evidence proves a particular action, decision or fact occurred.</td></tr>
+<tr><td>Semantic closure vs deployment binding</td><td>Application meaning seals before providers, environment observations, secrets and physical topology bind.</td></tr>
+<tr><td>Decision boundary vs deployment layer</td><td>Separate modules/crates for independently evolving semantic/dependency boundaries, not reflexively for core/port/adapter/plane headings.</td></tr>
+</tbody>
+</table>
+
+<!-- ============ 1 ============ -->
+<h2 id="s1">1. Five orthogonal dimensions</h2>
+<p>The architecture stayed confusing because several different decompositions were forced into one hierarchy. <strong>They are not one hierarchy.</strong></p>
+<div class="ascii">                      ① VERTICAL PRODUCT STRUCTURE
+            solution → app → module → archetype → capability
+                        → family species → kernel
+                                  │
+                                  │ constructs
+                                  ▼
+   ② HORIZONTAL          ③ ARTIFACT GRAPH          ④ CONCERN SPACE
+     ARTIFACT SPACE                                   identity · authority
+     tables · fields  ◄──────────────────────────►    time · sensitivity
+     commands · events                                failure · evolution
+     queues · screens                                 economics · quality
+     releases · hosts                                 …24 axes
+                                  │
+                                  │ lowers into
+                                  ▼
+                        ⑤ EXECUTION MECHANISMS
+          journal · event fabric · work claims · timers
+          process · query · reconciliation · supervision
+                                  │
+                                  │ bound to
+                                  ▼
+                             PROVIDERS
+     PostgreSQL · Redpanda · Kubernetes · Vault · S3 · WorkOS
+
+   THE PRIOR WORK HAD ② AND ④. IT WAS MISSING ① AND ⑤ —
+   which is exactly why "reference a library, customize it, compose it"
+   stayed vague: there was no vertical structure to reference INTO,
+   and no realization layer to compose TOWARD.</div>
+
+<!-- ============ 2 ============ -->
+<h2 id="s2">2. The vertical product ladder</h2>
+<p>The product ladder has nine <strong>logical content layers</strong>. They are not Rust crate layers. Sovereign contexts are typed suppliers below the ladder; invariant kernels are context internals, not product levels.</p>
+<div class="ascii">   V9  INDUSTRY ECOSYSTEM PACK       banking · healthcare · manufacturing
+   V8  JURISDICTION/SUBINDUSTRY PACK  RBI · SEBI · GDPR · country invoicing
+   V7  ENTERPRISE-FUNCTION PACK       procurement · finance · risk · HR
+   V6  SOLUTION SUITE                 Supplier Governance Suite
+   V5  APPLICATION                    Supplier Onboarding
+   V4  DOMAIN MODULE                  Supplier Master · Review Case · ERP Sync
+   V3  APPLICATION ARCHETYPE          Master Record · Case · Ledger · Work Queue
+   V2  COMPOSITE CAPABILITY           Approvable · Auditable · Reconciled
+   V1  FAMILY PROFILE                 identifier.public_entity · approval.four_eyes
+                                      │ selects
+                                      ▼
+   M3  SOVEREIGN CONTEXT CONTRACT     Identifier · Instant · Namespace · Locator
+                                      │ implemented by native Rust semantics
+                                      ▼
+       INVARIANT KERNELS              context-private laws/algorithms/state machines</div>
+<h3>2.1 The recursion</h3>
+<div class="ascii">   Industry pack    contains  jurisdiction/function/solution packs
+   Solution         contains  Applications
+   Application      contains  Domain Modules and operating-product requirements
+   Domain Module    contains  Archetypes and Capabilities
+   Archetype        contains  Capabilities and Family Profiles
+   Capability       contains  Family Profiles and other Capabilities
+   Family Profile   selects   one context profile + supplies/re-exports decisions
+
+   ── one recursive PRODUCT algebra; context semantics stay separate (§3) ──</div>
+<h3>2.2 Why the ladder exists</h3>
+<div class="box ruling">
+  <span class="lbl">A domain expert does not compose identity, transaction, evidence and queue libraries one at a time</span>
+<pre style="margin:0"><code>They say:                              The graph expands to:
+
+  Supplier is a MASTER RECORD          archetype.master-record
+  Onboarding is CASE-MANAGED           archetype.case-work
+  Approval is APPROVABLE               capability.approvable
+  The case is ASSIGNABLE and SLA-BOUND capability.assignable + sla-bound
+  Approved suppliers SYNC TO SAP       product.external-sync
+
+                                       …and each of those recursively
+                                       expands into the family instances
+                                       required to realize it.</code></pre>
+</div>
+<h3>2.3 Two placements the earlier model got wrong <span class="nu">NEW</span></h3>
+<div class="ascii">   WRONG — one ladder                    RIGHT — three structures
+
+   Solution                              PRODUCT LADDER      CONTEXT INTERNALS
+   Application                           ───────────────     ─────────────────
+   Domain Module                         Industry pack       Charter
+   Archetype                               Jurisdiction pack  Native API
+   Capability                                Function pack    Invariant kernels
+   Species/Profile   ◀── profile only            Solution     Decision catalog
+   Family           ◀── context, not product       …          Contracts
+   Kernel           ◀── context internal             Profile ─▶ Optional state
+                                                                 Published cards
+                                                                 Law suite
+   SPECIES AND PROFILES CONFIGURE A FAMILY INSTANCE:
+
+     Family profile  = Context
+                     + Species          law-preserving specialization, if real
+                     + Profile          certified defaults and strategies
+                     + Decision assignments
+                     + Contract bindings
+
+   A KERNEL IS A FAMILY INTERNAL, NOT A REUSABLE PRODUCT LEVEL:
+
+     Namespace family ──┬── region algebra kernel
+                        └── tenure-machine kernel
+     Identifier family ──── UUIDv7 layout kernel
+     Instant family ─────── interval-combination kernel</div>
+
+<!-- ============ 3 ============ -->
+<h2 id="s3">3. One product-package algebra; contexts remain separate</h2>
+<p><strong>Do not create unrelated manifest formats</strong> for the nine product-content layers. One recursive product model serves them. A sovereign context is described by <code>ContextDescriptor</code>, not coerced into a package; a family profile is the product leaf that selects its public decisions and contracts.</p>
+<div class="ascii">   pub enum PackageKind {
+       IndustryPack, JurisdictionPack, EnterpriseFunctionPack,
+       Solution, Application, DomainModule,
+       ApplicationArchetype, CompositeCapability, FamilyProfile,
+   }
+
+   EVERY PACKAGE IS ONE OF TWO SHAPES:
+
+   ┌─ LEAF ─────────────────────────┐  ┌─ COMPOSITE ────────────────────┐
+   │ selects one context/profile    │  │ instantiates child packages    │
+   │ assigns/re-exports decisions   │  │ binds their public contracts   │
+   │ imports/exports contracts      │  │ hides internals                │
+   │                                │  │ re-exports selected decisions  │
+   │ ── a FamilyProfile package     │  │ publishes a smaller surface    │
+   └────────────────────────────────┘  └────────────────────────────────┘</div>
+<pre><code><span class="kw">pub struct</span> <span class="ty">PackageDescriptor</span> {
+    id: PackageId, kind: PackageKind, version: PackageVersion,
+    edition: EditionRange, digest: ContentDigest,
+
+    <span class="cm">// ─── product purpose and encapsulation ───</span>
+    purpose: CanonicalText,
+    selected_contexts: Vec&lt;ContextProfileRef&gt;,
+
+    <span class="cm">// ─── public customization API ───</span>
+    decisions: DecisionCatalog,
+
+    <span class="cm">// ─── public composition API ───</span>
+    imports: Vec&lt;ContractRequirement&gt;, exports: Vec&lt;ContractOffer&gt;,
+
+    <span class="cm">// ─── recursive composition ───</span>
+    children: Vec&lt;ChildInstanceTemplate&gt;,
+    bindings: Vec&lt;ContractBinding&gt;,
+    reexports: Vec&lt;DecisionReexport&gt;,
+
+    <span class="cm">// ─── declared semantic contributions ───</span>
+    constructors: Vec&lt;ArtifactConstructorRef&gt;,
+    obligations: Vec&lt;ObligationRequirement&gt;,
+
+    <span class="cm">// ─── unbound execution requirements ───</span>
+    state_models: Vec&lt;StateModelRef&gt;,
+    runtime_requirements: Vec&lt;RuntimeRequirement&gt;,
+
+    <span class="cm">// ─── safety and change ───</span>
+    laws: LawSetRef, scenarios: ScenarioSetRef,
+    migrations: MigrationGraphRef, compatibility: CompatibilityContract,
+}</code></pre>
+<p><strong>This is a real module system.</strong> A composite can instantiate children, bind child imports to child exports, hide child internals, re-export selected decisions and publish a simpler contract of its own — which is how a complex product becomes usable without exposing every low-level lever to every caller. Provider requirements do not belong in this descriptor; a deployment binder later satisfies portable runtime/resource requirements with certified physical offers.</p>
+
+<!-- ============ 4 ============ -->
+<h2 id="s4">4. The sovereign family contract</h2>
+<p>Three sections is the common formulation. <strong>Four more are required for it to be implementation-complete.</strong></p>
+<div class="ascii">   FAMILY
+   │
+   ├── Sovereign question · Owned language · Excluded language
+   │
+   ├── ① INVARIANT ENGINE
+   │      pure values · pure algorithms · decide/fold machines
+   │      non-negotiable laws
+   │
+   ├── ② TYPED DECISION SURFACE
+   │      lawful parameters · defaults · owners · overlay rules
+   │      compatibility effects
+   │
+   ├── ③ COMPOSITION CONTRACTS
+   │      imports · exports · cards · facts · runtime ports
+   │
+   ├── ④ SPECIES AND PROFILES                      ◀ ADDED
+   │      named law-preserving variants
+   │      prevalidated parameter bundles
+   │
+   ├── ⑤ COMPOSITION CONTRIBUTIONS                 ◀ ADDED
+   │      owned artifact constructors · obligations
+   │      no mutable graph pass and no private compiler
+   │
+   ├── ⑥ RUNTIME REQUIREMENTS                      ◀ ADDED
+   │      state ownership · effect declarations
+   │      portable runtime and resource requirements
+   │
+   └── ⑦ PROOF AND EVOLUTION                       ◀ ADDED
+          law suites · scenarios · conformance
+          migration graph · compatibility windows</div>
+<div class="box ruling">
+  <span class="lbl">The separation that must become the template</span>
+<pre style="margin:0"><code>semantic capability
+    ≠ strategy or policy pack
+    ≠ Rust crate
+    ≠ stateful aggregate
+    ≠ infrastructure or runtime service</code></pre>
+  <p style="margin-top:10px">Four distinct things routinely collapsed into one. Every family specification <span class="norm">MUST</span> keep them apart, and §22's boundary test is how a new candidate is placed among them.</p>
+</div>
+
+<!-- ============ 5 ============ -->
+<h2 id="s5">5. Species, profiles, instances</h2>
+<div class="ascii">   FAMILY     all universal laws
+      │
+      ▼
+   SPECIES    a named, CLOSED specialization that PRESERVES those laws
+      │       may: choose a strategy · add laws · narrow decisions
+      │            set defaults · add requirements · add exports
+      │       may NEVER: weaken a family invariant
+      ▼
+   PROFILE    a named set of defaults and strategy selections WITHIN a species
+      │       introduces NO new semantics
+      ▼
+   INSTANCE   one configured use of a profile in one product</div>
+<h3>5.1 Species catalogs across four families</h3>
+<div class="ascii">   IDENTITY                        AUTHENTICATION
+   ├── durable_entity              ├── workforce_federated
+   ├── immutable_artifact          ├── consumer_passkey
+   ├── ephemeral_occurrence        ├── service_certificate
+   ├── leased_resource             ├── workload_spiffe
+   ├── externally_controlled       ├── offline_device
+   └── provisional_local           └── privileged_operator
+
+   HOST                            EVENTING
+   ├── request_role                ├── business_fact_stream
+   ├── worker_role                 ├── notification_stream
+   ├── scheduler_role              ├── telemetry_stream
+   ├── sandbox_role                ├── control_stream
+   ├── control_agent               └── disconnected_relay
+   └── mixed_application_host</div>
+<h3>5.2 Species carry different laws — the point of the mechanism</h3>
+<table>
+<thead><tr><th style="width:26%">Species</th><th>Lawful requirements it adds or narrows</th></tr></thead>
+<tbody>
+<tr><td><code>durable_entity</code></td><td>permanent canonical identity · total resolution for a declared horizon · rename and continuity support</td></tr>
+<tr><td><code>ephemeral_occurrence</code></td><td>no reuse in the namespace · explicit expiry · <strong>no forever-resolution requirement</strong></td></tr>
+<tr><td><code>immutable_artifact</code></td><td>content-addressed or immutable minted identity · <strong>no in-place mutation</strong></td></tr>
+<tr><td><code>external_identity</code></td><td>foreign authority owns minting and lifetime · local concord and history remain governed</td></tr>
+</tbody>
+</table>
+<p><strong>A "durable identifier" species that permits reuse is not a species. It is a contradiction</strong> — and the compiler refuses it.</p>
+
+<!-- ============ 6 ============ -->
+<h2 id="s6">6. The decision algebra</h2>
+<div class="box block">
+  <span class="lbl">The precise law</span>
+  <p>"Every lawful variation is data" is directionally right and imprecise. The law is:</p>
+  <p><strong>Every lawful variation MUST appear as a typed decision in the public decision catalog.</strong></p>
+  <p>The <em>value</em> may come from an application, policy, reference catalog, deployment binding or certified extension. It need not literally sit in a YAML file — which is why the authoring carrier was never the question. A runtime observation is evidence, never a decision contribution and never an input to a sealed semantic plan.</p>
+</div>
+<pre><code><span class="kw">pub enum</span> <span class="ty">DecisionClass</span> {
+    Invariant,             <span class="cm">// nobody may set it</span>
+    ApplicationChoice,     <span class="cm">// the declaring application</span>
+    InstitutionalPolicy,   <span class="cm">// versioned, audited org policy</span>
+    JurisdictionPolicy,    <span class="cm">// legal or regulatory obligation</span>
+    ReferenceData,         <span class="cm">// a curated external register</span>
+    DeploymentBinding,     <span class="cm">// per environment</span>
+    ExtensionBinding,      <span class="cm">// a certified pure function</span>
+    TenantOverlay,         <span class="cm">// only where explicitly delegated</span>
+}
+
+<span class="kw">pub struct</span> <span class="ty">DecisionDefinition</span> {
+    id: DecisionId, value_type: TypeRef, class: DecisionClass,
+    owner: DecisionOwner,          <span class="cm">// WHO has semantic authority</span>
+    phase: BindingPhase,           <span class="cm">// WHEN it may be supplied</span>
+    absence: AbsenceSemantics,     <span class="cm">// what NOT supplying it means</span>
+    default: Option&lt;DefaultDefinition&gt;,   <span class="cm">// value + WHO authorized it</span>
+    constraints: ConstraintSet,
+    overlay_rule: OverlayRule,     <span class="cm">// what a lower layer may do</span>
+    merge_algebra: MergeAlgebra,   <span class="cm">// how contributions combine — §7</span>
+    requires: Vec&lt;DecisionRequirement&gt;, conflicts: Vec&lt;DecisionConflict&gt;,
+    compatibility: CompatibilityImpact,
+    restart: RestartImpact, migration: MigrationImpact,
+    digest_scope: DigestScope, evidence: EvidenceRequirement,
+    explanation: ExplanationTemplate,
+}</code></pre>
+<div class="ascii">   WHY THIS IS NOT A CONFIGURATION FIELD
+
+   timeout: u64                      DecisionDefinition
+   ───────────                       ──────────────────
+   who owns it?        unknown       owner: OrganizationPolicy
+   when is it set?     unknown       phase: EnvironmentBinding
+   what does 0 mean?   unknown       absence: RefuseClosure
+   may a tenant set it? unknown      overlay_rule: Forbidden
+   two policies differ? last wins    merge_algebra: Minimum
+   does changing it     unknown      restart: RollingRestart
+     need a restart?                 migration: None
+   why is it 30?       unknown       default: { value: 30,
+                                                authorized_by: … }</div>
+
+<!-- ============ 7 ============ -->
+<h2 id="s7">7. Merge algebras — the heart of lawful customization</h2>
+<div class="box block">
+  <span class="lbl">Three algebras — never one generic merge</span>
+  <p><strong>Contribution merge</strong> combines authorized candidate values for one decision. <strong>Requirement join</strong> combines demands from several consumers into one demand. <strong>Offer satisfaction</strong> proves that one offer meets one joined requirement. They have different operands, orders, refusals and outputs. Satisfaction returns a typed witness or a typed mismatch, never <code>bool</code>.</p>
+</div>
+<div class="ascii">   contributions ── merge ──▶ resolved decision | decision conflict
+   requirements  ── join  ──▶ joined requirement | impossible demand
+   offer × joined requirement ── satisfy ──▶ satisfaction witness | mismatch
+
+   A family owns its typed values and its partial orders.
+   The platform owns the closed vocabulary and orchestration protocol.
+   A string-named "custom algebra" without executable laws is forbidden.</div>
+<p><strong>Do not implement overlays with arbitrary precedence and recursive object merging.</strong> Different decisions compose differently, and the direction of "stricter" is not a property of the platform — it is a property of the key.</p>
+<pre><code><span class="kw">pub enum</span> <span class="ty">MergeAlgebra</span> {
+    Fixed,              SelectExactlyOne,   ReplaceByOwner,
+    Maximum,            Minimum,
+    Union,              Intersection,       AppendUnique,
+    PredicateStrengthening,  PredicateWeakening,
+    Custom(CertifiedAlgebraId),
+}</code></pre>
+<table>
+<thead><tr><th style="width:44%">Decision</th><th>Composition law</th></tr></thead>
+<tbody>
+<tr><td>minimum authentication assurance</td><td><code>Maximum</code> — larger is stricter</td></tr>
+<tr><td>permitted processing regions</td><td><code>Intersection</code></td></tr>
+<tr><td>statutory retention floor</td><td><code>Maximum</code></td></tr>
+<tr><td>allowed purposes</td><td><code>Intersection</code></td></tr>
+<tr><td>required evidence</td><td><code>Union</code></td></tr>
+<tr><td>maximum data exposure</td><td><code>Minimum</code> — lower is stricter</td></tr>
+<tr><td>user-facing label</td><td><code>ReplaceByOwner</code></td></tr>
+<tr><td>provider selection</td><td><code>SelectExactlyOne</code></td></tr>
+<tr><td>immutable audit requirement</td><td><code>Fixed</code></td></tr>
+</tbody>
+</table>
+<div class="ascii">   WHAT THE ALGEBRA LETS THE COMPILER PROVE
+
+   Tenant policy TIGHTENED access          ──▶  lawful
+   Tenant policy BROADENED access          ──▶  REFUSED
+
+   Jurisdiction INCREASED retention        ──▶  lawful
+   Application  SHORTENED retention        ──▶  REFUSED
+
+   Environment SELECTED a region           ──▶  lawful
+   Environment REDEFINED identity          ──▶  REFUSED
+
+   ── none of this is expressible as a prose precedence list ──</div>
+
+<!-- ============ 8 ============ -->
+<h2 id="s8">8. Recursive encapsulation of decision surfaces</h2>
+<p>A low-level family may expose many decisions. A higher-level capability should expose only the ones its users are permitted to see.</p>
+<div class="ascii">   INSIDE capability.approvable          PUBLISHED BY capability.approvable
+   ──────────────────────────────        ─────────────────────────────────
+   claim lease duration                  trigger
+   timer checkpoint frequency            approver selector
+   event deduplication class             chain shape
+   receipt schema                        threshold
+   work queue state                      separation of duties
+   idempotency scope                     decision SLA
+   retry budget                          rejection-reason requirement
+   partition key                         edit-during-approval behavior
+
+   ~30 internal decisions                8 public decisions</div>
+<pre><code><span class="kw">pub struct</span> <span class="ty">DecisionReexport</span> {
+    public_id: DecisionId,
+    child_instance: ChildInstanceId, child_decision: DecisionId,
+    mapping: ValueMapping, exposed_constraints: ConstraintSet,
+}</code></pre>
+<div class="box ruling">
+  <span class="lbl">The law that makes encapsulation honest</span>
+  <p><strong>Higher-level products simplify lower-level decision surfaces without concealing unresolved decisions.</strong> Every hidden child decision <span class="norm">MUST</span> be exactly one of:</p>
+<pre style="margin:8px 0 0"><code>fixed by an invariant
+fixed by the composite product
+defaulted by an authorized profile
+derived by the compiler
+delegated to another product
+bound later by the environment
+opened as a named gap
+
+    ── it may NOT simply vanish ──</code></pre>
+</div>
+
+<!-- ============ 9 ============ -->
+<h2 id="s9">9. Five contract modes</h2>
+<div class="box block">
+  <span class="lbl">Why one untyped string set collapses</span>
+<pre style="margin:0"><code>requires = ["identity", "auth"]
+provides = ["approved"]</code></pre>
+  <p style="margin-top:10px">This cannot distinguish a value from a card, a fact, a callable decision, an effect, an evidence obligation, a physical resource or a runtime capability. Under real enterprise complexity it fails silently, because <em>everything matches everything</em>.</p>
+</div>
+<div class="ascii">   pub enum ContractLayer { Semantic, Execution, Physical }
+
+   pub enum ContractMode {
+
+     ① Value              immutable typed value or card projection
+                          IdentityCard · TemporalCard · schema view
+
+     ② Call               synchronous request/refusal/response capability
+                          decision evaluator · resolution view · query
+
+     ③ Flow               asynchronous typed fact or stream
+                          SupplierApproved · PlanIssued · checkpoint law
+
+     ④ EffectReceipt      intent paired with an independently checkable receipt
+                          notification order · audit append · signing request
+
+     ⑤ Resource           portable execution or physical requirement
+                          journal · event fabric · KMS · object storage
+   }
+
+   Card, evidence, experience and operational concerns are PAYLOAD MEANING,
+   guarantees or obligations — not additional transport modes. For example,
+   an experience slot is Value or Call; an audit write is EffectReceipt;
+   readiness is a Call guarantee; capacity is a Resource guarantee.</div>
+<pre><code><span class="kw">pub struct</span> <span class="ty">ContractRequirement</span> {
+    id: ContractId,         layer: ContractLayer, mode: ContractMode,
+    payload: PayloadRequirement, edition: EditionRange,
+    guarantees: GuaranteeSet,   cardinality: Cardinality,
+    scope: ContractScope,       phase: ContractPhase,
+}
+<span class="cm">// An offer carries the same header plus typed payload capability,
+// guarantee evidence and provenance. Mode does not erase native payload types.</span></code></pre>
+<div class="ascii">   LEGAL CROSS-LAYER CHAIN
+
+   Context semantic requirement
+      → mechanism execution offer/requirement
+      → provider physical offer
+
+   ILLEGAL SHORTCUTS
+     Context → Provider                 Identifier cannot require PostgreSQL
+     Portable app → Provider            an app cannot select Kafka partitions
+     Semantic contract → vendor SDK     Authority cannot expose Cedar types
+     Mechanism → family internals       runtime sees contracts, not aggregate state</div>
+
+<!-- ============ 10 ============ -->
+<h2 id="s10">10. Binding rules</h2>
+<div class="ascii">   THE RESOLVER MATCHES ON EIGHT DIMENSIONS
+
+     contract kind · capability identity · schema compatibility
+     version compatibility · required guarantees · scope
+     cardinality · lifecycle phase · tenant/environment applicability
+
+   AND AUTO-BINDS ONLY WHEN THERE IS EXACTLY ONE CANDIDATE
+
+     zero candidates       ──▶  GapCase           (named, blocking)
+     one candidate         ──▶  deterministic bind
+     multiple candidates   ──▶  explicit binding REQUIRED</div>
+<div class="ascii">   WORKED BINDING — capability.approvable
+
+   REQUIRES                          AVAILABLE OFFERS
+   ────────                          ────────────────
+   identity.principal                AuthN         ▸ authenticated_principal
+   authority.capability              Authority     ▸ capability_evaluator
+   time.business_clock               IndiaCalendar ▸ business_clock
+   work.claimable_task               Work          ▸ claimable_task
+   evidence.decision_receipt         Evidence      ▸ receipt_writer
+
+   THE PARENT COMPOSITE BINDS THEM
+
+     bind approval.principal  ◀── workforce_auth.authenticated_principal
+     bind approval.authority  ◀── app_authority.capability_evaluator
+     bind approval.clock      ◀── india_business_time.clock
+     bind approval.work       ◀── case_work.claimable_task
+     bind approval.evidence   ◀── institutional_evidence.decision_receipt
+
+   ┌──────────────────────────────────────────────────────────────┐
+   │  NO APPROVAL IMPLEMENTATION IMPORTS AuthN, Work, Time OR     │
+   │  Evidence CODE. They meet only through typed contracts.      │
+   └──────────────────────────────────────────────────────────────┘</div>
+
+<!-- ============ 11 ============ -->
+<h2 id="s11">11. Coverage auditing is separate from vertical composition</h2>
+<div class="ascii">   VERTICAL COMPOSITION          determines WHICH products and family
+                                 instances exist
+
+   COVERAGE AUDITING             checks the explicit obligations applicable
+                                 to each artifact and reports proofs or gaps
+
+   ┌─────────────────────────────────────────────────────────────────┐
+   │  Decision count is an output, never an architecture target.     │
+   │  Every applicable choice is fixed, assigned, derived,           │
+   │  delegated, deferred with a typed requirement, or a named gap.  │
+   └─────────────────────────────────────────────────────────────────┘
+
+        ARTIFACT GRAPH                    ×        24 CONCERN AXES
+        ──────────────                             ───────────────
+        entity · field                             identity · classification
+        command · event                            structure · meaning
+        queue · form · screen                      constraint · behavior
+        index · subscription                       state · time · space
+        host role · migration                      tenancy · authority
+        report · release                           sensitivity · evidence
+                                                   interaction · interface
+                                                   coupling · performance
+                                                   concurrency · failure
+                                                   evolution · observability
+                                                   economics · quality
+                                                   knowledge</div>
+<pre><code><span class="kw">pub struct</span> <span class="ty">CoverageCell</span> {
+    artifact: ArtifactId,
+    axis: AxisId,
+    obligations: Vec&lt;ObligationResolution&gt;,
+    status: CoverageStatus,
+}
+
+<span class="kw">pub enum</span> <span class="ty">CoverageStatus</span> {
+    Provided(ProvisionWitness),
+    Derived(DerivationWitness),
+    Delegated { family: FamilyRef, contract: ContractRef, minimum: ContractEdition },
+    Empty(EmptyReason),
+    Gap(GapCase),
+}
+
+<span class="kw">pub enum</span> <span class="ty">ResolutionMode</span> {
+    Fixed, Supplied, Defaulted, Derived, Delegated, Bound, Observed,
+}
+<span class="cm">// The obligation, not the cell, owns accountable authority.</span>
+<span class="cm">// Conflicts are GapCase::Conflict with a minimal semantic core.</span>
+<span class="cm">// Empty requires a reason and applicability proof; it is not "unchecked".</span></code></pre>
+<h3 id="s11-1">11.1 The law: auditors do not mutate meaning</h3>
+<div class="ascii">   ┌────────────────────────────────────────────────────────────────┐
+   │  The unit of composition is NOT a library call.                │
+   │  It is a typed contract and contribution.                       │
+   │  Each concern auditor reads a sealed semantic graph and        │
+   │  returns proof obligations, evidence or named gaps.             │
+   └────────────────────────────────────────────────────────────────┘
+
+   sensitivity solver ─╳─▶ storage solver
+   storage solver     ─╳─▶ UI solver
+   UI solver          ─╳─▶ authority solver
+
+   No auditor writes a portion of the graph. A missing concern becomes a
+   requirement or gap that an authorized owner must resolve explicitly.</div>
+<h3>11.2 Worked example: one confidential field</h3>
+<div class="ascii">   Application declaration
+       BankDetails is confidential
+                │
+                ▼
+   ┌───────────────────────────────────────────────┐
+   │  SENSITIVITY FAMILY emits ONE ProtectionCard  │
+   │    randomized encryption                      │
+   │    per-tenant key scope                       │
+   │    masked detail view                         │
+   │    audited reveal                             │
+   │    no search · no analytics                   │
+   │    crypto-shred erasure                       │
+   └───────────────────────────────────────────────┘
+                │
+      ┌─────────┼──────────────────┬────────────────────┐
+      ▼         ▼                  ▼                    ▼
+   STORAGE    READ              EXPERIENCE          INTERFACE
+   solver     solver            solver              solver
+   ───────    ──────            ──────────          ─────────
+   byte repr  no filter/sort    masked widget       redacted default
+   key req    audited reveal    reveal ceremony     explicit reveal op
+   erasure    access obligation clipboard block     access receipt
+   recipe
+      │         │                  │                    │
+      └─────────┴──────────────────┴────────────────────┘
+                          ▼
+                  COHERENCE CHECKS
+
+   ┌────────────────────────────────────────────────────────────────┐
+   │  Sensitivity never mutated a SQL plan, a React component or    │
+   │  an API schema. It stated a requirement ONCE. Each target      │
+   │  compiler is the SOLE OWNER of its own output.                 │
+   └────────────────────────────────────────────────────────────────┘</div>
+
+<!-- ============ 12 ============ -->
+<h2 id="s12">12. Contribution discipline — construction is not auditing</h2>
+<div class="box block">
+  <span class="lbl">Two protocols with different authority</span>
+  <p>An owned constructor may create only its declared artifact kinds from declared inputs and stable derivation keys. An auditor may only inspect a sealed view and return findings. Neither receives mutable global IR, and neither may change another owner's meaning.</p>
+</div>
+<pre><code><span class="kw">pub trait</span> <span class="ty">ArtifactConstructor</span> {
+    <span class="kw">fn</span> manifest(&amp;<span class="kw">self</span>) -&gt; &amp;ConstructorManifest;
+    <span class="kw">fn</span> construct(&amp;<span class="kw">self</span>, view: ResolvedView&lt;<span class="st">'_</span>&gt;)
+        -&gt; Result&lt;ConstructionContribution, ConstructionRefusal&gt;;
+}
+
+<span class="kw">pub trait</span> <span class="ty">CoverageAuditor</span> {
+    <span class="kw">fn</span> audit(&amp;<span class="kw">self</span>, graph: SealedSemanticView&lt;<span class="st">'_</span>&gt;)
+        -&gt; CoverageReport;
+}
+
+<span class="kw">pub struct</span> <span class="ty">ConstructionContribution</span> {
+    artifacts: Vec&lt;ArtifactContribution&gt;,
+    decisions: Vec&lt;DecisionContribution&gt;,
+    requirements: Vec&lt;ContractRequirement&gt;, offers: Vec&lt;ContractOffer&gt;,
+    constraints: Vec&lt;ConstraintContribution&gt;,
+    runtime_requirements: Vec&lt;RuntimeRequirement&gt;,
+    proof_obligations: Vec&lt;ProofObligation&gt;,
+    provenance: Vec&lt;ProvenanceEdge&gt;,
+}</code></pre>
+<div class="ascii">   WHAT THE APPLICATION LINKER DOES WITH A CONSTRUCTION CONTRIBUTION
+
+     verify constructor ownership  ← undeclared artifact kind FAILS
+     verify ownership              ← two constructors for one artifact FAILS
+     merge values per algebra      ← §7, not last-writer-wins
+     detect conflicts              ← with a minimal domain-language explanation
+     record provenance             ← every field traces to a source
+     add the owned contribution
+
+   WHAT AN AUDITOR MAY RETURN
+
+     satisfied obligation + witness · inapplicable + reason · named gap
+
+   An auditor cannot return a semantic delta. Composition remains inspectable,
+   deterministic and free of aspect-style mutation.</div>
+
+<!-- ============ 13 ============ -->
+<h2 id="s13">13. Four products and two lifecycle boundaries</h2>
+<div class="ascii">   ┌──────────────────────────────────────────────────────────────────┐
+   │ ① RECURSIVE MODULE EXPANDER                                      │
+   │   in:  root package · registry · lock rules · decision inputs    │
+   │   do:  resolve refs → instantiate root → instantiate children    │
+   │        recursively → apply species/profiles → re-export          │
+   │        decisions → construct initial artifacts → collect         │
+   │        imports and exports                                       │
+   │   out: ResolvedProductGraph                                      │
+   └──────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │ ② DECISION AND CONTRACT SOLVER                                   │
+   │   per decision:  collect invariants · profile defaults ·         │
+   │                  application choices · org policy ·              │
+   │                  jurisdiction policy · reference data ·          │
+   │                  tenant overlays · extension bindings            │
+   │                  ▸ validate authorized contributor               │
+   │                  ▸ fold via merge algebra                        │
+   │                  ▸ check constraints · record explanation        │
+   │                  ▸ classify compatibility and migration impact   │
+   │   per import:    find compatible exports · check guarantees ·    │
+   │                  bind uniquely or require explicit binding       │
+   │   out: ConfiguredProductGraph                                    │
+   └──────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │ ③ COVERAGE AUDITORS — READ ONLY                                  │
+   │                                                                  │
+   │   Identity → Classification → Structure → Meaning → Constraints  │
+   │   Behavior → State → Time                                        │
+   │   Space → Tenancy → Authority → Sensitivity → Evidence           │
+   │   Interaction → Interface → Coupling                             │
+   │   Performance → Concurrency → Failure → Evolution                │
+   │   Observability → Economics → Quality → Knowledge                │
+   │                                                                  │
+   │   ▲ THESE ARE COVERAGE LENSES, NOT A DEPENDENCY ORDER, DOMAIN    │
+   │     MODEL OR LICENCE TO MUTATE THE GRAPH (§11.1)                 │
+   │   out: CoverageReport { witnesses, inapplicable, gaps }          │
+   └──────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │ ④ DEPLOYMENT BINDER — SEPARATE PRODUCT AND LIFECYCLE             │
+   │   in:  AppRelease · org policy · jurisdiction policy ·           │
+   │        tenant overlay · provider catalog · environment profile · │
+   │        observed capabilities                                     │
+   │   selects: storage · event fabric · work claims · timers ·       │
+   │        query engines · KMS · identity providers · topology ·     │
+   │        capacity · placement · credentials                        │
+   │   out: DeploymentPlan · RuntimeGraph · ProviderBindings          │
+   └──────────────────────────────────────────────────────────────────┘
+
+   STAGES ①–② SEAL APPLICATION SEMANTICS. ③ PROVES COVERAGE WITHOUT
+   MUTATION. ④ MAY RUN LATER AND REPEATEDLY: deployment bindings have
+   different authorities, inputs, digests and lifecycles.</div>
+
+<!-- ============ 14 ============ -->
+<h2 id="s14">14. Finite construction and deterministic sealing</h2>
+<pre><code><span class="kw">pub fn</span> link_application(
+    root: PackageRequirement, inputs: DesignInputs,
+    catalog: &amp;PackageCatalog, constructors: &amp;ConstructorCatalog,
+) -&gt; Result&lt;SealedApplication, LinkRefusal&gt; {
+    <span class="kw">let</span> lock = resolve_packages(root, &amp;inputs, catalog)?;
+    <span class="kw">let</span> instances = instantiate_finite(&amp;lock, &amp;inputs)?;
+    <span class="kw">let</span> contributions = construct_owned_artifacts(
+        &amp;instances, constructors,
+    )?;
+    <span class="kw">let</span> decisions = resolve_decisions(&amp;instances, &amp;inputs)?;
+    <span class="kw">let</span> contracts = resolve_contracts(&amp;instances, &amp;decisions)?;
+    seal(instances, contributions, decisions, contracts, lock)
+}</code></pre>
+<div class="box warnb">
+  <span class="lbl">No unrestricted “loop until nothing changes”</span>
+<pre style="margin:0"><code>EVERY EXPANSION MUST BE
+
+    deterministic
+    monotone within its phase
+    finite in possible artifact identities
+    idempotent by contribution identity
+
+EVERY GENERATED ARTIFACT HAS A STABLE DERIVATION KEY
+
+    (package instance, pass, source artifact, constructor, ordinal)
+
+THEREFORE
+
+    same identity, different content   ──▶  COMPILATION FAILS
+    dependency cycle                    ──▶  explicit cycle refusal
+    constructor invents undeclared id   ──▶  ownership refusal
+    same identity, different content    ──▶  deterministic conflict</code></pre>
+</div>
+<p><strong>Additional restraint.</strong> A closed monotone analysis may use a separately specified fixed-point solver. Ordinary application linking is a finite DAG operation: finite package lock · finite instance graph · declared constructor outputs · stable derivation identities · no new package dependency after resolution · no later phase changing earlier meaning.</p>
+
+<!-- ============ 15 ============ -->
+<h2 id="s15">15. Three semantic resolvers and one separate binder</h2>
+<div class="ascii">   ┌─ ① PACKAGE VERSION RESOLUTION ─────────────────────────────────┐
+   │   PubGrub-style constraint solving over:                       │
+   │     package identity · version ranges · edition compatibility  │
+   │     dependency constraints · content digest                    │
+   └────────────────────────────────────────────────────────────────┘
+
+   ┌─ ② CAPABILITY AND CONTRACT RESOLUTION ─────────────────────────┐
+   │   requires/provides · contract kinds · schemas · guarantees    │
+   │   scope · cardinality · phase                                  │
+   └────────────────────────────────────────────────────────────────┘
+
+   ┌─ ③ DECISION RESOLUTION ────────────────────────────────────────┐
+   │   TYPED ALGEBRAIC PROPAGATION — never a generic solver         │
+   │     fixed · select-one · min/max · union/intersection          │
+   │     predicate refinement · owner replacement                   │
+   └────────────────────────────────────────────────────────────────┘
+
+   ┌─ ④ PHYSICAL BINDING — NOT AN APPLICATION RESOLVER ─────────────┐
+   │   HARD CONSTRAINTS FIRST                                       │
+   │     residency · durability · security · compatibility          │
+   │     capacity · provider certification                          │
+   │   THEN optimize SOFT objectives                                │
+   │     cost · latency · operational preference · utilization      │
+   └────────────────────────────────────────────────────────────────┘
+
+   MILP or similar may earn its place in ④ for placement and capacity.
+   It would be absurdly excessive for deciding whether a field label
+   reads "Supplier Name".</div>
+
+<!-- ============ 16 ============ -->
+<h2 id="s16">16. Worked example — Supplier Onboarding</h2>
+<div class="ascii">   solution.supplier-governance
+   │
+   ├── application.supplier-onboarding
+   │   │
+   │   ├── module.supplier-master
+   │   │   ├── archetype.master-record
+   │   │   │   ├── identity.durable-entity
+   │   │   │   ├── structure.entity
+   │   │   │   ├── truth.record
+   │   │   │   ├── state.lifecycle
+   │   │   │   ├── capability.searchable
+   │   │   │   └── capability.auditable
+   │   │   └── domain.procurement-supplier
+   │   │
+   │   ├── module.onboarding-case
+   │   │   ├── archetype.case-work
+   │   │   ├── capability.assignable
+   │   │   ├── capability.approvable          ◀ expanded in §17
+   │   │   ├── capability.sla-bound
+   │   │   ├── capability.documentable
+   │   │   └── capability.commentable
+   │   │
+   │   ├── module.sap-synchronization
+   │   │   ├── product.external-sync
+   │   │   ├── identity.foreign-correspondence
+   │   │   ├── eventing.business-fact-stream
+   │   │   ├── integration.mapping
+   │   │   └── control.reconciliation
+   │   │
+   │   └── experience.supplier-review-workbench
+   │
+   ├── platform.application-host                ◀ expanded in §18
+   ├── platform.truth-plane
+   ├── platform.event-fabric                    ◀ expanded in §18
+   ├── platform.delivery-plane
+   └── platform.evidence-plane
+
+   ┌────────────────────────────────────────────────────────────────┐
+   │  The application is not "calling libraries". It is             │
+   │  INSTANTIATING A RECURSIVE PRODUCT GRAPH whose leaves are      │
+   │  family instances.                                             │
+   └────────────────────────────────────────────────────────────────┘</div>
+
+<!-- ============ 17 ============ -->
+<h2 id="s17">17. Worked example — <code>approvable</code></h2>
+<div class="ascii">   capability.approvable@2
+   │
+   ├── decision.approval@1        request · outcome · chain state
+   ├── authority.approval@3       approver resolution · SoD
+   │                              delegation · step-up requirement
+   ├── work.approval-task@2       work item · queue · claim · reassignment
+   ├── process.approval-flow@2    serial/parallel/quorum · withdrawal
+   │                              edit-during-approval · escalation
+   ├── time.decision-clock@1      business clock · reminder · SLA
+   ├── event.approval-events@1    ApprovalRequested · ApprovalDecided
+   │                              ApprovalExpired
+   ├── evidence.decision-receipt@2
+   ├── experience.approval-inbox@1 inbox · decision panel · refusal display
+   └── quality.approval-scenarios@1 generated permission and threshold tests
+
+   IT PUBLISHES                        IT EXPOSES (8 decisions)
+   ────────────                        ────────────────────────
+   approval.request                    trigger
+   approval.decide                     chain shape
+   approval.status                     approver selector
+   approval.receipt                    threshold
+   approval.inbox                      separation of duties
+                                       decision SLA
+                                       rejection reason
+                                       edit-during-approval behavior
+
+   ┌────────────────────────────────────────────────────────────────┐
+   │  Consumers do not need to know its internal family tree.       │
+   │  This is ordinary information hiding — apparently              │
+   │  revolutionary only because enterprise frameworks routinely    │
+   │  expose all of their plumbing as user configuration.           │
+   └────────────────────────────────────────────────────────────────┘</div>
+
+<!-- ============ 18 ============ -->
+<h2 id="s18">18. Worked examples — Event Fabric and Application Host</h2>
+<h3>18.1 Event Fabric is a platform product, not an event-bus library</h3>
+<div class="ascii">   product.event-fabric
+   │
+   ├── eventing.publication      identity · logical stream · partition
+   │                             ordering · schema compatibility
+   ├── truth.outbox              same-transaction publication obligation
+   │                             publisher checkpoint
+   ├── eventing.subscription     consumer group · checkpoint
+   │                             handling idempotency · lag contract
+   ├── eventing.replay           replay window · retention · backfill
+   ├── failure.delivery          retry · quarantine · DLQ
+   ├── evolution.event-schema
+   ├── tenancy.stream-isolation
+   ├── authority.publish-consume
+   ├── sensitivity.event-protection
+   ├── evidence.publication-receipts
+   ├── observability.event-health
+   ├── economics.event-metering
+   ├── runtime.publisher · runtime.subscriber · runtime.replay
+   └── provider.event-fabric
+
+   SPECIES                        PROVIDER BINDINGS
+   ───────                        ─────────────────
+   business_fact_stream           PostgreSQL local fabric
+   notification_stream            Redpanda
+   telemetry_stream               Kafka
+   control_stream                 NATS
+   disconnected_relay
+
+   ┌────────────────────────────────────────────────────────────────┐
+   │  CHANGING THE PROVIDER DOES NOT CHANGE THE SEMANTIC PRODUCT    │
+   │  DEFINITION. That is the whole point of the split.             │
+   └────────────────────────────────────────────────────────────────┘</div>
+<h3>18.2 Application Host</h3>
+<div class="ascii">   product.application-host
+   │
+   ├── host.definition       runtime roles · role dependency graph
+   │                         required/provided capabilities
+   ├── host.boot             release verification · edition verification
+   │                         provider resolution · BootReport
+   ├── host.supervision      restart budget · health · degradation
+   │                         quarantine · shutdown
+   │
+   ├── host.request-role · host.worker-role · host.scheduler-role
+   ├── host.sandbox-role  · host.control-agent
+   │
+   ├── runtime.backpressure · runtime.deadlines
+   ├── runtime.fairness     · runtime.drain
+   │
+   ├── resource.binding · network.connectivity · secrets.binding
+   ├── observability.runtime-health · evidence.boot-and-operation
+   │
+   └── providers
+       ├── process · container
+       └── Kubernetes · customer-runtime
+
+   Host species expose different lawful decisions
+   WITHOUT REWRITING THE SUPERVISOR.</div>
+
+<!-- ============ 19 ============ -->
+<h2 id="s19">19. The cross-family runtime chain</h2>
+<p>A real composition chain, rather than an "everything uses everything" diagram.</p>
+<div class="ascii">   AUTHENTICATION
+     consumes  credential · authenticator policy · issuer observation
+     exports   AuthenticatedPrincipal {
+                   principal · assurance
+                   authenticated_at · credential_freshness }
+                          │
+                          ▼
+   TENANCY
+     consumes  principal · tenant assertion · membership observation
+     exports   VerifiedTenantContext {
+                   tenant · organization · workspace
+                   membership_freshness }
+                          │
+                          ▼
+   AUTHORITY
+     consumes  authenticated principal · verified tenant context
+               requested capability · resource identity · purpose
+     exports   AuthorityVerdict {
+                   allow_or_refuse · obligations
+                   evidence_requirements }
+                          │
+                          ▼
+   ACTION
+     consumes  authority verdict · domain command
+               current state · expected version
+     exports   admitted facts · external effect intents
+               command receipt basis
+                          │
+                          ▼
+   TRUTH
+     ATOMICALLY COMMITS   facts · state/version · outbox · evidence basis
+                          │
+                          ▼
+   EVENT FABRIC
+     publishes fact envelopes · publication receipts
+                          │
+                          ▼
+   WORK  ·  PROCESS  ·  PROJECTION  ·  INTEGRATION
+
+   ┌────────────────────────────────────────────────────────────────┐
+   │  NO FAMILY REACHES INTO A SIBLING'S DATABASE OR PRIVATE STATE. │
+   │  Every arrow above is a typed contract, not a function call.   │
+   └────────────────────────────────────────────────────────────────┘</div>
+
+<!-- ============ 20 ============ -->
+<h2 id="s20">20. Compiled artifacts and runtime linking</h2>
+<div class="ascii">   THREE IMMUTABLE ARTIFACTS, THREE OWNERS, THREE LIFECYCLES
+
+   ┌─ AppRelease ─────────────────────────── design compiler ──────┐
+   │   package_lock · product_graph · artifact_graph               │
+   │   decision_graph · contract_graph                             │
+   │   semantic_plans · behavior_plans · authority_plan            │
+   │   truth_plan · coordination_plan · experience_plan            │
+   │   integration_plan · operational_requirements                 │
+   │   coverage · proofs · migrations · provenance · digest        │
+   │                                                               │
+   │   ▸ NO PROVIDER-SPECIFIC VALUE MAY APPEAR HERE                │
+   └───────────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+   ┌─ DeploymentPlan ─────────────────────── binding compiler ─────┐
+   │   app_release · organization_policy · jurisdiction_policy     │
+   │   tenant_overlay · runtime_graph · provider_bindings          │
+   │   resource_plan · topology_plan · secrets_plan                │
+   │   migration_plan · health_plan · digest                       │
+   └───────────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+   ┌─ ReportedEstate ─────────────────────── the running world ────┐
+   │   observed state · health · capacity · drift                  │
+   └───────────────────────────────────────────────────────────────┘
+
+   CARDS ARE TYPED PROJECTIONS OF AppRelease.
+   THEY ARE NOT INDEPENDENT SOURCES OF TRUTH.</div>
+<h3>20.1 Provider-independent requirements bind late</h3>
+<div class="ascii">   AppRelease declares:            The binding compiler chooses:
+   ────────────────────            ─────────────────────────────
+   journal.v1                      postgres.journal
+   event-fabric.v2                 redpanda.fabric
+   work-claims.v1                  postgres.work-claims
+   durable-timers.v1               postgres.timers
+   query.v2                        tantivy + datafusion
+   kms.v1                          vault.kms
+   policy-decision.v1              cedar.authority
+   object-store.v1                 s3.objects
+
+   THE HOST RECEIVES A GENERATED RUNTIME GRAPH
+
+   app-runtime                     work-runtime
+   ├── journal   ▸ postgres.journal ├── claims   ▸ postgres.work-claims
+   ├── authority ▸ cedar.authority  ├── timers   ▸ postgres.timers
+   ├── evidence  ▸ postgres.evidence└── commands ▸ app-runtime.command-port
+   └── outbox    ▸ local-publisher
+                                    query-runtime
+                                    ├── transactional ▸ postgres.read
+                                    ├── search        ▸ tantivy.search
+                                    └── analytics     ▸ datafusion.query</div>
+<h3>20.2 Explicit registries, never discovery</h3>
+<pre><code>RuntimeRegistry::builder()
+    .register(<span class="st">"journal.postgres.v1"</span>, postgres::journal_factory())
+    .register(<span class="st">"work.postgres.v1"</span>,    postgres::work_factory())
+    .register(<span class="st">"event.local.v1"</span>,      motion::local_event_factory())
+    .build()</code></pre>
+<div class="ascii">   ✗ NO linker inventory
+   ✗ NO dynamic service locator
+   ✗ NO arbitrary package calling register_global() during startup
+   ✗ NO arbitrary dynamically loaded native Rust
+
+   THIRD-PARTY LOGIC USES INSTEAD:
+     deterministic compiler WASM
+     typed runtime WASM components
+     external providers behind versioned ports
+     signed UI components</div>
+
+<!-- ============ 21 ============ -->
+<h2 id="s21">21. Repository packaging</h2>
+<div class="box ruling">
+  <span class="lbl">Logical packages and physical crates are independent axes</span>
+  <p>A Rust crate may implement several species, several profiles, several capability expansion algorithms and several declarative package releases. <strong>A new application never automatically requires a new Rust crate.</strong></p>
+</div>
+<div class="ascii">   packages/                        crates/
+   ├── families/                    ├── foundation/
+   ├── species/                     ├── model/
+   ├── profiles/                    ├── package-system/
+   ├── capabilities/                ├── compiler/
+   ├── archetypes/                  ├── family-implementations/
+   ├── domains/                     ├── runtime/
+   ├── applications/                ├── host/
+   ├── platform-products/           ├── delivery/
+   ├── solutions/                   ├── providers/
+   └── providers/                   └── testkit/
+
+   ── declarative product graph ──   ── compiled implementation ──</div>
+<table>
+<thead><tr><th style="width:44%">A new…</th><th>…is a</th></tr></thead>
+<tbody>
+<tr><td>number format</td><td>package/profile row</td></tr>
+<tr><td>OIDC provider</td><td>provider package</td></tr>
+<tr><td>approval shape</td><td>species, usually</td></tr>
+<tr><td>invariant-bearing semantic model</td><td><strong>Rust</strong> — and only this one</td></tr>
+<tr><td>application</td><td>a product graph, and <em>never</em> a crate</td></tr>
+</tbody>
+</table>
+
+<!-- ============ 22 ============ -->
+<h2 id="s22">22. The boundary test</h2>
+<div class="ascii">   ADD A NEW FAMILY when ALL hold
+     ▸ it has a sovereign question
+     ▸ it owns a distinct ubiquitous language
+     ▸ it has irreducible laws
+     ▸ it owns state or substantial compile-time semantics
+     ▸ multiple products consume it
+     ▸ another family cannot honestly own its decisions
+
+   ADD A SPECIES when
+     ▸ the family is unchanged, but one coherent LAW-PRESERVING
+       behavioral variant is needed
+
+   ADD A PROFILE when
+     ▸ existing species and decisions suffice, and only defaults
+       or strategy selections change
+
+   ADD A CAPABILITY when
+     ▸ several families repeatedly compose into one business outcome
+
+   ADD AN ARCHETYPE when
+     ▸ several capabilities repeatedly form one application shape
+
+   ADD A RUNTIME when
+     ▸ execution PHYSICS are distinct
+       journal vs queue vs timer vs query vs reconciliation
+
+   ADD A PROVIDER when
+     ▸ one technology implements an existing runtime/resource contract
+
+   ADD AN EXTENSION CONTRACT when
+     ▸ the semantic variation is valid but cannot be implemented
+       by existing built-ins
+
+   ┌────────────────────────────────────────────────────────────────┐
+   │  This prevents BOTH failure modes:                             │
+   │                                                                │
+   │    one universal god-library                                   │
+   │                    …and…                                       │
+   │    one Cargo.toml for every newly discovered noun              │
+   └────────────────────────────────────────────────────────────────┘</div>
+
+<h3>22.1 The axis tests — is the SPLIT on the right plane? <span class="src">folded 2026-08-06</span></h3>
+<p>The boundary test above admits a candidate; these three tests verify the <em>axis</em> the
+candidates were cut on (the id ≠ identifier ≠ identity class of error). They complement the
+Constitution's ten concept-splitting tests (cardinality, identity criterion, lifecycle, authority,
+time, rebuildability, consistency, failure, privacy, epistemic status — any material difference
+presumes two concepts).</p>
+<div class="ascii">   TEST 1 — INTERROGATIVE UNIQUENESS
+     each family answers a DIFFERENT interrogative; no term answers two.
+       well-formed name, who mints?        → Identifier
+       what does the name denote, still?   → Identity
+       what does HOLDING a name mean?      → Reference
+       where is it, how reach it?          → Locator
+       what do humans call it?             → Designation
+       what does a foreign system call it? → Correspondence
+     a term answering two questions is two concepts.
+
+   TEST 2 — PLACEMENT COLLISION
+     run the one-minute "where does X go?" table over ~100 world terms.
+     two rows claiming one term ⇒ the axis is wrong.
+     a term claimed by no row ⇒ a gap, never a stretch.
+
+   TEST 3 — SEAM THINNESS
+     a correct axis yields THIN, typed seams. fat bidirectional
+     contracts touching each other's internals ⇒ one family cut on
+     the wrong plane, or one family pretending to be two.
+     residue check: after all families answer, a question left over
+     is a missing family, not a feature of an existing one.</div>
+<p>Empirical detector: S0 convergence. When the repository's own independent artifacts keep
+re-inventing the same cut (four legacy vocabularies mapping onto one census with zero new members;
+the same LINK/relator boundary appearing in three unrelated drafts), the cut is real. When a
+proposed split requires explaining the evidence away, the split is wrong.</p>
+
+<h3>22.2 The capability-universe census, v3 <span class="src">recorded 2026-08-06 — census INPUT, not a family list (M-06)</span></h3>
+<p>The working census grew 88 → 94 → 98 → 102 → 104 across successive lens applications — exactly the
+saturation behavior §14.1's estimator predicts. Per M-06 these are <strong>candidate concerns</strong>;
+each earns family status only through the §22 boundary test and the classification gate. Honest range:
+99–104 (five borderline collapses pending).</p>
+<div class="ascii"> SHAPE    104 candidates · 17 planes · by state: ●63 durable ◐2 ○29 pure-value
+          by tier: T0 9 (borrow) · T1 11 (wrap) · T2 36 (short spec) ·
+                   T3 28 (full spec) · T4 10 ██ (full spec + formal methods)
+          the ten T4s: Identity · Recognition · Bitemporality · Delegation ·
+          Consent&Purpose · Compensation · Ledger · Tax · Erasure ·
+          (Authorization borderline) — 11% of domains, ~70% of the risk
+          SPECCED SO FAR: the shelf's 16 + Reference — the T4 risk is unspecced.
+
+ THE REAL-vs-COMPOSITION TEST (complements §22's boundary test)
+   REAL iff ALL FIVE: unowned sovereign question · distinct language with
+   homonyms fenced · IRREDUCIBLE laws (not derivable from parts) · a
+   different deciding authority · removing it leaves a question unowned.
+   COMPOSITION iff: the question decomposes without residue · every law
+   reduces to a part's law · no state its parts don't own · it is a
+   PRODUCT NAME (lakehouse, observability, "data platform") — product
+   names are compositions ~always; that is what they are for.
+
+ ADDED SINCE THE 88 (census-level, unratified)
+   95 Derivation&Materialization  rebuildable-or-it-IS-truth; watermarks
+   96 Query Contract              what a read PROMISES (cursors live here)
+   97 Measure&Metric              grain · additivity · "may it be summed?" T4-adjacent
+   98 Model&Inference             belief never masquerades as fact
+   99 Interface/Surface           one capability → N protocol surfaces;
+                                  surface-is-derived; refusal-projects-faithfully
+  100 Experience/Interaction      what a human sees/does; mask-before-render;
+                                  destructive-needs-ceremony  ◀ largest prior omission
+  101 Reconciliation              desired vs reported; apply-is-idempotent;
+                                  reported-is-an-observation; override-expires
+  102 Assembly&Wiring             recipe→parts→ports; no-service-locator;
+                                  unbound-refuses-boot
+  103 Risk&Control                residual = inherent × control EFFECTIVENESS
+  104 Obligation&Compliance       clause → control → evidence; applicability
+                                  DERIVED from the closure (san-compliance* evidence)
+
+ COLLAPSES/HOMONYMS RULED AT CENSUS LEVEL
+   Claim+Fact→Adjudication · Refusal+Fault+Defect→Failure · Liveness+
+   Readiness+DepHealth→Health · Env+Region+Deploy→Placement · Person→
+   species of Party · Audit→Bitemporality∘Evidence · "Catalog"/"Policy"
+   homonyms fenced (Registry #93 / Packs #91)
+ BORDERLINE (may collapse when specced): Rate→species of Quantity ·
+   Fulfilment→state of Commitment · Offer→species of Commitment ·
+   Role→Membership-of-a-role · SLO→Policy∘Measure∘Health
+
+ THE FIVE LOAD-BEARING EDGES
+   Namespace ─grant─▶ Identifier        minting authority
+   Namespace ─publish─▶ Locator         publication legitimacy
+   Instant ─▶ everywhere                every family consumes time
+   Journal ─▶ Derivation                rebuildable or it IS truth
+   Adjudication ─▶ everything           claim-vs-fact epistemic spine
+
+ LENSES RUN: who-touches · desired-vs-actual · what-boots · regulator ·
+   money · physical.  UNRUN (task #16): adversary · failure-museum-over-104 ·
+   conversation/agentic · disconnected/offline · multi-party/no-root</div>
+<p>Data-platform ruling recorded with the census: lakehouse, time-travel, ETL/CDC, lineage, catalogs,
+contracts, feature stores, observability, tracing, BI and reverse-ETL are all COMPOSITIONS of the
+above (mostly Derivation · Query · Journal · Bitemporality · Provenance · Integration · Measure ·
+Model); table formats and partitioning are providers/mechanisms and never appear in a portable plan.</p>
+
+<h3>22.3 The reconciled domain roster <span class="src">recorded 2026-08-06 — the coarse 34-row map and the fine census are two zoom levels of one universe</span></h3>
+<p>Markers: ✓ specced · ⏳ in flight · ○ owed · † borderline-collapse candidate ·
+[S] sovereign · [C] composition/plane · [P] pack · [M] mechanism. Coarse-row rulings first;
+the fine roster below is the buildable unit list the tracker counts against.</p>
+<div class="ascii"> COARSE 34 → RULINGS
+  A1-5 constitution territory (Language&amp;Edition · Packs · Compilation&amp;Plans ·
+       Registry&amp;Explanation · Conformance&amp;Laws)      all [S] — platform plane,
+       = the spec-compiler program                       (tracker task #11)
+  SOVEREIGN AS-WRITTEN: AuthN · Work · Process · Conversation · Commitments ·
+       Resources/Inventory · Ledger(T4) · Content&amp;Records · Integration ·
+       Communications · Eventing · Host · Infrastructure · Fleet · Incident · Secrets
+  TWO-FAMILY ROWS: Semantics&amp;Classification → Vocabulary/CodeLists + Classification
+       Rules&amp;Decisions → Rules + Decision · Evidence&amp;Provenance → Evidence + Provenance
+       Calendars → Calendar✓ + Recurrence + Expiry
+  PLANES THAT SPLIT [C]: Identity-closed → Identity·Correspondence·Recognition
+       Authority → Authorization·Delegation·Entitlement (SoD = species)
+       Truth&amp;Journal → Journal·Adjudication·Bitemporality✓
+       Knowledge&amp;Belief → Adjudication·Recognition·Model
+       Privacy → Consent&amp;Purpose·Erasure·Classification·Retention·Residency
+       Federation&amp;Directory → Federation [S] + directory-sync [C]
+  SPECIAL: Org&amp;Tenancy → Organization [P] + Tenancy subfamily (both ruled)
+       Case → † archetype-vs-family ruling owed (kernel lists Case as archetype)
+       Estate&amp;Commerce → [C] Entitlement∘Metering∘Lease
+       supply-chain → [C] Provenance∘Signature∘SBOM · runtime chassis parts → [M]
+
+ FINE ROSTER (buildable units, ~90 sovereign)
+  ✓ SPECCED 16+1⏳: Canonicalization·Digest·Encoding·Text·Quantity·Money·Rate†·
+       Instant·Identifier·Namespace·Locator·Path·Causality·Bitemporality·
+       Calendar·Organization[P] · Reference⏳
+  ○ OWED by plane:
+   naming/time   Designation · Recurrence · Expiry
+   identity      Identity · Correspondence · Recognition · Party · Membership ·
+                 Relationship · Tenancy(MD→HTML)
+   truth         Journal · Adjudication · Provenance · Evidence
+   derived-data  Derivation · QueryContract · Measure · Model
+   access        Credential · AuthN(MD→HTML) · Session† · Authorization ·
+                 Entitlement · Delegation · Consent&amp;Purpose · Classification ·
+                 Federation(MD→HTML)
+   semantics     Vocabulary/CodeLists
+   work/commerce Work · Process · Decision · Conversation · Compensation ·
+                 Catalog(offering) · Price · Order · Commitment · Invoice ·
+                 Payment · Ledger · Holding · Tax
+   exchange      Eventing · Integration · Communications
+   content       Content&amp;Records
+   lifecycle     Retention · Erasure · Residency · Schema · Version ·
+                 Migration · Generation
+   operations    Placement · Configuration · Policy · Health · Telemetry ·
+                 Failure · Idempotency · Quota · Admission · Reconciliation ·
+                 Assembly · Host · Infrastructure · Fleet · Incident ·
+                 Secrets · Metering
+   governance    Risk&amp;Control(T4) · Obligation&amp;Compliance(T4)
+   surface       Interface · Experience
+   platform      Language&amp;Edition · Packs · Compilation&amp;Plans ·
+                 Registry&amp;Explanation · Conformance&amp;Laws
+  NEVER FAMILIES: the data-platform product names above · Audit(=Bitemporality∘
+   Evidence) · Cost(=Metering∘Rate) · Estate&amp;Commerce · directory-sync ·
+   supply-chain · process-mining · the six coarse bundles
+  BORDERLINE † (collapse when specced): Rate · Offer · Fulfilment · Role ·
+   SLO · Case · Session</div>
+<p>Progress accounting rule: the tracker counts against the FINE roster only. A coarse row is
+"done" when every fine unit it splits into is specced, never before — planes cannot be checked off.</p>
+
+<!-- ============ 23 ============ -->
+<h2 id="s23">23. Eighteen non-negotiable compiler laws</h2>
+<table>
+<thead><tr><th style="width:6%">#</th><th style="width:44%">Law</th><th>Prevents</th></tr></thead>
+<tbody>
+<tr><td class="id">K-01</td><td>Every package exposes all lawful decisions</td><td>hidden knobs and undocumented behavior</td></tr>
+<tr><td class="id">K-02</td><td>Every invariant is fixed and named</td><td>a "customizable" flag disabling a law</td></tr>
+<tr><td class="id">K-03</td><td>Every decision names owner, phase, merge algebra and migration effect</td><td><code>timeout: u64</code> masquerading as a contract</td></tr>
+<tr><td class="id">K-04</td><td>Every import and export is typed and versioned</td><td><code>requires = ["identity"]</code> matching everything</td></tr>
+<tr><td class="id">K-05</td><td>Composite packages access only child <em>public</em> surfaces</td><td>coupling to implementation layout</td></tr>
+<tr><td class="id">K-06</td><td><strong>Sibling implementations never call one another during compilation</strong></td><td>the pass-calls-pass tangle of §11.1</td></tr>
+<tr><td class="id">K-07</td><td>Owned constructors return contributions; auditors return findings; neither mutates arbitrary IR</td><td>pointcut fragility (§0.3)</td></tr>
+<tr><td class="id">K-08</td><td>Every generated artifact has a stable identity and provenance path</td><td>non-terminating expansion</td></tr>
+<tr><td class="id">K-09</td><td>Every applicable declared obligation has a witness, reasoned inapplicability or named gap</td><td>silent enterprise incompleteness</td></tr>
+<tr><td class="id">K-10</td><td>Every contract requirement is bound or becomes a <em>named</em> gap</td><td>runtime discovery of a missing provider</td></tr>
+<tr><td class="id">K-11</td><td>Every stateful capability names a state owner and a runtime mechanism</td><td>two aggregates owning one state</td></tr>
+<tr><td class="id">K-12</td><td>Every effect is declared and receipted</td><td>invisible side effects</td></tr>
+<tr><td class="id">K-13</td><td>Before deployment, every runtime requirement binds to a <em>certified</em> implementation</td><td>an uncertified adapter in production</td></tr>
+<tr><td class="id">K-14</td><td>Every expansion is deterministic, idempotent, finite and terminating</td><td>a compiler that sometimes finishes</td></tr>
+<tr><td class="id">K-15</td><td>Every change has compatibility and migration semantics</td><td>a version number standing in for a plan</td></tr>
+<tr><td class="id">K-16</td><td><strong>No provider-specific value enters a portable semantic plan</strong></td><td>architectural surrender with a tidy schema</td></tr>
+<tr><td class="id">K-17</td><td>No arbitrary deep merge or last-writer-wins configuration exists</td><td>policy meaning depending on file order</td></tr>
+<tr><td class="id">K-18</td><td>Every conflict produces a minimal domain-language explanation</td><td>a stack trace where a sentence belongs</td></tr>
+</tbody>
+</table>
+
+<!-- ============ 24 ============ -->
+<h2 id="s24">24. The build program</h2>
+<div class="box block">
+  <span class="lbl">The shared prerequisite is a contract, not a god-kernel</span>
+  <p>First freeze the minimal composition contract model and pure application linker. Families may implement their native Rust semantics independently, but their composition surfaces cannot be certified until they target this shared model. Coverage auditing and deployment binding remain separate products and may mature independently.</p>
+</div>
+<div class="ascii">   ① PACKAGE METAMODEL
+     PackageId · PackageKind · PackageVersion · PackageLock
+     PackageDescriptor · ChildInstanceTemplate · PackageRequirement
+
+   ② DECISION ALGEBRA
+     DecisionDefinition · DecisionAssignment · DecisionCatalog
+     DecisionOwner · BindingPhase · OverlayRule · MergeAlgebra
+     CompatibilityImpact
+
+   ③ TYPED CONTRACT ALGEBRA
+     ContractMode · ContractRequirement · ContractOffer
+     ContractBinding · GuaranteeSet · ContractScope · Cardinality
+
+   ④ RECURSIVE PRODUCT GRAPH
+     ProductGraph · PackageInstance · ChildInstance
+     DecisionReexport · Namespace · TargetSelector
+
+   ⑤ ARTIFACT-CONSTRUCTION API
+     ArtifactConstructor · ArtifactTemplate
+     ArtifactIdentityFormula · ArtifactContribution
+
+   ⑥ CONSTRUCTOR AND AUDITOR APIs
+     ConstructorManifest · ConstructionContribution · CoverageReport
+
+   ⑦ RESOLVERS — separately (§15)
+     PackageResolver · DecisionResolver
+     ContractResolver · ConflictSolver
+
+   ⑧ FINITE CONSTRUCTION — and PROVE:
+     same inputs → same graph
+     second application → no change
+     finite derivation identities
+     no hidden wall clock or randomness
+
+   ⑨ READ-ONLY COVERAGE AUDIT
+     ArtifactGraph · AxisApplicability
+     CoverageCell · CoverageMatrix · GapCase
+
+   ⑩ STAGED PLANS — as typestate
+     AppGraph&lt;Resolved&gt; → &lt;Expanded&gt; → &lt;Completed&gt; → AppRelease
+     AppRelease → BoundGraph → DeploymentPlan
+
+   ⑪ SEPARATE DEPLOYMENT BINDER
+     RuntimeRequirement · RuntimeOffer · ProviderOffer
+     ProviderCertification · RuntimeGraph · RuntimeBinding
+
+   ⑫ PROOF PRODUCT — one serious composite: SUPPLIER ONBOARDING
+     prove master record · case · approval · work · SLA · documents
+     eventing · integration · host · truth · experience · delivery
+     are composed ENTIRELY through the new product and contract algebra</div>
+<div class="box warnb">
+  <span class="lbl">How this meets the family work already done</span>
+  <p>Sixteen family specifications are indexed and none is ratified. Their blockers differ by architectural class; a foundation algebra is not required to invent a state machine, while a state-owning family must close its full command matrix. Native family semantics can proceed independently of steps ①–⑦; composition certification cannot.</p>
+  <p>The dependency runs the other way at step ⑫: the proof product needs family instances, and the Constitution's <em>golden thread</em> — sixteen steps across Identifier, Instant, Namespace and Locator — is the smallest honest version of it. <strong>Run the golden thread as the acceptance test for steps ①–⑪</strong>, and the two programs converge instead of racing.</p>
+</div>
+
+<!-- ============ 25 ============ -->
+<h2 id="s25">25. The product equation</h2>
+<div class="ascii">   THE SYSTEM IS NOT ONE IR PIPELINE. IT IS:
+
+     A RECURSIVE MODULE SYSTEM      for vertical product composition
+   + A TYPED DECISION ALGEBRA      for lawful customization
+   + A CONTRACT RESOLVER           for cross-family composition
+   + AN ARTIFACT CONSTRUCTOR       for application expansion
+   + READ-ONLY COVERAGE AUDITORS   for enterprise totality
+       APPLICATION LINKER ENDS HERE
+   + A DEPLOYMENT BINDER           for execution mechanisms and providers
+   + PROOF PRODUCTS                for totality and evidence</div>
+<div class="ascii">   Working Enterprise Product
+   =
+       Resolve  ( RecursiveProductReferences )
+     + Configure( Species, Decisions, Policies, Extensions )
+     + Compose  ( TypedImports, TypedExports )
+     + Expand   ( ArtifactConstructors )
+     + Audit    ( Obligations × ApplicableConcernLenses )
+     + Bind     ( RuntimeRequirements, CertifiedProviderOffers )
+     + Prove    ( Laws, Scenarios, Migrations, Evidence )</div>
+<div class="box ruling">
+  <span class="lbl">What this makes of the original claim</span>
+  <p><em>"Prebuilt libraries + references + typed customization + composition = any governed enterprise application."</em></p>
+  <p><strong>Without</strong> the recursive package algebra, typed decision model, contract resolver, controlled contribution merge and separate deployment binder, "capability packs" is handwaving.</p>
+  <p><strong>With</strong> them, it is a typed product language with a pure application linker, read-only proof tooling and a separate deployment binder — and the family specifications become correct leaves and explicit composites in a structure that can actually assemble them.</p>
+</div>
+
+<footer>
+  SAN Product Composition Architecture · edition 3 · 2026-08-06<br>
+  Sits above the family shelf indexed by <code>toolkit/FAMILY-SPECS.md</code>. Organization is a composed pack, not a family leaf. Governed by <code>docs/PURE-LIBRARY-CONSTITUTION.html</code>.<br>
+  <strong>The unit of composition is a typed contract and contribution; application closure, coverage proof and deployment binding remain separate.</strong>
+</footer>
+
+</main>
+</div>
+<!-- HTML-INVENTORY:BEGIN -->
+<h2 id="s26">26. Specification and document inventory (generated — every HTML source, one hub)</h2>
+<p><em>Generated by <code>scripts/build_spec_shelf.py</code> from <code>toolkit/FAMILY-SPECS.md</code> and <code>docs/platform/MACHINE-SIDE-INDEX.md</code> plus a filesystem sweep; regenerate after either ledger changes, never hand-edit inside the markers. This section is a navigation projection with no authority of its own; where it and a ledger disagree, the ledger wins. Excluded by ruling: rustdoc output, market/industry pages (<code>industries/</code>, <code>software/</code>, <code>topics/</code>), frontend app shells, legacy UIs, and runtime document templates under <code>apps/</code>.</em></p>
+<h3 id="s26-authority">26.1 Doctrine, atlases, ledgers and gates</h3>
+<ul>
+<li><a href="../AGENTS.md">AGENTS.md</a> — Repository source-authority boundary: deprecated toolkit/Factory/Foundation/Proto trees are evidence only, never suppliers</li>
+<li><a href="THE-ONE-IDEA.md">docs/THE-ONE-IDEA.md</a> — Repository-wide composition direction: tools + declarations + generic assembly; no family may contradict it</li>
+<li><a href="architecture/domain-libraries/pure-library-rules.md">docs/architecture/domain-libraries/pure-library-rules.md</a> — Operational R01–R44 projection of the Constitution; creates no separate law</li>
+<li><a href="PURE-LIBRARY-CONSTITUTION.html">docs/PURE-LIBRARY-CONSTITUTION.html</a> — THE single normative authority: R01–R44, C01–C12, PDR-01–10, canonical ContextSpec / ContractHeader / ContractEdgeSpec shapes, certification levels</li>
+<li><a href="SOFTWARE-DOMAIN-LIBRARY-METHOD.html">docs/SOFTWARE-DOMAIN-LIBRARY-METHOD.html</a> — S0–S9 procedure: research, ontology, boundary, semantics, decisions, evolution, Rust, proof</li>
+<li><a href="SPEC-METHOD.html">docs/SPEC-METHOD.html</a> — Specification method companion</li>
+<li><a href="PROGRAM.html">docs/PROGRAM.html</a> — Program dashboard</li>
+<li><a href="REFERENCE-DOMAIN-SPEC.html">docs/REFERENCE-DOMAIN-SPEC.html</a> — Reference domain worked specification</li>
+<li><a href="RECON-PROBLEM-STATEMENT.html">docs/RECON-PROBLEM-STATEMENT.html</a> — Reconciliation problem statement</li>
+<li><a href="kind-atlas.html">docs/kind-atlas.html</a> — Kind atlas</li>
+<li><a href="enterprise-data-types.html">docs/enterprise-data-types.html</a> — Enterprise data-type atlas</li>
+<li><a href="value-equation.html">docs/value-equation.html</a> — The value equation</li>
+<li><a href="inventory-intelligence.html">docs/inventory-intelligence.html</a> — Inventory intelligence study</li>
+<li><a href="../toolkit/COMPOSITION-STRATEGY.html">toolkit/COMPOSITION-STRATEGY.html</a> — Toolkit composition strategy</li>
+<li><a href="../toolkit/FAMILY-PROJECT-SPEC.html">toolkit/FAMILY-PROJECT-SPEC.html</a> — Family project specification</li>
+<li><a href="design-system/ivory-grid.html">docs/design-system/ivory-grid.html</a> — Design system — ivory grid</li>
+<li><a href="design-system/swiss-light.html">docs/design-system/swiss-light.html</a> — Design system — swiss light</li>
+<li><a href="../toolkit/FAMILY-SPECS.md">toolkit/FAMILY-SPECS.md</a> — Sovereign family shelf ledger</li>
+<li><a href="platform/MACHINE-SIDE-INDEX.md">docs/platform/MACHINE-SIDE-INDEX.md</a> — Machine-side shelf ledger</li>
+<li><a href="platform/SPEC-KINDS.md">docs/platform/SPEC-KINDS.md</a> — Seven architectural classes; six spec templates; C01–C12 applicability</li>
+<li><a href="platform/RESOURCE-BINDING-PROTOCOL.md">docs/platform/RESOURCE-BINDING-PROTOCOL.md</a> — Requirement / offer / satisfy() binding chain</li>
+<li><a href="platform/MODEL-CORRECTIONS-2026-08-06.md">docs/platform/MODEL-CORRECTIONS-2026-08-06.md</a> — Ratified model corrections</li>
+<li><a href="platform/OPEN-RULINGS-2026-08-06.md">docs/platform/OPEN-RULINGS-2026-08-06.md</a> — Open platform rulings</li>
+<li><a href="platform/retrofit/APPLY-LIST.md">docs/platform/retrofit/APPLY-LIST.md</a> — Cross-document apply list</li>
+<li><a href="noun-kernel/SPEC.md">docs/noun-kernel/SPEC.md</a> — Living noun-kernel specification</li>
+<li><a href="../scripts/verify_family_specs.py">scripts/verify_family_specs.py</a> — Family shelf structural gate</li>
+<li><a href="../scripts/verify_machine_specs.py">scripts/verify_machine_specs.py</a> — Machine shelf structural gate (class-aware)</li>
+<li><a href="../scripts/audit_family_contract_sources.py">scripts/audit_family_contract_sources.py</a> — Contract-source audit</li>
+</ul>
+<h3 id="s26-families">26.2 Sovereign family shelf (47 specs)</h3>
+<p><em>Class-1 semantic families. Each owes ontology census, boundary ruling, native semantics and DDD model, decision catalog, seam ledger (ContractHeader / ContractEdgeSpec), laws, evolution, R01–R44 dispositions, PDR-01–10, independent acceptance review, one authorable ContextSpec.</em></p>
+<ul>
+<li><a href="../toolkit/substrate/docs/CANONICAL-FORM-FAMILY-SPEC.html">Substrate / Canonical Form</a> — structural target source passes but semantic acceptance fails on owner-semantics construction, proof/bytes binding, Digest reciprocity, decoding contracts, executable cards/algebras, constructor-obser</li>
+<li><a href="../toolkit/substrate/docs/DIGEST-FAMILY-SPEC.html">Substrate / Digest</a> — greenfield implementation candidate: strict release Clippy, 13/13 focused release tests and 18/18 normative-operation/public-API observation execute all admitted SHA-2/SHA-3/SHAKE/BLAKE3 modes, exact </li>
+<li><a href="../toolkit/substrate/docs/ENCODING-FAMILY-SPEC.html">Substrate / Encoding</a> — greenfield native implementation candidate: obsolete family-local plan and deprecated protocol edge removed; 35/35 normative operations observed; strict release Clippy and 6/6 focused tests prove dire</li>
+<li><a href="../toolkit/substrate/docs/TEXT-FAMILY-SPEC.html">Substrate / Text</a> — latest target source closes the 16-item semantic repair set (Unicode algorithms, typestate/index binding, policy/disposition, passports, exact operations/refusals/resources, 18 decisions, artifact cla</li>
+<li><a href="../SAN-NON-CMP-SPECIFICATION-CORPUS-EDITION-11/CURRENT-CANONICAL/SEM-007-QUANTITY/SAN-QUANTITY-SPEC-EDITION-1.html">Substrate / Quantity</a> — greenfield implementation candidate: structural and owning contract-source checks pass; strict focused release Clippy passes; 8 Magnitude + 6 Quantity focused release tests pass; all 298 public entrie</li>
+<li><a href="../SAN-NON-CMP-SPECIFICATION-CORPUS-EDITION-11/CURRENT-CANONICAL/SEM-008-MONEY/SAN-MONEY-SPEC-EDITION-1.html">Substrate / Money</a> — implementation exists; edition 2 spec (2026-08-06, counts verified); proof owed</li>
+<li><a href="../toolkit/substrate/docs/RATE-FAMILY-SPEC.html">Substrate / Rate</a> — latest target source closes the first nine-item semantic repair set across Quantity seams, all carrier origins, one resolved-decision truth, derived obligations/gaps, rational typing, resources/observ</li>
+<li><a href="../toolkit/identifier/docs/IDENTIFIER-FAMILY-SPEC.html">Identifier</a> — structural target source passes but semantic acceptance fails: the two-witness Namespace seam contradicts Namespace&#x27;s single Identifier-owned witness; the 74 behavior decisions lack symbol-level old→n</li>
+<li><a href="../toolkit/instant/docs/INSTANT-FAMILY-SPEC.html">Instant</a> — target source and contract-source audits pass (7 owner headers, 9 consumer edges); one semantic crate now exposes all cards and 22/22 observed operations, with focused release Clippy and 6/6 tests gre</li>
+<li><a href="../toolkit/namespace/docs/NAMESPACE-FAMILY-SPEC.html">Namespace</a> — four-crate implementation; proof partial</li>
+<li><a href="../toolkit/causality/docs/CAUSALITY-FAMILY-SPEC.html">Causality</a> — structural target source passes but semantic acceptance fails on profile binding, supplier-witness admission, independently verifiable relation proof, evidence bounds, decision/satisfaction algebra an</li>
+<li><a href="../toolkit/bitemporality/docs/BITEMPORALITY-FAMILY-SPEC.html">Bitemporality</a> — structural target source passes but semantic acceptance fails on exact Causality/Instant/Calendar/Truth seams, transaction crash cuts, history completeness, fate/API/resource totality, obligation pres</li>
+<li><a href="../toolkit/locator/docs/LOCATOR-FAMILY-SPEC.html">Locator</a> — structural target source passes but semantic acceptance found unreachable stale fate, register/observation evidence conflation, weak coverage binding, incomplete final-address execution, seed-proof by</li>
+<li><a href="../toolkit/path/docs/PATH-FAMILY-SPEC.html">Path</a> — edition 2 (stateless reclassification); per its PDR-01 the prior &quot;16 release tests + mutation green&quot; artifact is non-transferable to edition 2 — proof open (G-PATH-06)</li>
+<li><a href="../toolkit/calendar/docs/CALENDAR-FAMILY-SPEC.html">Calendar</a> — latest target source closes the 10-item semantic repair set: Calendar owns interpretation and imports only generic Instant contracts; decision coordinates, transition/fate/arithmetic totality, current</li>
+<li><a href="../toolkit/organization/docs/ORGANIZATION-FAMILY-SPEC.html">Organization</a> — edition-5 candidate is a pack decomposition specification (zero sovereignty residues verified 2026-08-06); monolithic Rust is prohibited pending component contracts</li>
+<li><a href="../toolkit/reference/docs/REFERENCE-FAMILY-SPEC.html">Reference</a> — Edition 5 author-review candidate passes the structural verifier and withdraws the false stop-1/supplier/vertical claims; exact Identifier and Locator seams are recorded, while reciprocal lifecycle, T</li>
+<li><a href="../toolkit/designation/docs/DESIGNATION-FAMILY-SPEC.html">Designation</a> — newly discovered Edition 1 S0-grounded review candidate; structural and independent semantic acceptance are not yet proven; disputed Series ownership, i18n supplier, exact reciprocal seams, implementa</li>
+<li><a href="../toolkit/identity/docs/IDENTITY-FAMILY-SPEC.html">Identity</a> — Edition 1 S0-grounded review candidate; structural and independent semantic acceptance, exact contracts, generated family surface and greenfield implementation are not yet proven</li>
+<li><a href="../toolkit/identity/docs/TENANCY-SUBFAMILY-SPEC.html">Tenancy</a> — conversion candidate; the Markdown predecessor remains authoritative until the source ledger explicitly flips, so this HTML is indexed but cannot self-promote</li>
+<li><a href="../toolkit/recognition/docs/RECOGNITION-FAMILY-SPEC.html">Recognition</a> — Edition 1 S0-grounded review candidate; ownership against Knowledge/Semantics, exact seams, generated family surface, implementation and independent proof remain open</li>
+<li><a href="../toolkit/authn/docs/AUTHN-FAMILY-SPEC.html">Authentication</a> — conversion candidate; structural/shared-contract/public-surface conformance and convergence proof remain open</li>
+<li><a href="../toolkit/federation/docs/FEDERATION-FAMILY-SPEC.html">Federation</a> — conversion candidate; structural/shared-contract/public-surface conformance and convergence proof remain open</li>
+<li><a href="../toolkit/correspondence/docs/CORRESPONDENCE-FAMILY-SPEC.html">Correspondence</a> — Edition 1 review candidate; exact owner/seam/source/public-surface proof remains open</li>
+<li><a href="../toolkit/vocabulary/docs/VOCABULARY-FAMILY-SPEC.html">Vocabulary</a> — target candidate; self-described normative status is insufficient until Constitution gates pass</li>
+<li><a href="../toolkit/recurrence/docs/RECURRENCE-FAMILY-SPEC.html">Recurrence</a> — target candidate; structural/shared-contract/public-surface proof remains open</li>
+<li><a href="../toolkit/expiry/docs/EXPIRY-FAMILY-SPEC.html">Expiry</a> — Edition 1 review candidate; temporal seams and generated family-surface proof remain open</li>
+<li><a href="../toolkit/journal/docs/JOURNAL-FAMILY-SPEC.html">Journal</a> — target candidate; Truth ownership, exact contracts, crash semantics and implementation convergence remain open</li>
+<li><a href="../toolkit/evidence/docs/EVIDENCE-FAMILY-SPEC.html">Evidence</a> — candidate despite its internal title; shared-contract/public-surface and independent acceptance remain open</li>
+<li><a href="../toolkit/provenance/docs/PROVENANCE-FAMILY-SPEC.html">Provenance</a> — candidate despite its internal title; exact Evidence/Journal seams and generated family surface remain open</li>
+<li><a href="../toolkit/derivation/docs/DERIVATION-FAMILY-SPEC.html">Derivation</a> — candidate despite its internal title; boundary against Provenance/Truth and compiler conformance remain open</li>
+<li><a href="../toolkit/adjudication/docs/ADJUDICATION-FAMILY-SPEC.html">Adjudication</a> — candidate despite its internal title; authority/epistemic transitions and generated family-surface proof remain open</li>
+<li><a href="../toolkit/authorization/docs/AUTHORIZATION-FAMILY-SPEC.html">Authorization</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+<li><a href="../toolkit/classification/docs/CLASSIFICATION-FAMILY-SPEC.html">Classification</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open</li>
+<li><a href="../toolkit/commitment/docs/COMMITMENT-FAMILY-SPEC.html">Commitment</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open</li>
+<li><a href="../toolkit/consent-purpose/docs/CONSENT-PURPOSE-FAMILY-SPEC.html">Consent-Purpose</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+<li><a href="../toolkit/decision/docs/DECISION-FAMILY-SPEC.html">Decision</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open</li>
+<li><a href="../toolkit/delegation/docs/DELEGATION-FAMILY-SPEC.html">Delegation</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open</li>
+<li><a href="../toolkit/entitlement/docs/ENTITLEMENT-FAMILY-SPEC.html">Entitlement</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+<li><a href="../toolkit/holding/docs/HOLDING-FAMILY-SPEC.html">Holding</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+<li><a href="../toolkit/integration/docs/INTEGRATION-FAMILY-SPEC.html">Integration</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open</li>
+<li><a href="../toolkit/ledger/docs/LEDGER-FAMILY-SPEC.html">Ledger</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+<li><a href="../toolkit/model/docs/MODEL-FAMILY-SPEC.html">Model</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+<li><a href="../toolkit/process/docs/PROCESS-FAMILY-SPEC.html">Process</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+<li><a href="../toolkit/query-contract/docs/QUERY-CONTRACT-FAMILY-SPEC.html">Query-Contract</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+<li><a href="../toolkit/schema/docs/SCHEMA-FAMILY-SPEC.html">Schema</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open</li>
+<li><a href="../toolkit/work/docs/WORK-FAMILY-SPEC.html">Work</a> — newly indexed review candidate; architectural classification, structural verification, exact reciprocal seams, implementation and proof remain open; its internal normative title is not promotion evide</li>
+</ul>
+<h3 id="s26-org">26.3 Organization pack components (8)</h3>
+<ul>
+<li><a href="../toolkit/organization/docs/PACK-COMPOSITION-SPEC.html">PACK-COMPOSITION-SPEC.html</a> — composed-pack component specification</li>
+<li><a href="../toolkit/organization/docs/components/COMPLIANCE-OBLIGATION-COMPONENT-SPEC.html">COMPLIANCE-OBLIGATION-COMPONENT-SPEC.html</a> — composed-pack component specification</li>
+<li><a href="../toolkit/organization/docs/components/CONSOLIDATION-COMPONENT-SPEC.html">CONSOLIDATION-COMPONENT-SPEC.html</a> — composed-pack component specification</li>
+<li><a href="../toolkit/organization/docs/components/GOVERNANCE-COMPONENT-SPEC.html">GOVERNANCE-COMPONENT-SPEC.html</a> — composed-pack component specification</li>
+<li><a href="../toolkit/organization/docs/components/OWNERSHIP-CONTROL-COMPONENT-SPEC.html">OWNERSHIP-CONTROL-COMPONENT-SPEC.html</a> — composed-pack component specification</li>
+<li><a href="../toolkit/organization/docs/components/PARTY-LEGAL-ENTITY-COMPONENT-SPEC.html">PARTY-LEGAL-ENTITY-COMPONENT-SPEC.html</a> — composed-pack component specification</li>
+<li><a href="../toolkit/organization/docs/components/ROLE-SEAT-COMPONENT-SPEC.html">ROLE-SEAT-COMPONENT-SPEC.html</a> — composed-pack component specification</li>
+<li><a href="../toolkit/organization/docs/components/STRUCTURE-COMPONENT-SPEC.html">STRUCTURE-COMPONENT-SPEC.html</a> — composed-pack component specification</li>
+</ul>
+<h3 id="s26-machine">26.4 Machine-side shelf (22 specs)</h3>
+<p><em>Mechanisms, compilers, chassis, providers and foundation contracts per SPEC-KINDS; each owes its template's sections, C-gate and PDR dispositions, independent review, and machine contract sources.</em></p>
+<ul>
+<li><a href="../toolkit/execution-context/docs/EXECUTION-CONTEXT-CONTRACT-SPEC.html">EXECUTION-CONTEXT · foundation contract (cross-cutting, not one of the 7)</a> — Which request, attempt, cause, trace, actor invocation, and idempotency scope is this?</li>
+<li><a href="../toolkit/failure/docs/FAILURE-CLASSIFICATION-SPEC.html">FAILURE-CLASSIFICATION · foundation vocabulary (cross-cutting, not one of the 7)</a> — Is this a refusal, fault, cancellation, capacity outcome, or software defect?</li>
+<li><a href="../toolkit/diagnostic/docs/DIAGNOSTIC-CONTRACT-SPEC.html">DIAGNOSTIC · class 1 — semantic family (foundation-vocabulary subkind)</a> — How is a problem explained safely — stable machine identity, a source/subject reference precise enough to act on, a cause chain, a remediation, and evidence filtered to what the re</li>
+<li><a href="../toolkit/answer/docs/ANSWER-FRESHNESS-CONTRACT-SPEC.html">ANSWER-FRESHNESS · foundation contract</a> — What exactly does this answer claim, as of when, at what consistency and completeness?</li>
+<li><a href="../toolkit/runtimes/host/docs/HOST-SUPERVISOR-MECHANISM-SPEC.html">HOST-SUPERVISOR · class 2 — execution algebra / runtime organ</a> — Which process incarnation is this, which parts are bound and running, and what proves it booted correctly?</li>
+<li><a href="../toolkit/runtimes/kernel/docs/MUTATION-KERNEL-MECHANISM-SPEC.html">MUTATION-KERNEL · class 2 — execution algebra / runtime organ</a> — How does one command become committed institutional fact, exactly once, safely — without the mechanism ever knowing what the fact means?</li>
+<li><a href="../toolkit/runtimes/journal/docs/JOURNAL-RUNTIME-MECHANISM-SPEC.html">JOURNAL-RUNTIME · class 2 — execution algebra / runtime organ</a> — How is authoritative append order established, bounded, and replayed?</li>
+<li><a href="../toolkit/runtimes/event-fabric/docs/EVENT-FABRIC-MECHANISM-SPEC.html">EVENT-FABRIC · class 2 — execution algebra / runtime organ</a> — How do committed facts reach independent consumers durably, in order, without rolling back truth?</li>
+<li><a href="../toolkit/runtimes/query/docs/QUERY-RUNTIME-MECHANISM-SPEC.html">QUERY-RUNTIME · class 2 — execution algebra / runtime organ</a> — How is a read executed under an authorization, freshness, and consistency promise?</li>
+<li><a href="../toolkit/runtimes/projection/docs/PROJECTION-RUNTIME-MECHANISM-SPEC.html">PROJECTION-RUNTIME · class 2 — execution algebra / runtime organ</a> — How are read models folded deterministically, checkpointed, and rebuilt?</li>
+<li><a href="../toolkit/runtimes/work-timer/docs/WORK-CLAIM-AND-TIMER-MECHANISM-SPEC.html">WORK-TIMER · class 2 — execution algebra / runtime organ</a> — How is exclusive work claimed, and how do durable due-times fire exactly once — safely, under crash, restart, and multi-writer contention — without the mechanism ever knowing what </li>
+<li><a href="../toolkit/chassis/app-host/docs/APP-HOST-CHASSIS-SPEC.html">APP-HOST-CHASSIS · class 4 — chassis / platform-control product</a> — Which organs compose the application host role, in what boot order, proving what?</li>
+<li><a href="../toolkit/chassis/api/docs/API-CHASSIS-SPEC.html">API-CHASSIS · class 4 — chassis / platform-control product</a> — How does a transport request become a domain invocation and a faithful response?</li>
+<li><a href="../toolkit/chassis/worker/docs/WORKER-AND-SCHEDULER-CHASSIS-SPEC.html">WORKER-CHASSIS · class 4 — chassis / platform-control product</a> — Which organs compose the worker and scheduler roles?</li>
+<li><a href="../toolkit/compiler/api/docs/API-TARGET-COMPILER-SPEC.html">API-TARGET-COMPILER · class 3 — target compiler</a> — How is the interface slice of the semantic graph lowered into routes, schemas and SDKs without reinterpreting meaning?</li>
+<li><a href="../toolkit/compiler/data/docs/DATA-TARGET-COMPILER-SPEC.html">DATA-TARGET-COMPILER · class 3 — target compiler</a> — How is the data slice lowered into schema, keys, constraints and migrations, provably preserving semantics?</li>
+<li><a href="../toolkit/runtime-contracts/docs/RESOURCE-CONTRACT-CATALOG-SPEC.html">RESOURCE-CONTRACTS · class 5 — provider-neutral resource contract catalog</a> — What provider-neutral physical guarantees does the platform require, contract by contract — independent of which vendor eventually satisfies each one?</li>
+<li><a href="../toolkit/providers/postgres/docs/POSTGRES-PROVIDER-SPEC.html">POSTGRES-PROVIDER · class 6 — physical provider</a> — Which contracts does PostgreSQL satisfy, with exactly which guarantees and limits?</li>
+<li><a href="../toolkit/providers/object-store/docs/OBJECT-STORE-AND-S3-PROVIDER-SPEC.html">OBJECT-STORE-PROVIDER · class 5 + class 6 (resource contract plus physical provider)</a> — Which object capabilities exist as portable, vendor-neutral offers — and, separately, what do Amazon S3 and MinIO actually, provably guarantee against each of those offers?</li>
+<li><a href="../toolkit/observability/docs/OBSERVABILITY-SEMANTICS-SPEC.html">OBSERVABILITY · mixed class — six semantic families + execution algebra/runtime pipeline + physical providers</a> — What do we measure, what does healthy mean, and what is merely a signal? — six separately-owned answers (Telemetry, Execution Context, Health, SLI/SLO, Alerting, Diagnostics), neve</li>
+<li><a href="../toolkit/workload-identity/docs/WORKLOAD-IDENTITY-AND-NETWORK-INTENT-SPEC.html">WORKLOAD-IDENTITY · semantic family plus resource contracts</a> — Which running workload is this, what attested identity may it present, and which components may talk to which?</li>
+<li><a href="../toolkit/continuity/docs/BACKUP-RESTORE-CONTINUITY-SPEC.html">CONTINUITY · semantic family plus embedded resource contract</a> — What recoverable state exists, from which cut, and what was proven restored?</li>
+</ul>
+<!-- HTML-INVENTORY:END -->
+</body>
+</html>

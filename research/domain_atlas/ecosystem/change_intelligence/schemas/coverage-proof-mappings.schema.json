@@ -1,0 +1,55 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/coverage-proof-mappings.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "coverage_mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "coverage_plane_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "monitoring_effect": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "subject_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "authority_rule",
+    "coverage_mapping_id",
+    "coverage_plane_id",
+    "monitoring_effect",
+    "proof_obligation_ids",
+    "source_ids",
+    "subject_ids"
+  ],
+  "title": "coverage-proof-mappings",
+  "type": "object"
+}

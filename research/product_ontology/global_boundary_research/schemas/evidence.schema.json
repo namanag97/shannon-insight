@@ -1,0 +1,48 @@
+{
+  "$id": "https://san.example/product-boundary/evidence_source.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "authority": {},
+    "claim": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_domains": {},
+    "publisher": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "evidence_source"
+    },
+    "retrieved_at": {},
+    "scope_limit": {},
+    "source_kind": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "title": {},
+    "uri": {}
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "title",
+    "publisher",
+    "source_kind",
+    "authority",
+    "evidence_domains",
+    "uri",
+    "claim",
+    "scope_limit",
+    "retrieved_at"
+  ],
+  "title": "Global boundary research: evidence_source",
+  "type": "object"
+}

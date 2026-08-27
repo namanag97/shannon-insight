@@ -1,0 +1,276 @@
+{
+  "model_id": "san.domain-atlas.context-families",
+  "edition": 1,
+  "status": "enumeration_seed",
+  "warning": "Seed entries are candidate semantic ownership units. Every entry requires a sovereign question and split/merge adjudication before it is called a bounded context.",
+  "families": [
+    {
+      "family_id": "constitutional-semantics",
+      "purpose": "Reusable meaning required before data or analytics can be stated precisely.",
+      "seed_contexts": [
+        "identifier", "identity", "namespace", "edition", "schema", "semantic-type", "equality-ordering",
+        "quantity-unit-dimension", "instant-interval-duration", "calendar-schedule", "probability-uncertainty",
+        "missingness-partiality", "canonicalization-digest", "claim-fact-observation", "rule-constraint",
+        "evidence-proof-defeater", "authority-delegation", "compatibility-relation", "requirement-offer-satisfaction",
+        "diagnostic-refusal", "resource-budget", "provenance-reference"
+      ]
+    },
+    {
+      "family_id": "enterprise-intent-and-outcome",
+      "purpose": "State why analysis exists and how it may affect enterprise decisions.",
+      "seed_contexts": [
+        "domain-vision", "stakeholder-role", "problem-frame", "job-to-be-done", "measurable-outcome",
+        "analytical-question", "hypothesis", "decision-intent", "objective", "constraint", "alternative",
+        "scenario", "risk-appetite", "value-cost", "human-judgment", "action-intent", "outcome-feedback"
+      ]
+    },
+    {
+      "family_id": "source-estate",
+      "purpose": "Own what source systems and source occurrences can truthfully provide.",
+      "seed_contexts": [
+        "source-system-identity", "source-owner-authority", "system-of-record-claim", "source-object",
+        "source-inventory", "source-discovery", "source-structure-observation", "source-metadata-observation",
+        "source-change-observation", "source-capability", "source-limit-quota", "source-consistency",
+        "source-transaction-boundary", "source-occurrence", "source-recording-time", "source-cursor",
+        "source-finalization", "multi-source-cut", "source-retraction", "source-decommission"
+      ]
+    },
+    {
+      "family_id": "connectivity-acquisition-and-movement",
+      "purpose": "Acquire hostile carriers without confusing connector behavior with source meaning.",
+      "seed_contexts": [
+        "connector-contract", "connector-capability", "connection-session", "authentication-binding",
+        "snapshot-acquisition", "continuation-acquisition", "change-data-capture", "async-export-acquisition",
+        "file-drop-acquisition", "api-polling", "webhook-subscription", "message-subscription",
+        "federated-source-read", "partial-observation", "pagination-cursor", "rate-limit-backoff",
+        "delivery-order", "delivery-deduplication", "snapshot-change-stitching", "transfer-checksum",
+        "encoding-compression", "ingress-routing", "egress-delivery", "connector-health"
+      ]
+    },
+    {
+      "family_id": "carrier-type-and-admission",
+      "purpose": "Turn hostile bytes and structures into admitted semantic values under explicit rules.",
+      "seed_contexts": [
+        "byte-carrier", "text-encoding", "numeric-carrier", "boolean-carrier", "temporal-carrier",
+        "structured-record-carrier", "collection-carrier", "variant-carrier", "null-missing-carrier",
+        "parse-decode", "carrier-validation", "semantic-admission", "normalization", "canonical-projection",
+        "type-coercion", "unit-conversion", "identifier-binding", "schema-conformance", "contract-conformance",
+        "quarantine", "admission-receipt", "hostile-payload-budget"
+      ]
+    },
+    {
+      "family_id": "observation-measurement-and-sampling",
+      "purpose": "Separate observation acts and inferential samples from values and business facts.",
+      "seed_contexts": [
+        "feature-of-interest", "observable-property", "observation-procedure", "observer-instrument",
+        "observation-act", "observation-result", "measurement", "measurement-uncertainty", "sample",
+        "sampling-frame", "sampling-design", "derived-sample", "calibration", "detection-limit",
+        "censoring", "observation-quality", "observation-collection"
+      ]
+    },
+    {
+      "family_id": "data-modality-algebras",
+      "purpose": "Own modality-specific structures, equality, lawful operations and loss semantics.",
+      "seed_contexts": [
+        "relational-algebra", "key-value-algebra", "wide-column-algebra", "document-variant-algebra",
+        "property-graph-algebra", "rdf-knowledge-graph-algebra", "time-series-algebra", "event-log-algebra",
+        "object-centric-process-algebra", "spatial-vector-algebra", "raster-coverage-algebra",
+        "array-tensor-algebra", "text-corpus-algebra", "document-content-algebra", "spreadsheet-algebra",
+        "image-algebra", "audio-algebra", "video-algebra", "search-ranking-algebra", "vector-retrieval-algebra",
+        "telemetry-metric-algebra", "log-record-algebra", "trace-span-algebra", "multimodal-composition"
+      ]
+    },
+    {
+      "family_id": "data-product-asset-and-publication",
+      "purpose": "Distinguish logical assets, exact cuts, distributions, services and publications.",
+      "seed_contexts": [
+        "data-collection", "logical-dataset", "data-product", "data-owner", "data-contract", "exact-data-cut",
+        "immutable-snapshot", "distribution", "materialization", "data-service", "analytical-publication",
+        "publication-edition", "subscription", "consumer-obligation", "supersession", "recall",
+        "asset-retirement", "data-product-economics"
+      ]
+    },
+    {
+      "family_id": "binding-mapping-and-transformation",
+      "purpose": "Own provider-neutral derivation and account for preserved, changed or lost meaning.",
+      "seed_contexts": [
+        "source-semantic-binding", "field-mapping", "entity-mapping", "code-list-mapping", "schema-mapping",
+        "transformation-program", "operator-registry", "relational-transformation", "reshape-transformation",
+        "temporal-alignment", "spatial-transformation", "text-transformation", "media-transformation",
+        "deduplication", "entity-resolution", "imputation", "outlier-treatment", "enrichment",
+        "aggregation", "semantic-loss-accounting", "transformation-assumption", "derivation-contract"
+      ]
+    },
+    {
+      "family_id": "change-stream-time-and-finality",
+      "purpose": "Own dynamic data, event-time progress, state and batch/stream equivalence.",
+      "seed_contexts": [
+        "changelog", "change-mode", "order-sequence", "event-time", "processing-time", "watermark-frontier",
+        "window", "trigger", "pane", "boundedness", "stateful-dataflow", "stream-table-duality",
+        "late-data", "out-of-order-data", "duplicate-event", "analytical-finality", "completeness-frontier",
+        "checkpoint-equivalence", "recovery-equivalence", "batch-stream-equivalence"
+      ]
+    },
+    {
+      "family_id": "workflow-orchestration-and-build",
+      "purpose": "Coordinate definitions and runs without owning the meaning inside tasks.",
+      "seed_contexts": [
+        "workflow-definition", "workflow-run", "task-definition", "task-instance", "dependency-graph",
+        "trigger", "schedule", "calendar-binding", "partition", "backfill-plan", "retry-policy",
+        "timeout-deadline", "cancellation", "concurrency-control", "idempotency-key", "checkpoint",
+        "commit-proposal", "compensation", "human-task", "run-receipt", "build-definition", "build-run"
+      ]
+    },
+    {
+      "family_id": "persistence-catalog-and-serving",
+      "purpose": "Own durable state, transactional publication, indexing and serving boundaries.",
+      "seed_contexts": [
+        "object-storage-resource", "file-content-store", "transactional-relational-store", "document-store",
+        "key-value-store", "wide-column-store", "graph-store", "time-series-store", "search-index-store",
+        "analytical-file-format", "analytical-table-format", "table-snapshot", "table-commit", "table-catalog",
+        "catalog-namespace", "materialized-view", "analytical-index", "cache-coherence", "serving-cut",
+        "virtual-relation", "data-share", "clean-room", "backup-restore", "table-maintenance"
+      ]
+    },
+    {
+      "family_id": "query-planning-and-compute",
+      "purpose": "Turn logical questions into bounded correct executions over exact inputs.",
+      "seed_contexts": [
+        "query-language", "logical-query", "query-validation", "logical-plan", "query-rewrite",
+        "cost-model", "cardinality-statistics", "physical-plan", "operator-capability", "pushdown",
+        "federated-query", "query-execution", "distributed-stage", "workload-queue", "memory-spill",
+        "query-cancellation", "result-stream", "query-receipt", "compute-provider", "execution-sandbox"
+      ]
+    },
+    {
+      "family_id": "metadata-ontology-and-discovery",
+      "purpose": "Make technical and business meaning discoverable without confusing projections with owners.",
+      "seed_contexts": [
+        "metadata-identity", "technical-metadata", "business-metadata", "administrative-metadata",
+        "business-glossary", "term-stewardship", "ontology", "taxonomy", "classification", "code-list",
+        "schema-registry", "contract-registry", "method-registry", "formula-registry", "provider-registry",
+        "catalog-projection", "discovery-search", "usage-popularity", "consumer-feedback", "metadata-change"
+      ]
+    },
+    {
+      "family_id": "analytical-semantics-and-formulas",
+      "purpose": "Own metrics, dimensions, calculations and provider-neutral semantic queries.",
+      "seed_contexts": [
+        "analytical-entity", "fact", "measure", "dimension", "attribute", "grain", "hierarchy", "level",
+        "member", "relationship", "join-path", "cardinality", "metric", "metric-population", "filter",
+        "segment", "cohort", "aggregation", "additivity", "semi-additivity", "time-intelligence",
+        "formula-expression", "formula-function", "formula-error", "unit-aware-calculation",
+        "semantic-model", "semantic-query", "semantic-lowering", "metric-observation"
+      ]
+    },
+    {
+      "family_id": "quality-fitness-and-reconciliation",
+      "purpose": "Assess exact cuts against named purposes without claiming universal quality.",
+      "seed_contexts": [
+        "data-profile", "data-statistic", "quality-dimension", "quality-metric", "quality-rule",
+        "quality-measurement", "fitness-policy", "quality-assessment", "quality-finding", "quality-certificate",
+        "expectation-test", "contract-test", "freshness-assessment", "completeness-assessment",
+        "consistency-assessment", "drift-assessment", "source-reconciliation", "financial-reconciliation",
+        "quarantine-decision", "remediation-proposal", "quality-incident"
+      ]
+    },
+    {
+      "family_id": "lineage-provenance-and-evidence",
+      "purpose": "Retain derivation and runtime evidence without confusing lineage with causality.",
+      "seed_contexts": [
+        "provenance-entity", "provenance-activity", "provenance-agent", "generation", "usage", "derivation",
+        "attribution", "runtime-lineage-event", "column-lineage", "source-to-result-lineage", "impact-analysis",
+        "root-cause-trace", "evidence-bundle", "runtime-receipt", "attestation", "evidence-retention",
+        "evidence-disclosure", "evidence-recall"
+      ]
+    },
+    {
+      "family_id": "governance-ownership-and-authority",
+      "purpose": "Own who may decide, delegate, approve, publish, disclose, mutate and recall.",
+      "seed_contexts": [
+        "data-owner", "data-steward", "semantic-owner", "product-owner", "policy-owner", "authority-source",
+        "delegation", "capability-grant", "maker-checker", "segregation-of-duties", "approval", "issuance",
+        "publication-authority", "commit-authority", "disclosure-authority", "mutation-authority",
+        "revocation", "recall", "appeal", "independent-appraisal", "governance-case", "policy-exception"
+      ]
+    },
+    {
+      "family_id": "security-privacy-and-data-use",
+      "purpose": "Constrain data use by identity, purpose, place, time and threat posture.",
+      "seed_contexts": [
+        "principal-identity-binding", "tenant-boundary", "trust-boundary", "asset-classification",
+        "purpose", "consent", "data-use-request", "data-use-policy", "policy-decision", "policy-enforcement",
+        "least-privilege-grant", "residency", "retention", "legal-hold", "erasure", "subject-right",
+        "pseudonymization", "anonymization", "differential-privacy-budget", "secure-computation",
+        "secret-key-reference", "audit-log", "threat-abuse-case", "supply-chain-attestation"
+      ]
+    },
+    {
+      "family_id": "analytical-study-and-method",
+      "purpose": "Own study design, assumptions, methods, estimates and epistemic status.",
+      "seed_contexts": [
+        "analytical-study", "study-protocol", "target-population", "sampling-design", "variable",
+        "feature", "outcome", "covariate", "estimand", "estimator", "estimate", "uncertainty-interval",
+        "hypothesis-test", "multiple-testing", "effect-size", "descriptive-analysis", "comparative-analysis",
+        "diagnostic-analysis", "causal-analysis", "experiment-analysis", "forecast", "change-detection",
+        "anomaly-detection", "survival-analysis", "reliability-analysis", "process-discovery",
+        "conformance-checking", "graph-analysis", "spatial-analysis", "text-analysis", "simulation-scenario",
+        "optimization-problem", "decision-analysis", "sensitivity-analysis", "robustness-analysis",
+        "model-validation", "benchmark-comparison", "analytical-assumption", "method-provider"
+      ]
+    },
+    {
+      "family_id": "analytical-lifecycle-and-result",
+      "purpose": "Version and execute analytical definitions while retaining reproducibility and limits.",
+      "seed_contexts": [
+        "analysis-definition", "analysis-edition", "parameter-set", "configuration-binding", "analysis-run",
+        "input-cut-binding", "randomness-seed", "analytical-result", "epistemic-status", "result-uncertainty",
+        "result-comparison", "reproducibility", "analytical-drift", "assumption-violation", "result-publication",
+        "result-retraction", "model-retirement", "method-recall", "analytical-explanation", "residual-gap"
+      ]
+    },
+    {
+      "family_id": "decision-proposal-and-action",
+      "purpose": "Prevent analytical outputs from bypassing enterprise authority and invariants.",
+      "seed_contexts": [
+        "analytical-observation", "recommendation", "proposal", "alternative-ranking", "decision-case",
+        "decision-policy", "human-review", "approval-decision", "rejection", "expiry", "authorized-command-intent",
+        "business-aggregate-reentry", "effect-intent", "action-execution", "action-receipt", "outcome-observation",
+        "feedback-loop", "compensation-recall"
+      ]
+    },
+    {
+      "family_id": "client-consumption-and-collaboration",
+      "purpose": "Expose governed analytical capabilities through user-appropriate contracts and experiences.",
+      "seed_contexts": [
+        "workspace", "persona-preference", "catalog-browse", "search", "notebook", "query-editor", "dashboard",
+        "report", "visualization", "story", "embedded-analytics", "application-api", "export", "subscription",
+        "alert", "notification", "comment-collaboration", "annotation", "document-generation", "accessibility",
+        "internationalization", "offline-state", "device-session", "recovery-experience"
+      ]
+    },
+    {
+      "family_id": "platform-runtime-control-and-economics",
+      "purpose": "Operate compiled solutions with bounded resources, safe reconciliation and evidence.",
+      "seed_contexts": [
+        "provider-capability", "deployment-target", "environment", "configuration", "secret-binding",
+        "execution-runtime", "job-admission", "resource-allocation", "scheduler", "quota", "capacity-plan",
+        "cost-model", "usage-meter", "chargeback", "desired-state", "observed-state", "reconciliation",
+        "drift", "rollout", "canary", "rollback", "health-gate", "service-level-objective", "error-budget",
+        "overload-backpressure", "failover", "degraded-mode", "incident", "forensic-case", "runbook",
+        "backup", "restore", "disaster-recovery", "support-case"
+      ]
+    },
+    {
+      "family_id": "evolution-migration-and-assurance",
+      "purpose": "Change products, schemas, semantics, data and providers without unbounded ambiguity.",
+      "seed_contexts": [
+        "semantic-diff", "schema-diff", "compatibility", "version-coexistence", "upcaster", "transform-migration",
+        "data-backfill", "historical-replay", "restatement", "provider-migration", "in-flight-disposition",
+        "blast-radius", "roll-forward", "rollback", "decommission", "supplier-exit", "data-portability",
+        "conformance-test", "property-test", "model-check", "fuzz-test", "mutation-test", "independent-review",
+        "certification", "recertification", "recall-propagation"
+      ]
+    }
+  ]
+}

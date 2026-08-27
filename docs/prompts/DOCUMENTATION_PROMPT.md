@@ -1,4 +1,4 @@
-# Documentation Generation Prompt
+openty to # Documentation Generation Prompt
 
 Use this prompt with Claude Code (or paste into Claude.ai with the codebase attached) to generate complete documentation for Shannon Insight.
 

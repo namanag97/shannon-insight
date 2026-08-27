@@ -1,0 +1,83 @@
+{
+  "automation_posture": {
+    "authority": "An optional extension may propose configuration or diagnostics only through typed ports; deterministic validation, binding, execution receipts and accountable authority remain mandatory.",
+    "default": "deterministic_core",
+    "law": "Generative models and tool agents are modeled once at an optional removable extension boundary. They do not appear as ambient fields, dependencies or laws in deterministic persistence contexts and libraries.",
+    "optional_extension_ref": "universe.model_agent_extension"
+  },
+  "boundary_candidates_by_kind": {
+    "algorithm_library": 9,
+    "deployment": 2,
+    "format": 8,
+    "implementation": 3,
+    "managed_experience": 1,
+    "policy_pure": 3,
+    "product": 12,
+    "protocol": 4,
+    "provider_adapter": 2,
+    "runtime_library": 7,
+    "semantic_library": 16,
+    "suite": 1,
+    "test_oracle": 1
+  },
+  "bounded_contexts_by_family": {
+    "persistence.family.analytical_table": 18,
+    "persistence.family.catalog": 15,
+    "persistence.family.file_format": 13,
+    "persistence.family.maintenance": 13,
+    "persistence.family.physical_storage": 18,
+    "persistence.family.serving": 15,
+    "persistence.family.sharing_federation": 12,
+    "persistence.family.store_model": 20
+  },
+  "capabilities_by_surface": {
+    "catalog": 45,
+    "file_format": 39,
+    "maintenance": 39,
+    "serving": 52,
+    "sharing": 41,
+    "storage": 119,
+    "table": 54
+  },
+  "compiler_records_by_kind": {
+    "binding_rule": 12,
+    "capability_offer": 86,
+    "capability_requirement": 91,
+    "compiler_gap": 1
+  },
+  "completion_claim": false,
+  "corpus_id": "san.domain-atlas.persistence-lakehouse",
+  "counts": {
+    "boundary_candidates": 69,
+    "bounded_contexts": 124,
+    "capabilities": 389,
+    "compiler_library_boundaries": 38,
+    "compiler_mapping_records": 190,
+    "context_relations": 21,
+    "decisions": 113,
+    "innovations_2021_2026": 34,
+    "object_log_architectures": 21,
+    "object_log_compiler_contracts": 41,
+    "object_log_decision_points": 14,
+    "sources": 137,
+    "term_ownership_overlaps": 70
+  },
+  "coverage_laws": [
+    "format != protocol != implementation != deployment != product != managed experience != suite",
+    "compression and encoding are independent kernels; compaction and clustering are maintenance operations",
+    "table state does not own catalog authority, object durability, query semantics or business meaning",
+    "lakehouse is a composition boundary and never a new semantic owner",
+    "unknown capability, feature, limit or authority is a typed blocking gap"
+  ],
+  "edition": 1,
+  "status": "open_world_research_candidate",
+  "terminology_findings": {
+    "law": "OLHP was not established as a recognized database workload acronym by the reviewed primary/official corpus. It must remain unresolved rather than being silently coerced to OLTP, OLAP or HTAP.",
+    "recognized_database_workloads": [
+      "OLTP",
+      "OLAP",
+      "HTAP"
+    ],
+    "unresolved_user_term": "OLHP"
+  }
+}

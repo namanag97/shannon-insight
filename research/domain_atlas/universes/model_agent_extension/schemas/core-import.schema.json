@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "core_path": {
+      "type": "string"
+    },
+    "core_valid_without_extension": {
+      "const": true
+    },
+    "direction": {
+      "const": "extension_to_core"
+    },
+    "edition": {
+      "const": 1
+    },
+    "extension_valid_without_core": {
+      "const": false
+    },
+    "import_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "imports": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "import_id",
+    "edition",
+    "status",
+    "core_path",
+    "imports",
+    "direction",
+    "core_valid_without_extension",
+    "extension_valid_without_core"
+  ],
+  "type": "object"
+}

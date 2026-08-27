@@ -1,0 +1,71 @@
+{
+  "$id": "https://san.example/spec/provider-target/target_profile_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "binding_requirements": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "location_posture": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "resource_dimensions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "runtime_layers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "target_class": {
+      "type": "string"
+    },
+    "target_profile_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "target_profile_id",
+    "edition",
+    "status",
+    "name",
+    "target_class",
+    "runtime_layers",
+    "resource_dimensions",
+    "location_posture",
+    "binding_requirements",
+    "evidence_refs"
+  ],
+  "title": "Provider-neutral target profile",
+  "type": "object"
+}

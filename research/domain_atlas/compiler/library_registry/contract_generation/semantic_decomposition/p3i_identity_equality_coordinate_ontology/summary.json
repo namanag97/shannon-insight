@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "identity_and_equality",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "family_extension_candidates": 7,
+  "identity_bearer_archetypes": 24,
+  "identity_equality_kernels": 42,
+  "identity_equality_relation_profiles_supplied": 0,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "primary_sources": 9,
+  "program_id": "program.p3i.identity-equality-coordinate-ontology-and-rebase.v1",
+  "research_clusters": 24,
+  "routes_with_lexical_discovery_projection": 99,
+  "routes_with_no_member_identity_relation_evidence": 124,
+  "subject_identity_inventories_supplied": 0,
+  "target_member_routes": 223
+}

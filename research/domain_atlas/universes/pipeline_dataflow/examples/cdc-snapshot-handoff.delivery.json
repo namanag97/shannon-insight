@@ -1,0 +1,45 @@
+{
+  "acknowledgement_boundary": "source offsets advance only after checkpoint-coordinated sink commit",
+  "atomicity_scope": "table",
+  "decision_bindings": {
+    "decision.pipeline.atomicity_scope": "table",
+    "decision.pipeline.delivery_multiplicity": "exactly_once_effect"
+  },
+  "deduplication": {
+    "horizon": "source replay retention",
+    "key": "source transaction plus partition plus position plus row identity"
+  },
+  "delivery_contract_id": "delivery.example.customer_table",
+  "edition": 1,
+  "execution_recovery": {
+    "checkpoint_ref": "policy.example.barrier_checkpoint",
+    "determinism_scope": "canonical changes affect keyed state once after restore"
+  },
+  "failure_model": [
+    "worker crash",
+    "coordinator crash",
+    "duplicate delivery",
+    "network partition",
+    "indeterminate sink acknowledgement"
+  ],
+  "multiplicity": "exactly_once_effect",
+  "observation_boundary": "published analytical table snapshot",
+  "ordering_scope": "per_key",
+  "proof_obligations": [
+    "source seek conformance",
+    "checkpoint restore failure injection",
+    "sink commit fencing",
+    "visibility readback"
+  ],
+  "sink_effect": {
+    "idempotency_scope": "pipeline run plus checkpoint epoch",
+    "mechanism": "transaction",
+    "reconciliation": "query table commit token after indeterminate acknowledgement"
+  },
+  "source_replay": {
+    "minimum_retention": "greater than maximum restore plus outage duration",
+    "position_domain": "database LSN per source partition",
+    "required": true
+  },
+  "visibility": "snapshot_commit"
+}

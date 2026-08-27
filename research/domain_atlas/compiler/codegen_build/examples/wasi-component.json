@@ -1,0 +1,55 @@
+{
+  "artifacts": [
+    {
+      "digest": "sha256:core-wasm-example",
+      "kind": "core-wasm-module"
+    },
+    {
+      "digest": "sha256:component-example",
+      "kind": "wasm-component"
+    },
+    {
+      "digest": "sha256:wit-example",
+      "kind": "wit-package"
+    },
+    {
+      "digest": "sha256:wasm-oci-example",
+      "kind": "oci-artifact-manifest"
+    }
+  ],
+  "description": "Typed transform emitted as a core Wasm module, componentized against a versioned WIT world, then stored as an OCI artifact.",
+  "edition": 1,
+  "evidence": [
+    "cgb.receipt_contract.backend-semantic",
+    "cgb.receipt_contract.target-compatible",
+    "cgb.receipt_contract.emission-deterministic",
+    "cgb.receipt_contract.repository-integrity"
+  ],
+  "example_id": "cgb.example.wasi-component",
+  "explicit_non_equivalences": [
+    "core Wasm module is not a component",
+    "WIT source is not the canonical ABI adapter",
+    "OCI storage is not a running component occurrence"
+  ],
+  "selected_passes": [
+    "cgb.pass.backend_selection.primary",
+    "cgb.pass.wasm_core_codegen.primary",
+    "cgb.pass.wasm_component_codegen.primary",
+    "cgb.pass.package_assembly.primary",
+    "cgb.pass.artifact_repository.primary"
+  ],
+  "status": "researched_candidate_not_adjudicated",
+  "target_contract": {
+    "imports": [
+      "wasi:cli/environment@0.2.0"
+    ],
+    "triple": "wasm32-wasip2",
+    "wasi": "0.2",
+    "world": "acme:data-transform@1.2.0/transformer"
+  },
+  "typed_ir_input": {
+    "digest": "sha256:typed-ir-wasm-example",
+    "id": "ir:customer-normalizer:v3",
+    "note": "Record normalization semantics were resolved before backend selection."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/data-shape-record-v1.json",
+  "title": "Provider-neutral data shape candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["shape_id", "name", "family", "definition", "status", "owner_context", "element_contract", "keys", "topology", "ordering", "time_semantics", "change_semantics", "constraints", "valid_operations", "invalid_operations", "representation_bindings", "information_loss_risks", "evidence_refs", "compiler_obligations"],
+  "properties": {
+    "shape_id": {"type": "string", "pattern": "^shape\\.[a-z0-9_.-]+$"},
+    "name": {"type": "string", "minLength": 2},
+    "family": {"type": "string", "minLength": 2},
+    "definition": {"type": "string", "minLength": 15},
+    "status": {"enum": ["candidate", "provisional", "verified"]},
+    "owner_context": {"type": "string", "pattern": "^bc\\.[a-z0-9_.-]+$"},
+    "parent_shape_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "parameters": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "element_contract": {"type": "object", "required": ["kind", "cardinality", "homogeneity"], "properties": {"kind": {"type": "string"}, "cardinality": {"type": "string"}, "homogeneity": {"type": "string"}}, "additionalProperties": true},
+    "keys": {"type": "object", "required": ["required", "uniqueness_scope"], "properties": {"required": {"type": "boolean"}, "uniqueness_scope": {"type": "string"}}, "additionalProperties": true},
+    "topology": {"type": "object", "required": ["kind", "directed"], "properties": {"kind": {"type": "string"}, "directed": {"type": ["boolean", "null"]}}, "additionalProperties": true},
+    "ordering": {"type": "object", "required": ["kind", "semantic_or_incidental"], "properties": {"kind": {"type": "string"}, "semantic_or_incidental": {"type": "string", "minLength": 2}}, "additionalProperties": true},
+    "time_semantics": {"type": "object", "required": ["roles", "interval_support", "calendar_required"], "properties": {"roles": {"type": "array", "items": {"type": "string"}}, "interval_support": {"type": "boolean"}, "calendar_required": {"type": "boolean"}}, "additionalProperties": true},
+    "change_semantics": {"type": "object", "required": ["modes", "finality"], "properties": {"modes": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "finality": {"type": "string"}}, "additionalProperties": true},
+    "constraints": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "valid_operations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "invalid_operations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "representation_bindings": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "information_loss_risks": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^DSS-[0-9]{3}$"}},
+    "compiler_obligations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "extension_point": {"type": "boolean"}
+  }
+}

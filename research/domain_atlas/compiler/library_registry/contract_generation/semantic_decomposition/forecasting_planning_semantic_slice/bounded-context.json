@@ -1,0 +1,57 @@
+{
+  "completion_claim": false,
+  "imported_owners": [
+    "observation and actual truth",
+    "generic model lifecycle",
+    "simulation",
+    "optimization",
+    "vertical business vocabulary",
+    "authority and policy",
+    "execution/effects"
+  ],
+  "inside_forecasting_workbench": [
+    "forecast definition",
+    "origin/horizon and information cut",
+    "generation run/edition",
+    "temporal evaluation and selection",
+    "forecast reconciliation",
+    "base-preserving override",
+    "publication and recall"
+  ],
+  "inside_integrated_planning_workbench_candidate": [
+    "planning scenario and assumptions",
+    "plan alternatives",
+    "objective/constraint/resource binding",
+    "feasibility",
+    "cross-functional reconciliation",
+    "consensus/approval/commitment",
+    "variance and replanning"
+  ],
+  "non_collapse_summary": "observation/actual != forecast != scenario != target/budget != plan alternative != approved commitment != execution/effect",
+  "product_boundary_candidates": [
+    {
+      "product_ref": "product.forecasting_workbench",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    },
+    {
+      "product_ref": "product.integrated_planning_workbench",
+      "status": "RETAIN_WITH_EXACT_IMPORTS_UNRATIFIED"
+    }
+  ],
+  "retained_product": "product.forecasting_workbench",
+  "retained_products": [
+    "product.forecasting_workbench",
+    "product.integrated_planning_workbench"
+  ],
+  "slice_id": "slice.forecasting-planning.v1",
+  "status": "CANDIDATE_UNRATIFIED",
+  "vertical_solution_pack_candidates": [
+    "financial planning",
+    "demand planning",
+    "supply planning",
+    "capacity planning",
+    "inventory planning",
+    "workforce planning",
+    "project/portfolio planning"
+  ]
+}

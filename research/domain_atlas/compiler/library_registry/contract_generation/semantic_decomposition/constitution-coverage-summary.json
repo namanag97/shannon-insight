@@ -1,0 +1,12 @@
+{
+  "as_of": "2026-08-26",
+  "axes": 16,
+  "canonical_exact_gaps_closed": 0,
+  "edition": 1,
+  "families": 23,
+  "family_axis_matrices": 368,
+  "global_phase_constitutions": 5,
+  "library_axis_manual_reviews_replaced_by_inheritance": true,
+  "next_gate": "Owner-ratify constitutions and family applicability/exception matrices; then generate exact library source contracts and conformance obligations.",
+  "program_id": "program.semantic-axis.constitution-coverage.v1"
+}

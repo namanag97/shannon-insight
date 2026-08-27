@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/analytical-artifact-result-contract-v0.1.0.schema.json",
+  "title": "Provider-neutral analytical artifact/result contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_contract_id", "edition", "status", "artifact_kind", "state_phase",
+    "definition", "producer_contracts", "required_identity_fields", "required_payload_fields",
+    "provenance_requirements", "result_states", "validation_rules", "invalidation_triggers",
+    "replay_contract", "portability", "decision_refs", "evidence_refs", "gaps"
+  ],
+  "properties": {
+    "artifact_contract_id": {"type": "string", "pattern": "^artifact_contract\\.method_kernel\\.[a-z0-9_]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["hypothesis", "sourced_candidate", "reviewed", "adjudicated", "deprecated"]},
+    "artifact_kind": {"enum": [
+      "study_design", "estimand", "resolved_method_plan", "fitted_model", "fitted_transform",
+      "forecast", "simulation_run", "search_index", "process_model", "analytical_result",
+      "evaluation_receipt", "evidence_bundle"
+    ]},
+    "state_phase": {"enum": ["definition", "compiled_plan", "fitted_state", "execution_result", "evidence"]},
+    "definition": {"type": "string", "minLength": 1},
+    "producer_contracts": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "required_identity_fields": {"type": "array", "items": {"type": "string"}, "minItems": 3, "uniqueItems": true},
+    "required_payload_fields": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "provenance_requirements": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "result_states": {"type": "array", "items": {"enum": [
+      "valid", "invalid_input", "not_identified", "assumptions_unmet", "unsupported",
+      "not_converged", "numerically_suspect", "resource_exhausted", "cancelled",
+      "inconclusive", "not_applicable"
+    ]}, "minItems": 2, "uniqueItems": true},
+    "validation_rules": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "invalidation_triggers": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "replay_contract": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "portability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "conditions"],
+      "properties": {
+        "level": {"enum": ["semantic_only", "contract_portable", "representation_portable", "provider_bound"]},
+        "conditions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "decision_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "gaps": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/data-modality-gap-audit/canonical-representation-audit.schema.json",
+  "type": "object",
+  "required": ["representation_audit_id", "finding_id", "canonical_crosswalk_ids", "coverage", "comparison_basis", "name_equivalence_used", "gap"],
+  "properties": {
+    "representation_audit_id": {"type": "string", "pattern": "^CRA-[0-9]{3}$"},
+    "finding_id": {"type": "string", "pattern": "^RLF-[0-9]{3}$"},
+    "canonical_crosswalk_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^xwalk\\.[0-9]{3}$"}},
+    "coverage": {"enum": ["explicit", "partial", "missing"]},
+    "comparison_basis": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}},
+    "name_equivalence_used": {"const": false},
+    "gap": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false
+}

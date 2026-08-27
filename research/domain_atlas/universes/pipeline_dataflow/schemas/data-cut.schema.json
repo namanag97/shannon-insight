@@ -1,0 +1,136 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/data-cut-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "closure": {
+      "additionalProperties": false,
+      "properties": {
+        "law": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "witness": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "law",
+        "witness"
+      ],
+      "type": "object"
+    },
+    "created_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "data_cut_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "event_time_interval": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "recording_time_interval": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "source_selections": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "end": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "partitions": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "position_domain": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "snapshot_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source_ref": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "start": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "source_ref",
+          "position_domain",
+          "start",
+          "end",
+          "snapshot_ref",
+          "partitions"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "open",
+        "closed",
+        "invalidated"
+      ]
+    },
+    "valid_time_interval": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "data_cut_id",
+    "edition",
+    "status",
+    "source_selections",
+    "event_time_interval",
+    "valid_time_interval",
+    "recording_time_interval",
+    "closure",
+    "created_at",
+    "evidence_refs"
+  ],
+  "title": "Data cut",
+  "type": "object"
+}

@@ -128,9 +128,7 @@ class FileIdentityResolver:
 
     def _load_cache(self) -> None:
         """Populate in-memory caches from persisted data."""
-        cursor = self.conn.execute(
-            "SELECT file_id, current_path, is_alive FROM file_identities"
-        )
+        cursor = self.conn.execute("SELECT file_id, current_path, is_alive FROM file_identities")
         for row in cursor:
             file_id = row[0]
             current_path = row[1]
@@ -484,16 +482,12 @@ class FileIdentityResolver:
 
     def stats(self) -> dict[str, int]:
         """Return summary statistics about tracked identities."""
-        total = self.conn.execute(
-            "SELECT COUNT(*) FROM file_identities"
-        ).fetchone()[0]
+        total = self.conn.execute("SELECT COUNT(*) FROM file_identities").fetchone()[0]
         alive = self.conn.execute(
             "SELECT COUNT(*) FROM file_identities WHERE is_alive = 1"
         ).fetchone()[0]
         dead = total - alive
-        renames = self.conn.execute(
-            "SELECT COUNT(*) FROM file_renames"
-        ).fetchone()[0]
+        renames = self.conn.execute("SELECT COUNT(*) FROM file_renames").fetchone()[0]
         return {
             "total_identities": total,
             "alive": alive,

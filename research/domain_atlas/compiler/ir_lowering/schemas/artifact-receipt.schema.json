@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "$ref": "#/$defs/id"
+    },
+    "artifact_kind": {
+      "enum": [
+        "artifact",
+        "receipt"
+      ]
+    },
+    "canonicalization": {
+      "type": "string"
+    },
+    "contract": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "identity": {
+      "type": "string"
+    },
+    "required_envelope": {
+      "$ref": "#/$defs/strings"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "verification": {
+      "$ref": "#/$defs/strings"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "edition",
+    "status",
+    "artifact_kind",
+    "contract",
+    "identity",
+    "required_envelope",
+    "canonicalization",
+    "verification",
+    "source_refs"
+  ],
+  "title": "Artifact or receipt candidate",
+  "type": "object"
+}

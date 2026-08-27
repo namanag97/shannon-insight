@@ -1,0 +1,16 @@
+{
+  "as_of": "2026-08-27",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "program_id": "program.targeted-semantic-axis-campaign-coverage.v1",
+  "registered_campaigns": 6,
+  "routed_library_occurrences": 2805,
+  "routed_work_packages": 103,
+  "targeted_axes": 6,
+  "targeted_library_occurrences": 2805,
+  "targeted_work_packages": 103,
+  "unrouted_axes": [],
+  "unrouted_work_packages": 0
+}

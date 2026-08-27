@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "decision_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "default_on_unknown": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "options": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "decision_point_candidate"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "decision_id",
+    "question",
+    "options",
+    "default_on_unknown"
+  ],
+  "title": "Decision point candidate",
+  "type": "object"
+}

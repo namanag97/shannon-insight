@@ -1,0 +1,167 @@
+{
+  "attachments": [
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 407304,
+      "origin": "docs/spec-inputs/programs/2026-08-13/shared/registry/SAN-GLOBAL-PROGRAM-REGISTRY-ARCHITECTURE-EDITION-1.zip",
+      "path": "ATTACHMENTS/registry/SAN-GLOBAL-PROGRAM-REGISTRY-ARCHITECTURE-EDITION-1.zip",
+      "role": "Candidate global registry and crosswalk target; not ratification evidence",
+      "sha256": "757d1fd0fa1ef977158a39b7ed91272f231121ff8a9c138e4ba8aed8d5dd9b3c"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 1066672,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-assets-resources-operations-domain-atlas.zip",
+      "path": "ATTACHMENTS/source-corpora/session-assets-resources-operations-domain-atlas.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "6c8932fb981cd88bc13ecd0fdf182dd3ba66e287746209af9b31b64012b1b433"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 795520,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-commerce-value-finance-domain-atlas.zip",
+      "path": "ATTACHMENTS/source-corpora/session-commerce-value-finance-domain-atlas.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "ef36fe9911bd7c6b824257d101d3d369499810eb7b4f35bd3f5f2ba98c0584fa"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 615605,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-content-knowledge-experience-domain-atlas.zip",
+      "path": "ATTACHMENTS/source-corpora/session-content-knowledge-experience-domain-atlas.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "bff20406dd64e84b6f4c0d19d6c02c5657af3fc328955107947e8c4d8477cc71"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 676277,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-digital-systems-runtime-operations-domain-atlas.zip",
+      "path": "ATTACHMENTS/source-corpora/session-digital-systems-runtime-operations-domain-atlas.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "f7cd24d78c1432735e009c9bab105157ddb30498d78d0d9f00b1f686fb120d6f"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 1784476,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-global-domain-universe-blind-domain-discovery.zip",
+      "path": "ATTACHMENTS/source-corpora/session-global-domain-universe-blind-domain-discovery.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "8bd5b4c34d493383486ad0f25f663fb6f0972af7e2e8dc1084355baffbe2dad5"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 2432392,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-industry-vertical-universe-domain-atlas.zip",
+      "path": "ATTACHMENTS/source-corpora/session-industry-vertical-universe-domain-atlas.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "c24c9aa97749e3222138067da703a44fc1ab8d23ed6e4044a772220648ff5c8a"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 606070,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-party-authority-governance-domain-atlas.zip",
+      "path": "ATTACHMENTS/source-corpora/session-party-authority-governance-domain-atlas.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "a8d4df8faf33a053314f183337cabcca080ef8c6e875ca5ebc4e8fb97c0807d6"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 375997,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-runtime-resource-operations-assurance-blind-domain-discovery.zip",
+      "path": "ATTACHMENTS/source-corpora/session-runtime-resource-operations-assurance-blind-domain-discovery.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "8f99c383f03abad67f0f488e8562da9b2047fa0219a36ffedcc7917c778bdf86"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 219491,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-ui-human-experience-blind-domain-discovery.zip",
+      "path": "ATTACHMENTS/source-corpora/session-ui-human-experience-blind-domain-discovery.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "4d18ec5471134c30e942cf4e00a0284e3cedbdc7a448c2fcface30ad7dff0c14"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 447951,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/00-source-corpora/session-work-process-decision-domain-atlas.zip",
+      "path": "ATTACHMENTS/source-corpora/session-work-process-decision-domain-atlas.zip",
+      "role": "Independent source corpus requiring direct record reingestion",
+      "sha256": "5080dbb826ad847e09c554ebe12803df809893f17f60dc4d8d714bc2c3d74879"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 1315201,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/01-adjacent-discovery/session-foundational-semantics-domain-atlas.zip",
+      "path": "ATTACHMENTS/adjacent-discovery/session-foundational-semantics-domain-atlas.zip",
+      "role": "Adjacent foundational-semantics discovery input",
+      "sha256": "ceab13c07f3c12d41f84c6a6710c02ddd5cc9bc0321edfdbcb900f5204c973ba"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 275962,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/01-adjacent-discovery/session-language-compiler-ir-blind-domain-discovery.zip",
+      "path": "ATTACHMENTS/adjacent-discovery/session-language-compiler-ir-blind-domain-discovery.zip",
+      "role": "Adjacent language/compiler/IR discovery input",
+      "sha256": "231038255448e5aa4e0704b6a2f484def13df57d687bb1c7a0bde902b04e9b62"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 7164681,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/02-reconciliation/session-09a-cross-domain-reconciliation.zip",
+      "path": "ATTACHMENTS/adjudication/session-09a-cross-domain-reconciliation.zip",
+      "role": "Cross-domain reconciliation evidence",
+      "sha256": "c550d21ac5d987338b9ee012f48b26f869f852e0450ae9b571567f97d78e198f"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 997257,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/03-audits/session-09b-independent-boundary-audit-r3-active.zip",
+      "path": "ATTACHMENTS/adjudication/session-09b-independent-boundary-audit-r3-active.zip",
+      "role": "Latest independent boundary-audit candidate; supersedes r1/r2 for dispatch",
+      "sha256": "8cbe93b62cbb2f61b86bcdb4a97f5264f08f3ba59b7686929aadd0f0f663285c"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 3736756,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/04-competency/session-09c-cross-domain-competency-suite.zip",
+      "path": "ATTACHMENTS/adjudication/session-09c-cross-domain-competency-suite.zip",
+      "role": "Cross-domain competency and scenario candidate",
+      "sha256": "6b58fe4937535440221fbad0a2d6bb2e93e8c5cc7faf7791813c1eb9ed1e5a72"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 2857072,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/05-atlas/SAN-UNIVERSAL-NON-DATA-DOMAIN-ATLAS-v0.1.0.zip",
+      "path": "ATTACHMENTS/atlas/SAN-UNIVERSAL-NON-DATA-DOMAIN-ATLAS-v0.1.0.zip",
+      "role": "Current non-data atlas rebase subject and stress corpus",
+      "sha256": "5709a57a2bbe35257e756cade440d73c60e3fe6b8c6d65c80a4a731466767b96"
+    }
+  ],
+  "control_files": [
+    {
+      "bytes": 7611,
+      "path": "PROMPT.md",
+      "sha256": "7ceff6b21af67099e2e9501120d07f4b90da9ec5c74b16cb89a0135152be0c95"
+    },
+    {
+      "bytes": 5229,
+      "path": "BASE-RESEARCH-CONSTITUTION.md",
+      "sha256": "1fb4fe5a25bac6484bcd122735d10bdbce97aa5f893e4c3675959ee3e0e712bd"
+    },
+    {
+      "bytes": 6606,
+      "path": "PROGRAM-DAG.md",
+      "sha256": "f79b480c249ab5ebbb76046e87c8bdf95adf6c6a18aee19e98f804b22a14fdde"
+    },
+    {
+      "bytes": 2717,
+      "path": "ARTIFACT-CONTRACT.md",
+      "sha256": "71c4e9882c29690fa2ddeaaf4c337225ce913e90a709ca38adad688db53864b7"
+    }
+  ],
+  "expected_return": "SAN-UNIVERSAL-NON-DATA-DOMAIN-ATLAS-v0.2.0-RC.zip",
+  "independence_rule": "Use only this session package, globally researched Internet evidence, and no output from either parallel independent contract candidate session.",
+  "manifest_version": "0.1.0",
+  "purpose": "Globally researched non-data domain atlas v0.2.0 release candidate",
+  "session_id": "N1-atlas-rebase"
+}

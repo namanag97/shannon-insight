@@ -1,0 +1,113 @@
+{
+  "candidate_law": "Every finite registry is a candidate research seed; a count never establishes universal completeness or provider conformance.",
+  "compiler_flow": [
+    "parse consumption intent",
+    "resolve semantic and asset editions",
+    "type result and presentation requirements",
+    "separate semantic, presentation and runtime state",
+    "project governance/security/privacy",
+    "match evidence-backed capability offers",
+    "lower to pure presentation/interaction IR",
+    "bind finite runtime libraries",
+    "execute or render",
+    "emit result, state, freshness, loss and decision receipts"
+  ],
+  "completion_claim": false,
+  "core_method_posture": "Deterministic typed contracts, algebras, state machines and qualified runtimes; generative methods are outside the core.",
+  "decomposition": [
+    "semantic intent and analytical case",
+    "query/result exchange",
+    "presentation grammar and contracts",
+    "interaction intent and state",
+    "dashboard/report/notebook composition",
+    "governed delivery, sharing and collaboration",
+    "accessibility, localization and offline consumption",
+    "freshness, disclosure, reproducibility and decision handoff"
+  ],
+  "edition": 1,
+  "guarantee_lattices": {
+    "accessibility": [
+      "task_equivalent_qualified",
+      "programmatic_structure_only",
+      "text_summary_only",
+      "unknown"
+    ],
+    "freshness": [
+      "source_final_declared",
+      "source_provisional",
+      "representation_fresh",
+      "representation_stale",
+      "offline_unknown"
+    ],
+    "reproducibility": [
+      "verified_replay_equivalent",
+      "environment_qualified",
+      "package_complete_unverified",
+      "best_effort",
+      "unknown"
+    ],
+    "result": [
+      "complete_snapshot",
+      "watermark_complete",
+      "bounded_partial",
+      "live_epoch",
+      "unknown"
+    ]
+  },
+  "identity_splits": [
+    {
+      "law": "encoding references but never owns metric, field, unit, time or aggregation meaning",
+      "left": "semantic meaning",
+      "right": "visual encoding"
+    },
+    {
+      "law": "rows/cells and selections/focus/viewports have separate identities and editions",
+      "left": "query result",
+      "right": "presentation state"
+    },
+    {
+      "law": "a reusable surface does not replace question/evidence/decision provenance",
+      "left": "dashboard",
+      "right": "analytical case"
+    },
+    {
+      "law": "immutable data cut and changing stream epoch never share one completeness claim",
+      "left": "report snapshot",
+      "right": "live view"
+    },
+    {
+      "law": "evaluation state and transport state advance independently",
+      "left": "alert rule",
+      "right": "notification delivery"
+    },
+    {
+      "law": "serialized bytes do not imply revocable continuing access",
+      "left": "export",
+      "right": "governed sharing"
+    },
+    {
+      "law": "cells and stored outputs do not identify process, environment or current memory",
+      "left": "notebook document",
+      "right": "execution kernel"
+    },
+    {
+      "law": "equivalent structure/navigation is not inferred from color, theme or alt text alone",
+      "left": "accessibility semantics",
+      "right": "styling"
+    },
+    {
+      "law": "prose links inspectable support but is not proof",
+      "left": "explanation",
+      "right": "evidence"
+    },
+    {
+      "law": "representation age and source correction posture remain independent",
+      "left": "client cache freshness",
+      "right": "source finality"
+    }
+  ],
+  "metamodel_id": "san.consumption-bi-visualization-universe",
+  "scope": "Horizontal analytical consumption from semantic query intent to human decision handoff, independent of any UI application or vendor product.",
+  "status": "candidate_research_contract",
+  "unknown_law": "Unknown owner, semantics, edition, authority, freshness, loss, accessibility or capability becomes a typed gap and fails closed."
+}

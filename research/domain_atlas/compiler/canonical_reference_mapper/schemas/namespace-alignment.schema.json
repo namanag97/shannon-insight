@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "alignment_id",
+    "queue_id",
+    "raw_ref",
+    "candidate_target_ref",
+    "semantic_effect",
+    "proves_equivalence"
+  ],
+  "title": "Mechanical namespace alignment",
+  "type": "object"
+}

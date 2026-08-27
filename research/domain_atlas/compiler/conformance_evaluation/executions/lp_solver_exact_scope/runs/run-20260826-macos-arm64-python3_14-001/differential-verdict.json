@@ -1,0 +1,43 @@
+{
+  "differential_id": "differential.run-20260826-macos-arm64-python3_14-001.ortools_glop__highs",
+  "objective_agreements": [
+    {
+      "fixture_id": "fixture.lp.optimal_unique",
+      "left": 10.0,
+      "right": 10.0,
+      "within_tolerance": true
+    },
+    {
+      "fixture_id": "fixture.lp.optimal_degenerate",
+      "left": 1.0,
+      "right": 1.0,
+      "within_tolerance": true
+    },
+    {
+      "fixture_id": "fixture.lp.optimal_scaled",
+      "left": 2.0,
+      "right": 2.0,
+      "within_tolerance": true
+    }
+  ],
+  "precise_scope_agreement": false,
+  "provider_refs": [
+    "offer.operations_research.ortools.glop.mpsolver_python.9_15_6755",
+    "offer.operations_research.highspy.highs.1_15_1"
+  ],
+  "record_kind": "executed_provider_differential",
+  "safe_scope_agreement": true,
+  "status_differences": [
+    {
+      "fixture_id": "fixture.lp.infeasible",
+      "left": "infeasible_or_unbounded",
+      "right": "infeasible"
+    },
+    {
+      "fixture_id": "fixture.lp.unbounded",
+      "left": "infeasible_or_unbounded",
+      "right": "unbounded"
+    }
+  ],
+  "verdict": "safe_scope_executed_agreement_precise_scope_not_substitutable"
+}

@@ -1,0 +1,23 @@
+{
+  "edition": "process-mining-expert-pilot-v0.1.0",
+  "gaps": [
+    "Complete publication-by-publication adjudication of all 166 TU/e-listed Fahland outputs is not claimed.",
+    "TEKGM remains unresolved and must not be auto-aliased to tEKG.",
+    "State-Aware OCEL is verified as Definition 2 inside SA-OCPM, but not as a normative OCEL standard edition.",
+    "Many empirical methods lack independent cross-tool, cross-domain, and resource-envelope qualification.",
+    "Object-centric case construction, temporal relationship semantics, data-quality fitness, and conformance remain active research boundaries.",
+    "Tool repositories need commit-SHA, dependency, license, target, and benchmark requalification before binding.",
+    "Expert portfolio coverage is a falsification pilot, not a global expert census."
+  ],
+  "non_collapsible_laws": [
+    "paper acronym != method != formal model != encoding != algorithm != trained model != tool != standard",
+    "authorship != supervision != maintenance != standardization leadership != artifact ownership",
+    "OCED != OCEL 2.0 != OCED-PG != EKG != tEKG",
+    "event != activity type; object != object type; identity != correlation hypothesis",
+    "process execution != universal case; variant equality is parameterized",
+    "discovery != conformance != diagnostics != root-cause proof != performance analysis != prediction",
+    "anomaly != defect; deviation != violation; bottleneck signature != causal explanation",
+    "format validity != semantic validity != data quality != fitness for an analytical question",
+    "algorithm guarantee != implementation qualification != provider offer"
+  ]
+}

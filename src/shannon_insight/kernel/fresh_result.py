@@ -3,13 +3,14 @@
 Named fresh_result.py to avoid conflict with the existing kernel/result.py
 (which contains RuntimeResult used by the production kernel).
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-from ..signals.models import FileSignals, GlobalSignals
 from ..finders.base import Finding
+from ..signals.models import FileSignals, GlobalSignals
 
 
 @dataclass
@@ -51,7 +52,9 @@ class AnalysisResult:
                 for f in self.findings
             ],
             "global_signals": {
-                "codebase_health": self.global_signals.codebase_health if self.global_signals else 0,
+                "codebase_health": self.global_signals.codebase_health
+                if self.global_signals
+                else 0,
                 "modularity": self.global_signals.modularity if self.global_signals else 0,
                 "cycle_count": self.global_signals.cycle_count if self.global_signals else 0,
             },

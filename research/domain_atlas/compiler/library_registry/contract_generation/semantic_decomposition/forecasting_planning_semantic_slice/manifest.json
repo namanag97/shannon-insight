@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "bounded-context.json": {
+      "bytes": 1733,
+      "sha256": "30e3092dc29a0054c6521e6870108480df649c73dc6df87075bdede7f4435c58"
+    },
+    "expert-learning-profiles.jsonl": {
+      "bytes": 12494,
+      "sha256": "441d24fad0a957deb4a04288740b164d2e10e760db85429e2c7d31688cd25eda"
+    },
+    "forecasting-planning-method-taxonomy.jsonl": {
+      "bytes": 77108,
+      "sha256": "7fd26d54f4c1989010cd0b6cb39fb2fc16a612e7659f750a86238b953b18d0c7"
+    },
+    "innovation-records.jsonl": {
+      "bytes": 5732,
+      "sha256": "83ffdb2ef1718ed735688b16b5c6abde790e00493d98cdc431f17ac143546ca1"
+    },
+    "library-axis-decision-candidates.jsonl": {
+      "bytes": 483248,
+      "sha256": "d2326d989cda3ce10ebfeb49a1b86189dcf669a5cb03d80c6da21b9b602c15b3"
+    },
+    "library-semantic-bindings.jsonl": {
+      "bytes": 39743,
+      "sha256": "9542d1c263edd3948619382b0e1e934f57464065c26137a080ff921d98ee94c1"
+    },
+    "non-collapse-laws.jsonl": {
+      "bytes": 12088,
+      "sha256": "33c317d28f26e4541ee31f3b0d3dff6d0efe96dbb32b883f16dd961e8c6c6b0e"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 20012,
+      "sha256": "bf11901286208c2f354201110dea97c32e2e45226aaa2063937ad63833c9db17"
+    },
+    "product-capability-boundary-findings.jsonl": {
+      "bytes": 14401,
+      "sha256": "a82ba352acc0dc23be36c47a1d05ec2887197f39cf9ace43a7a3c0b953a7fed8"
+    },
+    "semantic-modules.jsonl": {
+      "bytes": 29958,
+      "sha256": "7d5674ff2ce136aeff1363c82032094282506861f071db70c9e145d910764b2b"
+    },
+    "summary.json": {
+      "bytes": 640,
+      "sha256": "8c6d17da9fc9992e328aa280033240646ebe76b283b64d661324dabe17e39a39"
+    }
+  },
+  "manifest_id": "manifest.forecasting-planning-semantic-slice.v1"
+}

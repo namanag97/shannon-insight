@@ -1,0 +1,306 @@
+{
+  "edition": 1,
+  "registry_id": "san.domain-atlas.source-system-verification",
+  "tests": [
+    {
+      "evidence_required": true,
+      "purpose": "Prove stable occurrence, namespace, object identity and field-level authority.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.identity.authority"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Compare advertised and empirically observed objects, schemas and operations.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.discovery.capability_probe"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Demonstrate a documented repeatable cut or explicitly reject snapshot semantics.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.read.repeatable_snapshot"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Mutate data during paging and detect omissions, repeats and cursor invalidation.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.read.pagination_mutation"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Prove no gap or overlap loss between initial snapshot and change capture.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.change.snapshot_handoff"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Resume from checkpoints across disconnects and exercise cursor/retention expiry.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.change.resume_expiry"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Inject retries and redelivery; prove declared deduplication and idempotency behavior.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.delivery.duplicates"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Reorder, omit and duplicate inputs; prove order scope and gap detection.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.delivery.order_gaps"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Replay within and beyond retention and verify an explicit terminal failure.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.delivery.replay_retention"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Exercise hard, soft, tombstone, TTL, redaction and not-exposed deletion paths.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.delete.all_forms"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Exercise additive, subtractive, rename, type, constraint and unknown-field changes.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.schema.compatibility"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Detect key reuse, namespace moves, hierarchy drift and identity crosswalk changes.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.schema.identity_drift"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Measure clock source, skew, timezone, DST, lateness and revision-time behavior.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.time.clock_and_lateness"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Exercise provisional, approved, corrected, reversed and retracted states.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.finality.correction_retraction"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Observe commits and aborts at the declared transaction boundary.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.transaction.atomicity"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Prove minimum read/discovery scopes and reject unauthorized objects and fields.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.security.least_privilege"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Prove tenant, row, field, object and inherited-ACL isolation.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.security.tenant_boundary"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Rotate credentials/keys and reconcile access with immutable audit evidence.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.security.audit_rotation"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Probe rate, quota, page, payload, concurrency, retention and cost envelopes safely.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.limit.envelope"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Reconcile counts, sums, hashes and domain control totals by stable cut.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.reconcile.count_hash"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Prove writes/commands are disabled by default and require explicit policy.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.write.destructive_guard"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Exercise long disconnection, buffered writes, conflict resolution and clock discontinuity.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.offline.reconnect"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Verify content bytes, renditions, version identity, ACL inheritance, holds and redaction.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.content.version_acl"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Verify codec/container, orientation, frame/sample timing, checksums and metadata loss.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.media.codec_metadata"
+    },
+    {
+      "evidence_required": true,
+      "purpose": "Validate profiles, code systems, identifiers and conformance artifacts for the domain.",
+      "result_contract": [
+        "pass",
+        "fail",
+        "not_supported",
+        "not_authorized",
+        "inconclusive"
+      ],
+      "test_id": "verify.vertical.conformance"
+    }
+  ]
+}

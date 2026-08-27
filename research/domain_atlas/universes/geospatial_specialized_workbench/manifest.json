@@ -1,0 +1,53 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "boundary-lens-adjudication.jsonl": {
+      "records": 12,
+      "sha256": "f03a4053d408380285796b1c4a6521d9344cd510bd986916ec9f231b9ec43ee7"
+    },
+    "boundary-verdicts.jsonl": {
+      "records": 3,
+      "sha256": "83c2be1893aa4d3a5648364ae64ba66519c6eaa1ae9c28ca71b939881fa69439"
+    },
+    "bounded-contexts.jsonl": {
+      "records": 8,
+      "sha256": "af2eb3d26e77fe3f2552a9cfeb2ba8f9bb764803f5362b89ed5f4261d278602b"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 54,
+      "sha256": "dd714978a9acefe629b103e2d771b203b69e31da91397d32399043b525ecb228"
+    },
+    "corpus-control.schema.json": {
+      "sha256": "01ad68ea91683f65e5ec4324cfd944a420ea18f054c3d5e9ef11be9415201460"
+    },
+    "decision-points.jsonl": {
+      "records": 450,
+      "sha256": "9ab603884824be29be19bee3b6d966c2a98b73fd0a773e5ca5f01ffea207178d"
+    },
+    "gaps.jsonl": {
+      "records": 5,
+      "sha256": "db8b711d3dacc31ee105d451c26a5f855afab6c750ef227e2e5e538325ca8814"
+    },
+    "library-contracts.jsonl": {
+      "records": 18,
+      "sha256": "3532a93d65d4ccd8b6be358f73c6b52cb425b91a449fccd25e956912830e5b1c"
+    },
+    "negative-twins.jsonl": {
+      "records": 31,
+      "sha256": "189f4b558405cae57d31e3d366cbb58a481bb6ac0b2adaf967d4f9a0aba97669"
+    },
+    "qualification-profiles.jsonl": {
+      "records": 18,
+      "sha256": "c35b7299dc5c1d039c050506af2631ee68635c1e6fae7b52a3896635b72089f5"
+    },
+    "sources.jsonl": {
+      "records": 40,
+      "sha256": "a6a863c699b61b8d7e9d35195e4be74eee4dc9a1280ff26b6941462be510cb13"
+    }
+  },
+  "manifest_id": "geospatial_specialized_workbench_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

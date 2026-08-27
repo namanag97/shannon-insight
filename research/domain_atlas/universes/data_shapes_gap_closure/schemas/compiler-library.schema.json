@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "compiler_contract": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "decision_surfaces": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "evidence_refs": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "library_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "purity": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "purpose": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "library_id",
+    "purpose",
+    "purity",
+    "decision_surfaces",
+    "compiler_contract",
+    "evidence_refs"
+  ],
+  "type": "object"
+}

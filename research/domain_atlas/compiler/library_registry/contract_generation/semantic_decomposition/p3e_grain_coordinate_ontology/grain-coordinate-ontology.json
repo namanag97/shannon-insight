@@ -1,0 +1,204 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "grain_and_cardinality",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "coordinate_contract": {
+    "boundedness_and_completeness": {
+      "boundedness": [
+        "finite_known",
+        "finite_unknown",
+        "unbounded",
+        "window_bounded",
+        "snapshot_bounded",
+        "unknown"
+      ],
+      "completeness_scope": [
+        "element_local",
+        "page_local",
+        "batch_local",
+        "partition_local",
+        "window_local",
+        "snapshot_local",
+        "source_local",
+        "global_claimed_with_proof",
+        "partial",
+        "unknown"
+      ],
+      "completion_proof_ref": "required for any non-local completeness claim"
+    },
+    "cardinality_contract": {
+      "count_basis": [
+        "physical_occurrence",
+        "logical_occurrence",
+        "distinct_by_equality_contract_ref",
+        "weighted_occurrence",
+        "unknown_must_be_declared"
+      ],
+      "duplicate_behavior": "required for set, bag, join, union, distinct and replay-sensitive operations",
+      "empty_input_behavior": "required when it affects output cardinality",
+      "exactness": [
+        "exact",
+        "bounded",
+        "estimated",
+        "unknown"
+      ],
+      "lower_bound": "non_negative_integer_or_symbolic_expression",
+      "upper_bound": "non_negative_integer_or_unbounded_or_unknown_or_symbolic_expression"
+    },
+    "container_scope": [
+      "singleton",
+      "optional",
+      "set",
+      "bag",
+      "sequence",
+      "map",
+      "multimap",
+      "table",
+      "batch",
+      "page",
+      "partition",
+      "shard",
+      "window",
+      "pane",
+      "stream",
+      "graph",
+      "hierarchy",
+      "model",
+      "artifact_bundle",
+      "explicit_extension"
+    ],
+    "coordinate_key": [
+      "subject_ref",
+      "operation_ref",
+      "semantic_position",
+      "port_ref"
+    ],
+    "dependency_refs": [
+      "identity_and_equality",
+      "order_and_topology",
+      "state_and_change",
+      "time_and_temporality",
+      "partiality_and_uncertainty",
+      "authority_and_effect"
+    ],
+    "multiplicity_semantics": [
+      "single",
+      "optional_zero_or_one",
+      "set_distinct",
+      "bag_duplicates_significant",
+      "sequence_position_significant",
+      "map_unique_key",
+      "multimap_repeated_key",
+      "graph_incidence",
+      "unknown_must_be_declared"
+    ],
+    "required_fields": [
+      "semantic_position",
+      "semantic_unit",
+      "container_scope",
+      "multiplicity_semantics",
+      "cardinality_contract",
+      "boundedness_and_completeness",
+      "dependency_refs",
+      "evidence_refs"
+    ],
+    "semantic_position": [
+      "source",
+      "input",
+      "parameter",
+      "configuration",
+      "internal_state",
+      "index",
+      "event",
+      "evidence",
+      "output",
+      "receipt",
+      "sink_effect"
+    ],
+    "semantic_unit": [
+      "scalar_value",
+      "field_value",
+      "record_or_tuple",
+      "domain_entity",
+      "domain_occurrence",
+      "event_occurrence",
+      "relation_edge",
+      "path",
+      "spatial_cell",
+      "time_bucket",
+      "optimization_variable",
+      "model_artifact",
+      "claim_or_evidence_item",
+      "receipt",
+      "explicit_extension"
+    ]
+  },
+  "discovery_projection_compatibility": {
+    "existing_facets": [
+      "scalar_or_single",
+      "record_or_tuple",
+      "collection_or_set",
+      "partitioned",
+      "stream_or_unbounded",
+      "graph_or_network"
+    ],
+    "prohibition": "Existing facets may route research. They cannot select a semantic position, operation, container, multiplicity, cardinality law, completeness boundary, applicability decision or exact contract.",
+    "status": "LOSSY_LEXICAL_DISCOVERY_PROJECTION_ONLY"
+  },
+  "domain_question": "For each meaningful semantic position, what unit is observed or acted on, what contains it, what multiplicity is legal, what completeness boundary applies, and how does an operation transform those facts?",
+  "edition": 1,
+  "member_applicability_decisions": 0,
+  "non_collapse_laws": [
+    "library is not operation",
+    "operation is not port",
+    "semantic unit is not container scope",
+    "record is not domain entity",
+    "page is not result set",
+    "partition-local completeness is not global completeness",
+    "physical chunk is not semantic batch",
+    "window is not pane",
+    "bounded is not complete",
+    "count equality is not identity preservation",
+    "set is not bag and bag is not sequence",
+    "event-to-object relation is not an inherent single case",
+    "snapshot is not table history",
+    "evidence aggregation is not evidence acceptance"
+  ],
+  "ontology_id": "ontology.semantic-axis.grain-coordinate.v1",
+  "owner_decision": "UNRESOLVED",
+  "primary_source_refs": [
+    "source.grain.substrait.logical-relations",
+    "source.grain.arrow.introduction",
+    "source.grain.beam.model",
+    "source.grain.iceberg.spec",
+    "source.grain.ocel.2"
+  ],
+  "required_negative_twins": [
+    "zero inputs versus empty input container",
+    "zero outputs versus refused or failed operation",
+    "duplicate occurrence versus same semantic identity",
+    "late record versus absent record",
+    "page exhaustion versus source completeness",
+    "partition completion versus global completion",
+    "one-to-many expansion versus replay duplication",
+    "aggregate row versus preserved source row"
+  ],
+  "scope": {
+    "inside": [
+      "operation-positioned units and containers",
+      "cardinality intervals and multiplicity semantics",
+      "boundedness and completeness scope",
+      "grain-changing transformation kernels",
+      "declared preservation and loss across a transformation",
+      "dependencies on identity, order, time, state, uncertainty and authority"
+    ],
+    "outside": [
+      "domain identity adjudication",
+      "source-of-truth or ownership decisions",
+      "business metric correctness",
+      "physical performance or storage layout unless explicitly positioned as a physical carrier",
+      "member applicability inferred from library names"
+    ]
+  }
+}

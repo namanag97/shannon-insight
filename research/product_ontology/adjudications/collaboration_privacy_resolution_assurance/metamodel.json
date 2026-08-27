@@ -1,0 +1,175 @@
+{
+  "$id": "https://san.example/spec/collaboration_privacy_resolution_assurance-adjudication-metamodel-v0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "artifact_kinds": {
+    "architecture_pattern": {
+      "definition": "Recurring arrangement of products, capabilities and mechanisms.",
+      "kind": "architecture_pattern"
+    },
+    "capability": {
+      "definition": "Typed operation offered under a semantic contract.",
+      "kind": "capability"
+    },
+    "control_component": {
+      "definition": "Stateful or policy component inside a product boundary.",
+      "kind": "control_component"
+    },
+    "implementation": {
+      "definition": "Observed implementation or provider; unqualified until conformance evidence exists.",
+      "kind": "implementation"
+    },
+    "neighbor": {
+      "definition": "Explicit adjacent semantic or product owner imported through an ACL.",
+      "kind": "neighbor"
+    },
+    "optional_extension": {
+      "definition": "Removable method or assistance surface that cannot redefine core semantics or authority.",
+      "kind": "optional_extension"
+    },
+    "product": {
+      "definition": "Independently adopted and operated outcome promise with lifecycle, authority, support and exit.",
+      "kind": "product"
+    },
+    "semantic_contract": {
+      "definition": "Owner of a term, identity, law, decision and refusal boundary.",
+      "kind": "semantic_contract"
+    },
+    "standard": {
+      "definition": "Editioned external specification or profile; not a product or provider qualification.",
+      "kind": "standard"
+    },
+    "suite": {
+      "definition": "Commercial or administrative packaging of products; owns no merged semantics.",
+      "kind": "suite"
+    }
+  },
+  "binding_phases": [
+    "authoring",
+    "compile_time",
+    "deployment_time",
+    "runtime",
+    "qualification_time"
+  ],
+  "contract_id": "contract.product_adjudication.collaboration_privacy_resolution_assurance.v0_1_0",
+  "edition": 1,
+  "non_collapse_laws": [
+    "controlled collaboration != warehouse != TEE != MPC != differential privacy != approved output release",
+    "requestor authentication != data-subject scope != authority != planned effect != verified effect",
+    "retention schedule != backup expiry != preservation commitment != hold != disposition occurrence",
+    "identifier equality != candidate pair != match score != link decision != entity cluster != master merge",
+    "rules, probabilistic linkage and predictive ML are analytical methods, not effect authority",
+    "test result != evidence sufficiency != attestation != independent appraisal != bounded verdict != relying decision",
+    "independence is evidenced per appraisal occurrence; software and brands are not intrinsically independent",
+    "suite packaging never merges semantic owners, consistency boundaries, refusals or exit rights",
+    "provider documentation != conformance != qualification != portability",
+    "optional model or agent output is a proposal, never semantic, legal, match, appraisal or effect authority",
+    "removing all model and agent extensions preserves deterministic parsing, typing, constraint solving, numerical execution, qualification, policy, effects and receipts",
+    "participant admission != contribution admission != analysis approval != execution success != output release",
+    "requestor != data subject != subject scope != record scope != effect target",
+    "record occurrence != candidate pair != feature evidence != score != link decision != cluster != master identity",
+    "claim != argument != evidence != finding != defeater != appraisal != verdict != relying decision"
+  ],
+  "record_kinds": {
+    "artifact": {
+      "identity_key": "artifact_id",
+      "source_section": "artifacts"
+    },
+    "artifact_kind_definition": {
+      "identity_key": "kind",
+      "source_section": "artifact_kinds"
+    },
+    "boundary_decision": {
+      "identity_key": "decision_id",
+      "source_section": "boundary_decisions"
+    },
+    "capability_offer": {
+      "identity_key": "offer_id",
+      "source_section": "offers"
+    },
+    "capability_requirement": {
+      "identity_key": "requirement_id",
+      "source_section": "requirements"
+    },
+    "evidence_source": {
+      "identity_key": "source_id",
+      "source_section": "sources"
+    },
+    "legacy_crosswalk": {
+      "identity_key": "legacy_ref",
+      "source_section": "crosswalks"
+    },
+    "library_contract": {
+      "identity_key": "library_id",
+      "source_section": "libraries"
+    },
+    "negative_test": {
+      "identity_key": "test_id",
+      "source_section": "negative_tests"
+    },
+    "product_ddd_dossier": {
+      "identity_key": "dossier_id",
+      "source_section": "ddd_dossiers"
+    },
+    "product_library_binding_gap": {
+      "identity_key": "gap_id",
+      "source_section": "binding_gaps"
+    },
+    "product_library_binding_map": {
+      "identity_key": "binding_map_id",
+      "source_section": "binding_maps"
+    },
+    "relation": {
+      "identity_key": "relation_id",
+      "source_section": "relations"
+    },
+    "semantic_or_conformance_gap": {
+      "identity_key": "gap_id",
+      "source_section": "semantic_gaps"
+    },
+    "semantic_ownership": {
+      "identity_key": "meaning_id",
+      "source_section": "ownership"
+    }
+  },
+  "relation_predicates": [
+    "packaged_as",
+    "packages",
+    "offers",
+    "requires",
+    "governed_by",
+    "specializes",
+    "implements",
+    "realizes"
+  ],
+  "split_test_axes": [
+    "user",
+    "job",
+    "adoption",
+    "semantics",
+    "authority",
+    "lifecycle",
+    "operation",
+    "economics",
+    "interface",
+    "market_evidence"
+  ],
+  "split_test_verdicts": {
+    "defer": [
+      7,
+      12
+    ],
+    "merge_or_reclassify": [
+      0,
+      6
+    ],
+    "presumptive_product": [
+      13,
+      16
+    ],
+    "strong_product_candidate": [
+      17,
+      20
+    ]
+  },
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

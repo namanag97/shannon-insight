@@ -1,0 +1,35 @@
+{
+  "analytical_cases": 188,
+  "cases_by_domain": {
+    "agriculture": 24,
+    "construction": 23,
+    "engineering": 15,
+    "environmental_services": 26,
+    "facilities": 20,
+    "fishing_aquaculture": 20,
+    "food_processing": 28,
+    "forestry": 14,
+    "real_estate": 18
+  },
+  "cases_by_mode": {
+    "causal": 33,
+    "compliance": 31,
+    "descriptive": 33,
+    "diagnostic": 121,
+    "optimization": 83,
+    "predictive": 68,
+    "process": 51,
+    "reliability": 22,
+    "risk": 126,
+    "root_cause": 46,
+    "simulation": 60,
+    "spatial": 50,
+    "valuation": 11
+  },
+  "data_shapes": 40,
+  "llm_dependent_cases": 0,
+  "primary_source_ratio": 1.0,
+  "source_system_needs": 42,
+  "sources": 80,
+  "subindustries": 124
+}

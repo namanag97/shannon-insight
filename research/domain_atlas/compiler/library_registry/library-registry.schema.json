@@ -1,0 +1,2000 @@
+{
+  "$defs": {
+    "apiContract": {
+      "additionalProperties": false,
+      "properties": {
+        "operations": {
+          "items": {
+            "$ref": "#/$defs/publicOperation"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "traits": {
+          "items": {
+            "$ref": "#/$defs/publicTrait"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "types": {
+          "items": {
+            "$ref": "#/$defs/publicType"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "types",
+        "traits",
+        "operations"
+      ],
+      "type": "object"
+    },
+    "artifactKindDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "definition": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "identity_fields": {
+          "$ref": "#/$defs/strings"
+        },
+        "kind_id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "non_collapse_law": {
+          "type": "string"
+        },
+        "record_kind": {
+          "const": "artifact_kind_definition"
+        }
+      },
+      "required": [
+        "record_kind",
+        "kind_id",
+        "edition",
+        "name",
+        "definition",
+        "identity_fields",
+        "non_collapse_law",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "base": {
+      "properties": {
+        "edition": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "record_kind": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "edition"
+      ],
+      "type": "object"
+    },
+    "behaviorContract": {
+      "additionalProperties": false,
+      "properties": {
+        "errors": {
+          "$ref": "#/$defs/strings"
+        },
+        "invariants": {
+          "$ref": "#/$defs/strings"
+        },
+        "laws": {
+          "$ref": "#/$defs/strings"
+        },
+        "refusal_precedence": {
+          "$ref": "#/$defs/strings"
+        },
+        "refusals": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "laws",
+        "invariants",
+        "refusals",
+        "refusal_precedence",
+        "errors"
+      ],
+      "type": "object"
+    },
+    "boundaryAdjudication": {
+      "additionalProperties": false,
+      "properties": {
+        "decision_id": {
+          "$ref": "#/$defs/id"
+        },
+        "disposition": {
+          "enum": [
+            "retain_as_is",
+            "retain_but_narrow",
+            "split",
+            "merge",
+            "rename",
+            "replace",
+            "retire",
+            "explicit_coexistence"
+          ]
+        },
+        "no_compatibility_alias": {
+          "const": true
+        },
+        "rationale": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "subject_refs": {
+          "$ref": "#/$defs/refs"
+        }
+      },
+      "required": [
+        "decision_id",
+        "disposition",
+        "subject_refs",
+        "rationale",
+        "no_compatibility_alias"
+      ],
+      "type": "object"
+    },
+    "boundaryContract": {
+      "additionalProperties": false,
+      "properties": {
+        "abi": {
+          "type": "string"
+        },
+        "anti_corruption": {
+          "type": "string"
+        },
+        "dtos": {
+          "$ref": "#/$defs/strings"
+        },
+        "serialization": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "abi",
+        "serialization",
+        "dtos",
+        "anti_corruption"
+      ],
+      "type": "object"
+    },
+    "boundsContract": {
+      "additionalProperties": false,
+      "properties": {
+        "resources": {
+          "$ref": "#/$defs/strings"
+        },
+        "state": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "time",
+        "state",
+        "resources"
+      ],
+      "type": "object"
+    },
+    "buildArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "build_id": {
+          "$ref": "#/$defs/id"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "feature_set": {
+          "$ref": "#/$defs/strings"
+        },
+        "implementation_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "package_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "profile": {
+          "type": "object"
+        },
+        "provenance_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "recipe_digest": {
+          "type": "string"
+        },
+        "record_kind": {
+          "const": "build_artifact"
+        },
+        "reproducible": {
+          "type": "object"
+        },
+        "sbom_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "source_digest": {
+          "type": "string"
+        },
+        "target": {
+          "type": "object"
+        },
+        "toolchain": {
+          "type": "object"
+        },
+        "unsafe_summary": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "record_kind",
+        "build_id",
+        "edition",
+        "package_ref",
+        "implementation_refs",
+        "recipe_digest",
+        "source_digest",
+        "toolchain",
+        "target",
+        "profile",
+        "feature_set",
+        "sbom_ref",
+        "provenance_ref",
+        "reproducible",
+        "unsafe_summary"
+      ],
+      "type": "object"
+    },
+    "capabilityOffer": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_kind": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "gaps": {
+          "$ref": "#/$defs/refs"
+        },
+        "implementation_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "independence_criteria": {
+          "$ref": "#/$defs/strings"
+        },
+        "minimum_independent_qualified_implementations": {
+          "minimum": 2,
+          "type": "integer"
+        },
+        "observed_independent_qualified_implementations": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "offer_id": {
+          "$ref": "#/$defs/id"
+        },
+        "offered_contract_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "portable": {
+          "type": "boolean"
+        },
+        "record_kind": {
+          "const": "capability_offer"
+        },
+        "status": {
+          "type": "string"
+        },
+        "subject_ref": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "record_kind",
+        "offer_id",
+        "edition",
+        "status",
+        "subject_ref",
+        "capability_kind",
+        "offered_contract_refs",
+        "implementation_refs",
+        "independence_criteria",
+        "minimum_independent_qualified_implementations",
+        "observed_independent_qualified_implementations",
+        "portable",
+        "evidence_refs",
+        "gaps"
+      ],
+      "type": "object"
+    },
+    "capabilityRefs": {
+      "additionalProperties": false,
+      "properties": {
+        "offered": {
+          "$ref": "#/$defs/refs"
+        },
+        "required": {
+          "$ref": "#/$defs/refs"
+        }
+      },
+      "required": [
+        "required",
+        "offered"
+      ],
+      "type": "object"
+    },
+    "capabilityRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_kind": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_gates": {
+          "$ref": "#/$defs/strings"
+        },
+        "fallback_law": {
+          "const": "refuse"
+        },
+        "provider_requirements": {
+          "$ref": "#/$defs/strings"
+        },
+        "record_kind": {
+          "const": "capability_requirement"
+        },
+        "required_contract_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "required_guarantees": {
+          "$ref": "#/$defs/strings"
+        },
+        "required_operation_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "requirement_id": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "type": "string"
+        },
+        "subject_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "target_requirements": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "record_kind",
+        "requirement_id",
+        "edition",
+        "status",
+        "subject_ref",
+        "capability_kind",
+        "required_contract_refs",
+        "required_operation_refs",
+        "required_guarantees",
+        "provider_requirements",
+        "target_requirements",
+        "evidence_gates",
+        "fallback_law"
+      ],
+      "type": "object"
+    },
+    "codeRiskContract": {
+      "additionalProperties": false,
+      "properties": {
+        "ffi": {
+          "type": "string"
+        },
+        "generated": {
+          "type": "string"
+        },
+        "unsafe": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "unsafe",
+        "ffi",
+        "generated"
+      ],
+      "type": "object"
+    },
+    "conformanceContract": {
+      "additionalProperties": false,
+      "properties": {
+        "differential_tests": {
+          "$ref": "#/$defs/strings"
+        },
+        "fixtures": {
+          "$ref": "#/$defs/strings"
+        },
+        "fuzz": {
+          "$ref": "#/$defs/strings"
+        },
+        "model_tests": {
+          "$ref": "#/$defs/strings"
+        },
+        "oracles": {
+          "$ref": "#/$defs/strings"
+        },
+        "portable_offer": {
+          "type": "boolean"
+        },
+        "portable_offer_gate": {
+          "const": "requires_at_least_two_independent_qualified_implementations"
+        },
+        "property_tests": {
+          "$ref": "#/$defs/strings"
+        },
+        "qualified_independent_implementation_count": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "oracles",
+        "fixtures",
+        "fuzz",
+        "model_tests",
+        "property_tests",
+        "differential_tests",
+        "qualified_independent_implementation_count",
+        "portable_offer_gate",
+        "portable_offer"
+      ],
+      "type": "object"
+    },
+    "contextLink": {
+      "$ref": "#/$defs/genericLinkContext"
+    },
+    "contributionGap": {
+      "additionalProperties": false,
+      "properties": {
+        "blocking": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "gap_id": {
+          "$ref": "#/$defs/id"
+        },
+        "gap_kind": {
+          "type": "string"
+        },
+        "introduced_in": {
+          "type": "string"
+        },
+        "resolution_condition": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "gap_id",
+        "gap_kind",
+        "introduced_in",
+        "description",
+        "blocking",
+        "resolution_condition"
+      ],
+      "type": "object"
+    },
+    "contributionScope": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_adjudication": {
+          "$ref": "#/$defs/boundaryAdjudication"
+        },
+        "boundary_rationale": {
+          "type": "string"
+        },
+        "exclusions": {
+          "$ref": "#/$defs/strings"
+        },
+        "refusal_rule": {
+          "type": "string"
+        },
+        "responsibilities": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "responsibilities",
+        "exclusions",
+        "boundary_rationale",
+        "refusal_rule"
+      ],
+      "type": "object"
+    },
+    "dependencyEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "cycle_policy": {
+          "type": "string"
+        },
+        "dependency_kind": {
+          "type": "string"
+        },
+        "edge_id": {
+          "$ref": "#/$defs/id"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "feature_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "from_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "optional": {
+          "type": "boolean"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "record_kind": {
+          "const": "dependency_edge"
+        },
+        "removal_seam": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "to_ref": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "record_kind",
+        "edge_id",
+        "edition",
+        "from_ref",
+        "to_ref",
+        "dependency_kind",
+        "optional",
+        "feature_ref",
+        "purpose",
+        "cycle_policy",
+        "removal_seam",
+        "status"
+      ],
+      "type": "object"
+    },
+    "deployedService": {
+      "additionalProperties": false,
+      "properties": {
+        "build_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "limits": {
+          "type": "object"
+        },
+        "offer_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "provider_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "record_kind": {
+          "const": "deployed_service"
+        },
+        "runtime_receipt_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "service_id": {
+          "$ref": "#/$defs/id"
+        },
+        "target_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "validity": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "record_kind",
+        "service_id",
+        "edition",
+        "build_ref",
+        "offer_refs",
+        "provider_ref",
+        "target_ref",
+        "limits",
+        "validity",
+        "runtime_receipt_refs"
+      ],
+      "type": "object"
+    },
+    "effectContract": {
+      "additionalProperties": false,
+      "properties": {
+        "ambient_effects_forbidden": {
+          "$ref": "#/$defs/strings"
+        },
+        "boundary": {
+          "enum": [
+            "pure_no_io",
+            "pure_effect_intents",
+            "effectful_runtime",
+            "ffi_boundary",
+            "generated_boundary",
+            "unresolved_refuse"
+          ]
+        },
+        "intents": {
+          "items": {
+            "$ref": "#/$defs/intentOrReceipt"
+          },
+          "type": "array"
+        },
+        "receipts": {
+          "items": {
+            "$ref": "#/$defs/intentOrReceipt"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "boundary",
+        "intents",
+        "receipts",
+        "ambient_effects_forbidden"
+      ],
+      "type": "object"
+    },
+    "evidenceSource": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "type": "string"
+        },
+        "claim_scope": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "published": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "record_kind": {
+          "const": "evidence_source"
+        },
+        "retrieved": {
+          "format": "date",
+          "type": "string"
+        },
+        "source_id": {
+          "$ref": "#/$defs/id"
+        },
+        "source_kind": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "uri": {
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "source_id",
+        "edition",
+        "title",
+        "uri",
+        "authority",
+        "source_kind",
+        "topic",
+        "published",
+        "retrieved",
+        "claim_scope"
+      ],
+      "type": "object"
+    },
+    "evolutionContract": {
+      "additionalProperties": false,
+      "properties": {
+        "compatibility": {
+          "$ref": "#/$defs/strings"
+        },
+        "compatibility_dimensions": {
+          "$ref": "#/$defs/strings"
+        },
+        "deprecation": {
+          "type": "string"
+        },
+        "migration": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "compatibility_dimensions",
+        "compatibility",
+        "migration",
+        "deprecation"
+      ],
+      "type": "object"
+    },
+    "executionContract": {
+      "additionalProperties": false,
+      "properties": {
+        "cancellation": {
+          "$ref": "#/$defs/strings"
+        },
+        "concurrency": {
+          "$ref": "#/$defs/strings"
+        },
+        "determinism": {
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "sync",
+            "mixed_explicit",
+            "unresolved_refuse"
+          ]
+        },
+        "thread_safety": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode",
+        "cancellation",
+        "concurrency",
+        "thread_safety",
+        "determinism"
+      ],
+      "type": "object"
+    },
+    "featureGraph": {
+      "additionalProperties": false,
+      "properties": {
+        "dependency_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "feature_laws": {
+          "$ref": "#/$defs/strings"
+        },
+        "features": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "additive": {
+                "type": "boolean"
+              },
+              "default": {
+                "type": "boolean"
+              },
+              "feature_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "feature_id",
+              "default",
+              "additive"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "features",
+        "dependency_refs",
+        "feature_laws"
+      ],
+      "type": "object"
+    },
+    "genericLinkContext": {
+      "additionalProperties": false,
+      "properties": {
+        "context_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "library_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "link_id": {
+          "$ref": "#/$defs/id"
+        },
+        "record_kind": {
+          "const": "context_to_library"
+        },
+        "relationship": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "link_id",
+        "edition",
+        "context_ref",
+        "library_ref",
+        "relationship",
+        "status",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "genericLinkKernel": {
+      "additionalProperties": false,
+      "properties": {
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "kernel_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "library_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "link_id": {
+          "$ref": "#/$defs/id"
+        },
+        "record_kind": {
+          "const": "kernel_to_library"
+        },
+        "role": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "link_id",
+        "edition",
+        "kernel_ref",
+        "library_ref",
+        "role",
+        "status",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "genericLinkOperation": {
+      "additionalProperties": false,
+      "properties": {
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "library_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "link_id": {
+          "$ref": "#/$defs/id"
+        },
+        "operation_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "record_kind": {
+          "const": "operation_to_library"
+        },
+        "role": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "link_id",
+        "edition",
+        "operation_ref",
+        "library_ref",
+        "role",
+        "status",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$",
+      "type": "string"
+    },
+    "implementationArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "api_surface": {
+          "type": "object"
+        },
+        "conformance_receipts": {
+          "$ref": "#/$defs/refs"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "gaps": {
+          "$ref": "#/$defs/refs"
+        },
+        "implementation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "independence_group_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "language": {
+          "type": "string"
+        },
+        "library_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "maintainer_control_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "record_kind": {
+          "const": "implementation_artifact"
+        },
+        "source_digest": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "observed_unverified",
+            "conformant",
+            "qualified",
+            "deprecated",
+            "retired"
+          ]
+        },
+        "unsafe_ffi_generated": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "record_kind",
+        "implementation_id",
+        "edition",
+        "status",
+        "library_ref",
+        "language",
+        "source_digest",
+        "maintainer_control_ref",
+        "api_surface",
+        "unsafe_ffi_generated",
+        "conformance_receipts",
+        "independence_group_ref",
+        "evidence_refs",
+        "gaps"
+      ],
+      "type": "object"
+    },
+    "innovation": {
+      "additionalProperties": false,
+      "properties": {
+        "adoption_status": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "innovation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "non_llm": {
+          "const": true
+        },
+        "record_kind": {
+          "const": "innovation"
+        },
+        "registry_consequence": {
+          "type": "string"
+        },
+        "year": {
+          "maximum": 2026,
+          "minimum": 2021,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "record_kind",
+        "innovation_id",
+        "edition",
+        "year",
+        "name",
+        "non_llm",
+        "registry_consequence",
+        "evidence_refs",
+        "adoption_status"
+      ],
+      "type": "object"
+    },
+    "intentOrReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "required_fields": {
+          "$ref": "#/$defs/strings"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "required_fields"
+      ],
+      "type": "object"
+    },
+    "kernelLink": {
+      "$ref": "#/$defs/genericLinkKernel"
+    },
+    "libraryContribution": {
+      "additionalProperties": false,
+      "properties": {
+        "api_contract": {
+          "$ref": "#/$defs/apiContract"
+        },
+        "behavior": {
+          "$ref": "#/$defs/behaviorContract"
+        },
+        "boundaries": {
+          "$ref": "#/$defs/boundaryContract"
+        },
+        "bounds": {
+          "$ref": "#/$defs/boundsContract"
+        },
+        "capabilities": {
+          "$ref": "#/$defs/capabilityRefs"
+        },
+        "code_risk": {
+          "$ref": "#/$defs/codeRiskContract"
+        },
+        "conformance": {
+          "$ref": "#/$defs/conformanceContract"
+        },
+        "context_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "edition": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "effects": {
+          "$ref": "#/$defs/effectContract"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "evolution": {
+          "$ref": "#/$defs/evolutionContract"
+        },
+        "execution": {
+          "$ref": "#/$defs/executionContract"
+        },
+        "family_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "feature_dependency_graph": {
+          "$ref": "#/$defs/featureGraph"
+        },
+        "gaps": {
+          "items": {
+            "$ref": "#/$defs/contributionGap"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "library_class": {
+          "enum": [
+            "semantic_pure",
+            "algorithm_pure",
+            "policy_pure",
+            "test_oracle",
+            "effect_port_contract",
+            "runtime_mechanism",
+            "provider_adapter",
+            "target_backend",
+            "generated_support",
+            "candidate_unclassified"
+          ]
+        },
+        "library_id": {
+          "pattern": "^library\\.",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "platform": {
+          "$ref": "#/$defs/platformContract"
+        },
+        "record_kind": {
+          "const": "library_contribution"
+        },
+        "replacement": {
+          "$ref": "#/$defs/replacementContract"
+        },
+        "scope": {
+          "$ref": "#/$defs/contributionScope"
+        },
+        "semantic_owners": {
+          "items": {
+            "$ref": "#/$defs/semanticOwner"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        },
+        "source_projection": {
+          "$ref": "#/$defs/sourceProjection"
+        },
+        "status": {
+          "enum": [
+            "candidate_unadjudicated",
+            "specified_unimplemented",
+            "observed_claim_unverified",
+            "rejected_unresolved_owner",
+            "qualified",
+            "deprecated",
+            "retired"
+          ]
+        },
+        "supply_chain": {
+          "$ref": "#/$defs/supplyChainContract"
+        },
+        "typed_inputs": {
+          "$ref": "#/$defs/typedInputs"
+        }
+      },
+      "required": [
+        "record_kind",
+        "library_id",
+        "edition",
+        "name",
+        "status",
+        "library_class",
+        "family_ref",
+        "semantic_owners",
+        "context_refs",
+        "scope",
+        "api_contract",
+        "effects",
+        "typed_inputs",
+        "behavior",
+        "execution",
+        "bounds",
+        "boundaries",
+        "feature_dependency_graph",
+        "platform",
+        "supply_chain",
+        "code_risk",
+        "evolution",
+        "replacement",
+        "capabilities",
+        "conformance",
+        "evidence_refs",
+        "gaps",
+        "source_projection"
+      ],
+      "type": "object"
+    },
+    "libraryDesignContext": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_law": {
+          "type": "string"
+        },
+        "context_id": {
+          "$ref": "#/$defs/id"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "library_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "record_kind": {
+          "const": "library_design_context"
+        },
+        "semantic_owner_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "context_id",
+        "edition",
+        "status",
+        "semantic_owner_ref",
+        "library_refs",
+        "boundary_law",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "libraryFamily": {
+      "additionalProperties": false,
+      "properties": {
+        "cohesion_law": {
+          "type": "string"
+        },
+        "contribution_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "family_id": {
+          "$ref": "#/$defs/id"
+        },
+        "not_an_artifact": {
+          "$ref": "#/$defs/strings"
+        },
+        "record_kind": {
+          "const": "library_family"
+        },
+        "semantic_owner_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "family_id",
+        "edition",
+        "status",
+        "semantic_owner_refs",
+        "contribution_refs",
+        "cohesion_law",
+        "not_an_artifact",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "localCrosswalk": {
+      "additionalProperties": false,
+      "properties": {
+        "crosswalk_id": {
+          "$ref": "#/$defs/id"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "mapping_status": {
+          "type": "string"
+        },
+        "normalization_notes": {
+          "$ref": "#/$defs/strings"
+        },
+        "normalized_library_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "preserved_claims": {
+          "$ref": "#/$defs/strings"
+        },
+        "record_kind": {
+          "const": "local_crosswalk"
+        },
+        "source_candidate_id": {
+          "type": "string"
+        },
+        "source_locator": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "crosswalk_id",
+        "edition",
+        "source_locator",
+        "source_candidate_id",
+        "normalized_library_ref",
+        "mapping_status",
+        "preserved_claims",
+        "normalization_notes"
+      ],
+      "type": "object"
+    },
+    "operationLink": {
+      "$ref": "#/$defs/genericLinkOperation"
+    },
+    "packageArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "advisory_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "artifact_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "dependency_graph": {
+          "type": "object"
+        },
+        "ecosystem": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "feature_graph": {
+          "type": "object"
+        },
+        "license_expression": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "package_id": {
+          "$ref": "#/$defs/id"
+        },
+        "publish_source": {
+          "type": "string"
+        },
+        "record_kind": {
+          "const": "package_artifact"
+        },
+        "sbom_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "package_id",
+        "edition",
+        "ecosystem",
+        "name",
+        "version",
+        "artifact_refs",
+        "feature_graph",
+        "dependency_graph",
+        "license_expression",
+        "advisory_refs",
+        "sbom_ref",
+        "publish_source"
+      ],
+      "type": "object"
+    },
+    "platformContract": {
+      "additionalProperties": false,
+      "properties": {
+        "msrv": {
+          "required": [
+            "value",
+            "status"
+          ],
+          "type": "object"
+        },
+        "no_std": {
+          "type": "string"
+        },
+        "provider_requirements": {
+          "$ref": "#/$defs/strings"
+        },
+        "rust_editions": {
+          "$ref": "#/$defs/strings"
+        },
+        "target_requirements": {
+          "$ref": "#/$defs/strings"
+        },
+        "targets": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "msrv",
+        "rust_editions",
+        "targets",
+        "no_std",
+        "provider_requirements",
+        "target_requirements"
+      ],
+      "type": "object"
+    },
+    "product": {
+      "additionalProperties": false,
+      "properties": {
+        "edition": {
+          "type": "integer"
+        },
+        "external_semantic_owner_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "non_ownership_law": {
+          "type": "string"
+        },
+        "operator_obligations": {
+          "$ref": "#/$defs/strings"
+        },
+        "packaged_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "product_id": {
+          "$ref": "#/$defs/id"
+        },
+        "record_kind": {
+          "const": "product"
+        },
+        "user_outcomes": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "record_kind",
+        "product_id",
+        "edition",
+        "packaged_refs",
+        "external_semantic_owner_refs",
+        "user_outcomes",
+        "operator_obligations",
+        "non_ownership_law"
+      ],
+      "type": "object"
+    },
+    "publicOperation": {
+      "additionalProperties": false,
+      "properties": {
+        "effect_intent_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input_types": {
+          "$ref": "#/$defs/strings"
+        },
+        "name": {
+          "type": "string"
+        },
+        "operation_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "origin": {
+          "enum": [
+            "source_projection",
+            "registry_placeholder_pending_owner"
+          ]
+        },
+        "output_type": {
+          "type": "string"
+        },
+        "purity": {
+          "enum": [
+            "pure",
+            "effectful_explicit",
+            "unresolved_refuse"
+          ]
+        },
+        "receipt_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "refusal_types": {
+          "$ref": "#/$defs/strings"
+        }
+      },
+      "required": [
+        "operation_ref",
+        "name",
+        "input_types",
+        "output_type",
+        "purity",
+        "effect_intent_type",
+        "receipt_type",
+        "refusal_types",
+        "origin"
+      ],
+      "type": "object"
+    },
+    "publicTrait": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "object_safety": {
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "source_projection",
+            "registry_placeholder_pending_owner"
+          ]
+        },
+        "trait_id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "trait_id",
+        "name",
+        "object_safety",
+        "origin"
+      ],
+      "type": "object"
+    },
+    "publicType": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "source_projection",
+            "registry_placeholder_pending_owner"
+          ]
+        },
+        "role": {
+          "type": "string"
+        },
+        "type_id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "type_id",
+        "name",
+        "role",
+        "origin"
+      ],
+      "type": "object"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "registryDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_values": {
+          "$ref": "#/$defs/strings"
+        },
+        "authority_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "binding_phase": {
+          "type": "string"
+        },
+        "consequences": {
+          "$ref": "#/$defs/strings"
+        },
+        "decision_id": {
+          "$ref": "#/$defs/id"
+        },
+        "default_law": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "owner_context_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "question": {
+          "type": "string"
+        },
+        "record_kind": {
+          "const": "registry_decision"
+        },
+        "status": {
+          "type": "string"
+        },
+        "value_type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "decision_id",
+        "edition",
+        "status",
+        "owner_context_ref",
+        "question",
+        "value_type",
+        "allowed_values",
+        "binding_phase",
+        "authority_ref",
+        "default_law",
+        "consequences",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "replacementContract": {
+      "additionalProperties": false,
+      "properties": {
+        "seams": {
+          "$ref": "#/$defs/strings"
+        },
+        "substitution_law": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "seams",
+        "substitution_law"
+      ],
+      "type": "object"
+    },
+    "reviewIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "conflict_checks": {
+          "$ref": "#/$defs/strings"
+        },
+        "context_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "observed_overlaps": {
+          "type": "array"
+        },
+        "record_kind": {
+          "const": "review_issue"
+        },
+        "resolution_rule": {
+          "type": "string"
+        },
+        "review_id": {
+          "$ref": "#/$defs/id"
+        },
+        "review_kind": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "review_id",
+        "edition",
+        "review_kind",
+        "status",
+        "context_ref",
+        "candidate_refs",
+        "observed_overlaps",
+        "conflict_checks",
+        "resolution_rule",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "semanticOwner": {
+      "additionalProperties": false,
+      "properties": {
+        "authority_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "context_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "role": {
+          "const": "meaning_owner"
+        }
+      },
+      "required": [
+        "context_ref",
+        "role",
+        "authority_refs"
+      ],
+      "type": "object"
+    },
+    "sourceProjection": {
+      "additionalProperties": false,
+      "properties": {
+        "line": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "path": {
+          "type": "string"
+        },
+        "source_library_id": {
+          "type": "string"
+        },
+        "source_schema_is_canonical": {
+          "const": false
+        },
+        "source_status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "line",
+        "source_library_id",
+        "source_status",
+        "source_schema_is_canonical"
+      ],
+      "type": "object"
+    },
+    "strings": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "supplyChainContract": {
+      "additionalProperties": false,
+      "properties": {
+        "advisory_policy": {
+          "type": "string"
+        },
+        "license_expression": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "reproducibility": {
+          "type": "string"
+        },
+        "sbom": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "license_expression",
+        "advisory_policy",
+        "sbom",
+        "reproducibility",
+        "provenance"
+      ],
+      "type": "object"
+    },
+    "typedGap": {
+      "additionalProperties": false,
+      "properties": {
+        "blocking": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "gap_id": {
+          "$ref": "#/$defs/id"
+        },
+        "gap_kind": {
+          "type": "string"
+        },
+        "prohibited_fallbacks": {
+          "$ref": "#/$defs/strings"
+        },
+        "record_kind": {
+          "const": "typed_gap"
+        },
+        "resolution_condition": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "subject_ref": {
+          "$ref": "#/$defs/id"
+        },
+        "versioned_from": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_kind",
+        "gap_id",
+        "edition",
+        "status",
+        "subject_ref",
+        "gap_kind",
+        "blocking",
+        "description",
+        "versioned_from",
+        "resolution_condition",
+        "prohibited_fallbacks",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "typedInputs": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_types": {
+          "$ref": "#/$defs/strings"
+        },
+        "decision_refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "default_law": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision_refs",
+        "configuration_types",
+        "default_law"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://san.example/spec/library-registry-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Normalized research metamodel. Source universe schemas are projections, not canonical.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/libraryContribution"
+    },
+    {
+      "$ref": "#/$defs/libraryFamily"
+    },
+    {
+      "$ref": "#/$defs/libraryDesignContext"
+    },
+    {
+      "$ref": "#/$defs/implementationArtifact"
+    },
+    {
+      "$ref": "#/$defs/packageArtifact"
+    },
+    {
+      "$ref": "#/$defs/buildArtifact"
+    },
+    {
+      "$ref": "#/$defs/deployedService"
+    },
+    {
+      "$ref": "#/$defs/product"
+    },
+    {
+      "$ref": "#/$defs/contextLink"
+    },
+    {
+      "$ref": "#/$defs/operationLink"
+    },
+    {
+      "$ref": "#/$defs/kernelLink"
+    },
+    {
+      "$ref": "#/$defs/dependencyEdge"
+    },
+    {
+      "$ref": "#/$defs/capabilityRequirement"
+    },
+    {
+      "$ref": "#/$defs/capabilityOffer"
+    },
+    {
+      "$ref": "#/$defs/registryDecision"
+    },
+    {
+      "$ref": "#/$defs/evidenceSource"
+    },
+    {
+      "$ref": "#/$defs/innovation"
+    },
+    {
+      "$ref": "#/$defs/typedGap"
+    },
+    {
+      "$ref": "#/$defs/reviewIssue"
+    },
+    {
+      "$ref": "#/$defs/localCrosswalk"
+    },
+    {
+      "$ref": "#/$defs/artifactKindDefinition"
+    }
+  ],
+  "title": "Governed reusable-library contribution registry"
+}

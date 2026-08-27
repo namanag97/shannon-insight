@@ -1,0 +1,75 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.geospatial-analytics-semantic-slice.v1",
+  "inside": [
+    "feature/observation/support/reference semantics",
+    "coordinate operations",
+    "vector geometry/topology",
+    "coverage/raster/grid/terrain",
+    "spatial statistics and uncertainty",
+    "geocoding/gazetteer resolution",
+    "network routing/accessibility",
+    "moving objects/trajectories",
+    "point clouds/3D/LOD",
+    "representation ACLs and catalog assets",
+    "project/layer/workflow/run lifecycle",
+    "accuracy appraisal/publication/recall"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.query-engine",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.predictive-analytics-semantic-slice",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.catalog-discovery",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.runtime-resource-control",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.domain-decision-authority",
+      "relationship": "anti_corruption_layer"
+    }
+  ],
+  "outside": [
+    "application-domain feature truth",
+    "generic query engine ownership",
+    "predictive model lifecycle",
+    "physical sensing/acquisition control",
+    "dispatch/navigation/action authority",
+    "generic storage/compute/orchestration",
+    "cartographic UI styling totality",
+    "LLM/agent orchestration"
+  ],
+  "published_language": [
+    "GeographicFeatureRef",
+    "SpatialObservation",
+    "SpatialSupport",
+    "CoordinateReferenceSystem",
+    "CoordinateOperation",
+    "Geometry",
+    "Coverage",
+    "RasterGrid",
+    "SpatialWeights",
+    "GeocodeCandidate",
+    "SpatialNetwork",
+    "RouteResult",
+    "Trajectory",
+    "PointCloud",
+    "SpatialAssetRef",
+    "SpatialWorkflowEdition",
+    "SpatialRunEvidence",
+    "SpatialAccuracyStatement",
+    "SpatialPublicationIntent"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can phenomena, features, observations and positions be represented, transformed, analyzed and published across spatial supports without collapsing coordinates into locations, features into geometries, coverages into files, predictions into observations, proximity into reachability or maps into authority?"
+}

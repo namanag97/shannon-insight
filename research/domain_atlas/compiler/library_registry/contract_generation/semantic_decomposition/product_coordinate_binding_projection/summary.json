@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-27",
+  "canonical_coordinate_bound_unique_references": 352,
+  "canonical_gaps_closed": 0,
+  "capability_import_obligations": 233,
+  "capability_imports_targeting_retained_products": 194,
+  "capability_imports_targeting_unretained_candidates": 39,
+  "compiler_assemblies_permitted": 0,
+  "compiler_assembly_gates": 77,
+  "completion_claim": false,
+  "industry_solution_packs": 9,
+  "noncanonical_resolved_unique_references": 283,
+  "program_id": "program.product-coordinate-binding-projection.v1",
+  "qualification_receipts": 0,
+  "qualification_subjects": 518,
+  "retained_products": 64,
+  "semantic_authority_receipts": 0,
+  "subject_concrete_reference_edges": 835,
+  "unique_concrete_references": 635,
+  "vertical_acceptance_receipts": 0,
+  "vertical_compositions": 4
+}

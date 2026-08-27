@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "default_law": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "field_contracts": {
+      "$ref": "#/$defs/strings"
+    },
+    "gaps": {
+      "$ref": "#/$defs/strings"
+    },
+    "identity_law": {
+      "type": "string"
+    },
+    "layer": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "node_id": {
+      "$ref": "#/$defs/id"
+    },
+    "preservation_law": {
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "ir_node_candidate"
+    },
+    "refusal_conditions": {
+      "$ref": "#/$defs/strings"
+    },
+    "semantic_role": {
+      "type": "string"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "stage": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "record_kind",
+    "node_id",
+    "edition",
+    "status",
+    "layer",
+    "stage",
+    "name",
+    "semantic_role",
+    "field_contracts",
+    "identity_law",
+    "preservation_law",
+    "default_law",
+    "refusal_conditions",
+    "source_refs",
+    "gaps"
+  ],
+  "title": "IR node candidate",
+  "type": "object"
+}

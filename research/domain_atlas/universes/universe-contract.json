@@ -1,0 +1,160 @@
+{
+  "contract_id": "san.domain-atlas.open-world-universes",
+  "edition": 1,
+  "status": "active_research_contract",
+  "core_scope": "Provider-neutral data engineering and analytics, excluding LLM/generative/agentic semantics from the core.",
+  "optional_extension_scope": "Generative-model and agent capabilities may be modeled in a separate extension universe that imports the deterministic core; the core never depends on that extension.",
+  "universes": [
+    {
+      "universe_id": "source_system",
+      "unit": "source capability class",
+      "not_a_unit": ["vendor marketing category", "deployment instance", "connector implementation"],
+      "required_surfaces": ["identity", "authority", "objects", "logical_models", "read", "write", "change", "discovery", "schema", "time", "ordering", "finality", "consistency", "security", "limits", "cost", "hazards", "verification", "evidence"]
+    },
+    {
+      "universe_id": "data_type",
+      "unit": "owned carrier/value/observation/structure semantic record",
+      "not_a_unit": ["unqualified column type", "industry field name", "vendor encoding alias"],
+      "required_surfaces": ["identity", "semantic_owner", "allowed_carriers", "qualifiers", "equality", "ordering", "valid_operations", "invalid_inferences", "missingness", "uncertainty", "time", "provenance", "canonicalization", "compatibility", "evidence"]
+    },
+    {
+      "universe_id": "representation",
+      "unit": "editioned carrier/encoding/framing/layout/container/codec/protection contract",
+      "not_a_unit": ["file extension", "semantic data type", "vendor codec checkbox"],
+      "required_surfaces": ["input_layer", "output_layer", "edition_profile", "reversibility", "loss_metric_bound_scope", "framing", "access", "splittability", "random_access", "corruption", "integrity", "compatibility", "resource_bounds", "target_requirements", "qualification", "evidence"]
+    },
+    {
+      "universe_id": "operation",
+      "unit": "typed owned operation",
+      "not_a_unit": ["UI button", "vendor feature name", "untyped verb"],
+      "required_surfaces": ["identity", "owner", "signature", "parameters", "preconditions", "postconditions", "laws", "failures", "effects", "determinism", "idempotency", "information_loss", "complexity", "budgets", "batch_stream_incremental", "provider_requirements", "evidence"]
+    },
+    {
+      "universe_id": "pipeline_dataflow",
+      "unit": "typed logical composition with explicit state, time and recovery semantics",
+      "not_a_unit": ["connector", "scheduler UI", "sequence of vendor product names"],
+      "required_surfaces": ["ports", "types", "operation_graph", "state", "time", "ordering", "delivery", "watermarks", "checkpoint", "resume", "retry", "replay", "backfill", "maintenance", "cancellation", "failure", "resource_estimates", "receipts"]
+    },
+    {
+      "universe_id": "persistence",
+      "unit": "provider-neutral persistence capability and state-transition contract",
+      "not_a_unit": ["lakehouse marketing bundle", "database vendor", "file format alone"],
+      "required_surfaces": ["object_model", "identity", "consistency", "transaction", "isolation", "commit_authority", "versioning", "indexing", "retention", "tiering", "replication", "backup", "restore", "migration", "maintenance", "limits", "cost", "evidence"]
+    },
+    {
+      "universe_id": "analytics_type",
+      "unit": "named analytical practice with a distinct intent/method/study or evidence contract",
+      "not_a_unit": ["arbitrary facet combination", "industry name alone", "dashboard metric alone"],
+      "required_surfaces": ["identity", "definition", "aliases", "intent", "subject", "population", "grain", "time", "latency", "method_family", "assumptions", "input_contracts", "output_contracts", "uncertainty", "evaluation", "decision_proximity", "human_role", "privacy", "domain_portability", "machines", "evidence"]
+    },
+    {
+      "universe_id": "analytical_method",
+      "unit": "method or study contract applicable to an analytical question under declared assumptions",
+      "not_a_unit": ["analytical practice label", "implementation library", "performance metric"],
+      "required_surfaces": ["question_class", "population", "inputs", "outputs", "assumptions", "identification_or_validity", "uncertainty", "diagnostics", "evaluation", "selection_law", "refusals", "algorithm_requirements", "evidence"]
+    },
+    {
+      "universe_id": "algorithm",
+      "unit": "procedure family realizing a method or semantic operation",
+      "not_a_unit": ["compiled kernel", "provider feature", "analytical business case"],
+      "required_surfaces": ["realizes", "preconditions", "postconditions", "guarantee", "complexity", "randomness", "initialization", "stopping", "approximation", "numeric_posture", "failure", "kernel_requirements", "evidence"]
+    },
+    {
+      "universe_id": "kernel",
+      "unit": "executable contract over exact types, layouts and target capabilities",
+      "not_a_unit": ["semantic operation", "algorithm family", "engine name"],
+      "required_surfaces": ["realizes", "type_coverage", "layout", "ABI", "target", "numeric_behavior", "ordering", "parallelism", "state", "effects", "cancellation", "memory", "resource_envelope", "fallback", "oracles", "qualification_receipts"]
+    },
+    {
+      "universe_id": "runtime_resource",
+      "unit": "execution and finite-resource control contract",
+      "not_a_unit": ["business method", "hardware brand", "deployment diagram alone"],
+      "required_surfaces": ["execution_model", "scheduling", "placement", "concurrency", "memory", "CPU_device", "storage", "network_IO", "quota", "precharge", "backpressure", "cancellation", "failure_domain", "recovery", "SLO", "cost", "energy", "receipts"]
+    },
+    {
+      "universe_id": "quality_reconciliation",
+      "unit": "fitness, observation, disposition or correction contract with an explicit authority",
+      "not_a_unit": ["generic score", "monitoring dashboard", "source truth assumption"],
+      "required_surfaces": ["subject", "expectation", "observation", "population", "severity", "fitness_purpose", "detection", "adjudication", "reconciliation", "correction", "issue_lifecycle", "SLO", "evidence", "refusals"]
+    },
+    {
+      "universe_id": "governance_semantics",
+      "unit": "owned vocabulary, metadata, master/reference or policy-governance contract",
+      "not_a_unit": ["catalog product", "tag string", "organizational chart"],
+      "required_surfaces": ["semantic_owner", "identity", "glossary", "homonyms", "taxonomy_ontology", "metadata", "master_reference_authority", "stewardship", "policy", "certification", "issue_change_lifecycle", "published_language", "ACLs", "evidence"]
+    },
+    {
+      "universe_id": "lineage_provenance_evidence",
+      "unit": "editioned derivation or evidence assertion with scope, authority and defeaters",
+      "not_a_unit": ["log line", "digest as truth", "diagram without execution identity"],
+      "required_surfaces": ["entities", "activities", "agents", "prospective_retrospective", "logical_physical_runtime", "claim", "authority", "custody", "valid_recording_time", "digest_identity", "strength", "defeaters", "correction_retraction_recall", "disclosure", "retention"]
+    },
+    {
+      "universe_id": "security_privacy_trust",
+      "unit": "platform-enforceable trust, security or data-use contract",
+      "not_a_unit": ["entire legal domain", "encryption as authorization", "approval as issuance"],
+      "required_surfaces": ["assets", "trust_boundaries", "threats_abuse", "identity_dependency", "authorization", "policy_decision_enforcement", "purpose_consent", "residency", "retention_rights", "secrets_crypto_purpose", "isolation", "audit_evidence", "revocation", "incident"]
+    },
+    {
+      "universe_id": "consumption",
+      "unit": "query/result/presentation/interaction and human-decision handoff contract",
+      "not_a_unit": ["dashboard as analytical case", "chart type as semantics", "notebook as compute engine"],
+      "required_surfaces": ["semantic_query", "result_identity", "visual_encoding", "interaction_state", "freshness", "report_snapshot", "alert_subscription", "sharing_export", "accessibility", "i18n", "offline", "collaboration", "disclosure", "decision_handoff", "reproducibility"]
+    },
+    {
+      "universe_id": "provider_target",
+      "unit": "versioned provider capability offer or deployed target occurrence",
+      "not_a_unit": ["vendor reputation", "capability-class assertion", "undated marketing feature"],
+      "required_surfaces": ["provider_identity", "implementation_artifact", "version", "occurrence", "capability_offer", "target_profile", "configuration", "documented_limits", "observed_limits", "cost", "region_residency", "qualification", "invalidation", "exit", "evidence"]
+    },
+    {
+      "universe_id": "product",
+      "unit": "independently adoptable, operable and exitable user/outcome promise",
+      "not_a_unit": ["library", "bounded context", "vendor bundle label", "compiler node"],
+      "required_surfaces": ["users", "jobs", "outcomes", "negative_mission", "service_blueprint", "adoption", "operation", "SLO", "support", "security_privacy", "commercial", "migration", "exit", "packaged_contexts", "packaged_contributions", "evidence"]
+    }
+  ],
+  "extension_universes": [
+    {
+      "universe_id": "model_agent_extension",
+      "unit": "versioned model or agent capability contract operating through deterministic typed ports, policies and effect controls",
+      "not_a_unit": ["AI prefix on an existing domain", "unbounded autonomous app", "model output treated as fact or authority", "replacement for deterministic compiler work"],
+      "dependency_direction": "extension_depends_on_core_only",
+      "required_surfaces": ["task_contract", "model_artifact_and_edition", "input_output_schema", "context_and_tool_scope", "nondeterminism", "evaluation", "uncertainty", "security_privacy", "prompt_or_policy_identity", "resource_and_cost_budget", "human_and_machine_authority", "effect_intent", "validation", "fallback", "audit_receipts", "monitoring", "invalidation"]
+    }
+  ],
+  "completion_axes": [
+    "enumeration_saturation",
+    "primary_source_support",
+    "operation_surface",
+    "semantic_owner_uniqueness",
+    "context_mapping",
+    "compiler_mapping",
+    "machine_implementation",
+    "provider_conformance",
+    "two_unrelated_verticals",
+    "independent_review",
+    "recurring_freshness"
+  ],
+  "extension_law": "A new record may extend an open universe without changing the compiler's closed metamodel; unresolved semantics or capabilities produce a typed gap.",
+  "automation_modality_contract": {
+    "default_posture": "DETERMINISTIC_CORE_ONLY",
+    "use_site_postures": ["PROHIBITED", "OPTIONAL", "REQUIRED_BY_INTENT", "UNDETERMINED"],
+    "qualified_modalities": [
+      "human_procedure",
+      "deterministic_rules_or_algorithm",
+      "operations_research_or_statistics",
+      "classical_predictive_model",
+      "generative_model",
+      "tool_using_agent",
+      "hybrid"
+    ],
+    "selection_law": "Select a modality only after the use site's owned operation, typed inputs and outputs, invariants, authority, budgets, evidence requirements and acceptance oracle are fixed.",
+    "non_authority_law": "A generated output or agent plan is a proposal; it cannot define domain meaning, validate itself, grant authority, perform a protected effect or issue its own execution receipt.",
+    "removal_law": "Removing every optional model or agent provider leaves a valid deterministic core plan or produces an explicit capability_unavailable gap; it never weakens a law or fabricates a result.",
+    "naming_law": "Adding a model or agent does not create an AI-prefixed copy of an existing domain, bounded context, capability or product.",
+    "hard_work_law": "Model or agent assistance does not discharge deterministic enumeration, typing, constraint solving, policy evaluation, effect control, verification, conformance, qualification or evidence work."
+  },
+  "forbidden_core_dependencies": ["llm", "large_language_model", "prompt", "rag", "agent_memory", "generative_model"],
+  "extension_law_model_agent": "Adding or removing the optional model/agent extension must not change core domain meanings, deterministic binding, authorization, effect control or proof obligations."
+}

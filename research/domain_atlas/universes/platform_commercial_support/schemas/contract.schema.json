@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "authority_law": {
+      "type": "string"
+    },
+    "contract_id": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "fields": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "identity_law": {
+      "type": "string"
+    },
+    "owner_context_ref": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "contract"
+      ]
+    },
+    "required_fields": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "type": "string"
+    },
+    "tenant_law": {
+      "type": "string"
+    },
+    "time_law": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "contract_id",
+    "owner_context_ref",
+    "fields",
+    "required_fields",
+    "identity_law",
+    "time_law",
+    "authority_law",
+    "tenant_law",
+    "source_refs"
+  ],
+  "title": "Platform semantic carrier contract",
+  "type": "object"
+}

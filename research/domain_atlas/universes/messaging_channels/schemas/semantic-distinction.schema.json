@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "distinction_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "left": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "non_substitution_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "right": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "distinction_id",
+    "left",
+    "right",
+    "non_substitution_law",
+    "status"
+  ],
+  "title": "Messaging semantic-distinction",
+  "type": "object"
+}

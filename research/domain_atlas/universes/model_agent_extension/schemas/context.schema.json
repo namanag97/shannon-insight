@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "decision_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "does_not_own": {
+      "minItems": 3,
+      "type": "array"
+    },
+    "edition": {
+      "const": 1
+    },
+    "evidence_refs": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "law_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "operation_refs": {
+      "minItems": 2,
+      "type": "array"
+    },
+    "owns": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "sovereign_subject": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "context_id",
+    "edition",
+    "status",
+    "name",
+    "sovereign_subject",
+    "owns",
+    "does_not_own",
+    "operation_refs",
+    "decision_ref",
+    "law_ref",
+    "evidence_refs"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,57 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/twin_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "compiler_response": {
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "left": {
+      "type": "string"
+    },
+    "right": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    },
+    "test_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "twin_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "unsafe_collapse": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "twin_id",
+    "edition",
+    "status",
+    "left",
+    "right",
+    "unsafe_collapse",
+    "compiler_response",
+    "test_refs"
+  ],
+  "title": "Semantic negative twin",
+  "type": "object"
+}

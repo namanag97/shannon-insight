@@ -1,0 +1,58 @@
+{
+  "policy_id": "policy.industry_foundation.review",
+  "edition": 1,
+  "roles": [
+    {"role_id": "classification_steward", "responsibility": "Verify series, edition, hierarchy, assignment rules, code boundaries and correspondence semantics."},
+    {"role_id": "jurisdiction_steward", "responsibility": "Verify national adoption, local extensions, language, effective dates and regulatory use."},
+    {"role_id": "domain_specialist", "responsibility": "Verify specialist overlay meaning, boundary cases, operational units and analytical relevance."},
+    {"role_id": "evidence_reviewer", "responsibility": "Verify direct support, locator, source authority, freshness, limitations and defeaters."},
+    {"role_id": "vertical_pack_steward", "responsibility": "Bind analytical cases, source systems and data shapes to registered industry scope without reducing cases to KPIs."}
+  ],
+  "status_models": {
+    "source": ["candidate", "verified", "stale", "rejected"],
+    "scheme": ["candidate", "draft", "endorsed_publication_forthcoming", "final_transitioning", "operational", "superseded"],
+    "crosswalk": ["hypothesis", "official_import", "reviewed", "adjudicated", "stale", "rejected"],
+    "vertical_record": ["hypothesis", "sourced_candidate", "reviewed", "adjudicated", "rejected"]
+  },
+  "review_requirements": [
+    "No person may be both the sole author and sole adjudicator of a semantic boundary or lossy crosswalk.",
+    "Official imports need a classification-steward check of source digest, counts and parser behavior before ratification.",
+    "Lossy, partial, cross-axis, jurisdiction-changing or allocation-bearing mappings require both a classification steward and a domain or jurisdiction specialist.",
+    "A mapping cannot advance beyond official_import while either reviewer field is null.",
+    "Per-industry completion requires an evidence reviewer independent from the vertical pack's primary author.",
+    "Review records must state the exact artifact edition and review date; review does not float to future editions.",
+    "Conflicting authoritative sources create an evidence_conflict gap and block adjudication until resolved."
+  ],
+  "review_checklist": [
+    "Correct concept and statistical unit",
+    "Correct scheme and immutable edition",
+    "Correct geographic and temporal scope",
+    "Complete hierarchy and resolvable identifiers",
+    "Boundary notes, inclusions, exclusions and residual categories considered",
+    "Crosswalk relation, direction, cardinality, extent and allocation tested",
+    "Evidence locator directly supports the claim",
+    "Limitations and known defeaters recorded",
+    "Downstream analytical cases bind to the intended node",
+    "No product boundary or capability ownership inferred from classification membership"
+  ],
+  "mandatory_re_review_triggers": [
+    "new classification edition or corrigendum",
+    "custodian status or adoption change",
+    "changed official correspondence",
+    "new national extension",
+    "new specialist standard affecting scope",
+    "material source conflict",
+    "failed reproducibility digest or row-count gate",
+    "vertical research discovers a boundary not expressible by current nodes"
+  ],
+  "adjudication_output": [
+    "decision",
+    "scope",
+    "reviewers",
+    "reviewed_at",
+    "evidence_refs",
+    "accepted_losses",
+    "remaining_gaps",
+    "effective_edition"
+  ]
+}

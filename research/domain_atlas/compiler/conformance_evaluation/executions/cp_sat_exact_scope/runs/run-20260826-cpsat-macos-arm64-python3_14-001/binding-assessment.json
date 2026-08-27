@@ -1,0 +1,14 @@
+{
+  "binding_eligible": false,
+  "exact_offer_id": "offer.operations_research.ortools.cp_sat.python.9_15_6755",
+  "profile_verdicts": {
+    "profile.cpsat.core": "pass",
+    "profile.cpsat.enumeration": "fail",
+    "profile.cpsat.global_constraints": "pass",
+    "profile.cpsat.limit_no_strengthening": "pass",
+    "profile.cpsat.scheduling": "pass"
+  },
+  "qualification_state": "executed_not_independently_appraised",
+  "reason": "Exact-scope executed evidence can narrow candidates but cannot replace independent appraisal, full provider qualification or vertical acceptance.",
+  "target_occurrence": "target.occurrence.cpsat.local.macos-26.5.2-arm64-arm-64bit-mach-o.python3_14_7.isolated"
+}

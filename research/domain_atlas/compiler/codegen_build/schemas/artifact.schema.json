@@ -1,0 +1,75 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/artifact_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "identity_contract": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lifecycle": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "not_equivalent_to": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "provenance_inputs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "edition",
+    "status",
+    "owner_context",
+    "artifact_kind",
+    "identity_contract",
+    "provenance_inputs",
+    "lifecycle",
+    "not_equivalent_to",
+    "source_refs"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,171 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "boundary-challenge-evidence-routes.jsonl": {
+      "bytes": 623245,
+      "sha256": "1dd1b31c1f8f5adba17afa2482a31c9e3b658b3d4c94ff76ef5922178956e6fb"
+    },
+    "boundary-decision-quotients.jsonl": {
+      "bytes": 7718,
+      "sha256": "91c8066d0c0b65ad6cc8194df1be7de415d2305c4860dff3b849f2c3917f11ee"
+    },
+    "boundary-finding-routes.jsonl": {
+      "bytes": 87918,
+      "sha256": "8bc0b144125811ec35899e7f45d09ee0e71644f6164112a2b76363829a909415"
+    },
+    "collision-adjudication-candidates.jsonl": {
+      "bytes": 178564,
+      "sha256": "26666f382b216b51f5c00829134d8f0a05c5ee757c0032d36031cea53492f7d7"
+    },
+    "collision-meaning-partitions.jsonl": {
+      "bytes": 560010,
+      "sha256": "4a6fd6adc85f3e365bc9b0ded87acad7751ec12d1f8ec6cfbc3a2afec0ce2f14"
+    },
+    "collision-negative-twin-gate-receipts.jsonl": {
+      "bytes": 397809,
+      "sha256": "fbab849089df926a7af8d3dbbc110b02c1a6bba8ed206836f76b2d7eec21d81c"
+    },
+    "collision-negative-twins.jsonl": {
+      "bytes": 668725,
+      "sha256": "6bf0a3281d815acd57b8c37aeaf3d11be987c3045d842ef5e3e00be796098ae1"
+    },
+    "collision-review-dockets.jsonl": {
+      "bytes": 88871,
+      "sha256": "fd2441019eb2b2c08d56409682312ad31e0f88cd4c00789eed4991220a535840"
+    },
+    "collision-review-families.jsonl": {
+      "bytes": 9452,
+      "sha256": "f8a93645ff8e1aec24ea6e44981de657d3211121fbdfcd42bf5073f58055ef6f"
+    },
+    "context-cohesion-evidence-programs.jsonl": {
+      "bytes": 168582,
+      "sha256": "7e5885df2abfdf6749d4d418be7904788e797e6728ab3a6489254cd9b166f963"
+    },
+    "context-cohesion-evidence-vacancies.jsonl": {
+      "bytes": 1609902,
+      "sha256": "31128d7226e776deb7e5089b92e605e8c18f81697df684b5761c9f2e69300878"
+    },
+    "context-consolidation-hypotheses.jsonl": {
+      "bytes": 240659,
+      "sha256": "7d68f40963f6257697e5a9a1080b6e3d67354a58ff7112ad973672413b4311dc"
+    },
+    "context-consolidation-routes.jsonl": {
+      "bytes": 246126,
+      "sha256": "1e511d0c4d7333331c4afe507cb5c36cfda826e9f3c947a2d7b9bc766e485932"
+    },
+    "contract-lowering-archetypes.jsonl": {
+      "bytes": 50694,
+      "sha256": "b173e0decb0932d491219cebc2c64f1b4998d38d26a44bc29aedbd75e0df77fb"
+    },
+    "cross-namespace-collision-candidates.jsonl": {
+      "bytes": 65718,
+      "sha256": "ed26027a7cdbed9ee422a9b41fac36552dfa5667f774f851de70d31f6396a326"
+    },
+    "exact-finding-inventory.jsonl": {
+      "bytes": 247533,
+      "sha256": "4ed8d2fb42d1e216e1acd4be6afa5f878a9d7d0c27d954c790456821218e4da3"
+    },
+    "execution-frontier.jsonl": {
+      "bytes": 43291,
+      "sha256": "fcec7bd697f726e7080d9ae323b85d78c3114903240c1547f395e074c8e0a78a"
+    },
+    "implementation-vertical-admission-audit.json": {
+      "bytes": 1441,
+      "sha256": "b44cdc62cfc98a9922d5769e312283ab7a423af8071d3484d1fa0cf1c6181110"
+    },
+    "namespace-authority-review-packages.jsonl": {
+      "bytes": 26768,
+      "sha256": "3023280ff995e7be73b5dea5045c6cb988a0302b6476839f1058e94f1f8ff6a5"
+    },
+    "namespace-boundary-challenge-candidates.jsonl": {
+      "bytes": 42094,
+      "sha256": "fe24aa96ce368165a552e75a22d2a49e54df239173cae4713f764fb23f228a5d"
+    },
+    "namespace-structural-observations.jsonl": {
+      "bytes": 93505,
+      "sha256": "f25676d57424759a24ebd946baf3ac29662ce573c8e6f3333703c41a4ad10eba"
+    },
+    "namespace-subcontext-candidates.jsonl": {
+      "bytes": 104339,
+      "sha256": "146be14535ca2f4ba9581c9b82ef0fe897a65b5111dcb1240cce1b6429c5745f"
+    },
+    "owner-adjudication-candidates.jsonl": {
+      "bytes": 54591,
+      "sha256": "fb1e4b93a12f682a927148a26d68a83f89fb8e9a5b9a3616b0c5f2d6374650eb"
+    },
+    "owner-candidate-dockets.jsonl": {
+      "bytes": 846133,
+      "sha256": "53b1b374f389f891a1e394bc4aa7497adfd72ef7c1d7853a978bd3d6bee37c0f"
+    },
+    "owner-challenge-evidence-programs.jsonl": {
+      "bytes": 131364,
+      "sha256": "07cb75dce4e99b9e54c1090e313bec243b4b2c5764386fcbb264e7441279894a"
+    },
+    "owner-challenge-evidence-vacancies.jsonl": {
+      "bytes": 955404,
+      "sha256": "1f03fb65147b418f88e1a75fd120902f5a2208e98291830703c9bf2d9957b5dd"
+    },
+    "owner-context-candidates.jsonl": {
+      "bytes": 117144,
+      "sha256": "63103051f48993c5f2209880cd958af0e1b1a51506c65b50bcebb67aacaec7be"
+    },
+    "owner-counterfactual-challenges.jsonl": {
+      "bytes": 161022,
+      "sha256": "9c7cf9d6856b09ce0629da22161488fce7e197e5eee8bca1f81a455859af0dca"
+    },
+    "p0-boundary-finding-projections.jsonl": {
+      "bytes": 111338,
+      "sha256": "e98197a9147c86ae0cd58156cd4db49f6c86938c8ee7b1a76e2328f46a2d51f7"
+    },
+    "p0-boundary-negative-twins.jsonl": {
+      "bytes": 36144,
+      "sha256": "c1c845f7fd18eca0314a9a4e56e6062d59880f610f981737df1a96120129ac95"
+    },
+    "p0-downstream-route-projections.jsonl": {
+      "bytes": 259497,
+      "sha256": "90ae41439cf1afa6a53fa4d5577e30f169d4f34cda66d88fda5565c30a282a69"
+    },
+    "p0-namespace-disposition-candidates.jsonl": {
+      "bytes": 15316,
+      "sha256": "a796346821579a07451662df47676ae8751c0cd1798512091e02d323474ab0a5"
+    },
+    "p0-product-dossier-bindings.jsonl": {
+      "bytes": 13386,
+      "sha256": "89894a5100659424ef92a776f4e586e6aea56f124a95bfc82e18937e7103e908"
+    },
+    "p0-subcontext-disposition-candidates.jsonl": {
+      "bytes": 40237,
+      "sha256": "98e542a6ee9e8cabc7f1722506c1ac1430c4976848e291155a9c793eefdfab5b"
+    },
+    "p5-intake-routes.jsonl": {
+      "bytes": 198133,
+      "sha256": "b05777725a65eaf153048e73f74b6d9a21fa48d4a860b216b5169e051e7ece1b"
+    },
+    "provisional-contract-lowering-dockets.jsonl": {
+      "bytes": 921233,
+      "sha256": "c8aa99be3f3d22f208f3419e64aa260f0ecc34eb36ce6d8872daf73bb631560d"
+    },
+    "ratification-dag.jsonl": {
+      "bytes": 2688,
+      "sha256": "9d6c0755acba290dea951077a778aa63e989effcc31f22926a78ae2f6cc0d452"
+    },
+    "ratification-packages.jsonl": {
+      "bytes": 69009,
+      "sha256": "579e4778de12a1ff346fdbbd038ab7d973bf7bd283bc38a46d58455003f6ffb2"
+    },
+    "summary.json": {
+      "bytes": 2792,
+      "sha256": "5384fe70a34f8f1b18d6a4c873e3ebefa9a43ed56060538b28c740bd276bb0a5"
+    },
+    "vacancy-routes.jsonl": {
+      "bytes": 174928,
+      "sha256": "4f11598d53096b6924d08a0802674541860ea2bcc574bdc7b35feddb64d485c4"
+    },
+    "vacancy-semantic-quotients.jsonl": {
+      "bytes": 26126,
+      "sha256": "7a31d52310829ac6fcce721a593825cc3c1065d0ccbcaa81c0e240dd16f7d113"
+    }
+  },
+  "manifest_id": "manifest.cross-slice-boundary-frontier.v1"
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "invalid_inference": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "meaning": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "qualifiers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "relation_type_id": {
+      "pattern": "^relation-type\\.lpe\\.",
+      "type": "string"
+    },
+    "source_entity_type_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "target_entity_type_ref": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "relation_type_id",
+    "edition",
+    "status",
+    "name",
+    "source_entity_type_ref",
+    "target_entity_type_ref",
+    "meaning",
+    "invalid_inference",
+    "owner_context_ref",
+    "qualifiers",
+    "evidence_refs"
+  ],
+  "title": "LPE relation type candidate",
+  "type": "object"
+}

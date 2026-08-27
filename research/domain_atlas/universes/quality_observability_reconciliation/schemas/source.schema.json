@@ -1,0 +1,95 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/source.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accessed_at": {
+      "const": "2026-08-25"
+    },
+    "areas": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "authority_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "claims_supported": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_role": {
+      "enum": [
+        "normative_authority",
+        "open_specification",
+        "regulatory_authority",
+        "original_research",
+        "implementation_evidence"
+      ]
+    },
+    "limitations": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "primary_source": {
+      "const": true
+    },
+    "publication_year": {
+      "maximum": 2026,
+      "minimum": 1900,
+      "type": "integer"
+    },
+    "publisher": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^qor\\.src\\.",
+      "type": "string"
+    },
+    "source_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "url": {
+      "pattern": "^https://",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "edition",
+    "title",
+    "publisher",
+    "url",
+    "evidence_role",
+    "source_kind",
+    "publication_year",
+    "areas",
+    "claims_supported",
+    "primary_source",
+    "authority_scope",
+    "limitations",
+    "accessed_at"
+  ],
+  "title": "Quality evidence source",
+  "type": "object"
+}

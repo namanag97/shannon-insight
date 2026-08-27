@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "extraction_status": {
+      "enum": [
+        "metadata_only",
+        "partial",
+        "deep"
+      ]
+    },
+    "id": {
+      "pattern": "^artifact\\.",
+      "type": "string"
+    },
+    "non_llm": {
+      "const": true
+    },
+    "record_type": {
+      "const": "artifact"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 1800,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "record_type",
+    "kind",
+    "category",
+    "year",
+    "title",
+    "primary_url",
+    "version",
+    "extraction_status",
+    "non_llm"
+  ],
+  "title": "Research artifact",
+  "type": "object"
+}

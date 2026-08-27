@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "supports_topics": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "format": "uri",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "edition",
+    "status",
+    "title",
+    "url",
+    "supports_topics"
+  ],
+  "title": "Semantic evidence source",
+  "type": "object"
+}

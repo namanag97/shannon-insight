@@ -1,0 +1,134 @@
+{
+  "archetype_obligation_kernels": 19,
+  "as_of": "2026-08-27",
+  "canonical_exact_gaps_closed": 0,
+  "canonical_mutations_allowed": 0,
+  "compiler_lowering_gates": 674,
+  "completion_claim": false,
+  "dockets_with_collision_dependencies": 108,
+  "dockets_with_shared_symbol_dependencies": 225,
+  "edition": 1,
+  "exact_contract_dockets": 674,
+  "execution_packages": 57,
+  "family_semantic_kernels": 23,
+  "input_snapshot": {
+    "aggregate_sha256": "65171d4975993795779d80c666f9e18adbbac5484b9475b5f6b0ea2a3242ca6a",
+    "files": [
+      {
+        "bytes": 1139327,
+        "path": "research/domain_atlas/compiler/library_registry/exact_api_closure/closure-queue.jsonl",
+        "record_count": 674,
+        "sha256": "dfe14376f340b8731558919104638f64814c265c06ae15b8dd71523daf33fd34"
+      },
+      {
+        "bytes": 197016,
+        "path": "research/domain_atlas/compiler/library_registry/exact_api_closure/research-batches.jsonl",
+        "record_count": 57,
+        "sha256": "d6912ec7d7fe98ee6a56c90e226ac7c9c28a5b10a8ae1d241630fdfdb00ff151"
+      },
+      {
+        "bytes": 1370134,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/library-instance-proposals.jsonl",
+        "record_count": 674,
+        "sha256": "72d08b8ab83b124fb1a166b990a89250dcc1b434a9b6863144f28e11ab283270"
+      },
+      {
+        "bytes": 28612,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/contract-archetypes.jsonl",
+        "record_count": 19,
+        "sha256": "156a0011d40323bd95cc00a2db2c5b87325f76b54772d8b1a2378cf66ada401b"
+      },
+      {
+        "bytes": 69715,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/family-constitutions.jsonl",
+        "record_count": 23,
+        "sha256": "e819bde3390f7dab507d31799c44bb8a4182ba852471cdc50bc6d2bf9a131941"
+      },
+      {
+        "bytes": 392275,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/boundary-falsification-clusters.jsonl",
+        "record_count": 460,
+        "sha256": "63322714d6fd7d09bde4f96c876f72cfa04a3e80c8d99e865bee815a686e5c5f"
+      },
+      {
+        "bytes": 143562,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/cross-owner-collision-candidates.jsonl",
+        "record_count": 146,
+        "sha256": "348951f4addebfb90361549f79df5676a12c232fa9e6aeb9b6d92af34dbcb228"
+      },
+      {
+        "bytes": 100700,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/work-packages.jsonl",
+        "record_count": 57,
+        "sha256": "fc7212e0dec2d9567585d556fd137c6b10b0c608ec289aa24c47105d8f8706a6"
+      },
+      {
+        "bytes": 6855357,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/structured_projection/exact-contract-input-candidates.jsonl",
+        "record_count": 674,
+        "sha256": "8664984007f6da20bcf8282b982ddc575324eb654eb4ab7b256ae86e95b6d34e"
+      },
+      {
+        "bytes": 70325,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/readiness-audits.jsonl",
+        "record_count": 23,
+        "sha256": "0908105269a133a1e54e000d6364d678dec096cc3cb1130f015ca4a9d57bf9db"
+      },
+      {
+        "bytes": 65817,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/source-authority-packets.jsonl",
+        "record_count": 23,
+        "sha256": "aab53dc56ea1ad9f0125a65b19d0c09a390ce2e116a94062e44e6bb74a2e89cc"
+      },
+      {
+        "bytes": 1101754,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1b_foundation_authority_adjudication/ratification-packet-templates.jsonl",
+        "record_count": 652,
+        "sha256": "64e534e89add6e378f3498ef2d82b225ba41309da0256a5e69e169cf7c45d641"
+      },
+      {
+        "bytes": 579155,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p2_owner_adjudication/occurrence-relation-proposals.jsonl",
+        "record_count": 666,
+        "sha256": "28f4d4033854b4d8dcfb1d5286c357028c2a47c4f5eef124667a8cdb94ad6a2b"
+      },
+      {
+        "bytes": 534303,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p2_owner_adjudication/owner-ratification-packet-templates.jsonl",
+        "record_count": 210,
+        "sha256": "361cfc684f169b9a4589065dd1e0940ef9f13634bd0f02a08c389ad3da5aecab"
+      },
+      {
+        "bytes": 1195093,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/family-axis-review-dockets.jsonl",
+        "record_count": 368,
+        "sha256": "6686ad3ae372029939f9fa9dc6a089ef6e1d48816d87753b40e8c016cb1f055f"
+      },
+      {
+        "bytes": 1383960,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/family-axis-ratification-packet-templates.jsonl",
+        "record_count": 368,
+        "sha256": "2b1008fe046fcb8bc95210abbc236eee86901a1b2697fb829ab5f6910e8cd920"
+      },
+      {
+        "bytes": 0,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p4_ratification_ingestion/verified-ratification-ledger.jsonl",
+        "record_count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 129492,
+        "path": "research/domain_atlas/compiler/library_registry/dependency-edges.jsonl",
+        "record_count": 196,
+        "sha256": "884a17354c9904f73c53d6ca9d1783d5edd59713c11c68422ae6c52cd016d3bd"
+      }
+    ],
+    "snapshot_id": "snapshot.p5-input.65171d4975993795"
+  },
+  "lowered_exact_contract_candidates": 0,
+  "populated_archetype_obligation_kernels": 15,
+  "program_id": "program.p5-exact-contract-adjudication.v1",
+  "ratification_packet_templates": 674,
+  "ratified_exact_contracts": 0,
+  "verified_prerequisite_bindings": 0
+}

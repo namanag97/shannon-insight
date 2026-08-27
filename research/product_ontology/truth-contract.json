@@ -1,0 +1,190 @@
+{
+  "contract_id": "contract.sovereign_product_truth",
+  "edition": 1,
+  "status": "candidate",
+  "applicability_states": ["REQUIRED", "CONDITIONAL", "PROHIBITED", "INAPPLICABLE", "UNDETERMINED"],
+  "groups": [
+    {
+      "group_id": "A",
+      "name": "PRODUCT TRUTH",
+      "items": [
+        {"id": "T001", "name": "sovereign question"},
+        {"id": "T002", "name": "mission / negative mission"},
+        {"id": "T003", "name": "users / harmed parties"},
+        {"id": "T004", "name": "jobs and measurable outcomes"},
+        {"id": "T005", "name": "service blueprint"},
+        {"id": "T006", "name": "value / cost / adoption / exit"},
+        {"id": "T007", "name": "scope and non-goals"},
+        {"id": "T008", "name": "assumptions and falsifiers"}
+      ]
+    },
+    {
+      "group_id": "B",
+      "name": "DOMAIN TRUTH",
+      "items": [
+        {"id": "T009", "name": "subdomain classification"},
+        {"id": "T010", "name": "bounded contexts and owners"},
+        {"id": "T011", "name": "context map / ACLs"},
+        {"id": "T012", "name": "ubiquitous language / homonyms"},
+        {"id": "T013", "name": "value objects / entities"},
+        {"id": "T014", "name": "aggregates / consistency boundaries"},
+        {"id": "T015", "name": "invariants / constructors"},
+        {"id": "T016", "name": "commands / queries / events"},
+        {"id": "T017", "name": "policies / services"},
+        {"id": "T018", "name": "refusals and precedence"},
+        {"id": "T019", "name": "total state machines"},
+        {"id": "T020", "name": "time / concurrency / idempotency"}
+      ]
+    },
+    {
+      "group_id": "C",
+      "name": "SEMANTIC TRUTH",
+      "items": [
+        {"id": "T021", "name": "carrier types / equality"},
+        {"id": "T022", "name": "identities / zeros / duals"},
+        {"id": "T023", "name": "merge / join / satisfaction"},
+        {"id": "T024", "name": "partiality / residual / information loss"},
+        {"id": "T025", "name": "canonicalization / digests"},
+        {"id": "T026", "name": "constraint and feature model"},
+        {"id": "T027", "name": "determinism / fixed points"},
+        {"id": "T028", "name": "executable law oracles"}
+      ]
+    },
+    {
+      "group_id": "D",
+      "name": "HUMAN + PROCESS TRUTH",
+      "items": [
+        {"id": "T029", "name": "actor-task journeys"},
+        {"id": "T030", "name": "workflow / case / human judgment"},
+        {"id": "T031", "name": "timers / calendars / SLA"},
+        {"id": "T032", "name": "compensation / irreversibility"},
+        {"id": "T033", "name": "UI state and actions"},
+        {"id": "T034", "name": "documents / notifications"},
+        {"id": "T035", "name": "accessibility / i18n"},
+        {"id": "T036", "name": "offline / device / recovery"}
+      ]
+    },
+    {
+      "group_id": "E",
+      "name": "DATA + INTELLIGENCE TRUTH",
+      "items": [
+        {"id": "T037", "name": "operational data contracts"},
+        {"id": "T038", "name": "master/reference ownership"},
+        {"id": "T039", "name": "validity/recording time"},
+        {"id": "T040", "name": "quality / lineage / reconciliation"},
+        {"id": "T041", "name": "projections / search"},
+        {"id": "T042", "name": "measures / dimensions / uncertainty"},
+        {"id": "T043", "name": "model lifecycle / drift"},
+        {"id": "T044", "name": "agent tools / limits / oversight"}
+      ]
+    },
+    {
+      "group_id": "F",
+      "name": "AUTHORITY + TRUST TRUTH",
+      "items": [
+        {"id": "T045", "name": "authority / delegation"},
+        {"id": "T046", "name": "maker-checker / SoD / revocation"},
+        {"id": "T047", "name": "approval != issuance"},
+        {"id": "T048", "name": "claim-argument-evidence / defeaters"},
+        {"id": "T049", "name": "audit / provenance"},
+        {"id": "T050", "name": "appeal / recall / disclosure"}
+      ]
+    },
+    {
+      "group_id": "G",
+      "name": "SECURITY + SAFETY TRUTH",
+      "items": [
+        {"id": "T051", "name": "assets / trust boundaries"},
+        {"id": "T052", "name": "threats / abuse / confused deputy"},
+        {"id": "T053", "name": "least privilege / secrets"},
+        {"id": "T054", "name": "privacy purpose / consent / residency"},
+        {"id": "T055", "name": "retention / rights"},
+        {"id": "T056", "name": "hazards / fail-safe posture"},
+        {"id": "T057", "name": "supply-chain / replay"},
+        {"id": "T058", "name": "crypto purpose and agility"}
+      ]
+    },
+    {
+      "group_id": "H",
+      "name": "PRODUCTION TRUTH",
+      "items": [
+        {"id": "T059", "name": "SLOs / error budgets"},
+        {"id": "T060", "name": "latency / throughput / capacity / cost"},
+        {"id": "T061", "name": "finite budgets / precharge"},
+        {"id": "T062", "name": "overload / backpressure / cancellation"},
+        {"id": "T063", "name": "retry / timeout semantics"},
+        {"id": "T064", "name": "partition / failover / degraded mode"},
+        {"id": "T065", "name": "RPO / RTO / restore"},
+        {"id": "T066", "name": "observability / alert / runbook"},
+        {"id": "T067", "name": "operations / support"},
+        {"id": "T068", "name": "incident / forensic / recovery evidence"}
+      ]
+    },
+    {
+      "group_id": "I",
+      "name": "ECOSYSTEM TRUTH",
+      "items": [
+        {"id": "T069", "name": "commands/APIs/events/ports"},
+        {"id": "T070", "name": "exact schema/edition/identity"},
+        {"id": "T071", "name": "cardinality/order/time"},
+        {"id": "T072", "name": "consistency/replay/evidence"},
+        {"id": "T073", "name": "imports/exports"},
+        {"id": "T074", "name": "requirements/offers/binding phase"},
+        {"id": "T075", "name": "multi-version coexistence"},
+        {"id": "T076", "name": "extension without name branches"},
+        {"id": "T077", "name": "provider qualification"},
+        {"id": "T078", "name": "two independent implementations"}
+      ]
+    },
+    {
+      "group_id": "J",
+      "name": "CHANGE + DELIVERY TRUTH",
+      "items": [
+        {"id": "T079", "name": "compatibility relations"},
+        {"id": "T080", "name": "upcasters/transforms/backfill"},
+        {"id": "T081", "name": "rollout/canary/parallel run"},
+        {"id": "T082", "name": "rollback/roll-forward/decommission"},
+        {"id": "T083", "name": "in-flight work disposition"},
+        {"id": "T084", "name": "semantic diff / blast radius"},
+        {"id": "T085", "name": "historical replay"},
+        {"id": "T086", "name": "supplier exit / data portability"}
+      ]
+    },
+    {
+      "group_id": "K",
+      "name": "RUST + BUILD TRUTH",
+      "items": [
+        {"id": "T087", "name": "Rust owner per semantic type"},
+        {"id": "T088", "name": "illegal states unrepresentable"},
+        {"id": "T089", "name": "public/private API surface"},
+        {"id": "T090", "name": "sync/async/cancellation/thread safety"},
+        {"id": "T091", "name": "serde/DTO/ACL boundary"},
+        {"id": "T092", "name": "unsafe/FFI/generated-code policy"},
+        {"id": "T093", "name": "crate/feature/dependency map"},
+        {"id": "T094", "name": "MSRV/targets/licence/advisories"},
+        {"id": "T095", "name": "dependency removal seams"},
+        {"id": "T096", "name": "build/reproducibility/supply chain"}
+      ]
+    },
+    {
+      "group_id": "L",
+      "name": "MIGRATION + PROOF TRUTH",
+      "items": [
+        {"id": "T097", "name": "live source census"},
+        {"id": "T098", "name": "RETAIN/MOVE/SPLIT/REWRITE/DELETE"},
+        {"id": "T099", "name": "hard-cut dependency order"},
+        {"id": "T100", "name": "no compatibility aliases"},
+        {"id": "T101", "name": "story x state x path tensor"},
+        {"id": "T102", "name": "requirement -> code -> runtime -> evidence trace"},
+        {"id": "T103", "name": "negative/adversarial twins"},
+        {"id": "T104", "name": "property/model/fuzz/mutation/conformance"},
+        {"id": "T105", "name": "exact-boundary tests"},
+        {"id": "T106", "name": "independent appraisal"},
+        {"id": "T107", "name": "two-release vertical"},
+        {"id": "T108", "name": "unrelated-domain generality"},
+        {"id": "T109", "name": "current bounded verdict"},
+        {"id": "T110", "name": "residual owner + evidence needed"}
+      ]
+    }
+  ]
+}

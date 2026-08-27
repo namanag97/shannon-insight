@@ -1,0 +1,5 @@
+[project]
+name = "relate-corpus-py"
+dependencies = [
+    "requests>=2.0",
+]

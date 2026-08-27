@@ -1,0 +1,79 @@
+{
+  "policy_id": "policy.industry_foundation.evidence",
+  "edition": 1,
+  "purpose": "Make every taxonomy, boundary, crosswalk and completeness claim traceable to reviewable authority rather than plausibility or vendor convention.",
+  "minimum_foundation_sources": 25,
+  "authority_tiers": [
+    {
+      "tier": "normative_primary",
+      "definition": "Adopting instrument, official standard, legal nomenclature or normative manual issued by the adopting body.",
+      "allowed_uses": ["normative boundary", "assignment rule", "official status", "official hierarchy"]
+    },
+    {
+      "tier": "custodian_primary",
+      "definition": "Current registry, structure, explanatory note, correspondence or release maintained by the official custodian.",
+      "allowed_uses": ["current edition", "code/title", "official correspondence", "transition status"]
+    },
+    {
+      "tier": "regulatory_primary",
+      "definition": "Definition or reporting classification issued by the competent regulator.",
+      "allowed_uses": ["regulated population", "line of business", "jurisdictional reporting rule"]
+    },
+    {
+      "tier": "specialist_primary",
+      "definition": "Method or classification published by the responsible intergovernmental, statistical or specialist public authority.",
+      "allowed_uses": ["specialist overlay", "analytical scope", "domain-specific cross-classification"]
+    },
+    {
+      "tier": "implementation_primary",
+      "definition": "Official implementation data, code service or filing instruction that demonstrates operational use.",
+      "allowed_uses": ["implementation behavior", "available fields", "operational edition"]
+    },
+    {
+      "tier": "secondary_authoritative",
+      "definition": "Peer-reviewed or professionally governed interpretation used only when primary evidence is unavailable.",
+      "allowed_uses": ["corroboration", "research gap candidate"]
+    }
+  ],
+  "source_rules": [
+    "Prefer the adopting body or current custodian over aggregators, vendors and search snippets.",
+    "Record title, publisher, exact URL, access date, authority scope and limitations.",
+    "A draft, consultation, final classification and operational implementation are different statuses.",
+    "Record the exact edition and jurisdiction; a family name such as NAICS is insufficient.",
+    "For downloaded artifacts, record a cryptographic digest and refuse unexpected content on rebuild.",
+    "If an official source is paywalled, record access limits and do not reconstruct protected content from secondary copies.",
+    "A source can support only claims inside its declared authority scope.",
+    "Search results locate evidence but are not themselves cited evidence."
+  ],
+  "claim_rules": [
+    "Every non-obvious machine claim has at least one evidence reference and a locator precise enough for a reviewer to find the support.",
+    "Mark derived statements as inference and state the reasoning; do not present them as direct source claims.",
+    "Record known defeaters, scope qualifications and transition conditions.",
+    "Counts from imported structures are reproducible derivations tied to an exact source digest.",
+    "Absence from a searched source is not evidence of nonexistence unless the source asserts exhaustive coverage.",
+    "No claim of global or industry completeness may be based solely on a KPI list, vendor catalog, sample use cases or one economic-activity classification."
+  ],
+  "crosswalk_evidence_rules": [
+    "Prefer official bidirectional correspondence artifacts, but retain the actual published direction.",
+    "A code correspondence is not automatically semantic equivalence, record recoding, or time-series comparability.",
+    "Every mapping states source and target edition, member extent, relation, cardinality, aggregation semantics, statistical-unit compatibility, geography, time and inclusion/exclusion compatibility.",
+    "Partial-code mappings require extent qualifiers and may require period-specific allocation evidence.",
+    "Never invent allocation weights; use official or empirical period-specific weights with provenance, otherwise refuse allocation.",
+    "Transitive mapping is forbidden by default. It may be considered only for independently reviewed exact-equivalence chains with identical dimensions and no partial extents.",
+    "Product, provider, function, regulatory line, criticality and economic-activity mappings are cross-axis relations, never parent-child claims."
+  ],
+  "freshness_rules": [
+    "Recheck live current-edition assertions at least every 90 days during active atlas construction.",
+    "Recheck immediately on custodian revision announcements, consultations, corrigenda or transition milestones.",
+    "Preserve superseded evidence and effective dates; do not overwrite historical editions.",
+    "A changed URL does not change semantic identity, but changed scope, concepts or structure requires a new edition identity."
+  ],
+  "refusal_conditions": [
+    "No authoritative boundary source is available.",
+    "Source and target editions are missing.",
+    "A mapping would collapse different statistical units or concepts without qualification.",
+    "Required partial-code allocation has no authoritative or empirical basis.",
+    "The classification is draft but the requested use requires operational status.",
+    "Evidence conflicts and no adjudication has resolved the conflict."
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "model_id": "san.domain-atlas.axes",
+  "edition": 1,
+  "status": "research_candidate",
+  "rule": "Axes enumerate coverage and generate candidates; Cartesian cells are not automatically bounded contexts.",
+  "axes": {
+    "lifecycle_phase": [
+      "conceive", "declare", "discover", "observe", "acquire", "admit", "model", "map",
+      "transform", "persist", "index", "compute", "analyze", "evaluate", "publish", "consume",
+      "decide", "act", "operate", "correct", "migrate", "retire", "recall"
+    ],
+    "plane": ["semantic", "data", "control", "evidence"],
+    "semantic_layer": [
+      "carrier", "value", "observation", "structure", "domain", "analytical", "decision", "presentation"
+    ],
+    "data_state": [
+      "source_fact", "source_occurrence", "in_flight", "hostile_carrier", "admitted_value",
+      "logical_asset", "immutable_cut", "materialization", "served_view", "analytical_observation",
+      "proposal", "authorized_business_fact"
+    ],
+    "workload": ["batch", "stream", "interactive", "operational", "federated", "hybrid"],
+    "time_posture": [
+      "timeless", "occurrence_time", "source_recording_time", "valid_time", "ingestion_time",
+      "processing_time", "watermark_time", "snapshot_cut", "decision_time", "policy_effective_time"
+    ],
+    "change_posture": [
+      "immutable", "append", "upsert", "retract", "delete", "correct", "supersede", "restatement",
+      "late_arrival", "out_of_order", "recall"
+    ],
+    "modality": [
+      "relational", "key_value", "wide_column", "document_variant", "property_graph", "rdf_graph",
+      "time_series", "event_log", "object_centric_process", "spatial_vector", "raster_coverage",
+      "array_tensor", "text_corpus", "document_content", "spreadsheet", "image", "audio", "video",
+      "search_index", "vector_index", "telemetry_metric", "log_record", "trace_span", "binary_blob"
+    ],
+    "analytical_intent": [
+      "describe", "compare", "diagnose", "estimate", "test", "explain_causally", "forecast",
+      "detect_change", "discover_process", "check_conformance", "simulate", "optimize", "decide",
+      "monitor", "control"
+    ],
+    "uncertainty_posture": [
+      "exact", "unknown", "missing", "censored", "interval", "probabilistic", "sampled", "estimated",
+      "conflicting", "defeasible"
+    ],
+    "actor": [
+      "domain_owner", "source_owner", "data_producer", "data_engineer", "analytics_engineer",
+      "analyst", "statistician", "decision_maker", "application_owner", "data_steward",
+      "security_operator", "platform_operator", "auditor", "external_consumer", "data_subject"
+    ],
+    "authority_posture": [
+      "observe", "read", "derive", "publish", "disclose", "approve", "commit", "mutate", "delete",
+      "delegate", "revoke", "recall", "attest"
+    ],
+    "consumption_surface": [
+      "api", "event", "sql", "semantic_query", "notebook", "dashboard", "report", "visualization",
+      "embedded_component", "export", "alert", "workflow_task"
+    ],
+    "evidence_posture": [
+      "hypothesis", "source_supported", "structurally_validated", "executable_law", "runtime_observed",
+      "independently_attested", "ratified", "certified", "recalled"
+    ],
+    "binding_phase": ["authoring", "compile_time", "deployment_time", "runtime", "review_time"],
+    "sourcing_posture": ["build_core", "build_supporting", "adopt_standard", "buy_or_conform", "open_extension"]
+  }
+}

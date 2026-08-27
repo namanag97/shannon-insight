@@ -1,0 +1,23 @@
+{
+  "acceptance": "Order service emits business acceptance separately from broker acknowledgement.",
+  "channel_contract": "msg.channel.command",
+  "delivery_stages": {
+    "consumption": "inbox reservation before handler",
+    "downstream_effect": "payment authorization keyed by order attempt",
+    "producer_effect": "order intent and outbox row atomically recorded",
+    "publication": "quorum receipt required",
+    "transport": "duplicates possible after ambiguous confirm"
+  },
+  "example_id": "msg.example.commerce_order_command",
+  "message": {
+    "broker_time": null,
+    "business_idempotency_key": "merchant-9/order-441/place",
+    "event_time": "2026-08-25T09:00:00Z",
+    "message_id": "msg-7f",
+    "partition_key": "order-441",
+    "processing_time": null
+  },
+  "proof_status": "effectively_once_if_qualified_receipts_hold",
+  "unrelated_to": "industrial_turbine_telemetry",
+  "vertical": "commerce_order_fulfillment"
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "dependency_direction": {
+      "const": "extension_to_core_only"
+    },
+    "edition": {
+      "const": 1
+    },
+    "library_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "library_kind": {
+      "type": "string"
+    },
+    "must_not_own": {
+      "minItems": 3,
+      "type": "array"
+    },
+    "name": {
+      "type": "string"
+    },
+    "owns": {
+      "type": "string"
+    },
+    "removal_seam": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "test_boundary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "library_id",
+    "edition",
+    "status",
+    "name",
+    "library_kind",
+    "owns",
+    "must_not_own",
+    "dependency_direction",
+    "removal_seam",
+    "test_boundary"
+  ],
+  "type": "object"
+}

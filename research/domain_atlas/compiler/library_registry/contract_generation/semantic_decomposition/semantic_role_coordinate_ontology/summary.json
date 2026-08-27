@@ -1,0 +1,21 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "semantic_role",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "family_extension_candidates": 23,
+  "family_source_evidence_bindings_supplied": 0,
+  "interaction_role_inventories_supplied": 0,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "primary_sources": 10,
+  "program_id": "program.semantic-role-coordinate-ontology-and-rebase.v1",
+  "research_clusters": 201,
+  "routes_with_lexical_discovery_projection": 391,
+  "routes_with_no_member_role_evidence": 283,
+  "semantic_role_archetypes": 46,
+  "semantic_role_coordinate_profiles_supplied": 0,
+  "semantic_role_operation_kernels": 54,
+  "structural_family_dockets": 23,
+  "target_member_routes": 674
+}

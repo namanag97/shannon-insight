@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract.product_adjudication.representation_codec_boundary.v0_1_0",
+  "counts": {
+    "artifact": 28,
+    "artifact_kind_definition": 7,
+    "boundary_decision": 3,
+    "capability_offer": 2,
+    "capability_requirement": 8,
+    "evidence_source": 12,
+    "legacy_crosswalk": 2,
+    "library_contract": 8,
+    "negative_test": 20,
+    "product_library_binding_map": 8,
+    "relation": 4,
+    "semantic_or_conformance_gap": 10,
+    "semantic_ownership": 8
+  },
+  "derived": {
+    "legacy_crosswalks": 2,
+    "portable_offers": 0,
+    "product_candidates": 0,
+    "qualified_offers": 0,
+    "unbound_requirements": 8
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "bfd0b2436e3a7a88c8c4551a8dc4bafa99a9e20faa1df3a9bc0b9ee90f486509",
+    "artifacts.jsonl": "63e9c6236295e9cb3884ce92801f14ab172698353b08c07f05798401e521b23f",
+    "boundary-decisions.jsonl": "1ef5cdd27cbff8fdcfc44e77349bd27b69d6821c1b04e93e5b1dbf598752c089",
+    "evidence.jsonl": "122420944a47f93fe898f23233cf3a3cb59dec1e92e050b47f1f2c9b0b1e8970",
+    "legacy-crosswalks.jsonl": "67bb31161e14f6b1240aefba52817ec5ffd87c3a444afaf822fe45aeb0db47ef",
+    "library-contracts.jsonl": "9697a4cd8933282a15d13e40163debd0a0aab87dde880fdc5254d757cf2e211d",
+    "metamodel.json": "7c91360ef9e6d9aa0fd4d78055a622142090d88557e74dc40673cfbeab2d5b1b",
+    "negative-tests.jsonl": "a1d5e69f9c8d88c77378aaf3b2b3d6fbcd10c729ca45c138e3f2dca8709c8c06",
+    "offers.jsonl": "b78545e2043775c396f883de65105ca8d5e88f25a73bfe8c3d0aa49ddc0d23c1",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "943661276330017e0b2f3a5e1eaf30317b96631716a62d0c6d0ea51db9e32d99",
+    "registry.jsonl": "008f0380dba416fb837481735725c8fd7ea9714328ca9880666bf96d75766bfc",
+    "relations.jsonl": "f0a1bf438123941983abbaaf78e87a640f20871b061a9f13769345323b6a6b58",
+    "requirements.jsonl": "7479a088edd946e8ad60ab0f5f9d77ca204efb5d61e6c431e769742239877d3f",
+    "semantic-gaps.jsonl": "a437ef5ad63d19e191daadaafc4beae3c6f5e774cc8f2b938eb0dca10bd6dd9b",
+    "semantic-ownership.jsonl": "e44b4d4a989b38ff6ed0539e7f120ed0d5dac50edeefc6c1808fb6a6db63c336"
+  },
+  "negative_scope": "Does not own semantic data meaning, storage/product lifecycle, security authority, runtime scheduling or independent enterprise product outcomes.",
+  "scope": "Carrier, encoding, codec, compression, loss, canonicalization, transcode, provider and runtime boundaries for data representation.",
+  "source_sha256": "65191c73455f9963ee2d909c1ff23a4c8833f48c7ccecf2f819b6f6e2782780b",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

@@ -1,0 +1,35 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/change-types.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "canonical_semantics_authority": {
+      "type": "boolean"
+    },
+    "change_type_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision_effect": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_form": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "canonical_semantics_authority",
+    "change_type_id",
+    "decision_effect",
+    "evidence_form",
+    "name"
+  ],
+  "title": "change-types",
+  "type": "object"
+}

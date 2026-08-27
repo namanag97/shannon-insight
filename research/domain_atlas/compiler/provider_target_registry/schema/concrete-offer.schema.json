@@ -1,0 +1,142 @@
+{
+  "$id": "https://san.example/spec/provider-target/offer_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "artifact_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "binding_eligible": {
+      "type": "boolean"
+    },
+    "capability_class_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "documented_limit_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "exclusions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "guarantees": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "observed_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "offer_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "offer_kind": {
+      "type": "string"
+    },
+    "offer_snapshot": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "provider_class_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "provider_organization_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "retrieved_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "target_profile_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "validity": {
+      "additionalProperties": false,
+      "properties": {
+        "recheck_triggers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "scope": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "recheck_triggers"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "offer_id",
+    "edition",
+    "status",
+    "provider_organization_ref",
+    "provider_class_ref",
+    "artifact_ref",
+    "artifact_version",
+    "offer_snapshot",
+    "offer_kind",
+    "capability_class_refs",
+    "target_profile_refs",
+    "guarantees",
+    "exclusions",
+    "documented_limit_refs",
+    "evidence_refs",
+    "retrieved_at",
+    "observed_at",
+    "validity",
+    "binding_eligible"
+  ],
+  "title": "Versioned concrete capability offer",
+  "type": "object"
+}

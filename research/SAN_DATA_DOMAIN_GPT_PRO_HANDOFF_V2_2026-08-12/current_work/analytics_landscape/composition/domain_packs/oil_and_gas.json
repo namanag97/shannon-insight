@@ -1,0 +1,41 @@
+{
+  "model_version":"1.0.0","kind":"domain_pack","id":"domain.oil_gas","name":"Oil and gas production and operations","version":"0.1.0",
+  "canonical_role_bindings":{"asset":["field","well","completion","facility","pipeline","equipment"],"event":["measurement_event","status_event","maintenance_event","transfer_event"],"quantity":["volume","mass","pressure","temperature","energy","duration","currency"],"location":["lease","field","wellbore","facility","pipeline_segment"],"interval":["shift","production_day","accounting_month","maintenance_window"]},
+  "vocabulary":{"entities":["basin","field","reservoir","well","wellbore","completion","facility","meter","pipeline","equipment"],"events":["well_started","measurement_recorded","downtime_started","downtime_ended","test_completed","maintenance_recorded","volume_transferred"],"states":["planned","drilling","completing","producing","shut_in","abandoned"],"relationships":["located_in","produces_from","flows_to","measured_by","commingled_with","operated_by"]},
+  "data_contracts":[
+    {"id":"contract.oil.production_measurement","grain":"one measured quantity per asset, timestamp and source","keys":["asset_id","occurred_at","measurement_type","source_id"],"required":["value","unit","quality_code"],"quality_rules":["unit dimension matches measurement type","correction preserves prior version"]},
+    {"id":"contract.oil.asset_interval","grain":"one asset state interval","keys":["asset_id","valid_from"],"required":["asset_type","state","valid_to"],"quality_rules":["no contradictory overlapping state"]},
+    {"id":"contract.oil.cost","grain":"one cost item by asset and accounting interval","keys":["cost_item_id"],"required":["asset_id","amount","currency","period"],"quality_rules":["allocation source declared"]}
+  ],
+  "assets":{
+    "unit_systems":[{"id":"units.oil.canonical","canonical":{"volume":"cubic_metre","mass":"kilogram","pressure":"kilopascal_absolute","temperature":"kelvin","energy":"joule","currency":"deployment_currency"},"accepted":["barrel","standard_cubic_foot","psi","degree_fahrenheit","BTU"]}],
+    "calendars":[{"id":"calendar.oil.production","intervals":["shift","production_day","allocation_month","regulatory_period"],"boundary_policy":"deployment-configured production day"}],
+    "identity_rules":[{"id":"identity.oil.asset","priority":["regulatory_identifier","operator_master_id","source_scoped_id"],"manual_review_on_conflict":true}],
+    "metrics":[
+      {"id":"metric.oil.net_production","expression":"gross_volume - shrinkage - losses - allocated_royalty_volume","grain":"well,production_day","additivity":"additive_after_unit_normalization"},
+      {"id":"metric.oil.uptime","expression":"producing_duration / available_duration","grain":"asset,interval","additivity":"weighted"},
+      {"id":"metric.oil.decline_rate","expression":"declared decline_curve fit over normalized production series","grain":"well,analysis_date","additivity":"non_additive"},
+      {"id":"metric.oil.lifting_cost","expression":"allocated_operating_cost / net_production","grain":"asset,accounting_month","additivity":"non_additive"}
+    ],
+    "rules":[{"id":"rules.oil.allocation","purpose":"meter hierarchy, commingling, shrinkage and correction allocation"},{"id":"rules.oil.alerts","purpose":"pressure, rate, downtime and data-quality limits"}],
+    "process_models":[{"id":"process.oil.maintenance","stages":["detected","triaged","planned","isolated","repaired","tested","returned_to_service"]}],
+    "cost_models":[{"id":"cost.oil.operations","components":["energy","chemicals","labor","maintenance","transport","royalty","regulatory","analytics_platform"]}],
+    "objectives":[{"id":"objective.oil.production_plan","terms":["netback","uptime","energy_cost","maintenance_risk","capacity_utilization"]}],
+    "constraints":[{"id":"constraints.oil.production_plan","rules":["well_operating_envelope","facility_capacity","pipeline_capacity","maintenance_window","regulatory_limit"]}],
+    "presentation":[{"id":"presentation.oil.default","labels":{"asset":"production asset","interval":"production interval","output":"operational finding"}}],
+    "test_fixtures":[{"id":"fixture.oil.minimum","covers":["late corrected measurement","unit conversion","commingled allocation","zero-production denominator","asset state overlap"]}]
+  },
+  "machine_bindings":[
+    {"machine_id":"machine.contract_validate","config":{"contract_ref":"contract.oil.production_measurement"}},
+    {"machine_id":"machine.unit_normalize","config":{"unit_system_ref":"units.oil.canonical"}},
+    {"machine_id":"machine.identity_resolve","config":{"identity_rules_ref":"identity.oil.asset"}},
+    {"machine_id":"machine.window","config":{"calendar_ref":"calendar.oil.production"}},
+    {"machine_id":"machine.metric_compute","config":{"metric_definitions_ref":"metric.oil.*"}},
+    {"machine_id":"machine.process_conformance","config":{"process_model_ref":"process.oil.maintenance","cost_model_ref":"cost.oil.operations"}},
+    {"machine_id":"machine.optimize","config":{"objective_ref":"objective.oil.production_plan","constraints_ref":"constraints.oil.production_plan","cost_model_ref":"cost.oil.operations"}},
+    {"machine_id":"machine.publish","config":{"presentation_ref":"presentation.oil.default"}}
+  ],
+  "required_auxiliary_services":["asset master data","calibrated meter registry","production accounting calendar","regulatory reference data","currency and commodity price book","manual correction approval"],
+  "exclusions":["seismic AI interpretation","AI predictive maintenance","LLM-generated operations advice"],
+  "coverage":{"status":"example","known_gaps":["reserves classification","drilling analytics","emissions accounting","full production-allocation standard mapping"]}
+}

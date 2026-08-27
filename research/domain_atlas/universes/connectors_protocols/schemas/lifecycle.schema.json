@@ -1,0 +1,104 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/lifecycle_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "invalidation_triggers": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "lifecycle_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "receipts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "states": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    },
+    "subject_kind": {
+      "type": "string"
+    },
+    "terminal_states": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "transitions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "guard": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "command",
+          "to",
+          "guard"
+        ],
+        "type": "object"
+      },
+      "minItems": 2,
+      "type": "array"
+    }
+  },
+  "required": [
+    "lifecycle_id",
+    "edition",
+    "status",
+    "subject_kind",
+    "states",
+    "transitions",
+    "terminal_states",
+    "invalidation_triggers",
+    "receipts"
+  ],
+  "title": "Connector lifecycle candidate",
+  "type": "object"
+}

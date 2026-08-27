@@ -1,7 +1,9 @@
 """Tensor slice utilities."""
+
 from __future__ import annotations
 
 from scipy import sparse
+
 from .core import RelationTensor
 
 

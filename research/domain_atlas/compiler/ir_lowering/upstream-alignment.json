@@ -1,0 +1,93 @@
+{
+  "adopted_laws": [
+    "unknown meaning is a typed gap and is never guessed",
+    "requirements and offers bind only through exact contracts and evidence",
+    "semantic operation, analytical method, algorithm, kernel, provider offer and target remain separate identities",
+    "semantic type, carrier, encoding, framing, layout, container, codec and protection envelope remain separate identities",
+    "effectful work uses explicit intents and runtime receipts",
+    "all finite-resource and evidence scope claims remain exact"
+  ],
+  "alignment_id": "alignment.ir.upstream_contracts",
+  "completion_claim": false,
+  "edition": 1,
+  "known_alignment_gaps": [
+    "No formal refinement mapping has been independently checked.",
+    "Universe-specific schemas evolve independently and require edition-aware adapters.",
+    "Provider and target occurrence evidence is intentionally absent."
+  ],
+  "proof_posture": "The upstream proof catalog remains mandatory. Local proof candidates refine pass preservation and do not replace, weaken, or claim discharge of upstream obligations.",
+  "read_only_inputs": [
+    "research/domain_atlas/compiler/compiler-metamodel.json",
+    "research/domain_atlas/compiler/proof-obligations.json",
+    "research/domain_atlas/compiler/decision-point.schema.json",
+    "research/domain_atlas/compiler/library-contribution.schema.json",
+    "research/domain_atlas/compiler/requirement-offer-binding.schema.json",
+    "research/domain_atlas/universes/universe-contract.json",
+    "research/domain_atlas/universes/source_systems/compiler-contract.json",
+    "research/domain_atlas/universes/runtime_compute_resource/compiler-contract.json",
+    "research/domain_atlas/universes/pipeline_dataflow/schemas/delivery-contract.schema.json",
+    "research/domain_atlas/universes/pipeline_dataflow/schemas/recovery-contract.schema.json",
+    "research/domain_atlas/universes/pipeline_dataflow/schemas/state-contract.schema.json",
+    "research/domain_atlas/universes/query_compute_kernels/schema/kernel-contract.schema.json"
+  ],
+  "stage_alignment": [
+    {
+      "local_layers": [
+        "syntax_declaration",
+        "resolution"
+      ],
+      "upstream_stage": "ir.declaration"
+    },
+    {
+      "local_layers": [
+        "canonical_reference",
+        "language_context"
+      ],
+      "upstream_stage": "ir.language"
+    },
+    {
+      "local_layers": [
+        "analytical_design"
+      ],
+      "upstream_stage": "ir.analytical_design"
+    },
+    {
+      "local_layers": [
+        "observation_type_shape"
+      ],
+      "upstream_stage": "ir.observation"
+    },
+    {
+      "local_layers": [
+        "logical_operation_dataflow"
+      ],
+      "upstream_stage": "ir.logical_operations"
+    },
+    {
+      "local_layers": [
+        "assurance_policy"
+      ],
+      "upstream_stage": "ir.assurance"
+    },
+    {
+      "local_layers": [
+        "physical_binding"
+      ],
+      "upstream_stage": "ir.physical"
+    },
+    {
+      "local_layers": [
+        "deployment_operations"
+      ],
+      "upstream_stage": "ir.operations"
+    },
+    {
+      "local_layers": [
+        "evidence_release"
+      ],
+      "upstream_stage": "ir.evidence_release"
+    }
+  ],
+  "status": "candidate",
+  "universe_posture": "Open-universe records enter only through exact identity/edition/schema/authority/evidence snapshots; missing required surfaces produce typed gaps and never compiler branches keyed by vendor names."
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/typed-operation-candidate-v0.1.0.schema.json",
+  "title": "Typed operation candidate",
+  "type": "object",
+  "required": [
+    "operation_id", "edition", "status", "family_id", "name", "operation_kind",
+    "semantic_owner_candidate", "signature", "effect_class", "determinism", "idempotency",
+    "totality", "information_loss", "order_sensitivity", "time_sensitivity", "statefulness",
+    "execution_modes", "preconditions", "postconditions", "laws", "refusals", "failures",
+    "resource_model", "provider_requirements", "evidence_refs", "llm_dependency", "gaps"
+  ],
+  "properties": {
+    "operation_id": {"type": "string", "pattern": "^operation\\.[a-z0-9_]+\\.[a-z0-9_]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["hypothesis", "sourced_candidate", "reviewed", "adjudicated", "merged", "rejected"]},
+    "family_id": {"type": "string", "pattern": "^operation\\.[a-z0-9_]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "operation_kind": {"enum": ["predicate", "pure_transform", "reducer", "stateful_transform", "planner", "validator", "effect_intent", "effectful_runtime", "evidence_emitter", "state_transition"]},
+    "semantic_owner_candidate": {"type": "string", "minLength": 1},
+    "signature": {
+      "type": "object",
+      "required": ["type_parameters", "inputs", "outputs", "error_type"],
+      "properties": {
+        "type_parameters": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "inputs": {"type": "array", "items": {"type": "string"}},
+        "outputs": {"type": "array", "items": {"type": "string"}},
+        "error_type": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "effect_class": {"enum": ["pure", "reads_external_state", "writes_external_state", "read_write_external_state", "emits_intent", "unadjudicated"]},
+    "determinism": {"enum": ["deterministic", "seeded", "environment_dependent", "nondeterministic", "unadjudicated"]},
+    "idempotency": {"enum": ["always", "by_key", "conditional", "never", "not_applicable", "unadjudicated"]},
+    "totality": {"enum": ["total", "partial_typed_refusal", "partial_typed_failure", "unadjudicated"]},
+    "information_loss": {"enum": ["lossless", "lossy_declared", "conditionally_lossless", "not_applicable", "unadjudicated"]},
+    "order_sensitivity": {"enum": ["insensitive", "stable", "order_required", "order_defining", "unadjudicated"]},
+    "time_sensitivity": {"enum": ["none", "event_time", "processing_time", "valid_time", "recording_time", "bitemporal", "multi_time", "unadjudicated"]},
+    "statefulness": {"enum": ["stateless", "bounded_state", "unbounded_state", "external_state", "unadjudicated"]},
+    "execution_modes": {"type": "array", "items": {"enum": ["batch", "stream", "microbatch", "incremental", "interactive", "embedded", "offline"]}, "uniqueItems": true},
+    "preconditions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "postconditions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "laws": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "refusals": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "failures": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "resource_model": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "provider_requirements": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "llm_dependency": {"enum": ["none", "prohibited_core", "quarantined_optional"]},
+    "gaps": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  },
+  "additionalProperties": false
+}
+

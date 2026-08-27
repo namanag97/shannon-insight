@@ -1,0 +1,44 @@
+{
+ "as_of": "2026-08-27",
+ "atom_total_snapshot": 16717,
+ "by_exit_port": {
+  "GATE_FAMILY_OWNER_ADJUDICATION": 126,
+  "GATE_IMPLEMENTER_OFFERS": 23,
+  "GATE_INDEPENDENT_APPRAISER": 23,
+  "GATE_LIBRARY_OWNER_RATIFICATION": 281,
+  "GATE_MODAL_RESEARCH_REQUIRED": 7,
+  "GATE_PRODUCT_ACCEPTANCE": 15,
+  "GATE_SEMANTIC_OWNER_ADJUDICATION": 108,
+  "GATE_VIA_P03_EVIDENCE_PACKAGE": 103
+ },
+ "by_program_atoms_snapshot": {
+  "P01": 23,
+  "P02": 210,
+  "P03": 2805,
+  "P04": 10784,
+  "P05": 674,
+  "P06": 674,
+  "P07": 1547
+ },
+ "by_program_ledger": {
+  "P01": 23,
+  "P02": 108,
+  "P03": 103,
+  "P04": 368,
+  "P05": 23,
+  "P06": 23,
+  "P07": 38
+ },
+ "chain_rows": 16732,
+ "chain_weighted_atoms": 16717,
+ "chains_zero_weight_drift": 15,
+ "cluster_rows": 686,
+ "clusters_in_input": 686,
+ "completion_claim": false,
+ "note": "Ports are typed gates to owner roles; nothing here closes a canonical gap.",
+ "p01_packets": 23,
+ "p02_recos": 210,
+ "p03_packs": 103,
+ "p04_workplan_rows": 368,
+ "reconciliations": 5
+}

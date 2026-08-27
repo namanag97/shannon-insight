@@ -1,0 +1,193 @@
+{
+ "axis": "composition_algebra",
+ "owned_question": "Under what algebraic laws (associativity, commutativity where declared, idempotency, identity/annihilator elements) do transformations and operators compose in a semantic library, such that Merge, Join, Satisfy, pipeline composition, lineage edges, and distributed dataflow operators remain observable, provable, and correctly attributed — including what residual (unabsorbed difference) each composite operation leaves behind?",
+ "terms": [
+  "operator composition (sequential and parallel)",
+  "associativity / association order",
+  "idempotency of merge-like joins",
+  "identity element (unit) of composition",
+  "residual / difference after contraction",
+  "lineage-bearing transformation",
+  "dataflow graph (DAG) operator semantics",
+  "typed pipeline and natural constraint on composition",
+  "determinism by replay from lineage"
+ ],
+ "non_collapse_laws": [
+  "operator association order is observable through intermediate-state carriers (e.g. partition-level intermediate artifacts), never hidden by the composer",
+  "merging two composites must not silently absorb their provenance differences; the residual between naive-merged and structurally-composed results is a first-class artifact",
+  "an operator's declared idempotency must be evidenced against a specific carrier equality, not assumed globally — duplicate-attribution checks fail loudly when the carrier equality is weaker than the operator's equality",
+  "join operators must carry and expose their join keys as part of composed type information; key-blindness is not collapse but refusal-with-residual",
+  "replacing a composite pipeline by an 'equivalent' fused operator requires an explicit proof obligation against the algebra's laws, not an internal rewrite invisible to lineage consumers",
+  "Satisfy-type constraint conjunction composes monotonically: conjoining contracts may only narrow accepted behavior, and every narrowing that rejects a previously-passing input is recorded as residual",
+  "failure/complement of one operator in a distributed DAG is observable and recoverable via lineage replay, never conflated with success of another"
+ ],
+ "carrier_requirements": [
+  "a deterministic intermediate-state artifact per composition step (RDD-style lineage-partitioned record) sufficient for replay and diffing",
+  "explicit join-key signature attached to any Join/composite so attribution duplicates are detectable",
+  "a law-manifest per operator: declared associativity, identity, idempotency, and the equality relation on which they were checked",
+  "residual carriers: explicit representation of merged-minus-inputs and inputs-minus-merged (unsatisfied contract remainder)",
+  "typed edge labels for lineage edges binding producer output type to consumer input type"
+ ],
+ "operations_or_relations": [
+  "compose (sequential operator chaining under typed interfaces)",
+  "parallel_join (DAG fan-in of independent partitions)",
+  "merge (union of datasets/effects with declared idempotency or else visible residual)",
+  "join (keyed relational join with join-key exposure)",
+  "project (relational projection carrying attribute lineage)",
+  "satisfy_conjoin (contract/constraint conjunction; monotone narrowing)",
+  "residual_merge (merge returning both result and per-input unsatisfied remainder)",
+  "replay (recover a state by re-executing its lineage edge set)",
+  "fusion_proof_obligation (optimize-by-fusing only against a discharged law proof)"
+ ],
+ "invariants": [
+  "replay determinism: re-executing the same lineage graph over the same inputs yields byte-equal outputs (Spark RDD §5 design point)",
+  "attribution uniqueness: every output row/element maps to exactly one non-duplicated derivation path given exposed join keys",
+  "monotonicity of satisfy: adding constraints never increases accepted behavior",
+  "identity preservation: composing with the declared unit leaves both value and lineage unchanged",
+  "association observability: (f ∘ g) ∘ h vs f ∘ (g ∘ h) differ only where the algebra's law manifest licenses it; intermediate carriers exist for either bracketing"
+ ],
+ "refusals": [
+  "refuse to treat associativity as automatic — accept only operators whose law manifest declares it and names its evidence",
+  "refuse joins without declared keys rather than guessing keys and duplicating attribution",
+  "refuse silent deduplication: idempotent merge collapses duplicates only under the manifest-stated equality; otherwise emit residual",
+  "refuse vendor-defined optimization passes (e.g. undocumented query rewrites) as authority for equivalence without a checkable law discharge",
+  "refuse composition across unlabelled lineage edges (type gap) even if values would happen to fit"
+ ],
+ "counterexamples": [
+  "join-key blindness: fusing a Join while discarding key metadata produces duplicate attribution when a fact row matches multiple dimension rows under a coarser equality than intended — falsifies any claim that merge idempotency holds globally",
+  "non-deterministic downstream operator breaking replay: if one vertex's execution depends on scheduling order, recomputation from lineage yields different bytes, falsifying 'determinism by replay' unless the algebra restricts vertices to deterministic functions",
+  "constraint-conjunction fallacy: two individually-Satisfied partial proofs whose conjunction fails on shared hidden assumptions — falsifies treating Satisfy as closed under arbitrary pairing",
+  "unlawful fusion: replacing map(f)∘map(g) by map(f then g) is lawful, but the same rewrite applied to a stateful aggregator changes results, proving fusion proofs cannot be carried over by analogy between operator classes"
+ ],
+ "authority_limit": "Primary literature constrains the abstract algebra (program algebra laws, relational operator semantics, lineage-based recovery, typed functorial pipelines) but does NOT prescribe any concrete schema for residuals, contract-conjunction syntax, or this compiler's Join metadata format; those are lane-local designs that must cite these works only for the mathematical and systems-theoretic properties stated, not for API choices.",
+ "sources": [
+  {
+   "source_id": "axis-comp-alg.rdd-lineage",
+   "title": "Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing",
+   "authors_or_issuer": "Matei Zaharia, Mosharaf Chowdhury, Tathagata Das, Ankur Dave, Justin Ma, Murphy McCauley, Michael J. Franklin, Scott Shenker, Ion Stoica (UC Berkeley); USENIX NSDI '12",
+   "source_class": "peer-reviewed original paper (Best Paper Award), open access",
+   "edition_or_version": "NSDI '12 proceedings version",
+   "publication_date": "2012-04",
+   "uri": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia",
+   "bounded_claims_supported": [
+    "lineage graphs over deterministic coarse-grained transformations support deterministic replay and fault recovery",
+    "fine-grained (per-record) updates degrade lineage reconstruction, bounding what compose/replay can promise",
+    "operator granularity choice is a semantic decision affecting recovery costs"
+   ],
+   "claims_not_supported": [
+    "any notion of contract residuals or Satisfy conjunction",
+    "idempotency laws for general merge outside its Transformation/Dataset abstractions",
+    "post-2012 Spark engine behaviors"
+   ],
+   "limitations": "cluster-data system context; its determinism argument presupposes deterministic narrow/wide dependency classification, which must be re-derived, not imported wholesale.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-comp-alg.foundations-of-databases",
+   "title": "Foundations of Databases: The Logical Level",
+   "authors_or_issuer": "Serge Abiteboul, Richard Hull, Victor Vianu; Addison-Wesley / webdam INRIA open full text",
+   "source_class": "author-sanctioned freely available graduate textbook",
+   "edition_or_version": "1995 edition, full-text PDFs posted by authors",
+   "publication_date": "1995",
+   "uri": "http://webdam.inria.fr/Alice/",
+   "bounded_claims_supported": [
+    "algebraic characterization of relational operators: selection, projection, join, union, difference as a calculus with known identities and containment results",
+    "conjunctive-query containment and its connection to homomorphisms (basis for what 'equivalent composition' means for Satisfy-like conjunctive fragments)",
+    "semantics of set-vs-bag distinction relevant to idempotent merge"
+   ],
+   "claims_not_supported": [
+    "distributed execution or lineage materialization",
+    "typing discipline for higher-order/functional pipelines",
+    "any probabilistic or approximate merge semantics"
+   ],
+   "limitations": "finite flat-relation setting; no lineage carriers and no streaming/operator-graph runtime semantics; equational results must be lifted case-by-case.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-comp-alg.dryad-dag",
+   "title": "Dryad: Distributed Data-Parallel Programs from Sequential Building Blocks",
+   "authors_or_issuer": "Michael Isard, Mihai Budiu, Yuan Yu, Andrew Birrell, Dennis Fetterly (Microsoft Research Silicon Valley); EuroSys 2007 / ACM",
+   "source_class": "peer-reviewed original paper (free author copy via Microsoft Research)",
+   "edition_or_version": "EuroSys 2007 conference version",
+   "publication_date": "2007-06",
+   "uri": "https://www.microsoft.com/en-us/research/publication/dryad-distributed-data-parallel-programs-from-sequential-building-blocks/",
+   "bounded_claims_supported": [
+    "composition model where applications combine computational vertices and communication channels into a DAG with the engine handling concurrency",
+    "encoding of structured operations (including relational-style join and merge) as subgraphs — precedent for operator → algebra-of-DAG reduction",
+    "edge/channel abstraction as the typed lineage-edge analogue"
+   ],
+   "claims_not_supported": [
+    "equational laws among vertices (Dryad does not prove associativity/idempotency; it provides mechanism, not algebra)",
+    "residual computation after merge/join"
+   ],
+   "limitations": "pre-RDD system; publisher is also a vendor, though the cited object is peer-reviewed academic work rather than a product document; lineage story is weaker than RDDs.",
+   "confidence": "medium-high"
+  },
+  {
+   "source_id": "axis-comp-alg.dataflow-model",
+   "title": "The Dataflow Model: A Practical Approach to Lambdacorrectness",
+   "authors_or_issuer": "Tyler Akidau, Alex Balikov, Kaya Bekiroğlu, Slava Chernyak, Josh Haberman, Reuven Lax, Sam McVeety, Daniel Mills, Paul Nordstrom, Ross Whizginsky, Sasha Zubtsov (Google); PVLDB Vol. 8 No. 12",
+   "source_class": "peer-reviewed original paper, open access",
+   "edition_or_version": "VLDB 2015, PVLDB 8(12):1792-1803",
+   "publication_date": "2015-08",
+   "uri": "https://www.vldb.org/pvldb/vol8/p1792-Akidau.pdf",
+   "bounded_claims_supported": [
+    "correctness-equivalent composition windows/triggers/watermarks as composable semantic axes for unbounded data",
+    "exactly-once vs at-least-once accumulation modes as an explicit, user-visible composition property (directly bearing on idempotent merge semantics)",
+    "proving that streaming composition choices are observables, not implementation details"
+   ],
+   "claims_not_supported": [
+    "batch-transactional contract composition (Satisfy) semantics",
+    "static typing of pipelines",
+    "anything about cost models or any particular commercial product's guarantees"
+   ],
+   "limitations": "streaming/unbounded-data framing; accumulation-mode and windowing idioms require translation before reuse as generic merge laws.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-comp-alg.wadler-monads",
+   "title": "Monads for Functional Programming",
+   "authors_or_issuer": "Philip Wadler (University of Glasgow); Marktoberdorf Summer School proceedings, Springer",
+   "source_class": "peer-reviewed original chapter, author-hosted copy",
+   "edition_or_version": "author preprint of the published chapter",
+   "publication_date": "1995",
+   "uri": "https://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf",
+   "bounded_claims_supported": [
+    "monadic composition as the canonical typed-pipeline discipline (compose/bind with unit; associativity as observable law)",
+    "skipping-vs-propagating evaluator pairs showing how failures thread through composition with the laws held fixed",
+    "category-theory-free practical presentation: laws stated by equational examples rather than category formalism"
+   ],
+   "claims_not_supported": [
+    "distributed execution, lineage, or partitioned carriers",
+    "relational/join algebra",
+    "any claim that all domain effects form a monad — evidence must be checked per effect signature"
+   ],
+   "limitations": "single-thread functional-programming scope; no data-parallel or provenance content.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-comp-alg.bird-demoor-aop",
+   "title": "Algebra of Programming",
+   "authors_or_issuer": "Richard Bird, Oege de Moor; Prentice Hall International Series in Computer Science",
+   "source_class": "original monograph (print); official publisher-side university page verified",
+   "edition_or_version": "1st edition, September 1996",
+   "publication_date": "1996-09",
+   "uri": "https://www.cs.ox.ac.uk/publications/books/algebra/",
+   "bounded_claims_supported": [
+    "existence of a program-level calculus (relational algebra of programs, folds/unfolds, hylomorphisms, greedy/dynamic-programming derivations) in which compositional rewrites are law-governed — the deepest precedent for fusion_proof_obligation",
+    "only supplementary materials (bibliography, programs, solutions) are openly downloadable from the cited page"
+   ],
+   "claims_not_supported": [
+    "specific lemma numbers or theorem statements cited from the body text (full text not openly accessible; cannot quote-checked here)",
+    "distributed or lineage-aware settings"
+   ],
+   "limitations": "full text out of print / print-only; page confirms availability status only. Treat any detailed reliance on its internal theory as a vacancy until the text is obtained.",
+   "confidence": "medium"
+  }
+ ],
+ "evidence_vacancies_if_any": [
+  "Bird & de Moor Algebra of Programming: no authoritative open full text; the precise fold-unfold/fusion lemmas wanted for operator refactoring laws are inaccessible for direct quotation (URI above verifies existence, not content)",
+  "no primary source found covering contract composition residuals as a formal notion (design-by-contract refinement calculi would be candidates; none was verifiable as open-access primary literature within this pass)",
+  "bag-semantics equational laws for modern engines (beyond set-based Foundations of Databases treatment) lack a canonical primary reference; needs a dedicated search for peer-reviewed bag-algebra papers"
+ ]
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/representation-crosswalk-v1.json",
+  "title": "Representation-to-provider-neutral crosswalk candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["crosswalk_id", "source_representation", "source_layer", "source_record_ids", "target_representation", "target_layer", "target_record_ids", "direction", "preservation", "prerequisites", "preserved_semantics", "lost_or_at_risk", "failure_modes", "evidence_refs", "test_obligations", "owner_context", "status"],
+  "properties": {
+    "crosswalk_id": {"type": "string", "pattern": "^xwalk\\.[0-9]{3}$"},
+    "source_representation": {"type": "string", "minLength": 2},
+    "source_layer": {"enum": ["encoding_container_or_layout"]},
+    "source_record_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^(shape|dt\\.(carrier|semantic))\\.[a-z0-9_.-]+$"}},
+    "target_representation": {"enum": ["provider-neutral data type/shape graph"]},
+    "target_layer": {"enum": ["carrier_logical_or_semantic"]},
+    "target_record_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^(shape|dt\\.(carrier|semantic))\\.[a-z0-9_.-]+$"}},
+    "direction": {"enum": ["bidirectional_under_profile", "one_way_or_profile_dependent"]},
+    "preservation": {"enum": ["lossless_under_profile", "partial", "lossy_or_partial"]},
+    "prerequisites": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "preserved_semantics": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "lost_or_at_risk": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "failure_modes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^DSS-[0-9]{3}$"}},
+    "test_obligations": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}},
+    "owner_context": {"type": "string", "pattern": "^bc\\.[a-z0-9_.-]+$"},
+    "status": {"enum": ["candidate", "verified"]}
+  }
+}

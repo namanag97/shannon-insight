@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "authority-trust-bearer-archetypes.jsonl": {
+      "bytes": 12727,
+      "sha256": "bf4f5d904089668f551d6b2ff6139b1fbcf58a3d323bf9dff8af2f8bba08e7b2"
+    },
+    "authority-trust-coordinate-ontology.json": {
+      "bytes": 3668,
+      "sha256": "e41a2d78c021ab1d81a47f1239cf564bee67b74cd241f5780f58e87b69d62d27"
+    },
+    "authority-trust-operation-kernels.jsonl": {
+      "bytes": 24552,
+      "sha256": "9d94d1f44f581178444177af64e6eca425d4c2f4f12fed38255048ca4d59ba59"
+    },
+    "extension-candidates.jsonl": {
+      "bytes": 45590,
+      "sha256": "0171e387a09fda3a0f57264af09efd7f531ce7983d4f76680f2a1954a8bb51b8"
+    },
+    "member-authority-trust-routes.jsonl": {
+      "bytes": 847457,
+      "sha256": "7cfecb16a128f5c8647757e92706f786b97a097ff433361a4ef7d574ef8fc75b"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 60916,
+      "sha256": "bf7a28767291392cbec2a4d7497142ee4d61259e79a720bc5d6c45bf3ef90fad"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 5903,
+      "sha256": "df3943079a998f001a2297f3011b7e70e25f208e181c9cf6a9bc79038404e444"
+    },
+    "structural-family-dockets.jsonl": {
+      "bytes": 36129,
+      "sha256": "1c863115f234bc38358edb29e649ee1cf962184b2cf5a5ee4dc91d602ae1caf4"
+    },
+    "summary.json": {
+      "bytes": 756,
+      "sha256": "dbc2d6ed4caaf1e9c6c0af28974abf35883e119bfa9acdfdf046b2f8a1300bd7"
+    }
+  },
+  "manifest_id": "manifest.authority-trust-coordinate-ontology-and-rebase.v1"
+}

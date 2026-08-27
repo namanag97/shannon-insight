@@ -1,0 +1,23 @@
+{
+  "$id": "https://san.example/spec/context-map/acl.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "acl_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "acl_id",
+    "relation_id",
+    "foreign_context_id",
+    "local_context_id",
+    "totality",
+    "information_preservation",
+    "unknown_policy",
+    "refusals"
+  ],
+  "title": "SAN candidate context-map acl",
+  "type": "object"
+}

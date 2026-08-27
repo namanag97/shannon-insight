@@ -1,0 +1,57 @@
+{
+  "binding_chain": [
+    "capability requirement",
+    "provider-neutral capability class",
+    "versioned concrete offer",
+    "target profile",
+    "target occurrence",
+    "compatibility cell",
+    "qualification receipt",
+    "finite resource/cost proof",
+    "binding or typed refusal"
+  ],
+  "completion_claim": false,
+  "constitutional_laws": [
+    "Provider and vendor names never own semantics or determine dispatch.",
+    "Every blocking resource, state, time, network and cost dimension is finite.",
+    "Mutable offers and limits are dated and scope-bound.",
+    "Binding evidence is invalidated by relevant artifact, configuration, target, region, rate, quota or oracle changes.",
+    "Degradation is legal only when declared by intent, typed, authorized and receipted.",
+    "Unknown or stale behavior fails closed as a typed gap.",
+    "All core generation and validation are deterministic and have no LLM or generative dependency.",
+    "Removing every model, LLM or agent extension leaves parsing, typing, constraint solving, execution, authorization and receipt verification intact.",
+    "A model or agent output is a typed proposal until deterministic validation and the owning authority accept it.",
+    "Formal-model classification, provider-offer matching, model validation, terminal status and result verification remain deterministic even when an optional agent proposed the candidate model.",
+    "A solution callback is not complete-enumeration intent or proof; the exact adapter configuration and completion oracle are binding inputs."
+  ],
+  "edition": 1,
+  "identity_separations": [
+    "provider organization != provider class != implementation artifact",
+    "implementation artifact != edition/version != concrete offer != deployed occurrence",
+    "capability class != observed offer",
+    "target class/profile != target occurrence",
+    "documented limit != probed limit",
+    "list price != measured cost",
+    "semantic conformance != performance",
+    "library != engine != managed service",
+    "availability region != residency guarantee"
+  ],
+  "metamodel_id": "san.provider-target-physical-binding-registry",
+  "reconciled_contracts": [
+    "research/domain_atlas/compiler/compiler-metamodel.json",
+    "research/domain_atlas/compiler/requirement-offer-binding.schema.json",
+    "research/domain_atlas/universes/universe-contract.json",
+    "research/domain_atlas/universes/query_compute_kernels/metamodel.json",
+    "research/domain_atlas/universes/runtime_compute_resource/compiler-contract.json",
+    "research/domain_atlas/universes/source_systems/compiler-contract.json",
+    "research/domain_atlas/universes/pipeline_dataflow/manifest.json",
+    "research/domain_atlas/universes/encoding_compression/manifest.json",
+    "research/domain_atlas/universes/persistence_lakehouse/coverage-report.json",
+    "research/domain_atlas/universes/universe-coverage-audit.json",
+    "research/domain_atlas/compiler/model_class_adjudication/manifest.json",
+    "research/domain_atlas/compiler/conformance_evaluation/executions/cp_sat_exact_scope/protocol.json",
+    "research/domain_atlas/compiler/conformance_evaluation/executions/cp_sat_exact_scope/runs/run-20260826-cpsat-macos-arm64-python3_14-002/manifest.json"
+  ],
+  "scope": "Provider-neutral physical binding from capability requirements to versioned offers and qualified target occurrences; optional model/LLM/agent assistance may propose inputs but is never required by or authoritative over this deterministic core.",
+  "status": "candidate_research_contract"
+}

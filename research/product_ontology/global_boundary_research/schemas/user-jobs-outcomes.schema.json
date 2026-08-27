@@ -1,0 +1,42 @@
+{
+  "$id": "https://san.example/product-boundary/user_job_outcome.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "candidate_id": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "falsifier": {},
+    "harmed_parties": {},
+    "job": {},
+    "measurable_outcomes": {},
+    "primary_users": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "user_job_outcome"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "candidate_id",
+    "primary_users",
+    "job",
+    "measurable_outcomes",
+    "harmed_parties",
+    "falsifier"
+  ],
+  "title": "Global boundary research: user_job_outcome",
+  "type": "object"
+}

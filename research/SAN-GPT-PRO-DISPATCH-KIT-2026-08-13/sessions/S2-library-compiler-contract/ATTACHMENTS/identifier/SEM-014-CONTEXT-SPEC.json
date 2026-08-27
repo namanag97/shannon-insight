@@ -1,0 +1,2611 @@
+{
+  "family_id": "context.foundation.identifier",
+  "edition": 6,
+  "sovereign_question": "Given an admitted identifier contract, an immutable certified representation definition, explicit supplied construction material and any required committed receipt, what typed token is admitted, in which canonical forms, or why must admission refuse?",
+  "architectural_class": "SovereignSemanticFamily",
+  "semantic_shapes": [
+    "ValueAlgebra",
+    "DecisionFamily",
+    "StatefulAggregateFamily"
+  ],
+  "universal_surfaces": {
+    "charter": {
+      "id": "foundation.identifier.surface.charter",
+      "edition": 6,
+      "occurrence": "foundation.identifier.surface.charter.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.surface.charter.occurrence",
+        "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+      }
+    },
+    "native_rust_api": {
+      "id": "foundation.identifier.surface.native-rust-api",
+      "edition": 6,
+      "occurrence": "foundation.identifier.surface.native-rust-api.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.surface.native-rust-api.occurrence",
+        "value": "0c504c2021c9d3fb69c5ac699f6c600c1cbb89b93bb8d406964be1508e574b70"
+      }
+    },
+    "declarable_decision": {
+      "id": "foundation.identifier.surface.declarable-decisions",
+      "edition": 6,
+      "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+      }
+    },
+    "evolution": {
+      "id": "foundation.identifier.surface.evolution",
+      "edition": 6,
+      "occurrence": "foundation.identifier.surface.evolution.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.surface.evolution.occurrence",
+        "value": "90aa238f4898f2c3491b486bc4d6a077282820191056ea08b408509e3fdac55a"
+      }
+    },
+    "proof_evidence": {
+      "id": "foundation.identifier.surface.proof-evidence",
+      "edition": 6,
+      "occurrence": "foundation.identifier.surface.proof-evidence.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.surface.proof-evidence.occurrence",
+        "value": "6fd1b6b98c526d7c2d29a7648789659f1d8928ec9f920cff86beab1690337de9"
+      }
+    },
+    "provider_neutral_composition": {
+      "id": "foundation.identifier.surface.provider-neutral-composition",
+      "edition": 6,
+      "occurrence": "foundation.identifier.surface.provider-neutral-composition.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.surface.provider-neutral-composition.occurrence",
+        "value": "ef5ec2426c6f1ae9dcfcee19fbfc7bed776be8f6ef13fb5351a1736de4d4275a"
+      }
+    }
+  },
+  "native_rust_api": [
+    {
+      "id": "foundation.identifier.operation.admit-accepted-text",
+      "symbol": "admit_accepted_text",
+      "kind": "Operation",
+      "input_type": "accepted-text-request",
+      "output_type": "normalized-identifier",
+      "refusal_type": "ingress-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.admit-profile",
+      "symbol": "admit_profile",
+      "kind": "Operation",
+      "input_type": "identifier-profile-carrier",
+      "output_type": "identifier-profile-definition",
+      "refusal_type": "profile-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.admit-series-definition",
+      "symbol": "admit_series_definition",
+      "kind": "Operation",
+      "input_type": "series-definition-carrier",
+      "output_type": "series-definition",
+      "refusal_type": "series-definition-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.admit-spec",
+      "symbol": "admit_spec",
+      "kind": "Operation",
+      "input_type": "identifier-carrier-spec",
+      "output_type": "identifier-spec",
+      "refusal_type": "spec-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.canonical-octets",
+      "symbol": "canonical_octets",
+      "kind": "Operation",
+      "input_type": "dynamic-identifier",
+      "output_type": "canonical-identifier-octets",
+      "refusal_type": "form-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.canonical-text",
+      "symbol": "canonical_text",
+      "kind": "Operation",
+      "input_type": "dynamic-identifier",
+      "output_type": "canonical-identifier-text",
+      "refusal_type": "form-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.collision-budget",
+      "symbol": "collision_budget",
+      "kind": "Operation",
+      "input_type": "collision-budget-input",
+      "output_type": "collision-budget-answer",
+      "refusal_type": "collision-budget-refusal",
+      "budget_type": "arithmetic-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.compare-declared",
+      "symbol": "compare_declared",
+      "kind": "Operation",
+      "input_type": "identifier-pair",
+      "output_type": "ordering",
+      "refusal_type": "comparison-refusal",
+      "budget_type": "comparison-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.construct-dynamic",
+      "symbol": "construct_dynamic",
+      "kind": "Operation",
+      "input_type": "dynamic-construction-request",
+      "output_type": "issued-dynamic-identifier",
+      "refusal_type": "construction-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.construct-static",
+      "symbol": "construct_static",
+      "kind": "Operation",
+      "input_type": "static-construction-request",
+      "output_type": "issued-static-identifier",
+      "refusal_type": "construction-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.display-form",
+      "symbol": "display_form",
+      "kind": "Operation",
+      "input_type": "identifier-disclosure-request",
+      "output_type": "display-form",
+      "refusal_type": "disclosure-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.equivalent",
+      "symbol": "equivalent",
+      "kind": "Operation",
+      "input_type": "identifier-pair",
+      "output_type": "equality-answer",
+      "refusal_type": "comparison-refusal",
+      "budget_type": "comparison-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.erase",
+      "symbol": "erase",
+      "kind": "Operation",
+      "input_type": "static-identifier",
+      "output_type": "dynamic-identifier",
+      "refusal_type": "no-semantic-refusal",
+      "budget_type": "constant-work"
+    },
+    {
+      "id": "foundation.identifier.operation.observe-lifetime",
+      "symbol": "observe_lifetime",
+      "kind": "Operation",
+      "input_type": "identifier-lifetime-observation",
+      "output_type": "lifetime-answer",
+      "refusal_type": "lifetime-refusal",
+      "budget_type": "observation-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.parse-canonical-octets",
+      "symbol": "parse_canonical_octets",
+      "kind": "Operation",
+      "input_type": "canonical-octets-request",
+      "output_type": "parsed-dynamic-identifier",
+      "refusal_type": "parse-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.parse-canonical-text-dynamic",
+      "symbol": "parse_canonical_text_dynamic",
+      "kind": "Operation",
+      "input_type": "dynamic-canonical-text-request",
+      "output_type": "parsed-dynamic-identifier",
+      "refusal_type": "parse-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.parse-canonical-text-static",
+      "symbol": "parse_canonical_text_static",
+      "kind": "Operation",
+      "input_type": "static-canonical-text-request",
+      "output_type": "parsed-static-identifier",
+      "refusal_type": "parse-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.profile-fits-region",
+      "symbol": "profile_fits_region",
+      "kind": "Operation",
+      "input_type": "region-profile-pair",
+      "output_type": "region-compatibility-witness",
+      "refusal_type": "region-mismatch",
+      "budget_type": "comparison-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.refine",
+      "symbol": "refine",
+      "kind": "Operation",
+      "input_type": "dynamic-identifier-and-expected-profile",
+      "output_type": "static-identifier",
+      "refusal_type": "refinement-refusal",
+      "budget_type": "constant-work"
+    },
+    {
+      "id": "foundation.identifier.operation.series-decide",
+      "symbol": "series_decide",
+      "kind": "Operation",
+      "input_type": "series-decision-input",
+      "output_type": "series-decision-outcome",
+      "refusal_type": "series-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.series-evolve",
+      "symbol": "series_evolve",
+      "kind": "Operation",
+      "input_type": "series-fold-input",
+      "output_type": "series-state",
+      "refusal_type": "series-fold-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.series-genesis",
+      "symbol": "series_genesis",
+      "kind": "Operation",
+      "input_type": "series-genesis-input",
+      "output_type": "series-state",
+      "refusal_type": "series-genesis-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.series-kernel-contribution",
+      "symbol": "series_kernel_contribution",
+      "kind": "Operation",
+      "input_type": "series-kernel-input",
+      "output_type": "kernel-mutation-contribution",
+      "refusal_type": "kernel-mapping-refusal",
+      "budget_type": "mapping-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.series-observe",
+      "symbol": "series_observe",
+      "kind": "Operation",
+      "input_type": "series-observation-input",
+      "output_type": "series-view-page",
+      "refusal_type": "resource-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.operation.upcast-series-event",
+      "symbol": "upcast_series_event",
+      "kind": "Operation",
+      "input_type": "versioned-series-event-carrier",
+      "output_type": "admitted-series-event-batch",
+      "refusal_type": "series-upcast-refusal",
+      "budget_type": "caller-budget"
+    },
+    {
+      "id": "foundation.identifier.type.admitted-series-event-batch",
+      "symbol": "admitted_series_event_batch",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.authority-evaluation",
+      "symbol": "authority_evaluation",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.caller-budget",
+      "symbol": "caller_budget",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.canonical-identifier-octets",
+      "symbol": "canonical_identifier_octets",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.canonical-identifier-text",
+      "symbol": "canonical_identifier_text",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.collision-budget-answer",
+      "symbol": "collision_budget_answer",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.collision-budget-input",
+      "symbol": "collision_budget_input",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.collision-budget-refusal",
+      "symbol": "collision_budget_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.comparison-refusal",
+      "symbol": "comparison_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.construction-material",
+      "symbol": "construction_material",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.construction-refusal",
+      "symbol": "construction_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.construction-request",
+      "symbol": "construction_request",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.contract-mismatch",
+      "symbol": "contract_mismatch",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.deployment-contract-mismatch",
+      "symbol": "deployment_contract_mismatch",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.disclosure-refusal",
+      "symbol": "disclosure_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.dynamic-identifier",
+      "symbol": "dynamic_identifier",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.equality-answer",
+      "symbol": "equality_answer",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.external-ordinal-assignment-requirement",
+      "symbol": "external_ordinal_assignment_requirement",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.form-refusal",
+      "symbol": "form_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.historical-parse-authorization",
+      "symbol": "historical_parse_authorization",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier",
+      "symbol": "identifier",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-carrier-spec",
+      "symbol": "identifier_carrier_spec",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-decision-contribution-card",
+      "symbol": "identifier_decision_contribution_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-issuance-witness",
+      "symbol": "identifier_issuance_witness",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-kind-definition-card",
+      "symbol": "identifier_kind_definition_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-kind-ref",
+      "symbol": "identifier_kind_ref",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-policy-bundle-card",
+      "symbol": "identifier_policy_bundle_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-profile-carrier",
+      "symbol": "identifier_profile_carrier",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-profile-certification-card",
+      "symbol": "identifier_profile_certification_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-profile-definition",
+      "symbol": "identifier_profile_definition",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-profile-definition-card",
+      "symbol": "identifier_profile_definition_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-profile-ref",
+      "symbol": "identifier_profile_ref",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-region-shape",
+      "symbol": "identifier_region_shape",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-requirement-card",
+      "symbol": "identifier_requirement_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-selection-card",
+      "symbol": "identifier_selection_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-series-definition-card",
+      "symbol": "identifier_series_definition_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-series-resource-requirement-card",
+      "symbol": "identifier_series_resource_requirement_card",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.identifier-spec",
+      "symbol": "identifier_spec",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.imported-decision-evidence",
+      "symbol": "imported_decision_evidence",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.ingress-refusal",
+      "symbol": "ingress_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.issued",
+      "symbol": "issued",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.kernel-mapping-refusal",
+      "symbol": "kernel_mapping_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.kernel-mutation-contribution",
+      "symbol": "kernel_mutation_contribution",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.lifetime-answer",
+      "symbol": "lifetime_answer",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.lifetime-evidence",
+      "symbol": "lifetime_evidence",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.namespace-binding-requirement",
+      "symbol": "namespace_binding_requirement",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.normalized-identifier",
+      "symbol": "normalized_identifier",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.operation-failure",
+      "symbol": "operation_failure",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.parse-admission-witness",
+      "symbol": "parse_admission_witness",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.parse-refusal",
+      "symbol": "parse_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.parsed",
+      "symbol": "parsed",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.profile-refusal",
+      "symbol": "profile_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.refinement-refusal",
+      "symbol": "refinement_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.region-compatibility-witness",
+      "symbol": "region_compatibility_witness",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.region-mismatch",
+      "symbol": "region_mismatch",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.resource-refusal",
+      "symbol": "resource_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-command-envelope",
+      "symbol": "series_command_envelope",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-decision-context",
+      "symbol": "series_decision_context",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-decision-outcome",
+      "symbol": "series_decision_outcome",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-definition",
+      "symbol": "series_definition",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-definition-carrier",
+      "symbol": "series_definition_carrier",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-definition-refusal",
+      "symbol": "series_definition_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-fold-refusal",
+      "symbol": "series_fold_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-genesis-refusal",
+      "symbol": "series_genesis_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-kernel-context",
+      "symbol": "series_kernel_context",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-observation-query",
+      "symbol": "series_observation_query",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-refusal",
+      "symbol": "series_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-resource-requirement",
+      "symbol": "series_resource_requirement",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-state",
+      "symbol": "series_state",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-upcast-context",
+      "symbol": "series_upcast_context",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-upcast-refusal",
+      "symbol": "series_upcast_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.series-view-page",
+      "symbol": "series_view_page",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.spec-refusal",
+      "symbol": "spec_refusal",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.static-profile",
+      "symbol": "static_profile",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.value-provenance",
+      "symbol": "value_provenance",
+      "kind": "Type"
+    },
+    {
+      "id": "foundation.identifier.type.versioned-series-event-carrier",
+      "symbol": "versioned_series_event_carrier",
+      "kind": "Type"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "foundation.identifier.decision.kind-role",
+      "authority_policy": "foundation.identifier.authority.kind-role",
+      "value_type": "foundation.identifier.decision-value.kind-role",
+      "contribution_algebra": "Exact",
+      "absence": "Refuse",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d01",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d01.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d01.occurrence",
+          "value": "9c81624e636973a279422cb892540b350b2de91b52589d3d8a253344f911f466"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.equality-basis",
+      "authority_policy": "foundation.identifier.authority.equality-basis",
+      "value_type": "foundation.identifier.decision-value.equality-basis",
+      "contribution_algebra": "Exact",
+      "absence": "Refuse",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d02",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d02.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d02.occurrence",
+          "value": "701d9a5c5c0216415567a3421a68d1a8c1ab6274f07342984c2943e4474e4dae"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.construction-mode",
+      "authority_policy": "foundation.identifier.authority.construction-mode",
+      "value_type": "foundation.identifier.decision-value.construction-mode",
+      "contribution_algebra": "Exact",
+      "absence": "Refuse",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d03",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d03.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d03.occurrence",
+          "value": "602c3fad230b9d5694a12fd00ad84d6862137c908f21af70640667bb9eaf9704"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.profile-generation",
+      "authority_policy": "foundation.identifier.authority.profile-generation",
+      "value_type": "foundation.identifier.decision-value.profile-generation",
+      "contribution_algebra": "Exact",
+      "absence": "Refuse",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d04",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d04.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d04.occurrence",
+          "value": "909f8296f396b9dcea1a756559a782b03b673f8aa1d6d834c204f28ae768ed14"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.uniqueness-scope",
+      "authority_policy": "foundation.identifier.authority.uniqueness-scope",
+      "value_type": "foundation.identifier.decision-value.uniqueness-scope",
+      "contribution_algebra": "Meet",
+      "absence": "Refuse",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d05",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d05.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d05.occurrence",
+          "value": "28ab91380d2743fd54eb11b39131c51a40350ead194c82c2957be15c1647d732"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "MigrationRequired",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.collision-requirement",
+      "authority_policy": "foundation.identifier.authority.collision-requirement",
+      "value_type": "foundation.identifier.decision-value.collision-requirement",
+      "contribution_algebra": "Max",
+      "absence": "Refuse",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d06",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d06.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d06.occurrence",
+          "value": "ebf3906f7d4fa3353bbc3e6b82759cc52451cff88227bc282875c63d6f851841"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Refinement",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.namespace-authority",
+      "authority_policy": "foundation.identifier.authority.namespace-authority",
+      "value_type": "foundation.identifier.decision-value.namespace-authority",
+      "contribution_algebra": "Exact",
+      "absence": "ExplicitDefault",
+      "binding_phase": "RuntimeCall",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d07",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d07.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d07.occurrence",
+          "value": "7eea861c5d3aca6291c7228177af43408c5c068783ef3eb6a465df15ba1d7a26"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.lifetime-reuse",
+      "authority_policy": "foundation.identifier.authority.lifetime-reuse",
+      "value_type": "foundation.identifier.decision-value.lifetime-reuse",
+      "contribution_algebra": "Meet",
+      "absence": "Refuse",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d08",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d08.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d08.occurrence",
+          "value": "7a15d25b1f7f9822938526a2c3da7c3a849492f6728eb95c67541422cb60ca9c"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Refinement",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.ordering",
+      "authority_policy": "foundation.identifier.authority.ordering",
+      "value_type": "foundation.identifier.decision-value.ordering",
+      "contribution_algebra": "Exact",
+      "absence": "ExplicitDefault",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d09",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d09.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d09.occurrence",
+          "value": "82d2eb25794ff9a541b256f314ee5bb440da27b3fbd0de8d250e7414d76a9b31"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.accepted-ingress",
+      "authority_policy": "foundation.identifier.authority.accepted-ingress",
+      "value_type": "foundation.identifier.decision-value.accepted-ingress",
+      "contribution_algebra": "Meet",
+      "absence": "ExplicitDefault",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d10",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d10.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d10.occurrence",
+          "value": "28545c30f3d663a88aa8ebcf5314dade0014a3349e8ed8191c958e3e0b29eac3"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Refinement",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.interaction",
+      "authority_policy": "foundation.identifier.authority.interaction",
+      "value_type": "foundation.identifier.decision-value.interaction",
+      "contribution_algebra": "Meet",
+      "absence": "Refuse",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d11",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d11.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d11.occurrence",
+          "value": "3acfc4dcb25014efad055597e87f41c57146293216d97e814adf6f465d679a07"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Refinement",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.disclosure",
+      "authority_policy": "foundation.identifier.authority.disclosure",
+      "value_type": "foundation.identifier.decision-value.disclosure",
+      "contribution_algebra": "Max",
+      "absence": "ExplicitDefault",
+      "binding_phase": "RuntimeCall",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d12",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d12.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d12.occurrence",
+          "value": "0be0b8bb804e63df821df4e66d3ef110adc8ab8052b8e6458a0fad371534da15"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Refinement",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.normalization-confusable",
+      "authority_policy": "foundation.identifier.authority.normalization-confusable",
+      "value_type": "foundation.identifier.decision-value.normalization-confusable",
+      "contribution_algebra": "Meet",
+      "absence": "ExplicitDefault",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d13",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d13.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d13.occurrence",
+          "value": "b46e6c12a96341530eab0681e080cc41551d4609923a6f985ed027435bc3a496"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.error-model",
+      "authority_policy": "foundation.identifier.authority.error-model",
+      "value_type": "foundation.identifier.decision-value.error-model",
+      "contribution_algebra": "Meet",
+      "absence": "ExplicitDefault",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d14",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d14.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d14.occurrence",
+          "value": "8df87a1e6255151014813906f591b6c2dcdebf054e320f57b29bdd1df6906777"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.resource-budgets",
+      "authority_policy": "foundation.identifier.authority.resource-budgets",
+      "value_type": "foundation.identifier.decision-value.resource-budgets",
+      "contribution_algebra": "Max",
+      "absence": "Refuse",
+      "binding_phase": "RuntimeCall",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d15",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d15.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d15.occurrence",
+          "value": "291b3e6159516c63172d52827cb23471dcec473ca5633e6c742962179d6e8841"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Refinement",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.series-progression",
+      "authority_policy": "foundation.identifier.authority.series-progression",
+      "value_type": "foundation.identifier.decision-value.series-progression",
+      "contribution_algebra": "CertifiedCustom",
+      "absence": "Refuse",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d16",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d16.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d16.occurrence",
+          "value": "131405fc860438f42a57e17afedf615516ea224012617fc44ec26d15734ab9b7"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.series-reservation-expiry",
+      "authority_policy": "foundation.identifier.authority.series-reservation-expiry",
+      "value_type": "foundation.identifier.decision-value.series-reservation-expiry",
+      "contribution_algebra": "CertifiedCustom",
+      "absence": "Refuse",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d17",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d17.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d17.occurrence",
+          "value": "077b9ee7943e6739e8bb862475a571038922b9d99a059b464df2dd7482d40815"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.series-terminal-accounting",
+      "authority_policy": "foundation.identifier.authority.series-terminal-accounting",
+      "value_type": "foundation.identifier.decision-value.series-terminal-accounting",
+      "contribution_algebra": "CertifiedCustom",
+      "absence": "Refuse",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d18",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d18.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d18.occurrence",
+          "value": "03f9a17cc5e9fb04255dbf40e4beeac60b915b640b36a6691201163ec14a77b7"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.series-period-successor",
+      "authority_policy": "foundation.identifier.authority.series-period-successor",
+      "value_type": "foundation.identifier.decision-value.series-period-successor",
+      "contribution_algebra": "CertifiedCustom",
+      "absence": "Refuse",
+      "binding_phase": "Compile",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d19",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d19.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d19.occurrence",
+          "value": "8272f340ae04d904265a159afa58edd3deac96898b666a90ac2bb2cd3f9b88f5"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Breaking",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.read-write-generations",
+      "authority_policy": "foundation.identifier.authority.read-write-generations",
+      "value_type": "foundation.identifier.decision-value.read-write-generations",
+      "contribution_algebra": "Meet",
+      "absence": "Refuse",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d20",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d20.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d20.occurrence",
+          "value": "99d9fd2250c5e92a2a1b058b425a2a1d16ca3e91666b5cbf9e499c1bb6898815"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "CoexistenceOnly",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.migration-retirement",
+      "authority_policy": "foundation.identifier.authority.migration-retirement",
+      "value_type": "foundation.identifier.decision-value.migration-retirement",
+      "contribution_algebra": "Meet",
+      "absence": "Refuse",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d21",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d21.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d21.occurrence",
+          "value": "8376c6fad8ce8c93367d783970f8daf1a20fb1b2672bcb5d0965af7d66cf2403"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "MigrationRequired",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.witness-retention",
+      "authority_policy": "foundation.identifier.authority.witness-retention",
+      "value_type": "foundation.identifier.decision-value.witness-retention",
+      "contribution_algebra": "Max",
+      "absence": "ExplicitDefault",
+      "binding_phase": "ApplicationClosure",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d22",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d22.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d22.occurrence",
+          "value": "fe4e4d70f701a2aea04419bca04c8882158c41681b467133c1e0e67ca96cfb5e"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Refinement",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.series-resource-requirement",
+      "authority_policy": "foundation.identifier.authority.series-resource-requirement",
+      "value_type": "foundation.identifier.decision-value.series-resource-requirement",
+      "contribution_algebra": "CertifiedCustom",
+      "absence": "Refuse",
+      "binding_phase": "EnvironmentBind",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d23",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d23.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d23.occurrence",
+          "value": "150acfe4f7384ee7f448031d67a1e32c94bad5126298af65f3deddccf385ba4d"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "CoexistenceOnly",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    },
+    {
+      "id": "foundation.identifier.decision.refusal-disclosure",
+      "authority_policy": "foundation.identifier.authority.refusal-disclosure",
+      "value_type": "foundation.identifier.decision-value.refusal-disclosure",
+      "contribution_algebra": "Max",
+      "absence": "ExplicitDefault",
+      "binding_phase": "RuntimeCall",
+      "absence_basis": {
+        "id": "foundation.identifier.decision-basis.id-d24",
+        "edition": 6,
+        "occurrence": "foundation.identifier.decision-basis.id-d24.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.decision-basis.id-d24.occurrence",
+          "value": "f8f5efe6c904f80328c4387a58eb779d18a3120c05acdb94102af43bd6eaecdd"
+        }
+      },
+      "provenance": {
+        "id": "foundation.identifier.surface.charter",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.charter.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.charter.occurrence",
+          "value": "be226e697d6fdef9a59d4d47738950f5dd13815000fca37bf20f8f429d56c39f"
+        }
+      },
+      "validation": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      },
+      "compatibility": "Refinement",
+      "evidence": {
+        "id": "foundation.identifier.surface.declarable-decisions",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.declarable-decisions.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.declarable-decisions.occurrence",
+          "value": "3317c10c45fdba35cdaf3ead4353b0ed8c0670d9072d4962da83bea7c73702e4"
+        }
+      }
+    }
+  ],
+  "conditional_surfaces": [
+    {
+      "surface": "Card",
+      "disposition": "Published",
+      "artifact": {
+        "id": "foundation.identifier.surface.card",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.card.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.card.occurrence",
+          "value": "0c35e899112e4983894d844f9c818782567e2434f6314352fab400a6ce550565"
+        }
+      },
+      "applicability_basis": {
+        "id": "constitution.family-surface-matrix",
+        "edition": 1,
+        "occurrence": "constitution.family-surface-matrix.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "constitution.family-surface-matrix.occurrence",
+          "value": "34d4dc2abba2504d710c79d7e76e3eff29e4c2e5f32f9a34a21f499f1dd0ac77"
+        }
+      }
+    },
+    {
+      "surface": "State",
+      "disposition": "Published",
+      "artifact": {
+        "id": "foundation.identifier.surface.state",
+        "edition": 6,
+        "occurrence": "foundation.identifier.surface.state.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.surface.state.occurrence",
+          "value": "741b545605ef4e893fc6e70123e5b99d066dc8a592b0afaa72c74bc84e53fbc6"
+        }
+      },
+      "applicability_basis": {
+        "id": "constitution.family-surface-matrix",
+        "edition": 1,
+        "occurrence": "constitution.family-surface-matrix.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "constitution.family-surface-matrix.occurrence",
+          "value": "34d4dc2abba2504d710c79d7e76e3eff29e4c2e5f32f9a34a21f499f1dd0ac77"
+        }
+      }
+    },
+    {
+      "surface": "Plan",
+      "disposition": "Inapplicable",
+      "artifact": {
+        "id": "foundation.identifier.ruling.absent-surfaces",
+        "edition": 6,
+        "occurrence": "foundation.identifier.ruling.absent-surfaces.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.ruling.absent-surfaces.occurrence",
+          "value": "3d925890d520cf553e0b3045b48526884a4ff16d36e46dfc5618d10c482419da"
+        }
+      },
+      "applicability_basis": {
+        "id": "constitution.family-surface-matrix",
+        "edition": 1,
+        "occurrence": "constitution.family-surface-matrix.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "constitution.family-surface-matrix.occurrence",
+          "value": "34d4dc2abba2504d710c79d7e76e3eff29e4c2e5f32f9a34a21f499f1dd0ac77"
+        }
+      }
+    },
+    {
+      "surface": "Ports",
+      "disposition": "Inapplicable",
+      "artifact": {
+        "id": "foundation.identifier.ruling.absent-surfaces",
+        "edition": 6,
+        "occurrence": "foundation.identifier.ruling.absent-surfaces.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.ruling.absent-surfaces.occurrence",
+          "value": "3d925890d520cf553e0b3045b48526884a4ff16d36e46dfc5618d10c482419da"
+        }
+      },
+      "applicability_basis": {
+        "id": "constitution.family-surface-matrix",
+        "edition": 1,
+        "occurrence": "constitution.family-surface-matrix.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "constitution.family-surface-matrix.occurrence",
+          "value": "34d4dc2abba2504d710c79d7e76e3eff29e4c2e5f32f9a34a21f499f1dd0ac77"
+        }
+      }
+    },
+    {
+      "surface": "Compiler",
+      "disposition": "Inapplicable",
+      "artifact": {
+        "id": "foundation.identifier.ruling.absent-surfaces",
+        "edition": 6,
+        "occurrence": "foundation.identifier.ruling.absent-surfaces.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.ruling.absent-surfaces.occurrence",
+          "value": "3d925890d520cf553e0b3045b48526884a4ff16d36e46dfc5618d10c482419da"
+        }
+      },
+      "applicability_basis": {
+        "id": "constitution.family-surface-matrix",
+        "edition": 1,
+        "occurrence": "constitution.family-surface-matrix.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "constitution.family-surface-matrix.occurrence",
+          "value": "34d4dc2abba2504d710c79d7e76e3eff29e4c2e5f32f9a34a21f499f1dd0ac77"
+        }
+      }
+    },
+    {
+      "surface": "RuntimePart",
+      "disposition": "Inapplicable",
+      "artifact": {
+        "id": "foundation.identifier.ruling.absent-surfaces",
+        "edition": 6,
+        "occurrence": "foundation.identifier.ruling.absent-surfaces.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.ruling.absent-surfaces.occurrence",
+          "value": "3d925890d520cf553e0b3045b48526884a4ff16d36e46dfc5618d10c482419da"
+        }
+      },
+      "applicability_basis": {
+        "id": "constitution.family-surface-matrix",
+        "edition": 1,
+        "occurrence": "constitution.family-surface-matrix.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "constitution.family-surface-matrix.occurrence",
+          "value": "34d4dc2abba2504d710c79d7e76e3eff29e4c2e5f32f9a34a21f499f1dd0ac77"
+        }
+      }
+    },
+    {
+      "surface": "TargetIr",
+      "disposition": "Inapplicable",
+      "artifact": {
+        "id": "foundation.identifier.ruling.absent-surfaces",
+        "edition": 6,
+        "occurrence": "foundation.identifier.ruling.absent-surfaces.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.ruling.absent-surfaces.occurrence",
+          "value": "3d925890d520cf553e0b3045b48526884a4ff16d36e46dfc5618d10c482419da"
+        }
+      },
+      "applicability_basis": {
+        "id": "constitution.family-surface-matrix",
+        "edition": 1,
+        "occurrence": "constitution.family-surface-matrix.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "constitution.family-surface-matrix.occurrence",
+          "value": "34d4dc2abba2504d710c79d7e76e3eff29e4c2e5f32f9a34a21f499f1dd0ac77"
+        }
+      }
+    },
+    {
+      "surface": "Extension",
+      "disposition": "Empty",
+      "artifact": {
+        "id": "foundation.identifier.ruling.absent-surfaces",
+        "edition": 6,
+        "occurrence": "foundation.identifier.ruling.absent-surfaces.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "foundation.identifier.ruling.absent-surfaces.occurrence",
+          "value": "3d925890d520cf553e0b3045b48526884a4ff16d36e46dfc5618d10c482419da"
+        }
+      },
+      "applicability_basis": {
+        "id": "constitution.family-surface-matrix",
+        "edition": 1,
+        "occurrence": "constitution.family-surface-matrix.occurrence",
+        "digest": {
+          "algorithm": "sha256",
+          "subject": "constitution.family-surface-matrix.occurrence",
+          "value": "34d4dc2abba2504d710c79d7e76e3eff29e4c2e5f32f9a34a21f499f1dd0ac77"
+        }
+      }
+    }
+  ],
+  "contract_headers": [
+    {
+      "id": "foundation.identifier.value",
+      "edition": 1,
+      "occurrence": "foundation.identifier.value.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.value.occurrence",
+        "value": "4269a9ea33b919860b9c0ca3797e7a4d451270d72f0db5083af6f3a7f033212c"
+      }
+    },
+    {
+      "id": "identifier.segment",
+      "edition": 1,
+      "occurrence": "identifier.segment.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.segment.occurrence",
+        "value": "41709c0a25d30e438dc8c72cf1147f0cde16252bc311bf60a2cd98313b20842e"
+      }
+    },
+    {
+      "id": "foundation.identifier.region-shape",
+      "edition": 1,
+      "occurrence": "foundation.identifier.region-shape.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.region-shape.occurrence",
+        "value": "84ba96be656e81396f6b24e56b8b182645ef15f99be88f8b220564bc2f7addef"
+      }
+    },
+    {
+      "id": "foundation.identifier.profile-offer",
+      "edition": 1,
+      "occurrence": "foundation.identifier.profile-offer.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.profile-offer.occurrence",
+        "value": "457da888df1af1e0b8087381ace79b3419716017cb829683e766afab70b131bf"
+      }
+    },
+    {
+      "id": "foundation.identifier.series-decision",
+      "edition": 1,
+      "occurrence": "foundation.identifier.series-decision.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.series-decision.occurrence",
+        "value": "6dc1c64c793d8a7d6f1b3e8117e9fb150bae3d0613e4cdbc93722b39b570700d"
+      }
+    },
+    {
+      "id": "foundation.identifier.series-resource-requirement",
+      "edition": 1,
+      "occurrence": "foundation.identifier.series-resource-requirement.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.series-resource-requirement.occurrence",
+        "value": "d6945c825d828f3e408adb773e1e857cc2d28961abc348bee4fa27597c11ebb2"
+      }
+    },
+    {
+      "id": "foundation.identifier.issuance-witness",
+      "edition": 1,
+      "occurrence": "foundation.identifier.issuance-witness.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.issuance-witness.occurrence",
+        "value": "3df08f11089f790cfbbf9121129a604e6396fbf150c6f4171e25b41c947a89c8"
+      }
+    }
+  ],
+  "requirements": [
+    {
+      "id": "identifier.requires-digest-witness",
+      "edition": 1,
+      "occurrence": "identifier.requires-digest-witness.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-digest-witness.occurrence",
+        "value": "2faf2c708d2268876367ca00d7610f4038bca4f85e62366208dcaf58d3b5313b"
+      }
+    },
+    {
+      "id": "identifier.requires-exact-number-canonical",
+      "edition": 1,
+      "occurrence": "identifier.requires-exact-number-canonical.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-exact-number-canonical.occurrence",
+        "value": "41ce9f3352f2d2e81e42c90bdca042890a6bbbc8206c3ecca12b470b6fa22b01"
+      }
+    },
+    {
+      "id": "identifier.requires-exact-number-value",
+      "edition": 1,
+      "occurrence": "identifier.requires-exact-number-value.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-exact-number-value.occurrence",
+        "value": "c91d3412923298efb36c586c9e7cb7cf264e2d359c322595a86d7d37d34720dc"
+      }
+    },
+    {
+      "id": "identifier.requires-instant-value",
+      "edition": 1,
+      "occurrence": "identifier.requires-instant-value.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-instant-value.occurrence",
+        "value": "970583efe6962510e2ceff98f964553ae4268eb058ab2afc48b48821f32b274d"
+      }
+    },
+    {
+      "id": "identifier.requires-path-canonical",
+      "edition": 1,
+      "occurrence": "identifier.requires-path-canonical.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-path-canonical.occurrence",
+        "value": "2bb4a8c34c6a2b75c3d8cd3a15c4f0f9c7ed6dd8d70c7eabc55b87ed59b25bf6"
+      }
+    },
+    {
+      "id": "identifier.requires-path-value",
+      "edition": 1,
+      "occurrence": "identifier.requires-path-value.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-path-value.occurrence",
+        "value": "d0279082e061f01f396f6a8c072566fe7bc05af45e87fbd1d9be6ae8ac344581"
+      }
+    },
+    {
+      "id": "identifier.requires-reference-closure",
+      "edition": 1,
+      "occurrence": "identifier.requires-reference-closure.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-reference-closure.occurrence",
+        "value": "aa582dffcdf1328ad2202fce0e4e549d7c6167003184f91ba95be6221aa78a94"
+      }
+    },
+    {
+      "id": "identifier.requires-reference-publication",
+      "edition": 1,
+      "occurrence": "identifier.requires-reference-publication.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-reference-publication.occurrence",
+        "value": "82ac337c48fc18a40c89322d96b88c2bb9a655e6553bddda16c034e0abf4821f"
+      }
+    },
+    {
+      "id": "identifier.requires-semantic-compatibility",
+      "edition": 1,
+      "occurrence": "identifier.requires-semantic-compatibility.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-semantic-compatibility.occurrence",
+        "value": "061ef14be84879893aa64d67628f2cd0bbedb3971e5e2883019b0dadbebdbb51"
+      }
+    },
+    {
+      "id": "identifier.requires-semantic-edition",
+      "edition": 1,
+      "occurrence": "identifier.requires-semantic-edition.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-semantic-edition.occurrence",
+        "value": "f9d843a16ab3e0d2befc20b69530172da9b53ee184518c8952de1f1ac0c3cc7b"
+      }
+    },
+    {
+      "id": "identifier.requires-semantic-recall",
+      "edition": 1,
+      "occurrence": "identifier.requires-semantic-recall.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-semantic-recall.occurrence",
+        "value": "7b2d983397833e7629f2e45ebec151ac868b041ffedcb4a820013d6ecc082cd0"
+      }
+    },
+    {
+      "id": "identifier.requires-text-canonical",
+      "edition": 1,
+      "occurrence": "identifier.requires-text-canonical.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-text-canonical.occurrence",
+        "value": "14f334e5e0ff2ac747e9a5b6a819c7c6041e6e88a0d9598911dcc066e3357464"
+      }
+    },
+    {
+      "id": "identifier.requires-text-profile",
+      "edition": 1,
+      "occurrence": "identifier.requires-text-profile.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-text-profile.occurrence",
+        "value": "da16525652997b9361998731eca8c1776155bdf97a80f1109ff4f821b655b3a4"
+      }
+    },
+    {
+      "id": "identifier.requires-text-security-findings",
+      "edition": 1,
+      "occurrence": "identifier.requires-text-security-findings.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-text-security-findings.occurrence",
+        "value": "d0258803754fcfda23100fb72addb17772fc7a839a8b080bc247d153ecf58893"
+      }
+    },
+    {
+      "id": "identifier.requires-text-security-profile",
+      "edition": 1,
+      "occurrence": "identifier.requires-text-security-profile.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-text-security-profile.occurrence",
+        "value": "4d2af8ca7655cfdf58a5a492917d3bda8d586a92877e42ea946786dbac156ffa"
+      }
+    },
+    {
+      "id": "identifier.requires-text-value",
+      "edition": 1,
+      "occurrence": "identifier.requires-text-value.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "identifier.requires-text-value.occurrence",
+        "value": "3fd36c8b85bdda5e9a311d6dd0107e59218f8284a66e1ad7bcfe55180656f0b4"
+      }
+    }
+  ],
+  "laws": [
+    {
+      "id": "foundation.identifier.law.id-l01",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l01.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l01.occurrence",
+        "value": "7783ee8b6f0d497b9b86930960ae864a56eb34a32098d7eae2d0380aaa4cded5"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l02",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l02.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l02.occurrence",
+        "value": "225e4d7147c8c4aba8396e7c613112bd669a47fd5c348039032ea47596f1953a"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l03",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l03.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l03.occurrence",
+        "value": "28e5402493f48c2eef6542a9df1ce285ee08f6dc6a2fd1e195872d0653c3a82e"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l04",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l04.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l04.occurrence",
+        "value": "60a731fb481c4be3f651108bcefbb3f4f85749baaf9650e8a8b2e443631e8217"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l05",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l05.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l05.occurrence",
+        "value": "b8f66333abc8556193124c4c8d0567de228e2f7eb8ee71eb27dbd6fced528096"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l06",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l06.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l06.occurrence",
+        "value": "5c982ab21531aac59e51a24211b26898646a9b7cd9304a18f874531c9b075706"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l07",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l07.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l07.occurrence",
+        "value": "3031f9dc983e726c8583a9aab23c708346c6505d46adf62af7e4b07450f449c8"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l08",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l08.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l08.occurrence",
+        "value": "c1680eb0b99ee883f84f71fe3a19213ba7bd3d711fc9c072cc67c1bfe02a695a"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l09",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l09.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l09.occurrence",
+        "value": "7a77c18220d70d9a1f47ccd2950f03d2754b452cf01e256500ccc502fc2c0d3b"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l10",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l10.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l10.occurrence",
+        "value": "883451c7bbfbd2dda3e799e303ed7383860a4c71ac79e073d31ff9e00ecfd11b"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l11",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l11.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l11.occurrence",
+        "value": "ece89e8516b99a17e72a123b8811c4d212735bdb2852349483504aa5d1484727"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l12",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l12.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l12.occurrence",
+        "value": "1d0e834a6680cdd401f6325512aee0d1cee4480888e978740c61eec6bb5ff0f5"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l13",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l13.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l13.occurrence",
+        "value": "c86a3ac8f9cd2320d4849bc18d5ab9b4ce17f8c6c05e513a0a808068274615d6"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l14",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l14.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l14.occurrence",
+        "value": "59ab019b9719e1317d31073b09b77995ed544b6f1bc9d285bacf3d6c619f9d1f"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l15",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l15.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l15.occurrence",
+        "value": "f48eb47d259c245fe7cb36d6f972b49f8de6606b8db539e5a9045fe872be951d"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l16",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l16.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l16.occurrence",
+        "value": "116913f1056ecac1afb5ff154b00554ae16404672225301f2a6bee27bd2ca911"
+      }
+    },
+    {
+      "id": "foundation.identifier.law.id-l17",
+      "edition": 6,
+      "occurrence": "foundation.identifier.law.id-l17.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.law.id-l17.occurrence",
+        "value": "abc81e9f3bac9cd099e2b1f073910052c024b5363ab70877e83a146b238d8f47"
+      }
+    }
+  ],
+  "gaps": [
+    {
+      "id": "foundation.identifier.gap.g-id-01",
+      "edition": 6,
+      "occurrence": "foundation.identifier.gap.g-id-01.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.gap.g-id-01.occurrence",
+        "value": "ef644b9f55ca1543f5a6ec7c965bdd5633009e91c928045dfd802e412f29f6c5"
+      }
+    },
+    {
+      "id": "foundation.identifier.gap.g-id-02",
+      "edition": 6,
+      "occurrence": "foundation.identifier.gap.g-id-02.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.gap.g-id-02.occurrence",
+        "value": "2837222c43e3c6f9ab0a9af738d326bceaa62796319727e02ca868a5f1e03716"
+      }
+    },
+    {
+      "id": "foundation.identifier.gap.g-id-03",
+      "edition": 6,
+      "occurrence": "foundation.identifier.gap.g-id-03.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.gap.g-id-03.occurrence",
+        "value": "812d3a1c646da033e083866ca98a856ce58d7491d611fe015746d4f694206cb0"
+      }
+    },
+    {
+      "id": "foundation.identifier.gap.g-id-04",
+      "edition": 6,
+      "occurrence": "foundation.identifier.gap.g-id-04.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.gap.g-id-04.occurrence",
+        "value": "1c666fadfddc932945ec001888097c7f0395a939e09a601279280bdd191304ef"
+      }
+    },
+    {
+      "id": "foundation.identifier.gap.g-id-05",
+      "edition": 6,
+      "occurrence": "foundation.identifier.gap.g-id-05.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.gap.g-id-05.occurrence",
+        "value": "9de36ca1831a83bc05e67c70683fc357ec423c6aa9822275fc0ea2d086919e18"
+      }
+    },
+    {
+      "id": "foundation.identifier.gap.g-id-06",
+      "edition": 6,
+      "occurrence": "foundation.identifier.gap.g-id-06.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.gap.g-id-06.occurrence",
+        "value": "8135c0cae7b191d0e8069174c91bcd766680dabfc55a1ff31f593916fe5129d4"
+      }
+    },
+    {
+      "id": "foundation.identifier.gap.g-id-07",
+      "edition": 6,
+      "occurrence": "foundation.identifier.gap.g-id-07.occurrence",
+      "digest": {
+        "algorithm": "sha256",
+        "subject": "foundation.identifier.gap.g-id-07.occurrence",
+        "value": "252ea3ec80ecd99553643f0c1d61cc93f3a8732e7db924a208368d04b6ec6515"
+      }
+    }
+  ],
+  "modules": [
+    {
+      "id": "foundation.identifier.module.contract",
+      "owns": [
+        "foundation.identifier.contract-references",
+        "foundation.identifier.issuance-witness"
+      ],
+      "imports": [
+        "san.foundation.digest"
+      ],
+      "forbidden": [
+        "foundation.identifier.forbidden.constructor",
+        "foundation.identifier.forbidden.provider"
+      ]
+    },
+    {
+      "id": "foundation.identifier.module.core",
+      "owns": [
+        "foundation.identifier.values",
+        "foundation.identifier.operations"
+      ],
+      "imports": [
+        "foundation.identifier.module.contract",
+        "san.text.equivalence",
+        "san.text.security",
+        "san.path",
+        "san.foundation.digest",
+        "san.foundation.exact-number",
+        "san.time.instant"
+      ],
+      "forbidden": [
+        "foundation.identifier.forbidden.namespace-core",
+        "foundation.identifier.forbidden.ambient-io"
+      ]
+    },
+    {
+      "id": "foundation.identifier.module.series",
+      "owns": [
+        "foundation.identifier.series-state",
+        "foundation.identifier.series-events"
+      ],
+      "imports": [
+        "foundation.identifier.module.contract",
+        "san.foundation.exact-number",
+        "san.time.instant"
+      ],
+      "forbidden": [
+        "foundation.identifier.forbidden.store",
+        "foundation.identifier.forbidden.private-journal"
+      ]
+    },
+    {
+      "id": "foundation.identifier.module.namespace-conformance",
+      "owns": [
+        "foundation.identifier.namespace-conformance-proof"
+      ],
+      "imports": [
+        "foundation.identifier.module.core",
+        "foundation.namespace.core"
+      ],
+      "forbidden": [
+        "foundation.identifier.forbidden.runtime-bridge",
+        "foundation.identifier.forbidden.application-dependency"
+      ]
+    }
+  ],
+  "graph_projection_surface": {
+    "id": "foundation.identifier.surface.graph-projection",
+    "edition": 6,
+    "occurrence": "foundation.identifier.surface.graph-projection.occurrence",
+    "digest": {
+      "algorithm": "sha256",
+      "subject": "foundation.identifier.surface.graph-projection.occurrence",
+      "value": "ef30e23e770ea7e4c9783df965b4dc2249dbde192596b7b0787e9276c61e676a"
+    }
+  },
+  "canonical_digest": {
+    "algorithm": "sha256",
+    "subject": "foundation.identifier.context-source.occurrence",
+    "value": "48b7898bddb9a843344070e327dfd181730e9e79d89efce3deb6a3b6c883cc58"
+  }
+}

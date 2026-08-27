@@ -1,0 +1,112 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/library-boundary.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "boundary_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "candidate_note": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "effect_operation_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "forbidden_dependencies": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "input_types": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "library_id": {
+      "pattern": "^qor\\.library\\.",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "output_types": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "port_candidates": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "pure_operation_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_refs": {
+      "items": {
+        "pattern": "^qor\\.src\\.",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "researched_candidate_not_adjudicated"
+    }
+  },
+  "required": [
+    "library_id",
+    "edition",
+    "status",
+    "name",
+    "owner_context",
+    "boundary_kind",
+    "pure_operation_refs",
+    "effect_operation_refs",
+    "input_types",
+    "output_types",
+    "forbidden_dependencies",
+    "port_candidates",
+    "source_refs",
+    "candidate_note"
+  ],
+  "title": "Quality library boundary candidate",
+  "type": "object"
+}

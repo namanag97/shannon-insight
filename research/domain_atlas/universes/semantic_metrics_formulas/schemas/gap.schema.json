@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "closure_evidence_required": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "gap_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "impact": {},
+    "statement": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "statement",
+    "impact",
+    "closure_evidence_required"
+  ],
+  "title": "Open coverage gap",
+  "type": "object"
+}

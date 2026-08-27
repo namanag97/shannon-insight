@@ -1,0 +1,77 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/cross-plane-mapping.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "industry_case_candidates": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mapping_id": {
+      "pattern": "^qor\\.cross_plane\\.",
+      "type": "string"
+    },
+    "non_collapse_laws": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "plane_bindings": {
+      "items": {
+        "type": "object"
+      },
+      "minItems": 7,
+      "type": "array"
+    },
+    "priority_planes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_refs": {
+      "items": {
+        "pattern": "^qor\\.src\\.",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "researched_candidate_not_adjudicated"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "edition",
+    "status",
+    "context_ref",
+    "plane_bindings",
+    "priority_planes",
+    "industry_case_candidates",
+    "non_collapse_laws",
+    "source_refs"
+  ],
+  "title": "Quality cross-plane mapping candidate",
+  "type": "object"
+}

@@ -1,0 +1,67 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/invariant-refusal.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "type": "integer"
+    },
+    "guard_id": {
+      "pattern": "^qor\\.guard\\.",
+      "type": "string"
+    },
+    "invariants": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "must_not_collapse": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "refusals": {
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "pattern": "^qor\\.src\\.",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "researched_candidate_not_adjudicated"
+    }
+  },
+  "required": [
+    "guard_id",
+    "edition",
+    "status",
+    "owner_context",
+    "invariants",
+    "refusals",
+    "must_not_collapse",
+    "source_refs"
+  ],
+  "title": "Quality invariant and refusal candidate",
+  "type": "object"
+}

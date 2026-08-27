@@ -1,0 +1,50 @@
+{
+  "contract_id": "contract.product_adjudication.semantic_metrics_formulas.v0_1_0",
+  "counts": {
+    "artifact": 77,
+    "artifact_kind_definition": 10,
+    "boundary_decision": 9,
+    "capability_offer": 5,
+    "capability_requirement": 24,
+    "evidence_source": 41,
+    "legacy_crosswalk": 10,
+    "library_contract": 24,
+    "negative_test": 43,
+    "product_ddd_dossier": 1,
+    "product_library_binding_map": 24,
+    "relation": 6,
+    "semantic_or_conformance_gap": 16,
+    "semantic_ownership": 24
+  },
+  "derived": {
+    "legacy_crosswalks": 10,
+    "portable_offers": 0,
+    "product_candidates": 1,
+    "qualified_offers": 0,
+    "unbound_requirements": 24
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "75b5ff369a85e1b173745bd134d4c06033b4a66e43a8cd3326e2964ddfa90f57",
+    "artifacts.jsonl": "452a31156bab35ec5834f3900cf0a62509cf0e00d179c98d8e19e3af29cb0d24",
+    "boundary-decisions.jsonl": "be665940bd5942a4ebedcad9cda1d159e242e29545333d87216bca28d0dfa4b6",
+    "evidence.jsonl": "ce500256cd41495f5749520e00f24456afd025cf548af502526769dd4380204d",
+    "legacy-crosswalks.jsonl": "4b91af5dcd4aa910fe4d97ea32f21cd4a224b1d68a92665e0c2fbc7d6161f8c3",
+    "library-contracts.jsonl": "2bc6cc7feb09aa26c657c20096d16642005f5ee69fb36f6fcee46fba6ca7d2b6",
+    "metamodel.json": "6b0dc4f56dd360f6fe3f560600675d14bf53b622c98a4dbee36c162bf24bc1a8",
+    "negative-tests.jsonl": "c8546fc128a8e01d59fc2d691198f90add508695dc6fa9eb4ac092f22ef29856",
+    "offers.jsonl": "4595633df6445d4cc7e4ad53fe7f00c2d606bf3d2749db8b6f85be03b0cf4c51",
+    "product-ddd-dossiers.jsonl": "46210c65192b4fd1cf0fb2a2cfbb3a2e2b5a8b91e2db779fee0fbc20b834f815",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "9c87c2762bbd83f6291886b00d7010d90f73e0ccd1326fa72ddc063196219bd1",
+    "registry.jsonl": "c7afed481068793e7e5e678e1fe1176917794e409f0fbf9df3b671b117adf862",
+    "relations.jsonl": "18f9dc96bcba876d424de369b747ea70e3398ab1dd9a9b18b5e0c55d45eb7e26",
+    "requirements.jsonl": "3f472fa925a9a925c44a4da6cdfbc803ba999e287bf95a289f7f9c644b159a0f",
+    "semantic-gaps.jsonl": "ddbea573edbbcf51c62109832853e863d26edea90f6216867ddf3a23a4cb756d",
+    "semantic-ownership.jsonl": "431dd3c5b491dcbe638f1c013242b18557417aee59ad4684a8fecf2cb5daa1f1"
+  },
+  "negative_scope": "Does not own source facts, glossary/ontology authority, physical query execution, BI presentation, data-use policy, vertical targets or ambient model/agent authority.",
+  "scope": "Business formulas, semantic models, measures, metrics, dimensions, grains, populations, joins, aggregation, units, time, uncertainty, semantic query, observations, materialization, cache equivalence and disclosure.",
+  "source_sha256": "a42a841896d7f5bfa482d35f70deaaac00c45312620fee3548ecd656e714d90d",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

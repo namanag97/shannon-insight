@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "closure-work-items.jsonl": {
+      "bytes": 88715,
+      "sha256": "67589dc5da917adf25fe1f7ae44cf339b42a2c6148013f10b110855c5d9fd09d"
+    },
+    "product-readiness.jsonl": {
+      "bytes": 253241,
+      "sha256": "f871ce659197191d90a45bab24a7be631a7f769f5110ed647b3e621aec5a31d4"
+    },
+    "summary.json": {
+      "bytes": 1271,
+      "sha256": "a170df1ad6a13d49ef5507dbaa4da658cae0717f6e94fc5fc915222059c3b793"
+    }
+  },
+  "manifest_id": "retained_product_dossier_readiness_manifest"
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "limits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "offer_id": {
+      "pattern": "^offer\\.lpe\\.",
+      "type": "string"
+    },
+    "offered_guarantees": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "operation_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "provider_class": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "validity": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recheck_triggers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "until": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "from",
+        "until",
+        "recheck_triggers"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "offer_id",
+    "edition",
+    "status",
+    "provider_class",
+    "operation_ref",
+    "offered_guarantees",
+    "limits",
+    "validity",
+    "evidence_refs"
+  ],
+  "title": "LPE provider-class offer candidate",
+  "type": "object"
+}

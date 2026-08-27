@@ -1,0 +1,10 @@
+{"definition":"Recurring arrangement of products, capabilities and mechanisms.","edition":1,"kind":"architecture_pattern","record_kind":"artifact_kind_definition"}
+{"definition":"Typed operation offered under a semantic contract.","edition":1,"kind":"capability","record_kind":"artifact_kind_definition"}
+{"definition":"Stateful or policy component inside a product boundary.","edition":1,"kind":"control_component","record_kind":"artifact_kind_definition"}
+{"definition":"Observed implementation or provider; unqualified until conformance evidence exists.","edition":1,"kind":"implementation","record_kind":"artifact_kind_definition"}
+{"definition":"Explicit adjacent semantic or product owner imported through an ACL.","edition":1,"kind":"neighbor","record_kind":"artifact_kind_definition"}
+{"definition":"Removable method or assistance surface that cannot redefine core semantics or authority.","edition":1,"kind":"optional_extension","record_kind":"artifact_kind_definition"}
+{"definition":"Independently adopted and operated outcome promise with lifecycle, authority, support and exit.","edition":1,"kind":"product","record_kind":"artifact_kind_definition"}
+{"definition":"Owner of a term, identity, law, decision and refusal boundary.","edition":1,"kind":"semantic_contract","record_kind":"artifact_kind_definition"}
+{"definition":"Editioned external specification or profile; not a product or provider qualification.","edition":1,"kind":"standard","record_kind":"artifact_kind_definition"}
+{"definition":"Commercial or administrative packaging of products; owns no merged semantics.","edition":1,"kind":"suite","record_kind":"artifact_kind_definition"}

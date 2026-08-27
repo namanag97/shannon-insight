@@ -1,0 +1,66 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/monitored-subjects.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "canonical_semantics_authority": {
+      "type": "boolean"
+    },
+    "core_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "coverage_plane_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "lifecycle_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "monitoring_reason": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "publisher": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "subject_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject_kind": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "canonical_semantics_authority",
+    "core_scope",
+    "coverage_plane_ids",
+    "lifecycle_status",
+    "monitoring_reason",
+    "name",
+    "publisher",
+    "source_ids",
+    "subject_id",
+    "subject_kind"
+  ],
+  "title": "monitored-subjects",
+  "type": "object"
+}

@@ -1,0 +1,4380 @@
+{
+  "artifact_kinds": [
+    {
+      "definition": "A reusable arrangement without independent adoption or semantic authority.",
+      "kind": "architecture_pattern"
+    },
+    {
+      "definition": "Packaging of products and components without transferred ownership.",
+      "kind": "suite"
+    },
+    {
+      "definition": "An independently adopted and operated user-outcome promise.",
+      "kind": "product"
+    },
+    {
+      "definition": "A subsystem without a complete adoption, support and exit promise.",
+      "kind": "control_component"
+    },
+    {
+      "definition": "A typed selectable behavior required or offered at a boundary.",
+      "kind": "capability"
+    },
+    {
+      "definition": "Owner of one meaning, identity, lifecycle, invariants and refusals.",
+      "kind": "semantic_contract"
+    },
+    {
+      "definition": "An exact external edition specializing a contract.",
+      "kind": "standard"
+    },
+    {
+      "definition": "A reusable provider-neutral semantic or effect-port seam.",
+      "kind": "library_contract"
+    },
+    {
+      "definition": "An observed provider artifact with no canonical semantic authority.",
+      "kind": "implementation"
+    },
+    {
+      "definition": "A separate bounded context imported through an explicit contract.",
+      "kind": "neighbor"
+    }
+  ],
+  "artifacts": [
+    {
+      "adoption_unit": true,
+      "artifact_id": "product.semantic_metric_formula_service",
+      "automation_modality": {
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation never replaces vocabulary, semantic ownership, formula laws, lifecycle, evidence, conformance, qualification or domain acceptance.",
+        "law": "A model or agent may propose or explain typed semantic records but never owns metric meaning, approval, disclosure authority, effects or receipts.",
+        "postures": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ]
+      },
+      "commands": [
+        "open_semantic_domain",
+        "draft_formula",
+        "typecheck_formula",
+        "bind_definition",
+        "submit_definition_review",
+        "approve_definition",
+        "publish_metric_edition",
+        "evaluate_semantic_query",
+        "append_metric_observation",
+        "materialize_metric_cut",
+        "request_metric_disclosure",
+        "supersede_metric_edition",
+        "recall_metric_edition"
+      ],
+      "definition": "Lets metric authors publish governed formula/metric editions and lets consumers evaluate them consistently across dimensions, grains, time, units and providers with evidence.",
+      "events": [
+        "semantic_domain_opened",
+        "formula_drafted",
+        "formula_typechecked",
+        "definition_bound",
+        "definition_review_requested",
+        "definition_approved",
+        "metric_edition_published",
+        "semantic_query_evaluated",
+        "metric_observation_appended",
+        "metric_cut_materialized",
+        "metric_disclosure_requested",
+        "metric_edition_superseded",
+        "metric_edition_recalled"
+      ],
+      "evidence_refs": [
+        "evidence.dbt_semantic_models",
+        "evidence.dbt_metrics",
+        "evidence.cube_measures",
+        "evidence.snowflake_semantic"
+      ],
+      "harmed_parties": [
+        "decision_subject",
+        "data_subject",
+        "downstream_consumer",
+        "finance_or_risk_owner"
+      ],
+      "invariants": [
+        "measure metric KPI target benchmark and observation remain distinct",
+        "formula expression definition binding and evaluation remain distinct",
+        "every free reference binds one exact owner and edition",
+        "grain join time unit missingness uncertainty and policy are explicit",
+        "publication approval evaluation observation materialization and disclosure are separate authorities"
+      ],
+      "jobs": [
+        "Author, review, publish, evaluate, observe, materialize, disclose, supersede and recall governed metric editions without transferring source, query or policy authority."
+      ],
+      "kind": "product",
+      "lifecycle_states": [
+        "draft",
+        "typechecked",
+        "binding_resolved",
+        "review_pending",
+        "approved",
+        "published",
+        "deprecated",
+        "superseded",
+        "recalled"
+      ],
+      "name": "Semantic Metric and Formula Service",
+      "negative_mission": "Does not own source facts, glossary or ontology authority, physical query execution, BI presentation, data-use policy, industry thresholds or downstream decisions.",
+      "operated": true,
+      "outcomes": [
+        "portable_metric_definition",
+        "fanout_safe_evaluation",
+        "time_and_unit_correct_result",
+        "traceable_observation_and_disclosure"
+      ],
+      "refusals": [
+        "formula_syntax_invalid",
+        "semantic_type_mismatch",
+        "definition_binding_ambiguous",
+        "grain_or_population_unbound",
+        "fanout_safety_unproved",
+        "summarizability_unproved",
+        "calendar_or_unit_unbound",
+        "policy_refused",
+        "no_qualified_query_offer",
+        "cache_equivalence_unproved",
+        "publication_authority_missing",
+        "disclosure_authority_missing"
+      ],
+      "semantic_owner_ref": null,
+      "sovereign_question": "How can metric authors publish governed formula and metric editions and let consumers evaluate them consistently across grain, dimensions, time, units, uncertainty and providers?",
+      "status": "candidate",
+      "users": [
+        "metric_author",
+        "semantic_steward",
+        "analyst",
+        "application_developer"
+      ]
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "pattern.metric_store_query_bundle",
+      "definition": "An overloaded packaging label spanning definition registry, evaluation, observations, materializations, query gateway and consumption interfaces; not one additional product.",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.cube_preagg",
+        "evidence.rdf_cube"
+      ],
+      "kind": "architecture_pattern",
+      "name": "Metric store plus query bundle",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "suite.semantic_layer",
+      "definition": "Packaging of the semantic metric/formula product with BI, catalog, query and optional model-facing metadata.",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.snowflake_semantic"
+      ],
+      "kind": "suite",
+      "name": "Semantic layer suite",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "component.formula_engine",
+      "definition": "Pure formula semantics plus explicitly effect-bounded evaluation; not independently a metric product.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.sdmx_vtl21"
+      ],
+      "kind": "control_component",
+      "name": "Formula parser, typer and evaluator",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "component.semantic_registry",
+      "definition": "Immutable definition editions and lifecycle inside the product.",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.dbt_semantic_models"
+      ],
+      "kind": "control_component",
+      "name": "Semantic definition registry",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "component.semantic_query_gateway",
+      "definition": "Binds a semantic request, lowers it to a qualified engine and returns evidence.",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.substrait"
+      ],
+      "kind": "control_component",
+      "name": "Semantic query gateway",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "component.metric_materialization",
+      "definition": "Physical acceleration with explicit semantic-equivalence, cut and policy proofs.",
+      "evidence_refs": [
+        "evidence.cube_preagg",
+        "evidence.calcite_mv"
+      ],
+      "kind": "control_component",
+      "name": "Metric materialization and cache",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "component.observation_ledger",
+      "definition": "Append-only values, errors, corrections, supersessions and recalls distinct from definitions.",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.fhir_report"
+      ],
+      "kind": "control_component",
+      "name": "Metric observation ledger",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "component.optional_model_assistance",
+      "definition": "Intent-selected proposal/explanation surface over typed semantic records; never authoritative.",
+      "evidence_refs": [
+        "evidence.ossie"
+      ],
+      "kind": "control_component",
+      "name": "Optional model or agent assistance",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.metric_definition",
+      "definition": "Versioned business measure semantics, not an evaluated value.",
+      "evidence_refs": [
+        "evidence.dbt_metrics",
+        "evidence.snowflake_semantic"
+      ],
+      "kind": "semantic_contract",
+      "name": "Metric definition",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.metric_observation",
+      "definition": "An evaluated value-or-error at an exact population, grain, time and data cut.",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.fhir_report"
+      ],
+      "kind": "semantic_contract",
+      "name": "Metric observation",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.measure",
+      "definition": "An aggregation input with collection, null, empty-input, exactness and merge semantics.",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.cube_measures"
+      ],
+      "kind": "semantic_contract",
+      "name": "Measure",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.kpi_target_benchmark",
+      "definition": "Distinct roles that may reference metrics but do not collapse into observed values.",
+      "evidence_refs": [
+        "evidence.fhir_measure",
+        "evidence.sdmx31"
+      ],
+      "kind": "semantic_contract",
+      "name": "KPI, target and benchmark roles",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.business_formula",
+      "definition": "Immutable formula definition with typed AST and dependency contract.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.dbt_metrics"
+      ],
+      "kind": "semantic_contract",
+      "name": "Business formula",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.openformula14",
+      "definition": "Editioned spreadsheet-formula interchange language.",
+      "evidence_refs": [
+        "evidence.openformula14"
+      ],
+      "kind": "standard",
+      "name": "OpenFormula 1.4",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.sdmx31",
+      "definition": "Editioned statistical-data and metadata interchange family.",
+      "evidence_refs": [
+        "evidence.sdmx31"
+      ],
+      "kind": "standard",
+      "name": "SDMX 3.1",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.ossie",
+      "definition": "Emerging provider-neutral semantic metadata schema.",
+      "evidence_refs": [
+        "evidence.ossie"
+      ],
+      "kind": "standard",
+      "name": "Apache Ossie candidate interchange",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.dbt_metricflow",
+      "definition": "Observed semantic-model and metric-query implementation; unqualified here.",
+      "evidence_refs": [
+        "evidence.dbt_semantic_models",
+        "evidence.dbt_metricflow"
+      ],
+      "kind": "implementation",
+      "name": "dbt MetricFlow",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.cube",
+      "definition": "Observed measures, joins, materialization and query implementation; unqualified here.",
+      "evidence_refs": [
+        "evidence.cube_measures",
+        "evidence.cube_joins",
+        "evidence.cube_preagg"
+      ],
+      "kind": "implementation",
+      "name": "Cube",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.looker",
+      "definition": "Observed multidimensional semantic model and symmetric-aggregate implementation; unqualified here.",
+      "evidence_refs": [
+        "evidence.looker_symmetric"
+      ],
+      "kind": "implementation",
+      "name": "Looker",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.snowflake_semantic",
+      "definition": "Observed warehouse-native semantic object; unqualified here.",
+      "evidence_refs": [
+        "evidence.snowflake_semantic"
+      ],
+      "kind": "implementation",
+      "name": "Snowflake Semantic Views",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.databricks_metric",
+      "definition": "Observed catalog-native metric view; unqualified here.",
+      "evidence_refs": [
+        "evidence.databricks_metric"
+      ],
+      "kind": "implementation",
+      "name": "Databricks Metric Views",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.business_glossary",
+      "definition": "Owns approved human terminology and homonyms.",
+      "evidence_refs": [
+        "evidence.sdmx31"
+      ],
+      "kind": "neighbor",
+      "name": "Business glossary",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.ontology",
+      "definition": "Owns formal concepts, axioms and mappings.",
+      "evidence_refs": [
+        "evidence.shacl"
+      ],
+      "kind": "neighbor",
+      "name": "Ontology and knowledge model",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.source_truth",
+      "definition": "Owns operational facts and correction authority.",
+      "evidence_refs": [
+        "evidence.prov_dm"
+      ],
+      "kind": "neighbor",
+      "name": "Source-system truth",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.query_execution",
+      "definition": "Owns physical planning, engine execution and result-stream mechanics.",
+      "evidence_refs": [
+        "evidence.substrait"
+      ],
+      "kind": "neighbor",
+      "name": "Query execution",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.data_use_policy",
+      "definition": "Owns purpose, authorization, suppression and disclosure obligations.",
+      "evidence_refs": [
+        "evidence.odrl"
+      ],
+      "kind": "neighbor",
+      "name": "Data-use policy",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.presentation",
+      "definition": "Owns report, dashboard, visualization and interaction lifecycle.",
+      "evidence_refs": [
+        "evidence.xmla"
+      ],
+      "kind": "neighbor",
+      "name": "BI and presentation",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.vertical_solution",
+      "definition": "Owns industry vocabulary, thresholds, populations, targets and acceptance authority.",
+      "evidence_refs": [
+        "evidence.fhir_measure"
+      ],
+      "kind": "neighbor",
+      "name": "Vertical solution pack",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.formula_parser",
+      "definition": "Owns formula syntax identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.sdmx_vtl21"
+      ],
+      "kind": "semantic_contract",
+      "name": "Formula syntax",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.formula_parser",
+      "definition": "Typed capability to parse formula under the formula syntax contract.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.sdmx_vtl21"
+      ],
+      "kind": "capability",
+      "name": "Parse Formula",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.formula_parser",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.ast_canonicalizer",
+      "definition": "Owns formula ast canonicalization identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.openformula14"
+      ],
+      "kind": "semantic_contract",
+      "name": "Formula AST canonicalization",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.ast_canonicalizer",
+      "definition": "Typed capability to canonicalize formula under the formula ast canonicalization contract.",
+      "evidence_refs": [
+        "evidence.openformula14"
+      ],
+      "kind": "capability",
+      "name": "Canonicalize Formula",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.ast_canonicalizer",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.semantic_type_checker",
+      "definition": "Owns semantic formula types identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.ucum"
+      ],
+      "kind": "semantic_contract",
+      "name": "Semantic formula types",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.semantic_type_checker",
+      "definition": "Typed capability to type formula under the semantic formula types contract.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.ucum"
+      ],
+      "kind": "capability",
+      "name": "Type Formula",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.semantic_type_checker",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.dimension_algebra",
+      "definition": "Owns quantity dimension algebra identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.qudt35",
+        "evidence.ucum"
+      ],
+      "kind": "semantic_contract",
+      "name": "Quantity dimension algebra",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.dimension_algebra",
+      "definition": "Typed capability to compose dimensions under the quantity dimension algebra contract.",
+      "evidence_refs": [
+        "evidence.qudt35",
+        "evidence.ucum"
+      ],
+      "kind": "capability",
+      "name": "Compose Dimensions",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.dimension_algebra",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.unit_conversion_algebra",
+      "definition": "Owns unit conversion algebra identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.qudt35",
+        "evidence.ucum",
+        "evidence.nist_si"
+      ],
+      "kind": "semantic_contract",
+      "name": "Unit conversion algebra",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.unit_conversion_algebra",
+      "definition": "Typed capability to convert unit under the unit conversion algebra contract.",
+      "evidence_refs": [
+        "evidence.qudt35",
+        "evidence.ucum",
+        "evidence.nist_si"
+      ],
+      "kind": "capability",
+      "name": "Convert Unit",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.unit_conversion_algebra",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.missingness_algebra",
+      "definition": "Owns missingness and partiality identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.rdf_cube"
+      ],
+      "kind": "semantic_contract",
+      "name": "Missingness and partiality",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.missingness_algebra",
+      "definition": "Typed capability to propagate partiality under the missingness and partiality contract.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.rdf_cube"
+      ],
+      "kind": "capability",
+      "name": "Propagate Partiality",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.missingness_algebra",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.aggregation_algebra",
+      "definition": "Owns aggregation algebra identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.gray_cube",
+        "evidence.postgres_aggregate"
+      ],
+      "kind": "semantic_contract",
+      "name": "Aggregation algebra",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.aggregation_algebra",
+      "definition": "Typed capability to aggregate values under the aggregation algebra contract.",
+      "evidence_refs": [
+        "evidence.gray_cube",
+        "evidence.postgres_aggregate"
+      ],
+      "kind": "capability",
+      "name": "Aggregate Values",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.aggregation_algebra",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.summarizability_checker",
+      "definition": "Owns summarizability proof identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.gray_cube",
+        "evidence.agg_consistency"
+      ],
+      "kind": "semantic_contract",
+      "name": "Summarizability proof",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.summarizability_checker",
+      "definition": "Typed capability to prove summarizability under the summarizability proof contract.",
+      "evidence_refs": [
+        "evidence.gray_cube",
+        "evidence.agg_consistency"
+      ],
+      "kind": "capability",
+      "name": "Prove Summarizability",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.summarizability_checker",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.fanout_analyzer",
+      "definition": "Owns fanout safety identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.agg_consistency",
+        "evidence.cube_joins",
+        "evidence.looker_symmetric"
+      ],
+      "kind": "semantic_contract",
+      "name": "Fanout safety",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.fanout_analyzer",
+      "definition": "Typed capability to prove fanout safety under the fanout safety contract.",
+      "evidence_refs": [
+        "evidence.agg_consistency",
+        "evidence.cube_joins",
+        "evidence.looker_symmetric"
+      ],
+      "kind": "capability",
+      "name": "Prove Fanout Safety",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.fanout_analyzer",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.calendar_algebra",
+      "definition": "Owns calendar and period algebra identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.owl_time",
+        "evidence.rfc3339",
+        "evidence.tzdb"
+      ],
+      "kind": "semantic_contract",
+      "name": "Calendar and period algebra",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.calendar_algebra",
+      "definition": "Typed capability to bucket time under the calendar and period algebra contract.",
+      "evidence_refs": [
+        "evidence.owl_time",
+        "evidence.rfc3339",
+        "evidence.tzdb"
+      ],
+      "kind": "capability",
+      "name": "Bucket Time",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.calendar_algebra",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.bitemporal_algebra",
+      "definition": "Owns bitemporal metric cut identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.owl_time",
+        "evidence.rdf_cube"
+      ],
+      "kind": "semantic_contract",
+      "name": "Bitemporal metric cut",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.bitemporal_algebra",
+      "definition": "Typed capability to select bitemporal cut under the bitemporal metric cut contract.",
+      "evidence_refs": [
+        "evidence.owl_time",
+        "evidence.rdf_cube"
+      ],
+      "kind": "capability",
+      "name": "Select Bitemporal Cut",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.bitemporal_algebra",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.uncertainty_algebra",
+      "definition": "Owns metric uncertainty identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.gum"
+      ],
+      "kind": "semantic_contract",
+      "name": "Metric uncertainty",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.uncertainty_algebra",
+      "definition": "Typed capability to propagate uncertainty under the metric uncertainty contract.",
+      "evidence_refs": [
+        "evidence.gum"
+      ],
+      "kind": "capability",
+      "name": "Propagate Uncertainty",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.uncertainty_algebra",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.semantic_query_canonicalizer",
+      "definition": "Owns semantic query identity identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.substrait"
+      ],
+      "kind": "semantic_contract",
+      "name": "Semantic query identity",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.semantic_query_canonicalizer",
+      "definition": "Typed capability to canonicalize semantic query under the semantic query identity contract.",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.substrait"
+      ],
+      "kind": "capability",
+      "name": "Canonicalize Semantic Query",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.semantic_query_canonicalizer",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.cache_equivalence_prover",
+      "definition": "Owns semantic cache equivalence identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.calcite_mv",
+        "evidence.cube_preagg"
+      ],
+      "kind": "semantic_contract",
+      "name": "Semantic cache equivalence",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.cache_equivalence_prover",
+      "definition": "Typed capability to prove cache reuse under the semantic cache equivalence contract.",
+      "evidence_refs": [
+        "evidence.calcite_mv",
+        "evidence.cube_preagg"
+      ],
+      "kind": "capability",
+      "name": "Prove Cache Reuse",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.cache_equivalence_prover",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.compatibility_diff",
+      "definition": "Owns semantic edition compatibility identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.sdmx31"
+      ],
+      "kind": "semantic_contract",
+      "name": "Semantic edition compatibility",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.compatibility_diff",
+      "definition": "Typed capability to diff semantic editions under the semantic edition compatibility contract.",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.sdmx31"
+      ],
+      "kind": "capability",
+      "name": "Diff Semantic Editions",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.compatibility_diff",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.semantic_registry",
+      "definition": "Owns semantic definition registry identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.dbt_semantic_models"
+      ],
+      "kind": "semantic_contract",
+      "name": "Semantic definition registry",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.semantic_registry",
+      "definition": "Typed capability to publish semantic edition under the semantic definition registry contract.",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.dbt_semantic_models"
+      ],
+      "kind": "capability",
+      "name": "Publish Semantic Edition",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.semantic_registry",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.binding_resolver",
+      "definition": "Owns semantic binding identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.dbt_semantic_models",
+        "evidence.snowflake_semantic"
+      ],
+      "kind": "semantic_contract",
+      "name": "Semantic binding",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.binding_resolver",
+      "definition": "Typed capability to bind semantic definition under the semantic binding contract.",
+      "evidence_refs": [
+        "evidence.dbt_semantic_models",
+        "evidence.snowflake_semantic"
+      ],
+      "kind": "capability",
+      "name": "Bind Semantic Definition",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.binding_resolver",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.formula_runtime",
+      "definition": "Owns formula evaluation occurrence identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.cql"
+      ],
+      "kind": "semantic_contract",
+      "name": "Formula evaluation occurrence",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.formula_runtime",
+      "definition": "Typed capability to evaluate bound formula under the formula evaluation occurrence contract.",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.cql"
+      ],
+      "kind": "capability",
+      "name": "Evaluate Bound Formula",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.formula_runtime",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.exchange_rate_gateway",
+      "definition": "Owns currency valuation gateway identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.ecb_fx"
+      ],
+      "kind": "semantic_contract",
+      "name": "Currency valuation gateway",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.exchange_rate_gateway",
+      "definition": "Typed capability to obtain rate set under the currency valuation gateway contract.",
+      "evidence_refs": [
+        "evidence.ecb_fx"
+      ],
+      "kind": "capability",
+      "name": "Obtain Rate Set",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.exchange_rate_gateway",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.semantic_query_gateway",
+      "definition": "Owns semantic query execution identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.substrait",
+        "evidence.snowflake_semantic"
+      ],
+      "kind": "semantic_contract",
+      "name": "Semantic query execution",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.semantic_query_gateway",
+      "definition": "Typed capability to execute semantic query under the semantic query execution contract.",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.substrait",
+        "evidence.snowflake_semantic"
+      ],
+      "kind": "capability",
+      "name": "Execute Semantic Query",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.semantic_query_gateway",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.materialization_store",
+      "definition": "Owns semantic materialization identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.cube_preagg",
+        "evidence.databricks_metric"
+      ],
+      "kind": "semantic_contract",
+      "name": "Semantic materialization",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.materialization_store",
+      "definition": "Typed capability to reconcile materialization under the semantic materialization contract.",
+      "evidence_refs": [
+        "evidence.cube_preagg",
+        "evidence.databricks_metric"
+      ],
+      "kind": "capability",
+      "name": "Reconcile Materialization",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.materialization_store",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.observation_ledger",
+      "definition": "Owns metric observation ledger identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.fhir_report",
+        "evidence.prov_dm"
+      ],
+      "kind": "semantic_contract",
+      "name": "Metric observation ledger",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.observation_ledger",
+      "definition": "Typed capability to append metric observation under the metric observation ledger contract.",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.fhir_report",
+        "evidence.prov_dm"
+      ],
+      "kind": "capability",
+      "name": "Append Metric Observation",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.observation_ledger",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.policy_gateway",
+      "definition": "Owns metric use-policy gateway identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.odrl"
+      ],
+      "kind": "semantic_contract",
+      "name": "Metric use-policy gateway",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.policy_gateway",
+      "definition": "Typed capability to obtain metric policy under the metric use-policy gateway contract.",
+      "evidence_refs": [
+        "evidence.odrl"
+      ],
+      "kind": "capability",
+      "name": "Obtain Metric Policy",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.policy_gateway",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.smf.disclosure_gateway",
+      "definition": "Owns metric disclosure identity, decisions, laws and refusals.",
+      "evidence_refs": [
+        "evidence.odrl",
+        "evidence.rdf_cube"
+      ],
+      "kind": "semantic_contract",
+      "name": "Metric disclosure",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.smf.disclosure_gateway",
+      "definition": "Typed capability to disclose metric result under the metric disclosure contract.",
+      "evidence_refs": [
+        "evidence.odrl",
+        "evidence.rdf_cube"
+      ],
+      "kind": "capability",
+      "name": "Disclose Metric Result",
+      "operated": false,
+      "semantic_owner_ref": "semantic.smf.disclosure_gateway",
+      "status": "candidate"
+    }
+  ],
+  "binding_gaps": [],
+  "binding_maps": [
+    {
+      "abstract_library_ref": "library.adjudicated.smf.formula_parser",
+      "binding_map_id": "binding.smf.formula_parser",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.formula_parser"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.ast_canonicalizer",
+      "binding_map_id": "binding.smf.ast_canonicalizer",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.ast_canonicalizer"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.semantic_type_checker",
+      "binding_map_id": "binding.smf.semantic_type_checker",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.semantic_type_checker"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.dimension_algebra",
+      "binding_map_id": "binding.smf.dimension_algebra",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.dimension_algebra"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.unit_conversion_algebra",
+      "binding_map_id": "binding.smf.unit_conversion_algebra",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.unit_conversion_algebra"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.missingness_algebra",
+      "binding_map_id": "binding.smf.missingness_algebra",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.missingness_algebra"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.aggregation_algebra",
+      "binding_map_id": "binding.smf.aggregation_algebra",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.aggregation_algebra"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.summarizability_checker",
+      "binding_map_id": "binding.smf.summarizability_checker",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.summarizability_checker"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.fanout_analyzer",
+      "binding_map_id": "binding.smf.fanout_analyzer",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.fanout_analyzer"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.calendar_algebra",
+      "binding_map_id": "binding.smf.calendar_algebra",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.calendar_algebra"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.bitemporal_algebra",
+      "binding_map_id": "binding.smf.bitemporal_algebra",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.bitemporal_algebra"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.uncertainty_algebra",
+      "binding_map_id": "binding.smf.uncertainty_algebra",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.uncertainty_algebra"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.semantic_query_canonicalizer",
+      "binding_map_id": "binding.smf.semantic_query_canonicalizer",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.semantic_query_canonicalizer"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.cache_equivalence_prover",
+      "binding_map_id": "binding.smf.cache_equivalence_prover",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.cache_equivalence_prover"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.compatibility_diff",
+      "binding_map_id": "binding.smf.compatibility_diff",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.compatibility_diff"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.semantic_registry",
+      "binding_map_id": "binding.smf.semantic_registry",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.semantic_registry"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.binding_resolver",
+      "binding_map_id": "binding.smf.binding_resolver",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.binding_resolver"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.formula_runtime",
+      "binding_map_id": "binding.smf.formula_runtime",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.formula_runtime"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.exchange_rate_gateway",
+      "binding_map_id": "binding.smf.exchange_rate_gateway",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.exchange_rate_gateway"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.semantic_query_gateway",
+      "binding_map_id": "binding.smf.semantic_query_gateway",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.semantic_query_gateway"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.materialization_store",
+      "binding_map_id": "binding.smf.materialization_store",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.materialization_store"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.observation_ledger",
+      "binding_map_id": "binding.smf.observation_ledger",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.observation_ledger"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.policy_gateway",
+      "binding_map_id": "binding.smf.policy_gateway",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.policy_gateway"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "abstract_library_ref": "library.adjudicated.smf.disclosure_gateway",
+      "binding_map_id": "binding.smf.disclosure_gateway",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.smf.disclosure_gateway"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_ref": "product.semantic_metric_formula_service"
+    }
+  ],
+  "boundary_decisions": [
+    {
+      "decision_id": "decision.smf.product",
+      "disposition": "strong_product_candidate",
+      "evidence_refs": [
+        "evidence.dbt_semantic_models",
+        "evidence.dbt_metricflow",
+        "evidence.cube_measures",
+        "evidence.snowflake_semantic",
+        "evidence.databricks_metric"
+      ],
+      "rationale": "Metric authors and consumers independently adopt an operated promise for governed definitions and consistent evaluation across tools and engines; semantic ownership, lifecycle, support and exit are distinct from BI and query execution.",
+      "split_test": {
+        "adoption": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the adoption boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        },
+        "authority": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the authority boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        },
+        "economics": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the economics boundary; no score implies provider qualification or ratification.",
+          "score": 1
+        },
+        "interface": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the interface boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        },
+        "job": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the job boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        },
+        "lifecycle": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the lifecycle boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        },
+        "market_evidence": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the market_evidence boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        },
+        "operation": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the operation boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        },
+        "semantics": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the semantics boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        },
+        "user": {
+          "evidence_refs": [
+            "evidence.dbt_semantic_models",
+            "evidence.dbt_metricflow",
+            "evidence.cube_measures",
+            "evidence.snowflake_semantic",
+            "evidence.databricks_metric"
+          ],
+          "finding": "Semantic Metric and Formula Service: scoped evidence for the user boundary; no score implies provider qualification or ratification.",
+          "score": 2
+        }
+      },
+      "subject_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "decision_id": "decision.smf.metric_store_bundle",
+      "disposition": "reclassify_as_architecture_pattern",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.dbt_metricflow",
+        "evidence.cube_preagg"
+      ],
+      "rationale": "Metric store ambiguously names definition registry, observation ledger, materialization cache and query gateway; packaging them does not create a second product.",
+      "subject_ref": "pattern.metric_store_query_bundle"
+    },
+    {
+      "decision_id": "decision.smf.formula_engine",
+      "disposition": "retain_as_library_and_runtime_component",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.sdmx_vtl21"
+      ],
+      "rationale": "Formula parsing, typing and evaluation are reusable contracts without an independent enterprise metric outcome promise.",
+      "subject_ref": "component.formula_engine"
+    },
+    {
+      "decision_id": "decision.smf.registry_component",
+      "disposition": "retain_inside_product",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.dbt_semantic_models"
+      ],
+      "rationale": "Definition lifecycle is a semantic component of the adopted metric service; separate product evidence is currently insufficient.",
+      "subject_ref": "component.semantic_registry"
+    },
+    {
+      "decision_id": "decision.smf.query_component",
+      "disposition": "retain_inside_product",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.substrait"
+      ],
+      "rationale": "The gateway compiles semantic intent into replaceable query engines and does not own physical execution or form a new product by itself.",
+      "subject_ref": "component.semantic_query_gateway"
+    },
+    {
+      "decision_id": "decision.smf.materialization_component",
+      "disposition": "retain_as_acceleration_component",
+      "evidence_refs": [
+        "evidence.cube_preagg",
+        "evidence.calcite_mv"
+      ],
+      "rationale": "Materialization and cache are replaceable physical mechanisms whose reuse requires semantic equivalence, freshness and policy proofs.",
+      "subject_ref": "component.metric_materialization"
+    },
+    {
+      "decision_id": "decision.smf.definition_observation",
+      "disposition": "retain_split",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.fhir_measure",
+        "evidence.fhir_report"
+      ],
+      "rationale": "A metric definition is an immutable meaning; an observation is one evaluated value-or-error at a scoped cut and may be corrected or recalled.",
+      "subject_ref": "semantic.metric_observation"
+    },
+    {
+      "decision_id": "decision.smf.measure_metric_kpi",
+      "disposition": "retain_roles_split",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.fhir_measure",
+        "evidence.snowflake_semantic"
+      ],
+      "rationale": "Measure, metric, KPI, target, benchmark and observed value have different identity and authority.",
+      "subject_ref": "semantic.kpi_target_benchmark"
+    },
+    {
+      "decision_id": "decision.smf.agent_optional",
+      "disposition": "optional_non_authoritative_extension",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.openformula14"
+      ],
+      "rationale": "Models and agents may propose definitions or explain results when selected, but deterministic parsing, typing, binding, proofs, policy, execution and receipts remain authoritative and work without them.",
+      "subject_ref": "component.optional_model_assistance"
+    }
+  ],
+  "contract_id": "contract.product_adjudication.semantic_metrics_formulas.v0_1_0",
+  "crosswalks": [
+    {
+      "canonical_refs": [
+        "product.semantic_metric_formula_service"
+      ],
+      "disposition": "rename_and_expand_formula_contract",
+      "legacy_ref": "candidate.product.semantic_metric"
+    },
+    {
+      "canonical_refs": [
+        "pattern.metric_store_query_bundle",
+        "product.semantic_metric_formula_service"
+      ],
+      "disposition": "reclassify_bundle",
+      "legacy_ref": "candidate.product.metric_store_bundle"
+    },
+    {
+      "canonical_refs": [
+        "suite.semantic_layer",
+        "product.semantic_metric_formula_service"
+      ],
+      "disposition": "suite_and_product_split",
+      "legacy_ref": "term.semantic_layer"
+    },
+    {
+      "canonical_refs": [
+        "component.semantic_registry",
+        "component.observation_ledger",
+        "component.metric_materialization"
+      ],
+      "disposition": "split_overloaded_term",
+      "legacy_ref": "term.metric_store"
+    },
+    {
+      "canonical_refs": [
+        "product.semantic_metric_formula_service",
+        "neighbor.presentation"
+      ],
+      "disposition": "packaging_not_new_product",
+      "legacy_ref": "term.headless_bi"
+    },
+    {
+      "canonical_refs": [
+        "semantic.metric_definition",
+        "semantic.metric_observation"
+      ],
+      "disposition": "definition_observation_split",
+      "legacy_ref": "term.business_metric"
+    },
+    {
+      "canonical_refs": [
+        "semantic.kpi_target_benchmark",
+        "semantic.metric_definition"
+      ],
+      "disposition": "role_not_synonym",
+      "legacy_ref": "term.kpi"
+    },
+    {
+      "canonical_refs": [
+        "semantic.business_formula",
+        "component.formula_engine"
+      ],
+      "disposition": "definition_engine_split",
+      "legacy_ref": "term.formula"
+    },
+    {
+      "canonical_refs": [
+        "suite.semantic_layer",
+        "component.optional_model_assistance"
+      ],
+      "disposition": "remove_ambient_ai_prefix",
+      "legacy_ref": "term.ai_semantic_layer"
+    },
+    {
+      "canonical_refs": [
+        "standard.ossie"
+      ],
+      "disposition": "standard_not_product",
+      "legacy_ref": "standard.apache_ossie"
+    }
+  ],
+  "ddd_dossiers": [
+    {
+      "dossier_id": "ddd.smf.semantic_metric_formula_service",
+      "product_ref": "product.semantic_metric_formula_service",
+      "product_truth": {
+        "harmed_parties": [
+          "decision_subject",
+          "data_subject",
+          "downstream_consumer",
+          "finance_or_risk_owner"
+        ],
+        "jobs": [
+          "Author, review, publish, evaluate, observe, materialize, disclose, supersede and recall governed metric editions without transferring source, query or policy authority."
+        ],
+        "measurable_outcomes": [
+          "portable_metric_definition",
+          "fanout_safe_evaluation",
+          "time_and_unit_correct_result",
+          "traceable_observation_and_disclosure"
+        ],
+        "negative_mission": "Does not own source facts, glossary or ontology authority, physical query execution, BI presentation, data-use policy, industry thresholds or downstream decisions.",
+        "sovereign_question": "How can metric authors publish governed formula and metric editions and let consumers evaluate them consistently across grain, dimensions, time, units, uncertainty and providers?",
+        "users": [
+          "metric_author",
+          "semantic_steward",
+          "analyst",
+          "application_developer"
+        ]
+      },
+      "status": "candidate_not_ratified",
+      "strategic_and_tactical_ddd": {
+        "aggregate_invariants": [
+          "measure metric KPI target benchmark and observation remain distinct",
+          "formula expression definition binding and evaluation remain distinct",
+          "every free reference binds one exact owner and edition",
+          "grain join time unit missingness uncertainty and policy are explicit",
+          "publication approval evaluation observation materialization and disclosure are separate authorities"
+        ],
+        "aggregate_roots": [
+          "MetricDefinition",
+          "EvaluationOccurrence",
+          "MetricObservation"
+        ],
+        "aggregates": [
+          {
+            "consistency": "one command advances one immutable metric-definition edition",
+            "members": [
+              "formula",
+              "bindings",
+              "grain",
+              "dimensions",
+              "aggregation",
+              "time",
+              "units",
+              "missingness",
+              "uncertainty",
+              "lifecycle"
+            ],
+            "root": "MetricDefinition"
+          },
+          {
+            "consistency": "one occurrence binds an exact semantic and physical execution cut",
+            "members": [
+              "semantic_query",
+              "definition_editions",
+              "data_cut",
+              "provider_binding",
+              "result_or_refusal",
+              "receipt"
+            ],
+            "root": "EvaluationOccurrence"
+          },
+          {
+            "consistency": "append-only observation history with explicit correction supersession and recall",
+            "members": [
+              "value_or_error",
+              "definition_ref",
+              "evaluation_ref",
+              "population",
+              "grain",
+              "time",
+              "provenance",
+              "correction_state"
+            ],
+            "root": "MetricObservation"
+          }
+        ],
+        "anti_corruption_layers": [
+          "acl.glossary_term",
+          "acl.ontology_concept",
+          "acl.source_occurrence",
+          "acl.physical_query",
+          "acl.use_policy",
+          "acl.presentation",
+          "acl.vertical_metric_profile"
+        ],
+        "application_services": [
+          "AuthorMetricUseCase",
+          "ReviewAndPublishMetricUseCase",
+          "EvaluateSemanticQueryUseCase",
+          "RecordObservationUseCase",
+          "MaterializeMetricUseCase",
+          "RecallMetricUseCase"
+        ],
+        "bounded_context_boundary": {
+          "inside": [
+            "formula and metric editions",
+            "semantic binding",
+            "grain and join proof",
+            "aggregation and summarizability",
+            "calendar units missingness and uncertainty",
+            "semantic query identity",
+            "evaluation and observation evidence",
+            "materialization equivalence",
+            "definition supersession and recall"
+          ],
+          "outside": [
+            "source fact correction",
+            "glossary and ontology approval",
+            "physical query planning",
+            "report and dashboard lifecycle",
+            "data-use policy authorship",
+            "industry targets and downstream decisions"
+          ]
+        },
+        "commands": [
+          "open_semantic_domain",
+          "draft_formula",
+          "typecheck_formula",
+          "bind_definition",
+          "submit_definition_review",
+          "approve_definition",
+          "publish_metric_edition",
+          "evaluate_semantic_query",
+          "append_metric_observation",
+          "materialize_metric_cut",
+          "request_metric_disclosure",
+          "supersede_metric_edition",
+          "recall_metric_edition"
+        ],
+        "concurrency_and_idempotency": [
+          "optimistic metric-edition compare-and-swap",
+          "idempotency key per command and evaluation occurrence",
+          "append-only observation identity",
+          "single-winner publication per metric edition",
+          "deduplicated recall propagation"
+        ],
+        "context_map": [
+          {
+            "neighbor_ref": "neighbor.business_glossary",
+            "relationship": "customer_supplier_acl",
+            "translation": "import approved human terms without acquiring glossary authority"
+          },
+          {
+            "neighbor_ref": "neighbor.ontology",
+            "relationship": "published_language",
+            "translation": "import formal concepts and mappings by exact edition"
+          },
+          {
+            "neighbor_ref": "neighbor.source_truth",
+            "relationship": "anti_corruption_layer",
+            "translation": "bind immutable source occurrences and correction evidence"
+          },
+          {
+            "neighbor_ref": "neighbor.query_execution",
+            "relationship": "customer_supplier",
+            "translation": "lower a typed semantic query to a qualified physical execution offer"
+          },
+          {
+            "neighbor_ref": "neighbor.data_use_policy",
+            "relationship": "conformist_at_effect_gate",
+            "translation": "obtain purpose and disclosure decisions without self-authorization"
+          },
+          {
+            "neighbor_ref": "neighbor.presentation",
+            "relationship": "open_host_service",
+            "translation": "publish versioned metric definitions observations and result receipts"
+          },
+          {
+            "neighbor_ref": "neighbor.vertical_solution",
+            "relationship": "customer_supplier",
+            "translation": "import industry populations thresholds targets and acceptance rules"
+          }
+        ],
+        "domain_events": [
+          "semantic_domain_opened",
+          "formula_drafted",
+          "formula_typechecked",
+          "definition_bound",
+          "definition_review_requested",
+          "definition_approved",
+          "metric_edition_published",
+          "semantic_query_evaluated",
+          "metric_observation_appended",
+          "metric_cut_materialized",
+          "metric_disclosure_requested",
+          "metric_edition_superseded",
+          "metric_edition_recalled"
+        ],
+        "domain_services": [
+          "FormulaTypecheckingService",
+          "SemanticBindingService",
+          "SummarizabilityProofService",
+          "FanoutProofService",
+          "SemanticQueryCanonicalizationService",
+          "CacheEquivalenceService",
+          "CompatibilityDiffService"
+        ],
+        "domain_vision_statement": "Own the governed lifecycle from a typed formula or metric draft to portable evaluation and evidence-linked observations without acquiring source, query, policy or decision authority.",
+        "entities": [
+          "SemanticDomain",
+          "MetricDefinition",
+          "FormulaDefinition",
+          "DefinitionReview",
+          "EvaluationOccurrence",
+          "MetricObservation",
+          "Materialization",
+          "DisclosureOccurrence"
+        ],
+        "event_storming_swimlanes": [
+          "metric_author",
+          "semantic_steward_or_approver",
+          "consumer",
+          "semantic_runtime",
+          "query_provider",
+          "policy_authority",
+          "vertical_owner"
+        ],
+        "factories": [
+          "TypedFormulaFactory",
+          "MetricDefinitionFactory",
+          "SemanticQueryFactory",
+          "MetricObservationFactory"
+        ],
+        "integration_event_policy": "Only minimized versioned publication supersession recall observation and disclosure events cross the boundary; internal proof and review events remain product-local.",
+        "nonfunctional_laws": [
+          "deterministic parsing typing binding and canonicalization",
+          "bounded evaluation memory time and result size",
+          "cooperative cancellation and typed partial completion",
+          "no hidden source writes or disclosure",
+          "provider identity cannot change meaning",
+          "every result receipt binds definitions query data cut provider policy and output digest",
+          "removing model and agent extensions preserves the complete deterministic core"
+        ],
+        "policies_and_reactions": [
+          "when a definition is published invalidate incompatible semantic caches",
+          "when a metric edition is superseded preserve old observations under their bound edition",
+          "when a metric is recalled propagate recall to materializations observations and disclosures",
+          "when policy refuses disclosure retain evaluation evidence but emit no disclosure effect"
+        ],
+        "published_language": [
+          "MetricDefinitionEdition",
+          "BoundFormula",
+          "SemanticQuery",
+          "MetricObservation",
+          "MetricEvaluationReceipt",
+          "MetricRecallNotice",
+          "typed refusals"
+        ],
+        "read_models_and_projections": [
+          "MetricCatalogView",
+          "FormulaDependencyGraph",
+          "CompatibilityDiffView",
+          "EvaluationLineageView",
+          "ObservationHistoryView",
+          "MaterializationFreshnessView",
+          "RecallImpactView"
+        ],
+        "refusal_failure_catalog": [
+          "formula_syntax_invalid",
+          "semantic_type_mismatch",
+          "definition_binding_ambiguous",
+          "grain_or_population_unbound",
+          "fanout_safety_unproved",
+          "summarizability_unproved",
+          "calendar_or_unit_unbound",
+          "policy_refused",
+          "no_qualified_query_offer",
+          "cache_equivalence_unproved",
+          "publication_authority_missing",
+          "disclosure_authority_missing"
+        ],
+        "repositories": [
+          "SemanticDomainRepository",
+          "MetricDefinitionRepository",
+          "EvaluationOccurrenceRepository",
+          "MetricObservationRepository",
+          "MaterializationRepository"
+        ],
+        "sagas_and_process_managers": [
+          "MetricPublicationProcess",
+          "SemanticEvaluationProcess",
+          "MetricMaterializationRefreshProcess",
+          "MetricRecallPropagationProcess"
+        ],
+        "specifications": [
+          "PublicationReadinessSpecification",
+          "BindingCompletenessSpecification",
+          "SummarizabilitySpecification",
+          "FanoutSafetySpecification",
+          "EvaluationReadinessSpecification",
+          "MaterializationReuseSpecification",
+          "DisclosureReadinessSpecification"
+        ],
+        "state_machine": {
+          "metric_definition_states": [
+            "draft",
+            "typechecked",
+            "binding_resolved",
+            "review_pending",
+            "approved",
+            "published",
+            "deprecated",
+            "superseded",
+            "recalled"
+          ],
+          "observation_states": [
+            "recorded",
+            "corrected",
+            "superseded",
+            "recalled"
+          ],
+          "transition_policy": "Only named commands satisfying aggregate invariants may emit the corresponding past-tense event; approval is not publication, evaluation, observation or disclosure."
+        },
+        "subdomain_classification": "core_horizontal_semantic_product",
+        "time_model": [
+          "definition validity time is distinct from recording time",
+          "source event valid recording and query time are independent typed roles",
+          "calendar and timezone editions are explicit",
+          "observations carry evaluation and recording times",
+          "supersession recall and finality horizons are explicit"
+        ],
+        "ubiquitous_language_policy": "Measure, metric, KPI, target, benchmark, formula, definition, binding, evaluation, observation, materialization and disclosure each have one non-interchangeable meaning; foreign homonyms cross named ACLs.",
+        "value_objects": [
+          "MetricId",
+          "MetricEdition",
+          "FormulaAst",
+          "SemanticType",
+          "Grain",
+          "Population",
+          "DimensionSet",
+          "JoinPath",
+          "AggregationProfile",
+          "CalendarEdition",
+          "UnitExpression",
+          "MissingnessProfile",
+          "UncertaintyProfile",
+          "DataCutRef",
+          "PolicyDecisionRef"
+        ]
+      }
+    }
+  ],
+  "edition": 1,
+  "libraries": [
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "formula_language_edition"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.sdmx_vtl21"
+      ],
+      "invariants": [
+        "parse_preserves_source_and_never_binds_ambient_names",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.formula_parser",
+      "operations": [
+        "parse_formula"
+      ],
+      "owner_ref": "semantic.smf.formula_parser",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.formula_parser"
+      ],
+      "refusals": [
+        "formula_syntax_invalid",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "FormulaParser",
+        "FormulaParserDecision",
+        "FormulaParserRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "normalization_profile"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.openformula14"
+      ],
+      "invariants": [
+        "canonicalization_preserves_typed_semantics_or_refuses",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.ast_canonicalizer",
+      "operations": [
+        "canonicalize_formula"
+      ],
+      "owner_ref": "semantic.smf.ast_canonicalizer",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.ast_canonicalizer"
+      ],
+      "refusals": [
+        "canonicalization_unproved",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "AstCanonicalizer",
+        "AstCanonicalizerDecision",
+        "AstCanonicalizerRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "coercion_and_partiality"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.ucum"
+      ],
+      "invariants": [
+        "types_include_nullability_partiality_units_grain_and_time_roles",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.semantic_type_checker",
+      "operations": [
+        "type_formula"
+      ],
+      "owner_ref": "semantic.smf.semantic_type_checker",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.semantic_type_checker"
+      ],
+      "refusals": [
+        "type_mismatch",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "SemanticTypeChecker",
+        "SemanticTypeCheckerDecision",
+        "SemanticTypeCheckerRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "quantity_kind_compatibility"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.qudt35",
+        "evidence.ucum"
+      ],
+      "invariants": [
+        "dimension_vector_compatibility_is_required_but_not_sufficient_for_meaning",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.dimension_algebra",
+      "operations": [
+        "compose_dimensions"
+      ],
+      "owner_ref": "semantic.smf.dimension_algebra",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.dimension_algebra"
+      ],
+      "refusals": [
+        "quantity_kind_mismatch",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "DimensionAlgebra",
+        "DimensionAlgebraDecision",
+        "DimensionAlgebraRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "conversion_edition_and_precision"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.qudt35",
+        "evidence.ucum",
+        "evidence.nist_si"
+      ],
+      "invariants": [
+        "conversion_rules_are_explicit_editioned_and_loss_accounted",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.unit_conversion_algebra",
+      "operations": [
+        "convert_unit"
+      ],
+      "owner_ref": "semantic.smf.unit_conversion_algebra",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.unit_conversion_algebra"
+      ],
+      "refusals": [
+        "conversion_unavailable",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "UnitConversionAlgebra",
+        "UnitConversionAlgebraDecision",
+        "UnitConversionAlgebraRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "absence_reason_policy"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.rdf_cube"
+      ],
+      "invariants": [
+        "null_absent_unknown_suppressed_not_applicable_error_and_zero_are_distinct",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.missingness_algebra",
+      "operations": [
+        "propagate_partiality"
+      ],
+      "owner_ref": "semantic.smf.missingness_algebra",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.missingness_algebra"
+      ],
+      "refusals": [
+        "absence_semantics_unknown",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "MissingnessAlgebra",
+        "MissingnessAlgebraDecision",
+        "MissingnessAlgebraRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "aggregate_and_empty_input_profile"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.gray_cube",
+        "evidence.postgres_aggregate"
+      ],
+      "invariants": [
+        "mergeable_state_empty_input_null_order_and_exactness_are_declared",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.aggregation_algebra",
+      "operations": [
+        "aggregate_values"
+      ],
+      "owner_ref": "semantic.smf.aggregation_algebra",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.aggregation_algebra"
+      ],
+      "refusals": [
+        "aggregation_undefined",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "AggregationAlgebra",
+        "AggregationAlgebraDecision",
+        "AggregationAlgebraRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "additivity_and_hierarchy_posture"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.gray_cube",
+        "evidence.agg_consistency"
+      ],
+      "invariants": [
+        "additivity_and_decomposability_are_independent_and_rollup_requires_proof",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.summarizability_checker",
+      "operations": [
+        "prove_summarizability"
+      ],
+      "owner_ref": "semantic.smf.summarizability_checker",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.summarizability_checker"
+      ],
+      "refusals": [
+        "summarizability_unproved",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "SummarizabilityChecker",
+        "SummarizabilityCheckerDecision",
+        "SummarizabilityCheckerRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "multiplicity_preservation"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.agg_consistency",
+        "evidence.cube_joins",
+        "evidence.looker_symmetric"
+      ],
+      "invariants": [
+        "every_measure_contribution_multiplicity_is_preserved_or_explicitly_allocated",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.fanout_analyzer",
+      "operations": [
+        "prove_fanout_safety"
+      ],
+      "owner_ref": "semantic.smf.fanout_analyzer",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.fanout_analyzer"
+      ],
+      "refusals": [
+        "fanout_unsafe",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "FanoutAnalyzer",
+        "FanoutAnalyzerDecision",
+        "FanoutAnalyzerRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "calendar_zone_and_boundary_editions"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.owl_time",
+        "evidence.rfc3339",
+        "evidence.tzdb"
+      ],
+      "invariants": [
+        "period_identity_includes_calendar_zone_boundaries_and_edition",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.calendar_algebra",
+      "operations": [
+        "bucket_time"
+      ],
+      "owner_ref": "semantic.smf.calendar_algebra",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.calendar_algebra"
+      ],
+      "refusals": [
+        "calendar_unbound",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "CalendarAlgebra",
+        "CalendarAlgebraDecision",
+        "CalendarAlgebraRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "valid_recording_event_query_time"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.owl_time",
+        "evidence.rdf_cube"
+      ],
+      "invariants": [
+        "valid_recording_event_and_query_time_are_independent_roles",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.bitemporal_algebra",
+      "operations": [
+        "select_bitemporal_cut"
+      ],
+      "owner_ref": "semantic.smf.bitemporal_algebra",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.bitemporal_algebra"
+      ],
+      "refusals": [
+        "temporal_cut_ambiguous",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "BitemporalAlgebra",
+        "BitemporalAlgebraDecision",
+        "BitemporalAlgebraRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "uncertainty_model_and_dependence"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.gum"
+      ],
+      "invariants": [
+        "uncertainty_and_approximation_never_disappear_during_composition",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.uncertainty_algebra",
+      "operations": [
+        "propagate_uncertainty"
+      ],
+      "owner_ref": "semantic.smf.uncertainty_algebra",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.uncertainty_algebra"
+      ],
+      "refusals": [
+        "uncertainty_model_missing",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "UncertaintyAlgebra",
+        "UncertaintyAlgebraDecision",
+        "UncertaintyAlgebraRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "query_identity_profile"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.substrait"
+      ],
+      "invariants": [
+        "identity_covers_editions_grain_population_filters_time_units_uncertainty_and_policy",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.semantic_query_canonicalizer",
+      "operations": [
+        "canonicalize_semantic_query"
+      ],
+      "owner_ref": "semantic.smf.semantic_query_canonicalizer",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.semantic_query_canonicalizer"
+      ],
+      "refusals": [
+        "semantic_query_incomplete",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "SemanticQueryCanonicalizer",
+        "SemanticQueryCanonicalizerDecision",
+        "SemanticQueryCanonicalizerRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "equivalence_or_containment"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.calcite_mv",
+        "evidence.cube_preagg"
+      ],
+      "invariants": [
+        "matching_sql_is_neither_necessary_nor_sufficient_for_semantic_reuse",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.cache_equivalence_prover",
+      "operations": [
+        "prove_cache_reuse"
+      ],
+      "owner_ref": "semantic.smf.cache_equivalence_prover",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.cache_equivalence_prover"
+      ],
+      "refusals": [
+        "cache_equivalence_unproved",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "CacheEquivalenceProver",
+        "CacheEquivalenceProverDecision",
+        "CacheEquivalenceProverRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "directional_compatibility"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.sdmx31"
+      ],
+      "invariants": [
+        "version_numbers_do_not_imply_semantic_compatibility",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.compatibility_diff",
+      "operations": [
+        "diff_semantic_editions"
+      ],
+      "owner_ref": "semantic.smf.compatibility_diff",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.compatibility_diff"
+      ],
+      "refusals": [
+        "compatibility_unknown",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "CompatibilityDiff",
+        "CompatibilityDiffDecision",
+        "CompatibilityDiffRefusal"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "approval_deprecation_and_recall"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.ossie",
+        "evidence.dbt_semantic_models"
+      ],
+      "invariants": [
+        "published_definitions_are_immutable_and_corrections_create_new_editions",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.semantic_registry",
+      "operations": [
+        "publish_semantic_edition"
+      ],
+      "owner_ref": "semantic.smf.semantic_registry",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.semantic_registry"
+      ],
+      "refusals": [
+        "publication_unauthorized",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "SemanticRegistry",
+        "SemanticRegistryDecision",
+        "SemanticRegistryRefusal"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "snapshot_and_owner_resolution"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.dbt_semantic_models",
+        "evidence.snowflake_semantic"
+      ],
+      "invariants": [
+        "every_free_reference_binds_to_one_owner_and_exact_edition",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.binding_resolver",
+      "operations": [
+        "bind_semantic_definition"
+      ],
+      "owner_ref": "semantic.smf.binding_resolver",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.binding_resolver"
+      ],
+      "refusals": [
+        "binding_ambiguous",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "BindingResolver",
+        "BindingResolverDecision",
+        "BindingResolverRefusal"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "effect_budget_and_provider"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.openformula14",
+        "evidence.cql"
+      ],
+      "invariants": [
+        "formula_definition_binding_and_evaluation_are_distinct_identities",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.formula_runtime",
+      "operations": [
+        "evaluate_bound_formula"
+      ],
+      "owner_ref": "semantic.smf.formula_runtime",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.formula_runtime"
+      ],
+      "refusals": [
+        "evaluation_failed",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "FormulaRuntime",
+        "FormulaRuntimeDecision",
+        "FormulaRuntimeRefusal"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "rate_source_side_purpose_and_cutoff"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.ecb_fx"
+      ],
+      "invariants": [
+        "unit_conversion_is_not_currency_valuation_and_rate_purpose_is_explicit",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.exchange_rate_gateway",
+      "operations": [
+        "obtain_rate_set"
+      ],
+      "owner_ref": "semantic.smf.exchange_rate_gateway",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.exchange_rate_gateway"
+      ],
+      "refusals": [
+        "valuation_rate_unavailable",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "ExchangeRateGateway",
+        "ExchangeRateGatewayDecision",
+        "ExchangeRateGatewayRefusal"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "lowering_target_and_budget"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.dbt_metricflow",
+        "evidence.substrait",
+        "evidence.snowflake_semantic"
+      ],
+      "invariants": [
+        "semantic_query_is_not_sql_and_lowering_loss_is_explicit",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.semantic_query_gateway",
+      "operations": [
+        "execute_semantic_query"
+      ],
+      "owner_ref": "semantic.smf.semantic_query_gateway",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.semantic_query_gateway"
+      ],
+      "refusals": [
+        "no_compatible_query_offer",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "SemanticQueryGateway",
+        "SemanticQueryGatewayDecision",
+        "SemanticQueryGatewayRefusal"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "refresh_invalidation_and_cut"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.cube_preagg",
+        "evidence.databricks_metric"
+      ],
+      "invariants": [
+        "materialization_never_acquires_definition_or_source_authority",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.materialization_store",
+      "operations": [
+        "reconcile_materialization"
+      ],
+      "owner_ref": "semantic.smf.materialization_store",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.materialization_store"
+      ],
+      "refusals": [
+        "materialization_stale",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "MaterializationStore",
+        "MaterializationStoreDecision",
+        "MaterializationStoreRefusal"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "correction_supersession_and_recall"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.rdf_cube",
+        "evidence.fhir_report",
+        "evidence.prov_dm"
+      ],
+      "invariants": [
+        "metric_definition_and_metric_observation_are_distinct_and_history_is_append_only",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.observation_ledger",
+      "operations": [
+        "append_metric_observation"
+      ],
+      "owner_ref": "semantic.smf.observation_ledger",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.observation_ledger"
+      ],
+      "refusals": [
+        "observation_receipt_incomplete",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "ObservationLedger",
+        "ObservationLedgerDecision",
+        "ObservationLedgerRefusal"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "purpose_population_and_projection"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.odrl"
+      ],
+      "invariants": [
+        "semantic_service_imports_policy_and_cannot_self_authorize",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.policy_gateway",
+      "operations": [
+        "obtain_metric_policy"
+      ],
+      "owner_ref": "semantic.smf.policy_gateway",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.policy_gateway"
+      ],
+      "refusals": [
+        "policy_refused",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "PolicyGateway",
+        "PolicyGatewayDecision",
+        "PolicyGatewayRefusal"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "suppression_rounding_and_evidence"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.odrl",
+        "evidence.rdf_cube"
+      ],
+      "invariants": [
+        "disclosure_is_an_effect_distinct_from_evaluation",
+        "provider_identity_does_not_change_meaning",
+        "generated_output_never_owns_metric_meaning_or_effect_authority"
+      ],
+      "library_id": "library.adjudicated.smf.disclosure_gateway",
+      "operations": [
+        "disclose_metric_result"
+      ],
+      "owner_ref": "semantic.smf.disclosure_gateway",
+      "product_ref": "product.semantic_metric_formula_service",
+      "provides": [
+        "capability.smf.disclosure_gateway"
+      ],
+      "refusals": [
+        "disclosure_refused",
+        "unsupported_capability",
+        "resource_exhausted"
+      ],
+      "types": [
+        "DisclosureGateway",
+        "DisclosureGatewayDecision",
+        "DisclosureGatewayRefusal"
+      ]
+    }
+  ],
+  "negative_scope": "Does not own source facts, glossary/ontology authority, physical query execution, BI presentation, data-use policy, vertical targets or ambient model/agent authority.",
+  "negative_tests": [
+    {
+      "expected_result": "retain aggregation input and governed metric definition separately",
+      "prohibited_claim": "measure equals metric",
+      "test_id": "negative.smf.measure_metric"
+    },
+    {
+      "expected_result": "require an explicit KPI role and accountable objective",
+      "prohibited_claim": "every metric is a KPI",
+      "test_id": "negative.smf.metric_kpi"
+    },
+    {
+      "expected_result": "retain roles and authority separately",
+      "prohibited_claim": "target or benchmark is an observed value",
+      "test_id": "negative.smf.target_observation"
+    },
+    {
+      "expected_result": "bind every observation to a definition edition and evaluation cut",
+      "prohibited_claim": "metric definition equals metric observation",
+      "test_id": "negative.smf.definition_observation"
+    },
+    {
+      "expected_result": "resolve every free reference and exact edition",
+      "prohibited_claim": "formula expression is a bound definition",
+      "test_id": "negative.smf.formula_binding"
+    },
+    {
+      "expected_result": "require an evaluation occurrence and receipt",
+      "prohibited_claim": "successful binding proves evaluated value",
+      "test_id": "negative.smf.binding_evaluation"
+    },
+    {
+      "expected_result": "preserve distinct constructors",
+      "prohibited_claim": "null, absent, unknown, suppressed or error equals zero",
+      "test_id": "negative.smf.null_zero"
+    },
+    {
+      "expected_result": "apply explicit empty-input and missingness laws",
+      "prohibited_claim": "empty population equals all values missing",
+      "test_id": "negative.smf.empty_missing"
+    },
+    {
+      "expected_result": "also require quantity kind, grain and semantic compatibility",
+      "prohibited_claim": "convertible units prove equivalent business meaning",
+      "test_id": "negative.smf.unit_meaning"
+    },
+    {
+      "expected_result": "bind rate source, side, purpose, cutoff and correction",
+      "prohibited_claim": "currency valuation is a static unit conversion",
+      "test_id": "negative.smf.currency_unit"
+    },
+    {
+      "expected_result": "type each temporal role independently",
+      "prohibited_claim": "event, valid, recording and query time are interchangeable",
+      "test_id": "negative.smf.event_valid_recording"
+    },
+    {
+      "expected_result": "report each coordinate separately",
+      "prohibited_claim": "freshness proves completeness or finality",
+      "test_id": "negative.smf.fresh_final"
+    },
+    {
+      "expected_result": "require path, cardinality, authority and fanout proofs",
+      "prohibited_claim": "declared relation proves an authorized safe join",
+      "test_id": "negative.smf.join_relation"
+    },
+    {
+      "expected_result": "bind cut-scoped evidence or refuse",
+      "prohibited_claim": "estimated cardinality proves actual contribution multiplicity",
+      "test_id": "negative.smf.cardinality_estimate"
+    },
+    {
+      "expected_result": "require allocation, compatible preaggregation, valid deduplication or refusal",
+      "prohibited_claim": "many-to-many joins are automatically safe",
+      "test_id": "negative.smf.many_many"
+    },
+    {
+      "expected_result": "declare both independently",
+      "prohibited_claim": "additive equals decomposable",
+      "test_id": "negative.smf.additive_decomposable"
+    },
+    {
+      "expected_result": "merge sufficient sum/count state or recompute",
+      "prohibited_claim": "averages can be averaged across groups",
+      "test_id": "negative.smf.average_rollup"
+    },
+    {
+      "expected_result": "reaggregate numerator and denominator under compatible grain",
+      "prohibited_claim": "percentages can be summed or averaged",
+      "test_id": "negative.smf.percent_rollup"
+    },
+    {
+      "expected_result": "refuse unsupported holistic reaggregation",
+      "prohibited_claim": "every aggregate has finite sufficient merge state",
+      "test_id": "negative.smf.holistic_merge"
+    },
+    {
+      "expected_result": "retain semantic AST, bindings and lowering separately",
+      "prohibited_claim": "semantic query equals SQL text",
+      "test_id": "negative.smf.semantic_sql"
+    },
+    {
+      "expected_result": "compare exact semantic identity and policy posture",
+      "prohibited_claim": "matching SQL proves same metric",
+      "test_id": "negative.smf.same_sql"
+    },
+    {
+      "expected_result": "permit reuse only with an equivalence proof",
+      "prohibited_claim": "different SQL cannot be semantically equivalent",
+      "test_id": "negative.smf.different_sql"
+    },
+    {
+      "expected_result": "preserve definition and source authority",
+      "prohibited_claim": "materialization becomes source truth",
+      "test_id": "negative.smf.materialized_truth"
+    },
+    {
+      "expected_result": "validate cut, invalidation and finality evidence",
+      "prohibited_claim": "semantic cache hit proves freshness and finality",
+      "test_id": "negative.smf.cache_hit_current"
+    },
+    {
+      "expected_result": "require access-equivalent projection proof",
+      "prohibited_claim": "equivalent values can be reused across access policies",
+      "test_id": "negative.smf.cache_policy"
+    },
+    {
+      "expected_result": "presentation imports an editioned metric contract",
+      "prohibited_claim": "dashboard tile owns metric meaning",
+      "test_id": "negative.smf.metric_dashboard"
+    },
+    {
+      "expected_result": "lower semantics into a replaceable engine",
+      "prohibited_claim": "query engine owns business metric meaning",
+      "test_id": "negative.smf.metric_query_engine"
+    },
+    {
+      "expected_result": "import approved terms and formal concepts through ACLs",
+      "prohibited_claim": "semantic layer replaces glossary or ontology",
+      "test_id": "negative.smf.semantic_ontology"
+    },
+    {
+      "expected_result": "require owner approval and lifecycle transition",
+      "prohibited_claim": "provider YAML becomes authoritative by parsing",
+      "test_id": "negative.smf.definition_authority"
+    },
+    {
+      "expected_result": "require typed directional compatibility and behavior tests",
+      "prohibited_claim": "Ossie/schema validity proves semantic equivalence",
+      "test_id": "negative.smf.schema_equivalence"
+    },
+    {
+      "expected_result": "require exact conformance receipts",
+      "prohibited_claim": "official docs qualify a semantic implementation",
+      "test_id": "negative.smf.provider_qualified"
+    },
+    {
+      "expected_result": "require two independent qualified implementations",
+      "prohibited_claim": "one implementation proves portable semantics",
+      "test_id": "negative.smf.one_portable"
+    },
+    {
+      "expected_result": "bind explicit business definition and authority",
+      "prohibited_claim": "OpenMetrics or OTel metric is automatically a business metric",
+      "test_id": "negative.smf.telemetry_business"
+    },
+    {
+      "expected_result": "retain derivation, correction and supersession",
+      "prohibited_claim": "metric observation is an immutable source fact",
+      "test_id": "negative.smf.observation_fact"
+    },
+    {
+      "expected_result": "propagate or explicitly refuse unsupported composition",
+      "prohibited_claim": "aggregation may discard uncertainty",
+      "test_id": "negative.smf.uncertainty_drop"
+    },
+    {
+      "expected_result": "bind error profile, confidence and authorization",
+      "prohibited_claim": "approximate result is exact",
+      "test_id": "negative.smf.approx_exact"
+    },
+    {
+      "expected_result": "require monotonicity, convergence and finite budget",
+      "prohibited_claim": "recursive formula may execute without a fixed-point profile",
+      "test_id": "negative.smf.recursive_formula"
+    },
+    {
+      "expected_result": "keep them in the vertical solution pack",
+      "prohibited_claim": "horizontal service owns industry thresholds and targets",
+      "test_id": "negative.smf.vertical_threshold"
+    },
+    {
+      "expected_result": "require deterministic validation and owner approval",
+      "prohibited_claim": "agent proposal publishes a metric definition",
+      "test_id": "negative.smf.agent_definition"
+    },
+    {
+      "expected_result": "compile an explicit typed query or refuse",
+      "prohibited_claim": "agent interpretation replaces typed semantic query",
+      "test_id": "negative.smf.agent_query"
+    },
+    {
+      "expected_result": "require deterministic policy and effect gates",
+      "prohibited_claim": "generated text authorizes disclosure",
+      "test_id": "negative.smf.agent_authority"
+    },
+    {
+      "expected_result": "remove all extensions and preserve deterministic core behavior",
+      "prohibited_claim": "model or agent is required for formula correctness",
+      "test_id": "negative.smf.agent_core"
+    },
+    {
+      "expected_result": "model the exact optional capability without changing domain boundaries",
+      "prohibited_claim": "adding AI creates a new semantic-layer product",
+      "test_id": "negative.smf.ai_prefix"
+    }
+  ],
+  "non_collapse_laws": [
+    "measure != metric != KPI != target != benchmark != observation",
+    "formula expression != formula definition != binding != evaluation",
+    "null != absent != unknown != suppressed != not-applicable != error != zero",
+    "entity relation != authorized join != fanout proof",
+    "additivity != decomposability; aggregate result != sufficient merge state",
+    "unit conversion != currency valuation; event time != valid time != recording time != query time",
+    "freshness != completeness != validity != finality",
+    "semantic query != SQL text; matching SQL != semantic cache equivalence",
+    "metric definition and metric observation have different lifecycle and authority",
+    "semantic metric service != glossary != ontology != query engine != BI presentation",
+    "metric store is an overloaded architecture label, not a second product",
+    "standard/schema acceptance != semantic equivalence != provider qualification",
+    "optional model or agent output is a proposal, never metric meaning or effect authority",
+    "removing all model/agent extensions preserves deterministic parsing, typing, binding, proof, policy, execution and receipts"
+  ],
+  "offers": [
+    {
+      "capability_refs": [
+        "capability.smf.formula_parser",
+        "capability.smf.semantic_registry",
+        "capability.smf.binding_resolver",
+        "capability.smf.semantic_query_gateway"
+      ],
+      "evidence_refs": [
+        "evidence.dbt_semantic_models",
+        "evidence.dbt_metrics",
+        "evidence.dbt_metricflow"
+      ],
+      "offer_id": "offer.smf.dbt_metricflow",
+      "portable": false,
+      "provider_ref": "implementation.dbt_metricflow",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.smf.aggregation_algebra",
+        "capability.smf.fanout_analyzer",
+        "capability.smf.semantic_query_gateway",
+        "capability.smf.materialization_store"
+      ],
+      "evidence_refs": [
+        "evidence.cube_measures",
+        "evidence.cube_joins",
+        "evidence.cube_preagg"
+      ],
+      "offer_id": "offer.smf.cube",
+      "portable": false,
+      "provider_ref": "implementation.cube",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.smf.fanout_analyzer",
+        "capability.smf.semantic_query_gateway"
+      ],
+      "evidence_refs": [
+        "evidence.looker_symmetric"
+      ],
+      "offer_id": "offer.smf.looker",
+      "portable": false,
+      "provider_ref": "implementation.looker",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.smf.semantic_registry",
+        "capability.smf.binding_resolver",
+        "capability.smf.semantic_query_gateway"
+      ],
+      "evidence_refs": [
+        "evidence.snowflake_semantic"
+      ],
+      "offer_id": "offer.smf.snowflake",
+      "portable": false,
+      "provider_ref": "implementation.snowflake_semantic",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.smf.semantic_registry",
+        "capability.smf.semantic_query_gateway",
+        "capability.smf.materialization_store"
+      ],
+      "evidence_refs": [
+        "evidence.databricks_metric"
+      ],
+      "offer_id": "offer.smf.databricks",
+      "portable": false,
+      "provider_ref": "implementation.databricks_metric",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    }
+  ],
+  "ownership": [
+    {
+      "invariant": "parse_preserves_source_and_never_binds_ambient_names",
+      "meaning_id": "meaning.smf.formula_parser",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.formula_parser",
+      "term": "Formula syntax"
+    },
+    {
+      "invariant": "canonicalization_preserves_typed_semantics_or_refuses",
+      "meaning_id": "meaning.smf.ast_canonicalizer",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.ast_canonicalizer",
+      "term": "Formula AST canonicalization"
+    },
+    {
+      "invariant": "types_include_nullability_partiality_units_grain_and_time_roles",
+      "meaning_id": "meaning.smf.semantic_type_checker",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.semantic_type_checker",
+      "term": "Semantic formula types"
+    },
+    {
+      "invariant": "dimension_vector_compatibility_is_required_but_not_sufficient_for_meaning",
+      "meaning_id": "meaning.smf.dimension_algebra",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.dimension_algebra",
+      "term": "Quantity dimension algebra"
+    },
+    {
+      "invariant": "conversion_rules_are_explicit_editioned_and_loss_accounted",
+      "meaning_id": "meaning.smf.unit_conversion_algebra",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.unit_conversion_algebra",
+      "term": "Unit conversion algebra"
+    },
+    {
+      "invariant": "null_absent_unknown_suppressed_not_applicable_error_and_zero_are_distinct",
+      "meaning_id": "meaning.smf.missingness_algebra",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.missingness_algebra",
+      "term": "Missingness and partiality"
+    },
+    {
+      "invariant": "mergeable_state_empty_input_null_order_and_exactness_are_declared",
+      "meaning_id": "meaning.smf.aggregation_algebra",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.aggregation_algebra",
+      "term": "Aggregation algebra"
+    },
+    {
+      "invariant": "additivity_and_decomposability_are_independent_and_rollup_requires_proof",
+      "meaning_id": "meaning.smf.summarizability_checker",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.summarizability_checker",
+      "term": "Summarizability proof"
+    },
+    {
+      "invariant": "every_measure_contribution_multiplicity_is_preserved_or_explicitly_allocated",
+      "meaning_id": "meaning.smf.fanout_analyzer",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.fanout_analyzer",
+      "term": "Fanout safety"
+    },
+    {
+      "invariant": "period_identity_includes_calendar_zone_boundaries_and_edition",
+      "meaning_id": "meaning.smf.calendar_algebra",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.calendar_algebra",
+      "term": "Calendar and period algebra"
+    },
+    {
+      "invariant": "valid_recording_event_and_query_time_are_independent_roles",
+      "meaning_id": "meaning.smf.bitemporal_algebra",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.bitemporal_algebra",
+      "term": "Bitemporal metric cut"
+    },
+    {
+      "invariant": "uncertainty_and_approximation_never_disappear_during_composition",
+      "meaning_id": "meaning.smf.uncertainty_algebra",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.uncertainty_algebra",
+      "term": "Metric uncertainty"
+    },
+    {
+      "invariant": "identity_covers_editions_grain_population_filters_time_units_uncertainty_and_policy",
+      "meaning_id": "meaning.smf.semantic_query_canonicalizer",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.semantic_query_canonicalizer",
+      "term": "Semantic query identity"
+    },
+    {
+      "invariant": "matching_sql_is_neither_necessary_nor_sufficient_for_semantic_reuse",
+      "meaning_id": "meaning.smf.cache_equivalence_prover",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.cache_equivalence_prover",
+      "term": "Semantic cache equivalence"
+    },
+    {
+      "invariant": "version_numbers_do_not_imply_semantic_compatibility",
+      "meaning_id": "meaning.smf.compatibility_diff",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.compatibility_diff",
+      "term": "Semantic edition compatibility"
+    },
+    {
+      "invariant": "published_definitions_are_immutable_and_corrections_create_new_editions",
+      "meaning_id": "meaning.smf.semantic_registry",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.semantic_registry",
+      "term": "Semantic definition registry"
+    },
+    {
+      "invariant": "every_free_reference_binds_to_one_owner_and_exact_edition",
+      "meaning_id": "meaning.smf.binding_resolver",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.binding_resolver",
+      "term": "Semantic binding"
+    },
+    {
+      "invariant": "formula_definition_binding_and_evaluation_are_distinct_identities",
+      "meaning_id": "meaning.smf.formula_runtime",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.formula_runtime",
+      "term": "Formula evaluation occurrence"
+    },
+    {
+      "invariant": "unit_conversion_is_not_currency_valuation_and_rate_purpose_is_explicit",
+      "meaning_id": "meaning.smf.exchange_rate_gateway",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.exchange_rate_gateway",
+      "term": "Currency valuation gateway"
+    },
+    {
+      "invariant": "semantic_query_is_not_sql_and_lowering_loss_is_explicit",
+      "meaning_id": "meaning.smf.semantic_query_gateway",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.semantic_query_gateway",
+      "term": "Semantic query execution"
+    },
+    {
+      "invariant": "materialization_never_acquires_definition_or_source_authority",
+      "meaning_id": "meaning.smf.materialization_store",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.materialization_store",
+      "term": "Semantic materialization"
+    },
+    {
+      "invariant": "metric_definition_and_metric_observation_are_distinct_and_history_is_append_only",
+      "meaning_id": "meaning.smf.observation_ledger",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.observation_ledger",
+      "term": "Metric observation ledger"
+    },
+    {
+      "invariant": "semantic_service_imports_policy_and_cannot_self_authorize",
+      "meaning_id": "meaning.smf.policy_gateway",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.policy_gateway",
+      "term": "Metric use-policy gateway"
+    },
+    {
+      "invariant": "disclosure_is_an_effect_distinct_from_evaluation",
+      "meaning_id": "meaning.smf.disclosure_gateway",
+      "must_not_be_owned_by": [
+        "neighbor.query_execution",
+        "neighbor.presentation",
+        "component.optional_model_assistance"
+      ],
+      "owner_ref": "semantic.smf.disclosure_gateway",
+      "term": "Metric disclosure"
+    }
+  ],
+  "relations": [
+    {
+      "binding_phase": "authoring",
+      "from_ref": "suite.semantic_layer",
+      "predicate": "packages",
+      "relation_id": "relation.smf.suite_packages_product",
+      "to_ref": "product.semantic_metric_formula_service"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "from_ref": "product.semantic_metric_formula_service",
+      "predicate": "requires",
+      "relation_id": "relation.smf.product_requires_query",
+      "to_ref": "neighbor.query_execution"
+    },
+    {
+      "binding_phase": "authoring",
+      "from_ref": "product.semantic_metric_formula_service",
+      "predicate": "requires",
+      "relation_id": "relation.smf.product_imports_glossary",
+      "to_ref": "neighbor.business_glossary"
+    },
+    {
+      "binding_phase": "runtime",
+      "from_ref": "product.semantic_metric_formula_service",
+      "predicate": "governed_by",
+      "relation_id": "relation.smf.product_imports_policy",
+      "to_ref": "neighbor.data_use_policy"
+    },
+    {
+      "binding_phase": "compile_time",
+      "from_ref": "standard.openformula14",
+      "predicate": "specializes",
+      "relation_id": "relation.smf.openformula_specializes_formula",
+      "to_ref": "semantic.business_formula"
+    },
+    {
+      "binding_phase": "compile_time",
+      "from_ref": "standard.sdmx31",
+      "predicate": "specializes",
+      "relation_id": "relation.smf.sdmx_specializes_observation",
+      "to_ref": "semantic.metric_observation"
+    }
+  ],
+  "requirements": [
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.formula_parser",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.formula_parser",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.ast_canonicalizer",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.ast_canonicalizer",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.semantic_type_checker",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.semantic_type_checker",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.dimension_algebra",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.dimension_algebra",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.unit_conversion_algebra",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.unit_conversion_algebra",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.missingness_algebra",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.missingness_algebra",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.aggregation_algebra",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.aggregation_algebra",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.summarizability_checker",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.summarizability_checker",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.fanout_analyzer",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.fanout_analyzer",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.calendar_algebra",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.calendar_algebra",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.bitemporal_algebra",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.bitemporal_algebra",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.uncertainty_algebra",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.uncertainty_algebra",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.semantic_query_canonicalizer",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.semantic_query_canonicalizer",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.cache_equivalence_prover",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.cache_equivalence_prover",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.compatibility_diff",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.compatibility_diff",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.smf.semantic_registry",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.semantic_registry",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.smf.binding_resolver",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.binding_resolver",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.smf.formula_runtime",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.formula_runtime",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.smf.exchange_rate_gateway",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.exchange_rate_gateway",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.smf.semantic_query_gateway",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.semantic_query_gateway",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.smf.materialization_store",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.materialization_store",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.smf.observation_ledger",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.observation_ledger",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.smf.policy_gateway",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.policy_gateway",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.smf.disclosure_gateway",
+      "consumer_ref": "product.semantic_metric_formula_service",
+      "minimum_qualified_offers": 2,
+      "refusal": "refuse compilation or execution when no exact qualified compatible offer exists",
+      "requirement_id": "requirement.smf.disclosure_gateway",
+      "status": "unbound"
+    }
+  ],
+  "scope": "Business formulas, semantic models, measures, metrics, dimensions, grains, populations, joins, aggregation, units, time, uncertainty, semantic query, observations, materialization, cache equivalence and disclosure.",
+  "semantic_gaps": [
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.cross_provider_function_equivalence",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "No complete machine-verifiable registry proves function equivalence across formula and semantic-query providers."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.summarizability_automation",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Ragged, non-strict and temporal hierarchy summarizability remains only partially decidable or automated."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.data_dependent_cardinality",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Join cardinality and constraints can change by data cut and lack portable durable proof receipts."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.holistic_fanout",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "No general portable fanout-safe decomposition exists for every holistic aggregate."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.semantic_cache_containment",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "No broadly adopted decidable containment fragment covers metrics, time, partiality, uncertainty and access together."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.uncertainty_interchange",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Semantic layers lack a broadly adopted covariance and distribution interchange contract."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.fiscal_calendar_interchange",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Fiscal and retail calendars lack one authoritative interoperable definition format."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.currency_valuation_purpose",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Rate source, side, purpose, cutoff and correction policy are inconsistently represented."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.absence_reason_interchange",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Null and missing-reason taxonomies do not port cleanly across SQL, cube and metric specifications."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.semantic_compatibility",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Version labels rarely carry machine-checkable directional semantic-compatibility claims."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.metric_recall",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Recall propagation through observations, materializations, caches and disclosures lacks a common protocol."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.finality_model",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Cross-domain finality, revision horizon and correction vocabulary remains fragmented."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.bitemporal_metrics",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Most metric specifications expose event time without both valid and recording time."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.access_equivalent_cache",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Cache equivalence under row, column, purpose and suppression policy lacks adequate proof systems."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.approximation_authority",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Approximate metric offers rarely expose composable error bounds and authorization contracts."
+    },
+    {
+      "blocking": true,
+      "closure_evidence": "Publish an exact owner, decidable profile or scoped refusal, executable conformance oracle and independent implementation evidence.",
+      "gap_class": "semantic_or_conformance",
+      "gap_id": "gap.smf.fixed_point_formulas",
+      "product_ref": "product.semantic_metric_formula_service",
+      "statement": "Safe recursive metric formulas lack a broadly portable bounded monotone fixed-point profile."
+    }
+  ],
+  "sources": [
+    {
+      "claim": "Defines formula syntax, types, operators, functions and error semantics.",
+      "publisher": "OASIS",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Spreadsheet formula exchange does not define enterprise semantic owners, data binding, query execution or authorization.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.openformula14",
+      "title": "OpenDocument 1.4 Part 4: OpenFormula",
+      "uri": "https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html"
+    },
+    {
+      "claim": "Defines statistical structures, dimensions, measures, attributes and exchange formats.",
+      "publisher": "SDMX",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Statistical interchange does not define every business metric or provider conformance.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.sdmx31",
+      "title": "SDMX 3.1 Technical Specifications",
+      "uri": "https://sdmx.org/standards-2/"
+    },
+    {
+      "claim": "Defines typed validation and transformation expressions over statistical data.",
+      "publisher": "SDMX",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "VTL scope and data model are not a universal formula or metric language.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.sdmx_vtl21",
+      "title": "Validation and Transformation Language 2.1",
+      "uri": "https://sdmx.org/?page_id=5096"
+    },
+    {
+      "claim": "Separates data structures, dimensions, measures, attributes, slices and observations with integrity constraints.",
+      "publisher": "W3C",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "RDF cube validity does not prove summarizability, fanout safety or business fitness.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.rdf_cube",
+      "title": "RDF Data Cube Vocabulary",
+      "uri": "https://www.w3.org/TR/vocab-data-cube/"
+    },
+    {
+      "claim": "Defines entities, activities, agents and derivation provenance.",
+      "publisher": "W3C",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Provenance does not prove formula correctness, causation or authorization.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.prov_dm",
+      "title": "PROV Data Model",
+      "uri": "https://www.w3.org/TR/prov-dm/"
+    },
+    {
+      "claim": "Defines instants, intervals, temporal positions and reference systems.",
+      "publisher": "W3C and OGC",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "It does not select a fiscal calendar, time-zone edition or metric finality policy.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.owl_time",
+      "title": "Time Ontology in OWL",
+      "uri": "https://www.w3.org/TR/owl-time/"
+    },
+    {
+      "claim": "Defines validation constraints over RDF graphs.",
+      "publisher": "W3C",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Shape conformance is not semantic truth, calculation correctness or product approval.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.shacl",
+      "title": "Shapes Constraint Language",
+      "uri": "https://www.w3.org/TR/shacl/"
+    },
+    {
+      "claim": "Defines graph pattern matching, solution modifiers and aggregates.",
+      "publisher": "W3C",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A query language does not own metric meaning or observation authority.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.sparql11",
+      "title": "SPARQL 1.1 Query Language",
+      "uri": "https://www.w3.org/TR/sparql11-query/"
+    },
+    {
+      "claim": "Defines permission, prohibition, duty and policy expressions.",
+      "publisher": "W3C",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Policy modeling does not prove enforcement or disclosure completion.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.odrl",
+      "title": "ODRL Information Model 2.2",
+      "uri": "https://www.w3.org/TR/odrl-model/"
+    },
+    {
+      "claim": "Publishes quantity kinds, units, dimension vectors and conversions.",
+      "publisher": "QUDT",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A unit catalog does not choose valuation purpose, precision or domain authority.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.qudt35",
+      "title": "QUDT Catalog 3.5",
+      "uri": "https://www.qudt.org/catalog/qudt-catalog.html"
+    },
+    {
+      "claim": "Defines computable unit expressions, canonical forms and conversions.",
+      "publisher": "UCUM",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Unit-code compatibility does not prove quantity-kind or business-meaning compatibility.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.ucum",
+      "title": "Unified Code for Units of Measure",
+      "uri": "https://ucum.org/ucum"
+    },
+    {
+      "claim": "Defines SI quantity and unit usage guidance.",
+      "publisher": "NIST",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Guidance does not define enterprise metric formulas or currency valuation.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.nist_si",
+      "title": "NIST Guide for the Use of SI",
+      "uri": "https://www.nist.gov/pml/special-publication-811"
+    },
+    {
+      "claim": "Defines an Internet date-time profile.",
+      "publisher": "IETF",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Timestamp syntax does not define valid, recording, event, query or finality roles.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.rfc3339",
+      "title": "RFC 3339",
+      "uri": "https://www.rfc-editor.org/rfc/rfc3339.html"
+    },
+    {
+      "claim": "Publishes editioned civil-time rules.",
+      "publisher": "IANA",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A zone database does not choose business calendars or correction policy.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.tzdb",
+      "title": "Time Zone Database",
+      "uri": "https://www.iana.org/time-zones"
+    },
+    {
+      "claim": "Publishes purpose-scoped reference exchange rates.",
+      "publisher": "European Central Bank",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A published rate is not automatically appropriate for accounting, risk, settlement or historical restatement.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.ecb_fx",
+      "title": "Euro Foreign Exchange Reference Rates",
+      "uri": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
+    },
+    {
+      "claim": "Defines measurement-model uncertainty evaluation and reporting.",
+      "publisher": "JCGM and BIPM",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Measurement uncertainty does not cover every statistical or model uncertainty contract.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.gum",
+      "title": "Guide to the Expression of Uncertainty in Measurement",
+      "uri": "https://www.bipm.org/en/committees/jc/jcgm/publications"
+    },
+    {
+      "claim": "Defines observation, feature of interest, observed property, result and procedure roles.",
+      "publisher": "OGC",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Observation modeling does not make an observed result a governed business metric.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.ogc_oms",
+      "title": "Observations, Measurements and Samples",
+      "uri": "https://www.ogc.org/standard/om/"
+    },
+    {
+      "claim": "Defines versioned clinical quality measure logic, populations and scoring.",
+      "publisher": "HL7",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A vertical measure definition remains governed by healthcare vocabulary and authority.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.fhir_measure",
+      "title": "FHIR R5 Measure",
+      "uri": "https://hl7.org/fhir/R5/measure.html"
+    },
+    {
+      "claim": "Separates a measure definition from an evaluated report occurrence.",
+      "publisher": "HL7",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A report does not prove input quality, authorization or clinical decision correctness.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.fhir_report",
+      "title": "FHIR R5 MeasureReport",
+      "uri": "https://hl7.org/fhir/R5/measurereport.html"
+    },
+    {
+      "claim": "Defines a formal clinical expression language and execution model.",
+      "publisher": "HL7",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Clinical formula semantics are a vertical specialization, not the horizontal product owner.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.cql",
+      "title": "Clinical Quality Language 1.5",
+      "uri": "https://cql.hl7.org/"
+    },
+    {
+      "claim": "Documents aggregate behavior including null and order sensitivity.",
+      "publisher": "PostgreSQL",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "One SQL engine's behavior is not a portable aggregation contract.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.postgres_aggregate",
+      "title": "PostgreSQL Aggregate Functions",
+      "uri": "https://www.postgresql.org/docs/current/functions-aggregate.html"
+    },
+    {
+      "claim": "Documents window partitions, order and frames.",
+      "publisher": "PostgreSQL",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Provider syntax does not supply business calendar or metric-grain authority.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.postgres_window",
+      "title": "PostgreSQL Window Functions",
+      "uri": "https://www.postgresql.org/docs/current/functions-window.html"
+    },
+    {
+      "claim": "Defines multidimensional expressions over cubes.",
+      "publisher": "Microsoft",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "MDX is one provider language and not a universal metric contract.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.mdx",
+      "title": "Multidimensional Expressions Reference",
+      "uri": "https://learn.microsoft.com/en-us/analysis-services/multidimensional-models/mdx/mdx-reference"
+    },
+    {
+      "claim": "Defines formula semantics for tabular analytical models.",
+      "publisher": "Microsoft",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "DAX expressions and evaluation context are provider-specific.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.dax",
+      "title": "DAX Overview",
+      "uri": "https://learn.microsoft.com/en-us/dax/dax-overview"
+    },
+    {
+      "claim": "Defines analytical service discovery and execution messages.",
+      "publisher": "Microsoft",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A wire protocol does not establish cross-provider semantic equivalence.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.xmla",
+      "title": "XML for Analysis",
+      "uri": "https://learn.microsoft.com/en-us/analysis-services/xmla/xml-for-analysis-xmla-reference"
+    },
+    {
+      "claim": "Formalizes cube grouping and aggregation operations.",
+      "publisher": "Microsoft Research",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The operator does not solve semantic ownership, fanout or policy.",
+      "source_class": "primary_research",
+      "source_id": "evidence.gray_cube",
+      "title": "Data Cube: A Relational Aggregation Operator",
+      "uri": "https://doi.org/10.1016/S0169-023X(96)00011-1"
+    },
+    {
+      "claim": "Formalizes join-induced aggregation errors and consistency concerns.",
+      "publisher": "CIDR",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Research results do not qualify current products or solve every holistic aggregate.",
+      "source_class": "primary_research",
+      "source_id": "evidence.agg_consistency",
+      "title": "Aggregation Consistency Errors in Semantic Layers",
+      "uri": "https://arxiv.org/abs/2307.00417"
+    },
+    {
+      "claim": "Defines portable typed relational plans and functions.",
+      "publisher": "Substrait",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A lowered query plan is not a semantic metric definition or equivalence proof.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.substrait",
+      "title": "Substrait Specification",
+      "uri": "https://substrait.io/spec/specification/"
+    },
+    {
+      "claim": "Documents query rewriting using materialized views.",
+      "publisher": "Apache Calcite",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Rewrite support does not prove semantic containment under every metric, policy and time posture.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.calcite_mv",
+      "title": "Apache Calcite Materialized Views",
+      "uri": "https://calcite.apache.org/docs/materialized_views.html"
+    },
+    {
+      "claim": "Defines entities, dimensions, time and simple metrics in a semantic graph.",
+      "publisher": "dbt Labs",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Current dbt syntax and supported warehouses are one implementation profile.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.dbt_semantic_models",
+      "title": "dbt Semantic Models",
+      "uri": "https://docs.getdbt.com/docs/build/semantic-models"
+    },
+    {
+      "claim": "Defines simple, ratio, derived, cumulative and conversion metric types.",
+      "publisher": "dbt Labs",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Supported types and defaults do not define universal metric semantics.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.dbt_metrics",
+      "title": "dbt Metrics",
+      "uri": "https://docs.getdbt.com/docs/build/metrics-overview"
+    },
+    {
+      "claim": "Documents semantic-model metric query construction and SQL generation.",
+      "publisher": "dbt Labs",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "SQL generation is not evidence of cross-engine result equivalence.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.dbt_metricflow",
+      "title": "About MetricFlow",
+      "uri": "https://docs.getdbt.com/docs/build/about-metricflow"
+    },
+    {
+      "claim": "Defines aggregation types, calculated measures, filters and rolling behavior.",
+      "publisher": "Cube",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Provider measure types and preview features are not universal contracts.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.cube_measures",
+      "title": "Cube Measures",
+      "uri": "https://docs.cube.dev/reference/data-modeling/measures"
+    },
+    {
+      "claim": "Defines directed relationship types and primary-key requirements to control join fanout.",
+      "publisher": "Cube",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Declared relationships do not prove real data cardinality or all aggregate safety.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.cube_joins",
+      "title": "Cube Joins",
+      "uri": "https://docs.cube.dev/docs/data-modeling/joins"
+    },
+    {
+      "claim": "Defines materialized rollups and query routing to pre-aggregations.",
+      "publisher": "Cube",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A cache hit or rewrite does not prove semantic equivalence, freshness or authorized reuse.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.cube_preagg",
+      "title": "Cube Pre-aggregations",
+      "uri": "https://docs.cube.dev/docs/pre-aggregations/index"
+    },
+    {
+      "claim": "Documents fanout-safe aggregation techniques over joined explores.",
+      "publisher": "Google Cloud",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Provider-specific rewriting is not a universal proof for every aggregation.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.looker_symmetric",
+      "title": "Looker Symmetric Aggregates",
+      "uri": "https://cloud.google.com/looker/docs/best-practices/understanding-symmetric-aggregates"
+    },
+    {
+      "claim": "Defines logical tables, facts, metrics, dimensions, relationships and query interfaces.",
+      "publisher": "Snowflake",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A warehouse-native semantic object does not own enterprise vocabulary or prove portable exit.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.snowflake_semantic",
+      "title": "Snowflake Semantic Views",
+      "uri": "https://docs.snowflake.com/en/user-guide/views-semantic/overview"
+    },
+    {
+      "claim": "Defines YAML metric views, measures, dimensions and materialization-backed rewrites.",
+      "publisher": "Databricks",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A platform-native metric view is an implementation, not the canonical product model.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.databricks_metric",
+      "title": "Unity Catalog Metric Views",
+      "uri": "https://docs.databricks.com/aws/en/uc-semantics/metric-views"
+    },
+    {
+      "claim": "Defines an emerging JSON/YAML interchange schema for datasets, relationships and metrics.",
+      "publisher": "Apache Software Foundation",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Schema acceptance does not prove semantic completeness, behavioral equivalence or provider qualification.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.ossie",
+      "title": "Apache Ossie Core Specification",
+      "uri": "https://github.com/apache/ossie/blob/main/core-spec/osi-schema.json"
+    },
+    {
+      "claim": "Defines operational metric families, samples and exemplars.",
+      "publisher": "CNCF",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Telemetry samples are not governed business metric definitions or observations by default.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.openmetrics",
+      "title": "OpenMetrics Specification",
+      "uri": "https://github.com/prometheus/OpenMetrics/blob/main/specification/OpenMetrics.md"
+    },
+    {
+      "claim": "Defines sums, gauges, histograms, temporality and metric streams.",
+      "publisher": "OpenTelemetry",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Operational telemetry aggregation does not establish business KPI meaning.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.otel_metrics",
+      "title": "OpenTelemetry Metrics Data Model",
+      "uri": "https://opentelemetry.io/docs/specs/otel/metrics/data-model/"
+    }
+  ],
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

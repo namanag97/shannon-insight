@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "binding_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "context_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "match_keys": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "offer_contract": {
+      "type": "object"
+    },
+    "refusal": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "requirement": {
+      "type": "object"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "success_receipt": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "binding_id",
+    "edition",
+    "status",
+    "context_ref",
+    "requirement",
+    "offer_contract",
+    "match_keys",
+    "success_receipt",
+    "refusal",
+    "evidence_refs"
+  ],
+  "title": "Requirement/offer binding",
+  "type": "object"
+}

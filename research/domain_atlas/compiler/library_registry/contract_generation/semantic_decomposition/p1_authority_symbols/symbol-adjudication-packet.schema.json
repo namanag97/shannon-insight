@@ -1,0 +1,28 @@
+{
+  "$id": "https://san.example/spec/p1-symbol-adjudication-packet-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required": [
+    "record_kind",
+    "packet_id",
+    "edition",
+    "symbol_kind",
+    "symbol_ref",
+    "family_refs",
+    "library_count",
+    "occurrences",
+    "definition_digests",
+    "definition_evidence_strength",
+    "research_route",
+    "shared_owner_hypothesis",
+    "decision",
+    "allowed_dispositions",
+    "required_questions",
+    "required_evidence",
+    "compiler_refusal",
+    "priority_score",
+    "authority_limit",
+    "status",
+    "priority_rank"
+  ],
+  "type": "object"
+}

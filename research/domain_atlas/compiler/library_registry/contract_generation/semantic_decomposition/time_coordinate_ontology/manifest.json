@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "extension-candidates.jsonl": {
+      "bytes": 43773,
+      "sha256": "7542cb65d160999bd2e63756b2e2f90f44be57e5349c20186a6444be63a6c87b"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 73909,
+      "sha256": "f12832314634f2f0250de38363cca5aa5225c1782f59165797bfbafb3a61acca"
+    },
+    "member-time-routes.jsonl": {
+      "bytes": 852808,
+      "sha256": "a0bbe86f6761677be862d5c23f0e3548bd8d48f4b32561e58f97a621f5b92c3c"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 4623,
+      "sha256": "e0725b9f7b7f2cc4ac37f722f962150ea662bc62addf6a4389852287c8b7839a"
+    },
+    "structural-family-dockets.jsonl": {
+      "bytes": 36152,
+      "sha256": "4140441e6bd74b06806531282e609e4e493acaa41d35702fa2bc678725c83eaf"
+    },
+    "summary.json": {
+      "bytes": 703,
+      "sha256": "339f613618bd8487081a923e07dc5d884621402068a46d7712bab1e63e9b7d5a"
+    },
+    "temporal-bearer-archetypes.jsonl": {
+      "bytes": 8909,
+      "sha256": "29e9818ff35f20b4dd3a8ab2eefe85e631928e7a725a5b98cdf3f31cfc0c602c"
+    },
+    "temporal-operation-kernels.jsonl": {
+      "bytes": 84430,
+      "sha256": "487056477249d7519b4a12eb1020a110f7d40b1daf904fa10e11920c3f32ee36"
+    },
+    "time-coordinate-ontology.json": {
+      "bytes": 5780,
+      "sha256": "2abe0ae752da69d80dce2bd2d9c6d959d0b5781d8c0ea0490cbdff93f7ba5bc4"
+    }
+  },
+  "manifest_id": "manifest.time-coordinate-ontology-and-rebase.v1"
+}

@@ -1,0 +1,55 @@
+{
+  "conversion_dimensions": [
+    "practice",
+    "method",
+    "operation",
+    "representation",
+    "algorithm",
+    "kernel",
+    "library",
+    "compiler_phase",
+    "product_capability",
+    "target_qualification"
+  ],
+  "evidence_dimensions": [
+    "source",
+    "locator",
+    "scope",
+    "claim",
+    "assumptions",
+    "population",
+    "protocol",
+    "metric",
+    "result",
+    "uncertainty",
+    "limitation",
+    "replication",
+    "contradiction",
+    "supersession"
+  ],
+  "id": "metamodel.research_artifact_graph.v0_1_0",
+  "identity_ladder": [
+    "work",
+    "edition",
+    "venue_occurrence",
+    "artifact",
+    "claim",
+    "concept",
+    "method",
+    "algorithm",
+    "implementation",
+    "benchmark_run",
+    "deployment_occurrence"
+  ],
+  "never_collapse": [
+    "paper_with_claim",
+    "claim_with_concept",
+    "method_with_algorithm",
+    "algorithm_with_implementation",
+    "benchmark_with_qualification",
+    "author_with_inventor",
+    "citation_with_authorship",
+    "standard_with_serialization",
+    "model_score_with_domain_validity"
+  ]
+}

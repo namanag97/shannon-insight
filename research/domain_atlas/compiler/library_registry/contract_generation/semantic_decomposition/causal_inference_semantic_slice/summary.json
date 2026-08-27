@@ -1,0 +1,20 @@
+{
+  "as_of": "2026-08-27",
+  "bound_libraries": 16,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "downstream_products": 1,
+  "exact_contracts_selected": 0,
+  "expert_learning_profiles": 16,
+  "libraries_without_declared_product_consumer": 5,
+  "library_axis_decision_candidates": 256,
+  "method_types": 46,
+  "non_collapse_laws": 42,
+  "owner_decisions": 0,
+  "primary_or_official_sources": 30,
+  "product_capability_boundary_findings": 8,
+  "program_id": "program.causal-inference-semantic-slice.v1",
+  "qualified_implementations": 0,
+  "recent_non_llm_innovations": 8,
+  "semantic_modules": 36
+}

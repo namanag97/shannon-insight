@@ -37,7 +37,9 @@ dependencies = [
     "pydantic-settings>=2.0.0",
     "diskcache>=5.6.0",
     "typer>=0.9.0",
-    "tree-sitter>=0.20.0",  # Auto-installs grammars on first run
+    "tree-sitter>=0.20.0",
+    "tree-sitter-language-pack>=0.7",  # prebuilt grammars, 370+ langs
+    "pathspec>=0.12",                  # gitignore-style discovery filters
 ]
 
 [project.optional-dependencies]

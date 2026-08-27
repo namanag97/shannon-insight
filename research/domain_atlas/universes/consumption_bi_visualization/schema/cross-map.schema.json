@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "compiler_exchange": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "cross_map_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "external_domain": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "local_context_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "preserved_distinction": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "relationship": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "cross_map_id",
+    "edition",
+    "status",
+    "local_context_ref",
+    "external_domain",
+    "relationship",
+    "preserved_distinction",
+    "compiler_exchange",
+    "evidence_refs"
+  ],
+  "title": "Cross-domain mapping",
+  "type": "object"
+}

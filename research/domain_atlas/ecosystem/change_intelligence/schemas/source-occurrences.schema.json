@@ -1,0 +1,70 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/source-occurrences.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authentication": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "collector": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "endpoint": {
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "endpoint_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "expected_cadence": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "freshness_slo_days": {
+      "type": "integer"
+    },
+    "last_observation": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "protocol": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_occurrence_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "authentication",
+    "collector",
+    "enabled",
+    "endpoint",
+    "endpoint_kind",
+    "expected_cadence",
+    "freshness_slo_days",
+    "last_observation",
+    "protocol",
+    "source_id",
+    "source_occurrence_id",
+    "subject_id"
+  ],
+  "title": "source-occurrences",
+  "type": "object"
+}

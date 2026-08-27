@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["status", "kind"],
+  "properties": {
+    "id": {"type": "string", "minLength": 6},
+    "status": {"const": "candidate"},
+    "kind": {"type": "string", "minLength": 3},
+    "family": {"enum": ["intent", "identity", "time", "quantity", "authority", "decision"]},
+    "evidence_refs": {"type": "array", "items": {"type": "string", "pattern": "^source\\.csp\\."}}
+  }
+}

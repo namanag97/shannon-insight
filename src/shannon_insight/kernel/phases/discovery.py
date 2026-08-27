@@ -41,9 +41,9 @@ class DiscoveryExecutor(BaseExecutor):
 
     def _execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
     ) -> PhaseResult:
         """Discover source files."""
         root = Path(store.root_dir)
@@ -58,7 +58,9 @@ class DiscoveryExecutor(BaseExecutor):
 
         # Apply file limit
         if len(file_paths) > session.config.max_files:
-            logger.warning(f"Limiting to {session.config.max_files} files (found {len(file_paths)})")
+            logger.warning(
+                f"Limiting to {session.config.max_files} files (found {len(file_paths)})"
+            )
             file_paths = file_paths[: session.config.max_files]
 
         # Store discovered paths in context for later phases
@@ -70,8 +72,8 @@ class DiscoveryExecutor(BaseExecutor):
 
     def _discover_files(
         self,
-        ctx: "RuntimeContext",
-        session: "AnalysisSession",
+        ctx: RuntimeContext,
+        session: AnalysisSession,
         root: Path,
     ) -> list[Path]:
         """Walk directory tree to find source files."""

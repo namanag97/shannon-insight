@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "binding_layer": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "crosswalk_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_refs": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "not_preserved_or_not_proven": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "preserved": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "round_trip": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "source_representation": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "target_construct_id": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "crosswalk_id",
+    "source_representation",
+    "target_construct_id",
+    "binding_layer",
+    "round_trip",
+    "preserved",
+    "not_preserved_or_not_proven",
+    "evidence_refs"
+  ],
+  "type": "object"
+}

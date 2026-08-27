@@ -1,0 +1,57 @@
+{
+  "as_of": "2026-08-27",
+  "authority_verification_receipts": 0,
+  "canonical_delta_candidates": 0,
+  "canonical_exact_gaps_closed": 0,
+  "canonical_mutations_allowed": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "input_snapshot": {
+    "aggregate_sha256": "03aee287a70cf3f5e10b6b3b9c703ce081ae3afd17f23f7c9b45865106bf4050",
+    "files": [
+      {
+        "bytes": 1101754,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1b_foundation_authority_adjudication/ratification-packet-templates.jsonl",
+        "record_count": 652,
+        "sha256": "64e534e89add6e378f3498ef2d82b225ba41309da0256a5e69e169cf7c45d641"
+      },
+      {
+        "bytes": 534303,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p2_owner_adjudication/owner-ratification-packet-templates.jsonl",
+        "record_count": 210,
+        "sha256": "361cfc684f169b9a4589065dd1e0940ef9f13634bd0f02a08c389ad3da5aecab"
+      },
+      {
+        "bytes": 1383960,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/family-axis-ratification-packet-templates.jsonl",
+        "record_count": 368,
+        "sha256": "2b1008fe046fcb8bc95210abbc236eee86901a1b2697fb829ab5f6910e8cd920"
+      },
+      {
+        "bytes": 2669376,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p5_exact_contract_adjudication/exact-contract-ratification-packet-templates.jsonl",
+        "record_count": 674,
+        "sha256": "8c4619d3875fa5e0a651d86196cb422a9d7fda1a18cbea6cbffc3b179e92babc"
+      },
+      {
+        "bytes": 0,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p4_ratification_ingestion/ratification-receipts.jsonl",
+        "record_count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 0,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p4_ratification_ingestion/authority-verification-receipts.jsonl",
+        "record_count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "snapshot_id": "snapshot.p4-input.03aee287a70cf3f5"
+  },
+  "program_id": "program.p4-ratification-ingestion.v1",
+  "receipt_refusals": 0,
+  "submitted_ratification_receipts": 0,
+  "total_templates": 1904,
+  "unratified_templates": 1904,
+  "verified_ratifications": 0
+}

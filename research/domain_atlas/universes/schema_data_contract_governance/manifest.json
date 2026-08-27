@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 13,
+      "sha256": "59da43f13680c57ec10cbb5c4f15dcd317ab610fd961cd6f3c63c71b45f39ab7"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 39,
+      "sha256": "8829eb004f5776a0047ed01f8ff31a6ff0f959508829a85d37a8213c1cd973e2"
+    },
+    "decision-points.jsonl": {
+      "records": 65,
+      "sha256": "5db2fecc206f9fb02706f97ae4554ebeb90340020f8d6a4929ebaf94abe470b5"
+    },
+    "library-contracts.jsonl": {
+      "records": 13,
+      "sha256": "2ce697f78e82c39d4ceb975f6e7f447e5b65cea1deffa906933c8baca250c686"
+    },
+    "negative-twins.jsonl": {
+      "records": 13,
+      "sha256": "855e97bd260794ad04e2c6b8bc061b8e04f39b513f439b430e12f8bb0e0b2184"
+    },
+    "sources.jsonl": {
+      "records": 16,
+      "sha256": "8a6297a5c1603717d5ea7af716bb44391be0651350f2cf1fd8f9112d0b02de6b"
+    }
+  },
+  "manifest_id": "schema_data_contract_governance_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

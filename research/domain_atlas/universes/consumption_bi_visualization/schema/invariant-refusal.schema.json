@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "applies_to_context_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fallback_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invariant_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "rationale": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "refusal_code": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "invariant_id",
+    "edition",
+    "status",
+    "applies_to_context_refs",
+    "rule",
+    "refusal_code",
+    "rationale",
+    "fallback_law",
+    "evidence_refs"
+  ],
+  "title": "Constitutional invariant and refusal",
+  "type": "object"
+}

@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cancellation_traits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gaps": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "isolation_traits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "memory_spaces": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "numeric_traits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "parallel_traits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "qualification_requirements": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_interfaces": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "resource_dimensions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "target_class"
+    },
+    "supported_layouts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "target_kind": {
+      "type": "string"
+    },
+    "target_profile_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "transfer_traits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "target_profile_id",
+    "edition",
+    "status",
+    "name",
+    "target_kind",
+    "required_interfaces",
+    "memory_spaces",
+    "resource_dimensions",
+    "supported_layouts",
+    "numeric_traits",
+    "parallel_traits",
+    "transfer_traits",
+    "isolation_traits",
+    "cancellation_traits",
+    "qualification_requirements",
+    "evidence_refs",
+    "gaps"
+  ],
+  "title": "Target capability profile",
+  "type": "object"
+}

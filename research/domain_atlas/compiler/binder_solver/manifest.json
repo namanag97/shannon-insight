@@ -1,0 +1,139 @@
+{
+  "bundle_id": "bundle.compiler.binder_solver.v1",
+  "completion_claim": "candidate_not_complete",
+  "counts": {
+    "algorithms": 10,
+    "binding-phases": 7,
+    "compiler-passes": 16,
+    "constraint-kinds": 19,
+    "contexts": 11,
+    "decision-points": 16,
+    "diagnostics": 21,
+    "examples": 8,
+    "gaps": 20,
+    "innovations-2021-2026": 12,
+    "invalidation-rules": 15,
+    "library-boundaries": 12,
+    "offers": 67,
+    "proof-contracts": 22,
+    "requirement-offer-evaluations": 15,
+    "requirements": 13,
+    "rust-applicability": 15,
+    "sources": 113,
+    "trace-contracts": 7
+  },
+  "edition": 1,
+  "files": [
+    {
+      "bytes": 4671,
+      "path": "algorithms.jsonl",
+      "sha256": "e46bea2f47151727962c9194b6d48a4af557c98f411fcd82037315347ebcf055"
+    },
+    {
+      "bytes": 2718,
+      "path": "binding-phases.jsonl",
+      "sha256": "f66f08de716df697d6b984add831813edfbb0dc53f211df0c52b7c61d192674e"
+    },
+    {
+      "bytes": 5941,
+      "path": "compiler-passes.jsonl",
+      "sha256": "edb87a465188f9370457a9f7aa33977645c545db1149119c9bff76eaed3c1920"
+    },
+    {
+      "bytes": 6623,
+      "path": "constraint-kinds.jsonl",
+      "sha256": "6eaa67dc1002efdd84b5bc9fba5242c128b1bc3f9e6664f0627f3e726cc1ef54"
+    },
+    {
+      "bytes": 3255,
+      "path": "contexts.jsonl",
+      "sha256": "94647a293645c6e025d32c57fb5d237c61fc7e0b1ed6cba64970c73213817357"
+    },
+    {
+      "bytes": 5462,
+      "path": "decision-points.jsonl",
+      "sha256": "f28a83f3a1a2444206a93c1a68151810b1861f5b388af55506c7ddfb65e5236d"
+    },
+    {
+      "bytes": 6762,
+      "path": "diagnostics.jsonl",
+      "sha256": "af6f5a02b08b497dae32d9e34cc53064da3a087c97e8f55e3f31fd66cf66e787"
+    },
+    {
+      "bytes": 15383,
+      "path": "examples.jsonl",
+      "sha256": "0a849ae1cebb74b8ef0e148237e37d750f45ba5215da10442ea71458432eb013"
+    },
+    {
+      "bytes": 6871,
+      "path": "gaps.jsonl",
+      "sha256": "394e151b91eae702ce0a45c057b32a787707b98664e9f4f2d28aa12b79c535c6"
+    },
+    {
+      "bytes": 4277,
+      "path": "innovations-2021-2026.jsonl",
+      "sha256": "d90067677bc1d0bd018ce03c6a68e6d335aac300799df24a39ed62f83aecde49"
+    },
+    {
+      "bytes": 4424,
+      "path": "invalidation-rules.jsonl",
+      "sha256": "877125e37f68c423a1051b2d4763dd3f0333f951bd7157d1bc971415fc4b7254"
+    },
+    {
+      "bytes": 4439,
+      "path": "library-boundaries.jsonl",
+      "sha256": "cd238caf36d698c0d2cff1e6da495a221e2564080e85d3950ae45f03c1980921"
+    },
+    {
+      "bytes": 4768,
+      "path": "metamodel.json",
+      "sha256": "666921fb6b7ea2fac330a78f62d62ae7fdbfb278fb5d6907fa6a89f27435a827"
+    },
+    {
+      "bytes": 83952,
+      "path": "offers.jsonl",
+      "sha256": "89689c265c31250f3d5f30e2a6f38e13f24c33b16ad40a279f01077bdb7b12d7"
+    },
+    {
+      "bytes": 7603,
+      "path": "proof-contracts.jsonl",
+      "sha256": "8eb632fd345ab25ca262883e052e8f26d675d119378d08b851af2680f2e4d6ce"
+    },
+    {
+      "bytes": 12884,
+      "path": "requirement-offer-evaluations.jsonl",
+      "sha256": "7128e99c2325c2ce0da213f20842796af8816925e768a4c86828c3d862c48685"
+    },
+    {
+      "bytes": 4845,
+      "path": "requirements.jsonl",
+      "sha256": "d6d321bad81c6e2d94fe40b2a974ae8ab0143ff87426c0e9a9f1c424ee880940"
+    },
+    {
+      "bytes": 4338,
+      "path": "rust-applicability.jsonl",
+      "sha256": "54fc674a4333d8dd16c0383f5b0d8b8b1564c834200e9d5762ea7eb56c536073"
+    },
+    {
+      "bytes": 791,
+      "path": "schemas/example.schema.json",
+      "sha256": "49453cfadbf4601c2d67a3372a68352abfba89d0d474905f5a49d17ca1fe06b4"
+    },
+    {
+      "bytes": 486,
+      "path": "schemas/record.schema.json",
+      "sha256": "f9ccd09360ed90a18eebbcb317903dceef89d0bed173402a4fed19d02e74e851"
+    },
+    {
+      "bytes": 71696,
+      "path": "sources.jsonl",
+      "sha256": "86f1d36c905e730b5e51149dab2b0acc30eb90c1d489d1ec3800008f178360a3"
+    },
+    {
+      "bytes": 3128,
+      "path": "trace-contracts.jsonl",
+      "sha256": "6768e5865a449b0089798e9df539afec3e7c8ab0a5c9cd5126244e23d829355f"
+    }
+  ],
+  "status": "reviewed_candidate"
+}

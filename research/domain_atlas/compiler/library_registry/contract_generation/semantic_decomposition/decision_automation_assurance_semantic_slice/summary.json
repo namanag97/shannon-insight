@@ -1,0 +1,21 @@
+{
+  "as_of": "2026-08-27",
+  "bound_libraries": 68,
+  "candidate_new_library_vacancies": 24,
+  "candidate_new_products": 0,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "declared_product_libraries": 20,
+  "exact_contracts_selected": 0,
+  "expert_learning_profiles": 26,
+  "justified_neighbor_libraries": 48,
+  "library_axis_decision_candidates": 1088,
+  "method_types": 170,
+  "non_collapse_laws": 65,
+  "owner_decisions": 0,
+  "primary_or_official_sources": 43,
+  "qualified_implementations": 0,
+  "recent_innovations": 15,
+  "semantic_modules": 44,
+  "slice_id": "slice.decision-automation-assurance.v1"
+}

@@ -1,0 +1,22 @@
+{
+  "counts": {
+    "analytical_cases": 155,
+    "data_shapes": 31,
+    "source_systems": 30,
+    "sources": 48,
+    "subindustries": 21
+  },
+  "edition": 1,
+  "files": [
+    "sources.jsonl",
+    "source-systems.jsonl",
+    "data-shapes.jsonl",
+    "analytics-cases.jsonl",
+    "coverage-gaps.json",
+    "pack-manifest.json"
+  ],
+  "generated_on": "2026-08-25",
+  "llm_dependency": "none",
+  "pack_id": "health.life_sciences.research_pack",
+  "status": "sourced_candidate"
+}

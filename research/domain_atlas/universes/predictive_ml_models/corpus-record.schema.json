@@ -1,0 +1,97 @@
+{
+  "$id": "urn:san:predictive-ml:record:1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "anyOf": [
+    {
+      "required": [
+        "model_family_id"
+      ]
+    },
+    {
+      "required": [
+        "component_id"
+      ]
+    },
+    {
+      "required": [
+        "edge_id"
+      ]
+    },
+    {
+      "required": [
+        "evidence_edge_id"
+      ]
+    },
+    {
+      "required": [
+        "operation_id"
+      ]
+    },
+    {
+      "required": [
+        "decision_id"
+      ]
+    },
+    {
+      "required": [
+        "library_id"
+      ]
+    },
+    {
+      "required": [
+        "source_id"
+      ]
+    },
+    {
+      "required": [
+        "expert_id"
+      ]
+    },
+    {
+      "required": [
+        "innovation_id"
+      ]
+    },
+    {
+      "required": [
+        "mapping_id"
+      ]
+    },
+    {
+      "required": [
+        "requirement_id"
+      ]
+    },
+    {
+      "required": [
+        "qualification_profile_id"
+      ]
+    },
+    {
+      "required": [
+        "example_id"
+      ]
+    },
+    {
+      "required": [
+        "negative_twin_id"
+      ]
+    },
+    {
+      "required": [
+        "gap_id"
+      ]
+    }
+  ],
+  "properties": {
+    "edition": {
+      "const": 1
+    }
+  },
+  "required": [
+    "edition"
+  ],
+  "title": "Predictive ML corpus record",
+  "type": "object"
+}

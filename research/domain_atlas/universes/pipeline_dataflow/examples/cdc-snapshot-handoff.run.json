@@ -1,0 +1,28 @@
+{
+  "data_cut_ref": "cut.example.customer_bootstrap_2026_08_25",
+  "deployment_edition": 1,
+  "deployment_ref": "deployment.example.customer_cdc.prod",
+  "edition": 1,
+  "ended_at": "2026-08-25T01:12:01Z",
+  "logical_time": "2026-08-25T00:00:00Z",
+  "materialization_refs": [
+    "materialization.example.customer_table.snapshot_42"
+  ],
+  "outcome_ref": "pipeline.outcome.success",
+  "parameters_digest": "sha256:example-parameter-digest-not-a-real-artifact",
+  "plan_ref": "plan.example.customer_cdc.generic_stream_v1",
+  "receipt_refs": [
+    "receipt.example.run_complete",
+    "receipt.example.customer_lineage_42"
+  ],
+  "requested_at": "2026-08-25T01:00:02Z",
+  "run_id": "run.example.customer.bootstrap",
+  "started_at": "2026-08-25T01:00:10Z",
+  "state": "succeeded",
+  "task_attempt_refs": [
+    "attempt.example.customer.1",
+    "attempt.example.customer.2",
+    "attempt.example.customer.3"
+  ],
+  "trigger_observation_ref": "trigger-observation.example.manual_bootstrap"
+}

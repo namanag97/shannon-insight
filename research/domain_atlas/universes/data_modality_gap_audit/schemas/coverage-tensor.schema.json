@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/data-modality-gap-audit/coverage-tensor.schema.json",
+  "type": "object",
+  "required": ["tensor_id", "family_id", "axis_cells", "cell_count", "non_cartesian"],
+  "properties": {
+    "tensor_id": {"type": "string", "pattern": "^tensor\\."},
+    "family_id": {"type": "string", "pattern": "^fam\\."},
+    "axis_cells": {
+      "type": "array", "minItems": 15,
+      "items": {
+        "type": "object",
+        "required": ["axis_id", "expected_values", "canonical_coverage", "canonical_refs", "note"],
+        "properties": {
+          "axis_id": {"type": "string"},
+          "expected_values": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+          "canonical_coverage": {"enum": ["explicit", "partial", "not_explicit", "missing", "out_of_scope_by_layer"]},
+          "canonical_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "note": {"type": "string", "minLength": 10}
+        },
+        "additionalProperties": false
+      }
+    },
+    "cell_count": {"type": "integer", "minimum": 15},
+    "non_cartesian": {"const": true}
+  },
+  "additionalProperties": false
+}

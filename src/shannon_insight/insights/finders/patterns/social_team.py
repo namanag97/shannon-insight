@@ -105,7 +105,9 @@ def _compute_module_author_distance(store: FactStore, mod_a: EntityId, mod_b: En
         return 1.0  # Unknown team composition → assume different teams
 
     # Average AUTHOR_DISTANCE for cross-module file pairs
-    from shannon_insight.infrastructure.entities import EntityId as EId, EntityType
+    from shannon_insight.infrastructure.entities import EntityId as EId
+    from shannon_insight.infrastructure.entities import EntityType
+
     distances = []
     for fa_path in files_a:
         fa_id = EId(EntityType.FILE, fa_path)

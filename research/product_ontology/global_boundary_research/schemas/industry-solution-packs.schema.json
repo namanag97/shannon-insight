@@ -1,0 +1,50 @@
+{
+  "$id": "https://san.example/product-boundary/industry_solution_pack.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "compiler_test": {},
+    "composes_candidate_ids": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "example_case_ref": {},
+    "horizontal_product": {},
+    "imports_horizontal": {},
+    "industry_id": {},
+    "method_adjudication_ref": {},
+    "method_contract_refs": {},
+    "non_ownership_law": {},
+    "owns_vertical": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "industry_solution_pack"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "industry_id",
+    "example_case_ref",
+    "horizontal_product",
+    "composes_candidate_ids",
+    "method_contract_refs",
+    "method_adjudication_ref",
+    "owns_vertical",
+    "imports_horizontal",
+    "non_ownership_law",
+    "compiler_test"
+  ],
+  "title": "Global boundary research: industry_solution_pack",
+  "type": "object"
+}

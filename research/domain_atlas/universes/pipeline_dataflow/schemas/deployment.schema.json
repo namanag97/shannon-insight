@@ -1,0 +1,115 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/deployment-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_digests": {
+      "additionalProperties": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minProperties": 1,
+      "type": "object"
+    },
+    "deployment_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "operating_policies": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "plan_edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "plan_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "qualification_evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "rollout": {
+      "enum": [
+        "replace",
+        "canary",
+        "blue_green",
+        "parallel_compare",
+        "partitioned"
+      ]
+    },
+    "secret_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "qualified",
+        "active",
+        "draining",
+        "retired"
+      ]
+    },
+    "target_bindings": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "provider_offer_ref": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "stage_ref": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "target_profile_ref": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage_ref",
+          "target_profile_ref",
+          "provider_offer_ref"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "deployment_id",
+    "edition",
+    "plan_ref",
+    "plan_edition",
+    "target_bindings",
+    "artifact_digests",
+    "secret_refs",
+    "rollout",
+    "operating_policies",
+    "qualification_evidence_refs",
+    "status"
+  ],
+  "title": "Pipeline deployment",
+  "type": "object"
+}

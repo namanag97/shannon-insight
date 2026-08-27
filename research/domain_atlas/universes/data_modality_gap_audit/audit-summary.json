@@ -1,0 +1,56 @@
+{
+  "as_of": "2026-08-25",
+  "audit_id": "san.domain-atlas.data-modality-gap-audit",
+  "canonical_snapshot": {
+    "invalid_inferences": 77,
+    "operations": 167,
+    "representation_crosswalks": 62,
+    "shapes": 177,
+    "sources": 90,
+    "types": 108
+  },
+  "counts": {
+    "audit_assertions": 223,
+    "axes": 26,
+    "candidate_families": 193,
+    "canonical_crosswalks": 193,
+    "canonical_representation_audits": 30,
+    "coverage_cells": 5018,
+    "gap_findings": 24,
+    "innovations_2021_2026": 33,
+    "operation_type_cells": 762,
+    "representation_findings": 30,
+    "schema_posture_records": 3,
+    "sources": 172,
+    "unique_source_urls": 162,
+    "vertical_samples": 20
+  },
+  "coverage_cell_states": {
+    "explicit": 936,
+    "missing": 676,
+    "not_explicit": 2340,
+    "out_of_scope_by_layer": 286,
+    "partial": 780
+  },
+  "crosswalk_relations": {
+    "broader": 6,
+    "disjoint": 11,
+    "equivalent": 104,
+    "missing": 26,
+    "narrower": 14,
+    "overlap": 32
+  },
+  "edition": 1,
+  "forbidden_shortcuts": [
+    "name-based equivalence",
+    "file extension as semantic type",
+    "unstructured as structure-free",
+    "null as absence reason",
+    "format conformance as truth",
+    "axis Cartesian product as enumeration"
+  ],
+  "is_competing_registry": false,
+  "saturation_claim": "not_saturated",
+  "scope": "Non-generative enterprise data modalities, logical shapes, carriers, representations, and layer boundaries.",
+  "status": "candidate_adversarial_audit"
+}

@@ -1,0 +1,36 @@
+{
+  "completion_claim": false,
+  "files": [
+    {
+      "bytes": 696,
+      "path": "binding-assessment.json",
+      "sha256": "95431e047891757b7dd44e870e5f3c4cf69c3522e77b0a88e079f8dbf5415da9"
+    },
+    {
+      "bytes": 3032,
+      "path": "oracle-results.jsonl",
+      "sha256": "9158e2391b3946a14b3a108f69a28f0481d48cd0cd46466c2fed53707b334e01"
+    },
+    {
+      "bytes": 25090,
+      "path": "provider-results.jsonl",
+      "sha256": "e9be0834ab263d1a8ca05a99fd805b181650a6233a614bebdd4d7ae7323fb891"
+    },
+    {
+      "bytes": 10996,
+      "path": "qualification-receipts.jsonl",
+      "sha256": "143a8d0f5cc1bfda1bad3ff4777b4c8ca5cbb7d9762f6971da436dd953219287"
+    }
+  ],
+  "profile_verdicts": {
+    "profile.cpsat.core": "pass",
+    "profile.cpsat.enumeration": "fail",
+    "profile.cpsat.global_constraints": "pass",
+    "profile.cpsat.limit_no_strengthening": "pass",
+    "profile.cpsat.scheduling": "pass"
+  },
+  "protocol_digest": "sha256:cc509f6a2b7d212e204d66264ca79c8cc145876c43900f226d874f685ebaff00",
+  "qualified_offers": 0,
+  "run_id": "run-20260826-cpsat-macos-arm64-python3_14-001",
+  "status": "executed_evidence_not_qualified"
+}

@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "mission": "Daily technical news for data engineers, analytics engineers, data-platform teams, and technically curious data leaders.",
+  "timezone": "Asia/Kolkata",
+  "default_lookback_hours": 72,
+  "beats": [
+    "query-engines-and-databases",
+    "warehouses-and-lakehouses",
+    "streaming-and-cdc",
+    "orchestration-and-transformation",
+    "quality-observability-and-governance",
+    "analytics-bi-and-semantic-layers",
+    "performance-reliability-and-cost",
+    "open-source-releases",
+    "ai-data-infrastructure"
+  ],
+  "sources": [
+    {
+      "id": "postgres-news",
+      "name": "PostgreSQL official news",
+      "url": "https://www.postgresql.org/news.rss",
+      "kind": "rss",
+      "tier": 1,
+      "beats": ["query-engines-and-databases", "open-source-releases"],
+      "why": "Primary release, security, and project announcements."
+    },
+    {
+      "id": "planet-postgresql",
+      "name": "Planet PostgreSQL",
+      "url": "https://planet.postgresql.org/rss20.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["query-engines-and-databases", "performance-reliability-and-cost"],
+      "why": "Broad practitioner writing and database internals coverage."
+    },
+    {
+      "id": "postgres-weekly",
+      "name": "Postgres Weekly",
+      "url": "https://postgresweekly.com/rss/",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["query-engines-and-databases"],
+      "why": "Useful secondary discovery feed; follow links to original sources."
+    },
+    {
+      "id": "duckdb-blog",
+      "name": "DuckDB blog",
+      "url": "https://duckdb.org/feed.xml",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["query-engines-and-databases", "warehouses-and-lakehouses", "open-source-releases"],
+      "why": "Primary source for embedded OLAP engineering and releases."
+    },
+    {
+      "id": "motherduck-blog",
+      "name": "MotherDuck blog",
+      "url": "https://motherduck.com/rss.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["query-engines-and-databases", "analytics-bi-and-semantic-layers"],
+      "why": "Technical work around DuckDB, local/cloud analytics, and data apps."
+    },
+    {
+      "id": "clickhouse-blog",
+      "name": "ClickHouse blog",
+      "url": "https://clickhouse.com/rss.xml",
+      "kind": "rss",
+      "tier": 1,
+      "beats": ["query-engines-and-databases", "performance-reliability-and-cost"],
+      "why": "Primary engineering, benchmark, and release posts for real-time OLAP."
+    },
+    {
+      "id": "databricks-blog",
+      "name": "Databricks blog",
+      "url": "https://www.databricks.com/feed",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["warehouses-and-lakehouses", "ai-data-infrastructure"],
+      "why": "Lakehouse, Spark, Delta, Unity Catalog, and data/AI platform updates."
+    },
+    {
+      "id": "aws-big-data",
+      "name": "AWS Big Data Blog",
+      "url": "https://aws.amazon.com/blogs/big-data/feed/",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["warehouses-and-lakehouses", "streaming-and-cdc", "performance-reliability-and-cost"],
+      "why": "Detailed implementation patterns; down-rank product-only announcements."
+    },
+    {
+      "id": "confluent-blog",
+      "name": "Confluent blog",
+      "url": "https://www.confluent.io/rss.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["streaming-and-cdc"],
+      "why": "Kafka, Flink, stream processing, and data-contract engineering."
+    },
+    {
+      "id": "redpanda-blog",
+      "name": "Redpanda blog",
+      "url": "https://www.redpanda.com/blog/rss.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["streaming-and-cdc", "performance-reliability-and-cost"],
+      "why": "Streaming internals, performance, and Kafka-compatible architecture."
+    },
+    {
+      "id": "flink-blog",
+      "name": "Apache Flink blog",
+      "url": "https://flink.apache.org/posts/index.xml",
+      "kind": "rss",
+      "tier": 1,
+      "beats": ["streaming-and-cdc", "open-source-releases"],
+      "why": "Primary project releases and stream-processing design."
+    },
+    {
+      "id": "debezium-blog",
+      "name": "Debezium blog",
+      "url": "https://debezium.io/blog.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["streaming-and-cdc", "open-source-releases"],
+      "why": "Primary source for CDC releases, connectors, and operating guidance."
+    },
+    {
+      "id": "materialize-blog",
+      "name": "Materialize blog",
+      "url": "https://materialize.com/rss.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["streaming-and-cdc", "query-engines-and-databases"],
+      "why": "Streaming SQL, incremental view maintenance, and operational analytics."
+    },
+    {
+      "id": "dagster-blog",
+      "name": "Dagster blog",
+      "url": "https://dagster.io/blog/rss.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["orchestration-and-transformation", "quality-observability-and-governance"],
+      "why": "Orchestration architecture, assets, lineage, and data-platform practice."
+    },
+    {
+      "id": "dbt-blog",
+      "name": "dbt Labs blog",
+      "url": "https://www.getdbt.com/blog/feed.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["orchestration-and-transformation", "analytics-bi-and-semantic-layers"],
+      "why": "Analytics engineering, transformation, metrics, and semantic-layer changes."
+    },
+    {
+      "id": "lakefs-blog",
+      "name": "lakeFS blog",
+      "url": "https://lakefs.io/blog/feed/",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["warehouses-and-lakehouses", "quality-observability-and-governance"],
+      "why": "Data versioning, reproducibility, lakehouse operations, and governance."
+    },
+    {
+      "id": "monte-carlo-blog",
+      "name": "Monte Carlo blog",
+      "url": "https://montecarlo.ai/blog/feed",
+      "kind": "rss",
+      "tier": 3,
+      "beats": ["quality-observability-and-governance"],
+      "why": "Data reliability and observability; require technical substance."
+    },
+    {
+      "id": "rudderstack-blog",
+      "name": "RudderStack blog",
+      "url": "https://www.rudderstack.com/blog/rss.xml",
+      "kind": "rss",
+      "tier": 3,
+      "beats": ["streaming-and-cdc", "quality-observability-and-governance"],
+      "why": "Customer-data infrastructure and event-pipeline engineering."
+    },
+    {
+      "id": "locally-optimistic",
+      "name": "Locally Optimistic",
+      "url": "https://locallyoptimistic.com/feed/",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["analytics-bi-and-semantic-layers", "quality-observability-and-governance"],
+      "why": "Independent analytics practice and organizational systems thinking."
+    },
+    {
+      "id": "seattle-data-guy",
+      "name": "Seattle Data Guy",
+      "url": "https://seattledataguy.substack.com/feed",
+      "kind": "rss",
+      "tier": 3,
+      "beats": ["orchestration-and-transformation", "analytics-bi-and-semantic-layers"],
+      "why": "Broad discovery source; verify claims against primary material."
+    },
+    {
+      "id": "crunchy-data",
+      "name": "Crunchy Data blog",
+      "url": "https://www.crunchydata.com/blog/rss.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["query-engines-and-databases", "performance-reliability-and-cost"],
+      "why": "Consistently technical Postgres tutorials and engineering posts."
+    },
+    {
+      "id": "pganalyze",
+      "name": "pganalyze blog",
+      "url": "https://pganalyze.com/feed.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["query-engines-and-databases", "performance-reliability-and-cost"],
+      "why": "Deep query-planning and Postgres performance analysis."
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase blog",
+      "url": "https://supabase.com/rss.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["query-engines-and-databases", "open-source-releases", "ai-data-infrastructure"],
+      "why": "Postgres platform releases and developer-facing database engineering."
+    },
+    {
+      "id": "neon",
+      "name": "Neon blog",
+      "url": "https://neon.com/blog/rss.xml",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["query-engines-and-databases", "performance-reliability-and-cost"],
+      "why": "Serverless Postgres storage/compute architecture and releases."
+    },
+    {
+      "id": "tiger-data",
+      "name": "Tiger Data blog",
+      "url": "https://www.tigerdata.com/blog/rss",
+      "kind": "rss",
+      "tier": 2,
+      "beats": ["query-engines-and-databases", "ai-data-infrastructure"],
+      "why": "Postgres, time-series, vector, and real-time analytics engineering."
+    },
+    {
+      "id": "duckdb-releases",
+      "name": "DuckDB releases",
+      "url": "https://github.com/duckdb/duckdb/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["query-engines-and-databases", "open-source-releases"],
+      "why": "Primary release feed."
+    },
+    {
+      "id": "clickhouse-releases",
+      "name": "ClickHouse releases",
+      "url": "https://github.com/ClickHouse/ClickHouse/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["query-engines-and-databases", "open-source-releases"],
+      "why": "Primary release feed."
+    },
+    {
+      "id": "airflow-releases",
+      "name": "Apache Airflow releases",
+      "url": "https://github.com/apache/airflow/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["orchestration-and-transformation", "open-source-releases"],
+      "why": "Primary release feed."
+    },
+    {
+      "id": "dbt-core-releases",
+      "name": "dbt Core releases",
+      "url": "https://github.com/dbt-labs/dbt-core/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["orchestration-and-transformation", "open-source-releases"],
+      "why": "Primary release feed."
+    },
+    {
+      "id": "iceberg-releases",
+      "name": "Apache Iceberg releases",
+      "url": "https://github.com/apache/iceberg/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["warehouses-and-lakehouses", "open-source-releases"],
+      "why": "Primary table-format release feed."
+    },
+    {
+      "id": "spark-releases",
+      "name": "Apache Spark releases",
+      "url": "https://github.com/apache/spark/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["warehouses-and-lakehouses", "open-source-releases"],
+      "why": "Primary compute-engine release feed."
+    },
+    {
+      "id": "kafka-releases",
+      "name": "Apache Kafka releases",
+      "url": "https://github.com/apache/kafka/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["streaming-and-cdc", "open-source-releases"],
+      "why": "Primary event-streaming release feed."
+    },
+    {
+      "id": "trino-releases",
+      "name": "Trino releases",
+      "url": "https://github.com/trinodb/trino/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["query-engines-and-databases", "warehouses-and-lakehouses", "open-source-releases"],
+      "why": "Primary federated query-engine release feed."
+    },
+    {
+      "id": "dagster-releases",
+      "name": "Dagster releases",
+      "url": "https://github.com/dagster-io/dagster/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["orchestration-and-transformation", "open-source-releases"],
+      "why": "Primary orchestrator release feed."
+    },
+    {
+      "id": "prefect-releases",
+      "name": "Prefect releases",
+      "url": "https://github.com/PrefectHQ/prefect/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["orchestration-and-transformation", "open-source-releases"],
+      "why": "Primary orchestrator release feed."
+    },
+    {
+      "id": "dlt-releases",
+      "name": "dlt releases",
+      "url": "https://github.com/dlt-hub/dlt/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["orchestration-and-transformation", "open-source-releases"],
+      "why": "Primary Python data-loading library release feed."
+    },
+    {
+      "id": "datahub-releases",
+      "name": "DataHub releases",
+      "url": "https://github.com/datahub-project/datahub/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["quality-observability-and-governance", "open-source-releases"],
+      "why": "Primary metadata-platform release feed."
+    },
+    {
+      "id": "openmetadata-releases",
+      "name": "OpenMetadata releases",
+      "url": "https://github.com/open-metadata/OpenMetadata/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["quality-observability-and-governance", "open-source-releases"],
+      "why": "Primary metadata and governance release feed."
+    },
+    {
+      "id": "evidence-releases",
+      "name": "Evidence releases",
+      "url": "https://github.com/evidence-dev/evidence/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["analytics-bi-and-semantic-layers", "open-source-releases"],
+      "why": "Primary code-first BI release feed."
+    },
+    {
+      "id": "cube-releases",
+      "name": "Cube releases",
+      "url": "https://github.com/cube-js/cube/releases.atom",
+      "kind": "atom",
+      "tier": 1,
+      "beats": ["analytics-bi-and-semantic-layers", "open-source-releases"],
+      "why": "Primary semantic-layer release feed."
+    }
+  ],
+  "web_watchlist": [
+    {
+      "name": "Snowflake Engineering",
+      "url": "https://www.snowflake.com/en/blog/engineering/",
+      "beats": ["warehouses-and-lakehouses", "performance-reliability-and-cost"]
+    },
+    {
+      "name": "Google Cloud data analytics release notes",
+      "url": "https://cloud.google.com/release-notes?filter=Data+Analytics",
+      "beats": ["warehouses-and-lakehouses", "streaming-and-cdc"]
+    },
+    {
+      "name": "Azure updates: analytics",
+      "url": "https://azure.microsoft.com/en-us/updates/?category=analytics",
+      "beats": ["warehouses-and-lakehouses"]
+    },
+    {
+      "name": "MotherDuck community roundup",
+      "url": "https://motherduck.com/blog/",
+      "beats": ["query-engines-and-databases", "analytics-bi-and-semantic-layers"]
+    },
+    {
+      "name": "Hacker News newest",
+      "url": "https://news.ycombinator.com/newest",
+      "beats": ["ai-data-infrastructure", "open-source-releases"]
+    },
+    {
+      "name": "Lobsters databases tag",
+      "url": "https://lobste.rs/t/databases",
+      "beats": ["query-engines-and-databases"]
+    }
+  ]
+}

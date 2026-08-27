@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/ecosystem/specialist-innovation-v1.schema.json",
+  "type": "object",
+  "required": ["innovation_id", "name", "exact_date", "window_eligible", "innovation_kind", "claim", "evidence_state", "producer_refs", "artifact_refs", "practice_refs", "non_llm_status", "compiler_implications", "evidence_refs", "limitations", "completeness_claim"],
+  "properties": {
+    "innovation_id": {"type": "string", "pattern": "^innovation\\.[a-z0-9_]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "exact_date": {"type": "string", "format": "date"},
+    "window_eligible": {"type": "boolean"},
+    "innovation_kind": {"enum": ["standard", "interchange_contract", "solver_algorithm", "solver_interface", "analytical_engine", "semantic_contract", "quality_lineage_contract", "process_analytics", "simulation_interoperability", "geospatial_contract", "deployment_model"]},
+    "claim": {"type": "string", "minLength": 1},
+    "evidence_state": {"enum": ["artifact_verified", "cross_checked", "vendor_claim", "disputed"]},
+    "producer_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "practice_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "non_llm_status": {"enum": ["none", "quarantined_optional"]},
+    "compiler_implications": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "completeness_claim": {"const": false}
+  },
+  "additionalProperties": false
+}

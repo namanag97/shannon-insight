@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["expert_id", "name", "domain", "family_refs", "identity_state", "portfolio_state", "artifact_refs", "compiler_learning", "evidence_scope", "limitations", "current_as_of"],
+  "properties": {
+    "expert_id": {"type": "string", "pattern": "^expert\\.[a-z0-9_]+$"},
+    "name": {"type": "string", "minLength": 2},
+    "domain": {"type": "string"},
+    "family_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^family\\."}},
+    "identity_state": {"type": "string"},
+    "portfolio_state": {"enum": ["artifact_evidenced_seed", "bibliographic_candidate", "identity_review_required"]},
+    "artifact_refs": {"type": "array", "items": {"type": "string", "pattern": "^artifact\\."}},
+    "compiler_learning": {"type": "string", "minLength": 20},
+    "evidence_scope": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "limitations": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "current_as_of": {"type": "string", "format": "date"}
+  },
+  "additionalProperties": true
+}

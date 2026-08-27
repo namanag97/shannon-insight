@@ -1,0 +1,16 @@
+{
+  "as_of": "2026-08-26",
+  "bounded_evidence_claims": 4,
+  "canonical_exact_gaps_closed": 0,
+  "canonical_mutations": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "profile_only_replacements": 1,
+  "program_id": "program.wave0.data-shape-boundary-adjudication.v1",
+  "ratification_work_packages": 5,
+  "remaining_gate": "Ratify logical-shape relations and replacement ownership, then publish exact contracts for each retained layer.",
+  "representation_bindings": 23,
+  "source_boundaries": 33,
+  "split_and_rename": 32,
+  "status": "ACTIVE_PENDING_CANONICAL_RATIFICATION"
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/analytics-practice-candidate-v0.1.0.schema.json",
+  "title": "Analytical practice candidate",
+  "type": "object",
+  "required": [
+    "practice_id", "edition", "status", "family_id", "name", "aliases", "definition",
+    "practice_kind", "distinctiveness_basis", "intent_verbs", "input_contracts",
+    "output_contracts", "assumptions", "uncertainty_contract", "evaluation_contract",
+    "decision_proximity", "domain_portability", "evidence_refs", "llm_dependency", "gaps"
+  ],
+  "properties": {
+    "practice_id": {"type": "string", "pattern": "^analytics\\.[a-z0-9_]+\\.[a-z0-9_]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["hypothesis", "sourced_candidate", "reviewed", "adjudicated", "merged", "rejected"]},
+    "family_id": {"type": "string", "pattern": "^analytics\\.[a-z0-9_]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "aliases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "definition": {"type": "string", "minLength": 1},
+    "practice_kind": {"enum": ["study", "method", "diagnostic", "measurement", "decision", "validation", "operational_support", "semantic_evaluation"]},
+    "distinctiveness_basis": {"type": "array", "items": {"enum": ["intent", "study_design", "input_contract", "output_contract", "assumption", "uncertainty", "evaluation", "evidence", "decision", "runtime"]}, "uniqueItems": true},
+    "intent_verbs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "input_contracts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "output_contracts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "assumptions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "uncertainty_contract": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "evaluation_contract": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "decision_proximity": {"enum": ["evidence_only", "decision_support", "recommendation", "closed_loop_candidate", "unadjudicated"]},
+    "domain_portability": {"enum": ["horizontal", "multi_industry", "vertical_only", "unadjudicated"]},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "llm_dependency": {"enum": ["none", "prohibited_core", "quarantined_optional"]},
+    "gaps": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  },
+  "additionalProperties": false
+}
+

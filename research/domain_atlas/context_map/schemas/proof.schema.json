@@ -1,0 +1,20 @@
+{
+  "$id": "https://san.example/spec/context-map/proof.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "proof_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "proof_id",
+    "claim",
+    "phase",
+    "blocking",
+    "on_failure"
+  ],
+  "title": "SAN candidate context-map proof",
+  "type": "object"
+}

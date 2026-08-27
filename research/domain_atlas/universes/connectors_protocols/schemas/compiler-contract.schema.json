@@ -1,0 +1,111 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/compiler_record_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "binding_phase": {
+      "enum": [
+        "logical_planning",
+        "physical_binding",
+        "deployment_binding",
+        "runtime_reconciliation",
+        "evidence_verification"
+      ]
+    },
+    "capability_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "compiler_record_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_gates": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fallback_law": {
+      "enum": [
+        "refuse",
+        "typed_degradation_only_if_declared"
+      ]
+    },
+    "guarantees": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "operation_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "prohibited_traits": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "record_kind": {
+      "enum": [
+        "requirement",
+        "offer_template",
+        "mapping"
+      ]
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    },
+    "subject_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "compiler_record_id",
+    "edition",
+    "status",
+    "record_kind",
+    "subject_ref",
+    "capability_refs",
+    "operation_refs",
+    "guarantees",
+    "prohibited_traits",
+    "evidence_gates",
+    "binding_phase",
+    "fallback_law"
+  ],
+  "title": "Connector compiler requirement, offer, or mapping",
+  "type": "object"
+}

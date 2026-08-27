@@ -1,0 +1,61 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.operations-research-semantic-slice.v1",
+  "inside": [
+    "decision-problem semantics",
+    "constraint and objective semantics",
+    "typed optimization models",
+    "heuristic and exact solve contracts",
+    "result, bound and certificate algebra",
+    "infeasibility diagnosis",
+    "queueing models, inference, performance and validation",
+    "simulation model, experiment, randomness, execution, output and V&V",
+    "scoped finding handoff"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.domain-decision-authority",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.runtime-resource-control",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.statistical-inference",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.analytical-finding",
+      "relationship": "open_host_service"
+    }
+  ],
+  "outside": [
+    "industry ontology ownership",
+    "source ingestion and feature engineering",
+    "causal identification from observational data",
+    "predictive model lifecycle",
+    "business authorization and actuation",
+    "provider deployment",
+    "UI and workflow"
+  ],
+  "published_language": [
+    "DecisionProblem",
+    "ConstraintPolicy",
+    "ObjectivePreference",
+    "OptimizationModel",
+    "SolverRequirement",
+    "SolveReceipt",
+    "OptimizationResult",
+    "ValidationReceipt",
+    "QueueModel",
+    "SimulationExperiment",
+    "RandomStreamAllocation",
+    "SimulationResult",
+    "AnalyticalFindingEnvelope"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can constrained decisions, queueing systems and simulated systems be modeled, solved or experimented on while preserving assumptions, uncertainty, proof status, validation and external decision authority?"
+}

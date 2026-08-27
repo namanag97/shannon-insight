@@ -1,0 +1,79 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.query-olap-warehouse-semantic-slice.v1",
+  "inside": [
+    "query/session/name/type/value and relational semantics",
+    "set/bag/null/equality/order/function semantics",
+    "OLAP cube/grain/hierarchy/aggregation/summarizability semantics",
+    "logical plans, equivalence, rewrites, statistics, cardinality and cost",
+    "physical properties, lowering, kernels, exchange, adaptive execution and result contracts",
+    "connector capability, pushdown residuals, federated data cuts, virtual/materialized relations and cache identity",
+    "query receipts and bounded benchmark evidence"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.analytical-table-state",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.catalog-service",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.semantic-metrics",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.runtime-resource-control",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.lineage-provenance",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.virtual-data-access",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.managed-warehouse-experience",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.managed-lakehouse-experience",
+      "relationship": "anti_corruption_layer"
+    }
+  ],
+  "outside": [
+    "table-format mutation and maintenance ownership",
+    "catalog governance and authorization authority",
+    "ingestion/delivery and source replication",
+    "semantic metric/formula and business dimension ownership",
+    "quality, lineage, privacy-policy and decision/effect authority",
+    "storage/object/compute resource ownership",
+    "managed environment lifecycle except as an imported composition seam",
+    "LLM or agent authority"
+  ],
+  "published_language": [
+    "QueryOccurrence",
+    "SessionContextEdition",
+    "BoundQuery",
+    "LogicalPlan",
+    "PhysicalPlanCandidate",
+    "RewriteEvidence",
+    "SourceCut",
+    "ConnectorCapabilityOffer",
+    "PushdownFragment",
+    "ResidualPlan",
+    "SnapshotBinding",
+    "ResultContract",
+    "ResultStreamState",
+    "QueryReceipt",
+    "MaterializationIdentity",
+    "BenchmarkEvidence"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can a bound relational or multidimensional query be planned and executed over exact source cuts to produce a typed, ordered and evidenced result without collapsing logical meaning into physical strategy, table state, catalog authority, managed warehouse/lakehouse packaging or business decision authority?"
+}

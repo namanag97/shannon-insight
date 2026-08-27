@@ -1,0 +1,60 @@
+{
+  "as_of": "2026-08-27",
+  "authority_review_ready_templates": 527,
+  "blocked_templates": 125,
+  "boundary_dockets": 460,
+  "boundary_dockets_blocked": 102,
+  "boundary_dockets_ready": 358,
+  "canonical_gaps_closed": 0,
+  "canonical_mutations_allowed": 0,
+  "collision_dockets": 146,
+  "completion_claim": false,
+  "edition": 1,
+  "family_constitution_dockets": 23,
+  "input_snapshot": {
+    "aggregate_sha256": "68b3413f55fb279f62f523f392f0d7b39a7244007661c052cd7c30f9f18675b0",
+    "files": [
+      {
+        "bytes": 65817,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/source-authority-packets.jsonl",
+        "record_count": 23,
+        "sha256": "aab53dc56ea1ad9f0125a65b19d0c09a390ce2e116a94062e44e6bb74a2e89cc"
+      },
+      {
+        "bytes": 70325,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/readiness-audits.jsonl",
+        "record_count": 23,
+        "sha256": "0908105269a133a1e54e000d6364d678dec096cc3cb1130f015ca4a9d57bf9db"
+      },
+      {
+        "bytes": 392275,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/boundary-falsification-clusters.jsonl",
+        "record_count": 460,
+        "sha256": "63322714d6fd7d09bde4f96c876f72cfa04a3e80c8d99e865bee815a686e5c5f"
+      },
+      {
+        "bytes": 143562,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/cross-owner-collision-candidates.jsonl",
+        "record_count": 146,
+        "sha256": "348951f4addebfb90361549f79df5676a12c232fa9e6aeb9b6d92af34dbcb228"
+      },
+      {
+        "bytes": 69715,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/family-constitutions.jsonl",
+        "record_count": 23,
+        "sha256": "e819bde3390f7dab507d31799c44bb8a4182ba852471cdc50bc6d2bf9a131941"
+      },
+      {
+        "bytes": 1383960,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/family-axis-ratification-packet-templates.jsonl",
+        "record_count": 368,
+        "sha256": "2b1008fe046fcb8bc95210abbc236eee86901a1b2697fb829ab5f6910e8cd920"
+      }
+    ],
+    "snapshot_id": "snapshot.p1b-input.68b3413f55fb279f"
+  },
+  "program_id": "program.p1b-foundation-authority-adjudication.v1",
+  "ratification_packet_templates": 652,
+  "ratified_decisions": 0,
+  "source_authority_dockets": 23
+}

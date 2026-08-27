@@ -1,0 +1,115 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/capability_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capability_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "decision_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "definition": {
+      "minLength": 20,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "guarantees": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "operation_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "postconditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "preconditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    }
+  },
+  "required": [
+    "capability_id",
+    "edition",
+    "status",
+    "name",
+    "owner_context_ref",
+    "definition",
+    "preconditions",
+    "postconditions",
+    "guarantees",
+    "limitations",
+    "operation_refs",
+    "decision_refs",
+    "evidence_refs"
+  ],
+  "title": "Connector capability candidate",
+  "type": "object"
+}

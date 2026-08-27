@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "triage_id",
+    "queue_id",
+    "queue_record_sha256",
+    "reference_domain",
+    "raw_ref",
+    "occurrence_count",
+    "relation",
+    "status",
+    "adjudicated"
+  ],
+  "title": "Canonical-reference triage record",
+  "type": "object"
+}

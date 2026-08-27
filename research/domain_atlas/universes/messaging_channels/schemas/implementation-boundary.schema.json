@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "boundary_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cannot_prove": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owns": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "relationship": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "semantic_owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "boundary_id",
+    "artifact_kind",
+    "name",
+    "semantic_owner_context",
+    "owns",
+    "relationship",
+    "cannot_prove",
+    "status"
+  ],
+  "title": "Messaging implementation-boundary",
+  "type": "object"
+}

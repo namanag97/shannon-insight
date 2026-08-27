@@ -1,0 +1,40 @@
+{
+  "$id": "https://san.example/product-boundary/alternative_decomposition.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "alternatives": {},
+    "decision": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_ids": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "alternative_decomposition"
+    },
+    "reopen_when": {},
+    "selected_index": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "alternatives",
+    "selected_index",
+    "decision",
+    "reopen_when",
+    "evidence_ids"
+  ],
+  "title": "Global boundary research: alternative_decomposition",
+  "type": "object"
+}

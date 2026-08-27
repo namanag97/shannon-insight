@@ -1,0 +1,40 @@
+{
+  "$id": "https://san.example/product-boundary/obligation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "decision_question": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "falsifier": {},
+    "name": {},
+    "obligation_category": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "obligation"
+    },
+    "satisfaction_evidence": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "obligation_category",
+    "name",
+    "decision_question",
+    "satisfaction_evidence",
+    "falsifier"
+  ],
+  "title": "Global boundary research: obligation",
+  "type": "object"
+}

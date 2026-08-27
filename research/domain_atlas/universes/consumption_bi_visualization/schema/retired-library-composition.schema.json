@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capability_partition": {
+      "additionalProperties": {
+        "items": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "minItems": 1,
+        "type": "array",
+        "uniqueItems": true
+      },
+      "minProperties": 1,
+      "type": "object"
+    },
+    "decision_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "delegated_authority_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "delegated_capability_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "no_compatibility_alias": {
+      "const": true
+    },
+    "reason": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "replacement_library_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "retired_library_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "status": {
+      "const": "retired_composition"
+    }
+  },
+  "required": [
+    "decision_id",
+    "retired_library_id",
+    "edition",
+    "status",
+    "reason",
+    "replacement_library_refs",
+    "capability_partition",
+    "delegated_capability_refs",
+    "delegated_authority_refs",
+    "no_compatibility_alias",
+    "evidence_refs"
+  ],
+  "title": "Retired composite library boundary",
+  "type": "object"
+}

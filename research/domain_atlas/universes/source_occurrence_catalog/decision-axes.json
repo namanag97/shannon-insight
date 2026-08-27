@@ -1,0 +1,28 @@
+{
+  "record_id": "axes.occurrence.catalog.v0_1_0",
+  "record_kind": "decision_axes",
+  "edition": 1,
+  "status": "researched_candidate_not_complete",
+  "axes": [
+    {"axis": "identity", "dimensions": ["provider organization", "product", "edition", "implementation artifact", "managed offer", "deployment", "endpoint", "tenant/account", "region/site", "object scope", "connector artifact", "connector deployment"]},
+    {"axis": "version", "dimensions": ["product release", "API edition", "schema edition", "protocol profile", "connector build/digest", "configuration digest", "regional rollout", "behavior-change bundle"]},
+    {"axis": "authority", "dimensions": ["system of record", "system of entry", "derived projection", "published reference", "operational control", "evidence archive", "field-level override"]},
+    {"axis": "objects", "dimensions": ["discovery", "namespace", "object identity", "field identity", "key scope", "relationships", "attachments", "versions", "hidden/computed fields", "sensitivity"]},
+    {"axis": "access", "dimensions": ["discovery", "point read", "scan/query", "bulk export", "write", "delete", "command", "subscribe", "change replay", "report/screen export"]},
+    {"axis": "change", "dimensions": ["snapshot", "cursor", "delta token", "CDC resume token", "webhook", "poll", "before image", "after image", "tombstone", "correction", "retraction", "rebootstrap"]},
+    {"axis": "schema_and_type", "dimensions": ["declared/inferred/opaque", "compatibility", "unknown fields", "null/missing", "logical types", "precision", "code systems", "units", "representation loss"]},
+    {"axis": "time", "dimensions": ["effective/event", "recorded/commit", "publication", "ingestion", "observation", "validity interval", "timezone", "calendar", "clock quality", "lateness"]},
+    {"axis": "order_and_finality", "dimensions": ["global/partition/key/session/transaction/none", "gaps", "duplicates", "provisional", "workflow-approved", "committed", "quorum", "cleared", "settled", "published revision", "never final"]},
+    {"axis": "transactions", "dimensions": ["object", "table", "database", "message", "batch", "cross-object", "snapshot cut", "atomicity", "isolation", "commit acknowledgement"]},
+    {"axis": "limits", "dimensions": ["rate", "quota", "page", "payload", "object", "concurrency", "retention", "cursor TTL", "query timeout", "export window", "failure behavior"]},
+    {"axis": "security", "dimensions": ["credential reference", "authentication", "authorization", "object/field policy", "tenant boundary", "network route", "private endpoint", "encryption", "key boundary", "audit"]},
+    {"axis": "topology", "dimensions": ["local", "edge", "site", "region", "multi-region", "sovereign cloud", "private network", "public endpoint", "air gap", "store-forward"]},
+    {"axis": "availability_and_recovery", "dimensions": ["retry class", "idempotency", "backoff/jitter", "backpressure", "resume", "checkpoint", "partition", "failover", "degraded mode", "reconciliation"]},
+    {"axis": "cost_and_resource", "dimensions": ["request", "compute", "storage", "egress", "private link", "overage", "licensed seat", "export", "retention", "support tier"]},
+    {"axis": "lifecycle", "dimensions": ["release", "deprecation", "regional rollout", "migration", "invalidation", "requalification", "multi-version coexistence", "exit/export", "deletion"]},
+    {"axis": "evidence", "dimensions": ["normative standard", "official product docs", "release note", "configuration", "administrator attestation", "capability probe", "conformance suite", "runtime observation", "reconciliation receipt"]}
+  ],
+  "quantitative_fact_contract": ["value", "unit", "scope", "provenance", "observed_at", "valid_until", "failure_behavior"],
+  "qualitative_fact_contract": ["claim", "scope", "evidence", "edition", "observed_or_documented", "validity", "invalidation_trigger"],
+  "compiler_rule": "no axis may be defaulted from a vendor/product label when it is material to correctness, safety, security, cost, or reproducibility"
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "context_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_refs": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "inside": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "invariants": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "name": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "outside": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "owns": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "sovereign_question": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "status": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "context_id",
+    "status",
+    "name",
+    "sovereign_question",
+    "inside",
+    "outside",
+    "owns",
+    "invariants",
+    "evidence_refs"
+  ],
+  "type": "object"
+}

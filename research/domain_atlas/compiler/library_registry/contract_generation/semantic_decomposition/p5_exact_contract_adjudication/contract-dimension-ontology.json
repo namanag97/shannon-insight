@@ -1,0 +1,19 @@
+{
+  "contract_dimensions": [
+    "boundary_and_negative_mission",
+    "semantic_owner_and_context_map",
+    "ubiquitous_language_and_public_names",
+    "identity_equality_and_canonicalization",
+    "types_traits_operations_and_queries",
+    "commands_events_state_and_time",
+    "laws_invariants_and_refusal_precedence",
+    "authority_policy_and_effect_boundary",
+    "partiality_uncertainty_and_information_loss",
+    "finite_resources_concurrency_and_cancellation",
+    "representation_dto_acl_and_compatibility",
+    "dependencies_features_and_removal_seams",
+    "evidence_negative_twins_and_conformance",
+    "platform_supply_chain_and_code_risk",
+    "migration_deprecation_and_historical_replay"
+  ]
+}

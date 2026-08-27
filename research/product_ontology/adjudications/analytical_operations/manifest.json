@@ -1,0 +1,51 @@
+{
+  "contract_id": "contract.product_adjudication.analytical_operations.v0_1_0",
+  "counts": {
+    "artifact": 227,
+    "artifact_kind_definition": 7,
+    "boundary_decision": 9,
+    "capability_offer": 13,
+    "capability_requirement": 88,
+    "evidence_source": 64,
+    "legacy_crosswalk": 11,
+    "library_contract": 88,
+    "negative_test": 59,
+    "product_ddd_dossier": 7,
+    "product_library_binding_gap": 28,
+    "product_library_binding_map": 88,
+    "relation": 41,
+    "semantic_or_conformance_gap": 28,
+    "semantic_ownership": 88
+  },
+  "derived": {
+    "legacy_crosswalks": 11,
+    "portable_offers": 0,
+    "product_candidates": 7,
+    "qualified_offers": 0,
+    "unbound_requirements": 88
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "a55067c3d25a790be44d562a538bfaf59948d2d678e74c5ff2fb29f7bb97e147",
+    "artifacts.jsonl": "7b089e873713ffe1f48f68706ac4b3760b8f52316b0729e6287629fa89ddd359",
+    "boundary-decisions.jsonl": "d7c0bda23036fee4bb576494aeb519dd9e3ae220d4e22d6451c6aba0837d1e75",
+    "evidence.jsonl": "f8014f4b89ddf2cc833811a2f9d04eabcb434ab1f01f5f634b29f197f1eb5598",
+    "legacy-crosswalks.jsonl": "81480e48afc76db29fb1895aabd648c67f8bfb9dc68df8f6c36ee41fed3d083d",
+    "library-contracts.jsonl": "43b352628fd9f667adab6fe36b3cdad2e9f922d0ae4415268724f5a068a44a88",
+    "metamodel.json": "f84824efd298fc2b9beda9d81f457fae3fbbbbdc62d15b623db8fc3053b1ac5a",
+    "negative-tests.jsonl": "36fd351a83b474f8280303673e2c325f523106560eaa1347349023e3f4c88932",
+    "offers.jsonl": "f9b46c5a04fd8865210751a67703f7377c075f8e539b62967e614b20b8bb9aa2",
+    "product-ddd-dossiers.jsonl": "bdf65bf674e37c6490b7ee256f557b4ae4a03481b17e0b9370ec75050f9f2f55",
+    "product-library-binding-gaps.jsonl": "83ebdd3622263c530dde298883c9be860316307a8e60915fd7da6d76f095c100",
+    "product-library-binding-maps.jsonl": "a17383fcafe998ab842929d0d72b300baeb8570c4839eb1cdcd8253699caa0f4",
+    "registry.jsonl": "41fe874a26fde623db965e0237c1bb93189d46cc6683dbb2e8c939a051d94adc",
+    "relations.jsonl": "973a5dbd63bd5ff1af24be5a499a16eb6d222c9adf6371526214d8d4cbba7cd9",
+    "requirements.jsonl": "a10e805872070a3453aacd2d8c2b319cfa0005978c8460db667f1894f4c47ab5",
+    "semantic-gaps.jsonl": "f2ca48de0a893e96e9b69826f7d112d736f881e8a29ad872c36354549af6ffb1",
+    "semantic-ownership.jsonl": "5f6a38594efafd71c276b5144c0aec13805ce04f5c473bdf78d2c0f147643931"
+  },
+  "negative_scope": "Does not qualify providers, ratify products, create AI-prefixed duplicates, own industry vocabularies, accept extracted/predicted values as truth, or authorize downstream machine/maintenance effects.",
+  "scope": "Seven job-specific analytical-operation products, now including Dataset Curation Workbench and Image Analysis Workbench with exact boundaries.",
+  "source_sha256": "12fd391c14ddd06ca7dd07b1f5d6645755c01eb62b4e83035af62a7fed9f5e06",
+  "status": "evidence_backed_adjudicated_candidates_not_ratified"
+}

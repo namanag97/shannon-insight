@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://shannon-insight.local/schemas/data-contract-profile-v1.json",
+  "title":"Semantically typed domain data contract",
+  "type":"object",
+  "required":["id","domain_pack_id","version","observation_type_id","grain_fields","primary_key","temporal_model","update_semantics","fields","constraints"],
+  "properties":{
+    "id":{"type":"string","pattern":"^profile\\."},
+    "domain_pack_id":{"type":"string","pattern":"^domain\\."},
+    "version":{"type":"string"},
+    "observation_type_id":{"type":"string","pattern":"^observation\\."},
+    "grain_fields":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+    "primary_key":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+    "temporal_model":{"type":"object","required":["roles","timezone_policy","calendar"],"properties":{"roles":{"type":"array","minItems":1,"uniqueItems":true,"items":{"enum":["event_time","valid_time","system_time","processing_time"]}},"timezone_policy":{"type":"string"},"calendar":{"type":"string"}}},
+    "update_semantics":{"enum":["append","snapshot_replace","upsert","correction","retraction","tombstone","change_data_capture","slowly_changing_dimension"]},
+    "finality_states":{"type":"array","uniqueItems":true,"items":{"enum":["provisional","revised","final","superseded"]}},
+    "fields":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/field"}},
+    "constraints":{"type":"array","items":{"type":"object","required":["id","expression","severity"],"properties":{"id":{"type":"string"},"expression":{"type":"string"},"severity":{"enum":["error","warning","information"]}}}},
+    "source_ids":{"type":"array","items":{"type":"string"}}
+  },
+  "$defs":{
+    "field":{"type":"object","required":["name","carrier_type_id","semantic_type_id","nullable","missingness_allowed","qualifiers","roles"],"properties":{"name":{"type":"string"},"carrier_type_id":{"type":"string","pattern":"^carrier\\."},"composite_type_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","pattern":"^composite\\."}},"semantic_type_id":{"type":"string","pattern":"^semantic\\."},"nullable":{"type":"boolean"},"missingness_allowed":{"type":"array","uniqueItems":true,"items":{"enum":["present","not_applicable","not_collected","unknown","withheld","below_detection","structural_zero","censored","not_yet_final"]}},"qualifiers":{"type":"object"},"roles":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},"sensitivity":{"enum":["public","internal","confidential","personal","sensitive","restricted"]},"provenance_required":{"type":"boolean"}}}
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$id": "https://san.example/spec/provider-target/innovation_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "affected_capability_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "innovation_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "non_llm": {
+      "const": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "why_material": {
+      "type": "string"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "edition",
+    "status",
+    "name",
+    "year",
+    "why_material",
+    "affected_capability_refs",
+    "non_llm",
+    "evidence_refs"
+  ],
+  "title": "Recent non-generative innovation",
+  "type": "object"
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/method-implementation-record-v0.1.0.schema.json",
+  "title": "Formula, model, estimator, algorithm, or executable kernel",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id", "record_kind", "edition", "status", "name", "definition",
+    "method_family_refs", "computes", "typed_inputs", "typed_outputs", "preconditions",
+    "semantics", "state_contract", "randomness_contract", "numeric_contract",
+    "termination_contract", "resource_contract", "failure_states", "decision_refs",
+    "kernel_refs", "evidence_refs", "llm_dependency", "gaps"
+  ],
+  "properties": {
+    "record_id": {"type": "string", "pattern": "^(formula|model|estimator|algorithm|kernel)\\.[a-z0-9_.-]+$"},
+    "record_kind": {"enum": ["formula", "model", "estimator", "algorithm", "numerical_kernel", "data_kernel"]},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["hypothesis", "sourced_candidate", "reviewed", "qualified", "deprecated"]},
+    "name": {"type": "string", "minLength": 1},
+    "definition": {"type": "string", "minLength": 1},
+    "method_family_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "computes": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "typed_inputs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "typed_outputs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "preconditions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "semantics": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "state_contract": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "randomness_contract": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "numeric_contract": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "termination_contract": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "resource_contract": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "failure_states": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "decision_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "kernel_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "llm_dependency": {"const": "none"},
+    "gaps": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"record_kind": {"enum": ["numerical_kernel", "data_kernel"]}}},
+      "then": {"properties": {"record_id": {"pattern": "^kernel\\.[a-z0-9_.-]+$"}}}
+    },
+    {
+      "if": {"properties": {"record_kind": {"enum": ["formula", "model", "estimator", "algorithm"]}}},
+      "then": {"properties": {"method_family_refs": {"minItems": 1}}}
+    }
+  ]
+}
+

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/ecosystem/specialist-edge-v1.schema.json",
+  "type": "object",
+  "required": ["edge_id", "from_id", "to_practice_id", "relation", "claim_state", "evidence_refs", "limitations"],
+  "properties": {
+    "edge_id": {"type": "string", "pattern": "^edge\\.[a-z0-9_.]+$"},
+    "from_id": {"type": "string"},
+    "to_practice_id": {"type": "string", "pattern": "^analytics\\."},
+    "relation": {"enum": ["offers", "implements", "stewards", "applies", "researches", "formalized", "authored", "maintains"]},
+    "claim_state": {"enum": ["vendor_claim", "artifact_verified", "cross_checked", "outcome_evidenced", "unknown"]},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+  },
+  "additionalProperties": false
+}

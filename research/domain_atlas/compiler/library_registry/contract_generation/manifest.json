@@ -1,0 +1,38 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "boundary-falsification-clusters.jsonl": {
+      "bytes": 392275,
+      "sha256": "63322714d6fd7d09bde4f96c876f72cfa04a3e80c8d99e865bee815a686e5c5f"
+    },
+    "contract-archetypes.jsonl": {
+      "bytes": 28612,
+      "sha256": "156a0011d40323bd95cc00a2db2c5b87325f76b54772d8b1a2378cf66ada401b"
+    },
+    "cross-owner-collision-candidates.jsonl": {
+      "bytes": 143562,
+      "sha256": "348951f4addebfb90361549f79df5676a12c232fa9e6aeb9b6d92af34dbcb228"
+    },
+    "execution-waves.jsonl": {
+      "bytes": 10764,
+      "sha256": "dfed11450cea8d382d6d3cbbc318471fdd9bb412fdbaad190681ae6445b9b31f"
+    },
+    "family-constitutions.jsonl": {
+      "bytes": 69715,
+      "sha256": "e819bde3390f7dab507d31799c44bb8a4182ba852471cdc50bc6d2bf9a131941"
+    },
+    "library-instance-proposals.jsonl": {
+      "bytes": 1370134,
+      "sha256": "72d08b8ab83b124fb1a166b990a89250dcc1b434a9b6863144f28e11ab283270"
+    },
+    "summary.json": {
+      "bytes": 1653,
+      "sha256": "9cd3b22e25c2f09d15a40117bc592d50aaf345f54aa1ef93eaa8a29dd30648aa"
+    },
+    "work-packages.jsonl": {
+      "bytes": 100700,
+      "sha256": "fc7212e0dec2d9567585d556fd137c6b10b0c608ec289aa24c47105d8f8706a6"
+    }
+  },
+  "manifest_id": "manifest.bulk-contract-generation.v1"
+}

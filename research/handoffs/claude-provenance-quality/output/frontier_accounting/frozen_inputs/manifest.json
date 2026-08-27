@@ -1,0 +1,165 @@
+{
+ "note": "read-only frozen copy of canonical inputs consumed by frontier accounting; originals untouched",
+ "files": [
+  {
+   "frozen_name": "acceptance-class-workstreams.jsonl",
+   "source_rel_to_semantic_decomposition": "p8_vertical_acceptance_tensor/acceptance-class-workstreams.jsonl",
+   "sha256": "3412e42c282054056279a34f031ca41f88e8f70d7d4c5958bf834234a5e3807d",
+   "bytes": 127715,
+   "record_count": 8,
+   "expected_count": null
+  },
+  {
+   "frozen_name": "closure-programs.jsonl",
+   "source_rel_to_semantic_decomposition": "gap_topology/closure-programs.jsonl",
+   "sha256": "240766c505bdafa13fa5f0de39f7c4090ee6e9e6dd0c0057952d96337f6c2764",
+   "bytes": 2579,
+   "record_count": 8,
+   "expected_count": null
+  },
+  {
+   "frozen_name": "closure-queue.jsonl",
+   "source_rel_to_semantic_decomposition": "../../exact_api_closure/closure-queue.jsonl",
+   "sha256": "dfe14376f340b8731558919104638f64814c265c06ae15b8dd71523daf33fd34",
+   "bytes": 1139327,
+   "record_count": 674,
+   "expected_count": 674
+  },
+  {
+   "frozen_name": "evidence-vacancies.jsonl",
+   "source_rel_to_semantic_decomposition": "../../../../../product_ontology/qualification_program/evidence-vacancies.jsonl",
+   "sha256": "08d8c15c21cb729ea037b91c809c26a8ae0ef6fdb842bfe752540f7cf680f134",
+   "bytes": 841653,
+   "record_count": 888,
+   "expected_count": 888
+  },
+  {
+   "frozen_name": "family-axis-review-dockets.jsonl",
+   "source_rel_to_semantic_decomposition": "p3_applicability_adjudication/family-axis-review-dockets.jsonl",
+   "sha256": "6686ad3ae372029939f9fa9dc6a089ef6e1d48816d87753b40e8c016cb1f055f",
+   "bytes": 1195093,
+   "record_count": 368,
+   "expected_count": 368
+  },
+  {
+   "frozen_name": "gap-clusters.jsonl",
+   "source_rel_to_semantic_decomposition": "gap_topology/gap-clusters.jsonl",
+   "sha256": "8d6a8ba5f6a9ff362bea45939b878e6b21bea8a2d6c4606f0e5ae79fb30aeadb",
+   "bytes": 1300069,
+   "record_count": 686,
+   "expected_count": 686
+  },
+  {
+   "frozen_name": "gap-ontology.json",
+   "source_rel_to_semantic_decomposition": "gap_topology/gap-ontology.json",
+   "sha256": "090b75dbde3a59b854bf0dfafcde79a05655a4d0ebb8034590fd06c2115ad95b",
+   "bytes": 4735,
+   "record_count": null,
+   "expected_count": null
+  },
+  {
+   "frozen_name": "global-symbol-collisions.jsonl",
+   "source_rel_to_semantic_decomposition": "p0_identity_grain/global-symbol-collisions.jsonl",
+   "sha256": "ce8162b572ad9330f11002938a5114e7da8d0644b7c3859e8a98926123c89b7d",
+   "bytes": 382096,
+   "record_count": 210,
+   "expected_count": 210
+  },
+  {
+   "frozen_name": "implementation-offer-intake-templates.jsonl",
+   "source_rel_to_semantic_decomposition": "p7_offer_binding_qualification/implementation-offer-intake-templates.jsonl",
+   "sha256": "882bab9bceb0e103bdac4e54cb3000d0b17bd64d01b2a7d33feb36e0ffc5b1ff",
+   "bytes": 1494082,
+   "record_count": 982,
+   "expected_count": 982
+  },
+  {
+   "frozen_name": "occurrence-relation-proposals.jsonl",
+   "source_rel_to_semantic_decomposition": "p2_owner_adjudication/occurrence-relation-proposals.jsonl",
+   "sha256": "28f4d4033854b4d8dcfb1d5286c357028c2a47c4f5eef124667a8cdb94ad6a2b",
+   "bytes": 579155,
+   "record_count": 666,
+   "expected_count": 666
+  },
+  {
+   "frozen_name": "owner-adjudication-dockets.jsonl",
+   "source_rel_to_semantic_decomposition": "p2_owner_adjudication/owner-adjudication-dockets.jsonl",
+   "sha256": "39e7d5bfaab641b6def5996dce12d101ec9d227b27f5f76b2bb790b30130747a",
+   "bytes": 772432,
+   "record_count": 210,
+   "expected_count": 210
+  },
+  {
+   "frozen_name": "owner-decision-units.jsonl",
+   "source_rel_to_semantic_decomposition": "p2_owner_adjudication/owner-decision-units.jsonl",
+   "sha256": "0d3da3e601153a87b8a061e8ed8098fff2cc5aff814b39f4422eb3cd0635ed84",
+   "bytes": 183335,
+   "record_count": 108,
+   "expected_count": 108
+  },
+  {
+   "frozen_name": "owner-decision-waves.jsonl",
+   "source_rel_to_semantic_decomposition": "p2_owner_adjudication/owner-decision-waves.jsonl",
+   "sha256": "08831f515f0731b08fec7bad1c36f06b5e14157f2eeae7c1318ab1427f4382b9",
+   "bytes": 42069,
+   "record_count": 4,
+   "expected_count": 4
+  },
+  {
+   "frozen_name": "owner-proposals.jsonl",
+   "source_rel_to_semantic_decomposition": "p2_owner_adjudication/owner-proposals.jsonl",
+   "sha256": "13abd72cdad73f6f6b78c900fa2d32ee0056d669173757cdaf7826b728adce77",
+   "bytes": 518824,
+   "record_count": 210,
+   "expected_count": 210
+  },
+  {
+   "frozen_name": "proposal-conflicts.jsonl",
+   "source_rel_to_semantic_decomposition": "p2_owner_adjudication/proposal-conflicts.jsonl",
+   "sha256": "56cb678cbc0844ab86c6c72939c9d5841e05ffd166f74a65459debce73522cef",
+   "bytes": 93724,
+   "record_count": 118,
+   "expected_count": 118
+  },
+  {
+   "frozen_name": "qualification-scope-kernels.jsonl",
+   "source_rel_to_semantic_decomposition": "p6_implementation_qualification/qualification-scope-kernels.jsonl",
+   "sha256": "2d4542d64bba1259ca5a367b16c095c8d4650c37af4ba111b9883a27ffc3e889",
+   "bytes": 887518,
+   "record_count": 491,
+   "expected_count": 491
+  },
+  {
+   "frozen_name": "readiness-audits.jsonl",
+   "source_rel_to_semantic_decomposition": "source_authority_audit/readiness-audits.jsonl",
+   "sha256": "0908105269a133a1e54e000d6364d678dec096cc3cb1130f015ca4a9d57bf9db",
+   "bytes": 70325,
+   "record_count": 23,
+   "expected_count": 23
+  },
+  {
+   "frozen_name": "review-waves.jsonl",
+   "source_rel_to_semantic_decomposition": "applicability_matrices/review-waves.jsonl",
+   "sha256": "d01e2db3064db674a4de20b05ef6eb76b7151519707e5037683bfea6fa647b6d",
+   "bytes": 21737,
+   "record_count": 5,
+   "expected_count": 5
+  },
+  {
+   "frozen_name": "summary.json",
+   "source_rel_to_semantic_decomposition": "gap_topology/summary.json",
+   "sha256": "9a9787f21ddfe8cfc7e583dd0b1a70bb3bf3e9c2739ba6d6ff01b6760bbbbd7a",
+   "bytes": 10348,
+   "record_count": null,
+   "expected_count": null
+  },
+  {
+   "frozen_name": "targeted-evidence-work-packages.jsonl",
+   "source_rel_to_semantic_decomposition": "structured_projection/targeted-evidence-work-packages.jsonl",
+   "sha256": "8a19db0c185d90e75ccb5440d6ac311ba83f7dad9f88d1d0ffb4773e9cbdf3a4",
+   "bytes": 264244,
+   "record_count": 103,
+   "expected_count": 103
+  }
+ ]
+}

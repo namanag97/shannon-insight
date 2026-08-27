@@ -1,0 +1,84 @@
+{
+  "$id": "https://san.example/spec/provider-target/boundary_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "boundary_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "boundary_kind": {
+      "enum": [
+        "pure_library",
+        "runtime_library",
+        "provider_adapter",
+        "engine_integration"
+      ]
+    },
+    "configuration_surface": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "effects": {
+      "type": "string"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "must_not_own": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "owns": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "receipt_surface": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "boundary_id",
+    "edition",
+    "status",
+    "name",
+    "boundary_kind",
+    "owns",
+    "must_not_own",
+    "effects",
+    "configuration_surface",
+    "receipt_surface",
+    "evidence_refs"
+  ],
+  "title": "Library or provider-adapter boundary",
+  "type": "object"
+}

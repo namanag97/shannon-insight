@@ -1,0 +1,224 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "fixtures": [
+    {
+      "expected": {"objective": 10.0, "status": "optimal"},
+      "fixture_id": "fixture.lp.optimal_unique",
+      "model": {
+        "constraints": [
+          {"coefficients": {"x": 1.0, "y": 1.0}, "name": "capacity", "rhs": 4.0, "sense": "<="},
+          {"coefficients": {"x": 1.0}, "name": "x_cap", "rhs": 2.0, "sense": "<="}
+        ],
+        "objective": {"coefficients": {"x": 3.0, "y": 2.0}, "sense": "maximize"},
+        "variables": [
+          {"lower": 0.0, "name": "x", "upper": null},
+          {"lower": 0.0, "name": "y", "upper": null}
+        ]
+      },
+      "purpose": "Unique bounded optimum with an exact integer-valued solution."
+    },
+    {
+      "expected": {"objective": 1.0, "status": "optimal"},
+      "fixture_id": "fixture.lp.optimal_degenerate",
+      "model": {
+        "constraints": [
+          {"coefficients": {"x": 1.0, "y": 1.0}, "name": "simplex", "rhs": 1.0, "sense": "<="}
+        ],
+        "objective": {"coefficients": {"x": 1.0, "y": 1.0}, "sense": "maximize"},
+        "variables": [
+          {"lower": 0.0, "name": "x", "upper": null},
+          {"lower": 0.0, "name": "y", "upper": null}
+        ]
+      },
+      "purpose": "Multiple valid optima; the oracle compares feasibility and objective rather than vector identity."
+    },
+    {
+      "expected": {"objective": 2.0, "status": "optimal"},
+      "fixture_id": "fixture.lp.optimal_scaled",
+      "model": {
+        "constraints": [
+          {"coefficients": {"x": 1.0}, "name": "x_cap", "rhs": 1000000.0, "sense": "<="},
+          {"coefficients": {"y": 1.0}, "name": "y_cap", "rhs": 1.0, "sense": "<="}
+        ],
+        "objective": {"coefficients": {"x": 0.000001, "y": 1.0}, "sense": "maximize"},
+        "variables": [
+          {"lower": 0.0, "name": "x", "upper": null},
+          {"lower": 0.0, "name": "y", "upper": null}
+        ]
+      },
+      "purpose": "Coefficient-scale separation while preserving a simple independently recomputable optimum."
+    },
+    {
+      "expected": {"objective": null, "status": "infeasible"},
+      "fixture_id": "fixture.lp.infeasible",
+      "model": {
+        "constraints": [
+          {"coefficients": {"x": 1.0}, "name": "lower", "rhs": 2.0, "sense": ">="},
+          {"coefficients": {"x": 1.0}, "name": "upper", "rhs": 1.0, "sense": "<="}
+        ],
+        "objective": {"coefficients": {"x": 1.0}, "sense": "maximize"},
+        "variables": [{"lower": null, "name": "x", "upper": null}]
+      },
+      "purpose": "Contradictory constraints distinguish precise infeasibility from an ambiguous terminal claim."
+    },
+    {
+      "expected": {"objective": null, "status": "unbounded"},
+      "fixture_id": "fixture.lp.unbounded",
+      "model": {
+        "constraints": [],
+        "objective": {"coefficients": {"x": 1.0}, "sense": "maximize"},
+        "variables": [{"lower": 0.0, "name": "x", "upper": null}]
+      },
+      "purpose": "A feasible unbounded ray challenges status precision and no-strengthening."
+    },
+    {
+      "expected": {"objective": null, "status": "invalid_input"},
+      "fixture_id": "fixture.lp.invalid_non_finite",
+      "model": {
+        "constraints": [],
+        "objective": {"coefficients": {"x": "NaN"}, "sense": "maximize"},
+        "variables": [{"lower": 0.0, "name": "x", "upper": 1.0}]
+      },
+      "purpose": "The adapter must refuse non-finite coefficients before invoking provider code."
+    }
+  ],
+  "invalidation_triggers": [
+    "any package or transitive dependency version changes",
+    "provider wheel or native-library bytes change",
+    "Python, operating system, architecture or process-isolation policy changes",
+    "fixture, tolerance, adapter, oracle or status-mapping edition changes",
+    "provider security, license or release posture changes"
+  ],
+  "non_collapse_laws": [
+    "OR-Tools suite != GLOP solver != MPSolver Python adapter != deployed process occurrence",
+    "HiGHS project != highspy wheel != loaded native library != deployed process occurrence",
+    "executed test pass != independent appraisal != qualified offer != portable provider family",
+    "provider status != canonical termination claim unless a versioned no-strengthening map proves it",
+    "agreement != truth and exact objective agreement != status, resource or cancellation equivalence"
+  ],
+  "oracle_profiles": [
+    {
+      "accepted_ambiguity": true,
+      "oracle_id": "oracle.lp.safe_status_and_objective.v1",
+      "requires": [
+        "invalid inputs refused before provider invocation",
+        "optimal solutions independently satisfy variables and constraints",
+        "objective independently recomputes within tolerance",
+        "terminal claims never strengthen known provider ambiguity"
+      ]
+    },
+    {
+      "accepted_ambiguity": false,
+      "oracle_id": "oracle.lp.precise_terminal_classification.v1",
+      "requires": [
+        "known infeasible model reported infeasible",
+        "known unbounded model reported unbounded"
+      ]
+    }
+  ],
+  "providers": [
+    {
+      "adapter": "ortools_glop_mpsolver",
+      "declared_dependency_lock": [
+        "absl-py==2.5.0",
+        "immutabledict==4.3.1",
+        "numpy==2.4.3",
+        "ortools==9.15.6755",
+        "pandas==3.0.5",
+        "protobuf==6.33.6",
+        "python-dateutil==2.9.0.post0",
+        "six==1.17.0",
+        "typing_extensions==4.15.0"
+      ],
+      "exact_offer_id": "offer.operations_research.ortools.glop.mpsolver_python.9_15_6755",
+      "package": "ortools",
+      "process_isolation": "required_for_this_pair_on_observed_target",
+      "provider_id": "provider.operations_research.ortools.glop.mpsolver_python",
+      "source_refs": [
+        "source.lp.ortools.release.9_15",
+        "source.lp.ortools.glop_status_mapping",
+        "source.lp.ortools.suite_components"
+      ],
+      "version": "9.15.6755"
+    },
+    {
+      "adapter": "highspy_highs",
+      "declared_dependency_lock": ["highspy==1.15.1", "numpy==2.4.3"],
+      "exact_offer_id": "offer.operations_research.highspy.highs.1_15_1",
+      "package": "highspy",
+      "process_isolation": "required_for_this_pair_on_observed_target",
+      "provider_id": "provider.operations_research.highspy.highs",
+      "source_refs": [
+        "source.lp.highs.release.1_15_1",
+        "source.lp.highs.python_interface",
+        "source.lp.highs.model_status"
+      ],
+      "version": "1.15.1"
+    }
+  ],
+  "protocol_id": "protocol.conformance.lp_solver_exact_scope.v1",
+  "scope": {
+    "accepted_canonical_statuses": [
+      "optimal",
+      "feasible",
+      "infeasible",
+      "unbounded",
+      "infeasible_or_unbounded",
+      "limit_with_incumbent",
+      "limit_without_incumbent",
+      "invalid_input",
+      "numerical_failure",
+      "provider_failure"
+    ],
+    "excluded": [
+      "integer, quadratic, conic, nonlinear, stochastic or constraint-programming models",
+      "callbacks, warm starts, incremental modification, basis portability and certificates",
+      "cancellation, progress streaming, concurrency, memory enforcement and deployed SLOs",
+      "performance, scalability, energy, cost, security, license and production fitness",
+      "clinical or enterprise vertical acceptance"
+    ],
+    "model_class": "finite-coefficient continuous linear programs",
+    "numeric_policy": {
+      "absolute_tolerance": 1e-07,
+      "relative_tolerance": 1e-07,
+      "require_finite_inputs": true
+    },
+    "objective": "one linear minimize or maximize objective",
+    "target": "local isolated Python process on the recorded macOS arm64 occurrence"
+  },
+  "sources": [
+    {
+      "source_id": "source.lp.ortools.release.9_15",
+      "title": "OR-Tools v9.15 release",
+      "url": "https://github.com/google/or-tools/releases/tag/v9.15"
+    },
+    {
+      "source_id": "source.lp.ortools.glop_status_mapping",
+      "title": "OR-Tools GLOP-to-MPSolver status mapping",
+      "url": "https://github.com/google/or-tools/blob/v9.15/ortools/linear_solver/proto_solver/glop_proto_solver.cc"
+    },
+    {
+      "source_id": "source.lp.ortools.suite_components",
+      "title": "OR-Tools repository component map",
+      "url": "https://github.com/google/or-tools"
+    },
+    {
+      "source_id": "source.lp.highs.release.1_15_1",
+      "title": "HiGHS v1.15.1 release",
+      "url": "https://github.com/ERGO-Code/HiGHS/releases/tag/v1.15.1"
+    },
+    {
+      "source_id": "source.lp.highs.python_interface",
+      "title": "HiGHS Python interface",
+      "url": "https://ergo-code.github.io/HiGHS/stable/interfaces/python/"
+    },
+    {
+      "source_id": "source.lp.highs.model_status",
+      "title": "HiGHS model-status enumeration",
+      "url": "https://ergo-code.github.io/HiGHS/stable/interfaces/python/enums/"
+    }
+  ],
+  "status": "candidate_executable_not_qualified"
+}

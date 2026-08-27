@@ -1,0 +1,7 @@
+{"definition":"Typed operation offered under one semantic contract.","edition":1,"kind":"capability","record_kind":"artifact_kind_definition"}
+{"definition":"Observed provider or implementation; unqualified until conformance evidence exists.","edition":1,"kind":"implementation","record_kind":"artifact_kind_definition"}
+{"definition":"Adjacent owner imported through a named anti-corruption layer.","edition":1,"kind":"neighbor","record_kind":"artifact_kind_definition"}
+{"definition":"Removable predictive, generative or agent proposal/method surface.","edition":1,"kind":"optional_extension","record_kind":"artifact_kind_definition"}
+{"definition":"Independently adopted, operated, supported and replaceable outcome promise.","edition":1,"kind":"product","record_kind":"artifact_kind_definition"}
+{"definition":"Owner of exact identities, decisions, invariants and refusals.","edition":1,"kind":"semantic_contract","record_kind":"artifact_kind_definition"}
+{"definition":"External editioned specification; neither product nor provider qualification.","edition":1,"kind":"standard","record_kind":"artifact_kind_definition"}

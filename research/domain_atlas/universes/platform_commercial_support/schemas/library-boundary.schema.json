@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "contributes_to_context_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "effect_boundary": {
+      "type": "string"
+    },
+    "forbidden_responsibilities": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "laws": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "library_id": {
+      "type": "string"
+    },
+    "library_kind": {
+      "enum": [
+        "semantic_pure",
+        "policy_pure",
+        "algorithm_pure",
+        "effect_port",
+        "provider_adapter"
+      ]
+    },
+    "operation_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "public_contracts": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "record_kind": {
+      "enum": [
+        "library_boundary"
+      ]
+    },
+    "removal_seams": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "library_id",
+    "library_kind",
+    "contributes_to_context_refs",
+    "effect_boundary",
+    "public_contracts",
+    "operation_refs",
+    "laws",
+    "removal_seams",
+    "forbidden_responsibilities"
+  ],
+  "title": "Library, effect-port, or provider-adapter boundary",
+  "type": "object"
+}

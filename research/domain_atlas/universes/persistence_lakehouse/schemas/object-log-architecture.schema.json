@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/persistence-object-log-architecture-v0.1.0.schema.json",
+  "title": "Object-storage log and durable-state architecture candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "architecture_id", "edition", "status", "name", "organization", "organization_kind",
+    "startup_relevance", "architecture_class", "workload_classes", "commit_path", "read_path",
+    "coordination", "durable_truth", "maintenance", "enabled_capabilities", "compiler_decisions", "decision_refs",
+    "non_collapse_laws", "tradeoffs", "evidence_refs", "qualification_status", "gaps"
+  ],
+  "properties": {
+    "architecture_id": {"type": "string", "pattern": "^architecture\\.persistence\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["researched_candidate", "reviewed", "adjudicated", "superseded"]},
+    "name": {"type": "string", "minLength": 1},
+    "organization": {"type": "string", "minLength": 1},
+    "organization_kind": {"enum": ["cloud_provider", "company_product_team", "open_source_project", "primary_research"]},
+    "startup_relevance": {"enum": ["startup_origin_or_vendor_product", "enabling_infrastructure", "startup_relevance_unverified", "not_applicable"]},
+    "architecture_class": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "workload_classes": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "minItems": 1, "uniqueItems": true},
+    "commit_path": {
+      "type": "array", "minItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["order", "stage", "medium", "acknowledgement_role"],
+        "properties": {
+          "order": {"type": "integer", "minimum": 1},
+          "stage": {"type": "string", "minLength": 1},
+          "medium": {"type": "string", "minLength": 1},
+          "acknowledgement_role": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "read_path": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "coordination": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "durable_truth": {"type": "string", "minLength": 1},
+    "maintenance": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "enabled_capabilities": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "compiler_decisions": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "decision_refs": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "non_collapse_laws": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "tradeoffs": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "evidence_refs": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "qualification_status": {"enum": ["unqualified_architecture_claim", "research_prototype_unqualified", "qualified_deployment"]},
+    "gaps": {"$ref": "#/$defs/nonemptyUniqueStrings"}
+  },
+  "$defs": {
+    "nonemptyUniqueStrings": {
+      "type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true
+    }
+  }
+}

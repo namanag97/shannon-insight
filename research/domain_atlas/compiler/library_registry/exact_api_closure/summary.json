@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "counts_by_priority_band": {
+    "P0_PRODUCT_AND_VERTICAL": 66,
+    "P1_PRODUCT": 286,
+    "P2_SHARED_GRAPH": 173,
+    "P3_REMAINDER": 149
+  },
+  "counts_by_research_family": {
+    "analytical_method_kernels": 72,
+    "candidate_data_shapes": 33,
+    "connector_protocol": 5,
+    "consumption_bi_visualization": 29,
+    "experimentation_lifecycle": 6,
+    "forecasting_lifecycle": 8,
+    "geospatial_analytics": 18,
+    "governance_metadata_ontology": 15,
+    "lineage_provenance_evidence": 31,
+    "messaging_coordination": 21,
+    "operations_research": 21,
+    "optional_model_agent_extensions": 30,
+    "persistence_lakehouse": 38,
+    "pipeline_dataflow": 25,
+    "platform_commercial_support": 23,
+    "predictive_analytics": 60,
+    "quality_reconciliation": 37,
+    "query_compilation_execution": 32,
+    "representation_codec": 27,
+    "runtime_resource_control": 33,
+    "security_privacy_trust": 26,
+    "semantic_metrics_formulas": 24,
+    "shared_semantic_foundations": 60
+  },
+  "counts_by_research_lane": {
+    "algorithm_conformance": 165,
+    "boundary_first": 33,
+    "effect_runtime_provider": 224,
+    "semantic_contract": 252
+  },
+  "edition": 1,
+  "laws": [
+    "Every central exact_api_contract_missing gap appears exactly once in this queue.",
+    "Priority changes work order and never weakens closure evidence.",
+    "A source-level exact API is not implementation, qualification, portability or product acceptance."
+  ],
+  "open_items": 674,
+  "program_id": "program.exact-api-closure.v1",
+  "research_batches": 57,
+  "status": "ACTIVE_INCOMPLETE"
+}

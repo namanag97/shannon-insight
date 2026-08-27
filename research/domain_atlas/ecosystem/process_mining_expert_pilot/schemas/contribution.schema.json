@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/process-mining-contribution-v0.1.0.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "name", "artifact_kind", "status", "version_or_date",
+    "authors_or_maintainers", "expert_roles", "attribution_scope", "bibliographic_authors",
+    "primary_source_ids", "bounded_context", "problem_or_question",
+    "formal_objects_or_types", "data_or_event_graph_model", "operators", "algorithms",
+    "guarantees", "assumptions", "uncertainty_or_partiality", "lifecycle", "inputs", "outputs",
+    "runtime_resource_posture", "evidence_or_benchmarks", "limitations_or_counterevidence",
+    "related_or_superseded_artifact_ids", "categories", "exposed_decisions"
+  ],
+  "properties": {
+    "id": {"type": "string", "pattern": "^art\\."},
+    "name": {"type": "string", "minLength": 4},
+    "artifact_kind": {"type": "string", "minLength": 3},
+    "status": {"enum": ["core_candidate", "reference_only_noncore", "excluded_ai_method", "superseded", "unresolved"]},
+    "version_or_date": {"type": "string", "minLength": 3},
+    "authors_or_maintainers": {"type": "array", "items": {"type": "string", "pattern": "^expert\\."}, "uniqueItems": true},
+    "expert_roles": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["expert_id", "role"],
+        "properties": {"expert_id": {"type": "string", "pattern": "^expert\\."}, "role": {"enum": ["author", "editor", "maintainer", "developer", "supervisor", "standardization_lead"]}}
+      }
+    },
+    "attribution_scope": {"type": "string", "minLength": 20},
+    "bibliographic_authors": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "primary_source_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^src\\."}, "uniqueItems": true},
+    "bounded_context": {"type": "string", "minLength": 3},
+    "problem_or_question": {"type": "string", "minLength": 20},
+    "formal_objects_or_types": {"$ref": "#/$defs/nonemptyStrings"},
+    "data_or_event_graph_model": {"type": "string", "minLength": 10},
+    "operators": {"$ref": "#/$defs/nonemptyStrings"},
+    "algorithms": {"$ref": "#/$defs/nonemptyStrings"},
+    "guarantees": {"$ref": "#/$defs/nonemptyStrings"},
+    "assumptions": {"$ref": "#/$defs/nonemptyStrings"},
+    "uncertainty_or_partiality": {"$ref": "#/$defs/nonemptyStrings"},
+    "lifecycle": {"$ref": "#/$defs/nonemptyStrings"},
+    "inputs": {"$ref": "#/$defs/nonemptyStrings"},
+    "outputs": {"$ref": "#/$defs/nonemptyStrings"},
+    "runtime_resource_posture": {"$ref": "#/$defs/nonemptyStrings"},
+    "evidence_or_benchmarks": {"$ref": "#/$defs/nonemptyStrings"},
+    "limitations_or_counterevidence": {"$ref": "#/$defs/nonemptyStrings"},
+    "related_or_superseded_artifact_ids": {"type": "array", "items": {"type": "string", "pattern": "^art\\."}, "uniqueItems": true},
+    "categories": {"$ref": "#/$defs/nonemptyStrings"},
+    "exposed_decisions": {"$ref": "#/$defs/nonemptyStrings"}
+  },
+  "$defs": {
+    "nonemptyStrings": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+  }
+}

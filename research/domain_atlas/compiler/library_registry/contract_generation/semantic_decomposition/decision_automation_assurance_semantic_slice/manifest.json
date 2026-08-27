@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "bounded-context.json": {
+      "bytes": 1600,
+      "sha256": "cdf838f80194d956af89deac12169d4c8756a55473cc14dfa36338ee0e1ebf6c"
+    },
+    "decision-automation-assurance-method-taxonomy.jsonl": {
+      "bytes": 95061,
+      "sha256": "45bec1345120fa07b9b147f4ff065b46435f540a697b8414cf6b62db1e3f2d6b"
+    },
+    "expert-learning-profiles.jsonl": {
+      "bytes": 12154,
+      "sha256": "00539ec4c1aa5775cf5f9ff08c87e95707fe9ef0773e24b56a5d498488e2bea6"
+    },
+    "innovation-records.jsonl": {
+      "bytes": 5600,
+      "sha256": "65e9f84ea6f8bca238d8abe6e9d61964ef0d3bdd4ecc8ecfa7e1d9525cdf3495"
+    },
+    "library-axis-decision-candidates.jsonl": {
+      "bytes": 1153248,
+      "sha256": "a95d5f4b6963aa7770145029fcbeee64682bb53ecfca9400ae9fd2c5b61c3512"
+    },
+    "library-semantic-bindings.jsonl": {
+      "bytes": 93264,
+      "sha256": "71908865ee25fd98c8125b90b29804146450826a01dbfb79c88aa20d7adb8a62"
+    },
+    "non-collapse-laws.jsonl": {
+      "bytes": 22070,
+      "sha256": "5dc93c3b775e9934147bd1bbe5f5c1861d48ecb3f668abd45f422c580ee204e4"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 21287,
+      "sha256": "d010ccd0181e961d59a689fd4ccad9af494d2c81d05bc2e3fadf409800a7814e"
+    },
+    "product-capability-boundary-findings.jsonl": {
+      "bytes": 12801,
+      "sha256": "ce6254da42975b1939c5b286f48552b502530b930fd0c17644d339c71494e135"
+    },
+    "semantic-modules.jsonl": {
+      "bytes": 25946,
+      "sha256": "74f9f538f06281e36de96ba657780335f20109b6fa479427385be124da425954"
+    },
+    "summary.json": {
+      "bytes": 624,
+      "sha256": "4e23578489466c0208c1b24599c3569408b55d736c7ac65a3d6b12b8d71d77c3"
+    }
+  },
+  "manifest_id": "manifest.decision-automation-assurance-semantic-slice.v1"
+}

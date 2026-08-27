@@ -1,0 +1,110 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/context_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "candidate_note": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "capability_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "context_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "decision_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "excludes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owns": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "pass_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "phase": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "purpose": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "context_id",
+    "edition",
+    "status",
+    "name",
+    "phase",
+    "purpose",
+    "owns",
+    "excludes",
+    "capability_refs",
+    "operation_refs",
+    "decision_ref",
+    "pass_ref",
+    "artifact_ref",
+    "source_refs",
+    "candidate_note"
+  ],
+  "type": "object"
+}

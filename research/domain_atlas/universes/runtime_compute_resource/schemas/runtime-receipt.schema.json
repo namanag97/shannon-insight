@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/runtime-receipt-v0.1.0.schema.json",
+  "title": "Append-only runtime/resource receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_kind", "receipt_id", "receipt_type", "edition", "subject_ref", "claim", "event_time", "recorded_time", "issuer_ref", "sequence", "caused_by_refs", "evidence_scope", "payload_digest", "signature_or_attribution"],
+  "properties": {
+    "record_kind": {"const": "runtime_receipt"},
+    "receipt_id": {"type": "string"},
+    "receipt_type": {"enum": ["intent_accepted", "admission_decided", "budget_precharged", "offer_bound", "capacity_reserved", "allocation_committed", "occurrence_ready", "attempt_started", "progress", "checkpoint", "attempt_terminal", "allocation_released", "usage", "cost", "energy", "slo_evaluated", "reconciliation"]},
+    "edition": {"type": "integer", "minimum": 1},
+    "subject_ref": {"type": "string"},
+    "claim": {"type": "object"},
+    "event_time": {"type": "string", "format": "date-time"},
+    "recorded_time": {"type": "string", "format": "date-time"},
+    "issuer_ref": {"type": "string"},
+    "sequence": {"type": "integer", "minimum": 0},
+    "caused_by_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "evidence_scope": {"type": "string", "minLength": 1},
+    "payload_digest": {"type": "string", "minLength": 1},
+    "signature_or_attribution": {"type": "object"}
+  }
+}

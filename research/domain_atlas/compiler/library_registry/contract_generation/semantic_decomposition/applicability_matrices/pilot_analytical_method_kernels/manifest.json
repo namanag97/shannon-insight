@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "evidence-vacancy-work-packages.jsonl": {
+      "bytes": 56097,
+      "sha256": "fba91847a050c62d84e678baa618f29c62a771982c7c4a970652f1b01aace0f6"
+    },
+    "exact-contract-input-candidates.jsonl": {
+      "bytes": 200759,
+      "sha256": "ecdf5613e2cc7014770061f4f07b990e8bee0ef4305ca8246d611f8df05a11cf"
+    },
+    "family-default-candidates.jsonl": {
+      "bytes": 11343,
+      "sha256": "8f4f9476ca3d0818217585df14572294b4b5abbfaddc23058af979f0610f9ca6"
+    },
+    "library-readiness.jsonl": {
+      "bytes": 42548,
+      "sha256": "2c3ba7b7975a8533a498c9f4c1a55205913a43b1535980d6d22627e59f27d3b6"
+    },
+    "structured-axis-evidence.jsonl": {
+      "bytes": 1445311,
+      "sha256": "be8ba3a24b1be4887f80718a05798e69b7906e6a1ff8b6a5e60cd2c9aebc2278"
+    },
+    "summary.json": {
+      "bytes": 817,
+      "sha256": "e06c85fb415ba6b13c781581f19143afcd9b61138e8fcbee9e5de34a2e501444"
+    }
+  },
+  "manifest_id": "manifest.semantic-axis.pilot.method-kernels.v1",
+  "source_sha256": "16c0750409b3f088e3e4a2360754c834620de3d532b52dd6fffd69a67c73ae7a"
+}

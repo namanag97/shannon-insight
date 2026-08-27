@@ -1,0 +1,92 @@
+{"canonical_gaps_closed":0,"law_id":"law.quality.absence-vs-zero","statement":"Coalescing absence to zero is information loss requiring authority.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.accounting-control-reconciliation.1","statement":"source truth is not accounting truth.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.accounting-control-reconciliation.2","statement":"accounting truth is not control truth.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.accounting-vs-control-truth","statement":"A ledger cannot be its own independent control merely by relabeling it.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.adjudication-vs-correction","statement":"A defect verdict does not authorize mutation.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.anomaly-detection.1","statement":"detection is not adjudication.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.anomaly-detection.2","statement":"surprise is not invalidity.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.balance-vs-equality","statement":"Balanced aggregates do not prove row-level equality, matching completeness or absence of offsetting errors.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.break-vs-defect","statement":"A reconciliation break is not necessarily a data defect; lawful timing, allocation, recognition and representation differences remain possible.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.certificate-vs-truth","statement":"A certificate records a scoped issuer claim under named criteria; it is not measurement truth, universal fitness or proof of future conformance.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.certification-attestation.1","statement":"certificate is not measurement.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.certification-attestation.2","statement":"signature is not truth.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.change-point-detection.1","statement":"change point is not root cause.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.change-point-detection.2","statement":"reset is not correction.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.completeness-timeliness.1","statement":"missing is not late.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.completeness-timeliness.2","statement":"freshness is not correctness.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.conformance-vs-observability","statement":"Rich telemetry cannot establish conformance when no rule was evaluated.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.contract-declaration.1","statement":"declared contract is not observed behavior.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.contract-declaration.2","statement":"schema is not whole contract.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.contract-observation.1","statement":"observed contract is not declared contract.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.contract-observation.2","statement":"absence of violation is not guarantee.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.correction-execution.1","statement":"correction is not deletion.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.correction-execution.2","statement":"restatement is not original observation.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.correction-proposal.1","statement":"proposal is not correction.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.correction-proposal.2","statement":"imputation is not observed fact.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.correction-vs-restatement","statement":"A restatement preserves the identity and auditability of the prior edition.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.data-profiling.1","statement":"profile is not contract.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.data-profiling.2","statement":"candidate constraint is not accepted rule.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.declared-vs-observed-contract","statement":"Observed regularity cannot silently amend an activated contract.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.defect-adjudication.2","statement":"adjudication is not correction.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.detection-vs-adjudication","statement":"A detector cannot silently decide business defect status.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.distribution-shift.1","statement":"distribution shift is not quality failure.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.distribution-shift.2","statement":"correlation shift is not causal explanation.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.duplicate-entity-resolution.1","statement":"duplicate detection is not identity adjudication.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.duplicate-entity-resolution.2","statement":"identity adjudication is not record merge.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.duplicate-vs-identity","statement":"Similarity score cannot authorize a merge.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.evidence-receipt.1","statement":"evidence is not proof of all claims.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.evidence-receipt.2","statement":"receipt is not verdict.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.evidence-vs-proof","statement":"A receipt alone does not prove every property of its subject.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.exact-vs-tolerant-reconciliation","statement":"Tolerance must never be smuggled into equality.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.fitness-for-use.1","statement":"fitness is not intrinsic validity.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.fitness-for-use.2","statement":"fitness verdict is not universal certification.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.freshness-vs-timeliness","statement":"Fresh data can still arrive too late for a particular decision.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.lineage-quality-impact.1","statement":"lineage is not causation.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.lineage-quality-impact.2","statement":"potential impact is not confirmed defect.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.observability-instrumentation.1","statement":"observability is not conformance.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.observability-instrumentation.2","statement":"telemetry is not source truth.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.observability-vs-reconciliation","statement":"A dashboard discrepancy is not a reconciled break set.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.proposal-vs-correction","statement":"A deterministic, heuristic, statistical, model or agent repair proposal is not an approved correction, source observation or mutation authority.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-alerting.1","statement":"alert is not incident.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-alerting.2","statement":"silence is not waiver.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-dimension-metric.1","statement":"dimension is not metric.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-dimension-metric.2","statement":"measurement is not verdict.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-incident-case.1","statement":"incident is not defect.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-incident-case.2","statement":"case closure is not data correction.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-policy.1","statement":"policy is not metric.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-policy.2","statement":"control is not observation.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-requirement.1","statement":"quality is not validity.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-requirement.2","statement":"requirement is not observation.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-slo.1","statement":"SLO is not invariant.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-slo.2","statement":"error budget is not permission to corrupt.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quality-vs-fitness","statement":"No metric value implies fitness without a use policy.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quarantine-release.1","statement":"quarantine is not deletion.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.quarantine-release.2","statement":"release is not universal certification.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.reconciliation-break.2","statement":"exception is not waiver.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.reconciliation-definition.1","statement":"reconciliation is not validation.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.reconciliation-definition.2","statement":"source truth is not automatically control truth.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.reconciliation-execution.1","statement":"break is not defect.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.reconciliation-execution.2","statement":"balanced aggregate is not row-level equality.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.reference-master-alignment.1","statement":"reference truth is not observed source truth.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.reference-master-alignment.2","statement":"code mapping is not entity resolution.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.remediation-verification.1","statement":"correction execution is not remediation success.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.remediation-verification.2","statement":"retest pass is not broad certification.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.result-vs-disposition","statement":"Assertion outcome is not enforcement disposition; pass/fail/skip/error never implies permit/block/warn/quarantine/waive without policy.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.rule-specification.1","statement":"test predicate is not gate action.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.rule-specification.2","statement":"heuristic is not invariant.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.sampling-measurement.1","statement":"sample pass is not population proof.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.sampling-measurement.2","statement":"measurement error is not data defect.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.schema-conformance.1","statement":"conformance is not fitness.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.schema-conformance.2","statement":"validator error is not validation failure.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.signal-correlation.1","statement":"correlation is not causation.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.signal-correlation.2","statement":"alert grouping is not defect adjudication.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.source-vs-accounting-truth","statement":"Accounting adjustments may lawfully differ from operational events.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.statistical-baseline.1","statement":"baseline is not source truth.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.statistical-baseline.2","statement":"model update is not anomaly resolution.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.test-case-management.1","statement":"unit test is not production monitor.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.test-case-management.2","statement":"fixture is not evidence of population quality.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.test-outcome-vs-gate","statement":"Severity and policy determine disposition without changing outcome.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.validation-execution.1","statement":"execution failure is not failed assertion.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.validation-execution.2","statement":"pass is not certification.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.validity-vs-quality","statement":"A valid record can still be untimely, biased, incomplete or unfit.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.quality.waiver-exception.1","statement":"waiver is not pass.","status":"EVIDENCE_BACKED_CANDIDATE_UNRATIFIED"}

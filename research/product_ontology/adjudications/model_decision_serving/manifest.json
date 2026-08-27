@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract.product_adjudication.model_decision_serving.v0_1_0",
+  "counts": {
+    "artifact": 87,
+    "artifact_kind_definition": 10,
+    "boundary_decision": 13,
+    "capability_offer": 7,
+    "capability_requirement": 28,
+    "evidence_source": 36,
+    "legacy_crosswalk": 10,
+    "library_contract": 28,
+    "negative_test": 30,
+    "product_ddd_dossier": 6,
+    "product_library_binding_map": 28,
+    "relation": 17,
+    "semantic_ownership": 30
+  },
+  "derived": {
+    "legacy_crosswalks": 10,
+    "portable_offers": 0,
+    "product_candidates": 6,
+    "qualified_offers": 0,
+    "unbound_requirements": 28
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "397a67d8c60fa55c5b4e87f67b381859161700b369dd0b996abc1464db34df74",
+    "artifacts.jsonl": "e799717f304c12de1183f67212fac27aeb542fbdbd76363a4a0c4570855aab3a",
+    "boundary-decisions.jsonl": "a84b22c55984f3be9233b9144bec1ae29c0544847b596e3b19c54d155c37008e",
+    "evidence.jsonl": "8ae5705bebc55dfe08bd1209fea375a86738ba9f83c37996697ac57900b7182b",
+    "legacy-crosswalks.jsonl": "38db1dbae8885d8b7dbd9ea76c5028372f47cea20fa7f024ea61ea26f2f08863",
+    "library-contracts.jsonl": "85b855a6edb12137f0f8d2c472f9911467a902ce8fcfb9c0aaed3394c753440e",
+    "metamodel.json": "53d3f2deb159798b3d74a25b6b5cd774030066ca5dd02cfeb1833ef477e58842",
+    "negative-tests.jsonl": "b98dc5b1ea11996ccdc62bde35215bea2accf72df067e1750c3035b9e6fcad06",
+    "offers.jsonl": "52dde16903e3734ad14ab9f751f2e65f890842bc8a80e528d13463fd60040c8b",
+    "product-ddd-dossiers.jsonl": "04fced12c5a2e914ba94eb77b4bae52ff0037a1e0111ad8826c73bcc1c9c3f1d",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "a697d41dad367f6ce6136eebf2bbd96be7004f3bf2695b0afb78108ac7dba839",
+    "registry.jsonl": "073989317012eba688a4ae9f7a75332c1902e98bd3c44dd9d1a1fc548762e9c1",
+    "relations.jsonl": "263644945c1ca6d3cbbaac803f02d9a958a3dbbee71cb533c916e26211ca5c44",
+    "requirements.jsonl": "97602a07e75dc02021917a49ed31f9bf31fc3b46fb471698a92baa6aec2bf796",
+    "semantic-ownership.jsonl": "404603acc233ed164246645de8c831b29fd5bd5d8b0b1d4a9a5ac412d3c4dd3b"
+  },
+  "negative_scope": "Does not create an ambient AI layer, treat prediction as decision, grant generated output authority, qualify providers, own source facts, or treat batch mode, registry, vector index or training runtime as products by implementation name.",
+  "scope": "Predictive model engineering/lifecycle, feature definition and serving, predictive inference, model assurance, deterministic decision automation and optional model/agent extension product boundaries.",
+  "source_sha256": "c3e8963bc8d4b96cc4a8a3d12876e74dee6371f4fd9109a827ffa214a585e4bc",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

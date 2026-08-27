@@ -1,0 +1,40 @@
+{
+  "$id": "https://san.example/product-boundary/truth_applicability.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "applicability": {},
+    "candidate_id": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "obligation_id": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "truth_applicability"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "truth_group": {},
+    "truth_id": {}
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "candidate_id",
+    "truth_id",
+    "truth_group",
+    "applicability",
+    "obligation_id"
+  ],
+  "title": "Global boundary research: truth_applicability",
+  "type": "object"
+}

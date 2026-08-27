@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract.product_adjudication.governance_semantics.v0_1_0",
+  "counts": {
+    "artifact": 251,
+    "artifact_kind_definition": 13,
+    "boundary_decision": 19,
+    "capability_offer": 7,
+    "capability_requirement": 106,
+    "evidence_source": 177,
+    "legacy_crosswalk": 14,
+    "library_contract": 100,
+    "negative_test": 58,
+    "product_ddd_dossier": 13,
+    "product_library_binding_map": 100,
+    "relation": 124,
+    "semantic_ownership": 22
+  },
+  "derived": {
+    "legacy_crosswalks": 14,
+    "portable_offers": 0,
+    "product_candidates": 13,
+    "qualified_offers": 0,
+    "unbound_requirements": 106
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "e330d34d7d1d1158a0a2fb04db44a3b1de8394f729995c73ec2a8dc38962d457",
+    "artifacts.jsonl": "dddc88f568847e85cb19de46553ff6cc7c43d1006cb953d943670eaf8ed4d25b",
+    "boundary-decisions.jsonl": "be15f0b55492883bbbd1690607161c5db880fa61ea6d9367e967a2a05fdf5dc0",
+    "evidence.jsonl": "b18f46cc4167643883bc90eb2b13b94749155f1fbe78b43a8b349f74fe85ddd3",
+    "legacy-crosswalks.jsonl": "78208295e37af55898892de6f2d2071a5ee48f5209ee4ff5d5c08d85cfdfe457",
+    "library-contracts.jsonl": "8412e5429b8892b3cba49bcb47482431672be44ac91fe8974d6d811e4766c319",
+    "metamodel.json": "f038f646f4a2c0e40711819188e6c88c2d4582bb71709ef88a79ae610d8ddcbc",
+    "negative-tests.jsonl": "a832a2cc4e3c0c84b8257707b147481a4535a4ddb37a8c588ed570a0660d7016",
+    "offers.jsonl": "d6e68396343b17e1c4d54f427c3f03f799c24a00ce6208fdae46e738c09393b6",
+    "product-ddd-dossiers.jsonl": "162a0de532646b420666dfaf610c58e5b583baffce60564b28f8947a409cf4d8",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "bdb948cf6e26bebd0f59c3a84346c2be13642a7fe96b50898ef7ff820bc0d53c",
+    "registry.jsonl": "1d13d2da71556f3147881c9df52369d1e3a9917fd8c46a804ff9241198e5f3ce",
+    "relations.jsonl": "9b968bf44e9396e973425365c6e1337e9ee3e88b05571ad50242e14b38250440",
+    "requirements.jsonl": "ffd6a9f4ca6fd90d851aeb0bca480dada8c3ecdca2300b9e12efb12f59ade1de",
+    "semantic-ownership.jsonl": "53f798f63e6a4cc7933a0fb87dbc0a079b676593532aa7180e3e89dc080f2311"
+  },
+  "negative_scope": "Does not ratify products, qualify providers, grant business authority, replace table-catalog commit authority, decide privacy legality, or infer semantic equivalence from labels, embeddings, models or suite packaging.",
+  "scope": "Horizontal metadata discovery, terminology, ontology, schema and data contracts, master/reference data, lineage, quality, data-use policy, data-product publication and marketplace boundaries.",
+  "source_sha256": "99ae27efa90a3968a7b33c7952d14be0dfe29d7dd52ebbe075075df5d1359db9",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

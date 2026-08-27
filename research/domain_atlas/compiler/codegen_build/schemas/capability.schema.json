@@ -1,0 +1,55 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/capability_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capability_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "contract": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "capability_id",
+    "edition",
+    "status",
+    "owner_context",
+    "name",
+    "contract",
+    "operation_ref",
+    "source_refs"
+  ],
+  "type": "object"
+}

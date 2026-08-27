@@ -1,5 +1,6 @@
 """Level 6: Finders — pattern detection on file signals."""
-from .base import Finder, Finding, Evidence
+
+from .base import Evidence, Finder, Finding
 from .catalog import FINDERS, run_finders
 
 __all__ = [

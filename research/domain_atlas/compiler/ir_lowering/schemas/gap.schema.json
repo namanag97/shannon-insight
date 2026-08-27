@@ -1,0 +1,67 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocking": {
+      "type": "boolean"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "gap_id": {
+      "$ref": "#/$defs/id"
+    },
+    "gap_kind": {
+      "type": "string"
+    },
+    "owner_ref": {
+      "$ref": "#/$defs/id"
+    },
+    "prohibited_fallbacks": {
+      "$ref": "#/$defs/strings"
+    },
+    "resolution_condition": {
+      "type": "string"
+    },
+    "statement": {
+      "type": "string"
+    },
+    "status": {
+      "const": "open_candidate"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "gap_kind",
+    "blocking",
+    "statement",
+    "owner_ref",
+    "resolution_condition",
+    "prohibited_fallbacks"
+  ],
+  "title": "Honest compiler gap",
+  "type": "object"
+}

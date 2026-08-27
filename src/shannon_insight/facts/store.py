@@ -264,9 +264,7 @@ def _create_schema(conn: sqlite3.Connection) -> None:
     conn.executescript(_SCHEMA_SQL)
 
     # Check / set schema version
-    cursor = conn.execute(
-        "SELECT version FROM fact_schema_info ORDER BY version DESC LIMIT 1"
-    )
+    cursor = conn.execute("SELECT version FROM fact_schema_info ORDER BY version DESC LIMIT 1")
     row = cursor.fetchone()
     if row is None:
         conn.execute(

@@ -1,0 +1,28 @@
+{
+  "as_of": "2026-08-26",
+  "automatic_applicability_decisions": 0,
+  "axis_rows": 10784,
+  "canonical_exact_gaps_closed": 0,
+  "canonical_upstream_sources": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "evidence_state_counts": {
+    "DIRECT_STRUCTURED_SOURCE_EVIDENCE_CANDIDATE_UNRATIFIED": 5392,
+    "GENERIC_STRUCTURAL_CONTEXT_ONLY_AXIS_EVIDENCE_VACANCY": 2805,
+    "TARGETED_STRUCTURED_SOURCE_EVIDENCE_CANDIDATE_UNRATIFIED": 2587
+  },
+  "execution_dag_edges": 16,
+  "execution_dag_nodes": 11,
+  "families": 23,
+  "finding": "All open libraries have rich typed source projections. Remaining work is authority, semantic adjudication, exact signature review, conformance and acceptance—not blank-slate API invention.",
+  "generic_context_rows_requiring_targeted_evidence": 2805,
+  "libraries": 674,
+  "libraries_with_nonempty_types_traits_operations": 674,
+  "program_id": "program.semantic-axis.global-structured-projection.v1",
+  "projection_profiles": 16,
+  "rich_exact_contract_input_candidates": 674,
+  "status": "ACTIVE_OWNER_ADJUDICATION_REQUIRED",
+  "targeted_evidence_vacancy_axes": 6,
+  "targeted_evidence_work_packages": 103,
+  "upstream_source_authority_work_packages": 23
+}

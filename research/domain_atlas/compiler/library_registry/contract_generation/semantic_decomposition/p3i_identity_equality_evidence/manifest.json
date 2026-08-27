@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "evidence-candidates.jsonl": {
+      "bytes": 12680,
+      "sha256": "e9fe988ef9dcdeae7cb64534043d0958b3fe8fefc94fe4a736d5421c58e2b6b0"
+    },
+    "family-evidence-dockets.jsonl": {
+      "bytes": 16663,
+      "sha256": "33c3856a42afd9f06263f9b1ce2e9cf068284247ca5cd5bcc57623b4804d645a"
+    },
+    "summary.json": {
+      "bytes": 347,
+      "sha256": "f0ce4c6df98d20699ef84b600b10747800c61b9d3925866be3d9d2ee85961f1f"
+    }
+  },
+  "manifest_id": "manifest.p3i.identity-equality-evidence.v1"
+}

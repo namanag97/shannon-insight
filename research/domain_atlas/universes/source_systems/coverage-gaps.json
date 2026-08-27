@@ -1,0 +1,71 @@
+{
+  "gap_register_id": "san.domain-atlas.source-system-universe-gaps",
+  "edition": 1,
+  "as_of": "2026-08-25",
+  "completion_claim": false,
+  "gaps": [
+    {
+      "gap_id": "source-gap.independent-adjudication",
+      "severity": "blocking_completion",
+      "scope": "all classes",
+      "gap": "The records are researched candidates and have not received independent DDD or connector-owner adjudication.",
+      "closure_evidence": "Signed review receipts by independent domain, security and connector owners."
+    },
+    {
+      "gap_id": "source-gap.occurrence-fixtures",
+      "severity": "blocking_compiler_assurance",
+      "scope": "all classes",
+      "gap": "No representative deployed occurrence fixture and live capability probe exists for every class.",
+      "closure_evidence": "At least two unrelated occurrence fixtures per class with fresh probe receipts and one negative fixture."
+    },
+    {
+      "gap_id": "source-gap.connector-conformance",
+      "severity": "blocking_compiler_assurance",
+      "scope": "all acquisition-capable classes",
+      "gap": "The verification registry specifies tests but no adapter has published a complete conformance matrix here.",
+      "closure_evidence": "Versioned connector declarations with executable conformance receipts for required tests."
+    },
+    {
+      "gap_id": "source-gap.primary-evidence-pinning",
+      "severity": "research_quality",
+      "scope": "54 primary sources",
+      "gap": "Evidence URLs and retrieval dates are recorded, but content digests, quoted clauses and archival snapshots are not yet pinned.",
+      "closure_evidence": "Per-source digest, applicable clause/section and licensed archival reference."
+    },
+    {
+      "gap_id": "source-gap.quantitative-limits",
+      "severity": "by_design_occurrence_owned",
+      "scope": "rate, quota, page, payload, concurrency, retention, cursor TTL, timeout, egress and license",
+      "gap": "A provider-neutral class cannot truthfully publish a numerical deployment limit.",
+      "closure_evidence": "Each source occurrence records probed values, scope, unit, provenance, observation time and failure behavior."
+    },
+    {
+      "gap_id": "source-gap.proprietary-and-regional-standards",
+      "severity": "open_world_extension",
+      "scope": "vertical and legacy systems",
+      "gap": "Regional banking, tax, customs, defense, election, mining, agriculture, nuclear, semiconductor and proprietary instrument profiles remain intentionally extensible rather than exhaustively hard-coded.",
+      "closure_evidence": "Recurring industry-pack audits yield no new capability semantics; newly observed semantics add classes or profiles without compiler name branches."
+    },
+    {
+      "gap_id": "source-gap.protocol-saturation",
+      "severity": "open_world_extension",
+      "scope": "protocol and carrier variants",
+      "gap": "The class universe distinguishes semantic capability, not every protocol or serialization; protocol/provider coverage lives in adapters and may reveal a new class gap.",
+      "closure_evidence": "Protocol corpus maps every observed variant to existing surfaces or a typed extension record."
+    },
+    {
+      "gap_id": "source-gap.llm-extension",
+      "severity": "quarantined_not_core",
+      "scope": "LLM, prompt, RAG and agent-memory systems",
+      "gap": "The core treats model artifacts and telemetry generically and deliberately does not embed LLM-specific meaning.",
+      "closure_evidence": "A separately namespaced extension with one-way dependency on core source contracts, dedicated privacy/security tests and no core compiler dependency."
+    },
+    {
+      "gap_id": "source-gap.empirical-saturation",
+      "severity": "blocking_completion",
+      "scope": "universe completeness",
+      "gap": "A finite list of 171 candidate classes does not prove complete coverage of future or obscure source behavior.",
+      "closure_evidence": "Repeated independent audits across unrelated industries and deployments yield only occurrence/adapter additions and no unowned semantic capability."
+    }
+  ]
+}

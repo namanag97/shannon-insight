@@ -1,0 +1,17 @@
+{
+  "as_of": "2026-08-26",
+  "binding_coordinates": 17,
+  "bounded_primary_evidence_claims": 9,
+  "canonical_exact_gaps_closed": 0,
+  "change_lifecycle_stages": 15,
+  "compatibility_dimensions": 15,
+  "completion_claim": false,
+  "directional_relations": 8,
+  "edition": 1,
+  "modules": 2,
+  "primary_sources": 9,
+  "program_id": "program.semantic-axis.phase4.representation-evolution.v1",
+  "remaining_gate": "Named semantic, contract, representation, runtime, migration, security and affected-family owners accept layers, dimensions, directional relations, loss channels and lifecycle gates; every family matrix records applicability and exceptions.",
+  "representation_layers": 10,
+  "status": "ACTIVE_PENDING_OWNER_RATIFICATION"
+}

@@ -1,7 +1,8 @@
 """Conway's law analysis."""
+
 from __future__ import annotations
 
-from ..tensor.core import RelationTensor, IMPORT, AUTHOR
+from ..tensor.core import AUTHOR, IMPORT, RelationTensor
 
 
 def find_conway_violations(

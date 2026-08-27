@@ -1,0 +1,42 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "facet-realizations.jsonl": {
+      "bytes": 78120,
+      "sha256": "dba69d9def61050544ed550b747d6aee754d01190d24c8f3fbe0a2c0f92271e2"
+    },
+    "family-axis-review-packages.jsonl": {
+      "bytes": 1762682,
+      "sha256": "32ebdc8e936fae221aed6d36c5ec89692e07e989558c823b15a5f1559f2c6f51"
+    },
+    "foundation-evidence-claims.jsonl": {
+      "bytes": 5380,
+      "sha256": "5a9d98105e71c24d3fcf5fc690870e2b06d32226d193bb1eb118df6696551708"
+    },
+    "library-semantic-signatures.jsonl": {
+      "bytes": 3291622,
+      "sha256": "d5f16ffc26cf52c3d44024bc7ffed86c6857d26051caf1440fb8dfc025885037"
+    },
+    "semantic-axis-lanes.jsonl": {
+      "bytes": 29471,
+      "sha256": "06111140a8171374e13d4acf5034d217fa94c8611c2c294b39f93f540d0f99a0"
+    },
+    "semantic-axis-ontology.json": {
+      "bytes": 36922,
+      "sha256": "70b8972a5e1f83dde452fcf78ff4d6845baa8324451caae7454f53e10df3f66b"
+    },
+    "semantic-execution-phases.jsonl": {
+      "bytes": 3467,
+      "sha256": "69db70935e7035079d1b1c48f34eaf5671407ddc7b00ace253ddc98bb55464c9"
+    },
+    "semantic-research-queue.jsonl": {
+      "bytes": 799849,
+      "sha256": "1f6174306f90d7a74c3212c16c1b22cf0e27e265698ed3aea37d2de2e6cdb6c8"
+    },
+    "summary.json": {
+      "bytes": 7781,
+      "sha256": "948369d2383144e063617961cfa247763e16bc42ec8afd3fccac55da04df5821"
+    }
+  },
+  "manifest_id": "manifest.semantic-axis-decomposition.v1"
+}

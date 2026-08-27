@@ -1,0 +1,8 @@
+{"binding_phase":"runtime","edition":1,"from_ref":"product.digital_preservation_archive","predicate":"governed_by","record_kind":"relation","relation_id":"relation.archive.records_authority","to_ref":"neighbor.records_authority"}
+{"binding_phase":"authoring","edition":1,"from_ref":"standard.oais","predicate":"specializes","record_kind":"relation","relation_id":"relation.oais.specializes_archive","to_ref":"semantic.archive.package"}
+{"binding_phase":"authoring","edition":1,"from_ref":"pattern.analytics_serving_stack","predicate":"packaged_as","record_kind":"relation","relation_id":"relation.pattern.packages_suite","to_ref":"suite.analytics_serving_products"}
+{"binding_phase":"deployment_time","edition":1,"from_ref":"product.query_execution_service","predicate":"requires","record_kind":"relation","relation_id":"relation.query.requires_runtime","to_ref":"neighbor.runtime_resource"}
+{"binding_phase":"deployment_time","edition":1,"from_ref":"product.data_protection_recovery","predicate":"requires","record_kind":"relation","relation_id":"relation.recovery.runtime","to_ref":"neighbor.runtime_resource"}
+{"binding_phase":"compile_time","edition":1,"from_ref":"product.search_index_service","predicate":"requires","record_kind":"relation","relation_id":"relation.search.model_neighbor","to_ref":"neighbor.model_lifecycle"}
+{"binding_phase":"compile_time","edition":1,"from_ref":"standard.substrait","predicate":"specializes","record_kind":"relation","relation_id":"relation.substrait.specializes_plan","to_ref":"semantic.query.logical_plan"}
+{"binding_phase":"compile_time","edition":1,"from_ref":"product.virtual_data_access","predicate":"requires","record_kind":"relation","relation_id":"relation.virtual.requires_query","to_ref":"product.query_execution_service"}

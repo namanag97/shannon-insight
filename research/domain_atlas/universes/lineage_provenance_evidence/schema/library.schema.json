@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "contributes_to_context_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "effect_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "error_contracts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "forbidden_responsibilities": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gaps": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "input_types": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "laws": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "library_id": {
+      "pattern": "^library\\.lpe\\.",
+      "type": "string"
+    },
+    "library_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "operations": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "effect_intent_type": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "input_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "operation_ref": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "output_type": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "purity": {
+            "enum": [
+              "pure",
+              "effectful_explicit",
+              "unresolved_refuse"
+            ]
+          },
+          "receipt_type": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "refusal_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "operation_ref",
+          "name",
+          "input_types",
+          "output_type",
+          "purity",
+          "effect_intent_type",
+          "receipt_type",
+          "refusal_types"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "oracles": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "output_types": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "public_contracts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "public_traits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "public_types": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "removal_seams": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "runtime_receipts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "semantic_owner_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "library_id",
+    "edition",
+    "status",
+    "library_kind",
+    "semantic_owner_ref",
+    "contributes_to_context_refs",
+    "effect_boundary",
+    "public_contracts",
+    "operation_refs",
+    "runtime_receipts",
+    "forbidden_responsibilities",
+    "removal_seams",
+    "evidence_refs",
+    "gaps"
+  ],
+  "title": "LPE library boundary candidate",
+  "type": "object"
+}

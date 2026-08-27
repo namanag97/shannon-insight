@@ -1,0 +1,185 @@
+{
+ "axis": "identity_and_equality",
+ "owned_question": "Under which explicitly declared equivalence relation is a claim that two things are 'the same' true — and does the library keep value equality, entity identity, occurrence/observation identity, and digest equality from collapsing into one another?",
+ "terms": [
+  "value equality (equality of content under a stated canonical form)",
+  "entity identity vs occurrence identity",
+  "canonical form / normalization function",
+  "digest (cryptographic hash as equality witness for bytes)",
+  "opaque identifier (UUID/URI carried without structural interpretation)",
+  "content addressing",
+  "versioned identity (same entity across revisions)",
+  "blank node / existential variable"
+ ],
+ "non_collapse_laws": [
+  "Digest equality proves byte-sequence equality of the hashed representation; it never establishes that two occurrences denote the same real-world entity.",
+  "Canonical-equivalence equality (e.g., NFC, RDFC-1.0) is equality under one declared normalization; a different serialization or normalization may legitimately yield a different answer.",
+  "Identifier stability and identifier uniqueness are different guarantees: an opaque ID can be stable and reused, or unique and ephemeral; neither implies the other.",
+  "A versioned resource shares identity with its earlier revision only under the lineage/evo relation the library defines; at the raw-value level every revision differs.",
+  "URI equivalence is string comparison plus scheme-specific normalization rules (RFC 3986 §6); it is not identity of the identified resource.",
+  "Reconciliation/match-key equality is probabilistic evidence of sameness, not logical identity, unless the library commits to a merge policy."
+ ],
+ "carrier_requirements": [
+  "Every equality-relevant API must name its equivalence relation in the contract (byte equality, canonical-form equality, identifier equality, or semantic/entity equality).",
+  "Hash or canonicalization-based operations must pin the algorithm identifier and version (e.g., SHA-256 per FIPS 180-4, RDFC-1.0 per W3C REC) so digests are comparable only within that pinned regime.",
+  "Opaque identifiers must be carried verbatim: the carrier must not parse, reorder, case-fold, or re-derive them.",
+  "Lineage/dataset nodes must distinguish node identity (occurrence), payload digest, and dataset-level identity as separate fields.",
+  "Normalization must be applied before comparison wherever the contract declares canonical comparison, and comparison functions must be idempotent over already-normalized inputs."
+ ],
+ "operations_or_relations": [
+  "equal(x, y) under declared relation R",
+  "canonicalize(x) → c with c = canonicalize(canonicalize(x)) (idempotence)",
+  "digest(bytes) fixed-length commitment (collision-resistant preimage/second-preimage resistance)",
+  "sameEntity(a, b) — resolves identifiers or match keys to an entity identity decision (merge/no-merge)",
+  "equivalent(datasetA, datasetB) via deterministic canonicalization and hashing of blank-node-bearing graphs",
+  "compareUri(u1, u2) via the RFC 3986 comparison ladder (string → syntax-based → scheme-based → protocol-based)",
+  "successor(v1, v2): version-lineage relation distinct from equality"
+ ],
+ "invariants": [
+  "Reflexivity/symmetry/transitivity hold for any comparison the carrier exposes as '='; anything else must be named differently (e.g., 'matches', 'collides').",
+  "canonicalize is idempotent and normal forms collide exactly on the declared equivalence classes.",
+  "For a collision-resistant hash, digest(x) = digest(y) implies x and y are equal as byte sequences except with negligible probability — probability claims stay explicit.",
+  "RDFC-1.0 assigns the same canonical n-quads output to two isomorphic datasets regardless of input blank-node labels and serialization order.",
+  "UUIDv7 encodes a millisecond timestamp plus randomness/counter; it orders by creation time but conveys no semantic identity beyond itself."
+ ],
+ "refusals": [
+  "Refuse to state that two records are 'the same customer' from digest or key agreement alone — that is a reconciliation decision requiring a declared match policy.",
+  "Refuse to compare identifiers issued under different regimes (different UUID versions/rerolls, different URI schemes' normalization contexts) as if commensurable.",
+  "Refuse to promise cross-version digest compatibility when the underlying standard is revised (FIPS 180-4 revision process exists; algorithms can be deprecated).",
+  "Refuse to treat URN/URL/URI strings as interchangeable identities without stating which equivalence class each operation uses.",
+  "Refuse to derive identity from mutable content (renaming a field changes the digest but not necessarily the entity)."
+ ],
+ "counterexamples": [
+  "Two JSON documents encode the same purchase order but differ in key order and whitespace: byte digest says unequal, RFC 8785 canonicalization says equal, and the purchasing system correctly treats them as one order — proving digest equality ≠ document-content equality under JCS.",
+  "An NFC user types 'Ç' as U+00C7 and later as U+0043+U+0327: a byte-wise key index stores two rows, though Unicode Annex #15 declares the sequences canonically equivalent — falsifying any claim that raw-bytes identity matches text identity.",
+  "Two isomorphic RDF datasets use different blank-node labels for the same triples; naive string hashing calls them different while RDFC-1.0 produces identical hashes — showing serialization-local identity fails where deterministic canonicalization succeeds.",
+  "The same person appears twice in a CRM with different UUIDs and near-identical attributes (typo'd email); UUID equality says 'two people', match-key similarity says 'one' — demonstrating that no stored identifier settles entity identity without a declared merge rule."
+ ],
+ "authority_limit": "Standards authorities (RFC, W3C REC, NIST FIPS, Unicode) define syntactic and representational equivalence regimes — byte digests, canonical forms, identifier formats, and URI comparison ladders. They cannot certify that two occurrences denote the same worldly entity, fix an organization's merge policy, or guarantee that any concrete hash or canonicalization remains un-deprecated forever. Entity-identity claims inside libraries are conventions layered on top of, not derived from, these standards.",
+ "sources": [
+  {
+   "source_id": "axis-id-eq.uri-comparison-ladder",
+   "title": "Uniform Resource Identifier (URI): Generic Syntax (STD 66), Section 6 Normalization and Comparison",
+   "authors_or_issuer": "Berners-Lee, T.; Fielding, R.; Masinter, L. / IETF",
+   "source_class": "ietf_rfc",
+   "edition_or_version": "RFC 3986",
+   "publication_date": "2005-01",
+   "uri": "https://www.rfc-editor.org/rfc/rfc3986.html",
+   "bounded_claims_supported": [
+    "URI equivalence is based on string comparison augmented by scheme-specific rules",
+    "A defined comparison ladder exists: simple string, syntax-based, scheme-based, protocol-based normalization (§6.2)"
+   ],
+   "claims_not_supported": [
+    "That URI equality equals resource identity",
+    "Any application-specific entity resolution"
+   ],
+   "limitations": "Defines syntactic comparison only; semantics of what a URI identifies are outside scope.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-id-eq.jcs-canonical-json",
+   "title": "JSON Canonicalization Scheme (JCS)",
+   "authors_or_issuer": "Rundgren, A.; Jordan, B.; Erdtman, S. / IETF (Independent Submission)",
+   "source_class": "ietf_rfc",
+   "edition_or_version": "RFC 8785 (Informational)",
+   "publication_date": "2020-06",
+   "uri": "https://www.rfc-editor.org/rfc/rfc8785.html",
+   "bounded_claims_supported": [
+    "Deterministic serialization exists for JSON such that equivalent texts produce identical byte output",
+    "Content-addressed comparison of parsed JSON values is well-defined under a pinned canonicalization"
+   ],
+   "claims_not_supported": [
+    "Semantic equality of the objects the JSON denotes",
+    "Non-JSON data models; number-literal edge handling beyond ECMAScript number formatting rules"
+   ],
+   "limitations": "Informational RFC, not Standards Track; limited to JSON's number/string model.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-id-eq.rdfc-dataset-canonicalization",
+   "title": "RDF Dataset Canonicalization",
+   "authors_or_issuer": "W3C RDF Dataset Canonicalization and Hash Working Group",
+   "source_class": "w3c_recommendation",
+   "edition_or_version": "W3C Recommendation, RDFC-1.0",
+   "publication_date": "2024-05-21",
+   "uri": "https://www.w3.org/TR/rdf-canon/",
+   "bounded_claims_supported": [
+    "Isomorphic RDF datasets canonicalize to identical output regardless of blank-node labeling and serialization order",
+    "Deterministic identifiers can be assigned to blank nodes enabling stable hashing/signing of datasets"
+   ],
+   "claims_not_supported": [
+    "Identity of the real-world entities described by the datasets",
+    "Hash-collision-freedom beyond the assumptions of the specified SHA-256/SHA-384 usage"
+   ],
+   "limitations": "RDF data model only; algorithm assumes cryptographic hash security properties; does not solve generalized graph isomorphism outside this model.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-id-eq.fips-sha-standard",
+   "title": "Secure Hash Standard (SHS)",
+   "authors_or_issuer": "National Institute of Standards and Technology (NIST)",
+   "source_class": "iso_standard",
+   "edition_or_version": "FIPS 180-4 (final, 2015-08-04 publication)",
+   "publication_date": "2015-08-04",
+   "uri": "https://doi.org/10.6028/NIST.FIPS.180-4",
+   "bounded_claims_supported": [
+    "SHA-256 etc. specify deterministic fixed-length message digests usable to detect alteration",
+    "Pinning SHA-256 pins a single comparable digest space"
+   ],
+   "claims_not_supported": [
+    "Identity of anything beyond byte sequences",
+    "Permanence of the standard (NIST has announced plans to revise FIPS 180-4); cryptanalytic future-proofing"
+   ],
+   "limitations": "Defines algorithms, not their deployment semantics; revision process ongoing per NIST planning announcements.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-id-eq.uuid-opaque-ids",
+   "title": "Universally Unique IDentifiers (UUID)",
+   "authors_or_issuer": "Davis, K.; Peabody, B.; Leach, P. / IETF",
+   "source_class": "ietf_rfc",
+   "edition_or_version": "RFC 9562 (obsoletes RFC 4122)",
+   "publication_date": "2024-05",
+   "uri": "https://www.rfc-editor.org/rfc/rfc9562.html",
+   "bounded_claims_supported": [
+    "UUIDv7 embeds a Unix-epoch millisecond timestamp plus random/counter bits and is byte-order sortable",
+    "UUIDs are opaque values whose format versions define generation, not semantics of what they identify"
+   ],
+   "claims_not_supported": [
+    "Global de-duplication of entities (collision probability is nonzero and generation-context dependent)",
+    "Equality between an original and a regenerated UUID for the same entity"
+   ],
+   "limitations": "Time-uniqueness depends on clock discipline and monotonicity options chosen by implementations.",
+   "confidence": "high"
+  },
+  {
+   "source_id": "axis-id-eq.unicode-canonical-equivalence",
+   "title": "Unicode Normalization Forms (Unicode Standard Annex #15)",
+   "authors_or_issuer": "Unicode Consortium",
+   "source_class": "official_specification",
+   "edition_or_version": "Version 17.0.0, Revision 57",
+   "publication_date": "2025-07-30",
+   "uri": "https://www.unicode.org/reports/tr15/",
+   "bounded_claims_supported": [
+    "Canonical equivalence is a formally defined equivalence between character sequences representing the same abstract character",
+    "NFC/NFD map canonically equivalent strings to identical normalized outputs (uniqueness goal)"
+   ],
+   "claims_not_supported": [
+    "Compatibility equivalence being identity (it is weaker and visually lossy)",
+    "Collation/ordering decisions (covered by other Unicode reports), nor cross-script matching policy"
+   ],
+   "limitations": "Text domain only; applications choose whether byte-indexed or canonically-normalized comparison applies.",
+   "confidence": "high"
+  }
+ ],
+ "evidence_vacancies_if_any": [
+  {
+   "statement": "Optimal record-linkage/match-key theory as primary normative authority for reconciliation merges (e.g., Fellegi–Sunter) was not verified against a freely accessible primary source in this session; no vendor documentation is accepted as substitute.",
+   "required_evidence": "A peer-reviewed primary source (Fellegi & Sunter 1969, JASA) accessible at a stable URI confirming the probabilistic linkage formalism, before probabilistic match keys may be cited as normative backing."
+  },
+  {
+   "statement": "ISO/IEC 9075 collation semantics as applied equality authority could not be verified behind paywalls and is therefore excluded rather than cited.",
+   "required_evidence": "Verifiable access to ISO/IEC 9075 collation clauses, or an equally authoritative open specification of SQL collation-driven string equality, before claiming database-collation equality behavior from primary sources."
+  }
+ ]
+}

@@ -1,0 +1,189 @@
+{
+  "$id": "https://san.example/spec/semantic-axis-owner-decision-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "RATIFIED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence_claim_refs": {
+            "minItems": 1
+          },
+          "ratifier_refs": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "enum": [
+              "INAPPLICABLE_WITH_REASON",
+              "PROHIBITED_WITH_REASON"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rationale": {
+            "minLength": 20
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "UNRESOLVED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "unresolved_items": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "axis": {
+      "enum": [
+        "semantic_object",
+        "semantic_role",
+        "identity_and_equality",
+        "grain_and_cardinality",
+        "state_and_change",
+        "time",
+        "order_and_topology",
+        "partiality_and_uncertainty",
+        "authority_and_trust",
+        "effect_boundary",
+        "representation",
+        "composition_algebra",
+        "compatibility_and_evolution",
+        "resources_and_failure",
+        "evidence_and_conformance",
+        "privacy_security_safety"
+      ]
+    },
+    "constitution_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "APPLICABLE_AS_IS",
+        "APPLICABLE_WITH_EXCEPTION",
+        "CONDITIONAL",
+        "INAPPLICABLE_WITH_REASON",
+        "PROHIBITED_WITH_REASON",
+        "UNRESOLVED"
+      ]
+    },
+    "decision_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_claim_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "exceptions": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "family_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "module_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "ratifier_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "rationale": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "semantic_axis_owner_decision"
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "PROPOSED",
+        "RATIFIED",
+        "REJECTED",
+        "SUPERSEDED"
+      ]
+    },
+    "subject_kind": {
+      "enum": [
+        "family_default",
+        "candidate_cluster",
+        "library_exception"
+      ]
+    },
+    "subject_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unresolved_items": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_kind",
+    "decision_id",
+    "edition",
+    "subject_kind",
+    "subject_ref",
+    "family_id",
+    "axis",
+    "constitution_ref",
+    "module_ref",
+    "decision",
+    "rationale",
+    "ratifier_refs",
+    "evidence_claim_refs",
+    "exceptions",
+    "unresolved_items",
+    "status"
+  ],
+  "title": "Semantic axis owner decision",
+  "type": "object"
+}

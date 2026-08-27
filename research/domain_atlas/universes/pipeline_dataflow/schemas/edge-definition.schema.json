@@ -1,0 +1,136 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/edge-definition-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "barrier_behavior": {
+      "enum": [
+        "forward",
+        "align",
+        "snapshot_in_flight",
+        "not_applicable"
+      ]
+    },
+    "channel": {
+      "additionalProperties": false,
+      "properties": {
+        "capacity": {
+          "additionalProperties": false,
+          "properties": {
+            "maximum": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "unit": {
+              "enum": [
+                "records",
+                "bytes",
+                "batches"
+              ]
+            }
+          },
+          "required": [
+            "unit",
+            "maximum"
+          ],
+          "type": "object"
+        },
+        "compression": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "delivery": {
+          "enum": [
+            "at_most_once",
+            "at_least_once",
+            "transactional"
+          ]
+        },
+        "flow_control": {
+          "enum": [
+            "pull",
+            "credit",
+            "backpressure",
+            "bounded_push"
+          ]
+        },
+        "mode": {
+          "enum": [
+            "in_process",
+            "network",
+            "durable_log",
+            "object_manifest",
+            "database",
+            "provider"
+          ]
+        },
+        "serialization": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode",
+        "capacity",
+        "flow_control",
+        "delivery",
+        "serialization",
+        "compression"
+      ],
+      "type": "object"
+    },
+    "decision_bindings": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "edge_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edge_kind": {
+      "enum": [
+        "data",
+        "control",
+        "progress",
+        "barrier",
+        "error",
+        "compensation",
+        "feedback"
+      ]
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "failure_propagation": {
+      "enum": [
+        "fail_downstream",
+        "fail_component",
+        "side_output",
+        "supervise",
+        "compensate"
+      ]
+    },
+    "from_port_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "to_port_ref": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "edge_id",
+    "edition",
+    "from_port_ref",
+    "to_port_ref",
+    "edge_kind",
+    "channel",
+    "barrier_behavior",
+    "failure_propagation",
+    "decision_bindings"
+  ],
+  "title": "Pipeline edge definition",
+  "type": "object"
+}

@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-27",
+  "bound_libraries": 35,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "declared_product_libraries": 26,
+  "exact_contracts_selected": 0,
+  "expert_learning_profiles": 16,
+  "formalism_neighbor_libraries": 9,
+  "libraries_without_declared_product_consumer": 4,
+  "library_axis_decision_candidates": 560,
+  "method_types": 67,
+  "missing_downstream_contract_routes": 11,
+  "non_collapse_laws": 50,
+  "owner_decisions": 0,
+  "primary_or_official_sources": 38,
+  "product_capability_boundary_findings": 10,
+  "program_id": "program.signal-condition-semantic-slice.v1",
+  "qualified_implementations": 0,
+  "recent_non_llm_innovations": 8,
+  "semantic_modules": 43
+}

@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "partiality_and_uncertainty",
+  "bearer_archetypes": 20,
+  "bearer_state_lattice_inventories_supplied": 0,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "family_extension_candidates": 5,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "partiality_uncertainty_kernels": 42,
+  "partiality_uncertainty_profiles_supplied": 0,
+  "primary_sources": 8,
+  "program_id": "program.p3u.partiality-uncertainty-coordinate-ontology-and-rebase.v1",
+  "research_clusters": 6,
+  "routes_with_lexical_discovery_projection": 1,
+  "routes_with_no_member_partiality_uncertainty_evidence": 72,
+  "target_member_routes": 73
+}

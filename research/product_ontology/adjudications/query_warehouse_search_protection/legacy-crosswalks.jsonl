@@ -1,0 +1,12 @@
+{"canonical_refs":["product.data_protection_recovery","product.digital_preservation_archive"],"disposition":"split","edition":1,"legacy_ref":"candidate.product.backup_restore_archive","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.query_execution_service"],"disposition":"rename","edition":1,"legacy_ref":"candidate.product.distributed_query","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["capability.federated_query_execution","product.virtual_data_access"],"disposition":"split_capability_from_product","edition":1,"legacy_ref":"candidate.product.federated_query","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.search_index_service"],"disposition":"rename","edition":1,"legacy_ref":"candidate.product.search_index_serving","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["component.vector_index","neighbor.model_lifecycle"],"disposition":"split","edition":1,"legacy_ref":"candidate.product.vector_feature_serving","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.managed_warehouse_experience"],"disposition":"rename","edition":1,"legacy_ref":"candidate.product.warehouse_experience","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.search_index_service","component.vector_index"],"disposition":"remove_ambient_ai_prefix","edition":1,"legacy_ref":"term.ai_search","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["implementation.object_lock","product.digital_preservation_archive"],"disposition":"mechanism_not_product","edition":1,"legacy_ref":"term.immutable_archive","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["profile.operational_analytics","product.query_execution_service"],"disposition":"profile_not_product","edition":1,"legacy_ref":"term.operational_analytics","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["semantic.cache_contract"],"disposition":"semantic_mechanism","edition":1,"legacy_ref":"term.query_cache","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["profile.operational_analytics"],"disposition":"profile_not_product","edition":1,"legacy_ref":"term.realtime_analytics","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.data_protection_recovery"],"disposition":"recovery_log_homonym","edition":1,"legacy_ref":"term.wal_archive","record_kind":"legacy_crosswalk"}

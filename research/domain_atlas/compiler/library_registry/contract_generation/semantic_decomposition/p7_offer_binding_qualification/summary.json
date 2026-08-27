@@ -1,0 +1,77 @@
+{
+  "as_of": "2026-08-27",
+  "authorized_semantic_physical_bridges": 0,
+  "completion_claim": false,
+  "conformance_context_workstreams": 42,
+  "edition": 1,
+  "implementation_offer_intake_templates": 1010,
+  "input_snapshot": {
+    "aggregate_sha256": "395a89d1b27c31507e1aad9cc82342d3ccd2f25e26b1022fa1e89518b6aff2fc",
+    "files": [
+      {
+        "bytes": 911162,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/qualification-scope-kernels.jsonl",
+        "record_count": 505,
+        "sha256": "4754ff36432a565aac8663eed043b705c2dd03772fadd00d3dc6bb61c6560b27"
+      },
+      {
+        "bytes": 1423233,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/subject-dockets.jsonl",
+        "record_count": 518,
+        "sha256": "a0311332f2d21b355db028a46d678823f626262e6b79831f0fa14c4758739bd4"
+      },
+      {
+        "bytes": 1336940,
+        "path": "research/product_ontology/qualification_program/library-qualification-subjects.jsonl",
+        "record_count": 518,
+        "sha256": "b7136e9e2e3fae0c73d9ab8510419d6be1028d06b76efe65e35c8bb37fb27728"
+      },
+      {
+        "bytes": 30662,
+        "path": "research/domain_atlas/compiler/conformance_evaluation/context-families.jsonl",
+        "record_count": 76,
+        "sha256": "a2d06060aae60b00201897e7f714f5d32523eb97d8488f14019ebd3165868432"
+      },
+      {
+        "bytes": 79212,
+        "path": "research/domain_atlas/compiler/provider_target_registry/capability-classes.jsonl",
+        "record_count": 149,
+        "sha256": "bfdca392d7ca9eba3f2e968c8d0b3eb12eadcf0558f8c06eeb125faddf8fc4b9"
+      },
+      {
+        "bytes": 76729,
+        "path": "research/domain_atlas/compiler/provider_target_registry/concrete-offers.jsonl",
+        "record_count": 59,
+        "sha256": "97f5115c498c1ecca6c7cd46bc50f4c1104773d06b5dfd5ec9c3ea2a48d76125"
+      },
+      {
+        "bytes": 40040,
+        "path": "research/domain_atlas/compiler/provider_target_registry/compiler-requirement-offer-mappings.jsonl",
+        "record_count": 34,
+        "sha256": "c9329839e45067ba09a4ffcdac9c9c7086eaa28dc5a01bc90873d59d3ab399ba"
+      },
+      {
+        "bytes": 26273,
+        "path": "research/domain_atlas/compiler/provider_target_registry/qualification-receipts.jsonl",
+        "record_count": 25,
+        "sha256": "98f9adcc803d6dac4b2abf37a967b1726db137be54cf267aab14e40015e4acdd"
+      },
+      {
+        "bytes": 18183,
+        "path": "research/domain_atlas/compiler/provider_target_registry/target-occurrences.jsonl",
+        "record_count": 20,
+        "sha256": "990f0d1d711c3bf5d1fe99266362c768f6de77759dea5ae1f3665c16677b6d88"
+      }
+    ],
+    "snapshot_id": "snapshot.p7-input.395a89d1b27c3150"
+  },
+  "program_id": "program.p7-offer-binding-qualification.v1",
+  "qualification_profile_kernels": 128,
+  "qualified_implementations": 0,
+  "represented_qualification_scopes": 505,
+  "represented_subject_context_occurrences": 8542,
+  "selected_provider_offers": 0,
+  "semantic_physical_binding_gates": 1010,
+  "shared_profile_kernels": 46,
+  "submitted_implementation_offers": 0
+}

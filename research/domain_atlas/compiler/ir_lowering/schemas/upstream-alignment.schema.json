@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adopted_laws": {
+      "$ref": "#/$defs/strings"
+    },
+    "alignment_id": {
+      "$ref": "#/$defs/id"
+    },
+    "completion_claim": {
+      "const": false
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "known_alignment_gaps": {
+      "$ref": "#/$defs/strings"
+    },
+    "proof_posture": {
+      "type": "string"
+    },
+    "read_only_inputs": {
+      "$ref": "#/$defs/strings"
+    },
+    "stage_alignment": {
+      "items": {
+        "type": "object"
+      },
+      "minItems": 9,
+      "type": "array"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "universe_posture": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "alignment_id",
+    "edition",
+    "status",
+    "completion_claim",
+    "read_only_inputs",
+    "stage_alignment",
+    "adopted_laws",
+    "proof_posture",
+    "universe_posture",
+    "known_alignment_gaps"
+  ],
+  "title": "Upstream compiler/universe alignment",
+  "type": "object"
+}

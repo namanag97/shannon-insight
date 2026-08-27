@@ -447,8 +447,12 @@ class TreeSitterNormalizer:
             return field_types
 
         for child in body.children:
-            if child.type in ("public_field_definition", "field_definition",
-                             "property_signature", "property_declaration"):
+            if child.type in (
+                "public_field_definition",
+                "field_definition",
+                "property_signature",
+                "property_declaration",
+            ):
                 name = None
                 type_str = None
                 for gc in child.children:
@@ -467,7 +471,9 @@ class TreeSitterNormalizer:
         """Extract field types from Go struct."""
         field_types: dict[str, str] = {}
         # Go: type_spec contains struct_type with field_declaration children
-        struct_body = self._find_child_by_type(class_node, ("struct_type", "field_declaration_list"))
+        struct_body = self._find_child_by_type(
+            class_node, ("struct_type", "field_declaration_list")
+        )
         if struct_body is None:
             return field_types
 
@@ -478,9 +484,18 @@ class TreeSitterNormalizer:
                 for gc in child.children:
                     if gc.type == "field_identifier":
                         names.append(gc.text.decode("utf-8", errors="ignore") if gc.text else "")
-                    elif gc.type in ("type_identifier", "pointer_type", "slice_type",
-                                    "array_type", "map_type", "channel_type", "qualified_type",
-                                    "interface_type", "struct_type", "function_type"):
+                    elif gc.type in (
+                        "type_identifier",
+                        "pointer_type",
+                        "slice_type",
+                        "array_type",
+                        "map_type",
+                        "channel_type",
+                        "qualified_type",
+                        "interface_type",
+                        "struct_type",
+                        "function_type",
+                    ):
                         type_str = self._type_node_to_str(gc, code_bytes)
                 if type_str:
                     for name in names:
@@ -499,14 +514,24 @@ class TreeSitterNormalizer:
             if child.type == "field_declaration":
                 type_str = None
                 for gc in child.children:
-                    if gc.type in ("type_identifier", "integral_type", "floating_point_type",
-                                  "boolean_type", "generic_type", "array_type",
-                                  "scoped_type_identifier"):
+                    if gc.type in (
+                        "type_identifier",
+                        "integral_type",
+                        "floating_point_type",
+                        "boolean_type",
+                        "generic_type",
+                        "array_type",
+                        "scoped_type_identifier",
+                    ):
                         type_str = self._type_node_to_str(gc, code_bytes)
                     elif gc.type == "variable_declarator":
                         name_node = self._find_child_by_type(gc, ("identifier",))
                         if name_node and type_str:
-                            name = name_node.text.decode("utf-8", errors="ignore") if name_node.text else None
+                            name = (
+                                name_node.text.decode("utf-8", errors="ignore")
+                                if name_node.text
+                                else None
+                            )
                             if name:
                                 field_types[name] = type_str
         return field_types
@@ -681,7 +706,7 @@ class TreeSitterNormalizer:
             if child.type == "type_annotation":
                 # Type annotation contains the actual type
                 for gc in child.children:
-                    if gc.type not in (":", ):  # Skip colon
+                    if gc.type not in (":",):  # Skip colon
                         return self._type_node_to_str(gc, code_bytes)
         # Also check for direct type children
         for child in node.children:
@@ -704,8 +729,15 @@ class TreeSitterNormalizer:
                             return self._type_node_to_str(c, code_bytes)
                         params_seen = True
             # Simple return type (single type, not wrapped in parameter_list)
-            if child.type in ("type_identifier", "pointer_type", "slice_type",
-                             "array_type", "map_type", "channel_type", "qualified_type"):
+            if child.type in (
+                "type_identifier",
+                "pointer_type",
+                "slice_type",
+                "array_type",
+                "map_type",
+                "channel_type",
+                "qualified_type",
+            ):
                 return self._type_node_to_str(child, code_bytes)
         return None
 
@@ -715,9 +747,16 @@ class TreeSitterNormalizer:
         # Find type child that comes before the identifier (method name)
         found_type = None
         for child in node.children:
-            if child.type in ("type_identifier", "void_type", "integral_type",
-                             "floating_point_type", "boolean_type", "generic_type",
-                             "array_type", "scoped_type_identifier"):
+            if child.type in (
+                "type_identifier",
+                "void_type",
+                "integral_type",
+                "floating_point_type",
+                "boolean_type",
+                "generic_type",
+                "array_type",
+                "scoped_type_identifier",
+            ):
                 found_type = self._type_node_to_str(child, code_bytes)
             elif child.type == "identifier":
                 # Hit the method name, return the type we found
@@ -797,10 +836,21 @@ class TreeSitterNormalizer:
                         type_str = None
                         for gc in param.children:
                             if gc.type == "identifier":
-                                names.append(gc.text.decode("utf-8", errors="ignore") if gc.text else "")
-                            elif gc.type in ("type_identifier", "pointer_type", "slice_type",
-                                            "array_type", "map_type", "channel_type", "qualified_type",
-                                            "interface_type", "struct_type", "function_type"):
+                                names.append(
+                                    gc.text.decode("utf-8", errors="ignore") if gc.text else ""
+                                )
+                            elif gc.type in (
+                                "type_identifier",
+                                "pointer_type",
+                                "slice_type",
+                                "array_type",
+                                "map_type",
+                                "channel_type",
+                                "qualified_type",
+                                "interface_type",
+                                "struct_type",
+                                "function_type",
+                            ):
                                 type_str = self._type_node_to_str(gc, code_bytes)
                         if type_str:
                             for name in names:
@@ -823,9 +873,15 @@ class TreeSitterNormalizer:
                 for gc in child.children:
                     if gc.type == "identifier":
                         name = gc.text.decode("utf-8", errors="ignore") if gc.text else None
-                    elif gc.type in ("type_identifier", "integral_type", "floating_point_type",
-                                    "boolean_type", "generic_type", "array_type",
-                                    "scoped_type_identifier"):
+                    elif gc.type in (
+                        "type_identifier",
+                        "integral_type",
+                        "floating_point_type",
+                        "boolean_type",
+                        "generic_type",
+                        "array_type",
+                        "scoped_type_identifier",
+                    ):
                         type_str = self._type_node_to_str(gc, code_bytes)
                 if name and type_str:
                     param_types[name] = type_str

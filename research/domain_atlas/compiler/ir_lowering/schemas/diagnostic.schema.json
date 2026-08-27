@@ -1,0 +1,84 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "pattern": "^[EWI][0-9]{4}$",
+      "type": "string"
+    },
+    "compile_effect": {
+      "type": "string"
+    },
+    "diagnostic_id": {
+      "$ref": "#/$defs/id"
+    },
+    "diagnostic_kind": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "payload_fields": {
+      "$ref": "#/$defs/strings"
+    },
+    "remediation_contract": {
+      "type": "string"
+    },
+    "severity": {
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ]
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "stage": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "trigger": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "diagnostic_id",
+    "code",
+    "edition",
+    "status",
+    "diagnostic_kind",
+    "stage",
+    "severity",
+    "trigger",
+    "payload_fields",
+    "compile_effect",
+    "remediation_contract",
+    "source_refs"
+  ],
+  "title": "Typed compiler diagnostic",
+  "type": "object"
+}

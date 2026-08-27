@@ -194,7 +194,15 @@ class GraphStore:
                          target_node, target_node_type, metadata)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                         """,
-                        (session_id, "PARAM_TYPE", func_node, "FUNCTION", type_str, "TYPE", param_name),
+                        (
+                            session_id,
+                            "PARAM_TYPE",
+                            func_node,
+                            "FUNCTION",
+                            type_str,
+                            "TYPE",
+                            param_name,
+                        ),
                     )
                     counts["param_types"] = counts.get("param_types", 0) + 1
 
@@ -208,7 +216,15 @@ class GraphStore:
                          target_node, target_node_type, metadata)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                         """,
-                        (session_id, "FIELD_TYPE", class_node, "CLASS", type_str, "TYPE", field_name),
+                        (
+                            session_id,
+                            "FIELD_TYPE",
+                            class_node,
+                            "CLASS",
+                            type_str,
+                            "TYPE",
+                            field_name,
+                        ),
                     )
                     counts["field_types"] = counts.get("field_types", 0) + 1
 

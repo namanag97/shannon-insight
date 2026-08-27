@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [
+    {
+      "$ref": "record.schema.json"
+    }
+  ],
+  "properties": {
+    "polarity": {
+      "enum": [
+        "positive",
+        "negative_twin"
+      ]
+    },
+    "record_kind": {
+      "const": "binding_example"
+    },
+    "terminal_result": {
+      "enum": [
+        "bound",
+        "partially_bound",
+        "unsat",
+        "unknown",
+        "refused"
+      ]
+    },
+    "trace": {
+      "minItems": 2,
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "record_kind",
+    "edition",
+    "status",
+    "vertical",
+    "polarity",
+    "intent",
+    "requirements",
+    "trace",
+    "terminal_result",
+    "terminal_gaps",
+    "negative_twin_ref",
+    "evidence_refs"
+  ],
+  "type": "object"
+}

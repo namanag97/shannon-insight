@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "identifier",
+    "declaration_seen",
+    "declaration_files",
+    "reference_files",
+    "field_names",
+    "occurrence_count"
+  ],
+  "title": "Universe identifier census record",
+  "type": "object"
+}

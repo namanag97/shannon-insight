@@ -1,0 +1,196 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "state_and_change",
+  "canonical_gaps_closed": 0,
+  "change_relations": [
+    "construct",
+    "append_fact",
+    "replace_representation",
+    "patch_representation",
+    "update_projection",
+    "materialize_snapshot",
+    "apply_delta",
+    "supersede",
+    "invalidate",
+    "revoke",
+    "expire",
+    "logical_delete_or_tombstone",
+    "physical_erase",
+    "cancel",
+    "retry_attempt",
+    "replay_history",
+    "resume",
+    "continue_as_new",
+    "compensate",
+    "reverse",
+    "rollback_restore",
+    "reconcile"
+  ],
+  "completion_claim": false,
+  "coordinate_key": [
+    "bounded_context_ref",
+    "subject_ref",
+    "state_subject_archetype_ref",
+    "lifecycle_ref",
+    "lifecycle_edition_ref",
+    "state_or_transition_ref"
+  ],
+  "dependency_axis_refs": [
+    "identity_and_equality",
+    "grain_and_cardinality",
+    "time",
+    "order_and_topology",
+    "authority_and_trust",
+    "effect_boundary",
+    "partiality_and_uncertainty",
+    "evidence_and_conformance",
+    "compatibility_and_evolution"
+  ],
+  "discovery_projection_compatibility": {
+    "existing_facets": [
+      "immutable_value",
+      "append_only_event",
+      "lifecycle_transition",
+      "versioned_mutation",
+      "snapshot_and_delta",
+      "compensation_or_reversal"
+    ],
+    "prohibition": "A facet cannot choose the state subject, lifecycle edition, assertion position, transition contract, history completeness, effect stage or member applicability.",
+    "status": "LOSSY_LEXICAL_DISCOVERY_PROJECTION_ONLY"
+  },
+  "domain_question": "For which identified subject and lifecycle edition is state asserted; is the record a request, fact, observation, projection or accepted effect; and what guarded transition, history and concurrency laws connect it to other states?",
+  "edition": 1,
+  "effect_progression": [
+    "proposed",
+    "authorized",
+    "dispatched",
+    "acknowledged",
+    "observed",
+    "reconciled",
+    "accepted",
+    "compensation_requested",
+    "compensated",
+    "residual_effect_open"
+  ],
+  "member_applicability_decisions": 0,
+  "non_collapse_laws": [
+    "library is not state subject",
+    "state is not a status string",
+    "command is not event and event is not current state",
+    "desired state is not observed state and observed state is not accepted outcome",
+    "condition observation is not a comprehensive state machine",
+    "resource representation version is not real-world entity state",
+    "state configuration is not its serialized snapshot",
+    "snapshot is not checkpoint and checkpoint is not durable commit",
+    "current projection is not complete history",
+    "retry is not replay and replay is not resume",
+    "idempotent request is not exactly-once execution",
+    "cancel request is not confirmed cancellation",
+    "delete association is not tombstone and neither is physical erasure",
+    "supersession is not invalidation or revocation",
+    "compensation is not reversal or rollback and may fail",
+    "terminal execution is not accepted business effect"
+  ],
+  "ontology_id": "ontology.semantic-axis.state-change-coordinate.v1",
+  "owner_decision": "UNRESOLVED",
+  "primary_source_refs": [
+    "source.state.scxml",
+    "source.state.kubernetes-api-conventions",
+    "source.state.prov-constraints",
+    "source.state.http-semantics",
+    "source.state.json-patch",
+    "source.state.iceberg",
+    "source.state.temporal-workflow-execution"
+  ],
+  "state_coordinate": {
+    "assertion_position": [
+      "intent_or_desired",
+      "command_or_effect_request",
+      "recorded_fact_or_event",
+      "reported_observation",
+      "inferred_projection",
+      "acknowledged_effect",
+      "accepted_business_outcome"
+    ],
+    "history_model": [
+      "current_only",
+      "version_chain",
+      "append_only_facts",
+      "snapshot_plus_delta",
+      "bitemporal_facts",
+      "workflow_event_history",
+      "provenance_or_audit_evidence",
+      "external_observations"
+    ],
+    "required_fields": [
+      "subject_identity_ref",
+      "state_subject_archetype_ref",
+      "lifecycle_ref_and_edition",
+      "state_vector_or_active_configuration",
+      "assertion_position",
+      "revision_coordinate",
+      "history_model",
+      "time_basis_refs",
+      "authority_ref",
+      "evidence_ref"
+    ],
+    "revision_coordinate": [
+      "logical_version",
+      "opaque_revision",
+      "event_sequence",
+      "snapshot_id",
+      "log_position",
+      "valid_and_recording_time",
+      "none_by_explicit_law"
+    ],
+    "state_shape": [
+      "single_state",
+      "orthogonal_active_configuration",
+      "state_vector",
+      "monotonic_condition_set",
+      "open_world_observations",
+      "projection_from_history",
+      "explicit_extension"
+    ]
+  },
+  "transition_contract": {
+    "required_fields": [
+      "transition_identity",
+      "subject_and_lifecycle_ref",
+      "source_state_or_configuration",
+      "trigger_kind_and_identity",
+      "command_identity_and_idempotency_scope",
+      "authority_ref",
+      "guard_and_preconditions",
+      "expected_revision_or_history_cut",
+      "target_state_or_configuration",
+      "emitted_internal_facts",
+      "proposed_external_effects",
+      "effect_receipt_and_acceptance_requirements",
+      "refusal_precedence"
+    ],
+    "required_outcomes": [
+      "transitioned",
+      "no_op_by_law",
+      "duplicate",
+      "stale_revision",
+      "guard_false",
+      "illegal_transition",
+      "authority_refused",
+      "indeterminate_history",
+      "concurrency_conflict",
+      "partial_effect_reconciliation_required",
+      "failed"
+    ],
+    "trigger_kind": [
+      "command",
+      "external_event",
+      "internal_event",
+      "eventless_guard",
+      "timer_or_expiry",
+      "observation",
+      "reconciliation_iteration",
+      "migration_or_replay"
+    ]
+  }
+}

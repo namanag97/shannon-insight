@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "boundary_rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "granted_access": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "context_relation_acl_candidate"
+    },
+    "relation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "relation_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    },
+    "target_context": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "relation_id",
+    "source_context",
+    "target_context",
+    "relation_kind",
+    "granted_access",
+    "boundary_rule"
+  ],
+  "title": "Context relation and ACL candidate",
+  "type": "object"
+}

@@ -1,0 +1,32 @@
+{
+  "edition": 1,
+  "metamodel_id": "metamodel.deterministic_vertical_composition.v1",
+  "non_collapse_laws": [
+    "industry case != product != capability != library != provider offer != deployed occurrence",
+    "structural mapping != provider qualification != vertical acceptance",
+    "provider substitution != API similarity",
+    "model or agent proposal != deterministic result or effect receipt",
+    "broad optimization label != exact solver model class",
+    "formal model-class match != provider qualification != vertical acceptance != effect authority",
+    "generative or agent proposal != formal model-class proof",
+    "executed provider test != independent appraisal != vertical acceptance"
+  ],
+  "phase_order": [
+    "industry_reference_resolution",
+    "product_boundary_resolution",
+    "library_and_requirement_resolution",
+    "optional_extension_removal",
+    "physical_provider_binding",
+    "execution",
+    "vertical_acceptance"
+  ],
+  "record_kinds": [
+    "vertical_composition_proof_candidate",
+    "provider_substitution_trial",
+    "optional_extension_removal_trial",
+    "cross_vertical_reuse_proof_candidate",
+    "vertical_acceptance_contract",
+    "vertical_acceptance_gate"
+  ],
+  "status": "candidate"
+}

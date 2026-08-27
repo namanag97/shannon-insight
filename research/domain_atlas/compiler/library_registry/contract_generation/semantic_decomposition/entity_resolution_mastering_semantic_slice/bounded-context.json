@@ -1,0 +1,62 @@
+{
+  "completion_claim": false,
+  "imported_owners": [
+    "source mutation",
+    "legal/business identity authority",
+    "generic statistical kernels",
+    "generic review workflow",
+    "privacy/security",
+    "downstream decision and business effect"
+  ],
+  "inside_entity_resolution": [
+    "source-record occurrence profiles",
+    "normalization/comparison",
+    "blocking/candidate evidence",
+    "pair assessments and decisions",
+    "constraints and cluster editions",
+    "review/adjudication and reversible merge/split",
+    "evaluation and uncertainty propagation"
+  ],
+  "inside_master_data_governance": [
+    "master domain and identity issuance",
+    "source registration and field authority",
+    "candidate values and survivorship",
+    "golden projections",
+    "master relationships/hierarchies",
+    "stewardship and publication/change propagation"
+  ],
+  "inside_reference_data_governance": [
+    "concept/code/designation semantics",
+    "reference sets and code-system lifecycle",
+    "value-set definition/expansion",
+    "directional crosswalks and mapping loss",
+    "publication/subscription"
+  ],
+  "non_collapse_summary": "record != entity; score != decision; pair link != cluster; cluster != master identity; source authority != survivorship; golden projection != truth; master entity != reference value; code != concept; mapping != equivalence",
+  "product_boundary_candidates": [
+    {
+      "product_ref": "product.entity_resolution",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    },
+    {
+      "product_ref": "product.master_data_governance",
+      "status": "RETAINED_BOUNDARY_UNRATIFIED"
+    },
+    {
+      "product_ref": "product.reference_data_governance",
+      "status": "RETAINED_BOUNDARY_UNRATIFIED"
+    }
+  ],
+  "retained_products": [
+    "product.entity_resolution",
+    "product.master_data_governance",
+    "product.reference_data_governance"
+  ],
+  "slice_id": "slice.entity-resolution-mastering.v1",
+  "split_replacement_products": [
+    "product.master_data_governance",
+    "product.reference_data_governance"
+  ],
+  "status": "CANDIDATE_UNRATIFIED",
+  "superseded_product": "product.master_reference_data"
+}

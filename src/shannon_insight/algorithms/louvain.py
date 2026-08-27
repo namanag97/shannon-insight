@@ -9,6 +9,7 @@ NOTE: The _modularity_gain helper is O(n) per node per iteration, making
 the overall algorithm O(n^2) per pass. For large graphs (>5000 nodes) consider
 using the python-louvain or igraph libraries instead.
 """
+
 from __future__ import annotations
 
 import numpy as np
@@ -77,9 +78,7 @@ def louvain(
                     continue
 
                 # Compute gain of adding i to community c
-                delta_add = _modularity_gain_add(
-                    A, k_out, k_in, m, i, c, community, resolution
-                )
+                delta_add = _modularity_gain_add(A, k_out, k_in, m, i, c, community, resolution)
 
                 delta = delta_remove + delta_add
                 if delta > best_delta:
@@ -157,10 +156,9 @@ def _modularity_gain_add(A, k_out, k_in, m, i, target_comm, community, resolutio
             sum_C_k_in += k_in[j]
             sum_C_k_out += k_out[j]
 
-    gain = (
-        (edges_i_to_C + edges_C_to_i) / m
-        - resolution * (k_out[i] * sum_C_k_in + k_in[i] * sum_C_k_out) / (m * m)
-    )
+    gain = (edges_i_to_C + edges_C_to_i) / m - resolution * (
+        k_out[i] * sum_C_k_in + k_in[i] * sum_C_k_out
+    ) / (m * m)
     return gain
 
 

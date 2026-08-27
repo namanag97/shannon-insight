@@ -1,0 +1,344 @@
+{
+  "archetypes": [
+    {
+      "archetype_id": "OPERATION_BOUNDARY_AND_EFFECT",
+      "evidence": [
+        "operation use sites",
+        "state/effect transition specifications",
+        "authority and refusal rules",
+        "idempotency and concurrency contracts",
+        "negative same-name operations"
+      ],
+      "patterns": [],
+      "question": "Do equal operation identifiers denote the same command/query, authority, effect, refusal and receipt contract?"
+    },
+    {
+      "archetype_id": "CAPABILITY_PORT_AND_CONFORMANCE",
+      "evidence": [
+        "port and adapter specifications",
+        "capability negotiation standards",
+        "conformance suite definitions",
+        "provider substitution counterexamples"
+      ],
+      "patterns": [
+        "capability",
+        "conformance",
+        "provider",
+        "requirement",
+        "offer",
+        "oracle",
+        "backend"
+      ],
+      "question": "Is this a provider-independent requirement/offer/oracle port, and which party owns each claim?"
+    },
+    {
+      "archetype_id": "POLICY_SCOPE_PROFILE_AND_EDITION",
+      "evidence": [
+        "normative policy models",
+        "scope and delegation rules",
+        "edition/evolution specifications",
+        "cross-context homonym counterexamples"
+      ],
+      "patterns": [
+        "policy",
+        "scope",
+        "profile",
+        "edition",
+        "cut",
+        "assumption",
+        "checkset",
+        "estimand",
+        "obligation",
+        "attribute_bag",
+        "retention_rule",
+        "disposition_due"
+      ],
+      "question": "What authority, subject, scope, edition and evaluation cut make this policy/profile value meaningful?"
+    },
+    {
+      "archetype_id": "EVIDENCE_RECEIPT_APPRAISAL_AND_RESULT",
+      "evidence": [
+        "evidence and provenance standards",
+        "receipt and occurrence identity laws",
+        "appraisal/decision authority models",
+        "claims that remain unsupported"
+      ],
+      "patterns": [
+        "evidence",
+        "receipt",
+        "appraisal",
+        "verification",
+        "result",
+        "outcome",
+        "proof",
+        "attestation",
+        "certificate",
+        "predicate_type"
+      ],
+      "question": "Is the value an occurrence receipt, assertion, evidence bundle, appraisal result or relying-party decision?"
+    },
+    {
+      "archetype_id": "ANALYTICAL_METHOD_RESULT_AND_DIAGNOSTIC",
+      "evidence": [
+        "analytical method specifications",
+        "result and diagnostic contracts",
+        "assumption and uncertainty models",
+        "termination and resource receipts",
+        "result-versus-evidence-versus-decision counterexamples"
+      ],
+      "patterns": [],
+      "question": "Which method, input cut, assumptions and execution produced this analytical result, and what remains estimate, diagnostic, residual, unknown or unproved?"
+    },
+    {
+      "archetype_id": "ANALYTICAL_MODEL_ARTIFACT_AND_STATE",
+      "evidence": [
+        "statistical model artifact specifications",
+        "training and evaluation lifecycle models",
+        "parameter and feature-schema contracts",
+        "fitted-versus-validated-versus-deployed counterexamples"
+      ],
+      "patterns": [],
+      "question": "Which analytical method produced this model artifact, from which training cut and configuration, and which fitted, evaluated, selected, deployed or retired state does it represent?"
+    },
+    {
+      "archetype_id": "FAILURE_REFUSAL_AND_PARTIALITY",
+      "evidence": [
+        "total failure taxonomies",
+        "protocol error specifications",
+        "refusal precedence rules",
+        "partial/unknown outcome counterexamples"
+      ],
+      "patterns": [
+        "error",
+        "refusal",
+        "failure",
+        "fault",
+        "violation",
+        "invalid",
+        "unknown"
+      ],
+      "question": "Does the symbol represent invalid input, legitimate refusal, provider failure, resource exhaustion, cancellation or unknown outcome?"
+    },
+    {
+      "archetype_id": "IDENTITY_REFERENCE_VERSION_AND_DIGEST",
+      "evidence": [
+        "identifier and namespace standards",
+        "canonicalization specifications",
+        "version/equality laws",
+        "digest-versus-identity counterexamples"
+      ],
+      "patterns": [
+        "identity",
+        "identifier",
+        "digest",
+        "checksum",
+        "attemptid",
+        "version",
+        "handle",
+        "reference",
+        "_ref",
+        "ref"
+      ],
+      "question": "What is identified, under which authority and edition, with which equality and canonicalization relation?"
+    },
+    {
+      "archetype_id": "TIME_LIFECYCLE_AND_CONTROL",
+      "evidence": [
+        "lifecycle state machines",
+        "temporal standards",
+        "cancellation/revocation protocols",
+        "race and stale-observation counterexamples"
+      ],
+      "patterns": [
+        "lease",
+        "deadline",
+        "cancel",
+        "retract",
+        "revok",
+        "heartbeat",
+        "time",
+        "instant",
+        "window",
+        "lifecycle",
+        "expiry",
+        "expiration"
+      ],
+      "question": "Which occurrence or subject lifecycle is controlled, and which requests, observations and terminal facts remain distinct?"
+    },
+    {
+      "archetype_id": "RESOURCE_BOUND_CAPACITY_AND_SCHEDULING",
+      "evidence": [
+        "resource and scheduling specifications",
+        "mathematical bound definitions",
+        "allocation/commitment protocols",
+        "same-name physical/logical counterexamples"
+      ],
+      "patterns": [
+        "bound",
+        "buffer",
+        "reserve",
+        "scheduler",
+        "quota",
+        "capacity",
+        "budget",
+        "limit",
+        "page",
+        "block",
+        "frame"
+      ],
+      "question": "Is this a mathematical bound, storage unit, queue capacity, reservation or scheduling authority?"
+    },
+    {
+      "archetype_id": "REPRESENTATION_CODEC_SCHEMA_AND_LAYOUT",
+      "evidence": [
+        "format and codec specifications",
+        "schema evolution rules",
+        "canonical representation laws",
+        "lossy round-trip counterexamples"
+      ],
+      "patterns": [
+        "codec",
+        "encode",
+        "decode",
+        "schema",
+        "layout",
+        "manifest",
+        "format",
+        "ast",
+        "document",
+        "serialization",
+        "wire"
+      ],
+      "question": "Which semantic object, representation, codec, schema edition and loss/compatibility relation does this symbol govern?"
+    },
+    {
+      "archetype_id": "SHAPE_TOPOLOGY_VIEW_AND_PROCESS",
+      "evidence": [
+        "formal data models",
+        "graph/table/process semantics",
+        "projection and grain laws",
+        "shape-versus-meaning counterexamples"
+      ],
+      "patterns": [
+        "graph",
+        "table",
+        "view",
+        "eventlog",
+        "processmodel",
+        "topology",
+        "tree",
+        "collection",
+        "dataset",
+        "geometry",
+        "region",
+        "spatialweights",
+        "partition"
+      ],
+      "question": "Is this a carrier shape, topology, projection/view or domain process model, and what information does it preserve?"
+    },
+    {
+      "archetype_id": "AUTHORITY_SECURITY_AND_CREDENTIAL",
+      "evidence": [
+        "security and authorization standards",
+        "delegation and revocation models",
+        "credential lifecycle specifications",
+        "proof-versus-authority counterexamples"
+      ],
+      "patterns": [
+        "credential",
+        "access",
+        "author",
+        "secret",
+        "privacy",
+        "trust",
+        "permission",
+        "principal",
+        "tenant",
+        "key",
+        "token",
+        "assurance_level",
+        "isolation_class"
+      ],
+      "question": "Which authority may issue, delegate, attenuate, authorize or revoke this security-bearing object or action?"
+    },
+    {
+      "archetype_id": "MEASURE_QUALITY_COMPARISON_AND_FORMULA",
+      "evidence": [
+        "measurement and quantity standards",
+        "quality and uncertainty models",
+        "formula/metric semantic specifications",
+        "aggregation and comparability counterexamples"
+      ],
+      "patterns": [
+        "metric",
+        "measure",
+        "quality",
+        "comparison",
+        "score",
+        "estimate",
+        "formula",
+        "dimension",
+        "algebra",
+        "effect",
+        "baselineartifact"
+      ],
+      "question": "What population, dimensions, units, uncertainty and decision cut give this measure/comparison/formula meaning?"
+    },
+    {
+      "archetype_id": "DOMAIN_CONTRACT_AND_ADAPTER_BOUNDARY",
+      "evidence": [
+        "business-domain standards and profiles",
+        "provider API and schema editions",
+        "aggregate identity and lifecycle rules",
+        "field-level adapter transformations and loss",
+        "negative same-shape business records"
+      ],
+      "patterns": [],
+      "question": "Which bounded context owns this business record, which standard/profile edition constrains it, and what does each adapter preserve or lose?"
+    },
+    {
+      "archetype_id": "ACTIVITY_EVENT_AND_AUDIT_OCCURRENCE",
+      "evidence": [
+        "event and activity data models",
+        "audit-record semantic conventions",
+        "occurrence identity and dual-time rules",
+        "intent-versus-execution-versus-observation counterexamples"
+      ],
+      "patterns": [],
+      "question": "Is this an intended action, executed activity, domain event, observed event or audit record, and which occurrence and time does it identify?"
+    },
+    {
+      "archetype_id": "CRYPTOGRAPHIC_SUITE_PERIOD_AND_AGILITY",
+      "evidence": [
+        "cryptographic algorithm registries and profiles",
+        "algorithm-agility specifications",
+        "key-management and cryptoperiod guidance",
+        "deployment-policy and compromise counterexamples"
+      ],
+      "patterns": [],
+      "question": "Which cryptographic purpose, algorithm-suite edition, parameter set, key usage period and migration authority make this value meaningful?"
+    },
+    {
+      "archetype_id": "GENERAL_SEMANTIC_OWNER_DISCOVERY",
+      "evidence": [
+        "domain-owner definitions",
+        "identity/equality/lifecycle laws",
+        "all operation use sites",
+        "negative homonym twins"
+      ],
+      "patterns": [],
+      "question": "Do repeated declarations share one semantic owner and equality/lifecycle contract, or are they qualified homonyms?"
+    }
+  ],
+  "as_of": "2026-08-27",
+  "classification_basis": "routing only; owner, equality, lifecycle and applicability remain unresolved",
+  "completion_claim": false,
+  "edition": 1,
+  "non_collapse_laws": [
+    "lexical class is not semantic type",
+    "batch membership is not shared ownership",
+    "shared evidence is not per-occurrence applicability",
+    "research completion is not owner ratification"
+  ],
+  "ontology_id": "ontology.p1.remaining-symbol-research-archetypes.v1"
+}

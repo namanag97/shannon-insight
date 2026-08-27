@@ -1,0 +1,111 @@
+{
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "boundary-candidates.jsonl": {
+      "bytes": 152120,
+      "sha256": "3b285d5a2459c0228ed352dcc05fe565764326433eb3846c37d9adda6c7c5249"
+    },
+    "bounded-contexts.jsonl": {
+      "bytes": 385075,
+      "sha256": "866fd3bfa8c90656d40e9a45bb217127c4c94bbd278c15106569a7bc8d54c111"
+    },
+    "catalog-serving-capabilities.jsonl": {
+      "bytes": 384499,
+      "sha256": "d278afcb5211f502546afc2571ddee87708375c63ce70ab2ceb0de8c3b491f55"
+    },
+    "compiler-mappings.jsonl": {
+      "bytes": 206894,
+      "sha256": "adca2425f13be9324f489d5bdd2d48a850fe700c2b0a8f0474702e4394e7f854"
+    },
+    "context-map.jsonl": {
+      "bytes": 14857,
+      "sha256": "47ee0eed75f9bfc18b1e4af75e08daf3a9ef0514c495fd3ec343d30a1b260592"
+    },
+    "coverage-report.json": {
+      "bytes": 3039,
+      "sha256": "6185ee5f46e7d30363e548e26afe56be49b78c6eef3a6c89685cac1fca7f7eec"
+    },
+    "decision-points.jsonl": {
+      "bytes": 138243,
+      "sha256": "4804ec48612aad86b0b0e3f4ebd60872d16bf2f9bf5ed4b5fdfb677021763b7c"
+    },
+    "gaps.json": {
+      "bytes": 5729,
+      "sha256": "16c8385af1c602e342dbda3285a1e712987a31fbd420ce173cf62fe598264bdd"
+    },
+    "innovations.jsonl": {
+      "bytes": 35753,
+      "sha256": "239aab939782d194f1952c8c5ec7bff5b739f32f402a0b8c071f582a7383834d"
+    },
+    "library-boundaries.jsonl": {
+      "bytes": 151724,
+      "sha256": "07b10e487b1ebdd07bbe160a3cda7d60cf0ad910dcf9d2e2b36d8148c7bc31b6"
+    },
+    "object-log-architectures.jsonl": {
+      "bytes": 85407,
+      "sha256": "448666181eb4ad48e9f961e2b1f94ec715de574a211a217834b732881930544d"
+    },
+    "object-log-compiler-contracts.jsonl": {
+      "bytes": 96286,
+      "sha256": "e0d7bd04693bac7c32928b1f24f4576855fdfb649cc7206be642e63b89bcaec9"
+    },
+    "object-log-decision-points.jsonl": {
+      "bytes": 12925,
+      "sha256": "019a5b3b19372c417fff960c87b31c74c0edd2b26555e75c4d23e8aaf7bf7e53"
+    },
+    "schemas/boundary-candidate.schema.json": {
+      "bytes": 2554,
+      "sha256": "44f8de5bdd3c8c86d38ad25a6899b420910f087a6ee472fc0507e89ee5632a65"
+    },
+    "schemas/bounded-context.schema.json": {
+      "bytes": 3119,
+      "sha256": "6e8aae5359d68c5ee2577687d9ff3a27a93ed0fe5549dad065d52a02e4715dc1"
+    },
+    "schemas/capability.schema.json": {
+      "bytes": 3080,
+      "sha256": "06fe82c48987e5fc59d127af464d3aa655df8c1464c21ccbd805c4b63331da07"
+    },
+    "schemas/compiler-mapping.schema.json": {
+      "bytes": 4226,
+      "sha256": "11d89da3a95f100f74fe6ab1148fe04fc7548822bf871d4b93f136ea317c2546"
+    },
+    "schemas/evidence-source.schema.json": {
+      "bytes": 1521,
+      "sha256": "ddfd2b03025930f33808bdcbe9778b778655f3f4b7a51a77d0a4421b3d6014ee"
+    },
+    "schemas/innovation.schema.json": {
+      "bytes": 1451,
+      "sha256": "9824e1f278d2b33439cdfc14645bd02d65d83b6f73ba35c02b203fc359cbc843"
+    },
+    "schemas/object-log-architecture.schema.json": {
+      "bytes": 3010,
+      "sha256": "f5acb892f03c1038d76818cb83149e80175a89575fc64974a325c6ffd9a5adce"
+    },
+    "schemas/object-log-compiler-contract.schema.json": {
+      "bytes": 5521,
+      "sha256": "acdbb7960a155decadf9e6b59f06e8a71411ffbfa94310354c4608c34b7b5d7f"
+    },
+    "schemas/object-log-decision.schema.json": {
+      "bytes": 1522,
+      "sha256": "62e43544ab289df345fa42d76999bc3053500f6fdcecf713ce6604d015dc33fb"
+    },
+    "sources.jsonl": {
+      "bytes": 87355,
+      "sha256": "b74bf2f8deb9474bf5deb660e8c22a8238f48a1c78aa3a7ad6cb06df431bd576"
+    },
+    "storage-capabilities.jsonl": {
+      "bytes": 338539,
+      "sha256": "ee857b5111795e43176276f763901fcd3a54bfb699f93553991efc39afec7b7a"
+    },
+    "table-capabilities.jsonl": {
+      "bytes": 115062,
+      "sha256": "9a07e85a1a9e4fe8b9f437fef80dcd64fb8aae385d91cc6aa0bb118da94a470a"
+    },
+    "term-ownership-overlaps.json": {
+      "bytes": 26977,
+      "sha256": "0e0489ef0f41e87c6cfe306821e9bf64cbdc4aecdd9ef8ae16c07daeaa23d9f7"
+    }
+  },
+  "manifest_id": "manifest.persistence-lakehouse.v1"
+}

@@ -1,0 +1,59 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "applies_to": {
+      "$ref": "#/$defs/strings"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "failure_effect": {
+      "type": "string"
+    },
+    "invariant_id": {
+      "$ref": "#/$defs/id"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "statement": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "invariant_id",
+    "edition",
+    "status",
+    "statement",
+    "applies_to",
+    "failure_effect",
+    "source_refs"
+  ],
+  "title": "Compiler invariant candidate",
+  "type": "object"
+}

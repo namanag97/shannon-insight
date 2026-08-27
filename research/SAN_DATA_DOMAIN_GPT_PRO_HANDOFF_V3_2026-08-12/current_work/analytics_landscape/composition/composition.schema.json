@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.local/schemas/analytics-composition-v1.json",
+  "title": "Composable analytics platform model",
+  "type": "object",
+  "required": ["model_version", "kind"],
+  "properties": {
+    "model_version": {"const": "1.0.0"},
+    "kind": {"enum": ["horizontal_registry", "domain_pack", "composition_catalog"]}
+  },
+  "$defs": {
+    "port": {
+      "type": "object",
+      "required": ["name", "type", "cardinality"],
+      "properties": {
+        "name": {"type": "string"},
+        "type": {"type": "string"},
+        "cardinality": {"enum": ["one", "optional", "many"]}
+      },
+      "additionalProperties": false
+    },
+    "machine": {
+      "type": "object",
+      "required": ["id", "layer", "purpose", "inputs", "outputs", "requires", "config", "invariants", "failure_modes", "auxiliary_needs"],
+      "properties": {
+        "id": {"pattern": "^machine\\."},
+        "layer": {"type": "string"},
+        "purpose": {"type": "string"},
+        "inputs": {"type": "array", "items": {"$ref": "#/$defs/port"}},
+        "outputs": {"type": "array", "items": {"$ref": "#/$defs/port"}},
+        "requires": {"type": "array", "items": {"type": "string"}},
+        "config": {"type": "array", "items": {"type": "string"}},
+        "invariants": {"type": "array", "items": {"type": "string"}},
+        "failure_modes": {"type": "array", "items": {"type": "string"}},
+        "auxiliary_needs": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/ecosystem/specialist-company-v1.schema.json",
+  "type": "object",
+  "required": ["company_id", "name", "record_scope", "categories", "operating_status", "current_as_of", "ownership", "purity", "non_llm_core", "claims", "practice_refs", "vertical_cases", "products_modules", "delivery_models", "reusable_ip", "dependencies", "geographic_scope", "industry_scope", "evidence_refs", "evidence_confidence", "limitations", "completeness_claim"],
+  "properties": {
+    "company_id": {"type": "string", "pattern": "^company\\.[a-z0-9_]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "record_scope": {"enum": ["organization", "specialist_business_unit", "project_steward"]},
+    "categories": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "operating_status": {"enum": ["operating", "acquired_operating_brand", "merged", "inactive", "uncertain", "open_source_project"]},
+    "current_as_of": {"type": "string", "format": "date"},
+    "ownership": {"type": "object", "required": ["independence", "parent"], "properties": {"independence": {"enum": ["independent", "subsidiary", "business_unit", "nonprofit_project", "uncertain"]}, "parent": {"type": ["string", "null"]}}, "additionalProperties": false},
+    "purity": {"type": "object", "required": ["tier", "primary_record_eligible", "rationale"], "properties": {"tier": {"type": "string"}, "primary_record_eligible": {"type": "boolean"}, "rationale": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+    "non_llm_core": {"type": "object", "required": ["status", "included_capabilities", "quarantined_claims"], "properties": {"status": {"enum": ["separable", "partially_separable", "not_applicable", "uncertain"]}, "included_capabilities": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}, "quarantined_claims": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}}, "additionalProperties": false},
+    "claims": {"type": "array", "items": {"type": "object", "required": ["claim_id", "statement", "state", "evidence_refs", "limitations"], "properties": {"claim_id": {"type": "string"}, "statement": {"type": "string"}, "state": {"type": "string"}, "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}, "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1}}, "additionalProperties": false}, "minItems": 1},
+    "practice_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "vertical_cases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "products_modules": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "delivery_models": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "reusable_ip": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "dependencies": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "geographic_scope": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "industry_scope": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "evidence_confidence": {"enum": ["high", "medium", "low"]},
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "completeness_claim": {"const": false}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,21 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "evidence_and_conformance",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "evidence_claim_inventories_supplied": 0,
+  "evidence_conformance_bearer_archetypes": 44,
+  "evidence_conformance_coordinate_profiles_supplied": 0,
+  "evidence_conformance_operation_kernels": 59,
+  "family_extension_candidates": 23,
+  "family_source_evidence_bindings_supplied": 0,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "primary_sources": 12,
+  "program_id": "program.evidence-conformance-coordinate-ontology-and-rebase.v1",
+  "research_clusters": 69,
+  "routes_with_lexical_discovery_projection": 91,
+  "routes_with_no_member_evidence_signal": 583,
+  "structural_family_dockets": 23,
+  "target_member_routes": 674
+}

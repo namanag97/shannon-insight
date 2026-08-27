@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "compiler-selection-gates.jsonl": {
+      "bytes": 581744,
+      "sha256": "7c12403b1a7a9f74e0506a0f46f630a4f32a0faeda1383e8fe9269925c3ee1ca"
+    },
+    "concrete-reference-resolutions.jsonl": {
+      "bytes": 356619,
+      "sha256": "a4d46ce6493fe4bd07f9ea5a6eb7a7be861845b8b63889fe4e257c59dfad9b65"
+    },
+    "evidence-vacancy-packages.jsonl": {
+      "bytes": 96814,
+      "sha256": "0ed8291ed0458525db6b974b13ee85b9aae90ba0f95af6877a4f824261e4859d"
+    },
+    "gate-execution-kernels.jsonl": {
+      "bytes": 11680,
+      "sha256": "8bda913b61877ce4c66401d5f9e2e513ee4abb917257b2f076157f978fe988d7"
+    },
+    "product-qualification-dockets.jsonl": {
+      "bytes": 276434,
+      "sha256": "659e456cdc9281be4dd1af2c9cb11d6383636de54610f20b3c2f616f34f6f156"
+    },
+    "qualification-scope-kernels.jsonl": {
+      "bytes": 911162,
+      "sha256": "4754ff36432a565aac8663eed043b705c2dd03772fadd00d3dc6bb61c6560b27"
+    },
+    "resolution-ontology.json": {
+      "bytes": 186,
+      "sha256": "b2078042c674c5f9b01779f18836da3a6a06e28b559ee210e5d9e106b194e306"
+    },
+    "subject-dockets.jsonl": {
+      "bytes": 1423233,
+      "sha256": "a0311332f2d21b355db028a46d678823f626262e6b79831f0fa14c4758739bd4"
+    },
+    "summary.json": {
+      "bytes": 3132,
+      "sha256": "441ca5620d6dd7f498019ebc790f12ebd8e13f5a417929d906b9e8d7b670b79a"
+    }
+  },
+  "manifest_id": "manifest.p6-implementation-qualification.v1"
+}

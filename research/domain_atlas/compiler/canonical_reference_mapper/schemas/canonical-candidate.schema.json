@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "candidate_id",
+    "canonical_domain",
+    "concept_kind",
+    "name",
+    "definition",
+    "semantic_contract_sha256",
+    "source_file"
+  ],
+  "title": "Canonical candidate index record",
+  "type": "object"
+}

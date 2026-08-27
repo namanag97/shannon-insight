@@ -1,0 +1,118 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/occurrence_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "binding_eligible": {
+      "type": "boolean"
+    },
+    "configuration_fingerprint": {
+      "type": "string"
+    },
+    "connector_class_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "credential_references_only": {
+      "const": true
+    },
+    "deployment_identity": {
+      "type": "object"
+    },
+    "documented_capabilities": {
+      "type": "object"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "enabled_operations": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "limits_rate_quota_cost": {
+      "type": "object"
+    },
+    "observability_receipts": {
+      "type": "object"
+    },
+    "occurrence_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "occurrence_kind": {
+      "enum": [
+        "registered_deployment_candidate",
+        "hostile_test_fixture",
+        "legacy_test_fixture"
+      ]
+    },
+    "partition_recovery": {
+      "type": "object"
+    },
+    "probed_behavior": {
+      "type": "object"
+    },
+    "qualification": {
+      "type": "object"
+    },
+    "retry_idempotency_cancellation": {
+      "type": "object"
+    },
+    "schema_type_time_order_finality": {
+      "type": "object"
+    },
+    "snapshot_cut_cursor_change": {
+      "type": "object"
+    },
+    "source_occurrence_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    }
+  },
+  "required": [
+    "occurrence_id",
+    "edition",
+    "status",
+    "occurrence_kind",
+    "source_occurrence_ref",
+    "connector_class_ref",
+    "artifact_ref",
+    "deployment_identity",
+    "configuration_fingerprint",
+    "credential_references_only",
+    "enabled_operations",
+    "documented_capabilities",
+    "probed_behavior",
+    "snapshot_cut_cursor_change",
+    "schema_type_time_order_finality",
+    "limits_rate_quota_cost",
+    "retry_idempotency_cancellation",
+    "partition_recovery",
+    "observability_receipts",
+    "qualification",
+    "binding_eligible"
+  ],
+  "title": "Deployed connector occurrence or hostile fixture",
+  "type": "object"
+}

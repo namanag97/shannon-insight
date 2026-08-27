@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "definition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "entity_type_id": {
+      "pattern": "^entity-type\\.lpe\\.",
+      "type": "string"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "family": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "identity_rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invalid_inferences": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mutable_reference": {
+      "type": "boolean"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "entity_type_id",
+    "edition",
+    "status",
+    "name",
+    "family",
+    "definition",
+    "identity_rule",
+    "mutable_reference",
+    "owner_context_ref",
+    "evidence_refs",
+    "invalid_inferences"
+  ],
+  "title": "LPE entity type candidate",
+  "type": "object"
+}

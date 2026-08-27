@@ -1,0 +1,23 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "axis-adjudication-workstreams.jsonl": {
+      "bytes": 34244,
+      "sha256": "a229da54a469f5664cfd23e29ca7bbfc609227e9a0708d6541078c442f1c9b7a"
+    },
+    "coordinate-cluster-challenges.jsonl": {
+      "bytes": 1196506,
+      "sha256": "ba8f5c23b0aeffdc0097403734cc927038bcb9118a494fb49390e414256b6d74"
+    },
+    "member-adjudication-occurrences.jsonl": {
+      "bytes": 4641990,
+      "sha256": "bfafa7917a31817439652c704d018d5881feffe35a1cd8a3455693709412614a"
+    },
+    "summary.json": {
+      "bytes": 609,
+      "sha256": "2bda553f11ad5e867611dc8bba29eec31a42e72ddb05fcaa7f72c2d756026e07"
+    }
+  },
+  "manifest_id": "manifest.targeted-evidence-cluster-adjudication.v1"
+}

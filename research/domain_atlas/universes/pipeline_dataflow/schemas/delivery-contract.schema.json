@@ -1,0 +1,191 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/delivery-contract-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "acknowledgement_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "atomicity_scope": {
+      "enum": [
+        "record",
+        "batch",
+        "partition",
+        "table",
+        "multi_table",
+        "external_workflow"
+      ]
+    },
+    "decision_bindings": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "deduplication": {
+      "additionalProperties": false,
+      "properties": {
+        "horizon": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "key",
+        "horizon"
+      ],
+      "type": "object"
+    },
+    "delivery_contract_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "execution_recovery": {
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "determinism_scope": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "checkpoint_ref",
+        "determinism_scope"
+      ],
+      "type": "object"
+    },
+    "failure_model": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "multiplicity": {
+      "enum": [
+        "at_most_once",
+        "at_least_once",
+        "effectively_once",
+        "exactly_once_effect"
+      ]
+    },
+    "observation_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "ordering_scope": {
+      "enum": [
+        "none",
+        "per_key",
+        "per_partition",
+        "transaction",
+        "total"
+      ]
+    },
+    "proof_obligations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "sink_effect": {
+      "additionalProperties": false,
+      "properties": {
+        "idempotency_scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mechanism": {
+          "enum": [
+            "transaction",
+            "idempotency_key",
+            "commutative",
+            "compensation",
+            "none"
+          ]
+        },
+        "reconciliation": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "mechanism",
+        "idempotency_scope",
+        "reconciliation"
+      ],
+      "type": "object"
+    },
+    "source_replay": {
+      "additionalProperties": false,
+      "properties": {
+        "minimum_retention": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "position_domain": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "required",
+        "position_domain",
+        "minimum_retention"
+      ],
+      "type": "object"
+    },
+    "visibility": {
+      "enum": [
+        "on_ack",
+        "read_after_write",
+        "snapshot_commit",
+        "external_receipt"
+      ]
+    }
+  },
+  "required": [
+    "delivery_contract_id",
+    "edition",
+    "observation_boundary",
+    "multiplicity",
+    "ordering_scope",
+    "atomicity_scope",
+    "source_replay",
+    "execution_recovery",
+    "sink_effect",
+    "acknowledgement_boundary",
+    "deduplication",
+    "visibility",
+    "failure_model",
+    "proof_obligations",
+    "decision_bindings"
+  ],
+  "title": "End-to-end delivery contract",
+  "type": "object"
+}

@@ -1,0 +1,20 @@
+{
+  "claim": "Broad candidate evidence graph, not a complete expert census or admitted compiler knowledge base.",
+  "determinism": "All generated JSONL is sorted; builder reads only checked-in snapshots and local seed files.",
+  "edition": "0.1.0-candidate",
+  "files": {
+    "artifact-conversion-candidates.jsonl": 1187,
+    "artifacts.jsonl": 1177,
+    "compiler-library-mappings.jsonl": 60,
+    "concept-candidates.jsonl": 117,
+    "contribution-edges.jsonl": 2743,
+    "counterevidence-queue.jsonl": 60,
+    "experts.jsonl": 180,
+    "families.jsonl": 60,
+    "implementation-tool-evidence.jsonl": 125,
+    "innovations-2021-2026.jsonl": 386,
+    "review-queue.jsonl": 180,
+    "sources.jsonl": 6
+  },
+  "generated_at": "2026-08-25"
+}

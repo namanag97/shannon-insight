@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "order_and_topology",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "family_extension_candidates": 23,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "primary_sources": 7,
+  "program_id": "program.p3o.order-topology-coordinate-ontology-and-rebase.v1",
+  "relation_archetypes": 20,
+  "relation_coordinate_profiles_supplied": 0,
+  "relation_kernels": 32,
+  "research_clusters": 58,
+  "routes_with_lexical_discovery_projection": 65,
+  "routes_with_no_member_relation_evidence": 558,
+  "target_member_routes": 623
+}

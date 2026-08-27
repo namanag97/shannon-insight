@@ -1,0 +1,21 @@
+{
+  "$id": "https://san.example/spec/context-map/compiler_mapping.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "requirement_id",
+    "offer_id",
+    "library_id",
+    "ir_stage",
+    "proof_obligation_ids"
+  ],
+  "title": "SAN candidate context-map compiler_mapping",
+  "type": "object"
+}

@@ -1,0 +1,37 @@
+{
+  "contract_id": "contract.p2-owner-ratification-receipt.v1",
+  "edition": 1,
+  "non_claims": [
+    "A completed template is not a ratification receipt.",
+    "A ratified owner does not prove implementation, qualification, portability, product acceptance or vertical fitness.",
+    "A proposal score is not authority evidence."
+  ],
+  "refusal_conditions": [
+    "input snapshot mismatch",
+    "missing or unauthorized authority",
+    "counterfactual instability remains open",
+    "incomplete bounded-context owner map",
+    "incomplete exact-occurrence disposition map",
+    "definition, equality or lifecycle contract missing",
+    "provider adapter or target backend selected as semantic owner",
+    "migration relies on a permanent compatibility alias",
+    "attestation is absent, expired, revoked or unverifiable"
+  ],
+  "required_receipt_fields": [
+    "receipt_id",
+    "input_snapshot_ref",
+    "input_snapshot_sha256",
+    "docket_ref",
+    "symbol_ref",
+    "chosen_symbol_disposition",
+    "semantic_owner_refs_or_complete_local_owner_map",
+    "definition_equality_lifecycle_contract_digest",
+    "public_name_and_edition",
+    "complete_occurrence_dispositions",
+    "counterexample_appraisal_digest",
+    "migration_plan_digest",
+    "effective_at",
+    "authority_refs",
+    "attestation_ref"
+  ]
+}

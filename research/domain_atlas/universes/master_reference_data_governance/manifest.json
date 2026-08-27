@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 7,
+      "sha256": "aeb66a7962b914a4e8ec2df107f802ae76519b7fa8331b0943a7c13f09ce4312"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 21,
+      "sha256": "8727a41fdcf24a657a9298fc7c7a0cb41617f758a12d0cbae33bcdda76de9d8f"
+    },
+    "decision-points.jsonl": {
+      "records": 35,
+      "sha256": "92f5bacb7bb56fbaf29e0fc89ddba6fd4428e7b5f779f780e26c664a9541506e"
+    },
+    "library-contracts.jsonl": {
+      "records": 7,
+      "sha256": "eabdb518d7516b991f61a9224c2df64d92ba12382e9743503b8b57be153eabce"
+    },
+    "negative-twins.jsonl": {
+      "records": 13,
+      "sha256": "2cf3e1ad53d726f26a50542f0c5af36de3625490203a7b9062657a5edaeb9e4a"
+    },
+    "sources.jsonl": {
+      "records": 16,
+      "sha256": "70b1ccf9608748cda940c00dd121f6613ca1f7e9acdb3a1a3d5dc52e444327bf"
+    }
+  },
+  "manifest_id": "master_reference_data_governance_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

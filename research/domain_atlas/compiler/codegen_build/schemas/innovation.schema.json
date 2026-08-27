@@ -1,0 +1,55 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/innovation_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "compiler_relevance": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "development": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "innovation_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "non_llm": {
+      "const": true
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "edition",
+    "status",
+    "year",
+    "development",
+    "non_llm",
+    "compiler_relevance",
+    "source_refs"
+  ],
+  "type": "object"
+}

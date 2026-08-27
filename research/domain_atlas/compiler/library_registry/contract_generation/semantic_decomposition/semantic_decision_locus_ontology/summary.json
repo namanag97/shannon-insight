@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-08-27",
+  "bearer_archetypes": 10,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "coordinate_refined_axes": 16,
+  "coordinate_refined_target_member_routes": 9545,
+  "coordinate_unrefined_axes": 0,
+  "family_axis_factorizations": 368,
+  "family_default_decisions": 0,
+  "initial_family_axis_quotient": 368,
+  "member_applicability_decisions": 0,
+  "member_axis_cells_preserved": 10784,
+  "owner_decisions": 0,
+  "program_id": "program.semantic-decision-locus-factorization.v1",
+  "raw_cell_to_family_axis_ratio": 29.304348,
+  "semantic_axis_profiles": 16
+}

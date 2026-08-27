@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/method-kernel-source-v0.1.0.schema.json",
+  "title": "Method and kernel evidence source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source_id", "edition", "title", "publisher", "kind", "url", "primary_or_official", "authority_scope", "limitations", "accessed_at"],
+  "properties": {
+    "source_id": {"type": "string", "pattern": "^source\\.method_kernel\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "title": {"type": "string", "minLength": 1},
+    "publisher": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["standard", "official_documentation", "official_specification", "official_release", "primary_paper", "regulatory_guidance", "reference_implementation", "official_benchmark"]},
+    "url": {"type": "string", "pattern": "^https://"},
+    "primary_or_official": {"const": true},
+    "authority_scope": {"type": "string", "minLength": 1},
+    "limitations": {"type": "string", "minLength": 1},
+    "accessed_at": {"type": "string", "format": "date"}
+  }
+}
+

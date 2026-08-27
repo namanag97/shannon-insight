@@ -1,0 +1,110 @@
+{
+  "$id": "https://san.example/spec/provider-target/target_occurrence_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_versions": {
+      "type": "object"
+    },
+    "availability_regions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "binding_eligible": {
+      "type": "boolean"
+    },
+    "configuration_fingerprint": {
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "finite_budget": {
+      "additionalProperties": {
+        "type": [
+          "number",
+          "integer",
+          "string"
+        ]
+      },
+      "type": "object"
+    },
+    "location": {
+      "type": "object"
+    },
+    "observed_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "occurrence_kind": {
+      "enum": [
+        "documented_offer_snapshot",
+        "registered_deployment",
+        "probe_fixture"
+      ]
+    },
+    "offer_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "provider_organization_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "residency_guarantee": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "retrieved_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "target_occurrence_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "target_profile_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "target_occurrence_id",
+    "edition",
+    "status",
+    "target_profile_ref",
+    "provider_organization_ref",
+    "offer_ref",
+    "occurrence_kind",
+    "location",
+    "configuration_fingerprint",
+    "artifact_versions",
+    "finite_budget",
+    "availability_regions",
+    "residency_guarantee",
+    "observed_at",
+    "retrieved_at",
+    "evidence_refs",
+    "binding_eligible"
+  ],
+  "title": "Concrete target occurrence or evidence snapshot",
+  "type": "object"
+}

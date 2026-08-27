@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "accessed_at": {
+      "type": "string"
+    },
+    "claim_supported": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "primary_or_official": {
+      "const": true
+    },
+    "publisher": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "source"
+      ]
+    },
+    "scope_limitation": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "source_kind": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "pattern": "^https://",
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "source_id",
+    "title",
+    "publisher",
+    "url",
+    "source_kind",
+    "primary_or_official",
+    "claim_supported",
+    "scope_limitation",
+    "accessed_at"
+  ],
+  "title": "Scoped official source",
+  "type": "object"
+}

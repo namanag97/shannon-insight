@@ -1,0 +1,66 @@
+{
+  "as_of": "2026-08-27",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "decision_coordinate": [
+    "axis_ref",
+    "bearer_archetype_ref",
+    "bearer_coordinate",
+    "bounded_context_ref",
+    "scope_ref",
+    "profile_or_edition_ref",
+    "authority_ref",
+    "evidence_ref"
+  ],
+  "decision_states": [
+    "DISCOVERY_ONLY",
+    "EVIDENCE_CANDIDATE",
+    "FAMILY_DEFAULT_CANDIDATE",
+    "MEMBER_APPLICABILITY_UNRESOLVED",
+    "OWNER_RATIFIED",
+    "EXACT_CONTRACT_VALIDATED",
+    "IMPLEMENTATION_QUALIFIED",
+    "USE_SITE_ACCEPTED"
+  ],
+  "edition": 1,
+  "member_applicability_decisions": 0,
+  "non_collapse_laws": [
+    "axis is not bearer",
+    "bearer archetype is not bearer instance",
+    "family default is not member applicability",
+    "member applicability is not operation-port completeness",
+    "exact semantic contract is not implementation",
+    "implementation is not provider offer",
+    "provider offer is not use-site acceptance",
+    "evidence presence is not bounded claim satisfaction",
+    "inheritance without coordinate equality is information loss"
+  ],
+  "ontology_id": "ontology.semantic-decision-locus.v1",
+  "owner_decisions": 0,
+  "propagation_relations": [
+    "IMPORT_EXACT",
+    "PROFILE_WITH_EXPLICIT_QUALIFICATION",
+    "COMPOSE_WITH_DECLARED_LAWS",
+    "MAP_WITH_DECLARED_LOSS",
+    "OVERRIDE_WITH_OWNER_EVIDENCE",
+    "NO_PROPAGATION_LOCAL_RESIDUAL"
+  ],
+  "question": "What does each semantic decision attach to, at what scope may it propagate, and which changed coordinate forces an explicit residual?",
+  "scope_lattice": [
+    "global_non_collapse_law",
+    "bearer_archetype",
+    "family_axis_candidate",
+    "member_exception_cluster",
+    "library_member",
+    "operation_or_port",
+    "use_site_or_vertical",
+    "runtime_offer",
+    "acceptance_context"
+  ],
+  "source_refs": [
+    "source.decision-locus.owl2-primer",
+    "source.decision-locus.shacl",
+    "source.decision-locus.prov-o",
+    "source.decision-locus.odrl"
+  ]
+}

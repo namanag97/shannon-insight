@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "edition": {
+      "type": "string"
+    },
+    "external_context_ref": {
+      "type": "string"
+    },
+    "local_context_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "mapping_id": {
+      "type": "string"
+    },
+    "mapping_law": {
+      "type": "string"
+    },
+    "ownership": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "cross_domain_mapping"
+      ]
+    },
+    "release_gate": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "mapping_id",
+    "local_context_refs",
+    "external_context_ref",
+    "mapping_law",
+    "ownership",
+    "release_gate"
+  ],
+  "title": "Cross-universe ownership mapping",
+  "type": "object"
+}

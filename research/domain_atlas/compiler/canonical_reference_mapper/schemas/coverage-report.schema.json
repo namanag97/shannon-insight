@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "report_id",
+    "queue_items",
+    "source_occurrences",
+    "triage_records",
+    "manual_evidence_reviewed_proposals",
+    "adjudicated_status_count",
+    "silent_rewrite_count",
+    "by_domain",
+    "by_pack"
+  ],
+  "title": "Canonical-reference coverage report",
+  "type": "object"
+}

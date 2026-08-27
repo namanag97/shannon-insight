@@ -1,0 +1,58 @@
+{
+  "as_of": "2026-08-25",
+  "counts": {
+    "bounded-context-candidates.jsonl": 50,
+    "capability-operation-candidates.jsonl": 250,
+    "compiler-mappings.jsonl": 50,
+    "context-relations-acls.jsonl": 49,
+    "coverage-gaps.jsonl": 17,
+    "decision-point-candidates.jsonl": 40,
+    "evidence-sources.jsonl": 80,
+    "external-universe-mappings.jsonl": 32,
+    "innovations-2021-2026.jsonl": 28,
+    "invariants-refusals.jsonl": 39,
+    "library-boundaries.jsonl": 25,
+    "retired-compositions.jsonl": 12,
+    "ubiquitous-language-candidates.jsonl": 74,
+    "vertical-cases.jsonl": 12
+  },
+  "edition": 1,
+  "minimum_checks": {
+    "all_records_candidate": true,
+    "bounded_contexts_at_least_35": true,
+    "capability_operation_decision_at_least_150": true,
+    "ids_unique": true,
+    "innovations_at_least_20": true,
+    "sources_at_least_45": true
+  },
+  "registry_sha256": {
+    "bounded-context-candidates.jsonl": "sha256:630120d2a30c2e21526a50045dea38df6614b67ad50e286cbdfd2f377b2045ad",
+    "capability-operation-candidates.jsonl": "sha256:52118df199af1c71803190e161d5f68d91935172c46d82236b33bbbdd5c76c14",
+    "compiler-mappings.jsonl": "sha256:a3d0cdac17e038668c45938bbe2d31c7ac4e6d3a8b4ceefbaf10a60ff6359522",
+    "context-relations-acls.jsonl": "sha256:af2bb70131060f0f9750ec266ffeb6b9824f69e423814c87114ae1a69cb6ed43",
+    "coverage-gaps.jsonl": "sha256:936818999961d73a3c119bcac7f8ae592df4a42b614027018c30182b9becfa73",
+    "decision-point-candidates.jsonl": "sha256:86b4ce4578a8e3eaa8cff901b64b2d74d8d1ba587de89d49b05ad2de613c4d94",
+    "evidence-sources.jsonl": "sha256:6b2d0132fcbb6728d62a28de3351605ec94beed47aee617fdb74360d8dfd05c4",
+    "external-universe-mappings.jsonl": "sha256:f163beb38f013f03208e152bedc6f4290dd7bafe6176c68c84bc65f8b3e7ae54",
+    "innovations-2021-2026.jsonl": "sha256:ea8dc399cdcc4a832900582218463c35969a1259cf7fa652a9dcfcdc0e175552",
+    "invariants-refusals.jsonl": "sha256:754f61a268d2e2cafa7c2ef04ba7db3b2e4f35006624bf3b13ab78c0c03be571",
+    "library-boundaries.jsonl": "sha256:7293373529e77549d29b6e2fab9ac9d3b094fc7dab94f9305da86f720127ece4",
+    "retired-compositions.jsonl": "sha256:0814da2a40a620d27b44d27812ed8acc4d58b4403543080ac848e67179a7fac8",
+    "ubiquitous-language-candidates.jsonl": "sha256:79e58f469d7b0d665694d68dd3cb192d75626465ed12a45bd4a2e21360e8e757",
+    "vertical-cases.jsonl": "sha256:48323c9d5416f06775027fb078d1435258d07280d9b9432c47f188b07dba07b9"
+  },
+  "status": "candidate_pending_review",
+  "status_counts": {
+    "candidate_pending_review": 758
+  },
+  "summary": {
+    "all_candidate_records": 758,
+    "bounded_contexts": 50,
+    "capabilities": 50,
+    "capability_operation_decision_total": 290,
+    "recent_innovations": 28,
+    "sources": 80,
+    "typed_operations": 200,
+    "vertical_cases": 12
+  }
+}

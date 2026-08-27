@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/persistence-capability-v0.1.0.schema.json",
+  "title": "Provider-neutral persistence capability",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "capability_id", "edition", "status", "surface", "owner_context_ref", "name",
+    "semantics", "input_contracts", "output_contracts", "preconditions", "postconditions",
+    "guarantees", "failure_states", "effects", "determinism", "idempotency",
+    "concurrency", "information_loss", "resource_dimensions", "decision_refs",
+    "qualification_probes", "receipt_fields", "evidence_refs", "gaps"
+  ],
+  "properties": {
+    "capability_id": {"type": "string", "pattern": "^persistence\\.capability\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["candidate", "reviewed", "adjudicated", "deprecated"]},
+    "surface": {"enum": ["storage", "file_format", "table", "catalog", "maintenance", "serving", "sharing", "federation", "assurance"]},
+    "owner_context_ref": {"type": "string", "pattern": "^persistence\\.context\\.[a-z0-9_.-]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "semantics": {"type": "string", "minLength": 1},
+    "input_contracts": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "output_contracts": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "preconditions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "postconditions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "guarantees": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "failure_states": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "effects": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "determinism": {"enum": ["deterministic", "deterministic_given_cut_and_policy", "provider_nondeterminism_exposed"]},
+    "idempotency": {"enum": ["idempotent", "idempotent_with_key", "conditional", "non_idempotent", "not_applicable"]},
+    "concurrency": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "information_loss": {"enum": ["none", "declared_reversible", "declared_irreversible", "approximate", "provider_dependent"]},
+    "resource_dimensions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "decision_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "qualification_probes": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "receipt_fields": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "gaps": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+  }
+}

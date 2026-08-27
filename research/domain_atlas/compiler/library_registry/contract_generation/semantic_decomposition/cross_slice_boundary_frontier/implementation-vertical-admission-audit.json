@@ -1,0 +1,36 @@
+{
+  "admission_law": "Research and contract shaping may proceed, but implementation selection and vertical acceptance remain inadmissible until exact canonical boundary, owner and contract receipts exist.",
+  "as_of": "2026-08-27",
+  "audit_id": "audit.cross-slice.implementation-vertical-admission.v1",
+  "candidate_boundaries_ratified": 0,
+  "candidate_exact_contracts_selected": 0,
+  "candidate_implementations_qualified": 0,
+  "candidate_library_seams": 227,
+  "candidate_owners_ratified": 0,
+  "candidate_p5_intakes_admitted": 0,
+  "candidate_p6_qualification_scopes_created": 0,
+  "candidate_p8_vertical_obligations_created": 0,
+  "candidate_vertical_acceptances_executed": 0,
+  "canonical_gaps_closed": 0,
+  "collision_review_families_ready": 15,
+  "completion_claim": false,
+  "implementation_work_admissible": false,
+  "next_admissible_work": {
+    "collision_family_package_count": 15,
+    "collision_free_owner_docket_count": 28,
+    "package_kinds": [
+      "CROSS_NAMESPACE_COLLISION_REVIEW",
+      "COLLISION_FREE_OWNER_DOCKET_REVIEW"
+    ],
+    "required_receipts": [
+      "meaning_partition",
+      "homonym_or_shared_mechanic_verdict",
+      "owner_counterfactual",
+      "merge_refusal_or_replacement_edges"
+    ],
+    "unit_of_work": "collision_family_or_collision_free_owner_docket"
+  },
+  "provisional_contract_dockets_refusing": 227,
+  "semantic_module_grounded_candidates": 227,
+  "vertical_work_admissible": false
+}

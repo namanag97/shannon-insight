@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "guard_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invariants": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "refusals": {
+      "items": {
+        "minProperties": 1,
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "guard_id",
+    "owner_context",
+    "invariants",
+    "refusals",
+    "source_refs",
+    "status"
+  ],
+  "title": "Messaging guard",
+  "type": "object"
+}

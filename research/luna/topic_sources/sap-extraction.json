@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "profile_id": "sap-extraction",
+  "topic": "SAP data extraction and replication",
+  "reviewed_on": "2026-08-11",
+  "rule": "SAP Help, product documentation, SAP Notes, and the source/target provider's current support matrix outrank blogs and community answers.",
+  "sources": [
+    {
+      "name": "SAP Help Portal",
+      "url": "https://help.sap.com/",
+      "family": "official-documentation",
+      "tier": 1,
+      "access": "public",
+      "covers": ["product documentation", "versions", "prerequisites", "restrictions", "operations"]
+    },
+    {
+      "name": "SAP for Me: Notes and Knowledge Base",
+      "url": "https://me.sap.com/notes",
+      "family": "official-documentation",
+      "tier": 1,
+      "access": "authenticated",
+      "covers": ["SAP Notes", "KBAs", "known issues", "corrections", "licensing cautions"]
+    },
+    {
+      "name": "SAP Datasphere replication flows",
+      "url": "https://help.sap.com/docs/SAP_DATASPHERE/c8a54ee704e94e15926551293243fd1d/25e2bd7a70d44ac5b05e844f9e913471.html",
+      "family": "official-documentation",
+      "tier": 1,
+      "access": "public",
+      "covers": ["replication flows", "initial load", "delta load", "supported source objects"]
+    },
+    {
+      "name": "SAP Datasphere ODP/BW replication troubleshooting",
+      "url": "https://help.sap.com/docs/SUPPORT_CONTENT/datasphere/4518286134.html",
+      "family": "operations-incidents",
+      "tier": 1,
+      "access": "public",
+      "covers": ["ODP", "ODQ", "BW", "initial and delta", "monitoring", "recovery"]
+    },
+    {
+      "name": "SAP Datasphere ODP/SAPI replication",
+      "url": "https://help.sap.com/docs/SUPPORT_CONTENT/datasphere/4518621673.html",
+      "family": "official-documentation",
+      "tier": 1,
+      "access": "public",
+      "covers": ["ODP SAPI", "DataSources", "ODQ", "delta extraction"]
+    },
+    {
+      "name": "SAP Datasphere CDS replication troubleshooting",
+      "url": "https://help.sap.com/docs/SUPPORT_CONTENT/datasphere/4445249362.html",
+      "family": "operations-incidents",
+      "tier": 1,
+      "access": "public",
+      "covers": ["ABAP CDS", "CDC", "resilient data buffer", "monitoring"]
+    },
+    {
+      "name": "CDS views enabled for data extraction",
+      "url": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/c0c54048d35849128be8e872df5bea6d/870d66c6bfc44d6c9f128c888f0c7957.html",
+      "family": "catalogs-registries",
+      "tier": 1,
+      "access": "public",
+      "covers": ["released extraction views", "CDC eligibility", "initial-only capability"]
+    },
+    {
+      "name": "SAP LT Replication Server documentation",
+      "url": "https://help.sap.com/docs/SAP_LANDSCAPE_TRANSFORMATION_REPLICATION_SERVER",
+      "family": "official-documentation",
+      "tier": 1,
+      "access": "public",
+      "covers": ["SLT", "trigger-based replication", "initial load", "delta replication", "operations"]
+    },
+    {
+      "name": "SAP HANA Smart Data Integration documentation",
+      "url": "https://help.sap.com/docs/SAP_HANA_SMART_DATA_INTEGRATION",
+      "family": "official-documentation",
+      "tier": 1,
+      "access": "public",
+      "covers": ["SDI", "SDA", "data provisioning agents", "adapters", "federation", "replication"]
+    },
+    {
+      "name": "SAP Business Accelerator Hub",
+      "url": "https://api.sap.com/",
+      "family": "catalogs-registries",
+      "tier": 1,
+      "access": "public",
+      "covers": ["APIs", "events", "CDS views", "adapters", "business objects"]
+    },
+    {
+      "name": "SAP What's New",
+      "url": "https://help.sap.com/whats-new/",
+      "family": "release-lifecycle",
+      "tier": 1,
+      "access": "public",
+      "covers": ["feature changes", "release changes", "deprecations"]
+    },
+    {
+      "name": "SAP Road Map Explorer",
+      "url": "https://roadmaps.sap.com/board",
+      "family": "release-lifecycle",
+      "tier": 2,
+      "access": "public",
+      "covers": ["planned capabilities", "product direction"]
+    },
+    {
+      "name": "SAP Security Notes and Patch Day",
+      "url": "https://support.sap.com/en/my-support/knowledge-base/security-notes-news.html",
+      "family": "security-advisories",
+      "tier": 1,
+      "access": "mixed",
+      "covers": ["security notes", "affected components", "patch guidance"]
+    },
+    {
+      "name": "SAP Trust Center",
+      "url": "https://www.sap.com/about/trust-center.html",
+      "family": "policy-licensing",
+      "tier": 1,
+      "access": "public",
+      "covers": ["security", "compliance", "data protection", "availability"]
+    },
+    {
+      "name": "SAP Community",
+      "url": "https://community.sap.com/",
+      "family": "community-q-and-a",
+      "tier": 4,
+      "access": "public",
+      "covers": ["implementation reports", "edge cases", "troubleshooting leads"]
+    },
+    {
+      "name": "Microsoft SAP connectors overview",
+      "url": "https://learn.microsoft.com/en-us/azure/data-factory/industry-sap-connectors",
+      "family": "provider-connectors",
+      "tier": 1,
+      "access": "public",
+      "covers": ["SAP CDC", "SAP Table", "BW", "HANA", "supported versions", "connector selection"]
+    },
+    {
+      "name": "Microsoft Fabric SAP extraction options",
+      "url": "https://learn.microsoft.com/en-us/azure/sap/workloads/extract-sap-data",
+      "family": "provider-connectors",
+      "tier": 1,
+      "access": "public",
+      "covers": ["Fabric", "Azure Data Factory", "SAP CDC", "BW", "HANA", "OneLake"]
+    },
+    {
+      "name": "Amazon AppFlow SAP OData connector",
+      "url": "https://docs.aws.amazon.com/appflow/latest/userguide/sapodata.html",
+      "family": "provider-connectors",
+      "tier": 1,
+      "access": "public",
+      "covers": ["SAP OData", "ODP", "full transfer", "incremental transfer", "PrivateLink"]
+    },
+    {
+      "name": "Google Cloud Cortex Framework",
+      "url": "https://cloud.google.com/solutions/cortex",
+      "family": "provider-connectors",
+      "tier": 2,
+      "access": "public",
+      "covers": ["SAP data foundation", "BigQuery", "Dataform", "analytical models"]
+    },
+    {
+      "name": "Google Cloud Cortex release notes",
+      "url": "https://docs.cloud.google.com/cortex/docs/release-notes",
+      "family": "release-lifecycle",
+      "tier": 1,
+      "access": "public",
+      "covers": ["SAP data model changes", "pipeline changes", "breaking changes"]
+    },
+    {
+      "name": "Fivetran SAP connector overview",
+      "url": "https://fivetran.com/docs/connectors/databases/sap",
+      "family": "provider-connectors",
+      "tier": 2,
+      "access": "public",
+      "covers": ["SAP ERP", "HANA", "NetWeaver", "sync mechanisms", "deployment models"]
+    },
+    {
+      "name": "Fivetran SAP ERP on HANA release notes",
+      "url": "https://fivetran.com/docs/connectors/databases/sap/sap-erp-hana/changelog",
+      "family": "release-lifecycle",
+      "tier": 2,
+      "access": "public",
+      "covers": ["connector changes", "sync mechanisms", "delete capture", "compatibility"]
+    },
+    {
+      "name": "Qlik Replicate SAP Extractor documentation",
+      "url": "https://help.qlik.com/en-US/replicate/May2026/Content/Replicate/Main/SAPExtractor/extractor_SAP_source_DiaBox.htm",
+      "family": "provider-connectors",
+      "tier": 2,
+      "access": "public",
+      "covers": ["SAP Extractor", "connection modes", "authorizations", "replication configuration"]
+    },
+    {
+      "name": "Stack Overflow SAP questions",
+      "url": "https://stackoverflow.com/questions/tagged/sap",
+      "family": "community-q-and-a",
+      "tier": 4,
+      "access": "public",
+      "covers": ["implementation edge cases", "error discovery"]
+    },
+    {
+      "name": "GitHub SAP extraction search",
+      "url": "https://github.com/search?q=%22SAP%22+%28extraction+OR+ODP+OR+SLT+OR+CDC%29&type=repositories",
+      "family": "source-code-repositories",
+      "tier": 3,
+      "access": "public",
+      "covers": ["examples", "connectors", "proofs of concept", "code provenance"]
+    }
+  ]
+}

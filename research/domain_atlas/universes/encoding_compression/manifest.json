@@ -1,0 +1,38 @@
+{
+  "completion_claim": false,
+  "corpus_id": "san.domain-atlas.encoding-compression",
+  "counts": {
+    "axes": 22,
+    "compiler_mappings": 20,
+    "contexts": 34,
+    "decision_points": 36,
+    "gaps": 20,
+    "innovations": 20,
+    "kernel_contracts": 13,
+    "library_candidates": 27,
+    "operations": 39,
+    "representations": 122,
+    "sources": 73
+  },
+  "edition": 1,
+  "forbidden_core_dependencies": [
+    "llm",
+    "large_language_model",
+    "prompt",
+    "rag",
+    "agent_memory",
+    "generative_model"
+  ],
+  "generated_at": "2026-08-25",
+  "laws": [
+    "layers remain distinct even when packaged together",
+    "unknown meaning or capability is a typed gap",
+    "every lossy method exposes error, bound, scope, approval and verification",
+    "provider selection uses capabilities and evidence, never names",
+    "a checksum is not authenticity; a digest is not business identity; encryption is not authorization",
+    "format detection cannot infer semantic type",
+    "all decoders execute under finite input, output, nesting, memory and work budgets",
+    "historical decodability and evidence survive migrations"
+  ],
+  "status": "candidate_open_world"
+}

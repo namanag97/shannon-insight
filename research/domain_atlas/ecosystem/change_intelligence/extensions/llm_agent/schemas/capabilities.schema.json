@@ -1,0 +1,54 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/llm-agent-capabilities.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "core_substrate_signal_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "dependency_direction": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "effect_authority": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extension_capability_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extension_namespace": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "input_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "output_boundary": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "core_substrate_signal_ids",
+    "dependency_direction",
+    "effect_authority",
+    "extension_capability_id",
+    "extension_namespace",
+    "input_boundary",
+    "name",
+    "output_boundary"
+  ],
+  "title": "llm-agent-capabilities",
+  "type": "object"
+}

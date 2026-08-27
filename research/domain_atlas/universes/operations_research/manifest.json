@@ -1,0 +1,55 @@
+{
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-context-candidates.jsonl": {
+      "bytes": 69028,
+      "sha256": "340cb2ee3d13d7c08f39162b7704e226da2e92717020559baf871ebb8aebaa8c"
+    },
+    "companies.jsonl": {
+      "bytes": 22550,
+      "sha256": "e4fb351a7c8963b5ee9fa0aea7080a017a28b7b8fef429eea8e087ee983e4ba9"
+    },
+    "compiler-requirements-offers.jsonl": {
+      "bytes": 59713,
+      "sha256": "076139088d654a63ae2cb92af6a0516fb340d7933a8064e86d44f9daa6c6ee38"
+    },
+    "decision-points.jsonl": {
+      "bytes": 27009,
+      "sha256": "b2ace9a15ea9f71a1d0d125a7f5fc490c8580675e1eebd39366a0e65dad7d95b"
+    },
+    "experts.jsonl": {
+      "bytes": 15723,
+      "sha256": "5764881533045438949a41a531a101576609c9652b04ff4459c446b8176b21a1"
+    },
+    "gap.schema.json": {
+      "bytes": 1138,
+      "sha256": "002b7231404c3e9e20b5ebd04d6546f4f34cf2d94d2ba0ca0212ec07c49ce6fa"
+    },
+    "gaps.jsonl": {
+      "bytes": 7934,
+      "sha256": "820556240ed0fc22b1d75fceb9fea613b94d5a34b101f01f5e7437efa85d863d"
+    },
+    "innovations.jsonl": {
+      "bytes": 13609,
+      "sha256": "cbedaec6d574f28af57961447e6f430b77a6d9ba8c49322dc23e9927e55cc308"
+    },
+    "library-boundaries.jsonl": {
+      "bytes": 59225,
+      "sha256": "9c647c1e950f77a54d4b091d235c4266e0b4c5fbd69b35eaf05a984154498db6"
+    },
+    "methods.jsonl": {
+      "bytes": 498569,
+      "sha256": "24fb367103062fdc422258c1a2804978f259df2b5074a4cc14618279264d90d2"
+    },
+    "qualification-receipts.jsonl": {
+      "bytes": 24195,
+      "sha256": "20a1d5b57506763260dd76763ad9193f59f061170d4aa686709e63d9db3f7b37"
+    },
+    "sources.jsonl": {
+      "bytes": 40821,
+      "sha256": "223318af9f1e6039438471daa2f31e88c43f16d99c90c2a10f7e0f75f643eb52"
+    }
+  },
+  "manifest_id": "manifest.operations-research.v1"
+}

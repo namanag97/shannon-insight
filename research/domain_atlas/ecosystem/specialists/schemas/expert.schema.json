@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/ecosystem/specialist-expert-v1.schema.json",
+  "type": "object",
+  "required": ["expert_id", "name", "current_as_of", "currentness", "roles", "contributions", "practice_refs", "what_corpus_can_learn", "evidence_refs", "evidence_confidence", "limitations", "popularity_basis", "completeness_claim"],
+  "properties": {
+    "expert_id": {"type": "string", "pattern": "^expert\\.[a-z0-9_]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "current_as_of": {"type": "string", "format": "date"},
+    "currentness": {"enum": ["active", "historical_contribution", "affiliation_uncertain"]},
+    "roles": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "contributions": {"type": "array", "items": {"type": "object", "required": ["contribution", "artifact", "evidence_refs", "limitations"], "properties": {"contribution": {"type": "string"}, "artifact": {"type": "string"}, "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}, "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1}}, "additionalProperties": false}, "minItems": 1},
+    "practice_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "what_corpus_can_learn": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "evidence_confidence": {"enum": ["high", "medium", "low"]},
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "popularity_basis": {"const": false},
+    "completeness_claim": {"const": false}
+  },
+  "additionalProperties": false
+}

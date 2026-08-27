@@ -1,0 +1,25 @@
+{
+  "manifest_id": "manifest.industry_foundation",
+  "edition": 1,
+  "status": "sourced_candidate",
+  "generated_at": "2026-08-25",
+  "reference_spine": {
+    "scheme_edition_id": "scheme.un.isic.rev5",
+    "source_ref": "source.un.isic.rev5.structure",
+    "source_sha256": "fc408f57bd3a4f33c35a4f384ec0010283dd72774892c8d48ae1330a8caeb57f",
+    "generated_file": "isic-rev5.nodes.jsonl",
+    "generated_sha256": "95c56251dc356d7810a9de4f30e5bdc32d54b0b0d200adf3270a0c998042709d",
+    "counts": {"total": 830, "section": 22, "division": 87, "group": 258, "class": 463}
+  },
+  "corpus_counts": {
+    "authoritative_sources": 44,
+    "source_publishers": 23,
+    "classification_schemes_and_overlays": 27,
+    "crosswalk_assertions": 5,
+    "evidence_claims": 12,
+    "completeness_dimensions": 12,
+    "completeness_gates": 9
+  },
+  "completion_posture": "Foundation structure is a sourced candidate. The ISIC Revision 5 spine is structurally complete for the pinned source digest; national views, specialist overlays, crosswalks and per-subindustry analytics remain open registries.",
+  "validator": "python3 validate_foundation.py"
+}

@@ -1,0 +1,46 @@
+{
+  "as_of": "2026-08-25",
+  "completion_claim": false,
+  "counts": {
+    "bounded_context_candidates": 37,
+    "capabilities": 111,
+    "capability_operation_candidates": 259,
+    "compiler_mappings": 148,
+    "cross_plane_mappings": 37,
+    "decision_points": 37,
+    "gaps": 28,
+    "innovations": 26,
+    "invariants_refusals": 37,
+    "library_boundary_candidates": 37,
+    "offer_templates": 37,
+    "requirements": 37,
+    "semantic_distinctions": 16,
+    "sources": 76,
+    "typed_operations": 148
+  },
+  "edition": 1,
+  "forbidden_core_methods": [
+    "large-language-model methods",
+    "generative methods",
+    "prompt-dependent adjudication"
+  ],
+  "required_cross_planes": [
+    "type_shape",
+    "pipeline",
+    "lineage",
+    "governance",
+    "semantic",
+    "runtime",
+    "industry"
+  ],
+  "source_authority_counts": {
+    "implementation_evidence": 20,
+    "normative_authority": 21,
+    "open_specification": 24,
+    "original_research": 8,
+    "regulatory_authority": 3
+  },
+  "standing": "broad evidence-backed horizontal candidate corpus; independent review, provider qualification and enumeration saturation remain open",
+  "status": "researched_candidate_not_adjudicated",
+  "universe_id": "quality_observability_reconciliation"
+}

@@ -1,0 +1,248 @@
+{
+  "version": 1,
+  "principle": "A topic is covered by evidence roles, not by one feed. Aggregators discover; primary sources substantiate.",
+  "families": [
+    {
+      "id": "official-documentation",
+      "label": "Owner documentation and knowledge base",
+      "priority": 1,
+      "evidence_role": "Normative product behavior, prerequisites, limits, compatibility, and supported procedures.",
+      "query_templates": [
+        "{topic} official documentation",
+        "{topic} prerequisites limitations compatibility",
+        "{topic} troubleshooting knowledge base"
+      ]
+    },
+    {
+      "id": "standards-specifications",
+      "label": "Standards and specifications",
+      "priority": 1,
+      "evidence_role": "Normative semantics, protocol contracts, data models, and interoperability requirements.",
+      "query_templates": [
+        "{topic} specification standard",
+        "site:w3.org {topic}",
+        "site:ietf.org {topic}",
+        "site:oasis-open.org {topic}"
+      ]
+    },
+    {
+      "id": "release-lifecycle",
+      "label": "Release notes, roadmaps, deprecations, and compatibility matrices",
+      "priority": 1,
+      "evidence_role": "What changed, when it changed, support windows, migrations, and breaking behavior.",
+      "query_templates": [
+        "{topic} release notes",
+        "{topic} what's new deprecation migration",
+        "{topic} compatibility matrix roadmap"
+      ]
+    },
+    {
+      "id": "source-code-repositories",
+      "label": "Source repositories and tagged releases",
+      "priority": 1,
+      "evidence_role": "Executable implementation, release artifacts, examples, and provenance.",
+      "query_templates": [
+        "site:github.com {topic}",
+        "site:gitlab.com {topic}",
+        "{topic} source code repository releases"
+      ]
+    },
+    {
+      "id": "design-issues-prs",
+      "label": "Design documents, issues, pull requests, and mailing lists",
+      "priority": 2,
+      "evidence_role": "Implementation rationale, unresolved limitations, regressions, and upcoming behavior.",
+      "query_templates": [
+        "site:github.com {topic} issue OR pull request",
+        "{topic} design proposal RFC mailing list",
+        "{topic} known issue regression"
+      ]
+    },
+    {
+      "id": "security-advisories",
+      "label": "Security advisories and vulnerability databases",
+      "priority": 1,
+      "evidence_role": "Affected versions, exploitability, remediation, and vendor response.",
+      "query_templates": [
+        "{topic} security advisory CVE",
+        "site:nvd.nist.gov {topic}",
+        "site:github.com/advisories {topic}",
+        "site:cisa.gov {topic} vulnerability"
+      ]
+    },
+    {
+      "id": "research-literature",
+      "label": "Papers, technical reports, and theses",
+      "priority": 2,
+      "evidence_role": "Novel algorithms, formal models, comparative evaluation, and prior art.",
+      "query_templates": [
+        "{topic} paper benchmark evaluation",
+        "site:arxiv.org {topic}",
+        "site:dblp.org {topic}",
+        "site:openalex.org {topic}"
+      ]
+    },
+    {
+      "id": "benchmarks-evaluations",
+      "label": "Benchmarks and reproducible evaluations",
+      "priority": 2,
+      "evidence_role": "Measured performance, cost, scale, failure behavior, and methodological constraints.",
+      "query_templates": [
+        "{topic} benchmark methodology dataset code",
+        "{topic} performance comparison limitations",
+        "{topic} scale test throughput latency"
+      ]
+    },
+    {
+      "id": "operations-incidents",
+      "label": "Operations guides, status history, and postmortems",
+      "priority": 2,
+      "evidence_role": "Production failure modes, recovery, observability, capacity, and operational burden.",
+      "query_templates": [
+        "{topic} operations guide monitoring troubleshooting",
+        "{topic} incident postmortem outage",
+        "{topic} backup recovery capacity sizing"
+      ]
+    },
+    {
+      "id": "provider-connectors",
+      "label": "Cloud, warehouse, ETL, and connector-provider documentation",
+      "priority": 2,
+      "evidence_role": "Supported source/target combinations, extraction modes, limits, licensing, and operational trade-offs.",
+      "query_templates": [
+        "{topic} connector documentation",
+        "{topic} CDC incremental full load connector",
+        "{topic} supported objects limitations connector"
+      ]
+    },
+    {
+      "id": "engineering-blogs",
+      "label": "Engineering blogs and implementation case studies",
+      "priority": 3,
+      "evidence_role": "Real-world architecture and lessons; claims require triangulation when commercial.",
+      "query_templates": [
+        "{topic} engineering blog architecture",
+        "{topic} implementation case study lessons learned",
+        "{topic} migration production"
+      ]
+    },
+    {
+      "id": "conference-material",
+      "label": "Conference talks, proceedings, slides, and recordings",
+      "priority": 3,
+      "evidence_role": "Emerging practice, practitioner detail, and explanations not present in product docs.",
+      "query_templates": [
+        "{topic} conference talk slides",
+        "{topic} presentation recording",
+        "{topic} proceedings workshop"
+      ]
+    },
+    {
+      "id": "community-q-and-a",
+      "label": "Maintainer forums, Q&A, and practitioner communities",
+      "priority": 4,
+      "evidence_role": "Discovery of edge cases and operational pain; never sufficient alone for factual claims.",
+      "query_templates": [
+        "{topic} maintainer forum",
+        "site:stackoverflow.com {topic}",
+        "site:news.ycombinator.com {topic}",
+        "site:reddit.com {topic}"
+      ]
+    },
+    {
+      "id": "catalogs-registries",
+      "label": "API, schema, connector, package, and dataset catalogues",
+      "priority": 2,
+      "evidence_role": "Inventory and discovery of concrete interfaces and artifacts.",
+      "query_templates": [
+        "{topic} API catalog schema registry",
+        "{topic} connector catalog marketplace",
+        "{topic} package registry dataset catalog"
+      ]
+    },
+    {
+      "id": "policy-licensing",
+      "label": "Licensing, support policy, legal, and regulatory material",
+      "priority": 1,
+      "evidence_role": "Permitted use, supportability, data handling, retention, residency, and compliance constraints.",
+      "query_templates": [
+        "{topic} licensing support policy",
+        "{topic} permitted use terms",
+        "{topic} data residency retention compliance"
+      ]
+    },
+    {
+      "id": "news-aggregators",
+      "label": "Newsletters and aggregators",
+      "priority": 4,
+      "evidence_role": "Discovery only; always follow through to the originating artifact.",
+      "query_templates": [
+        "{topic} news",
+        "{topic} weekly roundup",
+        "{topic} latest"
+      ]
+    }
+  ],
+  "discovery_endpoints": [
+    {
+      "id": "github-code",
+      "family": "source-code-repositories",
+      "url_template": "https://github.com/search?q={query}&type=repositories"
+    },
+    {
+      "id": "github-issues",
+      "family": "design-issues-prs",
+      "url_template": "https://github.com/search?q={query}&type=issues"
+    },
+    {
+      "id": "github-advisories",
+      "family": "security-advisories",
+      "url_template": "https://github.com/advisories?query={query}"
+    },
+    {
+      "id": "nvd",
+      "family": "security-advisories",
+      "url_template": "https://nvd.nist.gov/vuln/search/results?query={query}&search_type=all"
+    },
+    {
+      "id": "arxiv",
+      "family": "research-literature",
+      "url_template": "https://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results=25&sortBy=submittedDate&sortOrder=descending"
+    },
+    {
+      "id": "openalex",
+      "family": "research-literature",
+      "url_template": "https://api.openalex.org/works?search={query}&sort=publication_date:desc&per-page=25"
+    },
+    {
+      "id": "crossref",
+      "family": "research-literature",
+      "url_template": "https://api.crossref.org/works?query={query}&sort=published&order=desc&rows=25"
+    },
+    {
+      "id": "dblp",
+      "family": "research-literature",
+      "url_template": "https://dblp.org/search/publ/api?q={query}&format=json&h=25"
+    },
+    {
+      "id": "stackexchange",
+      "family": "community-q-and-a",
+      "url_template": "https://api.stackexchange.com/2.3/search/advanced?site=stackoverflow&order=desc&sort=activity&q={query}"
+    },
+    {
+      "id": "hacker-news",
+      "family": "community-q-and-a",
+      "url_template": "https://hn.algolia.com/api/v1/search_by_date?query={query}&tags=story"
+    },
+    {
+      "id": "google-news",
+      "family": "news-aggregators",
+      "url_template": "https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en"
+    },
+    {
+      "id": "youtube",
+      "family": "conference-material",
+      "url_template": "https://www.youtube.com/results?search_query={query}"
+    }
+  ]
+}

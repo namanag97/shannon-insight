@@ -1,0 +1,47 @@
+{"law":"A carrier or file is not the intellectual document or its business meaning.","law_id":"law.document.non-collapse.01","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A declared media type is not a detected format; a detected format is not semantic validity.","law_id":"law.document.non-collapse.02","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Parseable is not safe; syntactic validity is not bounded-resource admission.","law_id":"law.document.non-collapse.03","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Byte identity, container identity, rendition identity and document identity are distinct.","law_id":"law.document.non-collapse.04","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A rendered page is not the document's logical structure.","law_id":"law.document.non-collapse.05","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A visual glyph is not a Unicode character, code point or grapheme cluster.","law_id":"law.document.non-collapse.06","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Character decoding success does not prove the original encoding or intended character.","law_id":"law.document.non-collapse.07","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Canonical Unicode equivalence is not byte equality or compatibility equivalence.","law_id":"law.document.non-collapse.08","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Normalization must preserve an offset/loss map when source anchoring is required.","law_id":"law.document.non-collapse.09","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Storage order, display order, reading order and logical order are distinct.","law_id":"law.document.non-collapse.10","status":"CANDIDATE_UNRATIFIED"}
+{"law":"An OCR token is a recognition hypothesis, not a source glyph or accepted transcription.","law_id":"law.document.non-collapse.11","status":"CANDIDATE_UNRATIFIED"}
+{"law":"An OCR provider score is not a correctness probability unless calibrated for the declared population.","law_id":"law.document.non-collapse.12","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A layout region is not a logical section and a bounding box is not content identity.","law_id":"law.document.non-collapse.13","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Page coordinates are not stable anchors without page revision, coordinate frame and rendition identity.","law_id":"law.document.non-collapse.14","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A chunk is not inherently a paragraph, section, sentence, evidence unit or semantic unit.","law_id":"law.document.non-collapse.15","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A parser adapter maps foreign representations; it does not own canonical document meaning.","law_id":"law.document.non-collapse.16","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A parser output is not a canonical content graph merely because it is structured.","law_id":"law.document.non-collapse.17","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Agreement between parsers is not proof of correctness.","law_id":"law.document.non-collapse.18","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A document classification is a candidate under a taxonomy edition, not source truth.","law_id":"law.document.non-collapse.19","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A text span or mention is not an entity; an entity mention is not entity identity.","law_id":"law.document.non-collapse.20","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A relation mention is not a world relation and a field candidate is not an adjudicated fact.","law_id":"law.document.non-collapse.21","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A table image is not a logical table; a detected grid is not semantic header scope.","law_id":"law.document.non-collapse.22","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A rectangular cell matrix does not capture every spanning, nested or presentational table.","law_id":"law.document.non-collapse.23","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A form field or control is not an answered, verified or authorized claim.","law_id":"law.document.non-collapse.24","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Schema validation is not factual acceptance or downstream decision fitness.","law_id":"law.document.non-collapse.25","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Aggregate precision, recall or error rate does not establish per-class, per-page or per-domain reliability.","law_id":"law.document.non-collapse.26","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Ground-truth annotation is an editioned judgment with authority and disagreement, not infallible truth.","law_id":"law.document.non-collapse.27","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A provenance statement does not prove truth, causation, correctness or authority.","law_id":"law.document.non-collapse.28","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Content authenticity does not establish extraction correctness or claim truth.","law_id":"law.document.non-collapse.29","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A resolvable citation or selector does not establish that the source supports a claim.","law_id":"law.document.non-collapse.30","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Transformation provenance must declare information and anchor loss; it cannot silently strengthen evidence.","law_id":"law.document.non-collapse.31","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Human review is an authority-bound judgment, not an automatic truth oracle.","law_id":"law.document.non-collapse.32","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A correction does not erase a prior candidate; supersession is not deletion.","law_id":"law.document.non-collapse.33","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Reprocessing creates a new attempt and output edition; it does not rewrite historical evidence.","law_id":"law.document.non-collapse.34","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A redaction appearance or annotation does not prove underlying content removal.","law_id":"law.document.non-collapse.35","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Structured output does not replace preservation of the admitted source occurrence and evidence.","law_id":"law.document.non-collapse.36","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Encoding and export do not authorize publication, disclosure or downstream use.","law_id":"law.document.non-collapse.37","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Materialization success does not establish output fitness or business acceptance.","law_id":"law.document.non-collapse.38","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Search relevance is not extraction correctness and embedding similarity is not semantic equivalence.","law_id":"law.document.non-collapse.39","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Annotation operations own label/judgment lifecycle; document processing owns addressable candidates and evidence handoff.","law_id":"law.document.non-collapse.40","status":"CANDIDATE_UNRATIFIED"}
+{"law":"OCR, layout, classification and extraction methods are provider implementations, not product or semantic owners.","law_id":"law.document.non-collapse.41","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Document findings and reviewed structured candidates do not grant business-decision authority.","law_id":"law.document.non-collapse.42","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Accessibility conformance, archival conformance and visual fidelity are independent properties.","law_id":"law.document.non-collapse.43","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Resource exhaustion must produce a typed refusal, never silent truncation presented as completeness.","law_id":"law.document.non-collapse.44","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Unknown encryption, external references, active content or decompression expansion must fail closed by policy.","law_id":"law.document.non-collapse.45","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Provider, model, parser, schema and Unicode editions are explicit inputs, never ambient defaults.","law_id":"law.document.non-collapse.46","status":"CANDIDATE_UNRATIFIED"}
+{"law":"No LLM or agent output is evidence authority, factual authority or approval authority by itself.","law_id":"law.document.non-collapse.47","status":"CANDIDATE_UNRATIFIED"}

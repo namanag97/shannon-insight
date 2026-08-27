@@ -1,0 +1,191 @@
+{
+  "$id": "https://san.example/spec/platform_control-adjudication-metamodel-v0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "artifact_kinds": {
+    "architecture_pattern": {
+      "definition": "A reusable arrangement without adoption or semantic-owner identity.",
+      "kind": "architecture_pattern"
+    },
+    "capability": {
+      "definition": "Typed behavior required or offered by products and implementations.",
+      "kind": "capability"
+    },
+    "control_component": {
+      "definition": "A compiler or runtime subsystem without an independent product promise.",
+      "kind": "control_component"
+    },
+    "implementation": {
+      "definition": "A concrete unqualified project or provider component.",
+      "kind": "implementation"
+    },
+    "interface": {
+      "definition": "A versioned interaction contract without an operated promise.",
+      "kind": "interface"
+    },
+    "library_contract": {
+      "definition": "A pure or effect-bounded reusable implementation boundary.",
+      "kind": "library_contract"
+    },
+    "neighboring_product": {
+      "definition": "A product outside this slice whose authority is imported.",
+      "kind": "neighboring_product"
+    },
+    "product": {
+      "definition": "An independently adopted and operated outcome promise.",
+      "kind": "product"
+    },
+    "provider_class": {
+      "definition": "A class of operated offers, not a qualified occurrence.",
+      "kind": "provider_class"
+    },
+    "semantic_contract": {
+      "definition": "Owner of meaning, state, invariants and refusals.",
+      "kind": "semantic_contract"
+    },
+    "solution_pack": {
+      "definition": "A vertical composition carrying industry language, rules and defaults.",
+      "kind": "solution_pack"
+    },
+    "standard": {
+      "definition": "An exact external edition specializing a contract.",
+      "kind": "standard"
+    },
+    "suite": {
+      "definition": "Packaging of independently governed products and capabilities.",
+      "kind": "suite"
+    }
+  },
+  "binding_phases": [
+    "authoring",
+    "compile_time",
+    "deployment_time",
+    "runtime",
+    "qualification_time"
+  ],
+  "contract_id": "contract.product_adjudication.platform_control.v0_1_0",
+  "edition": 1,
+  "non_collapse_laws": [
+    "intent != compiled plan != effect intent != effect receipt != accepted outcome",
+    "platform != portal != template != provider bundle",
+    "provider offer != artifact != occurrence != target != qualification receipt",
+    "entitlement != authorization != quota != budget != capacity",
+    "admission != placement != reservation != allocation != lease != execution",
+    "requested != reserved != allocated != consumed != normalized cost != allocated cost != charge != invoice",
+    "telemetry != service health != incident != problem != support case",
+    "conformance to one profile != universal portability",
+    "suite packaging does not transfer semantic ownership",
+    "optional model or agent proposal does not create meaning, proof, qualification, authority, effect or product identity",
+    "declaration syntax != resolved domain meaning != staged IR != physical plan",
+    "semantic lowering != proved-equivalent optimization != target code generation",
+    "formal problem statement != model-class facet != algorithm requirement != provider offer",
+    "structural candidate != semantic compatibility != feasibility != preference != qualification",
+    "compiler gap != unsat != unknown != refusal != execution failure",
+    "compiled solution plan != build execution != deployment effect != ready service != vertical acceptance",
+    "incremental cache hit != clean-build equivalence proof",
+    "platform blueprint != template != instantiation plan != effect occurrence != conformant instance != accepted service",
+    "work unit != job != attempt != worker != executor != deployment occurrence",
+    "resource demand != resource offer != quota != budget != admission != placement != reservation != allocation != lease != consumed usage",
+    "usage event != usage aggregate != cost occurrence != normalized cost != attributed cost != allocated cost != charge != invoice != payment",
+    "scheduler policy result states its assurance and never converts hard constraints to preferences",
+    "optional model or agent proposal is removable and has no admission allocation cost finance or effect authority"
+  ],
+  "record_kinds": {
+    "artifact": {
+      "identity_key": "artifact_id",
+      "source_section": "artifacts"
+    },
+    "artifact_kind_definition": {
+      "identity_key": "kind",
+      "source_section": "artifact_kinds"
+    },
+    "boundary_decision": {
+      "identity_key": "decision_id",
+      "source_section": "boundary_decisions"
+    },
+    "capability_offer": {
+      "identity_key": "offer_id",
+      "source_section": "offers"
+    },
+    "capability_requirement": {
+      "identity_key": "requirement_id",
+      "source_section": "requirements"
+    },
+    "evidence_source": {
+      "identity_key": "source_id",
+      "source_section": "sources"
+    },
+    "legacy_crosswalk": {
+      "identity_key": "legacy_ref",
+      "source_section": "crosswalks"
+    },
+    "library_contract": {
+      "identity_key": "library_id",
+      "source_section": "libraries"
+    },
+    "negative_test": {
+      "identity_key": "test_id",
+      "source_section": "negative_tests"
+    },
+    "product_ddd_dossier": {
+      "identity_key": "dossier_id",
+      "source_section": "ddd_dossiers"
+    },
+    "product_library_binding_gap": {
+      "identity_key": "gap_id",
+      "source_section": "binding_gaps"
+    },
+    "product_library_binding_map": {
+      "identity_key": "binding_map_id",
+      "source_section": "binding_maps"
+    },
+    "relation": {
+      "identity_key": "relation_id",
+      "source_section": "relations"
+    },
+    "semantic_ownership": {
+      "identity_key": "meaning_id",
+      "source_section": "ownership"
+    }
+  },
+  "relation_predicates": [
+    "packaged_as",
+    "packages",
+    "offers",
+    "requires",
+    "governed_by",
+    "specializes",
+    "implements",
+    "realizes"
+  ],
+  "split_test_axes": [
+    "user",
+    "job",
+    "adoption",
+    "semantics",
+    "authority",
+    "lifecycle",
+    "operation",
+    "economics",
+    "interface",
+    "market_evidence"
+  ],
+  "split_test_verdicts": {
+    "defer": [
+      7,
+      12
+    ],
+    "merge_or_reclassify": [
+      0,
+      6
+    ],
+    "presumptive_product": [
+      13,
+      16
+    ],
+    "strong_product_candidate": [
+      17,
+      20
+    ]
+  },
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

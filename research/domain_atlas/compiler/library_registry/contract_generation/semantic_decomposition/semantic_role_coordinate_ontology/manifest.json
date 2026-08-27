@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "extension-candidates.jsonl": {
+      "bytes": 43290,
+      "sha256": "3a6c91b84256a2f19798f5f75972cd749e5af04ec73fd99c0b08c90a4dd91e34"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 199062,
+      "sha256": "d0135868b499415e1b4c8b5ff95729737059b46c6439b6d396e9708d3c19ad31"
+    },
+    "member-semantic-role-routes.jsonl": {
+      "bytes": 853710,
+      "sha256": "bf29a183ee3f936b982904456b82cac12e2d6d0defe7044d7c76e2c2e7bb3a95"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 4759,
+      "sha256": "701f106a8623fe9e8397405dc85e54b3e75e4d6066145a90621fe76e6a586ea9"
+    },
+    "semantic-role-archetypes.jsonl": {
+      "bytes": 12193,
+      "sha256": "923b55889c2342a994a895a7ae7e7b0e600801c458812878b072ef3cfb4416e9"
+    },
+    "semantic-role-coordinate-ontology.json": {
+      "bytes": 2961,
+      "sha256": "d9d7f21f076478e48cbaeba13670b80b7fe933b761d9707c06b7f2534125ae96"
+    },
+    "semantic-role-operation-kernels.jsonl": {
+      "bytes": 19496,
+      "sha256": "04b08d72570f5719319ab555f219cc5ccf948a03f368caa08de35ae71522f758"
+    },
+    "structural-family-dockets.jsonl": {
+      "bytes": 36037,
+      "sha256": "86f82b161208ae5fe48989aaebc76716bc5f49a8eae4a096ebb3ba0f9d00644e"
+    },
+    "summary.json": {
+      "bytes": 726,
+      "sha256": "1ddaa0fe01585b9e5e3ef8e313378abeff04f8a162e3f1ad90a4803a6c52bcf7"
+    }
+  },
+  "manifest_id": "manifest.semantic-role-coordinate-ontology-and-rebase.v1"
+}

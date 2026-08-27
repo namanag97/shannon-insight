@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context_refs": {
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "coverage_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "does_not_prove": {
+      "minItems": 2,
+      "type": "array"
+    },
+    "edition": {
+      "const": 1
+    },
+    "source_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "support_posture": {
+      "enum": [
+        "documented_interface",
+        "normative_contract",
+        "reported_experiment",
+        "risk_or_governance_guidance",
+        "reference_implementation_mechanism"
+      ]
+    }
+  },
+  "required": [
+    "coverage_id",
+    "edition",
+    "status",
+    "source_ref",
+    "context_refs",
+    "support_posture",
+    "does_not_prove"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,97 @@
+{
+  "$id": "https://san.example/spec/provider-target/mapping_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capability_class_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_gates": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fallback_law": {
+      "enum": [
+        "refuse",
+        "typed_degradation_only_if_declared"
+      ]
+    },
+    "finite_budget_dimensions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "invalidation_rule_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mapping_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "offer_candidate_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "prohibited_traits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_guarantees": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "requirement_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "edition",
+    "status",
+    "requirement_id",
+    "capability_class_refs",
+    "required_guarantees",
+    "prohibited_traits",
+    "finite_budget_dimensions",
+    "offer_candidate_refs",
+    "evidence_gates",
+    "fallback_law",
+    "invalidation_rule_refs"
+  ],
+  "title": "Compiler requirement/offer mapping",
+  "type": "object"
+}

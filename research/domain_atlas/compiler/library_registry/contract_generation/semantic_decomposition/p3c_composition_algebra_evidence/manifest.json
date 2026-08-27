@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "evidence-candidates.jsonl": {
+      "bytes": 36173,
+      "sha256": "0cf2a0c7c2cb6b2ced28f7b7919f8e712e605027f602b3ade89f9b3d9c0fe4dc"
+    },
+    "family-evidence-dockets.jsonl": {
+      "bytes": 45502,
+      "sha256": "bc1dd2b1dea7fabe018d96cd13b86b95f231f4a1813652ed5d2a6d243f567e28"
+    },
+    "summary.json": {
+      "bytes": 349,
+      "sha256": "45f826383078c67f7d24ee7d855e2b5b5c81ce507793a605f3bc91f3e37e6291"
+    }
+  },
+  "manifest_id": "manifest.p3c.composition-algebra-evidence.v1"
+}

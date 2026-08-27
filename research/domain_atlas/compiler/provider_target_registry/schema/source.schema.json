@@ -1,0 +1,92 @@
+{
+  "$id": "https://san.example/spec/provider-target/source_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mutable": {
+      "type": "boolean"
+    },
+    "primary_official": {
+      "const": true
+    },
+    "published_at": {
+      "format": "date",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "publisher": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "retrieved_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "source_kind": {
+      "enum": [
+        "standard",
+        "official_specification",
+        "official_documentation",
+        "official_release",
+        "official_pricing",
+        "official_source"
+      ]
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "supports": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "url": {
+      "format": "uri",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "edition",
+    "status",
+    "title",
+    "publisher",
+    "url",
+    "source_kind",
+    "primary_official",
+    "authority_scope",
+    "supports",
+    "retrieved_at",
+    "mutable"
+  ],
+  "title": "Primary or official evidence source",
+  "type": "object"
+}

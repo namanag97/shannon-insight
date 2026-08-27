@@ -1,0 +1,20 @@
+{
+  "$id": "https://san.example/spec/context-map/vertical_path.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "path_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "path_id",
+    "vertical",
+    "polarity",
+    "context_path",
+    "required_proofs"
+  ],
+  "title": "SAN candidate context-map vertical_path",
+  "type": "object"
+}

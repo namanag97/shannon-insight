@@ -1,0 +1,74 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/crosswalk_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "crosswalk_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "external_path": {
+      "type": "string"
+    },
+    "external_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "external_universe": {
+      "type": "string"
+    },
+    "local_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "ownership_law": {
+      "type": "string"
+    },
+    "reference_status": {
+      "enum": [
+        "materialized_validated",
+        "generator_contract_surface"
+      ]
+    },
+    "relationship": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    }
+  },
+  "required": [
+    "crosswalk_id",
+    "edition",
+    "status",
+    "local_refs",
+    "external_universe",
+    "external_path",
+    "external_refs",
+    "reference_status",
+    "relationship",
+    "ownership_law"
+  ],
+  "title": "Read-only cross-universe mapping",
+  "type": "object"
+}

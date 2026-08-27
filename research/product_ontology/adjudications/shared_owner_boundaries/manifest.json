@@ -1,0 +1,37 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "counts": {
+    "closure_gaps": 0,
+    "replacement_edges": 73,
+    "verdicts": 30
+  },
+  "files": {
+    "closure-gaps.jsonl": {
+      "records": 0,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "identity-crosswalks.jsonl": {
+      "records": 20,
+      "sha256": "4f0d714cf0e78d107f598a6dd7d9706b1a9d3d20079622364c02a9ccd6244695"
+    },
+    "negative-twins.jsonl": {
+      "records": 6,
+      "sha256": "1dad84887fccbc0f5a6461cd243be9083ba4d85ca381f2b6908d4af013d58bbb"
+    },
+    "replacement-edges.jsonl": {
+      "records": 73,
+      "sha256": "609990edf4705d2a8d5f1b2ed9fee44be599a45f852981583c7e640a19edae36"
+    },
+    "sources.jsonl": {
+      "records": 8,
+      "sha256": "b9b7261806f204516377147d28046973da0a2da76ee3254b31c8fc8db4be6630"
+    },
+    "verdicts.jsonl": {
+      "records": 30,
+      "sha256": "1a2c8479039bbaa8146063912a4c7418b4e70df1711da3d190c0a7341780b519"
+    }
+  },
+  "manifest_id": "shared_owner_boundary_adjudication_v0_1_0",
+  "status": "candidate_adjudication_requires_source_projection"
+}

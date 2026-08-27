@@ -1,0 +1,24 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "counts": {
+    "optional_extension_removal_trials": 5,
+    "provider_substitution_trials": 8,
+    "shared_libraries": 60,
+    "vertical_acceptance_contracts": 4,
+    "vertical_acceptance_gates": 32,
+    "vertical_compositions": 4
+  },
+  "edition": 1,
+  "file_sha256": {
+    "cross-vertical-reuse.json": "e8fb59ff85b8661457c085db8933f9b4b0669f4d99dd86f78f43e18e35940bab",
+    "metamodel.json": "ffe458e4a6b167f22059357998359cba94d5a2f74d7337d163c59f5180e2b496",
+    "optional-extension-removal-trials.jsonl": "a55e9080e91cc7c22d3506cbb1aa5af4efb90e2dc901555e43cda4267d8f0e85",
+    "substitution-trials.jsonl": "9dcf10c0e794208bf32580f20d4bc4361ae5e7a96a2832f21f5592ade941af34",
+    "vertical-acceptance-contracts.jsonl": "9a9c6ea0e4f6403e6e08dd210d0f3afd22fd521c8918431bf5c45278ba4ba72e",
+    "vertical-acceptance-gates.jsonl": "59b667e208282235f328bb7a063c94a2a475a95c3eee436c2c402b0741aa13de",
+    "vertical-compositions.jsonl": "12373749c32c3eb49c81a69b3d35122b465358f85db761b65843b97a156eb189"
+  },
+  "manifest_id": "manifest.deterministic_vertical_composition.v1",
+  "status": "candidate_not_qualified"
+}

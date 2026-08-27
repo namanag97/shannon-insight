@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "intent_class": {},
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "offer_contract": {},
+    "owner_context_ref": {},
+    "proof_obligations": {},
+    "refusal_codes": {},
+    "requirement": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "edition",
+    "status",
+    "intent_class",
+    "owner_context_ref",
+    "requirement",
+    "offer_contract",
+    "proof_obligations",
+    "refusal_codes"
+  ],
+  "title": "Requirement offer compiler mapping",
+  "type": "object"
+}

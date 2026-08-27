@@ -1,0 +1,48 @@
+{
+  "completion_claim": false,
+  "corpus_id": "san.domain-atlas.change-intelligence",
+  "edition": 1,
+  "external_registries": {
+    "compiler_proof_obligations": "../../compiler/proof-obligations.json",
+    "coverage_planes": "../../coverage-planes.jsonl"
+  },
+  "laws": [
+    "vendor releases are observations and never canonical semantics",
+    "release note is distinct from deployed rollout",
+    "documentation change is distinct from behavior change",
+    "advisory is distinct from exploit evidence",
+    "feature claim is distinct from qualified offer and deployed occurrence",
+    "synthetic vendor benchmark is distinct from independent result",
+    "collection failure is an observability gap and never no news",
+    "preview is distinct from general availability",
+    "LLM-specific wrappers exist only in the optional extension namespace; reusable non-LLM substrate is admitted only as a bounded core claim",
+    "supersession retains prior identity and evidence",
+    "unknowns remain typed gaps and block completeness claims"
+  ],
+  "optional_extension_namespaces": [
+    "extensions/llm_agent"
+  ],
+  "record_kinds": [
+    "candidate-signals",
+    "change-types",
+    "claims-evidence",
+    "collection-attempts",
+    "collection-runs",
+    "coverage-proof-mappings",
+    "gaps",
+    "impact-mappings",
+    "innovations",
+    "migration-invalidation-triggers",
+    "monitored-subjects",
+    "offer-observations",
+    "recurring-schedules",
+    "review-decisions",
+    "security-availability-tradeoffs",
+    "source-occurrences",
+    "sources",
+    "supersession",
+    "verified-change-events",
+    "watchlist"
+  ],
+  "status": "candidate_open_world"
+}

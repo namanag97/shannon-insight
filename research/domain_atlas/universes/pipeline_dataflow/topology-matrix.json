@@ -1,0 +1,32 @@
+[
+  {
+    "law": "acyclic after subgraph expansion",
+    "progress_requirement": "topological readiness",
+    "refusal": "cycle detected",
+    "topology_id": "pipeline-topology.dag"
+  },
+  {
+    "law": "feedback has epoch/delay and monotone or explicitly convergent fixed-point test",
+    "progress_requirement": "iteration frontier",
+    "refusal": "termination/convergence not proven",
+    "topology_id": "pipeline-topology.feedback_fixed_point"
+  },
+  {
+    "law": "cycle intentionally continues but each epoch advances progress and state remains bounded",
+    "progress_requirement": "productive-continuation witness",
+    "refusal": "livelock or unbounded accumulation possible",
+    "topology_id": "pipeline-topology.productive_cycle"
+  },
+  {
+    "law": "expansion source and maximum cardinality are declared",
+    "progress_requirement": "expansion closure",
+    "refusal": "unbounded dynamic expansion",
+    "topology_id": "pipeline-topology.dynamic_map"
+  },
+  {
+    "law": "input/output ports and cancellation/failure propagation are total",
+    "progress_requirement": "child-run outcome",
+    "refusal": "implicit child effects or unresolved outputs",
+    "topology_id": "pipeline-topology.nested_subflow"
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "boundary-adjudications.jsonl": {
+      "bytes": 84370,
+      "sha256": "a21eccf165065d4552c2c63776b27b312bce63744ad5c830fcfe5d56c8a4a0cd"
+    },
+    "evidence-claims.jsonl": {
+      "bytes": 1920,
+      "sha256": "bd0e9309e42f5cab50ed2540e17b3ff34afc51817199fbb31c225ccd169db194"
+    },
+    "layer-constitution.json": {
+      "bytes": 3679,
+      "sha256": "90c715b711f5cf675611e514b3e5846e509d451a04b2651eedf184974c847048"
+    },
+    "ratification-work-packages.jsonl": {
+      "bytes": 7914,
+      "sha256": "7d2fb74f61e42d84777f3c7095baca05aeb8c524c853921f26fc500f48c92fd5"
+    },
+    "representation-bindings.jsonl": {
+      "bytes": 15995,
+      "sha256": "7c1ba71a1f32a31f90b5dcac9723edc470cd7e52e62fc74822cc916fcffa9259"
+    },
+    "summary.json": {
+      "bytes": 581,
+      "sha256": "0a5b3e944da8a33cd4bbf6ee2fb802ebebc72eed7df2a746a15fb909acba45cd"
+    }
+  },
+  "manifest_id": "manifest.wave0.data-shape-boundaries.v1"
+}

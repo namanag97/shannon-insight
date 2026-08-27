@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claim_ceiling": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "claimed_capabilities": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "offer_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "offer_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "required_claim_fields": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_receipts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "satisfies_requirement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "offer_id",
+    "offer_kind",
+    "satisfies_requirement",
+    "claimed_capabilities",
+    "required_claim_fields",
+    "required_receipts",
+    "claim_ceiling",
+    "source_refs",
+    "status"
+  ],
+  "title": "Messaging offer",
+  "type": "object"
+}

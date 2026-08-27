@@ -1,0 +1,18 @@
+{
+  "model_version":"1.0.0","kind":"composition_catalog",
+  "compositions":[
+    {
+      "id":"composition.sports.performance_operations","domain_pack_id":"domain.sports","purpose":"Performance, availability, operations and scheduling analytics.",
+      "nodes":[{"id":"validate","machine_id":"machine.contract_validate"},{"id":"units","machine_id":"machine.unit_normalize"},{"id":"order","machine_id":"machine.event_order"},{"id":"windows","machine_id":"machine.window"},{"id":"aggregate","machine_id":"machine.aggregate"},{"id":"metrics","machine_id":"machine.metric_compute"},{"id":"variance","machine_id":"machine.variance"},{"id":"alerts","machine_id":"machine.alert_evaluate"}],
+      "edges":[{"from":"validate.valid","to":"units.records"},{"from":"order.ordered","to":"windows.events"},{"from":"units.observations","to":"aggregate.observations"},{"from":"aggregate.values","to":"metrics.values"},{"from":"metrics.metrics","to":"variance.metrics"},{"from":"variance.findings","to":"alerts.findings"}],
+      "external_inputs":["validate.records","order.events"],"terminal_outputs":["alerts.actions"],"overrides":{"machine.event_order":{"watermark":"PT30S"}},"slo_refs":["freshness.match.PT60S","availability.99.9"]
+    },
+    {
+      "id":"composition.oil.production_operations","domain_pack_id":"domain.oil_gas","purpose":"Production, uptime, cost and operational exception analytics.",
+      "nodes":[{"id":"validate","machine_id":"machine.contract_validate"},{"id":"units","machine_id":"machine.unit_normalize"},{"id":"order","machine_id":"machine.event_order"},{"id":"windows","machine_id":"machine.window"},{"id":"aggregate","machine_id":"machine.aggregate"},{"id":"metrics","machine_id":"machine.metric_compute"},{"id":"variance","machine_id":"machine.variance"},{"id":"alerts","machine_id":"machine.alert_evaluate"}],
+      "edges":[{"from":"validate.valid","to":"units.records"},{"from":"order.ordered","to":"windows.events"},{"from":"units.observations","to":"aggregate.observations"},{"from":"aggregate.values","to":"metrics.values"},{"from":"metrics.metrics","to":"variance.metrics"},{"from":"variance.findings","to":"alerts.findings"}],
+      "external_inputs":["validate.records","order.events"],"terminal_outputs":["alerts.actions"],"overrides":{"machine.event_order":{"watermark":"PT6H"}},"slo_refs":["freshness.production.PT8H","availability.99.5"]
+    }
+  ],
+  "invariant":"The node machine IDs and edge topology are identical; only domain pack, runtime overrides, and service levels change."
+}

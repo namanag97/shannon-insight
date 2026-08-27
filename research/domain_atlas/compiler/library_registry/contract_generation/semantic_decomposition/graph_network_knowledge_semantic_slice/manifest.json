@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "bounded-context.json": {
+      "bytes": 1857,
+      "sha256": "1235417f5575e9ed2f3e53dfac9d9b32622073d6c8189330059fe94ecc3ce0d1"
+    },
+    "expert-learning-profiles.jsonl": {
+      "bytes": 8521,
+      "sha256": "d57d8e1477366771fffd6f51b3deb2efaba2ec308340bde6fe662a0a663c7606"
+    },
+    "graph-method-taxonomy.jsonl": {
+      "bytes": 48147,
+      "sha256": "1a56cab1ec1f0bcf46cc592a265f39038174d3d3fbb5eca63b815cfa6f225c1c"
+    },
+    "innovation-records.jsonl": {
+      "bytes": 4949,
+      "sha256": "0c19fd0de2534c67756617bfc29b144b2af59cf90935a4808fdcfe6aaf7aef10"
+    },
+    "library-axis-decision-candidates.jsonl": {
+      "bytes": 489162,
+      "sha256": "6490b13e23a0986ffc60c62af99409c4924ffe5a8758e0ba31f48885a3d45d54"
+    },
+    "library-semantic-bindings.jsonl": {
+      "bytes": 36243,
+      "sha256": "afc6c0666f0ec33fa05296a950a930c298ba4d795c54d02f746ae51e81fffb3c"
+    },
+    "non-collapse-laws.jsonl": {
+      "bytes": 7692,
+      "sha256": "296183ef1aec96ce4663ab629064ffc40d3d66eaed1f8bd7b5244225d2bfbaff"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 15253,
+      "sha256": "d24dcef13de60cb13a0755731b065c6594f7989a0c72bb00474d7903bf964e8f"
+    },
+    "product-capability-boundary-findings.jsonl": {
+      "bytes": 9457,
+      "sha256": "e39e05199c8e31bc67b7fc3f07b5fc05b6a7f96fd6c3066688b0f642886cd61c"
+    },
+    "semantic-modules.jsonl": {
+      "bytes": 27604,
+      "sha256": "5020223eb29edbbd307d060a0c81172cb207267e4854589f32361bae390e1d8f"
+    },
+    "summary.json": {
+      "bytes": 795,
+      "sha256": "efc121c21e08e1bf5ef6d623fcae20fb4b6c30a4d1e7ff35d151917d89dc7178"
+    }
+  },
+  "manifest_id": "manifest.graph-network-knowledge-semantic-slice.v1"
+}

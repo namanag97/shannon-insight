@@ -1,0 +1,67 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "change": {
+      "type": "string"
+    },
+    "compatibility": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "failure_law": {
+      "type": "string"
+    },
+    "migration_id": {
+      "$ref": "#/$defs/id"
+    },
+    "preserves": {
+      "$ref": "#/$defs/strings"
+    },
+    "required_action": {
+      "type": "string"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "migration_id",
+    "edition",
+    "status",
+    "change",
+    "compatibility",
+    "required_action",
+    "preserves",
+    "failure_law",
+    "source_refs"
+  ],
+  "title": "IR/version migration candidate",
+  "type": "object"
+}

@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-08-26",
+  "canonical_mutations_authorized": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "false_vacancy_candidate_count": 2,
+  "finding": "The handoff supplies useful bounded research, but its full-family frame is incomplete and two vacancy proposals conflict with existing canonical inventory. Modules must refine constitutions or family profiles; boundary changes require separate owner adjudication.",
+  "handoff_assigned_library_count": 68,
+  "handoff_validator_passed": true,
+  "integration_gap_count": 5,
+  "merge_candidate_review_count": 12,
+  "module_review_count": 37,
+  "omitted_existing_library_count": 6,
+  "omitted_existing_library_refs": [
+    "library.lpe.disclosure-core",
+    "library.lpe.evidence-bundle",
+    "library.lpe.prov-statement-algebra",
+    "library.lpe.provenance-assertion",
+    "library.lpe.provenance-bundle",
+    "library.lpe.runtime-receipt-core"
+  ],
+  "program_id": "review.external-research.claude-provenance-quality.v1",
+  "ratified_boundaries": 0,
+  "ratified_modules": 0,
+  "source_universe_library_count": 74,
+  "unmaterialized_proposed_ref_count": 19
+}

@@ -1,0 +1,20 @@
+{
+  "$id": "https://san.example/spec/context-map/requirement.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "requirement_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "requirement_id",
+    "edition",
+    "capability",
+    "traits",
+    "binding_phase"
+  ],
+  "title": "SAN candidate context-map requirement",
+  "type": "object"
+}

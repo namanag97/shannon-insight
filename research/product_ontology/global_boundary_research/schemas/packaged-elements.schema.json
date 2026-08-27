@@ -1,0 +1,42 @@
+{
+  "$id": "https://san.example/product-boundary/packaged_element.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "admission_rule": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "element_kind": {},
+    "must_not_own": {},
+    "product_status": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "packaged_element"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "upstream_id": {},
+    "upstream_ref": {}
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "element_kind",
+    "upstream_id",
+    "upstream_ref",
+    "product_status",
+    "admission_rule",
+    "must_not_own"
+  ],
+  "title": "Global boundary research: packaged_element",
+  "type": "object"
+}

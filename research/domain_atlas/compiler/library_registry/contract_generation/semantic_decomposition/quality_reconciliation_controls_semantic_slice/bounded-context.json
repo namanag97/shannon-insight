@@ -1,0 +1,76 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.quality-reconciliation-controls-semantic-slice.v1",
+  "inside": [
+    "quality requirements, dimensions, metrics, rules, validation, profiling and fitness",
+    "baselines, anomaly/shift/change signals and quality observability",
+    "quality cases, defect adjudication, quarantine, waiver, remediation and certification",
+    "reconciliation definitions, runs, matching/tolerance, breaks and bounded control completion",
+    "quality/reconciliation evidence and correction proposals"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "product.data_contract_registry",
+      "relationship": "conformist_at_published_language"
+    },
+    {
+      "context_ref": "product.schema_registry",
+      "relationship": "conformist_at_published_language"
+    },
+    {
+      "context_ref": "product.master_data_governance",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "product.reference_data_governance",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.statistical-inference-semantic-slice",
+      "relationship": "conditional_customer_supplier"
+    },
+    {
+      "context_ref": "context.signal-condition-semantic-slice",
+      "relationship": "conditional_customer_supplier"
+    },
+    {
+      "context_ref": "product.lineage_provenance",
+      "relationship": "open_host_service"
+    },
+    {
+      "context_ref": "context.decision-effect-authority",
+      "relationship": "anti_corruption_layer"
+    }
+  ],
+  "outside": [
+    "data-contract and schema declaration authority",
+    "master/reference identity and entity merge/split authority",
+    "general telemetry, lineage and notification delivery ownership",
+    "industry accounting policy and book-of-record selection",
+    "source mutation, restatement and unrelated business effect authority",
+    "independent assurance and vertical acceptance"
+  ],
+  "published_language": [
+    "QualityRequirementEdition",
+    "QualityMetricEdition",
+    "RuleEdition",
+    "EvaluationScope",
+    "ValidationRun",
+    "QualityMeasurement",
+    "QualitySignal",
+    "QualityCase",
+    "DefectVerdict",
+    "ReconciliationDefinitionEdition",
+    "ReconciliationRun",
+    "ReconciliationBreak",
+    "CorrectionProposal",
+    "Waiver",
+    "QualityEvidenceReceipt",
+    "QualityAttestation",
+    "ControlOccurrenceReceipt"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can purpose-scoped data quality be measured and governed, and identified populations be reconciled under explicit truth roles and controls, without collapsing declarations, observations, signals, defects, breaks, repairs, attestations or business effects?"
+}

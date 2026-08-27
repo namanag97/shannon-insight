@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "channel_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "channel_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "consumer_multiplicity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "delivery_claim_ceiling": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "durability": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "forbidden_substitutions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "ordering_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "producer_multiplicity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "reply_shape": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "required_contract_fields": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "semantic_intent": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "channel_id",
+    "owner_context",
+    "channel_kind",
+    "semantic_intent",
+    "producer_multiplicity",
+    "consumer_multiplicity",
+    "durability",
+    "ordering_scope",
+    "reply_shape",
+    "delivery_claim_ceiling",
+    "required_contract_fields",
+    "forbidden_substitutions",
+    "status"
+  ],
+  "title": "Messaging channel-contract",
+  "type": "object"
+}

@@ -1,0 +1,118 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/protocol_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "change_and_resume": {
+      "type": "object"
+    },
+    "context_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "delivery_semantics": {
+      "type": "object"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "edition_profile": {
+      "type": "object"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "family": {
+      "type": "string"
+    },
+    "layer": {
+      "type": "string"
+    },
+    "limits_and_errors": {
+      "type": "object"
+    },
+    "name": {
+      "minLength": 2,
+      "type": "string"
+    },
+    "not_data_model": {
+      "const": true
+    },
+    "operation_surface": {
+      "type": "object"
+    },
+    "protocol_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "schema_type_time": {
+      "type": "object"
+    },
+    "security": {
+      "type": "object"
+    },
+    "session_and_discovery": {
+      "type": "object"
+    },
+    "source_class_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    },
+    "transport_and_framing": {
+      "type": "object"
+    },
+    "versioning": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "protocol_id",
+    "edition",
+    "status",
+    "name",
+    "family",
+    "layer",
+    "not_data_model",
+    "edition_profile",
+    "transport_and_framing",
+    "session_and_discovery",
+    "operation_surface",
+    "security",
+    "schema_type_time",
+    "change_and_resume",
+    "delivery_semantics",
+    "limits_and_errors",
+    "versioning",
+    "source_class_refs",
+    "context_refs",
+    "evidence_refs"
+  ],
+  "title": "Protocol or access contract candidate",
+  "type": "object"
+}

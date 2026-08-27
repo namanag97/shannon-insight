@@ -1,0 +1,69 @@
+{
+  "as_of": "2026-08-25",
+  "atlas_id": "cgb.atlas.codegen-build.edition-1",
+  "completion_claim": false,
+  "context_phase_counts": {
+    "assurance": 4,
+    "backend": 4,
+    "build": 10,
+    "deployment": 2,
+    "distribution": 1,
+    "emission": 9,
+    "generation": 7,
+    "packaging": 2,
+    "release": 4,
+    "resolution": 3,
+    "supply_chain": 5
+  },
+  "counts": {
+    "artifacts.jsonl": 51,
+    "backend-offer-templates.jsonl": 51,
+    "bounded-context-candidates.jsonl": 51,
+    "capabilities.jsonl": 102,
+    "compatibility-invalidation-laws.jsonl": 30,
+    "compiler-passes.jsonl": 51,
+    "decision-points.jsonl": 51,
+    "examples/negative-failures.jsonl": 9,
+    "gaps.jsonl": 24,
+    "generation-requirements.jsonl": 51,
+    "innovations-2021-2026.jsonl": 25,
+    "library-toolchain-boundaries.jsonl": 51,
+    "proof-receipt-contracts.jsonl": 23,
+    "sources.jsonl": 108,
+    "typed-operations.jsonl": 102
+  },
+  "edition": 1,
+  "limitations": [
+    "No compiler or backend is implemented.",
+    "No provider is qualified by name.",
+    "Source freshness and external conformance require independent review.",
+    "Enumeration and boundary adjudication remain open gaps."
+  ],
+  "llm_or_generative_codegen_in_scope": false,
+  "minimums_enforced": {
+    "contexts": 40,
+    "innovations_2021_2026": 20,
+    "negative_failures": 5,
+    "principal_records": 200,
+    "sources": 60
+  },
+  "principal_record_count": 357,
+  "principal_record_formula": "capabilities + typed operations + decisions + compiler passes + artifacts",
+  "source_authority_counts": {
+    "official_documentation": 65,
+    "open_specification": 34,
+    "original_research": 9
+  },
+  "status": "researched_candidate_not_adjudicated",
+  "validation_scope": [
+    "deterministic regeneration",
+    "schema shape",
+    "unique IDs",
+    "internal references",
+    "candidate status",
+    "required distinction laws",
+    "source depth and authority",
+    "example references",
+    "honest gaps"
+  ]
+}

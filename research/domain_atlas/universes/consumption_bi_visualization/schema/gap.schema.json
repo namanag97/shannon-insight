@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "closure_evidence_required": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "compiler_posture": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "context_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gap_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "risk": {
+      "enum": [
+        "medium",
+        "high"
+      ]
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "context_ref",
+    "question",
+    "risk",
+    "compiler_posture",
+    "closure_evidence_required",
+    "evidence_refs"
+  ],
+  "title": "Open consumption gap",
+  "type": "object"
+}

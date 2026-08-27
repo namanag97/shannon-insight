@@ -1,0 +1,45 @@
+{"negative_id":"negative.fgl.best_score","required_behavior":"Apply the prospective multi-dimensional selection profile.","status":"active","unsafe_inference":"The smallest historical error automatically wins."}
+{"negative_id":"negative.fgl.leaderboard","required_behavior":"Re-evaluate on the exact target population and purpose.","status":"active","unsafe_inference":"A competition winner is universally superior."}
+{"negative_id":"negative.fgl.baseline_none","required_behavior":"Require declared baseline evidence.","status":"active","unsafe_inference":"A sophisticated candidate needs no naive baseline."}
+{"negative_id":"negative.fgl.metric_universal","required_behavior":"Bind scale, output form, horizon and decision use.","status":"active","unsafe_inference":"One error metric is universally meaningful."}
+{"negative_id":"negative.fgl.rank_stable","required_behavior":"Retain uncertainty, slices and rank instability.","status":"active","unsafe_inference":"A point ranking proves robust superiority."}
+{"negative_id":"negative.fgl.slice_hide","required_behavior":"Evaluate declared slices and support.","status":"active","unsafe_inference":"Aggregate accuracy may hide harmful slices."}
+{"negative_id":"negative.fgl.cost_ignore","required_behavior":"Apply the declared objective and constraints.","status":"active","unsafe_inference":"Accuracy dominates latency and operating cost."}
+{"negative_id":"negative.fgl.appraise_approve","required_behavior":"Require external authority judgment.","status":"active","unsafe_inference":"An appraisal recommendation approves selection."}
+{"negative_id":"negative.fgl.agent_select","required_behavior":"Emit an attributed proposal only.","status":"active","unsafe_inference":"An agent may select the plausible best model."}
+{"negative_id":"negative.fgl.target_observation","required_behavior":"Reference external target meaning and separate occurrences.","status":"active","unsafe_inference":"Target definition and observed value are the same identity."}
+{"negative_id":"negative.fgl.actual_final","required_behavior":"Bind revision and finality policy.","status":"active","unsafe_inference":"The latest actual is final."}
+{"negative_id":"negative.fgl.timestamp_role","required_behavior":"Bind every time role explicitly.","status":"active","unsafe_inference":"One timestamp covers origin, availability and publication."}
+{"negative_id":"negative.fgl.definition_run","required_behavior":"Create separate edition and occurrence identities.","status":"active","unsafe_inference":"A forecast definition is a forecast run."}
+{"negative_id":"negative.fgl.run_artifact","required_behavior":"Validate artifact shape, cut and digest.","status":"active","unsafe_inference":"Successful run proves an admitted artifact."}
+{"negative_id":"negative.fgl.latest_cut","required_behavior":"Bind an immutable information cut.","status":"active","unsafe_inference":"A run may silently use the latest data."}
+{"negative_id":"negative.fgl.edit_published","required_behavior":"Create a linked successor edition.","status":"active","unsafe_inference":"A published forecast may be edited in place."}
+{"negative_id":"negative.fgl.version_number","required_behavior":"Require explicit directional relation.","status":"active","unsafe_inference":"A larger version number proves supersession."}
+{"negative_id":"negative.fgl.expiry_delete","required_behavior":"Transition status and preserve evidence.","status":"active","unsafe_inference":"Expiry deletes historical forecasts."}
+{"negative_id":"negative.fgl.human_better","required_behavior":"Evaluate it against the preserved base.","status":"active","unsafe_inference":"A human adjustment is inherently better."}
+{"negative_id":"negative.fgl.machine_better","required_behavior":"Apply the accepted override policy and evidence.","status":"active","unsafe_inference":"An algorithmic base may never be overridden."}
+{"negative_id":"negative.fgl.proposal_approval","required_behavior":"Require an attributable judgment occurrence.","status":"active","unsafe_inference":"An override proposal is approved."}
+{"negative_id":"negative.fgl.manager_authority","required_behavior":"Validate exact current authority scope.","status":"active","unsafe_inference":"Management role implies override authority."}
+{"negative_id":"negative.fgl.maker_checker_same","required_behavior":"Apply declared segregation rules.","status":"active","unsafe_inference":"The proposer may approve by default."}
+{"negative_id":"negative.fgl.reason_free","required_behavior":"Apply policy to every proposal.","status":"active","unsafe_inference":"A small adjustment needs no reason."}
+{"negative_id":"negative.fgl.replace_base","required_behavior":"Preserve base, proposal, decision and applied edition.","status":"active","unsafe_inference":"Applying an override overwrites the base."}
+{"negative_id":"negative.fgl.combine_order","required_behavior":"Use explicit precedence or refuse.","status":"active","unsafe_inference":"Conflicting overrides may be applied in arrival order."}
+{"negative_id":"negative.fgl.expired_apply","required_behavior":"Refuse or open a new proposal.","status":"active","unsafe_inference":"An expired override remains applicable."}
+{"negative_id":"negative.fgl.agent_override","required_behavior":"Keep generation and authority separate.","status":"active","unsafe_inference":"An agent may approve its generated override."}
+{"negative_id":"negative.fgl.fva_causal","required_behavior":"Report comparative evidence and causal status separately.","status":"active","unsafe_inference":"Positive FVA proves the override caused improvement."}
+{"negative_id":"negative.fgl.fva_global","required_behavior":"Retain slice and horizon evidence.","status":"active","unsafe_inference":"Positive aggregate FVA proves value on every horizon."}
+{"negative_id":"negative.fgl.outcome_latest","required_behavior":"Bind exact outcome vintage.","status":"active","unsafe_inference":"Override evaluation may use revised actuals silently."}
+{"negative_id":"negative.fgl.metric_switch","required_behavior":"Use the prospective evaluation contract.","status":"active","unsafe_inference":"FVA may choose a favorable metric after outcomes."}
+{"negative_id":"negative.fgl.one_win","required_behavior":"Keep authority external and editioned.","status":"active","unsafe_inference":"One successful override grants future authority."}
+{"negative_id":"negative.fgl.worker_score","required_behavior":"Require separate employment/assessment authority.","status":"active","unsafe_inference":"Override value is automatically employee performance."}
+{"negative_id":"negative.fgl.approve_publish","required_behavior":"Emit intent and reconcile exact receipts.","status":"active","unsafe_inference":"Approval is successful publication."}
+{"negative_id":"negative.fgl.publish_consume","required_behavior":"Track delivery and acknowledgement separately.","status":"active","unsafe_inference":"Publication proves consumption."}
+{"negative_id":"negative.fgl.delivery_ack","required_behavior":"Retain consumer acknowledgement semantics.","status":"active","unsafe_inference":"Transport delivery proves understanding or safe use."}
+{"negative_id":"negative.fgl.forecast_warning","required_behavior":"Require a separate warning product and authority.","status":"active","unsafe_inference":"A forecast is automatically a warning."}
+{"negative_id":"negative.fgl.warning_action","required_behavior":"Hand off to external decision/effect authority.","status":"active","unsafe_inference":"A warning authorizes action."}
+{"negative_id":"negative.fgl.recall_delete","required_behavior":"Preserve edition and linked recall evidence.","status":"active","unsafe_inference":"Recall deletes the forecast."}
+{"negative_id":"negative.fgl.recall_complete","required_behavior":"Track population, propagation and acknowledgements.","status":"active","unsafe_inference":"Issuing recall proves all consumers updated."}
+{"negative_id":"negative.fgl.supersede_recall","required_behavior":"Apply distinct lifecycle transitions.","status":"active","unsafe_inference":"Supersession and recall are interchangeable."}
+{"negative_id":"negative.fgl.generic_omit","required_behavior":"Bind origin, horizons, cut, vintage and uncertainty profile.","status":"active","unsafe_inference":"Generic publication metadata is enough for forecasts."}
+{"negative_id":"negative.fgl.profile_duplicate","required_behavior":"Compose shared data-product protocols.","status":"active","unsafe_inference":"Forecast code should reimplement generic publication/recall."}
+{"negative_id":"negative.fgl.one_impl","required_behavior":"Require two independent qualified implementations.","status":"active","unsafe_inference":"One implementation proves portability."}

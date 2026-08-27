@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 3,
+      "sha256": "4722231173df13ac5f135e378e64a13342a482ebbb9d3591a163198f89755379"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 18,
+      "sha256": "36ff27aacac35bc86338827bc05f440e64587b7a31d59251d38435d44b270278"
+    },
+    "decision-points.jsonl": {
+      "records": 30,
+      "sha256": "a3eaedee3cb5be52e31889e3ec6237412d610ec147700b9eeb625cb130295388"
+    },
+    "library-contracts.jsonl": {
+      "records": 6,
+      "sha256": "a96d80ab2e774d455004cdcc3df7119b225fde3e642e206b75091f7e8c5ed09d"
+    },
+    "negative-twins.jsonl": {
+      "records": 14,
+      "sha256": "4f72869cdc3c52aeea6495049f6f0dd8acea73c971f1de9cb5b7296fb559fbd9"
+    },
+    "sources.jsonl": {
+      "records": 15,
+      "sha256": "2a0aeb5e40dd52586ff80af90eba37b6ba75738016fc87098e267bf3d5702443"
+    }
+  },
+  "manifest_id": "metadata_discovery_governance_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

@@ -1,0 +1,6 @@
+{"canonical_refs":["product.data_product_developer_platform"],"disposition":"replace_exact","edition":1,"legacy_ref":"candidate.product.data_product_developer_platform","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.finops_allocation"],"disposition":"replace_exact","edition":1,"legacy_ref":"candidate.product.finops_allocation","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["pattern.platform_operations","neighbor.telemetry_observability","neighbor.incident_service_management"],"disposition":"split_composition_and_defer_products","edition":1,"legacy_ref":"candidate.product.platform_operations","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["component.provider_qualification","semantic.qualification_profile","semantic.qualification_receipt"],"disposition":"reclassify_compiler_subsystem","edition":1,"legacy_ref":"candidate.product.provider_qualification_broker","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.runtime_resource_control"],"disposition":"replace_exact","edition":1,"legacy_ref":"candidate.product.runtime_resource_control","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.solution_compiler"],"disposition":"replace_exact","edition":1,"legacy_ref":"candidate.product.solution_compiler","record_kind":"legacy_crosswalk"}

@@ -1,0 +1,4452 @@
+{
+  "artifact_kinds": [
+    {
+      "definition": "A reusable arrangement without adoption or semantic-owner identity.",
+      "kind": "architecture_pattern"
+    },
+    {
+      "definition": "Packaging of independently governed products and capabilities.",
+      "kind": "suite"
+    },
+    {
+      "definition": "An independently adopted and operated outcome promise.",
+      "kind": "product"
+    },
+    {
+      "definition": "A versioned report, dashboard, widget, notebook or snapshot; not automatically a product.",
+      "kind": "presentation_artifact"
+    },
+    {
+      "definition": "Typed behavior required or offered by products and implementations.",
+      "kind": "capability"
+    },
+    {
+      "definition": "Owner of meaning, identity, state, invariants and refusals.",
+      "kind": "semantic_contract"
+    },
+    {
+      "definition": "An exact external edition specializing a contract.",
+      "kind": "standard"
+    },
+    {
+      "definition": "A versioned interaction contract without an operated promise.",
+      "kind": "interface"
+    },
+    {
+      "definition": "A pure or effect-bounded reusable implementation boundary.",
+      "kind": "library_contract"
+    },
+    {
+      "definition": "A concrete unqualified project or provider component.",
+      "kind": "implementation"
+    },
+    {
+      "definition": "A class of operated offers, never a qualified occurrence.",
+      "kind": "provider_class"
+    },
+    {
+      "definition": "A product outside this slice whose authority is imported.",
+      "kind": "neighboring_product"
+    },
+    {
+      "definition": "A vertical composition carrying industry language, rules and defaults.",
+      "kind": "solution_pack"
+    }
+  ],
+  "artifacts": [
+    {
+      "adoption_unit": false,
+      "artifact_id": "pattern.analytical_consumption",
+      "definition": "Arranges governed query, presentation, interaction, delivery, notebook and decision-handoff capabilities.",
+      "evidence_refs": [
+        "evidence.paper.nested_model",
+        "evidence.powerbi.overview"
+      ],
+      "kind": "architecture_pattern",
+      "name": "Analytical consumption pattern",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "retain_as_composition_pattern"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "suite.analytics_experience",
+      "definition": "Packages BI/reporting, embedded analytics and notebooks without acquiring their imported meanings.",
+      "evidence_refs": [
+        "evidence.powerbi.overview",
+        "evidence.superset.embedded"
+      ],
+      "kind": "suite",
+      "name": "Analytics experience suite",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "suite_not_semantic_owner"
+    },
+    {
+      "adoption_unit": true,
+      "artifact_id": "product.bi_reporting",
+      "automation_modality": {
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation never replaces task analysis, semantic binding, accessibility evaluation, authority, evidence, qualification or consumer/domain acceptance.",
+        "law": "A model or agent may propose a chart, narrative or interaction but cannot define metrics, approve publication, authorize disclosure, perform effects or prove acceptance.",
+        "postures": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ]
+      },
+      "commands": [
+        "open_report_draft",
+        "bind_semantic_query",
+        "author_report",
+        "compose_dashboard",
+        "submit_report_review",
+        "approve_report",
+        "publish_report_edition",
+        "open_view_session",
+        "apply_interaction",
+        "materialize_report_snapshot",
+        "request_export",
+        "evaluate_alert_rule",
+        "create_subscription",
+        "suspend_report",
+        "supersede_report",
+        "retire_report"
+      ],
+      "definition": "Operated authoring, publication, viewing and governed interaction over reports and dashboards.",
+      "events": [
+        "report_draft_opened",
+        "semantic_query_bound",
+        "report_authored",
+        "dashboard_composed",
+        "report_review_requested",
+        "report_approved",
+        "report_edition_published",
+        "view_session_opened",
+        "interaction_applied",
+        "report_snapshot_materialized",
+        "export_requested",
+        "alert_rule_evaluated",
+        "subscription_created",
+        "report_suspended",
+        "report_superseded",
+        "report_retired"
+      ],
+      "evidence_refs": [
+        "evidence.powerbi.overview",
+        "evidence.superset.alerts"
+      ],
+      "harmed_parties": [
+        "decision_subject",
+        "data_subject",
+        "misled_consumer",
+        "unauthorized_recipient"
+      ],
+      "invariants": [
+        "report layout and labels cannot redefine metric meaning",
+        "report dashboard widget snapshot and view session identities are distinct",
+        "every rendered value binds exact semantic query and data-cut evidence",
+        "accessibility and localization cannot mutate semantic values",
+        "approval publication export disclosure and delivery are separate authorities"
+      ],
+      "jobs": [
+        "Author, review, publish, interact with, snapshot, export, subscribe to, supersede and retire governed analytical presentations."
+      ],
+      "kind": "product",
+      "lifecycle_states": [
+        "draft",
+        "semantics_bound",
+        "review_pending",
+        "approved",
+        "publishing",
+        "published",
+        "suspended",
+        "superseded",
+        "retired"
+      ],
+      "name": "Business intelligence and reporting experience",
+      "negative_mission": "Does not own metric meaning, source truth, query execution, identity or policy authority, notification delivery, business-case judgment or downstream action.",
+      "operated": true,
+      "outcomes": [
+        "versioned_report_edition",
+        "traceable_interaction_state",
+        "accessible_localized_presentation",
+        "authorized_snapshot_export_and_subscription"
+      ],
+      "refusals": [
+        "semantic_definition_unbound",
+        "query_offer_unqualified",
+        "presentation_ir_invalid",
+        "accessibility_conformance_unproved",
+        "locale_profile_unsupported",
+        "stale_or_incomplete_data_cut",
+        "publication_authority_missing",
+        "export_policy_refused",
+        "subscription_recipient_unauthorized",
+        "snapshot_loss_unaccepted",
+        "provider_budget_exhausted"
+      ],
+      "semantic_owner_ref": "semantic.report_lifecycle",
+      "sovereign_question": "How can report authors publish governed analytical reports and dashboards that consumers can inspect, interact with, snapshot, export and subscribe to under explicit semantic, accessibility and disclosure contracts?",
+      "status": "strong_product_candidate",
+      "users": [
+        "report_author",
+        "publisher",
+        "analytical_consumer",
+        "workspace_administrator"
+      ]
+    },
+    {
+      "adoption_unit": true,
+      "artifact_id": "product.embedded_analytics",
+      "automation_modality": {
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation never replaces domain vocabulary, semantic ownership, invariants, accessibility, tenant isolation, exact execution, qualification, disclosure authority or acceptance.",
+        "law": "A model or agent may propose text, code, layout, parameters, narratives or interaction candidates; typed notebook, embed, semantic, authority, execution and evidence contracts decide whether they enter the product.",
+        "postures": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "removal_law": "Removing every optional model or agent extension preserves deterministic document editing, validation, semantic binding, session isolation, authority checks, execution planning, rendering and evidence capture."
+      },
+      "definition": "Operated tenant-aware delivery of analytical surfaces inside a host product with explicit identity, session and exit contracts.",
+      "evidence_refs": [
+        "evidence.powerbi.embedded",
+        "evidence.superset.embedded"
+      ],
+      "harmed_parties": [
+        "data_subject",
+        "cross_tenant_user",
+        "host_application_user",
+        "source_owner",
+        "decision_subject"
+      ],
+      "jobs": [
+        "define embeddable analytical surfaces",
+        "bind tenant principal purpose and entitlements",
+        "issue short-lived embed grants",
+        "open isolated sessions",
+        "bridge parameters filters interactions and events",
+        "render accessible localized results",
+        "revoke suspend audit and retire integrations"
+      ],
+      "kind": "product",
+      "name": "Embedded analytics delivery",
+      "negative_mission": "Does not own host identity, tenant membership, policy, metric meaning, query execution, source data, business workflow, downstream action, or a general BI authoring experience.",
+      "operated": true,
+      "outcomes": [
+        "tenant_isolation_test_pass",
+        "embed_session_start_latency",
+        "grant_and_revocation_propagation",
+        "interaction_contract_conformance",
+        "accessibility_target_pass",
+        "cross_origin_and_data_leak_incidents",
+        "host_upgrade_compatibility"
+      ],
+      "semantic_owner_ref": "semantic.embedded_session",
+      "sovereign_question": "How can a host application expose an analytical surface to the correct tenant principal and purpose with exact semantic, interaction, accessibility, isolation, disclosure and lifecycle contracts without inheriting or granting authority implicitly?",
+      "status": "presumptive_product",
+      "users": [
+        "host_application_team",
+        "analytics_product_owner",
+        "tenant_administrator",
+        "embedded_consumer",
+        "security_reviewer",
+        "support_operator"
+      ]
+    },
+    {
+      "adoption_unit": true,
+      "artifact_id": "product.analytical_notebook",
+      "automation_modality": {
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation never replaces domain vocabulary, semantic ownership, invariants, accessibility, tenant isolation, exact execution, qualification, disclosure authority or acceptance.",
+        "law": "A model or agent may propose text, code, layout, parameters, narratives or interaction candidates; typed notebook, embed, semantic, authority, execution and evidence contracts decide whether they enter the product.",
+        "postures": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "removal_law": "Removing every optional model or agent extension preserves deterministic document editing, validation, semantic binding, session isolation, authority checks, execution planning, rendering and evidence capture."
+      },
+      "definition": "Operated notebook document, kernel binding, execution-history and reproducibility evidence experience.",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.messaging",
+        "evidence.paper.jupyter_repro"
+      ],
+      "harmed_parties": [
+        "decision_subject",
+        "data_subject",
+        "misled_consumer",
+        "source_owner",
+        "runtime_operator"
+      ],
+      "jobs": [
+        "author notebook documents",
+        "bind semantic and data dependencies",
+        "declare executable environments",
+        "plan and request executions",
+        "capture outputs and receipts",
+        "replay compare review publish archive and retire notebook editions"
+      ],
+      "kind": "product",
+      "name": "Reproducible analytical notebook environment",
+      "negative_mission": "Does not own metric, method or source truth; a notebook is not a kernel, environment, execution, result truth, model registry, workflow orchestrator, report, or effect authority.",
+      "operated": true,
+      "outcomes": [
+        "replay_success_for_frozen_inputs",
+        "environment_and_data_cut_closure",
+        "stale_output_detection",
+        "cell_dependency_traceability",
+        "execution_receipt_completeness",
+        "reviewed_publication_rate"
+      ],
+      "semantic_owner_ref": "semantic.notebook_document",
+      "sovereign_question": "How can an analyst create and reproduce an editioned analytical narrative whose cells, dependencies, environment, data cuts, parameters, executions, outputs and evidence remain distinguishable and inspectable?",
+      "status": "presumptive_product",
+      "users": [
+        "analyst",
+        "data_scientist",
+        "researcher",
+        "reviewer",
+        "notebook_operator",
+        "reproducibility_reviewer"
+      ]
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "artifact.dashboard_widget",
+      "definition": "A reusable presentation component within a surface; no independent product lifecycle by default.",
+      "evidence_refs": [
+        "evidence.vegalite.spec",
+        "evidence.powerbi.overview"
+      ],
+      "kind": "presentation_artifact",
+      "name": "Dashboard widget",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "reclassified_component"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "artifact.report_snapshot",
+      "definition": "Immutable output bound to an exact source cut, parameters, presentation edition and export/delivery receipt.",
+      "evidence_refs": [
+        "evidence.powerbi.export",
+        "evidence.powerbi.subscription"
+      ],
+      "kind": "presentation_artifact",
+      "name": "Report snapshot",
+      "operated": false,
+      "semantic_owner_ref": "semantic.report_snapshot",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.jupyter_nbformat",
+      "definition": "Versioned notebook document format.",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat"
+      ],
+      "kind": "standard",
+      "name": "Jupyter nbformat",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "exact_edition_required"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.jupyter_messaging",
+      "definition": "Kernel/client message protocol.",
+      "evidence_refs": [
+        "evidence.jupyter.messaging"
+      ],
+      "kind": "standard",
+      "name": "Jupyter messaging protocol",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "exact_edition_required"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.vega",
+      "definition": "Declarative visualization and reactive scenegraph grammar.",
+      "evidence_refs": [
+        "evidence.vega.spec"
+      ],
+      "kind": "standard",
+      "name": "Vega grammar",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "exact_edition_required"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.vegalite",
+      "definition": "High-level declarative visualization grammar compiled to Vega.",
+      "evidence_refs": [
+        "evidence.vegalite.spec"
+      ],
+      "kind": "standard",
+      "name": "Vega-Lite grammar",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "exact_edition_required"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.wcag22",
+      "definition": "Accessibility conformance requirements.",
+      "evidence_refs": [
+        "evidence.w3c.wcag22"
+      ],
+      "kind": "standard",
+      "name": "WCAG 2.2",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "exact_edition_required"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "standard.openformula14",
+      "definition": "Spreadsheet formula interchange semantics.",
+      "evidence_refs": [
+        "evidence.oasis.openformula"
+      ],
+      "kind": "standard",
+      "name": "OpenFormula 1.4",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "exact_edition_required"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.power_bi",
+      "definition": "Observed reporting, embedded, export and subscription implementation.",
+      "evidence_refs": [
+        "evidence.powerbi.overview",
+        "evidence.powerbi.embedded"
+      ],
+      "kind": "implementation",
+      "name": "Microsoft Power BI",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "observed_unqualified"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.superset",
+      "definition": "Observed dashboard, embedded and scheduled-report implementation.",
+      "evidence_refs": [
+        "evidence.superset.embedded",
+        "evidence.superset.alerts"
+      ],
+      "kind": "implementation",
+      "name": "Apache Superset",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "observed_unqualified"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.jupyter",
+      "definition": "Observed notebook format, client/kernel protocol and trust implementation family.",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.messaging"
+      ],
+      "kind": "implementation",
+      "name": "Project Jupyter",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "observed_unqualified"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.vega",
+      "definition": "Observed visualization compiler and runtime implementation.",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.vegalite.spec"
+      ],
+      "kind": "implementation",
+      "name": "Vega and Vega-Lite",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "observed_unqualified"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.observable",
+      "definition": "Observed plotting and reactive-runtime implementation.",
+      "evidence_refs": [
+        "evidence.observable.plot",
+        "evidence.observable.runtime"
+      ],
+      "kind": "implementation",
+      "name": "Observable Plot and Runtime",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "observed_unqualified"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.alertmanager",
+      "definition": "Observed notification grouping, inhibition and routing implementation.",
+      "evidence_refs": [
+        "evidence.prometheus.alertmanager"
+      ],
+      "kind": "implementation",
+      "name": "Prometheus Alertmanager",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "observed_unqualified"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.grafana_alerting",
+      "definition": "Observed alert-state and notification policy implementation.",
+      "evidence_refs": [
+        "evidence.grafana.notifications",
+        "evidence.grafana.export"
+      ],
+      "kind": "implementation",
+      "name": "Grafana Alerting",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "observed_unqualified"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "provider.bi_runtime",
+      "definition": "Operates report authoring, publication, query and interactive viewing.",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "provider_class",
+      "name": "BI runtime provider",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "unqualified_class"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "provider.embedded_runtime",
+      "definition": "Operates tenant-scoped embedded sessions and capacity.",
+      "evidence_refs": [
+        "evidence.powerbi.embedded",
+        "evidence.superset.embedded"
+      ],
+      "kind": "provider_class",
+      "name": "Embedded analytics runtime provider",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "unqualified_class"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "provider.notebook_runtime",
+      "definition": "Operates document storage, kernels, sessions and execution environments.",
+      "evidence_refs": [
+        "evidence.jupyter.kernels",
+        "evidence.jupyter.security"
+      ],
+      "kind": "provider_class",
+      "name": "Notebook runtime provider",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "unqualified_class"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.semantic_metric",
+      "definition": "Owns measure, dimension, aggregation and formula meaning.",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "neighboring_product",
+      "name": "Semantic and metric service",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "import_only"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.query_engine",
+      "definition": "Owns query execution and result receipts.",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "neighboring_product",
+      "name": "Analytical query engine",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "import_only"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.identity_policy",
+      "definition": "Owns principals, permissions, delegation, purpose and disclosure decisions.",
+      "evidence_refs": [
+        "evidence.superset.embedded",
+        "evidence.powerbi.export"
+      ],
+      "kind": "neighboring_product",
+      "name": "Identity and policy authority",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "import_only"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.notification_delivery",
+      "definition": "Owns channel delivery attempts and receipts, not analytical alert meaning.",
+      "evidence_refs": [
+        "evidence.prometheus.alertmanager",
+        "evidence.grafana.notifications"
+      ],
+      "kind": "neighboring_product",
+      "name": "Notification delivery service",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "import_only"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "neighbor.spreadsheet_application",
+      "definition": "Owns workbook authoring and calculation runtime; governance capabilities remain separable.",
+      "evidence_refs": [
+        "evidence.oasis.openformula"
+      ],
+      "kind": "neighboring_product",
+      "name": "Spreadsheet application",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "provider_outside_slice"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.report_lifecycle",
+      "definition": "report definition, edition, publication, audience and retirement",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "semantic_contract",
+      "name": "Report lifecycle",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.dashboard_definition",
+      "definition": "surface composition, layout, parameter and child-artifact references",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.vegalite.spec"
+      ],
+      "kind": "semantic_contract",
+      "name": "Dashboard definition",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.presentation_ir",
+      "definition": "provider-neutral marks, tables, text, layout and interaction intents",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.vegalite.spec"
+      ],
+      "kind": "semantic_contract",
+      "name": "Presentation intermediate representation",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.visual_encoding",
+      "definition": "field/channel, scale, guide and mark mappings",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.vegalite.spec"
+      ],
+      "kind": "semantic_contract",
+      "name": "Visual encoding",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.presentation_state",
+      "definition": "selection, focus, viewport, drill, filter and navigation state",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.vegalite.spec"
+      ],
+      "kind": "semantic_contract",
+      "name": "Presentation state",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.report_snapshot",
+      "definition": "immutable source cut, parameter binding, presentation edition and rendered output identity",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "semantic_contract",
+      "name": "Report snapshot",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.export",
+      "definition": "serialized artifact, loss, label, recipient and disclosure receipt",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "semantic_contract",
+      "name": "Export and disclosure",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.accessibility",
+      "definition": "equivalent structure, labels, navigation, focus and interaction alternatives",
+      "evidence_refs": [
+        "evidence.w3c.wcag22",
+        "evidence.w3c.aria12"
+      ],
+      "kind": "semantic_contract",
+      "name": "Accessibility semantics",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.localization",
+      "definition": "locale-data edition, formatting, language, direction and fallback",
+      "evidence_refs": [
+        "evidence.unicode.cldr",
+        "evidence.unicode.uts35"
+      ],
+      "kind": "semantic_contract",
+      "name": "Localization semantics",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.notebook_document",
+      "definition": "cell identity, order, source, metadata and stored-output identity",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.messaging"
+      ],
+      "kind": "semantic_contract",
+      "name": "Notebook document",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.cell_output",
+      "definition": "execution-correlated stream, display, result and error occurrence",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.messaging"
+      ],
+      "kind": "semantic_contract",
+      "name": "Notebook cell output",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.kernel_session",
+      "definition": "kernel process, protocol, environment, execution count and lifecycle",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.messaging"
+      ],
+      "kind": "semantic_contract",
+      "name": "Kernel session",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.embedded_session",
+      "definition": "host, tenant, principal, guest grant, resource scope and expiry",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "semantic_contract",
+      "name": "Embedded analytical session",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.interaction_intent",
+      "definition": "semantic selection, parameter change, drill and action proposal",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "semantic_contract",
+      "name": "Analytical interaction intent",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.alert_rule",
+      "definition": "condition, evaluation cut, threshold, hysteresis and evaluation policy",
+      "evidence_refs": [
+        "evidence.prometheus.alertmanager",
+        "evidence.grafana.notifications"
+      ],
+      "kind": "semantic_contract",
+      "name": "Analytical alert rule",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.alert_state",
+      "definition": "pending, firing, resolved, suppressed and acknowledged occurrences",
+      "evidence_refs": [
+        "evidence.prometheus.alertmanager",
+        "evidence.grafana.notifications"
+      ],
+      "kind": "semantic_contract",
+      "name": "Analytical alert state",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.subscription",
+      "definition": "recipient, content, schedule, parameter, channel and cancellation contract",
+      "evidence_refs": [
+        "evidence.prometheus.alertmanager",
+        "evidence.grafana.notifications"
+      ],
+      "kind": "semantic_contract",
+      "name": "Analytical subscription",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.spreadsheet_governance",
+      "definition": "workbook identity, formula edition, external links, recalculation and review evidence",
+      "evidence_refs": [
+        "evidence.oasis.openformula"
+      ],
+      "kind": "semantic_contract",
+      "name": "Spreadsheet governance",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.author_report",
+      "definition": "Typed capability owned by semantic.report_lifecycle.",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "capability",
+      "name": "Author governed report",
+      "operated": false,
+      "semantic_owner_ref": "semantic.report_lifecycle",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.compose_dashboard",
+      "definition": "Typed capability owned by semantic.dashboard_definition.",
+      "evidence_refs": [
+        "evidence.powerbi.overview"
+      ],
+      "kind": "capability",
+      "name": "Compose dashboard",
+      "operated": false,
+      "semantic_owner_ref": "semantic.dashboard_definition",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.lower_presentation",
+      "definition": "Typed capability owned by semantic.presentation_ir.",
+      "evidence_refs": [
+        "evidence.vegalite.spec"
+      ],
+      "kind": "capability",
+      "name": "Lower presentation IR",
+      "operated": false,
+      "semantic_owner_ref": "semantic.presentation_ir",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.render_visual",
+      "definition": "Typed capability owned by semantic.visual_encoding.",
+      "evidence_refs": [
+        "evidence.vega.spec"
+      ],
+      "kind": "capability",
+      "name": "Render analytical presentation",
+      "operated": false,
+      "semantic_owner_ref": "semantic.visual_encoding",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.manage_presentation_state",
+      "definition": "Typed capability owned by semantic.presentation_state.",
+      "evidence_refs": [
+        "evidence.vega.signals"
+      ],
+      "kind": "capability",
+      "name": "Manage presentation state",
+      "operated": false,
+      "semantic_owner_ref": "semantic.presentation_state",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.validate_accessibility",
+      "definition": "Typed capability owned by semantic.accessibility.",
+      "evidence_refs": [
+        "evidence.w3c.wcag22",
+        "evidence.w3c.graphics_aria"
+      ],
+      "kind": "capability",
+      "name": "Validate accessibility semantics",
+      "operated": false,
+      "semantic_owner_ref": "semantic.accessibility",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.localize_presentation",
+      "definition": "Typed capability owned by semantic.localization.",
+      "evidence_refs": [
+        "evidence.unicode.cldr"
+      ],
+      "kind": "capability",
+      "name": "Localize presentation",
+      "operated": false,
+      "semantic_owner_ref": "semantic.localization",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.materialize_snapshot",
+      "definition": "Typed capability owned by semantic.report_snapshot.",
+      "evidence_refs": [
+        "evidence.powerbi.subscription"
+      ],
+      "kind": "capability",
+      "name": "Materialize report snapshot",
+      "operated": false,
+      "semantic_owner_ref": "semantic.report_snapshot",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.export_artifact",
+      "definition": "Typed capability owned by semantic.export.",
+      "evidence_refs": [
+        "evidence.powerbi.export"
+      ],
+      "kind": "capability",
+      "name": "Export analytical artifact",
+      "operated": false,
+      "semantic_owner_ref": "semantic.export",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.manage_notebook",
+      "definition": "Typed capability owned by semantic.notebook_document.",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat"
+      ],
+      "kind": "capability",
+      "name": "Manage notebook document",
+      "operated": false,
+      "semantic_owner_ref": "semantic.notebook_document",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.execute_notebook",
+      "definition": "Typed capability owned by semantic.kernel_session.",
+      "evidence_refs": [
+        "evidence.jupyter.messaging",
+        "evidence.jupyter.kernels"
+      ],
+      "kind": "capability",
+      "name": "Execute notebook cell",
+      "operated": false,
+      "semantic_owner_ref": "semantic.kernel_session",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.embed_surface",
+      "definition": "Typed capability owned by semantic.embedded_session.",
+      "evidence_refs": [
+        "evidence.powerbi.embedded",
+        "evidence.superset.embedded"
+      ],
+      "kind": "capability",
+      "name": "Embed analytical surface",
+      "operated": false,
+      "semantic_owner_ref": "semantic.embedded_session",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.evaluate_alert",
+      "definition": "Typed capability owned by semantic.alert_rule.",
+      "evidence_refs": [
+        "evidence.superset.alerts"
+      ],
+      "kind": "capability",
+      "name": "Evaluate analytical alert",
+      "operated": false,
+      "semantic_owner_ref": "semantic.alert_rule",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.transition_alert",
+      "definition": "Typed capability owned by semantic.alert_state.",
+      "evidence_refs": [
+        "evidence.grafana.notifications"
+      ],
+      "kind": "capability",
+      "name": "Transition analytical alert state",
+      "operated": false,
+      "semantic_owner_ref": "semantic.alert_state",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.run_subscription",
+      "definition": "Typed capability owned by semantic.subscription.",
+      "evidence_refs": [
+        "evidence.powerbi.subscription"
+      ],
+      "kind": "capability",
+      "name": "Run analytical subscription",
+      "operated": false,
+      "semantic_owner_ref": "semantic.subscription",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.validate_workbook",
+      "definition": "Typed capability owned by semantic.spreadsheet_governance.",
+      "evidence_refs": [
+        "evidence.oasis.openformula"
+      ],
+      "kind": "capability",
+      "name": "Validate governed workbook",
+      "operated": false,
+      "semantic_owner_ref": "semantic.spreadsheet_governance",
+      "status": "candidate"
+    }
+  ],
+  "binding_gaps": [],
+  "binding_maps": [
+    {
+      "abstract_library_ref": "library.consumption.presentation_ir",
+      "binding_map_id": "binding.consumption.presentation_ir",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.presentation_ir"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.visual_encoding",
+      "binding_map_id": "binding.consumption.visual_encoding",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.visual_encoding"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.dashboard_runtime",
+      "binding_map_id": "binding.consumption.dashboard_runtime",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.dashboard_runtime"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.renderer_adapter",
+      "binding_map_id": "binding.consumption.renderer_adapter",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.renderer_adapter"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.accessibility",
+      "binding_map_id": "binding.consumption.accessibility",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.accessibility_semantics"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.localization",
+      "binding_map_id": "binding.consumption.localization",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.i18n_format"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.notebook_document",
+      "binding_map_id": "binding.consumption.notebook_document",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.notebook_document"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.analytical_notebook"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.embedded_bridge",
+      "binding_map_id": "binding.consumption.embedded_bridge",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.embedded_bridge"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.embedded_analytics"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.alert_state",
+      "binding_map_id": "binding.consumption.alert_state",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.alert_state"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.subscription_runner",
+      "binding_map_id": "binding.consumption.subscription_runner",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.subscription_runner"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.report_snapshot",
+      "binding_map_id": "binding.consumption.report_snapshot",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.report_snapshot_reducer"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.export_writer",
+      "binding_map_id": "binding.consumption.export_writer",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.export_plan",
+        "library.cbv.export_encoder",
+        "library.cbv.export_delivery_port"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.table_model",
+      "binding_map_id": "binding.consumption.table_model",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.table_model"
+      ],
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.consumption.report_definition",
+      "binding_map_id": "binding.consumption.report_definition",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_refs": [
+        "library.cbv.presentation_ir",
+        "library.cbv.semantic_query_types"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.bi_reporting"
+      ]
+    }
+  ],
+  "boundary_decisions": [
+    {
+      "decision_id": "decision.consumption.bi_reporting",
+      "disposition": "strong_product_candidate",
+      "evidence_refs": [
+        "evidence.powerbi.overview",
+        "evidence.superset.alerts"
+      ],
+      "rationale": "Report authors, publishers and consumers adopt an operated lifecycle distinct from metric semantics, query execution and rendering libraries.",
+      "split_test": {
+        "adoption": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting can be adopted or removed through a versioned interface.",
+          "score": 2
+        },
+        "authority": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting has explicit authoring or delivery authority boundaries.",
+          "score": 2
+        },
+        "economics": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting can be costed independently where operated.",
+          "score": 2
+        },
+        "interface": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting exposes a provider-neutral document, API or protocol boundary.",
+          "score": 2
+        },
+        "job": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting owns a bounded outcome rather than a feature name.",
+          "score": 2
+        },
+        "lifecycle": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting has version, migration, deprecation and exit state.",
+          "score": 2
+        },
+        "market_evidence": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting is demonstrated by independently documented implementations.",
+          "score": 2
+        },
+        "operation": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting has an independently observable runtime or service envelope.",
+          "score": 2
+        },
+        "semantics": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting owns named meanings but imports metric and source truth.",
+          "score": 2
+        },
+        "user": {
+          "evidence_refs": [
+            "evidence.powerbi.overview",
+            "evidence.superset.alerts"
+          ],
+          "finding": "BI/reporting has a distinguishable consumer or operator role.",
+          "score": 2
+        }
+      },
+      "subject_ref": "product.bi_reporting"
+    },
+    {
+      "decision_id": "decision.consumption.embedded",
+      "disposition": "presumptive_product",
+      "evidence_refs": [
+        "evidence.powerbi.embedded",
+        "evidence.superset.embedded"
+      ],
+      "rationale": "Host-product developers need tenant/session/capacity/support and exit semantics distinct from the report product, but portable authority allocation and provider substitution evidence remain incomplete.",
+      "split_test": {
+        "adoption": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics can be adopted or removed through a versioned interface.",
+          "score": 1
+        },
+        "authority": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics has explicit authoring or delivery authority boundaries.",
+          "score": 1
+        },
+        "economics": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics can be costed independently where operated.",
+          "score": 1
+        },
+        "interface": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics exposes a provider-neutral document, API or protocol boundary.",
+          "score": 2
+        },
+        "job": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics owns a bounded outcome rather than a feature name.",
+          "score": 2
+        },
+        "lifecycle": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics has version, migration, deprecation and exit state.",
+          "score": 2
+        },
+        "market_evidence": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics is demonstrated by independently documented implementations.",
+          "score": 1
+        },
+        "operation": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics has an independently observable runtime or service envelope.",
+          "score": 2
+        },
+        "semantics": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics owns named meanings but imports metric and source truth.",
+          "score": 2
+        },
+        "user": {
+          "evidence_refs": [
+            "evidence.powerbi.embedded",
+            "evidence.superset.embedded"
+          ],
+          "finding": "embedded analytics has a distinguishable consumer or operator role.",
+          "score": 2
+        }
+      },
+      "subject_ref": "product.embedded_analytics"
+    },
+    {
+      "decision_id": "decision.consumption.notebook",
+      "disposition": "presumptive_product",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.messaging",
+        "evidence.paper.jupyter_repro"
+      ],
+      "rationale": "An operated notebook environment has a user/job/lifecycle beyond the document and kernel protocols, while repeatability and provider portability remain qualified obligations.",
+      "split_test": {
+        "adoption": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook can be adopted or removed through a versioned interface.",
+          "score": 1
+        },
+        "authority": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook has explicit authoring or delivery authority boundaries.",
+          "score": 1
+        },
+        "economics": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook can be costed independently where operated.",
+          "score": 1
+        },
+        "interface": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook exposes a provider-neutral document, API or protocol boundary.",
+          "score": 2
+        },
+        "job": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook owns a bounded outcome rather than a feature name.",
+          "score": 2
+        },
+        "lifecycle": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook has version, migration, deprecation and exit state.",
+          "score": 2
+        },
+        "market_evidence": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook is demonstrated by independently documented implementations.",
+          "score": 1
+        },
+        "operation": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook has an independently observable runtime or service envelope.",
+          "score": 2
+        },
+        "semantics": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook owns named meanings but imports metric and source truth.",
+          "score": 2
+        },
+        "user": {
+          "evidence_refs": [
+            "evidence.jupyter.nbformat",
+            "evidence.jupyter.messaging",
+            "evidence.paper.jupyter_repro"
+          ],
+          "finding": "analytical notebook has a distinguishable consumer or operator role.",
+          "score": 2
+        }
+      },
+      "subject_ref": "product.analytical_notebook"
+    },
+    {
+      "decision_id": "decision.consumption.visual_runtime",
+      "disposition": "reclassify_as_library_and_runtime_offer",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.vegalite.spec",
+        "evidence.observable.plot"
+      ],
+      "rationale": "A grammar/compiler/renderer is a replaceable library/runtime capability unless an independently adopted operated rendering service is evidenced.",
+      "subject_ref": "standard.vega"
+    },
+    {
+      "decision_id": "decision.consumption.dashboard_widget",
+      "disposition": "reclassify_as_presentation_artifact",
+      "evidence_refs": [
+        "evidence.vegalite.spec",
+        "evidence.powerbi.overview"
+      ],
+      "rationale": "A widget has composition identity but no independent service, support, economics or exit promise by default.",
+      "subject_ref": "artifact.dashboard_widget"
+    },
+    {
+      "decision_id": "decision.consumption.alert_subscription",
+      "disposition": "merge_into_capability_until_independent_service_proven",
+      "evidence_refs": [
+        "evidence.prometheus.alertmanager",
+        "evidence.grafana.notifications",
+        "evidence.powerbi.subscription"
+      ],
+      "rationale": "Alert evaluation, alert state, report snapshot and channel delivery are separate meanings; bundling them in BI does not create one sovereign product.",
+      "subject_ref": "semantic.subscription"
+    },
+    {
+      "decision_id": "decision.consumption.spreadsheet_governance",
+      "disposition": "defer_product_boundary",
+      "evidence_refs": [
+        "evidence.oasis.openformula",
+        "evidence.powerbi.export"
+      ],
+      "rationale": "Formula/workbook governance is a real semantic and library surface, but independent product adoption and operation evidence is insufficient in this slice.",
+      "subject_ref": "semantic.spreadsheet_governance"
+    },
+    {
+      "decision_id": "decision.consumption.report_metric_split",
+      "disposition": "retain_split",
+      "evidence_refs": [
+        "evidence.powerbi.overview",
+        "evidence.paper.nested_model"
+      ],
+      "rationale": "A report references metrics; its layout, audience and publication lifecycle cannot redefine measure meaning.",
+      "subject_ref": "semantic.report_lifecycle"
+    },
+    {
+      "decision_id": "decision.consumption.notebook_kernel_split",
+      "disposition": "retain_split",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.messaging",
+        "evidence.paper.jupyter_repro"
+      ],
+      "rationale": "Document cells/stored outputs are not kernel process, environment or execution history.",
+      "subject_ref": "semantic.notebook_document"
+    },
+    {
+      "decision_id": "decision.consumption.embed_iframe_split",
+      "disposition": "retain_split",
+      "evidence_refs": [
+        "evidence.superset.embedded",
+        "evidence.powerbi.embedded"
+      ],
+      "rationale": "An iframe transport does not establish tenant, identity, authority, resource or exit semantics.",
+      "subject_ref": "semantic.embedded_session"
+    },
+    {
+      "decision_id": "decision.consumption.ai_prefix",
+      "disposition": "reject_ambient_ai_boundary",
+      "evidence_refs": [
+        "evidence.paper.nested_model",
+        "evidence.w3c.wcag22"
+      ],
+      "rationale": "Generative/model assistance is optional at declared use sites; deterministic query, presentation, authority, accessibility and delivery contracts remain authoritative.",
+      "subject_ref": "pattern.analytical_consumption"
+    }
+  ],
+  "contract_id": "contract.product_adjudication.consumption_experiences.v0_1_0",
+  "crosswalks": [
+    {
+      "canonical_refs": [
+        "product.bi_reporting"
+      ],
+      "disposition": "replace_exact",
+      "legacy_ref": "candidate.product.bi_reporting"
+    },
+    {
+      "canonical_refs": [
+        "product.embedded_analytics"
+      ],
+      "disposition": "replace_exact",
+      "legacy_ref": "candidate.product.embedded_analytics"
+    },
+    {
+      "canonical_refs": [
+        "product.analytical_notebook"
+      ],
+      "disposition": "replace_exact",
+      "legacy_ref": "candidate.product.analytical_notebook"
+    },
+    {
+      "canonical_refs": [
+        "library.consumption.presentation_ir",
+        "library.consumption.renderer_adapter"
+      ],
+      "disposition": "reclassify_library_runtime",
+      "legacy_ref": "candidate.product.visualization_runtime"
+    },
+    {
+      "canonical_refs": [
+        "artifact.dashboard_widget"
+      ],
+      "disposition": "reclassify_presentation_artifact",
+      "legacy_ref": "candidate.product.dashboard_widget"
+    },
+    {
+      "canonical_refs": [
+        "semantic.alert_rule",
+        "semantic.alert_state",
+        "semantic.subscription",
+        "neighbor.notification_delivery"
+      ],
+      "disposition": "split_capabilities_and_neighbor",
+      "legacy_ref": "candidate.product.alert_subscription"
+    },
+    {
+      "canonical_refs": [
+        "semantic.spreadsheet_governance",
+        "neighbor.spreadsheet_application"
+      ],
+      "disposition": "defer_product_retain_contract",
+      "legacy_ref": "candidate.product.spreadsheet_governance"
+    },
+    {
+      "canonical_refs": [
+        "neighbor.semantic_metric"
+      ],
+      "disposition": "neighbor_import",
+      "legacy_ref": "candidate.product.semantic_metric"
+    },
+    {
+      "canonical_refs": [
+        "neighbor.query_engine"
+      ],
+      "disposition": "neighbor_import",
+      "legacy_ref": "candidate.product.distributed_query"
+    },
+    {
+      "canonical_refs": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "disposition": "suite_not_owner",
+      "legacy_ref": "candidate.product.metric_store_bundle"
+    }
+  ],
+  "ddd_dossiers": [
+    {
+      "dossier_id": "ddd.consumption.bi_reporting",
+      "product_ref": "product.bi_reporting",
+      "product_truth": {
+        "harmed_parties": [
+          "decision_subject",
+          "data_subject",
+          "misled_consumer",
+          "unauthorized_recipient"
+        ],
+        "jobs": [
+          "Author, review, publish, interact with, snapshot, export, subscribe to, supersede and retire governed analytical presentations."
+        ],
+        "measurable_outcomes": [
+          "versioned_report_edition",
+          "traceable_interaction_state",
+          "accessible_localized_presentation",
+          "authorized_snapshot_export_and_subscription"
+        ],
+        "negative_mission": "Does not own metric meaning, source truth, query execution, identity or policy authority, notification delivery, business-case judgment or downstream action.",
+        "sovereign_question": "How can report authors publish governed analytical reports and dashboards that consumers can inspect, interact with, snapshot, export and subscribe to under explicit semantic, accessibility and disclosure contracts?",
+        "users": [
+          "report_author",
+          "publisher",
+          "analytical_consumer",
+          "workspace_administrator"
+        ]
+      },
+      "status": "candidate_not_ratified",
+      "strategic_and_tactical_ddd": {
+        "aggregate_invariants": [
+          "report layout and labels cannot redefine metric meaning",
+          "report dashboard widget snapshot and view session identities are distinct",
+          "every rendered value binds exact semantic query and data-cut evidence",
+          "accessibility and localization cannot mutate semantic values",
+          "approval publication export disclosure and delivery are separate authorities"
+        ],
+        "aggregate_roots": [
+          "ReportDefinition",
+          "ViewSession",
+          "Subscription"
+        ],
+        "aggregates": [
+          {
+            "consistency": "one command advances one immutable report-definition edition",
+            "members": [
+              "semantic_bindings",
+              "presentation_ir",
+              "parameters",
+              "accessibility_profile",
+              "publication_state"
+            ],
+            "root": "ReportDefinition"
+          },
+          {
+            "consistency": "each accepted interaction advances one session version",
+            "members": [
+              "principal_scope",
+              "report_edition",
+              "parameter_bindings",
+              "presentation_state",
+              "interaction_history"
+            ],
+            "root": "ViewSession"
+          },
+          {
+            "consistency": "schedule and recipient authority are validated atomically before activation",
+            "members": [
+              "recipient",
+              "content_ref",
+              "schedule",
+              "parameters",
+              "channel_intent",
+              "state"
+            ],
+            "root": "Subscription"
+          }
+        ],
+        "anti_corruption_layers": [
+          "acl.semantic_metric",
+          "acl.query_result",
+          "acl.identity_and_policy",
+          "acl.notification_delivery",
+          "acl.provider_presentation"
+        ],
+        "application_services": [
+          "AuthorReportUseCase",
+          "ReviewAndPublishReportUseCase",
+          "ViewAndInteractUseCase",
+          "ExportReportUseCase",
+          "ManageSubscriptionUseCase",
+          "RetireReportUseCase"
+        ],
+        "bounded_context_boundary": {
+          "inside": [
+            "report and dashboard editions",
+            "presentation IR and visual encodings",
+            "view and interaction state",
+            "accessible and localized representations",
+            "snapshots exports alerts and subscriptions",
+            "publication suspension supersession and retirement"
+          ],
+          "outside": [
+            "metric and formula meaning",
+            "source facts",
+            "physical query execution",
+            "principal and policy authority",
+            "notification-channel delivery",
+            "analytical case judgment and downstream action"
+          ]
+        },
+        "commands": [
+          "open_report_draft",
+          "bind_semantic_query",
+          "author_report",
+          "compose_dashboard",
+          "submit_report_review",
+          "approve_report",
+          "publish_report_edition",
+          "open_view_session",
+          "apply_interaction",
+          "materialize_report_snapshot",
+          "request_export",
+          "evaluate_alert_rule",
+          "create_subscription",
+          "suspend_report",
+          "supersede_report",
+          "retire_report"
+        ],
+        "concurrency_and_idempotency": [
+          "optimistic report-edition compare-and-swap",
+          "idempotency key per publication snapshot export and alert evaluation",
+          "session version on interactions",
+          "deduplicated scheduled subscription occurrence",
+          "single-winner retirement transition"
+        ],
+        "context_map": [
+          {
+            "neighbor_ref": "neighbor.semantic_metric",
+            "relationship": "customer_supplier",
+            "translation": "bind exact semantic definition and query editions"
+          },
+          {
+            "neighbor_ref": "neighbor.query_engine",
+            "relationship": "customer_supplier_acl",
+            "translation": "submit typed queries and import results with execution receipts"
+          },
+          {
+            "neighbor_ref": "neighbor.identity_policy",
+            "relationship": "conformist_at_authority_gate",
+            "translation": "obtain principal access purpose export and disclosure decisions"
+          },
+          {
+            "neighbor_ref": "neighbor.notification_delivery",
+            "relationship": "open_host_service",
+            "translation": "issue delivery intents and receive attempt receipts without owning the channel"
+          }
+        ],
+        "domain_events": [
+          "report_draft_opened",
+          "semantic_query_bound",
+          "report_authored",
+          "dashboard_composed",
+          "report_review_requested",
+          "report_approved",
+          "report_edition_published",
+          "view_session_opened",
+          "interaction_applied",
+          "report_snapshot_materialized",
+          "export_requested",
+          "alert_rule_evaluated",
+          "subscription_created",
+          "report_suspended",
+          "report_superseded",
+          "report_retired"
+        ],
+        "domain_services": [
+          "SemanticPresentationBindingService",
+          "PresentationLoweringService",
+          "AccessibilityEvaluationService",
+          "LocalizationService",
+          "SnapshotMaterializationService",
+          "AlertEvaluationService"
+        ],
+        "domain_vision_statement": "Own the governed lifecycle from a semantically bound report draft to accessible interactive consumption and authorized presentation artifacts without acquiring metric, query, policy or decision authority.",
+        "entities": [
+          "ReportDefinition",
+          "DashboardDefinition",
+          "Publication",
+          "ViewSession",
+          "ReportSnapshot",
+          "AlertRule",
+          "AlertOccurrence",
+          "Subscription"
+        ],
+        "event_storming_swimlanes": [
+          "report_author",
+          "publisher_or_approver",
+          "consumer",
+          "presentation_runtime",
+          "semantic_and_query_neighbors",
+          "identity_policy_authority",
+          "notification_provider"
+        ],
+        "factories": [
+          "ReportDefinitionFactory",
+          "DashboardDefinitionFactory",
+          "ViewSessionFactory",
+          "ReportSnapshotFactory",
+          "SubscriptionFactory"
+        ],
+        "integration_event_policy": "Only minimized versioned publication suspension retirement snapshot export and alert/subscription events cross the boundary; interaction detail remains scoped to its session and policy.",
+        "nonfunctional_laws": [
+          "deterministic validation and lowering",
+          "bounded rendering interaction and export budgets",
+          "cooperative cancellation",
+          "accessibility and localization profiles are explicit",
+          "no hidden disclosure or downstream action",
+          "every snapshot and export receipt binds report query data cut provider policy and digest",
+          "removing model and agent extensions preserves the complete deterministic core"
+        ],
+        "policies_and_reactions": [
+          "when a report edition is published invalidate incompatible view caches",
+          "when a semantic dependency is recalled suspend affected publications",
+          "when an alert fires issue a delivery intent only if subscription and policy remain valid",
+          "when export is refused retain the live view without emitting bytes"
+        ],
+        "published_language": [
+          "ReportDefinitionEdition",
+          "DashboardDefinition",
+          "PresentationIr",
+          "ViewSession",
+          "ReportSnapshot",
+          "ExportIntent",
+          "AlertOccurrence",
+          "Subscription",
+          "typed refusals and receipts"
+        ],
+        "read_models_and_projections": [
+          "ReportCatalogView",
+          "DashboardCompositionView",
+          "PublicationStatusView",
+          "ViewSessionHistory",
+          "AccessibilityConformanceView",
+          "SnapshotLineageView",
+          "AlertAndSubscriptionView"
+        ],
+        "refusal_failure_catalog": [
+          "semantic_definition_unbound",
+          "query_offer_unqualified",
+          "presentation_ir_invalid",
+          "accessibility_conformance_unproved",
+          "locale_profile_unsupported",
+          "stale_or_incomplete_data_cut",
+          "publication_authority_missing",
+          "export_policy_refused",
+          "subscription_recipient_unauthorized",
+          "snapshot_loss_unaccepted",
+          "provider_budget_exhausted"
+        ],
+        "repositories": [
+          "ReportDefinitionRepository",
+          "PublicationRepository",
+          "ViewSessionRepository",
+          "ReportSnapshotRepository",
+          "AlertRuleRepository",
+          "SubscriptionRepository"
+        ],
+        "sagas_and_process_managers": [
+          "ReportPublicationProcess",
+          "ReportSnapshotProcess",
+          "ExportDisclosureProcess",
+          "AlertSubscriptionProcess",
+          "ReportRetirementProcess"
+        ],
+        "specifications": [
+          "ReportPublicationReadinessSpecification",
+          "SemanticBindingSpecification",
+          "AccessibilityTargetSpecification",
+          "SnapshotCompletenessSpecification",
+          "ExportAuthorizationSpecification",
+          "SubscriptionActivationSpecification"
+        ],
+        "state_machine": {
+          "alert_states": [
+            "pending",
+            "firing",
+            "resolved",
+            "suppressed",
+            "acknowledged"
+          ],
+          "report_states": [
+            "draft",
+            "semantics_bound",
+            "review_pending",
+            "approved",
+            "publishing",
+            "published",
+            "suspended",
+            "superseded",
+            "retired"
+          ],
+          "subscription_states": [
+            "draft",
+            "active",
+            "suspended",
+            "expired",
+            "cancelled"
+          ],
+          "transition_policy": "Only named commands under aggregate invariants may emit the corresponding past-tense event; approval is not publication, export, disclosure or delivery."
+        },
+        "subdomain_classification": "core_horizontal_analytical_consumption_product",
+        "time_model": [
+          "report-definition validity and recording time are distinct",
+          "every result binds source/query cut time",
+          "view session and interaction time are explicit",
+          "snapshot and export occurrence time do not imply source finality",
+          "alert evaluation and delivery attempt time are separate",
+          "schedules bind calendar timezone and edition"
+        ],
+        "ubiquitous_language_policy": "Report, dashboard, widget, view session, presentation state, snapshot, export, alert rule, alert state, subscription and delivery receipt are separate identities; provider homonyms cross named ACLs.",
+        "value_objects": [
+          "ReportId",
+          "ReportEdition",
+          "DashboardId",
+          "WidgetRef",
+          "SemanticQueryRef",
+          "DataCutRef",
+          "PresentationNode",
+          "VisualEncoding",
+          "LocaleProfile",
+          "AccessibilityProfile",
+          "AudienceRef",
+          "ParameterBinding",
+          "InteractionIntent",
+          "SnapshotDigest",
+          "ExportProfile"
+        ]
+      }
+    },
+    {
+      "dossier_id": "ddd.consumption.analytical_notebook",
+      "product_ref": "product.analytical_notebook",
+      "product_truth": {
+        "harmed_parties": [
+          "decision_subject",
+          "data_subject",
+          "misled_consumer",
+          "source_owner",
+          "runtime_operator"
+        ],
+        "jobs": [
+          "author notebook documents",
+          "bind semantic and data dependencies",
+          "declare executable environments",
+          "plan and request executions",
+          "capture outputs and receipts",
+          "replay compare review publish archive and retire notebook editions"
+        ],
+        "measurable_outcomes": [
+          "replay_success_for_frozen_inputs",
+          "environment_and_data_cut_closure",
+          "stale_output_detection",
+          "cell_dependency_traceability",
+          "execution_receipt_completeness",
+          "reviewed_publication_rate"
+        ],
+        "negative_mission": "Does not own metric, method or source truth; a notebook is not a kernel, environment, execution, result truth, model registry, workflow orchestrator, report, or effect authority.",
+        "sovereign_question": "How can an analyst create and reproduce an editioned analytical narrative whose cells, dependencies, environment, data cuts, parameters, executions, outputs and evidence remain distinguishable and inspectable?",
+        "users": [
+          "analyst",
+          "data_scientist",
+          "researcher",
+          "reviewer",
+          "notebook_operator",
+          "reproducibility_reviewer"
+        ]
+      },
+      "status": "candidate_not_ratified",
+      "strategic_and_tactical_ddd": {
+        "aggregate_invariants": [
+          "notebook document kernel session execution run and output identities are distinct",
+          "cell order never implies an undeclared dependency",
+          "every executable run binds exact document environment parameter dependency and data-cut editions",
+          "stored output never silently becomes current after an upstream change",
+          "retry creates a new execution occurrence",
+          "nondeterminism randomness clock network and ambient state are declared or reproduction is refused",
+          "a narrative or generated cell cannot redefine imported semantic meaning",
+          "publication approval disclosure and downstream action are separate authorities"
+        ],
+        "aggregate_roots": [
+          "NotebookDocument",
+          "ExecutionRun",
+          "ReproductionAssessment"
+        ],
+        "aggregates": [
+          {
+            "consistency": "one edit produces one immutable edition whose cell identities and graph are closed",
+            "members": [
+              "edition",
+              "cells",
+              "dependency_graph",
+              "parameters",
+              "environment_declaration",
+              "publication_state"
+            ],
+            "root": "NotebookDocument"
+          },
+          {
+            "consistency": "one run binds one immutable manifest and never overwrites a prior attempt",
+            "members": [
+              "manifest",
+              "attempt_ref",
+              "cell_receipts",
+              "outputs",
+              "outcome"
+            ],
+            "root": "ExecutionRun"
+          },
+          {
+            "consistency": "equivalence is claimed only under a named exact oracle and tolerances",
+            "members": [
+              "baseline_run",
+              "candidate_run",
+              "profile",
+              "comparisons",
+              "residuals",
+              "verdict"
+            ],
+            "root": "ReproductionAssessment"
+          }
+        ],
+        "anti_corruption_layers": [
+          "acl.language_kernel",
+          "acl.package_environment",
+          "acl.semantic_query",
+          "acl.source_data_cut",
+          "acl.runtime_attempt",
+          "acl.identity_policy",
+          "acl.output_renderer"
+        ],
+        "application_services": [
+          "AuthorNotebookUseCase",
+          "ExecuteNotebookUseCase",
+          "CancelNotebookRunUseCase",
+          "ReproduceNotebookUseCase",
+          "ReviewNotebookUseCase",
+          "PublishNotebookUseCase",
+          "ArchiveNotebookUseCase"
+        ],
+        "bounded_context_boundary": {
+          "inside": [
+            "notebook and cell identities",
+            "document editions",
+            "cell dependency graph",
+            "parameter and environment declarations",
+            "data-cut bindings",
+            "execution requests and receipts",
+            "output references",
+            "replay comparison",
+            "review publication archive and retirement"
+          ],
+          "outside": [
+            "language semantics",
+            "kernel implementation",
+            "package repository truth",
+            "metric and method meaning",
+            "source data",
+            "resource scheduling",
+            "security policy",
+            "downstream business decisions"
+          ]
+        },
+        "commands": [
+          "create_notebook",
+          "add_cell",
+          "edit_cell",
+          "move_cell",
+          "declare_cell_dependency",
+          "bind_semantic_reference",
+          "bind_data_cut",
+          "bind_environment",
+          "set_parameter",
+          "freeze_execution_manifest",
+          "request_execution",
+          "record_cell_receipt",
+          "record_output_artifact",
+          "cancel_execution",
+          "request_reproduction",
+          "compare_runs",
+          "submit_review",
+          "publish_notebook",
+          "archive_notebook",
+          "retire_notebook"
+        ],
+        "concurrency_and_idempotency": [
+          "document edits use optimistic notebook edition",
+          "cell identities survive moves",
+          "manifest freezing is content-addressed",
+          "execution idempotency binds manifest and request identity",
+          "retries receive new attempt identities",
+          "output writes require manifest attempt and digest match",
+          "publication is single-winner per edition"
+        ],
+        "context_map": [
+          {
+            "neighbor_ref": "neighbor.semantic_metric",
+            "relationship": "customer_supplier",
+            "translation": "bind exact semantic query and formula editions"
+          },
+          {
+            "neighbor_ref": "neighbor.query_engine",
+            "relationship": "customer_supplier_acl",
+            "translation": "submit typed query intents and consume receipts"
+          },
+          {
+            "neighbor_ref": "product.runtime_resource_control",
+            "relationship": "customer_supplier",
+            "translation": "submit work units and consume attempt receipts"
+          },
+          {
+            "neighbor_ref": "neighbor.identity_policy",
+            "relationship": "conformist_at_authority_gate",
+            "translation": "import principal purpose access and disclosure decisions"
+          },
+          {
+            "neighbor_ref": "product.bi_reporting",
+            "relationship": "published_language",
+            "translation": "export reviewed presentation artifacts without transferring notebook identity"
+          }
+        ],
+        "domain_events": [
+          "notebook_created",
+          "cell_added",
+          "cell_edited",
+          "cell_moved",
+          "cell_dependency_declared",
+          "semantic_reference_bound",
+          "data_cut_bound",
+          "environment_bound",
+          "parameter_set",
+          "execution_manifest_frozen",
+          "execution_requested",
+          "cell_receipt_recorded",
+          "output_artifact_recorded",
+          "execution_cancelled",
+          "reproduction_requested",
+          "runs_compared",
+          "notebook_review_submitted",
+          "notebook_published",
+          "notebook_archived",
+          "notebook_retired"
+        ],
+        "domain_services": [
+          "NotebookGraphService",
+          "ExecutionManifestClosureService",
+          "StaleOutputDetectionService",
+          "RuntimeRequestService",
+          "OutputBindingService",
+          "ReproductionEvaluationService",
+          "NotebookPublicationService"
+        ],
+        "domain_vision_statement": "Own an editioned analytical document and its reproducibility evidence while importing semantic meaning and runtime execution through explicit contracts.",
+        "entities": [
+          "NotebookDocument",
+          "Cell",
+          "ExecutionManifest",
+          "ExecutionRun",
+          "OutputArtifact",
+          "ReviewCase",
+          "NotebookPublication",
+          "ReproductionAssessment"
+        ],
+        "event_storming_swimlanes": [
+          "analyst",
+          "reviewer",
+          "notebook_document_service",
+          "semantic_registry",
+          "data_access_authority",
+          "environment_resolver",
+          "runtime_control",
+          "kernel_backend",
+          "artifact_store",
+          "publication_authority"
+        ],
+        "factories": [
+          "NotebookDocumentFactory",
+          "CellFactory",
+          "ExecutionManifestFactory",
+          "ExecutionRunFactory",
+          "OutputArtifactFactory",
+          "ReproductionAssessmentFactory"
+        ],
+        "integration_event_policy": "Only editioned document, manifest, execution intent, receipt, output reference, reproduction and publication contracts cross the boundary; live kernel memory, secrets, provider DTOs and unreviewed generated content remain internal or external.",
+        "nonfunctional_laws": [
+          "canonical deterministic document and manifest encoding",
+          "finite cell graph output runtime and replay budgets",
+          "cooperative cancellation with partial and unknown outcomes",
+          "no hidden network clock filesystem randomness or environment dependency in reproducibility claims",
+          "provider-neutral kernel and runtime ports",
+          "complete source-to-output evidence",
+          "accessible document navigation",
+          "optional model or agent removal preserves the deterministic notebook core"
+        ],
+        "policies_and_reactions": [
+          "when a cell source or dependency changes mark supported downstream outputs stale",
+          "when environment or data-cut evidence expires suspend reproducibility claims",
+          "when execution is requested emit a work intent without authorizing the runtime effect",
+          "when a run completes bind outputs only to matching manifest and attempt receipts",
+          "when optional generated content arrives typecheck and review it like any authored cell"
+        ],
+        "published_language": [
+          "NotebookId",
+          "NotebookEdition",
+          "CellId",
+          "CellKind",
+          "CellDependency",
+          "ParameterBinding",
+          "EnvironmentManifest",
+          "DataCutManifest",
+          "ExecutionManifest",
+          "ExecutionRequest",
+          "ExecutionRun",
+          "ExecutionReceipt",
+          "OutputArtifactRef",
+          "ReproductionProfile",
+          "ReproductionResult",
+          "NotebookPublication"
+        ],
+        "read_models_and_projections": [
+          "NotebookOutlineView",
+          "CellDependencyGraphView",
+          "ExecutionReadinessView",
+          "RunTimelineView",
+          "StaleOutputView",
+          "EnvironmentAndDataCutView",
+          "ReproductionDiffView",
+          "NotebookPublicationView"
+        ],
+        "refusal_failure_catalog": [
+          "notebook_edition_conflict",
+          "cell_identity_conflict",
+          "dependency_cycle",
+          "semantic_reference_unresolved",
+          "data_cut_unavailable",
+          "environment_unclosed",
+          "package_lock_missing",
+          "parameter_invalid",
+          "ambient_dependency_undeclared",
+          "kernel_offer_unqualified",
+          "execution_authority_missing",
+          "runtime_outcome_unknown",
+          "output_digest_mismatch",
+          "reproduction_oracle_missing",
+          "numerical_tolerance_undefined",
+          "publication_evidence_incomplete"
+        ],
+        "repositories": [
+          "NotebookDocumentRepository",
+          "ExecutionManifestRepository",
+          "ExecutionRunRepository",
+          "OutputArtifactRepository",
+          "ReproductionAssessmentRepository",
+          "NotebookPublicationRepository"
+        ],
+        "sagas_and_process_managers": [
+          "NotebookExecutionProcess",
+          "LongRunningCellProcess",
+          "CancellationReconciliationProcess",
+          "NotebookReproductionProcess",
+          "NotebookReviewPublicationProcess",
+          "NotebookArchiveProcess"
+        ],
+        "specifications": [
+          "NotebookGraphClosureSpecification",
+          "ExecutionManifestClosureSpecification",
+          "EnvironmentReproducibilitySpecification",
+          "DataCutAvailabilitySpecification",
+          "CellExecutionReadinessSpecification",
+          "OutputFreshnessSpecification",
+          "ReproductionEquivalenceSpecification",
+          "NotebookPublicationReadinessSpecification"
+        ],
+        "state_machine": {
+          "ExecutionRun": [
+            "planned",
+            "queued",
+            "running",
+            "cancellation_requested",
+            "succeeded",
+            "failed",
+            "cancelled",
+            "unknown"
+          ],
+          "NotebookDocument": [
+            "draft",
+            "dependencies_bound",
+            "execution_ready",
+            "review_pending",
+            "published",
+            "suspended",
+            "archived",
+            "retired"
+          ],
+          "ReproductionAssessment": [
+            "requested",
+            "inputs_validated",
+            "running",
+            "comparison_pending",
+            "equivalent",
+            "different",
+            "inconclusive",
+            "refused"
+          ],
+          "law": "document edits create new editions, runs are append-only, and provider timeouts remain unknown until reconciled"
+        },
+        "subdomain_classification": {
+          "core": [
+            "notebook_document_graph",
+            "cell_and_dependency_semantics",
+            "execution_manifest_and_output_binding",
+            "reproducibility_evidence"
+          ],
+          "generic_or_imported": [
+            "code_editor",
+            "kernel_runtime",
+            "package_resolution",
+            "query_execution",
+            "semantic_metrics",
+            "data_access_policy",
+            "object_storage",
+            "version_control"
+          ],
+          "supporting": [
+            "collaboration_review",
+            "publication",
+            "archive_and_retirement",
+            "interactive_session_state"
+          ]
+        },
+        "time_model": [
+          "document validity and recording time differ",
+          "data-cut validity differs from execution time",
+          "environment evidence and package availability can expire independently",
+          "cell start completion and observation time are explicit",
+          "published outputs retain original run time and later invalidation",
+          "replay time never rewrites historical inputs"
+        ],
+        "ubiquitous_language_policy": {
+          "homonym_rules": [
+            "document is not session",
+            "cell order is not dependency order",
+            "stored output is not current result",
+            "rerun is not reproduction proof",
+            "published notebook is not report truth"
+          ],
+          "terms": {
+            "Cell": "identified source narrative query visualization or control node",
+            "ExecutionManifest": "frozen code environment parameter data and dependency cut",
+            "ExecutionRun": "one attempt against one manifest",
+            "KernelSession": "runtime occurrence, not notebook identity",
+            "NotebookDocument": "editioned ordered document graph",
+            "OutputArtifact": "bytes or structured result bound to a producing receipt",
+            "ReproductionResult": "comparison under an exact oracle"
+          }
+        },
+        "value_objects": [
+          "NotebookId",
+          "NotebookEdition",
+          "CellId",
+          "CellPosition",
+          "CellKind",
+          "SourceDigest",
+          "DependencyRef",
+          "ParameterName",
+          "ParameterValue",
+          "EnvironmentDigest",
+          "DataCutRef",
+          "ExecutionManifestDigest",
+          "KernelProfileRef",
+          "OutputDigest",
+          "EvidenceRef"
+        ]
+      }
+    },
+    {
+      "dossier_id": "ddd.consumption.embedded_analytics",
+      "product_ref": "product.embedded_analytics",
+      "product_truth": {
+        "harmed_parties": [
+          "data_subject",
+          "cross_tenant_user",
+          "host_application_user",
+          "source_owner",
+          "decision_subject"
+        ],
+        "jobs": [
+          "define embeddable analytical surfaces",
+          "bind tenant principal purpose and entitlements",
+          "issue short-lived embed grants",
+          "open isolated sessions",
+          "bridge parameters filters interactions and events",
+          "render accessible localized results",
+          "revoke suspend audit and retire integrations"
+        ],
+        "measurable_outcomes": [
+          "tenant_isolation_test_pass",
+          "embed_session_start_latency",
+          "grant_and_revocation_propagation",
+          "interaction_contract_conformance",
+          "accessibility_target_pass",
+          "cross_origin_and_data_leak_incidents",
+          "host_upgrade_compatibility"
+        ],
+        "negative_mission": "Does not own host identity, tenant membership, policy, metric meaning, query execution, source data, business workflow, downstream action, or a general BI authoring experience.",
+        "sovereign_question": "How can a host application expose an analytical surface to the correct tenant principal and purpose with exact semantic, interaction, accessibility, isolation, disclosure and lifecycle contracts without inheriting or granting authority implicitly?",
+        "users": [
+          "host_application_team",
+          "analytics_product_owner",
+          "tenant_administrator",
+          "embedded_consumer",
+          "security_reviewer",
+          "support_operator"
+        ]
+      },
+      "status": "candidate_not_ratified",
+      "strategic_and_tactical_ddd": {
+        "aggregate_invariants": [
+          "host identity tenant principal purpose entitlement and session identity never alias",
+          "embed grants are audience origin purpose tenant principal surface and expiry scoped",
+          "client-supplied tenant context is never trusted without authority verification",
+          "all bridge messages are editioned typed direction-scoped and replay protected",
+          "host action intent is not host effect authority",
+          "cross-tenant cache and session reuse is prohibited",
+          "accessibility localization and responsive adaptation cannot change semantic values",
+          "revocation propagates to active sessions and cached grants"
+        ],
+        "aggregate_roots": [
+          "EmbedDefinition",
+          "EmbeddedSession",
+          "HostIntegration"
+        ],
+        "aggregates": [
+          {
+            "consistency": "published edition is immutable and every bridge direction and message is allowlisted",
+            "members": [
+              "surface_ref",
+              "allowed_hosts",
+              "parameters",
+              "interactions",
+              "accessibility_profile",
+              "compatibility"
+            ],
+            "root": "EmbedDefinition"
+          },
+          {
+            "consistency": "session authority and tenant scope are fixed or explicitly re-authorized",
+            "members": [
+              "grant",
+              "tenant",
+              "principal",
+              "purpose",
+              "surface_edition",
+              "presentation_state",
+              "interaction_log",
+              "lifecycle"
+            ],
+            "root": "EmbeddedSession"
+          },
+          {
+            "consistency": "only qualified exact host and bridge editions may issue sessions",
+            "members": [
+              "host_identity",
+              "origins",
+              "routes",
+              "bridge_edition",
+              "qualification",
+              "status"
+            ],
+            "root": "HostIntegration"
+          }
+        ],
+        "anti_corruption_layers": [
+          "acl.host_identity",
+          "acl.tenant_context",
+          "acl.host_route_and_parameter",
+          "acl.semantic_query",
+          "acl.query_result",
+          "acl.browser_native_sandbox",
+          "acl.host_action"
+        ],
+        "application_services": [
+          "RegisterHostUseCase",
+          "PublishEmbedDefinitionUseCase",
+          "OpenEmbeddedSessionUseCase",
+          "InteractWithEmbeddedSurfaceUseCase",
+          "RefreshSessionUseCase",
+          "RevokeEmbedAccessUseCase",
+          "UpgradeHostBridgeUseCase",
+          "RetireEmbedUseCase"
+        ],
+        "bounded_context_boundary": {
+          "inside": [
+            "embed definition editions",
+            "host integration contract",
+            "guest/embed grants",
+            "tenant-principal-purpose session binding",
+            "parameter filter navigation and interaction bridge",
+            "presentation adaptation",
+            "session receipts",
+            "revocation suspension compatibility and retirement"
+          ],
+          "outside": [
+            "host authentication truth",
+            "tenant authority",
+            "metric and query meaning",
+            "data access policy",
+            "query engine",
+            "host business workflow",
+            "business decisions and effects"
+          ]
+        },
+        "commands": [
+          "register_host_application",
+          "publish_embed_definition",
+          "qualify_host_integration",
+          "issue_embed_grant",
+          "open_embedded_session",
+          "bind_session_parameter",
+          "apply_embedded_interaction",
+          "emit_host_action_intent",
+          "record_session_receipt",
+          "refresh_session_authority",
+          "revoke_embed_grant",
+          "suspend_host_integration",
+          "upgrade_bridge_edition",
+          "close_embedded_session",
+          "retire_embed_definition"
+        ],
+        "concurrency_and_idempotency": [
+          "grant issuance is idempotent by host tenant principal purpose surface and request",
+          "session opening consumes one scoped grant identity",
+          "session interactions use monotonic session editions and message nonces",
+          "authority refresh and revocation serialize per session",
+          "unknown host or provider completion is reconciled before retry",
+          "cross-tenant keys include tenant and host scope"
+        ],
+        "context_map": [
+          {
+            "neighbor_ref": "neighbor.identity_policy",
+            "relationship": "conformist_at_authority_gate",
+            "translation": "verify principal tenant purpose entitlement and revocation"
+          },
+          {
+            "neighbor_ref": "product.bi_reporting",
+            "relationship": "customer_supplier",
+            "translation": "consume editioned presentation definitions and state reducers"
+          },
+          {
+            "neighbor_ref": "neighbor.semantic_metric",
+            "relationship": "customer_supplier",
+            "translation": "bind exact semantic query editions"
+          },
+          {
+            "neighbor_ref": "neighbor.query_engine",
+            "relationship": "customer_supplier_acl",
+            "translation": "submit typed queries under session authority"
+          },
+          {
+            "neighbor_ref": "host.application",
+            "relationship": "anti_corruption_layer",
+            "translation": "translate routes parameters events and action intents through a versioned bridge"
+          }
+        ],
+        "domain_events": [
+          "host_application_registered",
+          "embed_definition_published",
+          "host_integration_qualified",
+          "embed_grant_issued",
+          "embedded_session_opened",
+          "session_parameter_bound",
+          "embedded_interaction_applied",
+          "host_action_intent_emitted",
+          "session_receipt_recorded",
+          "session_authority_refreshed",
+          "embed_grant_revoked",
+          "host_integration_suspended",
+          "bridge_edition_upgraded",
+          "embedded_session_closed",
+          "embed_definition_retired"
+        ],
+        "domain_services": [
+          "HostQualificationService",
+          "EmbedGrantService",
+          "TenantSessionBindingService",
+          "InteractionBridgeService",
+          "SessionPolicyRefreshService",
+          "CrossTenantIsolationService",
+          "EmbedCompatibilityService"
+        ],
+        "domain_vision_statement": "Own a versioned isolation-safe bridge between a host application and governed analytical presentation sessions.",
+        "entities": [
+          "EmbedDefinition",
+          "HostIntegration",
+          "EmbedGrant",
+          "EmbeddedSession",
+          "InteractionBridge",
+          "CompatibilityAssessment",
+          "RevocationCase"
+        ],
+        "event_storming_swimlanes": [
+          "host_application",
+          "host_application_team",
+          "embedded_consumer",
+          "tenant_administrator",
+          "identity_policy_authority",
+          "embed_gateway",
+          "presentation_runtime",
+          "semantic_query_service",
+          "query_engine",
+          "support_operator"
+        ],
+        "factories": [
+          "EmbedDefinitionFactory",
+          "HostIntegrationFactory",
+          "EmbedGrantFactory",
+          "EmbeddedSessionFactory",
+          "InteractionMessageFactory"
+        ],
+        "integration_event_policy": "Only minimized editioned embed, grant, session, interaction-intent, receipt, revocation and compatibility contracts cross the boundary; host tokens, secrets, provider DTOs, raw data and mutable presentation internals do not.",
+        "nonfunctional_laws": [
+          "fail-closed tenant principal purpose and origin isolation",
+          "finite session interaction render and query budgets",
+          "replay-resistant typed bridge messages",
+          "cooperative cancellation and explicit degraded state",
+          "accessible localized responsive presentation without semantic mutation",
+          "provider-neutral host and renderer ports",
+          "complete session authority interaction and result trace",
+          "optional model or agent removal preserves the deterministic embedded core"
+        ],
+        "policies_and_reactions": [
+          "when a grant expires or is revoked terminate or restrict every dependent session",
+          "when tenant or principal authority changes refresh before accepting another interaction",
+          "when a host bridge edition changes requalify exact compatibility",
+          "when an action intent is emitted require the host to validate authority independently",
+          "when an optional narrative or layout is proposed validate semantics accessibility and disclosure deterministically"
+        ],
+        "published_language": [
+          "EmbedDefinitionId",
+          "EmbedDefinitionEdition",
+          "HostApplicationRef",
+          "EmbedGrant",
+          "TenantContext",
+          "PrincipalContext",
+          "PurposeRef",
+          "EmbeddedSessionId",
+          "AllowedParameter",
+          "InteractionMessage",
+          "HostActionIntent",
+          "SessionReceipt",
+          "RevocationNotice",
+          "CompatibilityProfile"
+        ],
+        "read_models_and_projections": [
+          "EmbedCatalogView",
+          "HostIntegrationStatusView",
+          "ActiveSessionScopeView",
+          "GrantExpiryAndRevocationView",
+          "BridgeCompatibilityView",
+          "InteractionAuditView",
+          "TenantIsolationEvidenceView",
+          "AccessibilityConformanceView"
+        ],
+        "refusal_failure_catalog": [
+          "host_identity_unknown",
+          "origin_not_allowed",
+          "bridge_edition_unsupported",
+          "host_integration_unqualified",
+          "tenant_scope_missing",
+          "principal_unauthorized",
+          "purpose_refused",
+          "entitlement_missing",
+          "grant_expired_or_revoked",
+          "audience_mismatch",
+          "parameter_not_allowed",
+          "interaction_not_allowed",
+          "message_replay",
+          "semantic_binding_stale",
+          "query_or_renderer_unqualified",
+          "cross_tenant_cache_risk",
+          "accessibility_target_unproved",
+          "host_action_authority_missing"
+        ],
+        "repositories": [
+          "EmbedDefinitionRepository",
+          "HostIntegrationRepository",
+          "EmbedGrantRepository",
+          "EmbeddedSessionRepository",
+          "CompatibilityAssessmentRepository",
+          "RevocationCaseRepository"
+        ],
+        "sagas_and_process_managers": [
+          "HostOnboardingProcess",
+          "EmbedGrantIssuanceProcess",
+          "EmbeddedSessionProcess",
+          "AuthorityRefreshProcess",
+          "RevocationPropagationProcess",
+          "BridgeUpgradeProcess",
+          "EmbedRetirementProcess"
+        ],
+        "specifications": [
+          "HostIdentitySpecification",
+          "OriginAllowlistSpecification",
+          "EmbedGrantScopeSpecification",
+          "TenantSessionIsolationSpecification",
+          "BridgeMessageSpecification",
+          "InteractionAuthorizationSpecification",
+          "CrossTenantCacheSpecification",
+          "EmbedCompatibilitySpecification",
+          "AccessibilityTargetSpecification"
+        ],
+        "state_machine": {
+          "EmbedDefinition": [
+            "draft",
+            "published",
+            "deprecated",
+            "retired"
+          ],
+          "EmbeddedSession": [
+            "grant_pending",
+            "opening",
+            "active",
+            "authority_refresh_pending",
+            "revoked",
+            "expired",
+            "degraded",
+            "closing",
+            "closed",
+            "refused"
+          ],
+          "HostIntegration": [
+            "registered",
+            "qualification_pending",
+            "active",
+            "degraded",
+            "suspended",
+            "upgrade_pending",
+            "retired"
+          ],
+          "law": "revoked or expired authority dominates interaction acceptance and historical receipts are append-only"
+        },
+        "subdomain_classification": {
+          "core": [
+            "embed_contract",
+            "tenant_and_principal_session_binding",
+            "interaction_bridge",
+            "host_analytics_lifecycle"
+          ],
+          "generic_or_imported": [
+            "identity_provider",
+            "authorization_policy",
+            "semantic_metrics",
+            "query_execution",
+            "browser_or_native_sandbox",
+            "notification",
+            "host_routing"
+          ],
+          "supporting": [
+            "presentation adaptation",
+            "accessibility_and_localization",
+            "session audit",
+            "revocation_and_recovery"
+          ]
+        },
+        "time_model": [
+          "host qualification grant validity policy validity and session lifetime are independent",
+          "event occurrence recording and delivery times differ",
+          "revocation effective time dominates cached grant expiry",
+          "semantic and presentation editions may expire independently",
+          "historical session receipts retain original authority and bridge editions"
+        ],
+        "ubiquitous_language_policy": {
+          "homonym_rules": [
+            "frame is not session",
+            "host login is not analytics authorization",
+            "tenant hint is not tenant truth",
+            "interaction event is not action authority",
+            "presentation state is not semantic query state"
+          ],
+          "terms": {
+            "EmbedDefinition": "versioned analytical surface and bridge contract",
+            "EmbedGrant": "short-lived scoped permission reference",
+            "EmbeddedSession": "tenant-principal-purpose-bound presentation occurrence",
+            "HostActionIntent": "non-authoritative request requiring host validation",
+            "HostApplication": "external integrating application, not an authority imported by trust",
+            "InteractionBridge": "allowed host-to-analytics and analytics-to-host messages"
+          }
+        },
+        "value_objects": [
+          "EmbedDefinitionId",
+          "EmbedEdition",
+          "HostApplicationId",
+          "TenantRef",
+          "PrincipalRef",
+          "PurposeRef",
+          "AudienceRef",
+          "GrantId",
+          "GrantExpiry",
+          "SessionId",
+          "OriginRef",
+          "RouteRef",
+          "ParameterBinding",
+          "InteractionKind",
+          "MessageNonce",
+          "PolicyDecisionRef"
+        ]
+      }
+    }
+  ],
+  "edition": 1,
+  "libraries": [
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "grammar_edition",
+        "unknown_node_policy"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.vegalite.spec"
+      ],
+      "invariants": [
+        "lowering_preserves_declared_meaning",
+        "provider_identity_is_nonsemantic"
+      ],
+      "library_id": "library.consumption.presentation_ir",
+      "operations": [
+        "validate_ir",
+        "lower_ir"
+      ],
+      "owner_ref": "semantic.presentation_ir",
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ],
+      "provides": [
+        "capability.lower_presentation"
+      ],
+      "refusals": [
+        "unknown_grammar",
+        "unsupported_construct"
+      ],
+      "types": [
+        "PresentationIr",
+        "PresentationNode",
+        "DataBinding"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "scale_domain_policy",
+        "null_encoding_policy"
+      ],
+      "dependencies": [
+        "library.consumption.presentation_ir"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.vegalite.spec"
+      ],
+      "invariants": [
+        "encoding_cannot_define_metric_meaning"
+      ],
+      "library_id": "library.consumption.visual_encoding",
+      "operations": [
+        "validate_encoding",
+        "compile_encoding"
+      ],
+      "owner_ref": "semantic.visual_encoding",
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ],
+      "provides": [
+        "capability.render_visual"
+      ],
+      "refusals": [
+        "invalid_channel",
+        "unknown_scale"
+      ],
+      "types": [
+        "Mark",
+        "Channel",
+        "Scale",
+        "Guide"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "layout_policy",
+        "state_persistence_policy"
+      ],
+      "dependencies": [
+        "library.consumption.presentation_ir"
+      ],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.powerbi.overview",
+        "evidence.vega.signals"
+      ],
+      "invariants": [
+        "dashboard_is_not_analytical_case"
+      ],
+      "library_id": "library.consumption.dashboard_runtime",
+      "operations": [
+        "compose_dashboard",
+        "reduce_interaction"
+      ],
+      "owner_ref": "semantic.dashboard_definition",
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ],
+      "provides": [
+        "capability.compose_dashboard",
+        "capability.manage_presentation_state"
+      ],
+      "refusals": [
+        "unknown_widget",
+        "stale_state"
+      ],
+      "types": [
+        "DashboardDefinition",
+        "WidgetRef",
+        "PresentationState"
+      ]
+    },
+    {
+      "class": "adapter_boundary",
+      "decisions": [
+        "target_profile",
+        "degradation_policy"
+      ],
+      "dependencies": [
+        "library.consumption.presentation_ir",
+        "library.consumption.visual_encoding"
+      ],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.observable.plot"
+      ],
+      "invariants": [
+        "render_receipt_binds_exact_ir_and_target"
+      ],
+      "library_id": "library.consumption.renderer_adapter",
+      "operations": [
+        "render"
+      ],
+      "owner_ref": "semantic.presentation_ir",
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ],
+      "provides": [
+        "capability.render_visual"
+      ],
+      "refusals": [
+        "unsupported_target",
+        "resource_exhausted"
+      ],
+      "types": [
+        "RenderRequest",
+        "RenderTarget",
+        "RenderReceipt"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "target_level",
+        "audience_profile"
+      ],
+      "dependencies": [
+        "library.consumption.presentation_ir"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.w3c.wcag22",
+        "evidence.w3c.aria12",
+        "evidence.paper.olli"
+      ],
+      "invariants": [
+        "styling_is_not_accessibility",
+        "text_alternative_is_not_full_equivalence"
+      ],
+      "library_id": "library.consumption.accessibility",
+      "operations": [
+        "construct_access_tree",
+        "test_equivalent_access"
+      ],
+      "owner_ref": "semantic.accessibility",
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ],
+      "provides": [
+        "capability.validate_accessibility"
+      ],
+      "refusals": [
+        "missing_semantics",
+        "unverified_equivalence"
+      ],
+      "types": [
+        "AccessibleTree",
+        "AlternativeRepresentation",
+        "ConformanceResult"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "locale_data_edition",
+        "number_date_unit_policy"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.unicode.cldr",
+        "evidence.unicode.uts35"
+      ],
+      "invariants": [
+        "formatting_cannot_change_semantic_value"
+      ],
+      "library_id": "library.consumption.localization",
+      "operations": [
+        "format_value",
+        "resolve_fallback"
+      ],
+      "owner_ref": "semantic.localization",
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ],
+      "provides": [
+        "capability.localize_presentation"
+      ],
+      "refusals": [
+        "unknown_locale",
+        "missing_calendar"
+      ],
+      "types": [
+        "LocaleProfile",
+        "LocaleDataEdition",
+        "LocalizedValue"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "nbformat_edition",
+        "unknown_metadata_policy"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.security"
+      ],
+      "invariants": [
+        "stored_output_is_not_execution_receipt",
+        "cell_order_is_explicit"
+      ],
+      "library_id": "library.consumption.notebook_document",
+      "operations": [
+        "validate_notebook",
+        "canonicalize_document"
+      ],
+      "owner_ref": "semantic.notebook_document",
+      "product_refs": [
+        "product.analytical_notebook"
+      ],
+      "provides": [
+        "capability.manage_notebook"
+      ],
+      "refusals": [
+        "invalid_notebook",
+        "untrusted_output"
+      ],
+      "types": [
+        "NotebookDocument",
+        "Cell",
+        "StoredOutput",
+        "TrustState"
+      ]
+    },
+    {
+      "class": "adapter_boundary",
+      "decisions": [
+        "tenant_binding",
+        "origin_policy",
+        "session_expiry"
+      ],
+      "dependencies": [],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.powerbi.embedded",
+        "evidence.superset.embedded"
+      ],
+      "invariants": [
+        "iframe_is_not_authority",
+        "host_identity_is_not_guest_identity"
+      ],
+      "library_id": "library.consumption.embedded_bridge",
+      "operations": [
+        "validate_embed_intent",
+        "propose_guest_grant"
+      ],
+      "owner_ref": "semantic.embedded_session",
+      "product_refs": [
+        "product.embedded_analytics"
+      ],
+      "provides": [
+        "capability.embed_surface"
+      ],
+      "refusals": [
+        "tenant_mismatch",
+        "origin_denied",
+        "expired_grant"
+      ],
+      "types": [
+        "EmbedIntent",
+        "GuestGrant",
+        "HostOrigin",
+        "EmbeddedSession"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "hysteresis_policy",
+        "missing_data_policy"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.superset.alerts",
+        "evidence.grafana.notifications"
+      ],
+      "invariants": [
+        "alert_state_is_not_notification_delivery"
+      ],
+      "library_id": "library.consumption.alert_state",
+      "operations": [
+        "evaluate_rule",
+        "transition_state"
+      ],
+      "owner_ref": "semantic.alert_state",
+      "product_refs": [
+        "product.bi_reporting"
+      ],
+      "provides": [
+        "capability.evaluate_alert",
+        "capability.transition_alert"
+      ],
+      "refusals": [
+        "unknown_cut",
+        "indeterminate_condition"
+      ],
+      "types": [
+        "AlertRule",
+        "AlertEvaluation",
+        "AlertState"
+      ]
+    },
+    {
+      "class": "runtime_boundary",
+      "decisions": [
+        "recipient_policy",
+        "schedule_policy",
+        "retry_policy"
+      ],
+      "dependencies": [
+        "library.consumption.alert_state",
+        "library.consumption.report_snapshot",
+        "library.consumption.export_writer"
+      ],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.powerbi.subscription",
+        "evidence.prometheus.alertmanager"
+      ],
+      "invariants": [
+        "scheduled_does_not_mean_delivered",
+        "delivered_does_not_mean_authorized_use"
+      ],
+      "library_id": "library.consumption.subscription_runner",
+      "operations": [
+        "plan_delivery",
+        "record_delivery"
+      ],
+      "owner_ref": "semantic.subscription",
+      "product_refs": [
+        "product.bi_reporting"
+      ],
+      "provides": [
+        "capability.run_subscription"
+      ],
+      "refusals": [
+        "unauthorized_recipient",
+        "expired_subscription",
+        "delivery_failed"
+      ],
+      "types": [
+        "Subscription",
+        "DeliveryIntent",
+        "DeliveryReceipt"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "snapshot_identity_policy",
+        "verification_policy",
+        "supersession_policy"
+      ],
+      "dependencies": [
+        "library.consumption.presentation_ir",
+        "library.consumption.renderer_adapter"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.powerbi.export",
+        "evidence.powerbi.subscription"
+      ],
+      "invariants": [
+        "sealed_snapshot_is_immutable",
+        "snapshot_integrity_is_not_source_finality"
+      ],
+      "library_id": "library.consumption.report_snapshot",
+      "operations": [
+        "open_snapshot",
+        "record_rendition",
+        "seal_snapshot",
+        "supersede_snapshot"
+      ],
+      "owner_ref": "semantic.report_snapshot",
+      "product_refs": [
+        "product.bi_reporting"
+      ],
+      "provides": [
+        "capability.materialize_snapshot"
+      ],
+      "refusals": [
+        "unresolved_cut",
+        "missing_rendition_evidence",
+        "snapshot_already_sealed"
+      ],
+      "types": [
+        "SnapshotIntent",
+        "SnapshotBinding",
+        "RenditionEvidence",
+        "SealedSnapshot"
+      ]
+    },
+    {
+      "class": "adapter_boundary",
+      "decisions": [
+        "format_profile",
+        "loss_policy",
+        "disposition_policy"
+      ],
+      "dependencies": [
+        "library.consumption.presentation_ir"
+      ],
+      "effect_boundary": "effect_intents_and_receipts",
+      "evidence_refs": [
+        "evidence.powerbi.export",
+        "evidence.powerbi.subscription"
+      ],
+      "invariants": [
+        "export_creates_new_occurrence",
+        "loss_is_explicit",
+        "delivery_is_not_continuing_access_governance"
+      ],
+      "library_id": "library.consumption.export_writer",
+      "operations": [
+        "plan_export",
+        "encode_export",
+        "deliver_export"
+      ],
+      "owner_ref": "semantic.export",
+      "product_refs": [
+        "product.bi_reporting"
+      ],
+      "provides": [
+        "capability.export_artifact"
+      ],
+      "refusals": [
+        "unauthorized_export",
+        "unsupported_format",
+        "undeclared_loss",
+        "unknown_delivery_completion"
+      ],
+      "types": [
+        "ExportIntent",
+        "ExportFormatOffer",
+        "ExportPlan",
+        "EncodedExportArtifact",
+        "ExportDeliveryReceipt"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "subtotal_policy",
+        "sparse_cell_policy"
+      ],
+      "dependencies": [
+        "library.consumption.presentation_ir"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.w3c.wcag22",
+        "evidence.powerbi.export"
+      ],
+      "invariants": [
+        "visual_position_is_not_header_semantics"
+      ],
+      "library_id": "library.consumption.table_model",
+      "operations": [
+        "build_table_model",
+        "derive_accessible_headers"
+      ],
+      "owner_ref": "semantic.presentation_ir",
+      "product_refs": [
+        "product.bi_reporting",
+        "product.embedded_analytics"
+      ],
+      "provides": [
+        "capability.lower_presentation",
+        "capability.validate_accessibility"
+      ],
+      "refusals": [
+        "ambiguous_header",
+        "unsupported_span"
+      ],
+      "types": [
+        "TableModel",
+        "HeaderGraph",
+        "CellCoordinate"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "section_structure_policy",
+        "parameter_policy",
+        "semantic_binding_policy",
+        "publication_readiness_policy"
+      ],
+      "dependencies": [
+        "library.consumption.presentation_ir"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.w3c.wcag22"
+      ],
+      "invariants": [
+        "report_structure_cannot_redefine_metric_meaning",
+        "draft_approval_and_publication_are_distinct"
+      ],
+      "library_id": "library.consumption.report_definition",
+      "operations": [
+        "open_report_draft",
+        "author_report",
+        "bind_semantics",
+        "validate_publication_readiness"
+      ],
+      "owner_ref": "semantic.report_lifecycle",
+      "product_refs": [
+        "product.bi_reporting"
+      ],
+      "provides": [
+        "capability.author_report"
+      ],
+      "refusals": [
+        "semantic_binding_missing",
+        "parameter_invalid",
+        "publication_evidence_incomplete"
+      ],
+      "types": [
+        "ReportId",
+        "ReportDefinitionEdition",
+        "ReportSection",
+        "SemanticBinding",
+        "ParameterDefinition",
+        "PublicationReadiness"
+      ]
+    }
+  ],
+  "negative_scope": "Does not ratify products, qualify renderers or BI providers, own metric/query/source truth, grant disclosure or action authority, or infer accessibility and reproducibility from provider claims.",
+  "negative_tests": [
+    {
+      "expected_result": "refuse_semantic_owner_collapse",
+      "prohibited_claim": "Report layout or label cannot redefine a metric.",
+      "test_id": "negative.report_metric"
+    },
+    {
+      "expected_result": "refuse_case_collapse",
+      "prohibited_claim": "Dashboard identity cannot substitute for analytical-case identity.",
+      "test_id": "negative.dashboard_case"
+    },
+    {
+      "expected_result": "refuse_temporal_collapse",
+      "prohibited_claim": "Snapshot completeness cannot be inferred from a live-view epoch.",
+      "test_id": "negative.snapshot_live"
+    },
+    {
+      "expected_result": "reclassify_component",
+      "prohibited_claim": "A widget package is not an independent product.",
+      "test_id": "negative.widget_product"
+    },
+    {
+      "expected_result": "reclassify_library",
+      "prohibited_claim": "A renderer library is not an operated product by name.",
+      "test_id": "negative.visual_runtime_product"
+    },
+    {
+      "expected_result": "refuse_identity_collapse",
+      "prohibited_claim": "Notebook document identity is not kernel-session identity.",
+      "test_id": "negative.notebook_kernel"
+    },
+    {
+      "expected_result": "refuse_evidence_promotion",
+      "prohibited_claim": "Stored notebook output is not an execution receipt.",
+      "test_id": "negative.stored_output_receipt"
+    },
+    {
+      "expected_result": "refuse_security_inference",
+      "prohibited_claim": "An iframe does not prove tenant isolation or authority.",
+      "test_id": "negative.embed_iframe"
+    },
+    {
+      "expected_result": "refuse_identity_collapse",
+      "prohibited_claim": "Host principal and embedded guest grant are distinct.",
+      "test_id": "negative.guest_host_identity"
+    },
+    {
+      "expected_result": "refuse_state_effect_collapse",
+      "prohibited_claim": "Alert condition/state is not notification delivery.",
+      "test_id": "negative.alert_notification"
+    },
+    {
+      "expected_result": "refuse_outcome_promotion",
+      "prohibited_claim": "Delivery receipt does not prove recipient comprehension.",
+      "test_id": "negative.delivery_comprehension"
+    },
+    {
+      "expected_result": "require_disclosure_receipt",
+      "prohibited_claim": "Exported bytes are not continuing governed access.",
+      "test_id": "negative.export_share"
+    },
+    {
+      "expected_result": "require_accessibility_oracle",
+      "prohibited_claim": "Color/theme/alt text alone do not prove equivalent access.",
+      "test_id": "negative.accessibility_style"
+    },
+    {
+      "expected_result": "refuse_semantic_mutation",
+      "prohibited_claim": "Localization cannot mutate semantic value.",
+      "test_id": "negative.locale_value"
+    },
+    {
+      "expected_result": "require_recalculation_evidence",
+      "prohibited_claim": "Formula syntax compatibility does not prove workbook recalculation equivalence.",
+      "test_id": "negative.formula_governance"
+    },
+    {
+      "expected_result": "refuse_suite_collapse",
+      "prohibited_claim": "Provider suite packaging cannot transfer semantic ownership.",
+      "test_id": "negative.provider_suite"
+    },
+    {
+      "expected_result": "require_deterministic_validation",
+      "prohibited_claim": "Generated explanation or chart proposal has no semantic or effect authority.",
+      "test_id": "negative.agent_authority"
+    },
+    {
+      "expected_result": "remove_optional_extension_and_retest",
+      "prohibited_claim": "Consumption capabilities do not become separate AI products by automation modality.",
+      "test_id": "negative.ai_prefix"
+    },
+    {
+      "expected_result": "require closed manifest and scoped comparison",
+      "prohibited_claim": "A notebook rerun proves reproduction without frozen environment data cut parameters and oracle.",
+      "test_id": "negative.notebook.rerun_reproduction"
+    },
+    {
+      "expected_result": "typecheck bind validate review and retain proposal provenance",
+      "prohibited_claim": "Generated notebook code or narrative defines analytical truth.",
+      "test_id": "negative.notebook.generated_truth"
+    },
+    {
+      "expected_result": "verify tenant principal purpose and audience at authority gate",
+      "prohibited_claim": "A host-supplied tenant identifier establishes tenant scope.",
+      "test_id": "negative.embedded.host_tenant"
+    },
+    {
+      "expected_result": "emit a typed intent for independent host authorization",
+      "prohibited_claim": "An embedded interaction event authorizes a host business effect.",
+      "test_id": "negative.embedded.action_effect"
+    }
+  ],
+  "non_collapse_laws": [
+    "metric meaning != report definition != visual encoding",
+    "analytical case != dashboard != widget",
+    "query result != presentation state",
+    "report snapshot != live view",
+    "notebook document != kernel session != stored output != execution receipt",
+    "embedded frame != tenant session != guest grant != host authority",
+    "alert rule != alert state != notification delivery",
+    "exported bytes != governed live sharing",
+    "accessibility semantics != styling",
+    "locale formatting cannot mutate semantic value",
+    "spreadsheet formula syntax != recalculation equivalence != workbook governance",
+    "suite packaging does not transfer semantic ownership",
+    "optional model or agent proposal does not create meaning, validation, authority, effect or product identity",
+    "notebook document != cell graph != execution manifest != kernel session != attempt != output != reproduction result",
+    "host authentication != tenant scope != embed grant != embedded session != analytical authorization",
+    "typed host interaction != host action authority or completed host effect"
+  ],
+  "offers": [
+    {
+      "capability_refs": [
+        "capability.author_report",
+        "capability.compose_dashboard",
+        "capability.render_visual",
+        "capability.embed_surface",
+        "capability.export_artifact",
+        "capability.run_subscription"
+      ],
+      "evidence_refs": [
+        "evidence.powerbi.overview",
+        "evidence.powerbi.embedded",
+        "evidence.powerbi.export",
+        "evidence.powerbi.subscription"
+      ],
+      "offer_id": "offer.powerbi.consumption",
+      "portable": false,
+      "provider_ref": "implementation.power_bi",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.author_report",
+        "capability.compose_dashboard",
+        "capability.embed_surface",
+        "capability.evaluate_alert",
+        "capability.run_subscription"
+      ],
+      "evidence_refs": [
+        "evidence.superset.embedded",
+        "evidence.superset.alerts"
+      ],
+      "offer_id": "offer.superset.consumption",
+      "portable": false,
+      "provider_ref": "implementation.superset",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.manage_notebook",
+        "capability.execute_notebook"
+      ],
+      "evidence_refs": [
+        "evidence.jupyter.nbformat",
+        "evidence.jupyter.messaging",
+        "evidence.jupyter.kernels"
+      ],
+      "offer_id": "offer.jupyter.notebook",
+      "portable": false,
+      "provider_ref": "implementation.jupyter",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.lower_presentation",
+        "capability.render_visual",
+        "capability.manage_presentation_state"
+      ],
+      "evidence_refs": [
+        "evidence.vega.spec",
+        "evidence.vegalite.spec"
+      ],
+      "offer_id": "offer.vega.render",
+      "portable": false,
+      "provider_ref": "implementation.vega",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.render_visual",
+        "capability.manage_presentation_state"
+      ],
+      "evidence_refs": [
+        "evidence.observable.plot",
+        "evidence.observable.runtime"
+      ],
+      "offer_id": "offer.observable.visual",
+      "portable": false,
+      "provider_ref": "implementation.observable",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.run_subscription"
+      ],
+      "evidence_refs": [
+        "evidence.prometheus.alertmanager"
+      ],
+      "offer_id": "offer.alertmanager.delivery",
+      "portable": false,
+      "provider_ref": "implementation.alertmanager",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.transition_alert",
+        "capability.run_subscription"
+      ],
+      "evidence_refs": [
+        "evidence.grafana.notifications",
+        "evidence.grafana.export"
+      ],
+      "offer_id": "offer.grafana.alerting",
+      "portable": false,
+      "provider_ref": "implementation.grafana_alerting",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    }
+  ],
+  "ownership": [
+    {
+      "invariant": "Report lifecycle identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.report_lifecycle",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.report_lifecycle",
+      "term": "Report lifecycle"
+    },
+    {
+      "invariant": "Dashboard definition identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.dashboard_definition",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.dashboard_definition",
+      "term": "Dashboard definition"
+    },
+    {
+      "invariant": "Presentation intermediate representation identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.presentation_ir",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.presentation_ir",
+      "term": "Presentation intermediate representation"
+    },
+    {
+      "invariant": "Visual encoding identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.visual_encoding",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.visual_encoding",
+      "term": "Visual encoding"
+    },
+    {
+      "invariant": "Presentation state identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.presentation_state",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.presentation_state",
+      "term": "Presentation state"
+    },
+    {
+      "invariant": "Report snapshot identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.report_snapshot",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.report_snapshot",
+      "term": "Report snapshot"
+    },
+    {
+      "invariant": "Export and disclosure identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.export",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.export",
+      "term": "Export and disclosure"
+    },
+    {
+      "invariant": "Accessibility semantics identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.accessibility",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.accessibility",
+      "term": "Accessibility semantics"
+    },
+    {
+      "invariant": "Localization semantics identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.localization",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.localization",
+      "term": "Localization semantics"
+    },
+    {
+      "invariant": "Notebook document identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.notebook_document",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.notebook_document",
+      "term": "Notebook document"
+    },
+    {
+      "invariant": "Notebook cell output identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.cell_output",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.cell_output",
+      "term": "Notebook cell output"
+    },
+    {
+      "invariant": "Kernel session identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.kernel_session",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.kernel_session",
+      "term": "Kernel session"
+    },
+    {
+      "invariant": "Embedded analytical session identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.embedded_session",
+      "must_not_be_owned_by": [
+        "neighbor.identity_policy"
+      ],
+      "owner_ref": "semantic.embedded_session",
+      "term": "Embedded analytical session"
+    },
+    {
+      "invariant": "Analytical interaction intent identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.interaction_intent",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.interaction_intent",
+      "term": "Analytical interaction intent"
+    },
+    {
+      "invariant": "Analytical alert rule identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.alert_rule",
+      "must_not_be_owned_by": [
+        "neighbor.notification_delivery"
+      ],
+      "owner_ref": "semantic.alert_rule",
+      "term": "Analytical alert rule"
+    },
+    {
+      "invariant": "Analytical alert state identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.alert_state",
+      "must_not_be_owned_by": [
+        "neighbor.notification_delivery"
+      ],
+      "owner_ref": "semantic.alert_state",
+      "term": "Analytical alert state"
+    },
+    {
+      "invariant": "Analytical subscription identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.subscription",
+      "must_not_be_owned_by": [
+        "neighbor.notification_delivery"
+      ],
+      "owner_ref": "semantic.subscription",
+      "term": "Analytical subscription"
+    },
+    {
+      "invariant": "Spreadsheet governance identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "meaning_id": "meaning.spreadsheet_governance",
+      "must_not_be_owned_by": [
+        "neighbor.semantic_metric",
+        "neighbor.query_engine"
+      ],
+      "owner_ref": "semantic.spreadsheet_governance",
+      "term": "Spreadsheet governance"
+    }
+  ],
+  "relations": [
+    {
+      "binding_phase": "authoring",
+      "from_ref": "suite.analytics_experience",
+      "predicate": "packages",
+      "relation_id": "relation.suite.packages.bi_reporting",
+      "to_ref": "product.bi_reporting"
+    },
+    {
+      "binding_phase": "authoring",
+      "from_ref": "suite.analytics_experience",
+      "predicate": "packages",
+      "relation_id": "relation.suite.packages.embedded_analytics",
+      "to_ref": "product.embedded_analytics"
+    },
+    {
+      "binding_phase": "authoring",
+      "from_ref": "suite.analytics_experience",
+      "predicate": "packages",
+      "relation_id": "relation.suite.packages.analytical_notebook",
+      "to_ref": "product.analytical_notebook"
+    },
+    {
+      "binding_phase": "authoring",
+      "from_ref": "pattern.analytical_consumption",
+      "predicate": "realizes",
+      "relation_id": "relation.pattern.realizes.suite",
+      "to_ref": "suite.analytics_experience"
+    },
+    {
+      "binding_phase": "compile_time",
+      "from_ref": "product.bi_reporting",
+      "predicate": "requires",
+      "relation_id": "relation.bi.requires.metric",
+      "to_ref": "neighbor.semantic_metric"
+    },
+    {
+      "binding_phase": "runtime",
+      "from_ref": "product.bi_reporting",
+      "predicate": "requires",
+      "relation_id": "relation.bi.requires.query",
+      "to_ref": "neighbor.query_engine"
+    },
+    {
+      "binding_phase": "runtime",
+      "from_ref": "product.embedded_analytics",
+      "predicate": "requires",
+      "relation_id": "relation.embed.requires.identity",
+      "to_ref": "neighbor.identity_policy"
+    },
+    {
+      "binding_phase": "runtime",
+      "from_ref": "semantic.subscription",
+      "predicate": "requires",
+      "relation_id": "relation.subscription.requires.delivery",
+      "to_ref": "neighbor.notification_delivery"
+    },
+    {
+      "binding_phase": "authoring",
+      "from_ref": "artifact.dashboard_widget",
+      "predicate": "governed_by",
+      "relation_id": "relation.widget.governed_by.dashboard",
+      "to_ref": "semantic.dashboard_definition"
+    },
+    {
+      "binding_phase": "runtime",
+      "from_ref": "artifact.report_snapshot",
+      "predicate": "governed_by",
+      "relation_id": "relation.snapshot.governed_by.snapshot",
+      "to_ref": "semantic.report_snapshot"
+    },
+    {
+      "binding_phase": "compile_time",
+      "from_ref": "standard.jupyter_nbformat",
+      "predicate": "specializes",
+      "relation_id": "relation.jupyter.specializes.notebook",
+      "to_ref": "semantic.notebook_document"
+    },
+    {
+      "binding_phase": "compile_time",
+      "from_ref": "standard.vega",
+      "predicate": "specializes",
+      "relation_id": "relation.vega.specializes.presentation",
+      "to_ref": "semantic.presentation_ir"
+    },
+    {
+      "binding_phase": "compile_time",
+      "from_ref": "standard.vegalite",
+      "predicate": "specializes",
+      "relation_id": "relation.vegalite.specializes.presentation",
+      "to_ref": "semantic.presentation_ir"
+    }
+  ],
+  "requirements": [
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.author_report",
+      "consumer_ref": "product.bi_reporting",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_report_core",
+      "requirement_id": "requirement.consumption.author_report",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.compose_dashboard",
+      "consumer_ref": "product.bi_reporting",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_dashboard_runtime",
+      "requirement_id": "requirement.consumption.compose_dashboard",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.render_visual",
+      "consumer_ref": "product.bi_reporting",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_renderer",
+      "requirement_id": "requirement.consumption.render_visual",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "qualification_time",
+      "capability_ref": "capability.validate_accessibility",
+      "consumer_ref": "product.bi_reporting",
+      "minimum_qualified_offers": 1,
+      "refusal": "accessibility_not_qualified",
+      "requirement_id": "requirement.consumption.validate_accessibility",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.localize_presentation",
+      "consumer_ref": "product.bi_reporting",
+      "minimum_qualified_offers": 1,
+      "refusal": "locale_profile_unsupported",
+      "requirement_id": "requirement.consumption.localize_presentation",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.export_artifact",
+      "consumer_ref": "product.bi_reporting",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_authorized_export_offer",
+      "requirement_id": "requirement.consumption.export_artifact",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "capability_ref": "capability.embed_surface",
+      "consumer_ref": "product.embedded_analytics",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_embed_runtime",
+      "requirement_id": "requirement.consumption.embed_surface",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.manage_notebook",
+      "consumer_ref": "product.analytical_notebook",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_notebook_document_core",
+      "requirement_id": "requirement.consumption.manage_notebook",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.execute_notebook",
+      "consumer_ref": "product.analytical_notebook",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_kernel_occurrence",
+      "requirement_id": "requirement.consumption.execute_notebook",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.evaluate_alert",
+      "consumer_ref": "product.bi_reporting",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_alert_evaluator",
+      "requirement_id": "requirement.consumption.evaluate_alert",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.run_subscription",
+      "consumer_ref": "product.bi_reporting",
+      "minimum_qualified_offers": 1,
+      "refusal": "no_qualified_subscription_runner",
+      "requirement_id": "requirement.consumption.run_subscription",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "qualification_time",
+      "capability_ref": "capability.validate_workbook",
+      "consumer_ref": "semantic.spreadsheet_governance",
+      "minimum_qualified_offers": 1,
+      "refusal": "workbook_governance_not_qualified",
+      "requirement_id": "requirement.consumption.validate_workbook",
+      "status": "unbound"
+    }
+  ],
+  "scope": "Horizontal BI/reporting, embedded analytics, notebook, visualization, dashboard artifact, alert/subscription, export, accessibility, localization and spreadsheet-governance boundaries.",
+  "sources": [
+    {
+      "claim": "Defines testable accessibility requirements for perceivable, operable, understandable and robust Web content.",
+      "publisher": "W3C",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Conformance does not prove task-specific equivalent analytical understanding.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.w3c.wcag22",
+      "title": "Web Content Accessibility Guidelines 2.2",
+      "uri": "https://www.w3.org/TR/WCAG22/"
+    },
+    {
+      "claim": "Defines roles, states and properties that expose interface semantics to accessibility APIs.",
+      "publisher": "W3C",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "ARIA cannot repair missing interaction semantics or establish analytical correctness.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.w3c.aria12",
+      "title": "Accessible Rich Internet Applications 1.2",
+      "uri": "https://www.w3.org/TR/wai-aria-1.2/"
+    },
+    {
+      "claim": "Defines roles for structured graphical documents and graphics objects.",
+      "publisher": "W3C",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A role mapping alone does not establish equivalent navigation or interpretation.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.w3c.graphics_aria",
+      "title": "WAI-ARIA Graphics Module",
+      "uri": "https://www.w3.org/TR/graphics-aria-1.0/"
+    },
+    {
+      "claim": "Defines a declarative visualization grammar compiled into a reactive dataflow and scenegraph.",
+      "publisher": "Vega Project",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A visualization grammar is a library/interface contract, not an operated BI product.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.vega.spec",
+      "title": "Vega Specification",
+      "uri": "https://vega.github.io/vega/docs/specification/"
+    },
+    {
+      "claim": "Defines dynamic variables that parameterize visualization state and interaction.",
+      "publisher": "Vega Project",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Signal state is presentation state, not source data or business meaning.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.vega.signals",
+      "title": "Vega Signals",
+      "uri": "https://vega.github.io/vega/docs/signals/"
+    },
+    {
+      "claim": "Defines JSON view and composition specifications compiled to lower-level Vega.",
+      "publisher": "Vega-Lite Project",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Compilation does not validate metric semantics, audience fitness or source truth.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.vegalite.spec",
+      "title": "Vega-Lite View Specification",
+      "uri": "https://vega.github.io/vega-lite/docs/spec.html"
+    },
+    {
+      "claim": "Defines point and interval selections and their use as predicates and parameters.",
+      "publisher": "Vega-Lite Project",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A visual selection is not automatically an authorized domain command.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.vegalite.selection",
+      "title": "Vega-Lite Selection Parameters",
+      "uri": "https://vega.github.io/vega-lite/docs/selection.html"
+    },
+    {
+      "claim": "Documents a composable JavaScript plotting library with marks, scales, transforms and facets.",
+      "publisher": "Observable",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A plotting implementation does not create report governance or product adoption boundaries.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.observable.plot",
+      "title": "Observable Plot documentation",
+      "uri": "https://observablehq.com/plot/"
+    },
+    {
+      "claim": "Documents a dataflow runtime for reactive variables and modules.",
+      "publisher": "Observable",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Reactive execution is not notebook reproducibility, query authority or business workflow authority.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.observable.runtime",
+      "title": "Observable Runtime",
+      "uri": "https://github.com/observablehq/runtime"
+    },
+    {
+      "claim": "Defines versioned JSON notebook documents, cells, metadata and stored rich outputs.",
+      "publisher": "Project Jupyter",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A notebook document is not the kernel process, environment, execution order or reproducibility proof.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.jupyter.nbformat",
+      "title": "The Notebook file format",
+      "uri": "https://nbformat.readthedocs.io/en/latest/format_description.html"
+    },
+    {
+      "claim": "Defines authenticated message channels and request/reply/publication semantics between clients and kernels.",
+      "publisher": "Project Jupyter",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Protocol conformance does not qualify a kernel, environment or notebook result.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.jupyter.messaging",
+      "title": "Jupyter Messaging Protocol",
+      "uri": "https://jupyter-client.readthedocs.io/en/latest/messaging.html"
+    },
+    {
+      "claim": "Documents kernel discovery, process launch and connection-file behavior.",
+      "publisher": "Project Jupyter",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Kernel launch does not prove cell determinism, environment capture or safe effects.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.jupyter.kernels",
+      "title": "Making kernels for Jupyter",
+      "uri": "https://jupyter-client.readthedocs.io/en/latest/kernels.html"
+    },
+    {
+      "claim": "Defines comm-based synchronization of widget state between kernel and front end.",
+      "publisher": "Project Jupyter",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Widget state is not business object identity or durable application state.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.jupyter.widgets",
+      "title": "Jupyter Widgets protocol",
+      "uri": "https://ipywidgets.readthedocs.io/en/latest/examples/Widget%20Custom.html#Comms"
+    },
+    {
+      "claim": "Documents notebook trust and sanitization behavior for stored outputs.",
+      "publisher": "Project Jupyter",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Notebook trust does not authorize code execution or prove output provenance.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.jupyter.security",
+      "title": "Security in Jupyter notebooks",
+      "uri": "https://jupyter-notebook.readthedocs.io/en/stable/security.html"
+    },
+    {
+      "claim": "Documents embedding dashboards using a client SDK, allowed origins and guest tokens.",
+      "publisher": "Apache Superset",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "An iframe or guest token is not sufficient evidence of tenant isolation, semantic portability or host-action authority.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.superset.embedded",
+      "title": "Embedding Superset",
+      "uri": "https://superset.apache.org/user-docs/using-superset/embedding/"
+    },
+    {
+      "claim": "Documents scheduled queries, reports and alert delivery through configured workers and channels.",
+      "publisher": "Apache Superset",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Bundled scheduling does not collapse alert-state, report-snapshot and notification-delivery semantics.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.superset.alerts",
+      "title": "Alerts and Reports",
+      "uri": "https://superset.apache.org/docs/configuration/alerts-reports/"
+    },
+    {
+      "claim": "Separates semantic models, reports, dashboards, authoring, viewing, sharing and administration roles.",
+      "publisher": "Microsoft",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "One provider suite does not determine provider-neutral product or semantic boundaries.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.powerbi.overview",
+      "title": "Power BI documentation",
+      "uri": "https://learn.microsoft.com/en-us/power-bi/"
+    },
+    {
+      "claim": "Documents embedding APIs, multitenancy, permissions, capacity planning and production operation.",
+      "publisher": "Microsoft",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Provider documentation does not prove portable embedding or qualify a deployment occurrence.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.powerbi.embedded",
+      "title": "Power BI embedded analytics documentation",
+      "uri": "https://learn.microsoft.com/en-us/power-bi/developer/embedded/"
+    },
+    {
+      "claim": "Documents permission-sensitive export modes, limits and sensitivity-label behavior.",
+      "publisher": "Microsoft",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Exported bytes are a new disclosure occurrence and do not retain live-view revocation semantics.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.powerbi.export",
+      "title": "Export data from a Power BI visualization",
+      "uri": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-export-data"
+    },
+    {
+      "claim": "Documents scheduled report/dashboard snapshots, recipients, licensing, RLS considerations and delivery limits.",
+      "publisher": "Microsoft",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A delivery receipt does not prove recipient comprehension, current source finality or authorized downstream use.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.powerbi.subscription",
+      "title": "Email subscriptions for reports and dashboards",
+      "uri": "https://learn.microsoft.com/en-us/power-bi/collaborate-share/end-user-subscribe"
+    },
+    {
+      "claim": "Separates alert generation from grouping, inhibition, silencing and routing notifications to receivers.",
+      "publisher": "Prometheus",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Operational alert routing does not own the analytical condition or report semantics.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.prometheus.alertmanager",
+      "title": "Prometheus Alertmanager overview",
+      "uri": "https://prometheus.io/docs/alerting/latest/overview/"
+    },
+    {
+      "claim": "Defines label-based routing trees, grouping and delivery through contact points.",
+      "publisher": "Grafana Labs",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A routing policy does not prove that an analytical alert condition is meaningful or actionable.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.grafana.notifications",
+      "title": "Grafana notification policies",
+      "uri": "https://grafana.com/docs/grafana/latest/alerting/fundamentals/notifications/notification-policies/"
+    },
+    {
+      "claim": "Documents JSON, YAML and Terraform export surfaces and their edit/overwrite limitations.",
+      "publisher": "Grafana Labs",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Configuration export does not prove cross-provider semantic equivalence or lossless migration.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.grafana.export",
+      "title": "Export alerting resources",
+      "uri": "https://grafana.com/docs/grafana/latest/alerting/set-up/provision-alerting-resources/export-alerting-resources/"
+    },
+    {
+      "claim": "Defines recalculated spreadsheet formula syntax and semantics under an exact standard edition.",
+      "publisher": "OASIS",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Formula interchange does not establish workbook governance, recalculation equivalence or external-data provenance.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.oasis.openformula",
+      "title": "OpenDocument 1.4 Part 4: OpenFormula",
+      "uri": "https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html"
+    },
+    {
+      "claim": "Publishes versioned locale data used for number, date, unit, currency and language presentation.",
+      "publisher": "Unicode Consortium",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Locale formatting cannot change underlying semantic quantities, instants or values.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.unicode.cldr",
+      "title": "Unicode Common Locale Data Repository",
+      "uri": "https://cldr.unicode.org/"
+    },
+    {
+      "claim": "Defines locale data markup and formatting behavior used by internationalized applications.",
+      "publisher": "Unicode Consortium",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A locale profile is not a timezone, calendar or measurement-system policy by implication.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.unicode.uts35",
+      "title": "Unicode Technical Standard 35",
+      "uri": "https://www.unicode.org/reports/tr35/"
+    },
+    {
+      "claim": "Separates domain problem, data/task abstraction, visual encoding/interaction and algorithm validation levels.",
+      "publisher": "IEEE TVCG",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The framework guides validation but does not qualify a particular product or design.",
+      "source_class": "primary_research",
+      "source_id": "evidence.paper.nested_model",
+      "title": "A Nested Model for Visualization Design and Validation",
+      "uri": "https://doi.org/10.1109/TVCG.2009.111"
+    },
+    {
+      "claim": "Demonstrates a structured accessible visualization adapter and navigation model.",
+      "publisher": "IEEE VIS",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "One evaluation does not prove universal accessibility across tasks and audiences.",
+      "source_class": "primary_research",
+      "source_id": "evidence.paper.olli",
+      "title": "Olli: An Extensible Visualization Library for Screen Reader Accessibility",
+      "uri": "https://vis.csail.mit.edu/pubs/olli/"
+    },
+    {
+      "claim": "Provides empirical evidence that notebook presence and stored output do not by themselves guarantee reproducibility.",
+      "publisher": "MSR",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The sampled repositories do not establish behavior for every notebook platform.",
+      "source_class": "primary_research",
+      "source_id": "evidence.paper.jupyter_repro",
+      "title": "A Large-Scale Study about Quality and Reproducibility of Jupyter Notebooks",
+      "uri": "https://doi.org/10.1109/MSR.2019.00077"
+    }
+  ],
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

@@ -1,0 +1,53 @@
+{
+  "classification_shape": "multi_axis_nonexclusive_facets_with_sound_sufficient_predicates",
+  "completion_claim": false,
+  "constitutional_laws": [
+    "business problem family, formal model class, transformation, algorithm, provider offer, target occurrence, result claim, and operational effect remain separate identities",
+    "classification is multi-axis; stochastic, robust, staged, bilevel, simulation, and hybrid facets may refine a base formulation",
+    "unknown expression, domain, geometry, uncertainty, time, or composition semantics fail closed for every class that needs them",
+    "a more general solver's acceptance of an encoding does not make source and target model classes equivalent",
+    "relaxation, linearization, discretization, surrogate replacement, scenario expansion, and encoding require equivalence or explicit loss receipts",
+    "simulation evidence is not optimization proof and neither is proof that the real system matches the model",
+    "a heuristic incumbent, local solution, or time-limited feasible result is not a global optimum",
+    "provider documentation and executed tests do not establish vertical acceptance",
+    "predictive/statistical fitted models are analytical artifacts, not agentic by default",
+    "agent-based simulation entities are not LLM or tool-using agents by name",
+    "generative models and tool agents may propose but cannot satisfy parsing, typing, classification, solving, validation, qualification, authorization, execution, or receipt obligations",
+    "removing every generative/agent extension leaves the deterministic core and its artifacts valid",
+    "an analytical result is a proposal until a separate authority creates an effect intent and an execution receipt"
+  ],
+  "edition": 1,
+  "inputs": [
+    "closed_subproblem_declaration",
+    "typed_feature_facts",
+    "proof_receipts",
+    "requested_claim_and_class",
+    "external_vertical_blockers"
+  ],
+  "metamodel_id": "metamodel.compiler.model_class_adjudication.v1",
+  "outputs": [
+    "matched_class_facets",
+    "requested_class_disposition",
+    "proof_gaps",
+    "refusals",
+    "provider_requirement_projection_input",
+    "adjudication_trace"
+  ],
+  "purpose": "Deterministically derive or refuse mathematical/constraint/simulation/control model-class facets from a closed typed declaration before provider matching.",
+  "status": "reviewed_candidate",
+  "truth_values": [
+    "proved",
+    "refuted",
+    "unknown",
+    "not_applicable"
+  ],
+  "upstream_snapshot_digests": {
+    "binder_examples": "0a849ae1cebb74b8ef0e148237e37d750f45ba5215da10442ea71458432eb013",
+    "compiler_metamodel": "c75e89407c9abc5a9020755606f055a540bbad57e76e8fb8ca609f8f1b24ccc4",
+    "model_agent_manifest": "dace7b7cad46109793d1d2f752b044f2936e33457c2ea4ab439fc89413ad4457",
+    "operations_research_contexts": "340cb2ee3d13d7c08f39162b7704e226da2e92717020559baf871ebb8aebaa8c",
+    "operations_research_methods": "24fb367103062fdc422258c1a2804978f259df2b5074a4cc14618279264d90d2",
+    "predictive_ml_manifest": "4f0436fd00f7d7ac83e079f90229a8af97e8c7861a0a1beae8788e851e187ef9",
+    "vertical_compositions": "b6908a443c5ce7069c5f6468bb723d3ffd47da1342a86a0c82fa1f52c8fa0e22"
+  }
+}

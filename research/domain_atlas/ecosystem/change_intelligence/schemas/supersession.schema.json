@@ -1,0 +1,44 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/supersession.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_semantic_replacement": {
+      "type": "boolean"
+    },
+    "effective_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "prior_evidence_retained": {
+      "type": "boolean"
+    },
+    "prior_identity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "reason": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "successor_identity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "supersession_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "automatic_semantic_replacement",
+    "effective_at",
+    "prior_evidence_retained",
+    "prior_identity",
+    "reason",
+    "successor_identity",
+    "supersession_id"
+  ],
+  "title": "supersession",
+  "type": "object"
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "compiler_refusal": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invariant_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "invariant_refusal_candidate"
+    },
+    "statement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "invariant_id",
+    "owner_context",
+    "statement",
+    "compiler_refusal"
+  ],
+  "title": "Invariant and refusal candidate",
+  "type": "object"
+}

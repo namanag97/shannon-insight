@@ -1,0 +1,95 @@
+{
+  "P1B_BOUNDED_CONTEXT_BOUNDARY": {
+    "refusals": [
+      "semantic owner unresolved",
+      "inside/outside or negative mission missing",
+      "collision prerequisite unratified",
+      "package/team/deployment treated as domain boundary"
+    ],
+    "required_receipt_fields": [
+      "receipt_id",
+      "input_snapshot_ref",
+      "input_snapshot_sha256",
+      "subject_ref",
+      "boundary_disposition",
+      "semantic_owner_ref",
+      "sovereign_question",
+      "negative_mission",
+      "inside_boundary",
+      "outside_boundary",
+      "owned_meanings",
+      "excluded_meanings",
+      "dependency_direction",
+      "collision_receipt_bindings",
+      "authority_refs",
+      "attestation_ref",
+      "effective_edition"
+    ]
+  },
+  "P1B_CROSS_OWNER_COLLISION": {
+    "refusals": [
+      "lexical similarity treated as duplicate proof",
+      "one owner decides for another",
+      "meaning/law/lifecycle comparison missing",
+      "permanent compatibility alias required"
+    ],
+    "required_receipt_fields": [
+      "receipt_id",
+      "input_snapshot_ref",
+      "input_snapshot_sha256",
+      "subject_ref",
+      "collision_disposition",
+      "left_owner_decision",
+      "right_owner_decision",
+      "meaning_law_lifecycle_comparison_digest",
+      "migration_or_coexistence_plan_digest",
+      "authority_refs",
+      "attestation_ref",
+      "effective_edition"
+    ]
+  },
+  "P1B_FAMILY_CONSTITUTION": {
+    "refusals": [
+      "source authority unratified",
+      "member boundary or collision unresolved",
+      "sixteen-axis decision set incomplete",
+      "library-local exception erased by family default"
+    ],
+    "required_receipt_fields": [
+      "receipt_id",
+      "input_snapshot_ref",
+      "input_snapshot_sha256",
+      "subject_ref",
+      "constitution_section_payload",
+      "source_authority_receipt_ref",
+      "boundary_receipt_bindings",
+      "collision_receipt_bindings",
+      "family_axis_receipt_bindings",
+      "negative_twin_appraisal_digest",
+      "authority_refs",
+      "attestation_ref",
+      "effective_edition"
+    ]
+  },
+  "P1B_SOURCE_AUTHORITY": {
+    "refusals": [
+      "source snapshot mismatch",
+      "authority scope ambiguous",
+      "conflicting sources unadjudicated",
+      "structural validator treated as semantic authority"
+    ],
+    "required_receipt_fields": [
+      "receipt_id",
+      "input_snapshot_ref",
+      "input_snapshot_sha256",
+      "subject_ref",
+      "source_authority_decision",
+      "authority_scope",
+      "source_schema_digest",
+      "conflict_appraisal_digest",
+      "authority_refs",
+      "attestation_ref",
+      "effective_edition"
+    ]
+  }
+}

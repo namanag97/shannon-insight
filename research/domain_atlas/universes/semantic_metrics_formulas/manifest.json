@@ -1,0 +1,76 @@
+{
+  "completion_claim": false,
+  "counts": {
+    "bounded-context-candidates.jsonl": 52,
+    "compiler-mappings.jsonl": 36,
+    "context-relations.jsonl": 64,
+    "evidence.jsonl": 91,
+    "gaps.jsonl": 24,
+    "innovations-2021-2026.jsonl": 26,
+    "invariants-refusals.jsonl": 69,
+    "library-boundaries.jsonl": 24,
+    "lifecycles.jsonl": 12,
+    "semantic-records.jsonl": 400,
+    "sources.jsonl": 91,
+    "ubiquitous-language.jsonl": 86,
+    "vertical-examples.jsonl": 2
+  },
+  "edition": 1,
+  "exclusions": [
+    "analytical_case_and_method_universe",
+    "business_intelligence_visualization",
+    "physical_query_kernel_ownership",
+    "language_model_semantics"
+  ],
+  "generated_files": [
+    "bounded-context-candidates.jsonl",
+    "compiler-mappings.jsonl",
+    "context-relations.jsonl",
+    "evidence.jsonl",
+    "gaps.jsonl",
+    "innovations-2021-2026.jsonl",
+    "invariants-refusals.jsonl",
+    "library-boundaries.jsonl",
+    "lifecycles.jsonl",
+    "semantic-records.jsonl",
+    "sources.jsonl",
+    "ubiquitous-language.jsonl",
+    "vertical-examples.jsonl"
+  ],
+  "schema_files": [
+    "bounded-context-candidate.schema.json",
+    "compiler-mapping.schema.json",
+    "context-relation.schema.json",
+    "evidence.schema.json",
+    "gap.schema.json",
+    "innovation.schema.json",
+    "invariant-refusal.schema.json",
+    "library-boundary.schema.json",
+    "lifecycle.schema.json",
+    "semantic-record.schema.json",
+    "source.schema.json",
+    "ubiquitous-language.schema.json",
+    "vertical-example.schema.json"
+  ],
+  "scope": "Provider-neutral meaning layer for facts, dimensions, measures, metrics, formulas, aggregation, joins, time, units, uncertainty, semantic queries and metric observations.",
+  "semantic_record_kinds": {
+    "aggregation": 30,
+    "decision_point": 48,
+    "formula_ast_node": 26,
+    "formula_function": 53,
+    "formula_operator": 21,
+    "join_law": 22,
+    "operation": 132,
+    "semantic_type": 42,
+    "time_semantic": 26
+  },
+  "status": "active_research_candidates",
+  "thresholds": {
+    "contexts_min": 45,
+    "innovations_min": 20,
+    "semantic_records_min": 200,
+    "sources_min": 60,
+    "vertical_examples_exact": 2
+  },
+  "universe_id": "san.domain-atlas.semantic-metrics-formulas"
+}

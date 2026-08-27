@@ -1,0 +1,122 @@
+{
+  "edition": "0.1.0-candidate",
+  "purpose": "Represent people only through independently typed, evidence-scoped relationships to exact artifacts, concepts, practices, implementations, and compiler/library decisions.",
+  "constitutional_laws": [
+    "authorship != invention",
+    "authorship != expertise",
+    "coauthorship != equal contribution",
+    "citation count != correctness or authority",
+    "affiliation != contribution",
+    "advocacy != implementation",
+    "maintenance != original authorship",
+    "spec editorship != sole design authority",
+    "software commit != semantic ownership",
+    "primary artifact != independent replication",
+    "artifact claim != universal applicability",
+    "title match != content verification",
+    "historical influence != current implementation fitness",
+    "expert portfolio != ranking",
+    "finite census != all experts",
+    "family routing hypothesis != admitted expertise",
+    "LLM or generative contribution != core corpus eligibility",
+    "compiler learning != automatic compiler binding"
+  ],
+  "node_kinds": {
+    "person_candidate": "A human identity candidate with explicit disambiguation state.",
+    "artifact_work": "An intellectual or technical work independent of any one manifestation.",
+    "artifact_edition": "A content-addressed or version-pinned manifestation; DOI registration without a digest is explicitly only an edition candidate.",
+    "contribution_assertion": "A qualified person-artifact relationship with role, evidence scope, claim state, and limitations.",
+    "concept": "A governed analytical or data-system concept learned from content review.",
+    "family": "A non-collapsible contribution family used for coverage, never a fame category.",
+    "implementation": "A versioned executable realization distinct from method or artifact.",
+    "replication": "Independent reproduction, benchmark, critique, or falsification of a claim.",
+    "compiler_mapping": "A candidate mapping from a learned contract to compiler IR, proof, decision, library, product, or target qualification.",
+    "review_item": "An unresolved identity, role, content, precedence, limitation, or mapping question.",
+    "evidence_source": "A locator plus the exact facts it is authoritative enough to support."
+  },
+  "contribution_roles": {
+    "authored": "Bibliographic authorship only.",
+    "conceptualized": "CRediT-like conceptualization, admitted only from explicit contribution evidence.",
+    "developed_methodology": "Method development explicitly evidenced.",
+    "performed_formal_analysis": "Formal/mathematical analysis explicitly evidenced.",
+    "implemented_software": "Software contribution explicitly evidenced by project records.",
+    "curated_data": "Data or benchmark curation explicitly evidenced.",
+    "validated": "Validation contribution explicitly evidenced.",
+    "visualized": "Visualization contribution explicitly evidenced.",
+    "edited_specification": "Named standard/specification editor role.",
+    "maintains": "Current or historical maintenance role; not original invention.",
+    "advocated": "Public advocacy or teaching; not evidence of implementation.",
+    "independently_replicated": "Independent replication or appraisal relationship.",
+    "criticized_or_falsified": "Evidence-bearing limitation, counterexample, or falsification.",
+    "institutionally_affiliated": "Time-scoped institutional relation only."
+  },
+  "claim_states": [
+    "bibliographic_verified",
+    "profile_verified",
+    "artifact_content_verified",
+    "implementation_verified",
+    "independently_replicated",
+    "title_term_supported",
+    "seed_routed_needs_content_review",
+    "identity_review_required",
+    "rejected"
+  ],
+  "artifact_kinds": [
+    "journal_article", "conference_article", "book", "book_chapter", "technical_report",
+    "standard", "specification", "software_repository", "software_release", "patent",
+    "algorithm", "formalism", "data_model", "dataset", "benchmark", "negative_result",
+    "replication", "tutorial", "thesis", "other"
+  ],
+  "compiler_mapping_targets": [
+    "domain_vocabulary", "bounded_context", "intent_ast", "semantic_ir", "logical_ir",
+    "physical_ir", "proof_obligation", "decision_point", "refusal", "diagnostic",
+    "library_boundary", "capability_requirement", "capability_offer", "qualification_receipt",
+    "product_boundary", "migration_rule", "test_oracle"
+  ],
+  "evidence_precedence": [
+    "primary_artifact_content",
+    "official_standard_or_specification",
+    "official_versioned_software_history",
+    "explicit_contributor_statement",
+    "authoritative_institutional_profile",
+    "bibliographic_index",
+    "secondary_synthesis",
+    "marketing_or_advocacy"
+  ],
+  "admission_rules": [
+    "A person may enter as a candidate from a search seed, but expertise is not admitted until exact identity and relevant artifacts are reviewed.",
+    "Bibliographic metadata may admit authored edges only; it cannot admit invented, conceptualized, maintained, or independently replicated edges.",
+    "Every artifact claim carries an evidence scope and at least one limitation.",
+    "Every compiler/library mapping remains candidate until content review identifies the precise semantic contract and an executable test or proof obligation.",
+    "LLM/generative-only artifacts are excluded; mixed portfolios retain independently relevant non-LLM artifacts.",
+    "Same-name, missing-identifier, title-only, affiliation-only, and ambiguous contribution cases enter review queues instead of being silently resolved.",
+    "A DOI identifies a registered work/manifestation relationship but does not by itself pin bytes, edition semantics, corrections, or retractions; content digest or version evidence is required for an executable edition."
+  ],
+  "source_alignment": [
+    {
+      "source": "W3C PROV-O",
+      "url": "https://www.w3.org/TR/prov-o/",
+      "use": "Agent/entity/activity and qualified attribution, association, delegation, role, derivation, and invalidation distinctions."
+    },
+    {
+      "source": "ANSI/NISO CRediT",
+      "url": "https://credit.niso.org/",
+      "use": "Contributor-role vocabulary that complements undifferentiated authorship."
+    },
+    {
+      "source": "DataCite Metadata Schema 4.6",
+      "url": "https://datacite-metadata-schema.readthedocs.io/",
+      "use": "Persistent identifiers, creator/contributor distinctions, related identifiers, resource types, dates, and versioning."
+    },
+    {
+      "source": "DBLP",
+      "url": "https://dblp.org/",
+      "use": "Computer-science bibliographic discovery and author identifiers only."
+    },
+    {
+      "source": "OpenAlex",
+      "url": "https://docs.openalex.org/",
+      "use": "Cross-domain bibliographic discovery and identity candidates only."
+    }
+  ]
+}

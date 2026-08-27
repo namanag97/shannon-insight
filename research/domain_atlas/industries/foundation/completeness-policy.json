@@ -1,0 +1,67 @@
+{
+  "policy_id": "policy.industry_foundation.completeness",
+  "edition": 1,
+  "closed_world_boundary": "The foundation metamodel, record kinds, validation gates and refusal states are closed for an edition.",
+  "open_world_registries": [
+    "industry classification schemes and editions",
+    "industry and subindustry nodes",
+    "specialist analytical overlays",
+    "official correspondence artifacts",
+    "reviewed crosswalk assertions",
+    "vertical research packs and analytical cases"
+  ],
+  "completion_posture": {
+    "global_activity_spine": "structurally_complete_for_isic_revision_5_official_structure_digest",
+    "national_activity_views": "representative_seed_not_globally_complete",
+    "specialist_overlays": "representative_seed_not_domain_complete",
+    "node_level_crosswalks": "partial_seed",
+    "per_subindustry_analytical_needs": "delegated_to_vertical_packs_and_not_claimed_by_foundation",
+    "product_boundaries": "prohibited_from_foundation_taxonomy_alone"
+  },
+  "coverage_dimensions": [
+    {"dimension_id": "cov.concept", "question": "What is classified: activity, product, provider, purpose/function, regulatory line, criticality, institutional sector or another concept?", "gap_if": "Concept is missing or axes are collapsed."},
+    {"dimension_id": "cov.scheme_edition", "question": "Which classification series and immutable edition own the code?", "gap_if": "Only an unversioned code or scheme family is supplied."},
+    {"dimension_id": "cov.statistical_unit", "question": "What entity or observation is assigned to the category?", "gap_if": "Establishment, enterprise, provider, product and transaction are conflated."},
+    {"dimension_id": "cov.hierarchy", "question": "Are every level, parent, child, code and title in the imported source accounted for?", "gap_if": "Counts, parents, leaves or official rows do not reconcile."},
+    {"dimension_id": "cov.boundary", "question": "Are definitions, inclusions, exclusions, residual categories and assignment rules available?", "gap_if": "A title or code is treated as a sufficient semantic definition."},
+    {"dimension_id": "cov.geography", "question": "What jurisdiction and territorial implementation apply?", "gap_if": "A national extension is treated as globally valid."},
+    {"dimension_id": "cov.time", "question": "What validity period, adoption state, transition and historical edition apply?", "gap_if": "Observations from different editions are pooled silently."},
+    {"dimension_id": "cov.crosswalk", "question": "Are mapping relation, cardinality, extent, loss and allocation semantics explicit?", "gap_if": "Corresponding codes are asserted as simple equality."},
+    {"dimension_id": "cov.specialist_overlay", "question": "Which specialist axes are necessary for this vertical: provider, function, product, regulatory, criticality, geography, value-chain role or other?", "gap_if": "The ISIC spine is assumed to contain every domain distinction."},
+    {"dimension_id": "cov.evidence", "question": "Does each claim resolve to an authoritative source, locator, status and limitation?", "gap_if": "Evidence is indirect, stale, missing or outside authority scope."},
+    {"dimension_id": "cov.vertical_binding", "question": "Does each vertical pack bind its industry_id and subindustry_ids to registered edition-qualified nodes or declared local extensions?", "gap_if": "Free-text industry labels or unregistered IDs are used."},
+    {"dimension_id": "cov.analytics", "question": "Does every subindustry pack enumerate decision-bearing analytical cases rather than merely KPIs?", "gap_if": "Metrics are presented without question, actors, grain, method, evidence, failure and action."}
+  ],
+  "gates": [
+    {"gate_id": "gate.foundation.sources", "pass_condition": "At least 25 verified authoritative sources from at least 10 publishers, with required shared source-evidence fields.", "failure_action": "Keep foundation research status incomplete."},
+    {"gate_id": "gate.foundation.isic_import", "pass_condition": "Official source digest matches; exactly 22 sections, 87 divisions, 258 groups and 463 classes form one acyclic hierarchy of 830 unique nodes.", "failure_action": "Reject the generated spine."},
+    {"gate_id": "gate.foundation.identifiers", "pass_condition": "Every industry node has an immutable edition-qualified stable ID and every reference resolves.", "failure_action": "Reject registry publication."},
+    {"gate_id": "gate.foundation.scheme_semantics", "pass_condition": "Every scheme declares concept, statistical unit, geography, time, hierarchy, assignment rules, role, evidence and limitations.", "failure_action": "Scheme remains candidate."},
+    {"gate_id": "gate.foundation.crosswalk", "pass_condition": "Every mapping validates relation, cardinality, aggregation, five compatibility dimensions, loss, allocation, evidence and review posture.", "failure_action": "Mapping cannot be used for compilation or analytics."},
+    {"gate_id": "gate.vertical.source_depth", "pass_condition": "Each industry-family pack carries at least 25 authoritative sources; foundation sources do not count automatically unless directly relevant and explicitly referenced.", "failure_action": "Vertical pack remains sourced_candidate at best."},
+    {"gate_id": "gate.vertical.subindustry_coverage", "pass_condition": "Every in-scope registered leaf or explicitly justified aggregation has analytical-case, source-system and data-shape coverage or a typed gap.", "failure_action": "No claim of complete subindustry coverage."},
+    {"gate_id": "gate.vertical.case_quality", "pass_condition": "Cases satisfy the shared analytical-case schema and include diagnostic, causal/RCA, constraint/bottleneck, predictive, prescriptive, optimization, simulation, risk and control modes where applicable, each with evidence or a typed not-applicable decision.", "failure_action": "Reject KPI-only catalogs."},
+    {"gate_id": "gate.product_derivation", "pass_condition": "Product boundaries derive only after vertical cases are deduplicated against horizontal semantic owners and operational capabilities.", "failure_action": "Taxonomy category cannot be promoted directly to product."}
+  ],
+  "typed_gap_kinds": [
+    "missing_classification",
+    "missing_boundary_note",
+    "missing_jurisdiction",
+    "missing_edition_bridge",
+    "lossy_crosswalk_unallocated",
+    "specialist_overlay_missing",
+    "subindustry_unresearched",
+    "analytical_mode_unresearched",
+    "source_system_unresearched",
+    "data_shape_unresearched",
+    "evidence_conflict",
+    "review_pending"
+  ],
+  "anti_completion_claims": [
+    "Importing all ISIC codes does not prove all industry analytics needs are known.",
+    "Twenty-five sources across the foundation do not satisfy the separate twenty-five-source requirement for each industry family.",
+    "A green schema validator proves structural conformance, not semantic correctness or domain completeness.",
+    "A published correspondence table does not prove lossless time-series recoding.",
+    "A large number of cases does not prove coverage unless each registered scope cell is accounted for."
+  ]
+}

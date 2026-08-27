@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "extension-candidates.jsonl": {
+      "bytes": 51915,
+      "sha256": "1b339373850bcf1e51b734db09a7aa04f12946310df59eb94ddc904332ba4c7d"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 87416,
+      "sha256": "00ae46b088148568464de46156abe183f59ee012c308bd0fc83c26a0ce2d541e"
+    },
+    "member-resources-failure-routes.jsonl": {
+      "bytes": 889387,
+      "sha256": "292259b77f947c5aaed6bf990b705da71d79b21763c32ac9845800fe213d5cfc"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 8240,
+      "sha256": "5aaa575a8d7654394a5c483b9a295f5eda1c3c875158f0b320ff041d6353331d"
+    },
+    "resources-failure-bearer-archetypes.jsonl": {
+      "bytes": 17012,
+      "sha256": "cb481eb1f44587033b8a7ad324026409c60b9896604f172bec6da028955cb250"
+    },
+    "resources-failure-coordinate-ontology.json": {
+      "bytes": 4761,
+      "sha256": "b3e00d8a49627c1ee033dc96c6ebdc2539631fa4edff30058c39f87c47fb985b"
+    },
+    "resources-failure-operation-kernels.jsonl": {
+      "bytes": 42148,
+      "sha256": "b8c66a0c79d72b72e43aef619e1fc21bdd788660cdf38283e9a48161166efc81"
+    },
+    "structural-family-dockets.jsonl": {
+      "bytes": 36221,
+      "sha256": "81dc08f4a2c036f0ed2f718f850e402e5c3e5eca2653a9792cbc8649e71c7abe"
+    },
+    "summary.json": {
+      "bytes": 752,
+      "sha256": "a97e70b993ebe177dc0f5a1c14b048539e45fad27f15a46348f3d23232dd8573"
+    }
+  },
+  "manifest_id": "manifest.resources-failure-coordinate-ontology-and-rebase.v1"
+}

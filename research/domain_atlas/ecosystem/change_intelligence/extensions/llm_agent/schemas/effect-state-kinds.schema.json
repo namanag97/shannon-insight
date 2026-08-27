@@ -1,0 +1,43 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/llm-agent-effect-state-kinds.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_required": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "does_not_imply_state_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "effect_state_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invariant": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "receipt_required": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "authority_required",
+    "does_not_imply_state_ids",
+    "effect_state_id",
+    "invariant",
+    "name",
+    "receipt_required"
+  ],
+  "title": "llm-agent-effect-state-kinds",
+  "type": "object"
+}

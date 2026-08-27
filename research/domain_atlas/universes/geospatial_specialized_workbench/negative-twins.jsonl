@@ -1,0 +1,31 @@
+{"negative_id":"negative.gsw.territory","required_behavior":"Retain external feature and boundary authority.","status":"active","unsafe_inference":"A geometry, layer or map is the territory."}
+{"negative_id":"negative.gsw.crs","required_behavior":"Refuse unreferenced coordinates.","status":"active","unsafe_inference":"Coordinates without CRS/datum/epoch/axes remain meaningful."}
+{"negative_id":"negative.gsw.style","required_behavior":"Keep presentation separately versioned.","status":"active","unsafe_inference":"A layer style is source data."}
+{"negative_id":"negative.gsw.latest","required_behavior":"Bind exact layer/source editions.","status":"active","unsafe_inference":"A project may silently float to latest layers."}
+{"negative_id":"negative.gsw.workflow_job","required_behavior":"Separate definition, plan, job and run evidence.","status":"active","unsafe_inference":"An API job is the workflow definition."}
+{"negative_id":"negative.gsw.job_success","required_behavior":"Appraise semantics, loss and accuracy.","status":"active","unsafe_inference":"Successful job means accepted result."}
+{"negative_id":"negative.gsw.replay","required_behavior":"Compare exact inputs, resources, config and outputs.","status":"active","unsafe_inference":"Same provider call proves replay equivalence."}
+{"negative_id":"negative.gsw.geocode_identity","required_behavior":"Retain ambiguity and external authority.","status":"active","unsafe_inference":"Top geocode candidate proves place identity."}
+{"negative_id":"negative.gsw.geocode_score","required_behavior":"Bind profile and calibration evidence.","status":"active","unsafe_inference":"Scores from providers are directly comparable."}
+{"negative_id":"negative.gsw.reverse_address","required_behavior":"Treat it as gazetteer-scoped candidate.","status":"active","unsafe_inference":"Reverse geocode result proves official address."}
+{"negative_id":"negative.gsw.proximity","required_behavior":"Use exact network and impedance.","status":"active","unsafe_inference":"Euclidean proximity proves reachability."}
+{"negative_id":"negative.gsw.route_dispatch","required_behavior":"Require external decision/effect authority.","status":"active","unsafe_inference":"A route authorizes dispatch."}
+{"negative_id":"negative.gsw.network_current","required_behavior":"Bind validity and quality evidence.","status":"active","unsafe_inference":"A network edition is automatically current and complete."}
+{"negative_id":"negative.gsw.sample_move","required_behavior":"Declare gaps and interpolation.","status":"active","unsafe_inference":"Samples are actual continuous movement."}
+{"negative_id":"negative.gsw.mapmatch_truth","required_behavior":"Retain candidates and uncertainty.","status":"active","unsafe_inference":"Map match proves traveled path."}
+{"negative_id":"negative.gsw.mobility_identity","required_behavior":"Keep identity authority external.","status":"active","unsafe_inference":"Trajectory similarity proves same object."}
+{"negative_id":"negative.gsw.filled_dem","required_behavior":"Create a derived surface with loss.","status":"active","unsafe_inference":"Sink-filled DEM is source elevation truth."}
+{"negative_id":"negative.gsw.flow_truth","required_behavior":"Bind method assumptions and uncertainty.","status":"active","unsafe_inference":"One flow algorithm proves hydrology."}
+{"negative_id":"negative.gsw.resolution","required_behavior":"Preserve source support and derived grid.","status":"active","unsafe_inference":"Resampling increases physical resolution."}
+{"negative_id":"negative.gsw.viewshed_visible","required_behavior":"Retain terrain, obstruction and model limits.","status":"active","unsafe_inference":"Computed viewshed proves actual visibility."}
+{"negative_id":"negative.gsw.class_object","required_behavior":"Treat classification as method output.","status":"active","unsafe_inference":"Point classification proves physical-object identity."}
+{"negative_id":"negative.gsw.lod_accuracy","required_behavior":"Report geometric error and accuracy separately.","status":"active","unsafe_inference":"Higher visual LOD proves higher positional accuracy."}
+{"negative_id":"negative.gsw.mesh_solid","required_behavior":"Validate topology and declared representation.","status":"active","unsafe_inference":"A mesh is a watertight semantic solid."}
+{"negative_id":"negative.gsw.tile_loss","required_behavior":"Record partitions, quantization and residual.","status":"active","unsafe_inference":"Tiling never changes completeness or precision."}
+{"negative_id":"negative.gsw.accuracy_pass","required_behavior":"Require purpose-specific external acceptance.","status":"active","unsafe_inference":"A quality report sets universal acceptability."}
+{"negative_id":"negative.gsw.publish_truth","required_behavior":"Preserve claim scope and authority.","status":"active","unsafe_inference":"Publication makes a spatial result authoritative."}
+{"negative_id":"negative.gsw.recall_complete","required_behavior":"Track propagation and acknowledgements.","status":"active","unsafe_inference":"Recall notice proves every consumer updated."}
+{"negative_id":"negative.gsw.map_action","required_behavior":"Handoff evidence only.","status":"active","unsafe_inference":"A map authorizes land, travel or emergency effect."}
+{"negative_id":"negative.gsw.agent_reference","required_behavior":"Refuse or retain proposal taint.","status":"active","unsafe_inference":"An agent may infer missing CRS or gazetteer authority."}
+{"negative_id":"negative.gsw.agent_publish","required_behavior":"Require deterministic authority and appraisal.","status":"active","unsafe_inference":"An agent may approve or publish a plausible map."}
+{"negative_id":"negative.gsw.one_impl","required_behavior":"Require two independent qualified implementations.","status":"active","unsafe_inference":"One implementation proves portability."}

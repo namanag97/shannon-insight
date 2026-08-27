@@ -1,0 +1,19 @@
+{
+  "$id": "https://san.example/spec/context-map/gap.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "gap_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "gap_id",
+    "status",
+    "description",
+    "evidence_needed"
+  ],
+  "title": "SAN candidate context-map gap",
+  "type": "object"
+}

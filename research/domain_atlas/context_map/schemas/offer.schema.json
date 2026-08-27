@@ -1,0 +1,21 @@
+{
+  "$id": "https://san.example/spec/context-map/offer.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "offer_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "offer_id",
+    "edition",
+    "library_id",
+    "capability",
+    "traits",
+    "qualification_status"
+  ],
+  "title": "SAN candidate context-map offer",
+  "type": "object"
+}

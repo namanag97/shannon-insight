@@ -88,8 +88,12 @@ class CodeGraph:
 
     # Type flow edges (NEW)
     returns_edges: dict[str, str] = field(default_factory=dict)  # FUNC -> TYPE
-    param_type_edges: dict[str, dict[str, str]] = field(default_factory=dict)  # FUNC -> {param: TYPE}
-    field_type_edges: dict[str, dict[str, str]] = field(default_factory=dict)  # CLASS -> {field: TYPE}
+    param_type_edges: dict[str, dict[str, str]] = field(
+        default_factory=dict
+    )  # FUNC -> {param: TYPE}
+    field_type_edges: dict[str, dict[str, str]] = field(
+        default_factory=dict
+    )  # CLASS -> {field: TYPE}
 
     # Reverse indexes (for efficient lookups)
     imported_by: dict[str, list[str]] = field(default_factory=dict)  # FILE <- FILE

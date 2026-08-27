@@ -1,0 +1,102 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "determinism_contract": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "failure_atomicity": {
+      "type": "string"
+    },
+    "input_stage": {
+      "type": "string"
+    },
+    "invalidation_outputs": {
+      "$ref": "#/$defs/strings"
+    },
+    "may_change": {
+      "$ref": "#/$defs/strings"
+    },
+    "must_not_change": {
+      "$ref": "#/$defs/strings"
+    },
+    "output_stage": {
+      "type": "string"
+    },
+    "pass_id": {
+      "$ref": "#/$defs/id"
+    },
+    "pass_kind": {
+      "enum": [
+        "semantic_lowering",
+        "optimization",
+        "analysis",
+        "validation",
+        "physical_binding",
+        "artifact_emission"
+      ]
+    },
+    "preserves": {
+      "$ref": "#/$defs/strings"
+    },
+    "produces": {
+      "$ref": "#/$defs/strings"
+    },
+    "proof_artifacts": {
+      "$ref": "#/$defs/strings"
+    },
+    "requires": {
+      "$ref": "#/$defs/strings"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "pass_id",
+    "edition",
+    "status",
+    "pass_kind",
+    "input_stage",
+    "output_stage",
+    "requires",
+    "produces",
+    "preserves",
+    "may_change",
+    "must_not_change",
+    "determinism_contract",
+    "failure_atomicity",
+    "proof_artifacts",
+    "invalidation_outputs",
+    "source_refs"
+  ],
+  "title": "IR pass contract",
+  "type": "object"
+}

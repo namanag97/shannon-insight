@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/compiler-requirement-offer-binding-v0.1.0.schema.json",
+  "title": "Compiler requirement, offer, binding or gap",
+  "oneOf": [
+    {"$ref": "#/$defs/requirement"},
+    {"$ref": "#/$defs/offer"},
+    {"$ref": "#/$defs/binding"},
+    {"$ref": "#/$defs/gap"}
+  ],
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_-]*)+$"},
+    "refs": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
+    "strings": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "status": {"enum": ["hypothesis", "declared", "reviewed", "qualified", "selected", "rejected", "expired"]},
+    "phase": {"enum": ["authoring", "intent_resolution", "semantic_closure", "analytical_design", "observation_planning", "logical_planning", "assurance_insertion", "physical_binding", "deployment_binding", "runtime_reconciliation", "evidence_verification", "product_packaging"]},
+    "capabilityKind": {"enum": ["semantic_contract", "analytical_practice", "source_access", "data_type", "data_shape", "typed_operation", "policy", "assurance", "runtime_mechanism", "resource", "provider", "target", "human_authority", "user_experience", "operations_support", "evidence"]},
+    "applicability": {
+      "type": "object",
+      "required": ["when", "unless", "scope_refs"],
+      "properties": {
+        "when": {"$ref": "#/$defs/strings"},
+        "unless": {"$ref": "#/$defs/strings"},
+        "scope_refs": {"$ref": "#/$defs/refs"}
+      },
+      "additionalProperties": false
+    },
+    "requirement": {
+      "type": "object",
+      "required": ["record_kind", "requirement_id", "edition", "status", "subject_ref", "capability_kind", "contract_refs", "operation_refs", "type_refs", "required_guarantees", "applicability", "cardinality", "binding_phase", "criticality", "selection_laws", "fallback_law", "prohibited_traits", "evidence_gates", "owner_ref", "gaps"],
+      "properties": {
+        "record_kind": {"const": "capability_requirement"},
+        "requirement_id": {"$ref": "#/$defs/id"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"$ref": "#/$defs/status"},
+        "subject_ref": {"$ref": "#/$defs/id"},
+        "capability_kind": {"$ref": "#/$defs/capabilityKind"},
+        "contract_refs": {"$ref": "#/$defs/refs"},
+        "operation_refs": {"$ref": "#/$defs/refs"},
+        "type_refs": {"$ref": "#/$defs/refs"},
+        "required_guarantees": {"$ref": "#/$defs/strings"},
+        "applicability": {"$ref": "#/$defs/applicability"},
+        "cardinality": {"enum": ["exactly_one", "one_or_more", "zero_or_one", "all_matching", "role_indexed"]},
+        "binding_phase": {"$ref": "#/$defs/phase"},
+        "criticality": {"enum": ["blocking", "degradable", "optional"]},
+        "selection_laws": {"$ref": "#/$defs/strings"},
+        "fallback_law": {"enum": ["refuse", "typed_degradation", "human_binding", "omit_optional"]},
+        "prohibited_traits": {"$ref": "#/$defs/strings"},
+        "evidence_gates": {"$ref": "#/$defs/strings"},
+        "owner_ref": {"$ref": "#/$defs/id"},
+        "gaps": {"$ref": "#/$defs/strings"}
+      },
+      "additionalProperties": false
+    },
+    "offer": {
+      "type": "object",
+      "required": ["record_kind", "offer_id", "edition", "status", "provider_ref", "capability_kind", "contract_refs", "operation_refs", "type_refs", "guarantees", "limits", "decision_refs", "target_refs", "applicability", "exclusions", "conformance_receipts", "evidence_refs", "validity", "gaps"],
+      "properties": {
+        "record_kind": {"const": "capability_offer"},
+        "offer_id": {"$ref": "#/$defs/id"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"$ref": "#/$defs/status"},
+        "provider_ref": {"$ref": "#/$defs/id"},
+        "capability_kind": {"$ref": "#/$defs/capabilityKind"},
+        "contract_refs": {"$ref": "#/$defs/refs"},
+        "operation_refs": {"$ref": "#/$defs/refs"},
+        "type_refs": {"$ref": "#/$defs/refs"},
+        "guarantees": {"$ref": "#/$defs/strings"},
+        "limits": {"$ref": "#/$defs/strings"},
+        "decision_refs": {"$ref": "#/$defs/refs"},
+        "target_refs": {"$ref": "#/$defs/refs"},
+        "applicability": {"$ref": "#/$defs/applicability"},
+        "exclusions": {"$ref": "#/$defs/strings"},
+        "conformance_receipts": {"$ref": "#/$defs/refs"},
+        "evidence_refs": {"$ref": "#/$defs/refs"},
+        "validity": {"type": "object", "required": ["from", "until", "recheck_triggers"], "properties": {"from": {"type": ["string", "null"]}, "until": {"type": ["string", "null"]}, "recheck_triggers": {"$ref": "#/$defs/strings"}}, "additionalProperties": false},
+        "gaps": {"$ref": "#/$defs/strings"}
+      },
+      "additionalProperties": false
+    },
+    "binding": {
+      "type": "object",
+      "required": ["record_kind", "binding_id", "edition", "status", "requirement_ref", "offer_refs", "binding_phase", "cardinality_proof", "configuration", "adapter_refs", "proof_results", "evidence_refs", "residual_gaps", "validity"],
+      "properties": {
+        "record_kind": {"const": "capability_binding"},
+        "binding_id": {"$ref": "#/$defs/id"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["candidate", "proven", "selected", "invalidated", "rejected"]},
+        "requirement_ref": {"$ref": "#/$defs/id"},
+        "offer_refs": {"$ref": "#/$defs/refs"},
+        "binding_phase": {"$ref": "#/$defs/phase"},
+        "cardinality_proof": {"type": "string"},
+        "configuration": {"type": "object"},
+        "adapter_refs": {"$ref": "#/$defs/refs"},
+        "proof_results": {"type": "array", "items": {"type": "object", "required": ["proof_ref", "result", "evidence_refs"], "properties": {"proof_ref": {"$ref": "#/$defs/id"}, "result": {"enum": ["pass", "fail", "inconclusive", "not_applicable"]}, "evidence_refs": {"$ref": "#/$defs/refs"}}, "additionalProperties": false}},
+        "evidence_refs": {"$ref": "#/$defs/refs"},
+        "residual_gaps": {"$ref": "#/$defs/refs"},
+        "validity": {"type": "object", "required": ["from", "until", "invalidation_triggers"], "properties": {"from": {"type": ["string", "null"]}, "until": {"type": ["string", "null"]}, "invalidation_triggers": {"$ref": "#/$defs/strings"}}, "additionalProperties": false}
+      },
+      "additionalProperties": false
+    },
+    "gap": {
+      "type": "object",
+      "required": ["record_kind", "gap_id", "edition", "status", "subject_ref", "gap_kind", "blocking", "missing_contracts", "attempted_bindings", "observed_evidence", "owner_ref", "resolution_condition", "prohibited_fallbacks"],
+      "properties": {
+        "record_kind": {"const": "compiler_gap"},
+        "gap_id": {"$ref": "#/$defs/id"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["open", "waived", "resolved", "rejected"]},
+        "subject_ref": {"$ref": "#/$defs/id"},
+        "gap_kind": {"enum": ["unknown_term", "ambiguous_owner", "missing_vertical_case", "missing_source", "missing_type", "missing_shape", "missing_operation", "missing_offer", "incompatible_offer", "unqualified_provider", "missing_decision", "unsatisfied_law", "policy_conflict", "authority_missing", "resource_infeasible", "evidence_insufficient", "target_unsupported", "runtime_failure", "acceptance_failed"]},
+        "blocking": {"type": "boolean"},
+        "missing_contracts": {"$ref": "#/$defs/refs"},
+        "attempted_bindings": {"$ref": "#/$defs/refs"},
+        "observed_evidence": {"$ref": "#/$defs/refs"},
+        "owner_ref": {"$ref": "#/$defs/id"},
+        "resolution_condition": {"type": "string", "minLength": 1},
+        "prohibited_fallbacks": {"$ref": "#/$defs/strings"}
+      },
+      "additionalProperties": false
+    }
+  }
+}
+

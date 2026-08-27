@@ -1,0 +1,44 @@
+{
+  "$id": "https://san.example/product-boundary/capability_import.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "binding_phase": {},
+    "candidate_id": {},
+    "capability_id": {},
+    "cardinality": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "ownership_law": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "capability_import"
+    },
+    "refusal": {},
+    "requirement": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "candidate_id",
+    "capability_id",
+    "requirement",
+    "binding_phase",
+    "cardinality",
+    "refusal",
+    "ownership_law"
+  ],
+  "title": "Global boundary research: capability_import",
+  "type": "object"
+}

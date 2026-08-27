@@ -1,0 +1,23 @@
+{
+  "as_of": "2026-08-27",
+  "bound_libraries": 63,
+  "candidate_new_library_vacancies": 10,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "declared_product_libraries": 43,
+  "exact_contracts_selected": 0,
+  "expert_learning_profiles": 20,
+  "formalism_and_acl_neighbor_libraries": 20,
+  "libraries_without_declared_product_consumer": 18,
+  "library_axis_decision_candidates": 1008,
+  "method_types": 112,
+  "missing_downstream_contract_routes": 8,
+  "non_collapse_laws": 58,
+  "owner_decisions": 0,
+  "primary_or_official_sources": 33,
+  "product_capability_boundary_findings": 18,
+  "program_id": "program.query-olap-warehouse-semantic-slice.v1",
+  "qualified_implementations": 0,
+  "recent_non_llm_innovations": 12,
+  "semantic_modules": 46
+}

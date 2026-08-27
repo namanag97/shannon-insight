@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "downstream_context_ref": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "relation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "relationship_kind": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "translation_rule": {},
+    "upstream_context_ref": {}
+  },
+  "required": [
+    "relation_id",
+    "edition",
+    "status",
+    "upstream_context_ref",
+    "relationship_kind",
+    "downstream_context_ref",
+    "translation_rule"
+  ],
+  "title": "Bounded context relation",
+  "type": "object"
+}

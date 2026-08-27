@@ -1,0 +1,75 @@
+{
+  "$id": "https://san.example/spec/provider-target/decision_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_values": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "authority": {
+      "type": "string"
+    },
+    "binding_phase": {
+      "enum": [
+        "physical_binding",
+        "deployment_binding",
+        "runtime_reconciliation",
+        "evidence_verification"
+      ]
+    },
+    "change_semantics": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "decision_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "default_law": {
+      "enum": [
+        "forbidden",
+        "explicit_safe_constant",
+        "runtime_observed_with_receipt"
+      ]
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "question": {
+      "type": "string"
+    },
+    "required_evidence": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision_id",
+    "edition",
+    "status",
+    "question",
+    "allowed_values",
+    "binding_phase",
+    "authority",
+    "default_law",
+    "required_evidence",
+    "change_semantics"
+  ],
+  "title": "Physical-binding decision point",
+  "type": "object"
+}

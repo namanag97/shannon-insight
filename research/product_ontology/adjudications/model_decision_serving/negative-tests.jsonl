@@ -1,0 +1,30 @@
+{"edition":1,"expected_result":"enforce_removal_test","prohibited_claim":"Removing the extension cannot break deterministic core compilation.","record_kind":"negative_test","test_id":"negative.agent_core"}
+{"edition":1,"expected_result":"validate_then_authorize","prohibited_claim":"Generated plan is not decision or action.","record_kind":"negative_test","test_id":"negative.agent_decision"}
+{"edition":1,"expected_result":"classify_automation_modality","prohibited_claim":"A model-capable product is not renamed or duplicated as an AI product.","record_kind":"negative_test","test_id":"negative.ai_prefix"}
+{"edition":1,"expected_result":"require_authority_transition","prohibited_claim":"Registry alias or tag is not approval.","record_kind":"negative_test","test_id":"negative.alias_approval"}
+{"edition":1,"expected_result":"require_deployment_receipt","prohibited_claim":"Approved model is not observed deployment.","record_kind":"negative_test","test_id":"negative.approval_deployment"}
+{"edition":1,"expected_result":"require_effect_receipt","prohibited_claim":"Authorization is not completed effect.","record_kind":"negative_test","test_id":"negative.authorization_effect"}
+{"edition":1,"expected_result":"compose_dataflow","prohibited_claim":"Batch execution mode alone is not a prediction product.","record_kind":"negative_test","test_id":"negative.batch_product"}
+{"edition":1,"expected_result":"apply_authority_gate","prohibited_claim":"Decision result is not authorization.","record_kind":"negative_test","test_id":"negative.decision_authority"}
+{"edition":1,"expected_result":"compile_and_test_semantics","prohibited_claim":"DMN XML validity is not model conformance.","record_kind":"negative_test","test_id":"negative.dmn_schema"}
+{"edition":1,"expected_result":"retain_hypothesis_status","prohibited_claim":"Drift finding is not root cause.","record_kind":"negative_test","test_id":"negative.drift_cause"}
+{"edition":1,"expected_result":"open_scoped_review","prohibited_claim":"Drift is not automatic degradation.","record_kind":"negative_test","test_id":"negative.drift_degradation"}
+{"edition":1,"expected_result":"require_time_axes","prohibited_claim":"Event time is not availability or recording time.","record_kind":"negative_test","test_id":"negative.event_available"}
+{"edition":1,"expected_result":"retain_source_authority","prohibited_claim":"Feature platform does not own source business facts.","record_kind":"negative_test","test_id":"negative.feature_source_truth"}
+{"edition":1,"expected_result":"split_feature_and_search","prohibited_claim":"Feature value is not embedding/vector-index entry.","record_kind":"negative_test","test_id":"negative.feature_vector"}
+{"edition":1,"expected_result":"refuse_ambiguous_model","prohibited_claim":"Decision-table overlap cannot inherit an undeclared hit policy.","record_kind":"negative_test","test_id":"negative.hit_default"}
+{"edition":1,"expected_result":"retain_time_contract","prohibited_claim":"Latest online value is not point-in-time historical value.","record_kind":"negative_test","test_id":"negative.latest_historical"}
+{"edition":1,"expected_result":"require_receipt_and_freshness","prohibited_claim":"Materialized value is not automatically correct or fresh.","record_kind":"negative_test","test_id":"negative.materialized_correct"}
+{"edition":1,"expected_result":"apply_validation_policy","prohibited_claim":"Evaluation metric is not validation verdict.","record_kind":"negative_test","test_id":"negative.metric_verdict"}
+{"edition":1,"expected_result":"retain_distinct_identity","prohibited_claim":"Model family is not fitted artifact or model edition.","record_kind":"negative_test","test_id":"negative.model_family_artifact"}
+{"edition":1,"expected_result":"execute_governed_decision_model","prohibited_claim":"Prediction is not business decision.","record_kind":"negative_test","test_id":"negative.prediction_decision"}
+{"edition":1,"expected_result":"require_differential_oracles","prohibited_claim":"Inference protocol compatibility is not numerical or semantic equivalence.","record_kind":"negative_test","test_id":"negative.protocol_equivalence"}
+{"edition":1,"expected_result":"execute_conformance_profile","prohibited_claim":"Provider documentation is not qualification evidence.","record_kind":"negative_test","test_id":"negative.provider_docs"}
+{"edition":1,"expected_result":"require_assurance_evidence","prohibited_claim":"Ready endpoint is not validated model behavior.","record_kind":"negative_test","test_id":"negative.ready_valid"}
+{"edition":1,"expected_result":"verify_claim_evidence","prohibited_claim":"Model card is not self-validating truth.","record_kind":"negative_test","test_id":"negative.report_truth"}
+{"edition":1,"expected_result":"require_closed_inputs_environment_and_receipts","prohibited_claim":"Tracked run is not automatically reproducible.","record_kind":"negative_test","test_id":"negative.run_reproducible"}
+{"edition":1,"expected_result":"require_two_independent_qualified_implementations","prohibited_claim":"One implementation cannot establish portable semantics.","record_kind":"negative_test","test_id":"negative.single_portable"}
+{"edition":1,"expected_result":"join_outcomes_and_evaluate","prohibited_claim":"Inference telemetry is not model quality.","record_kind":"negative_test","test_id":"negative.telemetry_quality"}
+{"edition":1,"expected_result":"check_per_effect_authority","prohibited_claim":"Visible tool is not authorized tool call.","record_kind":"negative_test","test_id":"negative.tool_visibility"}
+{"edition":1,"expected_result":"invoke_lifecycle_authority","prohibited_claim":"Validation verdict is not deployment approval.","record_kind":"negative_test","test_id":"negative.validation_approval"}
+{"edition":1,"expected_result":"require_manifest","prohibited_claim":"Weights alone are not a complete model artifact.","record_kind":"negative_test","test_id":"negative.weights_model"}

@@ -1,0 +1,136 @@
+{
+  "$id": "https://san.local/domain-atlas/security-privacy-trust/assets-trust-boundaries.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "asset_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "asset_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "authority_owner": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cross_platform_map": {
+      "additionalProperties": false,
+      "properties": {
+        "consumption": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "governance": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "lineage": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "persistence": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "pipelines": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "runtime": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "source_occurrences": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "types_shapes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "source_occurrences",
+        "types_shapes",
+        "pipelines",
+        "persistence",
+        "runtime",
+        "governance",
+        "lineage",
+        "consumption"
+      ],
+      "type": "object"
+    },
+    "domain": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "sourced_candidate",
+        "open_candidate_gap"
+      ],
+      "type": "string"
+    },
+    "trust_boundary": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "asset_id",
+    "asset_kind",
+    "authority_owner",
+    "cross_platform_map",
+    "domain",
+    "edition",
+    "evidence_source_ids",
+    "name",
+    "status",
+    "trust_boundary"
+  ],
+  "title": "Security Privacy Trust assets-trust-boundaries candidate",
+  "type": "object"
+}

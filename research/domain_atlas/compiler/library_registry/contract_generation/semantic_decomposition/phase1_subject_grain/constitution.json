@@ -1,0 +1,176 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "constitution_id": "constitution.semantic-axis.phase1.subject-identity-grain.v1",
+  "cross_module_laws": [
+    "A subject classification is interpreted only inside an exact bounded context and edition.",
+    "Identity/equality is parameterized by subject kind and purpose; no universal equality relation exists.",
+    "Grain changes cannot manufacture or discard identity, multiplicity, order or completeness without an explicit preservation/loss contract.",
+    "A representation schema may constrain carrier structure but cannot choose the domain subject, identity relation or analysis grain.",
+    "Unknown and disputed decisions remain typed; the compiler does not default them."
+  ],
+  "edition": 1,
+  "imported_foundation_refs": [
+    "library.csp.identity.scoped-identifier",
+    "library.csp.identity.namespace-registry",
+    "library.csp.identity.version-identity",
+    "library.csp.identity.canonicalization",
+    "library.san_content_identity",
+    "library.san_canonical",
+    "library.san_integrity"
+  ],
+  "modules": [
+    {
+      "axis": "semantic_object",
+      "facet_refs": [
+        "value",
+        "entity_or_occurrence",
+        "event_or_fact",
+        "state_or_snapshot",
+        "relation_or_graph",
+        "rule_or_policy",
+        "plan_or_intent",
+        "claim_or_evidence",
+        "resource_or_capability",
+        "representation_artifact"
+      ],
+      "module_id": "module.semantic-axis.semantic-object.v1",
+      "non_collapse_laws": [
+        "referent is not identifier",
+        "referent is not representation occurrence",
+        "entity is not record and record is not row",
+        "event fact observation assertion and command are distinct",
+        "state is not the event history or snapshot that represents it",
+        "claim is not evidence and evidence is not proof of truth",
+        "plan intent attempt effect and accepted outcome are distinct",
+        "resource capability entitlement allocation and usage are distinct",
+        "one subject may occupy multiple explicitly scoped roles; facet labels are not globally disjoint ontological truth"
+      ],
+      "required_decisions": [
+        "referent domain and semantic owner",
+        "subject kind and edition",
+        "role versus intrinsic kind",
+        "identity-bearing versus identity-less",
+        "lifecycle-bearing versus immutable",
+        "asserted observed requested derived or represented",
+        "classification overlap and precedence",
+        "unknown or disputed classification"
+      ],
+      "required_outcomes": [
+        "classified",
+        "multi_role",
+        "inapplicable",
+        "indeterminate",
+        "disputed",
+        "refused"
+      ],
+      "status": "CANDIDATE_PENDING_RATIFICATION"
+    },
+    {
+      "axis": "identity_and_equality",
+      "equality_stack": [
+        "lexical equality",
+        "representation equality",
+        "canonical representation equality",
+        "value equality",
+        "domain equivalence claim",
+        "resolved co-reference",
+        "version continuity",
+        "occurrence identity",
+        "historical continuity"
+      ],
+      "module_id": "module.semantic-axis.identity-equality.v1",
+      "non_collapse_laws": [
+        "same spelling is not same scoped identifier",
+        "same identifier is not same referent",
+        "proof of control is not subject identity",
+        "byte or digest equality is not semantic equality",
+        "canonicalization is scoped to one declared equivalence relation",
+        "merge is an authorized lifecycle action and not proof of historical equivalence",
+        "mutable reference immutable version logical subject and physical occurrence have separate identities",
+        "comparison failure is not inequality"
+      ],
+      "required_coordinates": [
+        "identity domain",
+        "scheme and namespace",
+        "assignment or naming authority",
+        "semantic edition",
+        "temporal validity",
+        "comparison purpose",
+        "equality or equivalence relation",
+        "canonicalization profile",
+        "resolution evidence and defeaters",
+        "version occurrence and continuity model"
+      ],
+      "required_outcomes": [
+        "equal",
+        "not_equal",
+        "equivalent_under_profile",
+        "not_equivalent_under_profile",
+        "incomparable",
+        "indeterminate",
+        "refused"
+      ],
+      "status": "CANDIDATE_PENDING_RATIFICATION"
+    },
+    {
+      "axis": "grain_and_cardinality",
+      "cardinality_coordinates": [
+        "minimum",
+        "maximum including unbounded",
+        "known versus unknown",
+        "set bag sequence map graph or stream semantics",
+        "boundedness",
+        "partition census",
+        "page or continuation scope",
+        "window or cut"
+      ],
+      "grain_coordinates": [
+        "unit of observation",
+        "unit of identity",
+        "unit of analysis",
+        "unit of update",
+        "unit of authority",
+        "unit of storage",
+        "unit of partition",
+        "unit of ordering",
+        "unit of completeness"
+      ],
+      "module_id": "module.semantic-axis.grain-cardinality.v1",
+      "non_collapse_laws": [
+        "observation grain is not entity identity grain",
+        "analysis grain is not storage row grain",
+        "update atomicity grain is not transaction authority scope",
+        "scalar record collection partition page stream and graph are distinct",
+        "set bag and sequence multiplicity or ordering cannot be exchanged silently",
+        "partition-local order uniqueness or completeness is not global",
+        "pagination is a delivery mechanism and not semantic result grain",
+        "bounded and unbounded collections have different completion laws",
+        "aggregation disaggregation explode deduplicate and join are grain-changing transformations with preservation and residual contracts",
+        "zero one many unknown and unbounded are distinct cardinality states"
+      ],
+      "required_outcomes": [
+        "compatible",
+        "requires_lossless_regrain",
+        "requires_authorized_loss",
+        "incompatible",
+        "indeterminate",
+        "refused"
+      ],
+      "status": "CANDIDATE_PENDING_RATIFICATION"
+    }
+  ],
+  "negative_mission": "Do not create a universal Object, Id, Record or Collection type and do not infer subject identity, equality or analytical grain from names, schemas, storage rows or provider occurrences.",
+  "prohibited_new_facades": [
+    "universal_object",
+    "universal_id",
+    "universal_record",
+    "universal_collection",
+    "universal_equality",
+    "universal_grain"
+  ],
+  "ratification_gate": "Named foundation owners accept vocabulary, coordinate sets, non-collapse laws, outcomes and imports; all 23 family matrices record applicability and exceptions.",
+  "record_kind": "semantic_axis_phase_constitution_candidate",
+  "sovereign_question": "What exact subject is being discussed, under which identity/equality relation and at which grain/cardinality?",
+  "status": "EVIDENCE_BACKED_CANDIDATE_PENDING_OWNER_RATIFICATION"
+}

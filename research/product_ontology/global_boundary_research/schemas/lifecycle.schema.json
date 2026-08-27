@@ -1,0 +1,42 @@
+{
+  "$id": "https://san.example/product-boundary/lifecycle.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "candidate_id": {},
+    "change_gates": {},
+    "compatibility_relations": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "lifecycle"
+    },
+    "refusals": {},
+    "states": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "transitions": {}
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "candidate_id",
+    "states",
+    "transitions",
+    "compatibility_relations",
+    "change_gates",
+    "refusals"
+  ],
+  "title": "Global boundary research: lifecycle",
+  "type": "object"
+}

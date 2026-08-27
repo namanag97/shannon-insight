@@ -1,7 +1,5 @@
 """Tests for API integration with RuntimeKernel."""
 
-from pathlib import Path
-
 import pytest
 
 from shannon_insight.api import analyze_v2

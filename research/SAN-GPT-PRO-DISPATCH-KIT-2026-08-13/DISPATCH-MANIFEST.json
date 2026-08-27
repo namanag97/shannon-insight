@@ -1,0 +1,38 @@
+{
+  "bootstrap_context_task_count": 275,
+  "dispatch_date": "2026-08-13",
+  "manifest_version": "0.1.0",
+  "program": "SAN domain-to-library-to-compiler research program",
+  "sessions": [
+    {
+      "attachment_count": 17,
+      "directory": "sessions/N1-atlas-rebase",
+      "expected_return": "SAN-UNIVERSAL-NON-DATA-DOMAIN-ATLAS-v0.2.0-RC.zip",
+      "purpose": "Globally researched non-data domain atlas v0.2.0 release candidate",
+      "session_id": "N1-atlas-rebase",
+      "upload_zip": "send/SAN-GPT-PRO-N1-atlas-rebase-2026-08-13.zip",
+      "upload_zip_bytes": 25545967,
+      "upload_zip_sha256": "1742074256e98efbbe63240c9654080390d444b29b8d5e1b941ddb5de7b39261"
+    },
+    {
+      "attachment_count": 9,
+      "directory": "sessions/S1-semantic-contract",
+      "expected_return": "candidate-a-sovereign-domain-semantic-contract-v0.1.0.zip",
+      "purpose": "Independent sovereign semantic-domain definition contract candidate",
+      "session_id": "S1-semantic-contract",
+      "upload_zip": "send/SAN-GPT-PRO-S1-semantic-contract-2026-08-13.zip",
+      "upload_zip_bytes": 3500826,
+      "upload_zip_sha256": "624b6d088c4a0b9699cafe7d645651a464bb79e90be7d79e4f6e2c89c2d47326"
+    },
+    {
+      "attachment_count": 15,
+      "directory": "sessions/S2-library-compiler-contract",
+      "expected_return": "candidate-b-library-composition-compiler-contract-v0.1.0.zip",
+      "purpose": "Independent library, composition, and compiler contract candidate",
+      "session_id": "S2-library-compiler-contract",
+      "upload_zip": "send/SAN-GPT-PRO-S2-library-compiler-contract-2026-08-13.zip",
+      "upload_zip_bytes": 5129572,
+      "upload_zip_sha256": "3276b7af2c29663e237eb75cecc0ab8530905dabd138de6b47d96457a5bd0c59"
+    }
+  ]
+}

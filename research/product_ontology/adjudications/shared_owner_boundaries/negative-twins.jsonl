@@ -1,0 +1,6 @@
+{"negative_id":"negative.shared-owner.first-context","required_behavior":"Require an explicit verdict and owner authority.","unsafe_inference":"The first context in a list owns the meaning."}
+{"negative_id":"negative.shared-owner.consumers-own","required_behavior":"Model consumers as contributor/import relations.","unsafe_inference":"Every consuming context co-owns a shared library."}
+{"negative_id":"negative.shared-owner.generic-reducer","required_behavior":"Keep domain commands, guards, refusals and terminal facts separate.","unsafe_inference":"Identical state-machine mechanics imply identical lifecycle semantics."}
+{"negative_id":"negative.shared-owner-carrier","required_behavior":"Reuse the primitive while preserving domain value and authority boundaries.","unsafe_inference":"Use of the same carrier or primitive collapses the domain libraries using it."}
+{"negative_id":"negative.shared-owner-replacement","required_behavior":"Require total operation, law, refusal and migration crosswalk evidence.","unsafe_inference":"Naming replacement libraries proves semantic coverage."}
+{"negative_id":"negative.shared-owner-agent","required_behavior":"Agents may propose; only governed evidence-backed adjudication changes the registry.","unsafe_inference":"An agent may resolve an ownership collision from names or popularity."}

@@ -1,0 +1,45 @@
+{
+  "counts": {
+    "bounded-context-candidates.jsonl": 52,
+    "compiler-mappings.jsonl": 36,
+    "context-relations.jsonl": 64,
+    "evidence.jsonl": 91,
+    "gaps.jsonl": 24,
+    "innovations-2021-2026.jsonl": 26,
+    "invariants-refusals.jsonl": 69,
+    "library-boundaries.jsonl": 24,
+    "lifecycles.jsonl": 12,
+    "semantic-records.jsonl": 400,
+    "sources.jsonl": 91,
+    "ubiquitous-language.jsonl": 86,
+    "vertical-examples.jsonl": 2
+  },
+  "distinctions_checked": [
+    "business_term_vs_dimension_member",
+    "observation_vs_fact",
+    "measure_vs_metric_vs_kpi",
+    "formula_definition_vs_binding_vs_evaluation",
+    "null_vs_absent_vs_zero",
+    "event_vs_valid_vs_recording_vs_query_time",
+    "entity_relation_vs_analytical_join",
+    "additivity_vs_decomposability",
+    "target_vs_observed_value",
+    "unit_conversion_vs_currency_valuation",
+    "semantic_cache_equivalence_vs_sql_text",
+    "governed_metric_vs_dashboard_tile"
+  ],
+  "edition": 1,
+  "open_world_notice": "Counts demonstrate bounded coverage, not proof of completeness. All records remain candidates unless separately qualified.",
+  "semantic_record_kinds": {
+    "aggregation": 30,
+    "decision_point": 48,
+    "formula_ast_node": 26,
+    "formula_function": 53,
+    "formula_operator": 21,
+    "join_law": 22,
+    "operation": 132,
+    "semantic_type": 42,
+    "time_semantic": 26
+  },
+  "status": "candidate_coverage"
+}

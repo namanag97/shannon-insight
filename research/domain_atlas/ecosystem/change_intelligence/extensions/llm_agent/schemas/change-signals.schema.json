@@ -1,0 +1,107 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/llm-agent-change-signals.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "canonical_semantics_authority": {
+      "type": "boolean"
+    },
+    "capability_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "change_type_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "core_substrate_signal_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "coverage_plane_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "dependency_direction": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "documentation_vs_behavior": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extension_namespace": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extension_signal_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "llm_posture": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "maturity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "qualified_provider_offer": {
+      "type": "boolean"
+    },
+    "release_vs_rollout": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "canonical_semantics_authority",
+    "capability_ids",
+    "change_type_ids",
+    "core_substrate_signal_ids",
+    "coverage_plane_ids",
+    "dependency_direction",
+    "documentation_vs_behavior",
+    "extension_namespace",
+    "extension_signal_id",
+    "llm_posture",
+    "maturity",
+    "proof_obligation_ids",
+    "qualified_provider_offer",
+    "release_vs_rollout",
+    "source_ids",
+    "title"
+  ],
+  "title": "llm-agent-change-signals",
+  "type": "object"
+}

@@ -1,0 +1,18 @@
+{
+  "advance": "The previously generic missing types/traits/operations dimension now has source-extracted exact-name candidates for every method-kernel library; remaining axis vacancies are grouped into role-aware work packages and all semantic decisions still require owner ratification.",
+  "as_of": "2026-08-26",
+  "automatic_owner_decisions": 0,
+  "axis_evidence_rows": 1152,
+  "canonical_exact_gaps_closed": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "exact_contract_input_candidates": 72,
+  "family_default_candidates": 16,
+  "libraries": 72,
+  "libraries_with_exact_type_trait_operation_names": 72,
+  "program_id": "program.semantic-axis.pilot.method-kernels.v1",
+  "status": "ACTIVE_OWNER_RATIFICATION_OPEN",
+  "total_axis_evidence_vacancies": 325,
+  "vacancy_axes": 6,
+  "vacancy_work_packages": 33
+}

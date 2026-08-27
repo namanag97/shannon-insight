@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "test_id",
+    "left",
+    "right",
+    "forbidden_relation",
+    "reason"
+  ],
+  "title": "False-twin refusal test",
+  "type": "object"
+}

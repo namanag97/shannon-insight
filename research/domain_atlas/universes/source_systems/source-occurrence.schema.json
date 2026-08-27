@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/source-occurrence.schema.json",
+  "title": "Deployed source occurrence",
+  "description": "Binds a concrete product/deployment to a capability class without making the vendor a class.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["occurrence_id", "source_class_id", "deployment_identity", "authority_claims", "objects", "observed_capabilities", "quantitative_limits", "security_boundary", "freshness", "probe_receipts", "reviewed_at"],
+  "properties": {
+    "occurrence_id": {"type": "string", "pattern": "^source-occurrence\\.[a-zA-Z0-9_.:-]+$"},
+    "source_class_id": {"type": "string", "pattern": "^source\\.[a-z0-9_]+\\.[a-z0-9_]+$"},
+    "deployment_identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["provider", "product", "deployment", "tenant_or_account", "region_or_site", "version"],
+      "properties": {
+        "provider": {"type": "string"}, "product": {"type": "string"}, "deployment": {"type": "string"},
+        "tenant_or_account": {"type": "string"}, "region_or_site": {"type": "string"}, "version": {"type": "string"}
+      }
+    },
+    "authority_claims": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["scope", "claim", "owner", "effective_interval"], "properties": {"scope": {"type": "string"}, "claim": {"type": "string"}, "owner": {"type": "string"}, "effective_interval": {"type": "string"}}, "additionalProperties": false}},
+    "objects": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["object_pattern", "schema_ref", "key_ref", "sensitivity"], "properties": {"object_pattern": {"type": "string"}, "schema_ref": {"type": "string"}, "key_ref": {"type": "string"}, "sensitivity": {"type": "string"}}, "additionalProperties": false}},
+    "observed_capabilities": {"type": "object", "required": ["discovery", "read", "write", "change", "time_order_finality", "transactions"], "additionalProperties": true},
+    "quantitative_limits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["rate", "quota", "page_size", "payload_size", "object_size", "concurrency", "retention", "cursor_ttl", "query_timeout", "cost_and_egress"],
+      "properties": {
+        "rate": {"$ref": "#/$defs/observedLimit"}, "quota": {"$ref": "#/$defs/observedLimit"},
+        "page_size": {"$ref": "#/$defs/observedLimit"}, "payload_size": {"$ref": "#/$defs/observedLimit"},
+        "object_size": {"$ref": "#/$defs/observedLimit"}, "concurrency": {"$ref": "#/$defs/observedLimit"},
+        "retention": {"$ref": "#/$defs/observedLimit"}, "cursor_ttl": {"$ref": "#/$defs/observedLimit"},
+        "query_timeout": {"$ref": "#/$defs/observedLimit"}, "cost_and_egress": {"$ref": "#/$defs/observedLimit"}
+      }
+    },
+    "security_boundary": {"type": "object", "required": ["credential_ref", "authn", "authz", "network", "encryption", "tenant", "audit"], "additionalProperties": true},
+    "freshness": {"type": "object", "required": ["observed_at", "expires_at", "reprobe_trigger"], "additionalProperties": false, "properties": {"observed_at": {"type": "string", "format": "date-time"}, "expires_at": {"type": "string", "format": "date-time"}, "reprobe_trigger": {"type": "string"}}},
+    "probe_receipts": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "reviewed_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "observedLimit": {"type": "object", "additionalProperties": false, "required": ["value", "unit", "scope", "source", "observed_at", "failure_behavior"], "properties": {"value": {"type": ["number", "string", "null"]}, "unit": {"type": "string"}, "scope": {"type": "string"}, "source": {"enum": ["documentation", "capability_probe", "administrator", "unknown"]}, "observed_at": {"type": "string"}, "failure_behavior": {"type": "string"}}}
+  }
+}

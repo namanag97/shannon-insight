@@ -1,0 +1,57 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/migration-invalidation-triggers.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "condition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invalidates": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "rollback_required": {
+      "type": "boolean"
+    },
+    "signal_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "trigger_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "trigger_kind": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "actions",
+    "condition",
+    "invalidates",
+    "proof_obligation_ids",
+    "rollback_required",
+    "signal_id",
+    "trigger_id",
+    "trigger_kind"
+  ],
+  "title": "migration-invalidation-triggers",
+  "type": "object"
+}

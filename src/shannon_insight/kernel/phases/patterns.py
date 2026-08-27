@@ -42,9 +42,9 @@ class PatternsExecutor(BaseExecutor):
 
     def _execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
     ) -> PhaseResult:
         """Execute patterns to detect code issues."""
         from ...insights.finders.executor import execute_patterns

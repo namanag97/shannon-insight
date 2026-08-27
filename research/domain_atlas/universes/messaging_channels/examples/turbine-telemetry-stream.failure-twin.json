@@ -1,0 +1,9 @@
+{
+  "actual_risk": "repartition ends the source order proof and broker time cannot replace sensor event time; alerts can be suppressed or duplicated",
+  "example_id": "msg.example.turbine_telemetry.failure_twin",
+  "failure": "bridge repartitions by site and stamps bridge time as event time",
+  "required_outcome": "preserve source identity/time, emit translation-loss receipt, and resequence only under an explicit turbine authority",
+  "twin_of": "msg.example.turbine_telemetry",
+  "unsafe_inference": "each output partition is ordered, so turbine observations and event-time windows remain correct",
+  "vertical": "industrial_turbine_condition_monitoring"
+}

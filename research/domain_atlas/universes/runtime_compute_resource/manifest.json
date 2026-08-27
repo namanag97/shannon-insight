@@ -1,0 +1,36 @@
+{
+  "corpus_id": "san.domain-atlas.runtime-compute-resource",
+  "edition": "0.1.0",
+  "status": "research_candidate",
+  "completion_claim": false,
+  "scope": "Runtime execution, compute and finite resource control independently of query/business semantics and provider products.",
+  "exclusions": [
+    "LLM/generative/agentic semantics",
+    "query semantics",
+    "storage data model",
+    "business workflow meaning",
+    "provider product catalog"
+  ],
+  "generated_files": [
+    "contexts.jsonl",
+    "types.jsonl",
+    "state-machines.jsonl",
+    "resource-classes.jsonl",
+    "scheduling-policies.jsonl",
+    "decision-points.jsonl",
+    "libraries.jsonl",
+    "requirements-offers-bindings.jsonl",
+    "evidence.jsonl",
+    "innovations.jsonl",
+    "gaps.jsonl",
+    "compiler-contract.json",
+    "boundary-matrix.json"
+  ],
+  "minimum_gates": {
+    "authoritative_primary_sources": 40,
+    "recent_innovations": 15,
+    "contexts": 25,
+    "resource_classes": 20,
+    "state_machines": 8
+  }
+}

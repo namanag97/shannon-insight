@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/runtime-resource-type-v0.1.0.schema.json",
+  "title": "Runtime and resource semantic type",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_kind", "type_id", "edition", "status", "name", "owner_context_ref", "category", "definition", "equality_semantics", "canonical_form", "invariants", "must_not_be_confused_with", "evidence_refs", "gaps"],
+  "properties": {
+    "record_kind": {"const": "runtime_resource_type"},
+    "type_id": {"type": "string", "pattern": "^type\\.runtime-resource\\.[a-z0-9-]+$"},
+    "edition": {"type": "string"},
+    "status": {"enum": ["research_candidate", "reviewed", "adjudicated", "deprecated"]},
+    "name": {"type": "string", "minLength": 1},
+    "owner_context_ref": {"type": "string", "pattern": "^context\\.runtime-resource\\."},
+    "category": {"enum": ["identity", "classifier", "value_object", "aggregate", "entity", "event", "observation", "structure", "specification", "command", "state", "receipt"]},
+    "definition": {"type": "string", "minLength": 1},
+    "equality_semantics": {"type": "string", "minLength": 1},
+    "canonical_form": {"type": "string", "minLength": 1},
+    "invariants": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "must_not_be_confused_with": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^evidence\\."}},
+    "gaps": {"type": "array", "items": {"type": "string"}}
+  }
+}

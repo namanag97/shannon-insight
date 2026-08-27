@@ -1,0 +1,69 @@
+{
+  "artifact_layers": [
+    "logical",
+    "protocol",
+    "broker_engine",
+    "client_library",
+    "provider_offer",
+    "deployed_occurrence"
+  ],
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "counts": {
+    "bounded_context_candidates": 53,
+    "capabilities": 106,
+    "capability_offers": 53,
+    "capability_operation_decision_channel_records": 391,
+    "channel_contracts": 20,
+    "compiler_mappings": 53,
+    "compiler_requirements": 53,
+    "decision_points": 53,
+    "delivery_composition_laws": 20,
+    "evidence_records": 109,
+    "failure_twins": 2,
+    "gaps": 24,
+    "implementation_boundaries": 20,
+    "innovations": 24,
+    "invariants_refusals": 53,
+    "library_adapter_boundaries": 24,
+    "lifecycles": 12,
+    "provider_qualification_requirements": 17,
+    "semantic_distinctions": 14,
+    "sources": 109,
+    "typed_operations": 212,
+    "vertical_examples": 2
+  },
+  "delivery_stages": [
+    "producer_effect",
+    "publication",
+    "transport",
+    "consumption",
+    "downstream_effect"
+  ],
+  "edition": 1,
+  "forbidden_claims": [
+    "component exactly once proves end-to-end exactly once",
+    "durable receipt proves business acceptance",
+    "ordered partition proves global order",
+    "DLQ placement proves adjudicated correction"
+  ],
+  "forbidden_core_dependencies": [
+    "llm",
+    "large_language_model",
+    "generative_model",
+    "prompt",
+    "rag",
+    "agent_memory"
+  ],
+  "not_units": [
+    "wire protocol",
+    "broker or engine",
+    "client library",
+    "provider offer",
+    "deployed occurrence"
+  ],
+  "standing": "broad primary-source-backed candidate corpus; independent adjudication, provider occurrence qualification, recurring freshness and saturation remain open",
+  "status": "researched_candidate_not_adjudicated",
+  "unit": "provider-neutral logical messaging/channel contract with explicit delivery, time, ordering, recovery and evidence semantics",
+  "universe_id": "messaging_channels"
+}

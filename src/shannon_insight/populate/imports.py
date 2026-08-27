@@ -4,18 +4,18 @@ Resolves imports to file paths using the file set, handling both
 relative and absolute imports.  Weight = 1.0 for each resolved import.
 Self-imports are skipped.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
 
 from ..tensor.core import IMPORT
-from ..extract.models import FileSyntax
-
 
 # ---------------------------------------------------------------------------
 # Import resolution (mirrors graph/builder.py logic for tensor population)
 # ---------------------------------------------------------------------------
+
 
 def _resolve_import(imp: Any, source_path: str, file_set: set[str]) -> str | None:
     """Resolve a single Import object to a target file path in *file_set*.
@@ -76,6 +76,7 @@ def _resolve_import(imp: Any, source_path: str, file_set: set[str]) -> str | Non
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
+
 
 def populate_imports(
     tensor: Any,

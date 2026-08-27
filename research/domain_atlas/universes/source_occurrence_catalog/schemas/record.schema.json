@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/source-occurrence-catalog/record.schema.json",
+  "title": "Source occurrence catalog record",
+  "type": "object",
+  "required": ["record_id", "record_kind", "edition", "status", "name"],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 8},
+    "record_kind": {
+      "enum": [
+        "provider_organization", "product_identity", "implementation_artifact",
+        "documented_offer", "product_source_surface", "source_occurrence_template",
+        "compiler_requirement", "requirement_offer_mapping", "protocol_class_crosswalk",
+        "adapter_library_boundary", "semantic_library_contract", "qualification_probe", "official_primary_source",
+        "innovation_2021_2026", "negative_twin", "coverage_gap"
+      ]
+    },
+    "edition": {"const": 1},
+    "status": {"type": "string", "minLength": 3},
+    "name": {"type": "string", "minLength": 3},
+    "source_class_ref": {"type": "string", "pattern": "^source\\."},
+    "source_class_refs": {"type": "array", "items": {"type": "string", "pattern": "^source\\."}, "uniqueItems": true},
+    "protocol_ref": {"type": "string", "pattern": "^protocol\\.cp\\."},
+    "protocol_refs": {"type": "array", "items": {"type": "string", "pattern": "^protocol\\.cp\\."}, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string", "pattern": "^source\\.occurrence\\."}, "uniqueItems": true},
+    "compiler_bindable": {"type": "boolean"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"record_kind": {"const": "product_identity"}}},
+      "then": {"required": ["provider_ref", "candidate_source_class_refs", "candidate_protocol_refs", "conformance_status"]}
+    },
+    {
+      "if": {"properties": {"record_kind": {"const": "implementation_artifact"}}},
+      "then": {"required": ["product_ref", "artifact_kind", "version_assertion", "version_state", "compiler_bindable"]}
+    },
+    {
+      "if": {"properties": {"record_kind": {"const": "source_occurrence_template"}}},
+      "then": {"required": ["source_class_ref", "product_ref", "offer_ref", "artifact_ref", "deployment_identity", "object_scope", "access_semantics", "limits", "security", "freshness", "probe_receipts", "compiler_bindable"]}
+    },
+    {
+      "if": {"properties": {"record_kind": {"const": "requirement_offer_mapping"}}},
+      "then": {"required": ["requirement_ref", "offer_ref", "surface_ref", "occurrence_template_ref", "required_receipts", "compiler_bindable"]}
+    },
+    {
+      "if": {"properties": {"record_kind": {"const": "official_primary_source"}}},
+      "then": {"required": ["issuer", "url", "authority", "source_kind", "retrieved_on", "use_limit"]}
+    }
+  ],
+  "additionalProperties": true
+}

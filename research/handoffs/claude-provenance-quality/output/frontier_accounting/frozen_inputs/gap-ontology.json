@@ -1,0 +1,212 @@
+{
+  "as_of": "2026-08-27",
+  "classification_axes": [
+    {
+      "axis": "defect_kind",
+      "values": [
+        "MISSING",
+        "UNKNOWN",
+        "AMBIGUOUS",
+        "CONFLICTING",
+        "UNBOUND",
+        "UNRATIFIED",
+        "UNIMPLEMENTED",
+        "UNQUALIFIED",
+        "STALE"
+      ]
+    },
+    {
+      "axis": "locus",
+      "values": [
+        "SOURCE_CORPUS",
+        "SEMANTIC_FOUNDATION",
+        "FAMILY_AXIS_MODULE",
+        "PUBLIC_SYMBOL",
+        "LIBRARY_CONTRACT",
+        "COMPILER_BINDING",
+        "IMPLEMENTATION",
+        "QUALIFICATION"
+      ]
+    },
+    {
+      "axis": "scope_grain",
+      "values": [
+        "SYMBOL",
+        "OPERATION",
+        "LIBRARY",
+        "FAMILY_AXIS",
+        "FAMILY",
+        "PRODUCT",
+        "VERTICAL",
+        "GLOBAL"
+      ]
+    },
+    {
+      "axis": "epistemic_state",
+      "values": [
+        "DISCOVERY",
+        "CANDIDATE",
+        "CONTESTED",
+        "DECISION_READY",
+        "RATIFIED",
+        "OBSERVED"
+      ]
+    },
+    {
+      "axis": "closure_operation",
+      "values": [
+        "REPAIR_STRUCTURE",
+        "RESEARCH",
+        "ADJUDICATE",
+        "RATIFY",
+        "SPECIFY",
+        "IMPLEMENT",
+        "QUALIFY",
+        "PROPAGATE"
+      ]
+    },
+    {
+      "axis": "closure_authority",
+      "values": [
+        "CORPUS_MAINTAINER",
+        "SEMANTIC_OWNER",
+        "FAMILY_OWNER",
+        "LIBRARY_OWNER",
+        "IMPLEMENTER",
+        "INDEPENDENT_APPRAISER",
+        "PRODUCT_ACCEPTANCE_OWNER"
+      ]
+    },
+    {
+      "axis": "evidence_kind",
+      "values": [
+        "PRIMARY_SOURCE",
+        "CONFLICT_APPRAISAL",
+        "OWNER_DECISION",
+        "EXACT_SCHEMA",
+        "EXECUTABLE_ORACLE",
+        "IMPLEMENTATION_RECEIPT",
+        "INDEPENDENT_DIFFERENTIAL",
+        "PRODUCT_ACCEPTANCE"
+      ]
+    },
+    {
+      "axis": "dependency_role",
+      "values": [
+        "ROOT_CAUSE",
+        "BLOCKER",
+        "RESIDUAL",
+        "DUPLICATE",
+        "REFINEMENT",
+        "DOWNSTREAM_SYMPTOM"
+      ]
+    },
+    {
+      "axis": "blast_radius",
+      "values": [
+        "LOCAL",
+        "FAMILY",
+        "CROSS_FAMILY",
+        "GLOBAL_COMPILER"
+      ]
+    },
+    {
+      "axis": "lifecycle",
+      "values": [
+        "OPEN",
+        "DECOMPOSED",
+        "EVIDENCE_READY",
+        "DECISION_READY",
+        "DECIDED",
+        "IMPLEMENTED",
+        "QUALIFIED",
+        "CLOSED",
+        "REOPENED"
+      ]
+    },
+    {
+      "axis": "reuse_layer",
+      "values": [
+        "SOURCE_CONCEPT_SCHEME",
+        "GLOBAL_CONSTITUTION",
+        "SHARED_PRIMITIVE",
+        "CONTRACT_ARCHETYPE",
+        "FAMILY_PROFILE",
+        "CONTEXT_PROFILE",
+        "LIBRARY_INSTANCE",
+        "IMPLEMENTATION_OFFER",
+        "PRODUCT_ASSEMBLY",
+        "VERTICAL_SOLUTION_PACK"
+      ]
+    },
+    {
+      "axis": "decision_shape",
+      "values": [
+        "GLOBAL_LAW",
+        "SHARED_CARRIER",
+        "STRUCTURAL_OBLIGATION",
+        "FAMILY_DEFAULT",
+        "EXCEPTION_CLUSTER",
+        "LOCAL_RESIDUAL",
+        "EXACT_CONTRACT",
+        "PROVIDER_OFFER",
+        "QUALIFICATION_GATE",
+        "PRODUCT_ACCEPTANCE"
+      ]
+    },
+    {
+      "axis": "propagation_mode",
+      "values": [
+        "IMPORT_EXACT",
+        "INHERIT_OBLIGATIONS",
+        "PROFILE",
+        "COMPOSE",
+        "MAP_WITH_LOSS",
+        "OVERRIDE_WITH_EVIDENCE",
+        "NO_PROPAGATION"
+      ]
+    },
+    {
+      "axis": "adjudication_outcome",
+      "values": [
+        "IMPORT_AS_IS",
+        "IMPORT_QUALIFIED",
+        "SPECIALIZE",
+        "COMPOSE",
+        "RETAIN_LOCAL",
+        "SPLIT",
+        "MERGE",
+        "RENAME",
+        "REPLACE",
+        "RETIRE",
+        "BLOCK"
+      ]
+    },
+    {
+      "axis": "closure_gate",
+      "values": [
+        "STRUCTURE_READY",
+        "SOURCE_AUTHORITY_RATIFIED",
+        "SEMANTICS_RATIFIED",
+        "EXACT_CONTRACT_VALID",
+        "IMPLEMENTATION_PROVED",
+        "PORTABILITY_QUALIFIED",
+        "PRODUCT_ACCEPTED",
+        "VERTICAL_ACCEPTED"
+      ]
+    }
+  ],
+  "edition": 1,
+  "non_collapse_laws": [
+    "missing structure is not missing domain coverage",
+    "evidence presence is not evidence sufficiency",
+    "candidate semantics are not owner-ratified semantics",
+    "a specified contract is not an implemented contract",
+    "one passing implementation is not portability",
+    "validation is not source authority",
+    "closing a parent gap does not close library-local residuals"
+  ],
+  "ontology_id": "ontology.semantic-gap-control.v1",
+  "question": "What is unknown, missing, ambiguous, conflicting or unproved; where does it live; what does it block; and what exact evidence and authority can close it?",
+  "semantic_axis_ref": "../semantic-axis-ontology.json"
+}

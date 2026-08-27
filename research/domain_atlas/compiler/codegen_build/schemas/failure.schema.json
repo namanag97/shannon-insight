@@ -1,0 +1,45 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/failure_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "expected_code": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "failure_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "input_condition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "must_not_emit": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "failure_id",
+    "edition",
+    "status",
+    "context_ref",
+    "input_condition",
+    "expected_code",
+    "must_not_emit"
+  ],
+  "type": "object"
+}

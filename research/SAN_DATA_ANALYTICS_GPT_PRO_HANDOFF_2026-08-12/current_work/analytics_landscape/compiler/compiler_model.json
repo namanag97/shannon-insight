@@ -1,0 +1,81 @@
+{
+  "metadata":{"version":"0.1.0","status":"architectural_seed","as_of":"2026-08-12","name":"Intent-to-analytics compiler"},
+  "inputs":[
+    {"id":"input.intent","contract":"intent.schema.json","required":true},
+    {"id":"input.domain_pack","contract":"domain_pack.schema.json","required":true},
+    {"id":"input.source_registry","contract":"source_system_taxonomy.json","required":true},
+    {"id":"input.machine_registry","contract":"../composition/horizontal_registry.json","required":true},
+    {"id":"input.data_ontology","contract":"../data_ontology.json","required":true},
+    {"id":"input.deployment_registry","contract":"future deployment capability registry","required":true}
+  ],
+  "ir_levels":[
+    {"level":0,"id":"ir.intent","name":"Intent IR","contains":["desired outcomes","questions","decision/action boundary","population","time horizon","SLOs","constraints","acceptance tests"],"exit_gates":["intent complete","conflicts exposed","unknown terms listed"]},
+    {"level":1,"id":"ir.domain","name":"Resolved Domain IR","contains":["bounded contexts","canonical concepts","aggregates","events","commands","policies","invariants","metrics","decisions"],"exit_gates":["all intent terms resolve","context ownership unambiguous","domain invariants satisfiable"]},
+    {"level":2,"id":"ir.observation","name":"Observation and Contract IR","contains":["observation types","grain","identity","time roles","units","missingness","provenance","source mappings","quality contracts"],"exit_gates":["semantic types valid","grain valid","identity strategy complete","temporal roles complete","source evidence sufficient"]},
+    {"level":3,"id":"ir.logical","name":"Logical Analytics IR","contains":["typed machine nodes","typed ports","logical datasets","metric algebra","causal designs","decision models","logical DAG/hyperedges"],"exit_gates":["ports type-check","DAG portions acyclic","metric algebra valid","causal claims identified","decision objective and constraints complete"]},
+    {"level":4,"id":"ir.assurance","name":"Assurance IR","contains":["policy enforcement","privacy transformations","quality tests","lineage instrumentation","human review","failure handling","proof obligations"],"exit_gates":["policy complete","privacy budget valid","tests cover contracts","review boundary present","lineage closed"]},
+    {"level":5,"id":"ir.physical","name":"Physical Execution IR","contains":["selected adapters","engines","storage","partitions","materializations","batch/stream choices","resource estimates","physical DAG"],"exit_gates":["capability compatibility","resource feasibility","cost within constraint","delivery semantics preserved"]},
+    {"level":6,"id":"ir.operations","name":"Operations IR","contains":["jobs","schedules","dependencies","retries","backfills","checkpoints","alerts","runbooks","ownership","maintenance calendar"],"exit_gates":["recovery proven","idempotency proven","SLO coverage complete","owners assigned"]},
+    {"level":7,"id":"ir.evidence","name":"Evidence and Release IR","contains":["generated artifacts","source-to-output lineage","compiler decisions","unresolved assumptions","test results","cost estimate","release signature"],"exit_gates":["acceptance tests pass","no unresolved blocking assumptions","artifact hashes recorded","release approved"]}
+  ],
+  "compiler_passes":[
+    {"id":"pass.parse_intent","from":"input.intent","to":"ir.intent","responsibility":"Parse, normalize, and reject internally inconsistent intent."},
+    {"id":"pass.resolve_language","from":"ir.intent","to":"ir.domain","responsibility":"Resolve intent terms against bounded contexts, ubiquitous language, aliases, and anti-corruption mappings."},
+    {"id":"pass.plan_observations","from":"ir.domain","to":"ir.observation","responsibility":"Determine required observations, grain, time, identity, units, source candidates, and contracts."},
+    {"id":"pass.synthesize_logical","from":"ir.observation","to":"ir.logical","responsibility":"Select and compose horizontal machines into a typed logical plan."},
+    {"id":"pass.insert_assurance","from":"ir.logical","to":"ir.assurance","responsibility":"Insert policy, privacy, quality, provenance, review, and failure-control machinery."},
+    {"id":"pass.select_physical","from":"ir.assurance","to":"ir.physical","responsibility":"Choose compatible connector, engine, storage, serving, and deployment implementations."},
+    {"id":"pass.synthesize_operations","from":"ir.physical","to":"ir.operations","responsibility":"Generate orchestration, schedules, backfills, checkpoints, alerting, runbooks, and ownership."},
+    {"id":"pass.verify_release","from":"ir.operations","to":"ir.evidence","responsibility":"Run proof gates, acceptance tests, cost checks, and artifact signing."}
+  ],
+  "hypergraph":{
+    "kind":"typed_attributed_directed_multi_hypergraph",
+    "role":"Canonical normalized semantic representation and query index; not a substitute for staged compiler IRs.",
+    "node_types":["bounded_context","domain_concept","aggregate","entity","value_object","domain_event","command","policy","invariant","observation","semantic_type","source_system","source_field","contract","dataset","metric","machine","port","decision","action","owner","job","artifact","SLO","cost","test","evidence"],
+    "hyperedge_types":[
+      {"id":"edge.observes","roles":["observation","subjects","event_or_valid_time","provenance"]},
+      {"id":"edge.metric_definition","roles":["metric","measure","dimensions","filters","grain","calendar","owner"]},
+      {"id":"edge.machine_application","roles":["machine","inputs","outputs","configuration","policy"]},
+      {"id":"edge.source_mapping","roles":["source_fields","contract_fields","transform","confidence","evidence"]},
+      {"id":"edge.causal_design","roles":["population","treatment","outcome","adjustments","estimand","assumptions"]},
+      {"id":"edge.decision_model","roles":["decision","alternatives","objectives","constraints","costs","approver"]},
+      {"id":"edge.provenance","roles":["entities","activity","agent","time","derivation"]},
+      {"id":"edge.context_relationship","roles":["upstream_context","downstream_context","mapping_pattern","published_language"]},
+      {"id":"edge.deployment_realization","roles":["logical_node","physical_capability","configuration","resource","SLO"]}
+    ],
+    "identity_rule":"Every node has type, namespace, stable identifier, version, owner, lifecycle status, and provenance.",
+    "edge_rule":"Every hyperedge has typed roles, direction where meaningful, temporal validity, confidence, and evidence."
+  },
+  "generated_artifacts":[
+    {"id":"artifact.connector","examples":["source configuration","schema discovery","cursor/checkpoint policy","credential reference"]},
+    {"id":"artifact.contract","examples":["input schema","semantic constraints","compatibility policy","producer tests"]},
+    {"id":"artifact.pipeline","examples":["logical transforms","physical queries","stream operators","incremental models"]},
+    {"id":"artifact.semantic","examples":["entities","dimensions","measures","metrics","join and grain rules"]},
+    {"id":"artifact.analytics","examples":["experiment design","forecast configuration","simulation model","optimization formulation"]},
+    {"id":"artifact.policy","examples":["access policy","purpose policy","retention","privacy release rule"]},
+    {"id":"artifact.quality","examples":["contract tests","metric tests","causal diagnostics","reconciliation tests"]},
+    {"id":"artifact.orchestration","examples":["job DAG","schedule","trigger","backfill plan","retry and compensation"]},
+    {"id":"artifact.serving","examples":["API definition","materialization","cache","dashboard/data-app contract"]},
+    {"id":"artifact.deployment","examples":["infrastructure declaration","resource profile","secret references","environment promotion"]},
+    {"id":"artifact.operations","examples":["telemetry","SLO monitor","alert routing","runbook","maintenance tasks"]},
+    {"id":"artifact.evidence","examples":["lineage graph","compiler decision log","assumption register","test report","cost estimate","bill of materials"]}
+  ],
+  "proof_obligations":[
+    {"id":"proof.term_resolution","failure":"intent contains unresolved or ambiguous domain terms"},
+    {"id":"proof.type_safety","failure":"carrier, semantic, observation, structure, or port types are incompatible"},
+    {"id":"proof.grain_safety","failure":"join, metric, or output grain is undefined or produces unapproved fanout"},
+    {"id":"proof.temporal_safety","failure":"event, valid, system, or processing time is missing or confused"},
+    {"id":"proof.identity_safety","failure":"entity namespace, resolution, or collision policy is incomplete"},
+    {"id":"proof.metric_safety","failure":"metric lacks denominator, additivity, calendar, filter, version, or owner"},
+    {"id":"proof.causal_safety","failure":"causal claim lacks estimand, design, assumptions, diagnostics, or time zero"},
+    {"id":"proof.policy_safety","failure":"access, purpose, retention, residency, or release policy is unresolved"},
+    {"id":"proof.privacy_safety","failure":"privacy unit, contribution bound, consent, minimum group, or budget is invalid"},
+    {"id":"proof.delivery_safety","failure":"action lacks idempotency, receipt, reconciliation, rollback, or approval"},
+    {"id":"proof.recovery_safety","failure":"job cannot resume, replay, compensate, or backfill under declared semantics"},
+    {"id":"proof.lineage_closure","failure":"material output lacks source, activity, method, configuration, or owner"},
+    {"id":"proof.SLO_feasibility","failure":"freshness, latency, availability, accuracy, or recovery goals cannot be met"},
+    {"id":"proof.cost_feasibility","failure":"estimated build and run cost violates budget or lacks attribution"},
+    {"id":"proof.human_authority","failure":"high-impact decision has no accountable review or override contract"}
+  ],
+  "unknown_handling":{"blocking":["unresolved term","unknown unit","unknown grain","ambiguous identity","missing policy","unsupported connector semantics","unbounded cost"],"non_blocking_only_when_explicit":["estimated source mapping","provisional quality threshold","optional visualization preference"],"rule":"The compiler never silently substitutes guessed semantics for a missing declaration."}
+}

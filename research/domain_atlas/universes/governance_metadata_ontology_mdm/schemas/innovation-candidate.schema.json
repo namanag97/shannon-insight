@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "candidate_impact": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "development": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "innovation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "innovation_candidate"
+    },
+    "source_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "innovation_id",
+    "year",
+    "source_ref",
+    "development",
+    "candidate_impact"
+  ],
+  "title": "2021-2026 innovation candidate",
+  "type": "object"
+}

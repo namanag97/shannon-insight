@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 3,
+      "sha256": "910bfed9e848fdecfbcaa8ba1341ca5a3969581c474ff8c90672cf2c3d8b0b06"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 18,
+      "sha256": "46f34667e7c17376ffb4b1b83d5d11ad9080252fa5e250d70c1e5699213df0b2"
+    },
+    "decision-points.jsonl": {
+      "records": 36,
+      "sha256": "d4c19e1624a67a221e51a71cc622d757f87005e3e8b48e6d5f7a13ee75a1ab4c"
+    },
+    "library-contracts.jsonl": {
+      "records": 6,
+      "sha256": "934c8308fe20ebcc3137688176ac99c18e93554deb502aa39564031ab312562a"
+    },
+    "negative-twins.jsonl": {
+      "records": 20,
+      "sha256": "1530e34bc7ea1ea3c35f570413c3c893f35e2bbd95dedfce0f8dd5d661a7dd22"
+    },
+    "sources.jsonl": {
+      "records": 19,
+      "sha256": "bc11c1f75c17404ec65edc10c176290c777490aa5479d86358e6af4ccd9cf186"
+    }
+  },
+  "manifest_id": "data_marketplace_governance_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

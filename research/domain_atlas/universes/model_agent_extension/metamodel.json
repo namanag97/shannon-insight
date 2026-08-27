@@ -1,0 +1,46 @@
+{
+  "binding_chain": [
+    "intent",
+    "extension capability requirement",
+    "provider-neutral offer",
+    "exact provider/model/prompt/target occurrence",
+    "qualification receipt",
+    "runtime resource admission",
+    "generated proposal",
+    "core validation/authorization",
+    "core effect intent",
+    "core effect receipt"
+  ],
+  "constitutional_laws": [
+    "extension -> deterministic core; deterministic core never depends on extension",
+    "generated output -> proposal; proposal never self-authorizes",
+    "plan != validated claim != effect intent != effect receipt",
+    "tool definition != visibility != selection != authorization != execution",
+    "retrieval result != trusted instruction != validated evidence",
+    "model alias != immutable edition != deployed occurrence",
+    "schema conformance != domain validity != factual truth",
+    "same request != same output; nondeterminism is recorded, bounded and evaluated",
+    "classical predictive ML remains a neighboring core universe",
+    "absence of the extension leaves every deterministic compiler proof valid"
+  ],
+  "edition": 1,
+  "identities": [
+    "task",
+    "task_attempt",
+    "model_family",
+    "model_edition",
+    "provider_deployment_occurrence",
+    "prompt_template",
+    "prompt_edition",
+    "context_bundle",
+    "invocation",
+    "proposal",
+    "claim",
+    "effect_intent",
+    "effect_receipt",
+    "evaluation_run",
+    "qualification_receipt"
+  ],
+  "metamodel_id": "metamodel.mae.v1",
+  "purpose": "Optional provider-neutral model and tool-agent extension over deterministic core contracts."
+}

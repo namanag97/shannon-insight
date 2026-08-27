@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "state_and_change",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "family_extension_candidates": 23,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "primary_sources": 7,
+  "program_id": "program.p3s.state-change-coordinate-ontology-and-rebase.v1",
+  "research_clusters": 58,
+  "routes_with_lexical_discovery_projection": 84,
+  "routes_with_no_member_state_subject_evidence": 545,
+  "state_subject_archetypes": 12,
+  "state_subject_profiles_supplied": 0,
+  "target_member_routes": 629,
+  "transition_inventories_supplied": 0,
+  "transition_kernels": 31
+}

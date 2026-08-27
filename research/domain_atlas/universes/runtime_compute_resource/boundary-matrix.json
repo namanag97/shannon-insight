@@ -1,0 +1,102 @@
+{
+  "matrix_id": "runtime-resource.semantic-boundary-matrix",
+  "edition": "0.1.0",
+  "rows": [
+    {
+      "concept": "semantic intent",
+      "identity": "owned by business/data/analytical context",
+      "answers": "what outcome/work means",
+      "may_reference": [
+        "execution requirement",
+        "resource objective"
+      ],
+      "must_not_own": [
+        "provider SKU",
+        "PID",
+        "scheduler mechanism"
+      ]
+    },
+    {
+      "concept": "runtime mechanism",
+      "identity": "mechanism contract and edition",
+      "answers": "how executable work progresses",
+      "may_reference": [
+        "work unit",
+        "attempt",
+        "allocation"
+      ],
+      "must_not_own": [
+        "business meaning",
+        "query meaning",
+        "provider product"
+      ]
+    },
+    {
+      "concept": "resource class",
+      "identity": "semantic dimension and edition",
+      "answers": "what kind of finite capacity",
+      "may_reference": [
+        "unit",
+        "topology relations"
+      ],
+      "must_not_own": [
+        "occurrence",
+        "price",
+        "quota"
+      ]
+    },
+    {
+      "concept": "resource offer",
+      "identity": "offer ID and edition",
+      "answers": "what capacity/qualities may be allocated during validity",
+      "may_reference": [
+        "resource classes",
+        "rates",
+        "topology",
+        "evidence"
+      ],
+      "must_not_own": [
+        "workload demand",
+        "actual use"
+      ]
+    },
+    {
+      "concept": "provider resource",
+      "identity": "provider authority + provider ID + incarnation",
+      "answers": "which provider-controlled resource",
+      "may_reference": [
+        "offers",
+        "occurrences"
+      ],
+      "must_not_own": [
+        "logical resource semantics"
+      ]
+    },
+    {
+      "concept": "deployment occurrence",
+      "identity": "release + target + occurrence",
+      "answers": "which realized deployment now exists",
+      "may_reference": [
+        "provider resources",
+        "bindings"
+      ],
+      "must_not_own": [
+        "product or artifact identity"
+      ]
+    },
+    {
+      "concept": "control-plane product",
+      "identity": "user outcome and operating promise",
+      "answers": "which experience packages capabilities",
+      "may_reference": [
+        "contexts",
+        "libraries",
+        "adapters"
+      ],
+      "must_not_own": [
+        "borrowed semantic types",
+        "provider identity"
+      ]
+    }
+  ]
+}

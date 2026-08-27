@@ -1,0 +1,23 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "formalism-dependency-graph.jsonl": {
+      "bytes": 17887,
+      "sha256": "03bb478d987661c108db5039a020a4558c00bfb913ecbb93548aff0bf553ed97"
+    },
+    "formalism-frontier-clusters.jsonl": {
+      "bytes": 57569,
+      "sha256": "84798409f7d4e3c4c167f20ed70786f28d5a85cae1461b0496eabf70715a903b"
+    },
+    "product-formalism-coverage.jsonl": {
+      "bytes": 179180,
+      "sha256": "d512ceaa29d111804091c42b74d85ca6a1825abb6e99a8b8de6e856ee98a3d9b"
+    },
+    "summary.json": {
+      "bytes": 1910,
+      "sha256": "d6651e40019d7c66e7de624681e41de5392ea4e4358bbd2883304e63e5b766a4"
+    }
+  },
+  "manifest_id": "manifest.analytical-formalism-frontier.v1"
+}

@@ -1,0 +1,204 @@
+{
+  "contract_id": "contract.runtime-resource.compiler-closure.v1",
+  "edition": "0.1.0",
+  "status": "active_research_contract",
+  "scope": "Provider-neutral lowering from semantically closed executable work to finite runtime/resource plans and evidence; no query, business, storage-data or provider-product semantics.",
+  "separation_invariants": [
+    "semantic intent states what work means; runtime mechanism states how work executes",
+    "resource class is not a resource occurrence, offer, quota, reservation, allocation or usage observation",
+    "scheduler policy is not scheduler implementation or control-plane product",
+    "target profile is not provider SKU or deployment occurrence",
+    "a compute kernel is an executable entry point and is not an operating-system kernel",
+    "requested, reserved, allocated, observed, rated and billed quantities remain separately typed",
+    "logical completion and physical attempt outcome remain separately identified",
+    "unknown resource dimensions, guarantees or effect semantics become typed gaps"
+  ],
+  "required_input_contracts": [
+    "closed execution contract and immutable artifact reference",
+    "work graph with explicit dependencies and side-effect regions",
+    "minimum/target/maximum resource vectors",
+    "hard and soft topology constraints",
+    "completion, retry, timeout, cancellation and checkpoint semantics",
+    "admission authority, quotas and finite budgets",
+    "SLO, failure-domain and degraded-mode requirements",
+    "cost, energy and carbon objectives only when their measurement methods close"
+  ],
+  "ir_stages": [
+    {
+      "stage": "runtime-ir.execution",
+      "owns": [
+        "work/job/attempt identities",
+        "artifact and entry point",
+        "effect envelope",
+        "completion contract"
+      ],
+      "exit_proofs": [
+        "artifact identity exact",
+        "effects closed",
+        "attempt semantics total"
+      ]
+    },
+    {
+      "stage": "runtime-ir.demand",
+      "owns": [
+        "resource dimensions",
+        "minimum/target/maximum",
+        "elasticity",
+        "topology constraints"
+      ],
+      "exit_proofs": [
+        "units canonical",
+        "all blocking dimensions finite",
+        "hardness explicit"
+      ]
+    },
+    {
+      "stage": "runtime-ir.assurance",
+      "owns": [
+        "isolation",
+        "failure domains",
+        "deadlines",
+        "budgets",
+        "SLOs"
+      ],
+      "exit_proofs": [
+        "authority resolved",
+        "degraded/refusal paths total",
+        "evidence gates attached"
+      ]
+    },
+    {
+      "stage": "runtime-ir.feasibility",
+      "owns": [
+        "admission",
+        "quota/precharge holds",
+        "coarse capacity feasibility"
+      ],
+      "exit_proofs": [
+        "admission receipt",
+        "budget hold",
+        "no aggregate-capacity fallacy"
+      ]
+    },
+    {
+      "stage": "runtime-ir.policy",
+      "owns": [
+        "eligible set",
+        "scheduler policy",
+        "quality contract",
+        "preemption/autoscaling law"
+      ],
+      "exit_proofs": [
+        "policy owner and edition exact",
+        "heuristic guarantee honest",
+        "tie-break deterministic or explicitly nondeterministic"
+      ]
+    },
+    {
+      "stage": "runtime-ir.physical",
+      "owns": [
+        "qualified offers",
+        "target/backend",
+        "placement",
+        "reservation/allocation",
+        "provider adapter"
+      ],
+      "exit_proofs": [
+        "hard constraints pass",
+        "offer evidence fresh",
+        "target conformance pass",
+        "capacity reserved"
+      ]
+    },
+    {
+      "stage": "runtime-ir.deployment",
+      "owns": [
+        "provider occurrences",
+        "leases/fences",
+        "worker/executor configuration",
+        "reconciliation"
+      ],
+      "exit_proofs": [
+        "occurrence identities fixed",
+        "fencing closes",
+        "startup/health paths total"
+      ]
+    },
+    {
+      "stage": "runtime-ir.evidence",
+      "owns": [
+        "attempt outcomes",
+        "usage/cost/energy receipts",
+        "SLO evaluation",
+        "residual gaps"
+      ],
+      "exit_proofs": [
+        "receipt causal chain complete",
+        "accounting reconciles",
+        "no blocking runtime gap unwaived"
+      ]
+    }
+  ],
+  "requirement_offer_binding_algorithm": [
+    "resolve exact semantic owners, editions and target-independent requirements",
+    "normalize every resource quantity to its registered dimension without losing qualifiers",
+    "reject unbounded demand, unknown dimension or implicit overcommit",
+    "evaluate admission, quota and hard-budget precharge independently of physical capacity",
+    "enumerate offers structurally compatible with resource, topology, isolation, SLO and target requirements",
+    "discard stale, unqualified, prohibited or policy-incompatible offers",
+    "select declared scheduling method and retain solver/heuristic quality receipt",
+    "atomically reserve then commit capacity; issue allocation, lease and fencing state",
+    "lower to backend/provider only through typed adapters and explicit configuration decisions",
+    "emit binding and rejected-alternative trace; invalidate on declared evidence, topology, rate, quota, target or health changes"
+  ],
+  "terminal_compile_results": [
+    "bound",
+    "bound_with_declared_degradation",
+    "refused",
+    "infeasible",
+    "unknown_semantic_gap",
+    "insufficient_evidence",
+    "policy_conflict",
+    "authority_missing"
+  ],
+  "terminal_schedule_results": [
+    "optimal_with_proof",
+    "bounded_gap",
+    "feasible",
+    "heuristic_best_at_budget",
+    "probabilistic_result",
+    "infeasible",
+    "timeout_with_incumbent",
+    "timeout_without_incumbent",
+    "mechanism_failure"
+  ],
+  "runtime_receipt_chain": [
+    "intent_accepted",
+    "admission_decided",
+    "budget_precharged",
+    "offer_bound",
+    "capacity_reserved",
+    "allocation_committed",
+    "occurrence_ready",
+    "attempt_started",
+    "checkpoint_or_progress",
+    "attempt_terminal",
+    "allocation_released",
+    "usage_reconciled",
+    "slo_evaluated"
+  ],
+  "forbidden_shortcuts": [
+    "dispatch by cloud vendor, crate, runtime or product name",
+    "treat CPU request as observed CPU use",
+    "treat quota as capacity",
+    "treat a machine type as a resource vector without a qualified translation",
+    "claim exactly-once from retry configuration",
+    "claim cancellation after request delivery alone",
+    "treat heartbeat as useful progress",
+    "relax a hard placement constraint to get a result",
+    "call a heuristic solution optimal",
+    "infer isolation assurance from container/VM/Wasm label",
+    "hide provider defaults or rate lookup inside a library",
+    "compile an unknown resource dimension as zero"
+  ]
+}

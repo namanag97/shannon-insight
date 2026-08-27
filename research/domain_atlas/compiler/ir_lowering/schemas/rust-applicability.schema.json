@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "applies_to": {
+      "type": "string"
+    },
+    "benefit": {
+      "type": "string"
+    },
+    "construct_kind": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "library_posture": {
+      "type": "string"
+    },
+    "limit": {
+      "type": "string"
+    },
+    "mapping_id": {
+      "$ref": "#/$defs/id"
+    },
+    "rust_construct": {
+      "type": "string"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate_model_not_application"
+    },
+    "unsafe_policy": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "edition",
+    "status",
+    "rust_construct",
+    "construct_kind",
+    "applies_to",
+    "benefit",
+    "limit",
+    "library_posture",
+    "unsafe_policy",
+    "source_refs"
+  ],
+  "title": "Rust type/trait/typestate applicability mapping",
+  "type": "object"
+}

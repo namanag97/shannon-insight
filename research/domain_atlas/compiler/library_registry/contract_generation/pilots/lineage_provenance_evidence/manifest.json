@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "family-constitution-candidate.json": {
+      "bytes": 33709,
+      "sha256": "46c392f539af256a8951b2c0f85996046a5ab0d1b90e16ff2e646ea9f521aa97"
+    },
+    "instance-coverage.jsonl": {
+      "bytes": 25095,
+      "sha256": "e04a9733602078c89eb425ae8c4a13c3bc17dee23b9b81192e4846dbd79334da"
+    },
+    "summary.json": {
+      "bytes": 606,
+      "sha256": "ad35c28237d0ed5c3148e6562e413702414e9e67eaf80f5f8695cf0dbdc7dca7"
+    }
+  },
+  "manifest_id": "manifest.contract-generation-lpe-pilot.v1"
+}

@@ -1,0 +1,17 @@
+{
+  "as_of": "2026-08-27",
+  "bridge_law": "A semantic implementation offer declares physical requirements; provider-neutral mappings satisfy those requirements. Semantic and physical capability identifiers are never joined by spelling.",
+  "completion_claim": false,
+  "concrete_provider_offers": 59,
+  "edition": 1,
+  "offered_physical_capability_refs": 81,
+  "physical_capability_classes": 149,
+  "provider_requirement_offer_mappings": 34,
+  "qualification_assessments": 25,
+  "qualified_assessments": 0,
+  "record_kind": "provider_registry_interface_summary",
+  "semantic_capability_refs": 522,
+  "semantic_physical_identifier_intersection": 0,
+  "status": "OPEN_NO_SEMANTIC_IMPLEMENTATION_BRIDGES",
+  "target_occurrences": 20
+}

@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "extension-candidates.jsonl": {
+      "bytes": 50972,
+      "sha256": "9438ff6d32af02a9c6449ea24cf468b351b1750a375c24023ee1441d0832f526"
+    },
+    "member-privacy-security-safety-routes.jsonl": {
+      "bytes": 870163,
+      "sha256": "ae24457a29deebb40b414815bf641c390d5d45dde58f8dedf009e3839adc75a9"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 85690,
+      "sha256": "73e0ccd6b46f72f30a507f5d86ca908406caab9d3e2c70691ff3d63cce706ed4"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 8139,
+      "sha256": "882defd3f6a64d46f6bdcf6848df8072034d2cd801af2fa98d6363c4633ade4a"
+    },
+    "privacy-security-safety-bearer-archetypes.jsonl": {
+      "bytes": 20901,
+      "sha256": "ff22fd6fa3a780d85f9fe85a67094916023d095dbca0dff81660da269e00abcc"
+    },
+    "privacy-security-safety-coordinate-ontology.json": {
+      "bytes": 5044,
+      "sha256": "03df98c79526f28eb1a3c2e2fd7bd492325ac7f2e0cbbac36ebc115bb6975dc1"
+    },
+    "privacy-security-safety-operation-kernels.jsonl": {
+      "bytes": 42118,
+      "sha256": "912614053f009eacdab524bab2b5be4731b18cb36274432dd5d21dad5f3d2e8b"
+    },
+    "structural-family-dockets.jsonl": {
+      "bytes": 36497,
+      "sha256": "2186fe1b2c2bc277b451ed6758343c4942eeb23f3bcdd63fca88aee0085d1940"
+    },
+    "summary.json": {
+      "bytes": 804,
+      "sha256": "31f95c62b2ffd2cd089f8371b2a180e6c9214458310e471a04fc2a8b41f99fcd"
+    }
+  },
+  "manifest_id": "manifest.privacy-security-safety-coordinate-ontology-and-rebase.v1"
+}

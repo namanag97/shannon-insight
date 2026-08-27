@@ -1,0 +1,22 @@
+{
+  "command_dependency_lock": [
+    "absl-py==2.5.0",
+    "highspy==1.15.1",
+    "immutabledict==4.3.1",
+    "numpy==2.4.3",
+    "ortools==9.15.6755",
+    "pandas==3.0.5",
+    "protobuf==6.33.6",
+    "python-dateutil==2.9.0.post0",
+    "six==1.17.0",
+    "typing_extensions==4.15.0"
+  ],
+  "evidence_digest": "sha256:3919ee6e45d9d34351ff593feae9ec12097f0ae794af619a69c8c166a184237e",
+  "process_isolation_requirement": true,
+  "record_kind": "runtime_cohabitation_negative_twin",
+  "returncode": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import highspy; from ortools.linear_solver import pywraplp; assert pywraplp.Solver.CreateSolver('GLOP') is not None; print('cohabitation-import-pass')\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/private/tmp/shannon-qualification-uv-cache/archive-v0/ZegS8CGxtn8rOFEq/lib/python3.14/site-packages/ortools/linear_solver/pywraplp.py\", line 10, in <module>\n    from . import _pywraplp\nImportError: dlopen(/private/tmp/shannon-qualification-uv-cache/archive-v0/ZegS8CGxtn8rOFEq/lib/python3.14/site-packages/ortools/linear_solver/_pywraplp.so, 0x0002): Symbol not found: __Z19setLocalOptionValueRK15HighsLogOptionsRKNSt3__112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEERS_RNS2_6vectorIP12OptionRecordNS6_ISE_EEEES8_\n  Referenced from: <07EA2F54-F0E4-3F23-87A4-FE36B78205B9> /private/tmp/shannon-qualification-uv-cache/archive-v0/ZegS8CGxtn8rOFEq/lib/python3.14/site-packages/ortools/.libs/libortools.9.dylib\n  Expected in:     <E66C4BC4-AA01-3B43-A163-6D6C53CE2EA5> /private/tmp/shannon-qualification-uv-cache/archive-v0/ZegS8CGxtn8rOFEq/lib/python3.14/site-packages/highspy/libhighs.1.dylib\n",
+  "stdout": "",
+  "trial_id": "negative_twin.lp.ortools_highspy.same_python_process",
+  "verdict": "observed_native_abi_collision_process_isolation_required"
+}

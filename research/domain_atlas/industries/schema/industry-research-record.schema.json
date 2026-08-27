@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/industry-research-record-v0.1.0.schema.json",
+  "title": "Industry analytical research record",
+  "oneOf": [
+    {"$ref": "#/$defs/analyticalCase"},
+    {"$ref": "#/$defs/sourceEvidence"},
+    {"$ref": "#/$defs/sourceSystemNeed"},
+    {"$ref": "#/$defs/dataShapeNeed"}
+  ],
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_-]*)+$"},
+    "strings": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "analyticalCase": {
+      "type": "object",
+      "required": [
+        "record_id", "record_kind", "edition", "status", "industry_id", "subindustry_ids", "name",
+        "analytical_modes", "sovereign_question", "decision_or_action", "actors", "unit_of_analysis",
+        "population", "grain", "time_model", "source_system_refs", "data_shape_refs", "method_refs",
+        "operation_refs", "inputs", "outputs", "assumptions", "invariants", "failure_modes",
+        "evidence_refs", "llm_dependency", "limitations"
+      ],
+      "properties": {
+        "record_id": {"$ref": "#/$defs/id"},
+        "record_kind": {"const": "analytical_case"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["hypothesis", "sourced_candidate", "reviewed", "adjudicated", "rejected"]},
+        "industry_id": {"$ref": "#/$defs/id"},
+        "subindustry_ids": {"$ref": "#/$defs/strings"},
+        "name": {"type": "string", "minLength": 1},
+        "analytical_modes": {"$ref": "#/$defs/strings"},
+        "sovereign_question": {"type": "string", "minLength": 1},
+        "decision_or_action": {"type": "string", "minLength": 1},
+        "actors": {"$ref": "#/$defs/strings"},
+        "unit_of_analysis": {"type": "string", "minLength": 1},
+        "population": {"type": "string", "minLength": 1},
+        "grain": {"type": "string", "minLength": 1},
+        "time_model": {"$ref": "#/$defs/strings"},
+        "source_system_refs": {"$ref": "#/$defs/strings"},
+        "data_shape_refs": {"$ref": "#/$defs/strings"},
+        "data_type_refs": {"$ref": "#/$defs/strings"},
+        "method_refs": {"$ref": "#/$defs/strings"},
+        "operation_refs": {"$ref": "#/$defs/strings"},
+        "inputs": {"$ref": "#/$defs/strings"},
+        "outputs": {"$ref": "#/$defs/strings"},
+        "assumptions": {"$ref": "#/$defs/strings"},
+        "invariants": {"$ref": "#/$defs/strings"},
+        "failure_modes": {"$ref": "#/$defs/strings"},
+        "evidence_refs": {"$ref": "#/$defs/strings"},
+        "llm_dependency": {"enum": ["none", "prohibited_core", "quarantined_optional"]},
+        "limitations": {"$ref": "#/$defs/strings"}
+      },
+      "additionalProperties": true
+    },
+    "sourceEvidence": {
+      "type": "object",
+      "required": ["record_id", "record_kind", "edition", "status", "title", "publisher", "source_kind", "url", "supports", "authority_scope", "limitations", "accessed_at"],
+      "properties": {
+        "record_id": {"$ref": "#/$defs/id"},
+        "record_kind": {"const": "source_evidence"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["candidate", "verified", "stale", "rejected"]},
+        "title": {"type": "string", "minLength": 1},
+        "publisher": {"type": "string", "minLength": 1},
+        "source_kind": {"enum": ["standard", "regulator", "official_statistics", "professional_body", "academic", "official_implementation", "incident", "industry_primary"]},
+        "url": {"type": "string", "minLength": 1},
+        "supports": {"$ref": "#/$defs/strings"},
+        "authority_scope": {"type": "string", "minLength": 1},
+        "limitations": {"$ref": "#/$defs/strings"},
+        "accessed_at": {"type": "string", "format": "date"}
+      },
+      "additionalProperties": true
+    },
+    "sourceSystemNeed": {
+      "type": "object",
+      "required": ["record_id", "record_kind", "edition", "status", "industry_id", "subindustry_ids", "source_class", "objects", "read_change_modes", "time_order_finality", "schema_semantics", "authority", "hazards", "evidence_refs"],
+      "properties": {
+        "record_id": {"$ref": "#/$defs/id"},
+        "record_kind": {"const": "source_system_need"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["hypothesis", "sourced_candidate", "reviewed", "adjudicated"]},
+        "industry_id": {"$ref": "#/$defs/id"},
+        "subindustry_ids": {"$ref": "#/$defs/strings"},
+        "source_class": {"type": "string", "minLength": 1},
+        "objects": {"$ref": "#/$defs/strings"},
+        "read_change_modes": {"$ref": "#/$defs/strings"},
+        "time_order_finality": {"$ref": "#/$defs/strings"},
+        "schema_semantics": {"$ref": "#/$defs/strings"},
+        "authority": {"type": "string", "minLength": 1},
+        "hazards": {"$ref": "#/$defs/strings"},
+        "evidence_refs": {"$ref": "#/$defs/strings"}
+      },
+      "additionalProperties": true
+    },
+    "dataShapeNeed": {
+      "type": "object",
+      "required": ["record_id", "record_kind", "edition", "status", "industry_id", "subindustry_ids", "name", "modalities", "grain", "keys", "time_roles", "change_semantics", "uncertainty", "quality_provenance", "relationships", "evidence_refs"],
+      "properties": {
+        "record_id": {"$ref": "#/$defs/id"},
+        "record_kind": {"const": "data_shape_need"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["hypothesis", "sourced_candidate", "reviewed", "adjudicated"]},
+        "industry_id": {"$ref": "#/$defs/id"},
+        "subindustry_ids": {"$ref": "#/$defs/strings"},
+        "name": {"type": "string", "minLength": 1},
+        "modalities": {"$ref": "#/$defs/strings"},
+        "grain": {"type": "string", "minLength": 1},
+        "keys": {"$ref": "#/$defs/strings"},
+        "time_roles": {"$ref": "#/$defs/strings"},
+        "change_semantics": {"$ref": "#/$defs/strings"},
+        "uncertainty": {"$ref": "#/$defs/strings"},
+        "quality_provenance": {"$ref": "#/$defs/strings"},
+        "relationships": {"$ref": "#/$defs/strings"},
+        "evidence_refs": {"$ref": "#/$defs/strings"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

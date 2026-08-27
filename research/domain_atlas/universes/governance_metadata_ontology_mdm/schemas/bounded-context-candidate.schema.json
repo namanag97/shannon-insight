@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "context_id": {
+      "pattern": "^gmo\\.context\\.",
+      "type": "string"
+    },
+    "definition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "explicitly_excludes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owns": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "record_kind": {
+      "const": "bounded_context_candidate"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "context_id",
+    "name",
+    "definition",
+    "owns",
+    "explicitly_excludes",
+    "evidence_refs"
+  ],
+  "title": "Bounded context candidate",
+  "type": "object"
+}

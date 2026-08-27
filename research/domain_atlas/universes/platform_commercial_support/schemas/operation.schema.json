@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "capability_ref": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "input_contract_ref": {
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "effectful_command",
+        "pure_query"
+      ]
+    },
+    "operation_id": {
+      "type": "string"
+    },
+    "owner_context_ref": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "operation"
+      ]
+    },
+    "refusal_precedence": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "operation_id",
+    "owner_context_ref",
+    "capability_ref",
+    "mode",
+    "input_contract_ref",
+    "refusal_precedence",
+    "source_refs"
+  ],
+  "title": "Platform operation candidate",
+  "type": "object"
+}

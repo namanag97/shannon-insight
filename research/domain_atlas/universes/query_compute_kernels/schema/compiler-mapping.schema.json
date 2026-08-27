@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "binding_phase": {
+      "const": "physical_binding"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fallback_law": {
+      "type": "string"
+    },
+    "gaps": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mapping_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "refusal_conditions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_guarantees": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_offer_fields": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_receipts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "selection_laws": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "subject_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "edition",
+    "status",
+    "subject_ref",
+    "binding_phase",
+    "required_guarantees",
+    "required_offer_fields",
+    "selection_laws",
+    "fallback_law",
+    "refusal_conditions",
+    "required_receipts",
+    "evidence_refs",
+    "gaps"
+  ],
+  "title": "Compiler requirement/offer mapping pattern",
+  "type": "object"
+}

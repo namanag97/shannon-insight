@@ -1,0 +1,131 @@
+{
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "assets-trust-boundaries.jsonl": {
+      "bytes": 54239,
+      "sha256": "86b097d09d7ff81bdac1b91493290b246c5a8c58ecac4787d6e034f6511e1ed8"
+    },
+    "bounded-context-candidates.jsonl": {
+      "bytes": 74555,
+      "sha256": "2898ccc5d076c86db37ee03b3db90eeb7b3f996e1a9d959415ce2097aa296c2b"
+    },
+    "capabilities.jsonl": {
+      "bytes": 131408,
+      "sha256": "6115649b3120288c02a4b0d8f32c4b0dacf28344595e5ac2c0113d2a1ea98cc6"
+    },
+    "capability-offers.jsonl": {
+      "bytes": 30788,
+      "sha256": "821e1587b9936a8424f15eaee54bf7cfe83cb06d6f39206a168ad5aba48a067c"
+    },
+    "compiler-mappings.jsonl": {
+      "bytes": 70988,
+      "sha256": "6e6d457f25ecea1f615ef3e174f9a5e1ddd0dc8cd548ae7fbc47461b54d77306"
+    },
+    "compiler-requirements.jsonl": {
+      "bytes": 69736,
+      "sha256": "d52fd7946739a005eb5d8a06ddc87a9fadc32fa5e3fbe796d6693c356fe6d1ba"
+    },
+    "coverage-report.json": {
+      "bytes": 1514,
+      "sha256": "cb5f6a51fdc598f823add53463c3dfa4204723a7a58753b633b902075736a069"
+    },
+    "decisions.jsonl": {
+      "bytes": 81271,
+      "sha256": "a42205823798f6197f3feae444c2d23de6df731ce9b1a64681f98f4aacbba638"
+    },
+    "evidence.jsonl": {
+      "bytes": 58105,
+      "sha256": "811dd65977f10d6857a740b3988d7a67751e8738acedb5205ce26f82fe57cf22"
+    },
+    "gaps.jsonl": {
+      "bytes": 29797,
+      "sha256": "3c951cf7000363c299ce60ecfa8ec3c214af8d192ce03df3f041d930bc561f51"
+    },
+    "innovations.jsonl": {
+      "bytes": 37659,
+      "sha256": "df6072550acc97a299888ab3af51cd981846f0a32000ff17d892d93ab525cae0"
+    },
+    "invariants-refusals.jsonl": {
+      "bytes": 74984,
+      "sha256": "eb353107d2a3227e26c865a107ae8ea4fa6ea469d561ac8d0143011de347acce"
+    },
+    "library-boundaries.jsonl": {
+      "bytes": 33318,
+      "sha256": "e5f759023ab1ba57925b0866be2e090508c5e4f174058eff69e23ca00bfa09fd"
+    },
+    "operations.jsonl": {
+      "bytes": 195242,
+      "sha256": "db4b977ff15d065cd556c4294780193b1118ccf07ea8251b57a1f9cc9d0d390f"
+    },
+    "schemas/assets-trust-boundaries.schema.json": {
+      "bytes": 2832,
+      "sha256": "ffd7fdc38b7ebce4b04c40a28d27d9a25177ef7298eca84f363f4c849a0a4b6b"
+    },
+    "schemas/bounded-context-candidates.schema.json": {
+      "bytes": 3449,
+      "sha256": "b017d0216d536a6f31c71c0da74b33b046ac9abe14e32853ef94df0c5436c9d0"
+    },
+    "schemas/capabilities.schema.json": {
+      "bytes": 3362,
+      "sha256": "bbb2cd920d0529c48205ac36f82c7678a60e4d679f1d46480e4744c6fe108d20"
+    },
+    "schemas/capability-offers.schema.json": {
+      "bytes": 3185,
+      "sha256": "86a22d68b966e15dca825f7415eb3b29879df0d9531cec3e3a617da0abcf80f4"
+    },
+    "schemas/compiler-mappings.schema.json": {
+      "bytes": 3370,
+      "sha256": "1e7ba0756fadb2127ad25e3612d4126de42bbdbff50255b24f432f344a9d0b00"
+    },
+    "schemas/compiler-requirements.schema.json": {
+      "bytes": 3057,
+      "sha256": "5e8a1a8eac394a011b30ba002e30888a304f7bcdb5b8e2ca9afd65ffcfb5980c"
+    },
+    "schemas/decisions.schema.json": {
+      "bytes": 2995,
+      "sha256": "9ad9aceccbe791170bd58bc711e8b67c473837586e40fc5d0c39a350029ebf05"
+    },
+    "schemas/evidence.schema.json": {
+      "bytes": 3244,
+      "sha256": "98ae40676bf4a03c880f06c6464368b1cb47cc15268c72f49ada821f2606524d"
+    },
+    "schemas/gaps.schema.json": {
+      "bytes": 2791,
+      "sha256": "ea16ecd80f60bf08a7a44ff6f4eac3b7f7d221ba186202686cabcf21e22fdfa3"
+    },
+    "schemas/innovations.schema.json": {
+      "bytes": 2881,
+      "sha256": "5877bf38624674638538ab1845ae724176d58294f2efff723006ca997404f70a"
+    },
+    "schemas/invariants-refusals.schema.json": {
+      "bytes": 2826,
+      "sha256": "1755af4607f98a7a36e1be4094b3c4ca7e45b9c55f02cb0f642016045f12cc3a"
+    },
+    "schemas/library-boundaries.schema.json": {
+      "bytes": 3143,
+      "sha256": "58667240d0d4e013319373d10b01dc623333a6e2a8750bba3b81f5475ed20750"
+    },
+    "schemas/operations.schema.json": {
+      "bytes": 3696,
+      "sha256": "60b1d90eac19535890e88ed5ab5ff144567fafe1cf2fee6d60f1bbf4a2de4238"
+    },
+    "schemas/sources.schema.json": {
+      "bytes": 3331,
+      "sha256": "4b20913b16c76d96c33f5d3d988b7498db9bfb3d330b89cb354de8acdb42d108"
+    },
+    "schemas/threat-abuse-cases.schema.json": {
+      "bytes": 3415,
+      "sha256": "bc01fb118ef8b546faeaa7f20930988d66370bc9a0090cfdc748ed8d3340198f"
+    },
+    "sources.jsonl": {
+      "bytes": 67387,
+      "sha256": "095c5d562eb1e9ac84b645915e97c6240693812eef21c34ae960b4974a000de5"
+    },
+    "threat-abuse-cases.jsonl": {
+      "bytes": 106877,
+      "sha256": "a33965fa2ccc7fec5e4663cd1c2f92e7cb558a0ca2303e4f77e527e170755b18"
+    }
+  },
+  "manifest_id": "manifest.security-privacy-trust.v1"
+}

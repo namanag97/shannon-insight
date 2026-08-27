@@ -1,0 +1,333 @@
+{
+  "compiler_flow": [
+    "intent",
+    "requirements",
+    "semantic binding",
+    "policy/authority binding",
+    "proof obligations",
+    "IR",
+    "provider offer qualification",
+    "execution",
+    "receipts",
+    "effect/outcome review"
+  ],
+  "completion_claim": false,
+  "edition": 1,
+  "equality_stack": [
+    "lexical equality",
+    "canonical representation equality",
+    "value equality",
+    "domain equivalence claim",
+    "resolved co-reference",
+    "historical continuity"
+  ],
+  "families": [
+    {
+      "constitution": "intent != plan != requirement != acceptance != observed outcome",
+      "id": "intent",
+      "neighbors": [
+        "identity",
+        "time",
+        "quantity",
+        "authority",
+        "decision"
+      ],
+      "title": "Enterprise intent, outcome, constraint and acceptance",
+      "vision": "Translate an authorized desired change into falsifiable outcomes, bounded constraints and acceptance evidence without confusing goals, measures or plans."
+    },
+    {
+      "constitution": "identifier != identity; proof of control != subject identity; same spelling != same referent",
+      "id": "identity",
+      "neighbors": [
+        "intent",
+        "time",
+        "authority",
+        "decision"
+      ],
+      "title": "Identifier, identity, namespace, version and resolution",
+      "vision": "Name, resolve and track subjects across scopes and time while preserving ambiguity, authority and lifecycle rather than pretending identifier equality proves identity."
+    },
+    {
+      "constitution": "instant != local date-time; duration != calendar period; valid time != recording or transaction time",
+      "id": "time",
+      "neighbors": [
+        "identity",
+        "quantity",
+        "authority",
+        "decision"
+      ],
+      "title": "Temporal position, interval, calendar, clock and database time",
+      "vision": "Represent when things occur, apply, are observed and are recorded using explicit temporal reference systems, uncertainty and ordering guarantees."
+    },
+    {
+      "constitution": "number != quantity; probability != confidence or score; missing != zero; censored != missing",
+      "id": "quantity",
+      "neighbors": [
+        "intent",
+        "time",
+        "decision"
+      ],
+      "title": "Quantity, unit, scale, money, ratio, probability and partial information",
+      "vision": "Carry magnitudes with dimensions, units, scales, uncertainty and information-state semantics so arithmetic cannot silently erase meaning."
+    },
+    {
+      "constitution": "authority != responsibility; approval != issuance; policy decision != enforcement; authentication != authorization",
+      "id": "authority",
+      "neighbors": [
+        "identity",
+        "time",
+        "intent",
+        "decision"
+      ],
+      "title": "Authority, ownership, delegation, entitlement and policy precedence",
+      "vision": "Determine who may decide, issue, delegate, enforce or revoke a capability for a scoped purpose and time without collapsing responsibility or evidence into authority."
+    },
+    {
+      "constitution": "recommendation != decision; decision != action; action != effect; observation != causal effect",
+      "id": "decision",
+      "neighbors": [
+        "intent",
+        "identity",
+        "time",
+        "quantity",
+        "authority"
+      ],
+      "title": "Governed decision, action, feedback and effect authority",
+      "vision": "Turn qualified evidence and policy into governed decisions, separately authorized actions, observed effects and learning feedback with explicit refusal and compensation."
+    }
+  ],
+  "id": "metamodel.core-semantic-primitives.edition-1",
+  "non_collapsible_distinctions": [
+    {
+      "family": "identity",
+      "law": "An identifier is a scoped symbol; identity is the set of attributes and relations by which a subject is recognized in a domain.",
+      "left": "identifier",
+      "right": "identity"
+    },
+    {
+      "family": "identity",
+      "law": "Control of a credential or key proves control under a method, not who or what the subject is.",
+      "left": "proof_of_control",
+      "right": "identity"
+    },
+    {
+      "family": "identity",
+      "law": "Lexical equality without scheme, namespace, version and time cannot establish co-reference.",
+      "left": "same_identifier_spelling",
+      "right": "same_referent"
+    },
+    {
+      "family": "identity",
+      "law": "Equal digests under one canonical representation do not establish semantic equality under another model.",
+      "left": "digest_equality",
+      "right": "semantic_equality"
+    },
+    {
+      "family": "identity",
+      "law": "A merge is an authorized lifecycle action; it does not prove all historical assertions were equivalent.",
+      "left": "merge",
+      "right": "equivalence"
+    },
+    {
+      "family": "identity",
+      "law": "An alias preserves a mapping claim and its authority; it is not silently rewritten into canonical identity.",
+      "left": "alias",
+      "right": "canonical_identifier"
+    },
+    {
+      "family": "time",
+      "law": "A local date-time needs a calendar, zone rule or offset and disambiguation before it can denote an instant.",
+      "left": "instant",
+      "right": "local_date_time"
+    },
+    {
+      "family": "time",
+      "law": "Elapsed seconds and calendar months have different arithmetic and cannot be freely substituted.",
+      "left": "elapsed_duration",
+      "right": "calendar_period"
+    },
+    {
+      "family": "time",
+      "law": "When a claim applies differs from when a system learned or stored it.",
+      "left": "valid_time",
+      "right": "recording_time"
+    },
+    {
+      "family": "time",
+      "law": "Occurrence time and processing time support different window, lateness and correction laws.",
+      "left": "event_time",
+      "right": "processing_time"
+    },
+    {
+      "family": "time",
+      "law": "A wall-clock reading cannot by itself prove happens-before in a distributed system.",
+      "left": "clock_reading",
+      "right": "causal_order"
+    },
+    {
+      "family": "time",
+      "law": "An offset is one result of versioned zone rules at an instant; it is not the zone.",
+      "left": "time_zone",
+      "right": "utc_offset"
+    },
+    {
+      "family": "quantity",
+      "law": "A scalar without quantity kind, unit and scale cannot participate safely in domain arithmetic.",
+      "left": "number",
+      "right": "quantity"
+    },
+    {
+      "family": "quantity",
+      "law": "Quantities with unit one can still have distinct quantity kinds and interpretation.",
+      "left": "dimensionless",
+      "right": "unitless"
+    },
+    {
+      "family": "quantity",
+      "law": "Probability requires a sample space and semantics; confidence may denote procedure coverage or informal belief.",
+      "left": "probability",
+      "right": "confidence"
+    },
+    {
+      "family": "quantity",
+      "law": "A score need not be calibrated, additive or probabilistic.",
+      "left": "probability",
+      "right": "score"
+    },
+    {
+      "family": "quantity",
+      "law": "Absence of a value is not the additive identity.",
+      "left": "missing",
+      "right": "zero"
+    },
+    {
+      "family": "quantity",
+      "law": "Censoring carries a known bound or observation mechanism; generic missingness does not.",
+      "left": "censored",
+      "right": "missing"
+    },
+    {
+      "family": "quantity",
+      "law": "Closeness to a reference and repeatability are different properties.",
+      "left": "accuracy",
+      "right": "precision"
+    },
+    {
+      "family": "quantity",
+      "law": "Money additionally requires currency, minor-unit, valuation-time and rounding policy.",
+      "left": "money",
+      "right": "decimal"
+    },
+    {
+      "family": "intent",
+      "law": "The desired change does not prescribe a single realization unless explicitly constrained.",
+      "left": "intent",
+      "right": "implementation"
+    },
+    {
+      "family": "intent",
+      "law": "A measure supplies evidence about a goal; it is not the desired state itself.",
+      "left": "goal",
+      "right": "metric"
+    },
+    {
+      "family": "intent",
+      "law": "A normative statement and evidence that it was satisfied remain separately identifiable.",
+      "left": "requirement",
+      "right": "acceptance_evidence"
+    },
+    {
+      "family": "intent",
+      "law": "An assumption is challengeable and must carry a falsifier or review trigger.",
+      "left": "assumption",
+      "right": "fact"
+    },
+    {
+      "family": "intent",
+      "law": "Conformance to specification differs from fitness for the intended use.",
+      "left": "verification",
+      "right": "validation"
+    },
+    {
+      "family": "authority",
+      "law": "Being accountable for work does not necessarily grant power to authorize it.",
+      "left": "authority",
+      "right": "responsibility"
+    },
+    {
+      "family": "authority",
+      "law": "Approval is a decision; issuance creates a grant or artifact and requires separate effect authority.",
+      "left": "approval",
+      "right": "issuance"
+    },
+    {
+      "family": "authority",
+      "law": "A permit result has no effect until an authorized enforcement point applies it.",
+      "left": "policy_decision",
+      "right": "enforcement"
+    },
+    {
+      "family": "authority",
+      "law": "Evidence about a principal does not establish permission for an action.",
+      "left": "authentication",
+      "right": "authorization"
+    },
+    {
+      "family": "authority",
+      "law": "Title or control and delegated care obligations have different lifecycles and powers.",
+      "left": "ownership",
+      "right": "stewardship"
+    },
+    {
+      "family": "authority",
+      "law": "Removing authority or status is not erasing the historical record.",
+      "left": "revocation",
+      "right": "deletion"
+    },
+    {
+      "family": "decision",
+      "law": "A recommendation proposes; a decision commits an authorized decision-maker under policy.",
+      "left": "recommendation",
+      "right": "decision"
+    },
+    {
+      "family": "decision",
+      "law": "A decision is a governed conclusion; an action changes or attempts to change the world.",
+      "left": "decision",
+      "right": "action"
+    },
+    {
+      "family": "decision",
+      "law": "Command success or action completion does not prove the intended effect occurred.",
+      "left": "action",
+      "right": "effect"
+    },
+    {
+      "family": "decision",
+      "law": "An observation is a method- and time-qualified assertion, not reality itself.",
+      "left": "observation",
+      "right": "fact"
+    },
+    {
+      "family": "decision",
+      "law": "Observed association does not identify the counterfactual effect of intervention.",
+      "left": "association",
+      "right": "causal_effect"
+    },
+    {
+      "family": "decision",
+      "law": "Rollback restores prior technical state where possible; compensation is a domain action for irreversible work.",
+      "left": "rollback",
+      "right": "compensation"
+    }
+  ],
+  "representation_stack": [
+    "domain meaning",
+    "semantic carrier",
+    "validated value",
+    "canonical representation",
+    "wire DTO",
+    "provider occurrence"
+  ],
+  "status": "candidate"
+}

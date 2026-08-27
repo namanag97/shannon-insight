@@ -1,0 +1,71 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/source_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accessed_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "authority_class": {
+      "enum": [
+        "open_specification",
+        "official_documentation",
+        "original_research"
+      ]
+    },
+    "claim_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "issuer": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "limitations": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "primary_or_official": {
+      "const": true
+    },
+    "publication_year": {
+      "type": "integer"
+    },
+    "source_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "url": {
+      "pattern": "^https://",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "edition",
+    "status",
+    "title",
+    "issuer",
+    "url",
+    "authority_class",
+    "publication_year",
+    "primary_or_official",
+    "claim_scope",
+    "limitations",
+    "accessed_at"
+  ],
+  "type": "object"
+}

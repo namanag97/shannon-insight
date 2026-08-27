@@ -1,0 +1,81 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.document-processing-semantic-slice.v1",
+  "inside": [
+    "carrier/container detection and bounded admission",
+    "document/page/revision and rendition profiles",
+    "Unicode decoding, normalization, segmentation and offset mapping",
+    "OCR, layout, reading order and content graph",
+    "partitioning and parser anti-corruption adapters",
+    "classification, information, table and form extraction",
+    "uncertainty, evaluation, provenance and transformation loss",
+    "typed exception review, correction, reprocessing and structured-output release"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.representation-and-integrity",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.text-semantics",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.annotation-operations",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.search-index-service",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.lineage-provenance",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.judgment-authority",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.materialization-runtime",
+      "relationship": "customer_supplier"
+    }
+  ],
+  "outside": [
+    "generic transport and object-store ownership",
+    "records-retention and disclosure authority",
+    "search index, query and ranking lifecycle",
+    "annotation ontology and dataset lifecycle",
+    "generic lineage/provenance ownership",
+    "business-fact acceptance and downstream case disposition",
+    "provider/model semantic ownership",
+    "LLM or agent authority"
+  ],
+  "published_language": [
+    "DocumentOccurrence",
+    "DocumentRevision",
+    "CarrierEvidence",
+    "AdmissionDecision",
+    "PageRevision",
+    "RenditionProfile",
+    "ContentGraph",
+    "ContentSelector",
+    "RecognitionAlternative",
+    "LayoutRegion",
+    "ReadingOrder",
+    "ExtractionSchemaEdition",
+    "ExtractionCandidate",
+    "TableCandidate",
+    "FormCandidate",
+    "ValidationFinding",
+    "DocumentReviewCase",
+    "CorrectionEdition",
+    "TransformationLoss",
+    "StructuredOutputEdition",
+    "DocumentEvidenceHandoff"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can one admitted document occurrence be rendered, textually and structurally understood, extracted, evaluated, reviewed and released as provenance-linked structured candidates without collapsing carrier into document, OCR into truth, provenance into correctness or review into business authority?"
+}

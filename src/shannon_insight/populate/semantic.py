@@ -4,6 +4,7 @@ Computes pairwise cosine similarity between TF-IDF vectors.  Only edges
 with similarity >= *min_cosine* are kept, and each file retains at most
 *max_neighbors* nearest neighbours (ranked by similarity).
 """
+
 from __future__ import annotations
 
 import math

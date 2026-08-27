@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocking": {
+      "type": "boolean"
+    },
+    "edition": {
+      "const": 1
+    },
+    "gap_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "known": {
+      "type": "string"
+    },
+    "prohibited_assumption": {
+      "type": "string"
+    },
+    "resolution_condition": {
+      "type": "string"
+    },
+    "status": {
+      "const": "open"
+    },
+    "unknown": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "known",
+    "unknown",
+    "blocking",
+    "resolution_condition",
+    "prohibited_assumption"
+  ],
+  "type": "object"
+}

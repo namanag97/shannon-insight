@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "commercial_model": {
+      "type": "object"
+    },
+    "compiler_trace_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "example_id": {
+      "type": "string"
+    },
+    "exit_model": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "identity_model": {
+      "type": "object"
+    },
+    "record_kind": {
+      "enum": [
+        "vertical_example"
+      ]
+    },
+    "refusal_example": {
+      "type": "string"
+    },
+    "service_model": {
+      "type": "object"
+    },
+    "status": {
+      "type": "string"
+    },
+    "usage_to_invoice": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "vertical": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "example_id",
+    "vertical",
+    "identity_model",
+    "commercial_model",
+    "usage_to_invoice",
+    "service_model",
+    "exit_model",
+    "compiler_trace_refs",
+    "refusal_example"
+  ],
+  "title": "Illustrative vertical compiler trace",
+  "type": "object"
+}

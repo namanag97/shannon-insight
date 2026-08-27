@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract.p4.ratification-ingestion.v1",
+  "edition": 1,
+  "laws": [
+    "A receipt is accepted only against the exact template snapshot and decision payload digest.",
+    "Authority verification is a separate externally issued receipt bound to the same payload and scope.",
+    "Blocked upstream templates cannot be ratified by bypassing their challenge package.",
+    "P2 occurrence and P3 cluster/member decisions must cover the exact referenced sets.",
+    "Accepted receipts emit delta candidates only; this stage never mutates a canonical registry."
+  ],
+  "receipt_fields": [
+    "record_kind",
+    "receipt_id",
+    "template_ref",
+    "template_kind",
+    "input_snapshot_ref",
+    "input_snapshot_sha256",
+    "decision_payload",
+    "decision_payload_digest",
+    "authority_refs",
+    "authority_verification_receipt_ref",
+    "attestation_ref",
+    "effective_at",
+    "status"
+  ],
+  "template_kinds": [
+    "P1B_SOURCE_AUTHORITY",
+    "P1B_CROSS_OWNER_COLLISION",
+    "P1B_BOUNDED_CONTEXT_BOUNDARY",
+    "P1B_FAMILY_CONSTITUTION",
+    "P2_SYMBOL_OWNER",
+    "P3_FAMILY_AXIS_APPLICABILITY",
+    "P5_EXACT_LIBRARY_CONTRACT"
+  ],
+  "verification_fields": [
+    "record_kind",
+    "verification_receipt_id",
+    "ratification_receipt_ref",
+    "template_ref",
+    "authority_refs",
+    "authorized_scope_refs",
+    "decision_payload_digest",
+    "verifier_ref",
+    "verified_at",
+    "attestation_digest",
+    "status"
+  ]
+}

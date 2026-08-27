@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "canonical_term": {},
+    "definition": {},
+    "distinguish_from": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "owner_context_ref": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "term_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "term_id",
+    "edition",
+    "status",
+    "canonical_term",
+    "definition",
+    "owner_context_ref",
+    "distinguish_from"
+  ],
+  "title": "Ubiquitous language candidate",
+  "type": "object"
+}

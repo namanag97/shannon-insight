@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "mapping_id",
+    "queue_id",
+    "reference_domain",
+    "raw_ref",
+    "target_refs",
+    "proposed_relation",
+    "rationale",
+    "information_loss",
+    "uncertainties",
+    "evidence",
+    "confidence",
+    "review_status",
+    "status",
+    "adjudicated"
+  ],
+  "title": "Semantic candidate mapping",
+  "type": "object"
+}

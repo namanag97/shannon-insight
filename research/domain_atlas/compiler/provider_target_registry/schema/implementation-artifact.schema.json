@@ -1,0 +1,74 @@
+{
+  "$id": "https://san.example/spec/provider-target/artifact_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "type": "string"
+    },
+    "capability_class_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "library_or_engine_or_service": {
+      "enum": [
+        "library",
+        "engine",
+        "runtime",
+        "orchestrator",
+        "protocol",
+        "service",
+        "hardware_isa",
+        "storage_system"
+      ]
+    },
+    "maintainer_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "version_scheme": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "edition",
+    "status",
+    "name",
+    "artifact_kind",
+    "maintainer_ref",
+    "version_scheme",
+    "capability_class_refs",
+    "library_or_engine_or_service",
+    "evidence_refs"
+  ],
+  "title": "Implementation artifact identity",
+  "type": "object"
+}

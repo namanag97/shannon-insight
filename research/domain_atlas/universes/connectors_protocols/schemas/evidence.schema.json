@@ -1,0 +1,81 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/evidence_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority": {
+      "const": "primary"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "issuer": {
+      "minLength": 2,
+      "type": "string"
+    },
+    "retrieved_on": {
+      "format": "date",
+      "type": "string"
+    },
+    "source_kind": {
+      "enum": [
+        "normative_standard",
+        "official_specification",
+        "official_implementation_documentation",
+        "official_provider_contract",
+        "standards_body_primary_overview",
+        "standards_body_primary_catalogue"
+      ]
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    },
+    "supports_surfaces": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "title": {
+      "minLength": 4,
+      "type": "string"
+    },
+    "url": {
+      "pattern": "^https://",
+      "type": "string"
+    },
+    "use_limit": {
+      "minLength": 30,
+      "type": "string"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "edition",
+    "status",
+    "title",
+    "issuer",
+    "url",
+    "authority",
+    "source_kind",
+    "supports_surfaces",
+    "retrieved_on",
+    "use_limit"
+  ],
+  "title": "Primary or official protocol evidence",
+  "type": "object"
+}

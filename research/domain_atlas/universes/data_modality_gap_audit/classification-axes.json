@@ -1,0 +1,523 @@
+{
+  "audit_id": "san.domain-atlas.data-modality-gap-audit.axes",
+  "axes": [
+    {
+      "axis_id": "abstraction_layer",
+      "independence_rule": "A lower representation layer never proves a higher semantic layer.",
+      "layer": "layer",
+      "values": [
+        "semantic_meaning",
+        "observation_record_shape",
+        "modality",
+        "logical_topology",
+        "carrier",
+        "encoding",
+        "container_file_format",
+        "physical_layout",
+        "compression_protection"
+      ]
+    },
+    {
+      "axis_id": "schema_posture",
+      "independence_rule": "'Unstructured' means a weak or deferred schema/interpretation posture, never absence of structure.",
+      "layer": "interpretation",
+      "values": [
+        "strongly_schema_bound",
+        "externally_profiled",
+        "self_describing",
+        "schema_on_read",
+        "weakly_declared",
+        "mixed",
+        "opaque"
+      ]
+    },
+    {
+      "axis_id": "modality",
+      "independence_rule": "Modality is independent of source, carrier, codec, and file extension.",
+      "layer": "logical",
+      "values": [
+        "scalar",
+        "categorical",
+        "text",
+        "binary",
+        "record",
+        "document",
+        "table",
+        "graph",
+        "event",
+        "temporal",
+        "signal",
+        "image",
+        "audio",
+        "video",
+        "spatial",
+        "array",
+        "scientific",
+        "engineering_3d",
+        "genomic",
+        "clinical",
+        "financial",
+        "code",
+        "metadata_evidence",
+        "mixed"
+      ]
+    },
+    {
+      "axis_id": "logical_shape",
+      "independence_rule": "Logical shape does not determine physical layout.",
+      "layer": "logical",
+      "values": [
+        "scalar",
+        "optional",
+        "union",
+        "tuple",
+        "record",
+        "sequence",
+        "set",
+        "map",
+        "table",
+        "cube",
+        "tree",
+        "document",
+        "message",
+        "bundle",
+        "graph",
+        "stream",
+        "series",
+        "tensor",
+        "raster",
+        "coverage",
+        "point_set",
+        "mesh",
+        "solid",
+        "scene",
+        "archive",
+        "model",
+        "code_tree",
+        "provenance",
+        "mixed"
+      ]
+    },
+    {
+      "axis_id": "dimensionality",
+      "independence_rule": "Dimension count does not establish axis meaning.",
+      "layer": "structural",
+      "values": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "n_dimensional",
+        "ragged",
+        "mixed_or_variable",
+        "not_applicable"
+      ]
+    },
+    {
+      "axis_id": "logical_topology",
+      "independence_rule": "Topology is distinct from order, geometry, and storage adjacency.",
+      "layer": "structural",
+      "values": [
+        "none",
+        "linear",
+        "tree",
+        "forest",
+        "directed_graph",
+        "undirected_graph",
+        "multigraph",
+        "dag",
+        "hypergraph",
+        "grid",
+        "mesh",
+        "manifold",
+        "point_set",
+        "coverage_function",
+        "scene_graph",
+        "mixed"
+      ]
+    },
+    {
+      "axis_id": "grain",
+      "independence_rule": "Rows, files, and messages do not reveal business grain without a declaration.",
+      "layer": "semantic",
+      "values": [
+        "value",
+        "field",
+        "record",
+        "row",
+        "cell",
+        "observation",
+        "event",
+        "sample",
+        "pixel",
+        "voxel",
+        "feature",
+        "relationship",
+        "document",
+        "message",
+        "file_member",
+        "model_object",
+        "variant",
+        "transaction",
+        "evidence_item",
+        "mixed"
+      ]
+    },
+    {
+      "axis_id": "identity_model",
+      "independence_rule": "Identity is independent of label, equality, and storage address.",
+      "layer": "semantic",
+      "values": [
+        "none",
+        "positional",
+        "natural_key",
+        "surrogate_key",
+        "content_address",
+        "uri",
+        "composite",
+        "versioned",
+        "contextual",
+        "standard_defined",
+        "mixed"
+      ]
+    },
+    {
+      "axis_id": "key_model",
+      "independence_rule": "A physical index or field number is not automatically a semantic key.",
+      "layer": "structural",
+      "values": [
+        "none",
+        "candidate",
+        "primary",
+        "foreign",
+        "compound",
+        "partition",
+        "sort",
+        "temporal",
+        "coordinate",
+        "membership",
+        "standard_defined",
+        "mixed"
+      ]
+    },
+    {
+      "axis_id": "ordering",
+      "independence_rule": "Serialized byte order is not semantic order.",
+      "layer": "structural",
+      "values": [
+        "none",
+        "incidental",
+        "total_semantic",
+        "partial_semantic",
+        "sequence_number",
+        "event_time",
+        "topological",
+        "spatial_traversal",
+        "document_order",
+        "standard_defined",
+        "mixed"
+      ]
+    },
+    {
+      "axis_id": "time_role",
+      "independence_rule": "Multiple time roles remain named and cannot be collapsed to one timestamp.",
+      "layer": "temporal",
+      "values": [
+        "none",
+        "event_time",
+        "observation_time",
+        "valid_time",
+        "transaction_time",
+        "recorded_time",
+        "ingestion_time",
+        "processing_time",
+        "publication_time",
+        "media_time",
+        "simulation_time",
+        "mixed"
+      ]
+    },
+    {
+      "axis_id": "change_model",
+      "independence_rule": "Change representation does not prove event semantics or finality.",
+      "layer": "temporal",
+      "values": [
+        "immutable",
+        "mutable_in_place",
+        "snapshot",
+        "append_only",
+        "delta",
+        "cdc",
+        "upsert",
+        "retraction",
+        "versioned",
+        "bitemporal",
+        "schema_evolution",
+        "mixed",
+        "unknown"
+      ]
+    },
+    {
+      "axis_id": "missingness",
+      "independence_rule": "Null, omission, mask, censoring, and structural absence are not interchangeable.",
+      "layer": "semantic",
+      "values": [
+        "forbidden",
+        "nullable_unspecified",
+        "typed_absence",
+        "mask",
+        "sentinel",
+        "structural_absence",
+        "censored",
+        "not_applicable",
+        "mixed",
+        "unknown"
+      ]
+    },
+    {
+      "axis_id": "uncertainty",
+      "independence_rule": "Precision and compression error do not establish epistemic uncertainty.",
+      "layer": "semantic",
+      "values": [
+        "none_declared",
+        "quality_flag",
+        "interval",
+        "distribution",
+        "ensemble",
+        "measurement_uncertainty",
+        "censoring",
+        "mixed",
+        "unknown"
+      ]
+    },
+    {
+      "axis_id": "coordinate_reference",
+      "independence_rule": "Coordinate tuples are uninterpretable without axis order, CRS/reference, and epoch where applicable.",
+      "layer": "semantic",
+      "values": [
+        "none",
+        "pixel",
+        "index",
+        "projected_crs",
+        "geographic_crs",
+        "vertical_crs",
+        "engineering_crs",
+        "temporal_reference",
+        "genomic_reference",
+        "mixed",
+        "required_external"
+      ]
+    },
+    {
+      "axis_id": "unit_semantics",
+      "independence_rule": "Numeric carrier and scale never establish a quantity kind or unit.",
+      "layer": "semantic",
+      "values": [
+        "none",
+        "dimensionless",
+        "physical_unit",
+        "currency",
+        "calendar_unit",
+        "sample_rate",
+        "pixel_scale",
+        "mixed",
+        "required_external",
+        "unknown"
+      ]
+    },
+    {
+      "axis_id": "carrier",
+      "independence_rule": "Carrier representability is weaker than semantic equivalence.",
+      "layer": "representation",
+      "values": [
+        "boolean",
+        "integer",
+        "float",
+        "decimal",
+        "text",
+        "bytes",
+        "record",
+        "list",
+        "map",
+        "union",
+        "array_buffer",
+        "mixed",
+        "opaque",
+        "standard_defined"
+      ]
+    },
+    {
+      "axis_id": "encoding",
+      "independence_rule": "Encoding is not a semantic data type or collection shape.",
+      "layer": "representation",
+      "values": [
+        "none",
+        "utf8",
+        "json",
+        "xml",
+        "yaml",
+        "cbor",
+        "protobuf_wire",
+        "avro_binary",
+        "columnar_binary",
+        "image_codec",
+        "audio_codec",
+        "video_codec",
+        "domain_binary",
+        "mixed",
+        "standard_defined"
+      ]
+    },
+    {
+      "axis_id": "container_file_format",
+      "independence_rule": "A container may carry multiple modalities and does not identify their meaning.",
+      "layer": "representation",
+      "values": [
+        "none",
+        "single_object",
+        "multipart",
+        "archive",
+        "compound_package",
+        "row_file",
+        "columnar_file",
+        "media_container",
+        "scientific_container",
+        "domain_container",
+        "mixed",
+        "standard_defined"
+      ]
+    },
+    {
+      "axis_id": "physical_layout",
+      "independence_rule": "Layout affects access and kernels, not logical identity.",
+      "layer": "physical",
+      "values": [
+        "unspecified",
+        "row_major",
+        "column_major",
+        "columnar",
+        "chunked",
+        "tiled",
+        "scanline",
+        "csr",
+        "csc",
+        "coo",
+        "blocked",
+        "interleaved",
+        "planar",
+        "indexed_offsets",
+        "linked_objects",
+        "mixed",
+        "standard_defined"
+      ]
+    },
+    {
+      "axis_id": "compression_protection",
+      "independence_rule": "Compression, encryption, signatures, and checksums are independent contracts.",
+      "layer": "representation",
+      "values": [
+        "none",
+        "lossless",
+        "lossy",
+        "encrypted",
+        "signed",
+        "checksummed",
+        "content_addressed",
+        "compressed_and_encrypted",
+        "mixed",
+        "external"
+      ]
+    },
+    {
+      "axis_id": "access_locality",
+      "independence_rule": "Access affordance is not semantic ordering.",
+      "layer": "physical",
+      "values": [
+        "sequential",
+        "random",
+        "row",
+        "column",
+        "chunk",
+        "tile",
+        "range",
+        "streaming",
+        "graph_traversal",
+        "content_addressed",
+        "mixed",
+        "provider_dependent"
+      ]
+    },
+    {
+      "axis_id": "evolution",
+      "independence_rule": "Syntactic schema compatibility does not prove semantic compatibility.",
+      "layer": "compatibility",
+      "values": [
+        "none",
+        "append_fields",
+        "field_identity",
+        "versioned_schema",
+        "reader_writer_resolution",
+        "open_world",
+        "closed_world",
+        "profile_defined",
+        "mixed",
+        "unknown"
+      ]
+    },
+    {
+      "axis_id": "provenance",
+      "independence_rule": "Provenance records a claim and authority; it does not make the claim true.",
+      "layer": "evidence",
+      "values": [
+        "absent",
+        "source_reference",
+        "record_level",
+        "field_level",
+        "activity_graph",
+        "custody_chain",
+        "embedded_manifest",
+        "external",
+        "mixed",
+        "required"
+      ]
+    },
+    {
+      "axis_id": "integrity",
+      "independence_rule": "Integrity proves only its declared byte/object scope.",
+      "layer": "evidence",
+      "values": [
+        "none",
+        "checksum",
+        "cryptographic_digest",
+        "signature",
+        "merkle",
+        "sequence_gap_detection",
+        "container_validation",
+        "schema_validation",
+        "mixed",
+        "external"
+      ]
+    },
+    {
+      "axis_id": "authority",
+      "independence_rule": "Authority must be explicit and is not conferred by format conformance.",
+      "layer": "semantic",
+      "values": [
+        "unknown",
+        "source_asserted",
+        "domain_owner",
+        "standards_body",
+        "custodian",
+        "derived",
+        "consensus",
+        "mixed",
+        "not_applicable"
+      ]
+    }
+  ],
+  "edition": 1,
+  "non_cartesian_law": "Cells record independently observed expectations; their combinations are not manufactured named types.",
+  "status": "candidate_audit",
+  "unstructured_law": "Unstructured is only a weak/deferred schema and interpretation posture, never absence of structure; all data has physical and logical structure."
+}

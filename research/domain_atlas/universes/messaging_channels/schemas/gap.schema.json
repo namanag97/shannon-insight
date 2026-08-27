@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocks_completeness": {
+      "type": "boolean"
+    },
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "gap_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "resolution_evidence": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "gap_id",
+    "description",
+    "blocks_completeness",
+    "resolution_evidence",
+    "owner_status",
+    "status"
+  ],
+  "title": "Messaging gap",
+  "type": "object"
+}

@@ -1,0 +1,652 @@
+{
+  "completion_claim": false,
+  "edition": 1,
+  "overlap_count": 70,
+  "overlaps": [
+    {
+      "candidate_context_refs": [
+        "persistence.context.in_memory_columnar",
+        "persistence.context.scientific_array_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "array"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.delete_materialization",
+        "persistence.context.merge_on_read"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "base file"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.distributed_filesystem",
+        "persistence.context.row_file"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "block"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.graph_serving",
+        "persistence.context.property_graph_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "bookmark"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.catalog_versioning",
+        "persistence.context.snapshot_refs"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "branch"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.cache_store",
+        "persistence.context.result_cache"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "cache key"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.maintenance_coordination",
+        "persistence.context.query_protocol"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "cancellation"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.catalog_versioning",
+        "persistence.context.multi_table_atomicity"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "catalog commit"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.embedded_store",
+        "persistence.context.ledger_store",
+        "persistence.context.share_subscription",
+        "persistence.context.stream_state_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "checkpoint"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.array_chunk_format",
+        "persistence.context.scientific_array_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "chunk grid"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.clustering",
+        "persistence.context.wide_column_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "clustering key"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.append_mutation",
+        "persistence.context.commit_protocol"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "commit requirement"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.commit_authority",
+        "persistence.context.commit_protocol"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "conflict"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.content_blob_store",
+        "persistence.context.integrity"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "content digest"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.index_build",
+        "persistence.context.statistics_refresh"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "coverage"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.catalog_migration",
+        "persistence.context.tier_transition"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "cutover"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.delete_materialization",
+        "persistence.context.layout_observability"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "debt"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.materialized_view",
+        "persistence.context.view_registry"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "dependency"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.compression",
+        "persistence.context.encoding"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "dictionary"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.document_store",
+        "persistence.context.search_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "document"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.namespace",
+        "persistence.context.schema_evolution"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "drop"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.cache_serving",
+        "persistence.context.cache_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "eviction"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.bulk_result_delivery",
+        "persistence.context.credential_vending",
+        "persistence.context.metadata_cache",
+        "persistence.context.presigned_delivery",
+        "persistence.context.result_cache",
+        "persistence.context.share_publication"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "expiry"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.metadata_translation",
+        "persistence.context.table_format_migration"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "feature loss"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.search_store",
+        "persistence.context.time_series_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "field"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.logical_types",
+        "persistence.context.schema_evolution"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "field id"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.array_chunk_format",
+        "persistence.context.scientific_array_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "fill value"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.catalog_migration",
+        "persistence.context.data_portability"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "identity map"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.metadata_cache",
+        "persistence.context.result_cache",
+        "persistence.context.statistics_refresh",
+        "persistence.context.time_series_serving"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "invalidation"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.key_value_store",
+        "persistence.context.relational_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "key"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.metadata_translation",
+        "persistence.context.replication"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "lag"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.share_publication",
+        "persistence.context.share_subscription"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "listing"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.manifest_inventory",
+        "persistence.context.manifest_rewrite"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "manifest"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.manifest_inventory",
+        "persistence.context.snapshot_state"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "manifest list"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.catalog_versioning",
+        "persistence.context.row_level_mutation"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "merge"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.block_device",
+        "persistence.context.namespace"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "namespace"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.clustering",
+        "persistence.context.layout_observability"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "overlap"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.columnar_file",
+        "persistence.context.embedded_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "page"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.graph_serving",
+        "persistence.context.olap_serving"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "partial result"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.multi_table_atomicity",
+        "persistence.context.search_visibility"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "partial visibility"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.analytical_warehouse",
+        "persistence.context.bulk_result_delivery"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "partition"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.graph_serving",
+        "persistence.context.local_filesystem"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "path"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.asset_registry",
+        "persistence.context.property_graph_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "property"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.namespace",
+        "persistence.context.table_identity"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "qualified name"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.cross_engine_table_access",
+        "persistence.context.format_compatibility"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "reader feature"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.tiering",
+        "persistence.context.virtual_relation_lifecycle"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "recall"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.columnar_transport",
+        "persistence.context.in_memory_columnar"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "record batch"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.snapshot_expiry",
+        "persistence.context.snapshot_refs"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "reference"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.materialized_view",
+        "persistence.context.search_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "refresh"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.asset_registry",
+        "persistence.context.schema_registry"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "registration"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.local_filesystem",
+        "persistence.context.namespace",
+        "persistence.context.schema_evolution"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "rename"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.distributed_filesystem",
+        "persistence.context.olap_serving",
+        "persistence.context.replication",
+        "persistence.context.search_serving"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "replica"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.analytical_warehouse",
+        "persistence.context.warehouse_serving"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "result cut"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.bulk_result_delivery",
+        "persistence.context.maintenance_coordination"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "resume token"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.copy_on_write",
+        "persistence.context.manifest_rewrite"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "rewrite set"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.catalog_migration",
+        "persistence.context.serving_cutover"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "rollback"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.statistics_refresh",
+        "persistence.context.time_series_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "sample"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.bulk_result_delivery",
+        "persistence.context.in_memory_columnar"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "schema"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.erasure_durability",
+        "persistence.context.replica_repair"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "scrub"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.olap_segment_store",
+        "persistence.context.search_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "segment"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.catalog_events",
+        "persistence.context.event_journal",
+        "persistence.context.ledger_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "sequence"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.network_filesystem",
+        "persistence.context.query_protocol"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "session"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.federated_consistency",
+        "persistence.context.layout_observability"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "skew"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.key_value_store",
+        "persistence.context.snapshot_state"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "snapshot"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.catalog_versioning",
+        "persistence.context.snapshot_refs"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "tag"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.document_store",
+        "persistence.context.query_protocol",
+        "persistence.context.relational_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "transaction"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.cache_serving",
+        "persistence.context.cache_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "ttl"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.content_blob_store",
+        "persistence.context.olap_segment_store"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "version"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.copy_on_write",
+        "persistence.context.layout_observability"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "write amplification"
+    },
+    {
+      "candidate_context_refs": [
+        "persistence.context.cross_engine_table_access",
+        "persistence.context.format_compatibility"
+      ],
+      "compiler_law": "The unqualified term is ambiguous. Resolve an owned qualified meaning or emit gap.persistence.ambiguous_term.",
+      "status": "ownership_or_homonym_adjudication_required",
+      "term": "writer feature"
+    }
+  ],
+  "registry_id": "san.domain-atlas.persistence-term-overlaps",
+  "status": "generated_review_queue"
+}

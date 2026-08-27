@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/runtime-resource-demand-offer-v0.1.0.schema.json",
+  "title": "Provider-neutral resource demand or offer contract",
+  "$defs": {
+    "quantity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resource_class_ref", "magnitude", "unit", "qualifiers"],
+      "properties": {
+        "resource_class_ref": {"type": "string", "pattern": "^resource-class\\."},
+        "magnitude": {"type": "object", "additionalProperties": false, "required": ["numerator", "denominator"], "properties": {"numerator": {"type": "integer", "minimum": 0}, "denominator": {"type": "integer", "minimum": 1}}},
+        "unit": {"type": "string", "minLength": 1},
+        "qualifiers": {"type": "object"}
+      }
+    },
+    "vector": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/quantity"}},
+    "constraints": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["constraint_ref", "hardness"], "properties": {"constraint_ref": {"type": "string"}, "hardness": {"enum": ["hard", "soft"]}}}}
+  },
+  "oneOf": [
+    {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "demand_id", "edition", "subject_ref", "minimum", "target", "maximum", "constraints", "horizon", "authority_ref"],
+      "properties": {
+        "record_kind": {"const": "resource_demand"}, "demand_id": {"type": "string"}, "edition": {"type": "integer", "minimum": 1}, "subject_ref": {"type": "string"},
+        "minimum": {"$ref": "#/$defs/vector"}, "target": {"$ref": "#/$defs/vector"}, "maximum": {"$ref": "#/$defs/vector"}, "constraints": {"$ref": "#/$defs/constraints"},
+        "horizon": {"type": "object"}, "authority_ref": {"type": "string"}
+      }
+    },
+    {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "offer_id", "edition", "provider_resource_ref", "capacity", "constraints", "topology_ref", "interruptibility", "overcommit", "rates", "validity", "evidence_refs"],
+      "properties": {
+        "record_kind": {"const": "resource_offer"}, "offer_id": {"type": "string"}, "edition": {"type": "integer", "minimum": 1}, "provider_resource_ref": {"type": "string"},
+        "capacity": {"$ref": "#/$defs/vector"}, "constraints": {"$ref": "#/$defs/constraints"}, "topology_ref": {"type": "string"}, "interruptibility": {"enum": ["non_interruptible", "notice_then_interrupt", "interruptible_without_notice", "unknown"]},
+        "overcommit": {"type": "object"}, "rates": {"type": "array", "items": {"type": "object"}}, "validity": {"type": "object"}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "evidence_id": {
+      "type": "string"
+    },
+    "from_id": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "record_type": {
+      "const": "relation"
+    },
+    "relation_type": {
+      "type": "string"
+    },
+    "to_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "record_type",
+    "relation_type",
+    "from_id",
+    "to_id",
+    "evidence_id"
+  ],
+  "title": "Research artifact graph relation",
+  "type": "object"
+}

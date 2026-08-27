@@ -1,0 +1,47 @@
+[
+  {
+    "core_effects": [],
+    "example_id": "example.mae.evidence_synthesis",
+    "intent": "Compare two exact-edition technical claims using admitted sources.",
+    "name": "Evidence synthesis without effects",
+    "required_proofs": [
+      "citation target directly supports claim",
+      "retrieved content never gains instruction authority",
+      "uncertainty and uncovered claims are explicit"
+    ],
+    "stages": [
+      "declare task intent",
+      "bind exact model and prompt editions",
+      "retrieve only admitted primary sources",
+      "emit generated claims",
+      "verify claim-attribution links",
+      "return validated and unvalidated claims separately"
+    ],
+    "useful_outcome": "A typed evidence map that remains useful if the model extension is replaced by deterministic extraction."
+  },
+  {
+    "core_effects": [
+      "effect intent is authorized and executed by deterministic core"
+    ],
+    "example_id": "example.mae.proposed_data_repair",
+    "intent": "Draft a repair for a diagnosed data-quality defect without granting the model write authority.",
+    "name": "Proposed data repair with governed effect",
+    "required_proofs": [
+      "proposal differs from approval",
+      "approval differs from effect intent",
+      "effect receipt is core-issued",
+      "reconciliation observes target state"
+    ],
+    "stages": [
+      "ingest deterministic defect receipt",
+      "generate non-authoritative repair proposal",
+      "validate schema and invariants",
+      "obtain exact human approval",
+      "submit core effect intent",
+      "execute through core adapter",
+      "ingest core effect receipt",
+      "reconcile outcome"
+    ],
+    "useful_outcome": "Human and deterministic gates retain control even when generation is nondeterministic or absent."
+  }
+]

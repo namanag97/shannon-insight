@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "canonical_semantics": {
+      "type": "boolean"
+    },
+    "claims_supported": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "organization": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "retrieved_on": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "url": {
+      "pattern": "^https://",
+      "type": "string"
+    },
+    "year": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "source_id",
+    "title",
+    "organization",
+    "year",
+    "source_kind",
+    "evidence_role",
+    "url",
+    "authority_scope",
+    "canonical_semantics",
+    "claims_supported",
+    "retrieved_on"
+  ],
+  "title": "Messaging source",
+  "type": "object"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/operation-totality-record-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["matrix_id", "operation_id", "owner_context", "input_domain", "output_domain", "totality", "preconditions", "failure_modes", "information_loss", "determinism", "statefulness", "evidence_refs"],
+  "properties": {
+    "matrix_id": {"type": "string", "pattern": "^otm\\.[a-z0-9_.-]+$"},
+    "operation_id": {"type": "string", "pattern": "^op\\.[a-z0-9_.-]+$"},
+    "owner_context": {"type": "string", "pattern": "^bc\\.[a-z0-9_.-]+$"},
+    "input_domain": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "output_domain": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "totality": {"enum": ["total", "partial", "conditional_total", "relation_valued", "provider_dependent"]},
+    "preconditions": {"type": "array", "items": {"type": "string"}},
+    "failure_modes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "information_loss": {"enum": ["none", "declared", "possible", "inherent"]},
+    "determinism": {"enum": ["deterministic", "deterministic_under_profile", "nondeterministic", "provider_dependent"]},
+    "statefulness": {"enum": ["pure", "stateful", "externally_effectful"]},
+    "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^DSS-[0-9]{3}$"}}
+  }
+}

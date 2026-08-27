@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claim": {
+      "type": "string"
+    },
+    "context_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edition": {
+      "const": 1
+    },
+    "invalidators": {
+      "minItems": 2,
+      "type": "array"
+    },
+    "negative_twin": {
+      "type": "string"
+    },
+    "proof_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "required_receipts": {
+      "minItems": 2,
+      "type": "array"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "proof_id",
+    "edition",
+    "status",
+    "context_ref",
+    "claim",
+    "required_receipts",
+    "invalidators",
+    "negative_twin"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "description": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {},
+    "innovation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "edition",
+    "status",
+    "year",
+    "description",
+    "evidence_refs"
+  ],
+  "title": "2021-2026 non-language-model innovation",
+  "type": "object"
+}

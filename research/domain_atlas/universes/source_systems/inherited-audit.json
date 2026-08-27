@@ -1,0 +1,491 @@
+{
+  "as_of": "2026-08-25",
+  "audit_id": "san.domain-atlas.source-system-inherited-audit",
+  "crosswalk": [
+    {
+      "legacy_id": "source.ad_media_platform",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.telemetry_digital_experience.ad_media_measurement"
+      ]
+    },
+    {
+      "legacy_id": "source.application_logs_traces",
+      "migration_kind": "split",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.telemetry_digital_experience.application_logs",
+        "source.telemetry_digital_experience.distributed_traces"
+      ]
+    },
+    {
+      "legacy_id": "source.cdc_log",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.event_messaging_cdc.transaction_log_cdc"
+      ]
+    },
+    {
+      "legacy_id": "source.claims_billing",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.regulated_vertical.health_claims_adjudication"
+      ]
+    },
+    {
+      "legacy_id": "source.cmms_eam",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.enterprise_application.asset_maintenance"
+      ]
+    },
+    {
+      "legacy_id": "source.columnar_file",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.file_object_content.columnar_analytical_file"
+      ]
+    },
+    {
+      "legacy_id": "source.crm",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.enterprise_application.customer_relationship_management"
+      ]
+    },
+    {
+      "legacy_id": "source.data_warehouse",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.analytical_repository.cloud_data_warehouse"
+      ]
+    },
+    {
+      "legacy_id": "source.document_content",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.file_object_content.enterprise_content_repository"
+      ]
+    },
+    {
+      "legacy_id": "source.document_database",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.operational_database.document"
+      ]
+    },
+    {
+      "legacy_id": "source.ehr_emr",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.regulated_vertical.electronic_health_record"
+      ]
+    },
+    {
+      "legacy_id": "source.email_collaboration",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.collaboration_productivity.email_mailbox"
+      ]
+    },
+    {
+      "legacy_id": "source.erp",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.enterprise_application.enterprise_resource_planning"
+      ]
+    },
+    {
+      "legacy_id": "source.event_broker",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.event_messaging_cdc.partitioned_append_log"
+      ]
+    },
+    {
+      "legacy_id": "source.form_survey_manual",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.collaboration_productivity.forms_surveys"
+      ]
+    },
+    {
+      "legacy_id": "source.gis_service",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.geospatial_media.gis_feature_service"
+      ]
+    },
+    {
+      "legacy_id": "source.graph_database",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.operational_database.property_graph"
+      ]
+    },
+    {
+      "legacy_id": "source.graphql_api",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.api_remote_service.graphql_query_api"
+      ]
+    },
+    {
+      "legacy_id": "source.hris_payroll",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.enterprise_application.human_resources_payroll"
+      ]
+    },
+    {
+      "legacy_id": "source.industrial_historian",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.industrial_ot.industrial_historian"
+      ]
+    },
+    {
+      "legacy_id": "source.key_value_store",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.operational_database.key_value"
+      ]
+    },
+    {
+      "legacy_id": "source.lake_table",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.analytical_repository.lake_table"
+      ]
+    },
+    {
+      "legacy_id": "source.lims_instrument",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.scientific_research.laboratory_information_management"
+      ]
+    },
+    {
+      "legacy_id": "source.local_filesystem",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.file_object_content.local_or_network_filesystem"
+      ]
+    },
+    {
+      "legacy_id": "source.market_data",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.regulated_vertical.market_data_feed"
+      ]
+    },
+    {
+      "legacy_id": "source.mes",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.enterprise_application.manufacturing_execution"
+      ]
+    },
+    {
+      "legacy_id": "source.message_queue",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.event_messaging_cdc.work_message_queue"
+      ]
+    },
+    {
+      "legacy_id": "source.metrics_store",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.analytical_repository.semantic_metric_store"
+      ]
+    },
+    {
+      "legacy_id": "source.mqtt_telemetry",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.event_messaging_cdc.mqtt_broker"
+      ]
+    },
+    {
+      "legacy_id": "source.object_storage",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.file_object_content.object_storage"
+      ]
+    },
+    {
+      "legacy_id": "source.odata_service",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.api_remote_service.odata_data_service"
+      ]
+    },
+    {
+      "legacy_id": "source.olap_cube",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.analytical_repository.olap_cube"
+      ]
+    },
+    {
+      "legacy_id": "source.opcua_gateway",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.industrial_ot.opcua_information_server"
+      ]
+    },
+    {
+      "legacy_id": "source.payments_ledger",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.regulated_vertical.payments_ledger"
+      ]
+    },
+    {
+      "legacy_id": "source.plc_device",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.industrial_ot.plc_controller"
+      ]
+    },
+    {
+      "legacy_id": "source.pos_ecommerce",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.enterprise_application.commerce_order_pos"
+      ]
+    },
+    {
+      "legacy_id": "source.project_service_management",
+      "migration_kind": "split",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.enterprise_application.it_service_management",
+        "source.enterprise_application.project_professional_services"
+      ]
+    },
+    {
+      "legacy_id": "source.public_open_data",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.public_reference.open_data_catalog"
+      ]
+    },
+    {
+      "legacy_id": "source.reference_master_data",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.public_reference.reference_code_registry"
+      ]
+    },
+    {
+      "legacy_id": "source.relational_oltp",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.operational_database.relational_transactional"
+      ]
+    },
+    {
+      "legacy_id": "source.remote_sensing",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.geospatial_media.raster_remote_sensing_catalog"
+      ]
+    },
+    {
+      "legacy_id": "source.rest_api",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.api_remote_service.http_resource_api"
+      ]
+    },
+    {
+      "legacy_id": "source.rpc_service",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.api_remote_service.binary_rpc_service"
+      ]
+    },
+    {
+      "legacy_id": "source.scada_dcs",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.industrial_ot.scada_dcs"
+      ]
+    },
+    {
+      "legacy_id": "source.scientific_instrument",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.scientific_research.scientific_instrument"
+      ]
+    },
+    {
+      "legacy_id": "source.scm_wms_tms",
+      "migration_kind": "split",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.enterprise_application.supply_chain_planning",
+        "source.enterprise_application.transportation_management",
+        "source.enterprise_application.warehouse_management"
+      ]
+    },
+    {
+      "legacy_id": "source.search_index",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.operational_database.search_index"
+      ]
+    },
+    {
+      "legacy_id": "source.soap_api",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.api_remote_service.soap_web_service"
+      ]
+    },
+    {
+      "legacy_id": "source.spatial_database",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.operational_database.spatial_relational"
+      ]
+    },
+    {
+      "legacy_id": "source.spreadsheet",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.file_object_content.spreadsheet_workbook"
+      ]
+    },
+    {
+      "legacy_id": "source.tabular_file",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.file_object_content.delimited_text_file"
+      ]
+    },
+    {
+      "legacy_id": "source.time_series_database",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.operational_database.time_series"
+      ]
+    },
+    {
+      "legacy_id": "source.weather_environmental_sensor",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.geospatial_media.weather_environmental_observation"
+      ]
+    },
+    {
+      "legacy_id": "source.web_mobile_telemetry",
+      "migration_kind": "split",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.telemetry_digital_experience.mobile_product_analytics",
+        "source.telemetry_digital_experience.web_product_analytics"
+      ]
+    },
+    {
+      "legacy_id": "source.webhook",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.event_messaging_cdc.webhook_delivery"
+      ]
+    },
+    {
+      "legacy_id": "source.wide_column_store",
+      "migration_kind": "refined",
+      "note": "The inherited label is retained only as migration evidence; use stable replacement class IDs for new mappings.",
+      "replacement_class_ids": [
+        "source.operational_database.wide_column"
+      ]
+    }
+  ],
+  "edition": 1,
+  "legacy_declared_axis_value_violations": {
+    "logical_model": [
+      "clinical_record",
+      "event_stream",
+      "metric_cube",
+      "transaction_table"
+    ],
+    "ordering": [
+      "source_defined"
+    ],
+    "schema_mode": [
+      "source_defined"
+    ]
+  },
+  "legacy_metadata_status": "seeded",
+  "legacy_missing_required_universe_surfaces": [
+    "authority",
+    "objects",
+    "discovery",
+    "security",
+    "limits",
+    "cost",
+    "verification",
+    "evidence"
+  ],
+  "legacy_records": 56,
+  "legacy_records_mapped": 56,
+  "legacy_records_unmapped": [],
+  "replacement_class_records": 171,
+  "standing": "superseded_seed_with_complete_crosswalk",
+  "unknown_legacy_refs": []
+}

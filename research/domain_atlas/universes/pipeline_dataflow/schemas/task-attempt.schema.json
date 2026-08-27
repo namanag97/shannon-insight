@@ -1,0 +1,138 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/task-attempt-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempt_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "attempt_number": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "effect_receipt_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "ended_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "heartbeat_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "input_bindings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "outcome_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "run_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "stage_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "started_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "enum": [
+        "leased",
+        "starting",
+        "running",
+        "checkpointing",
+        "committing",
+        "succeeded",
+        "failed",
+        "cancelled",
+        "revoked",
+        "indeterminate"
+      ]
+    },
+    "state_restore_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "task_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "worker_lease": {
+      "additionalProperties": false,
+      "properties": {
+        "expires_at": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "fence_token": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "lease_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "worker_ref": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "lease_id",
+        "worker_ref",
+        "fence_token",
+        "expires_at"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "attempt_id",
+    "edition",
+    "run_ref",
+    "stage_ref",
+    "task_ref",
+    "attempt_number",
+    "worker_lease",
+    "input_bindings",
+    "state_restore_ref",
+    "started_at",
+    "heartbeat_at",
+    "ended_at",
+    "state",
+    "effect_receipt_refs",
+    "outcome_ref"
+  ],
+  "title": "Task attempt",
+  "type": "object"
+}

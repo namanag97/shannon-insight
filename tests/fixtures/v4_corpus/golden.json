@@ -1,0 +1,214 @@
+{
+  "app.js": {
+    "class_count": 1,
+    "content_hash12": "f194aa9c3a19",
+    "function_count": 3,
+    "functions": [
+      "<anonymous>",
+      "render",
+      "top"
+    ],
+    "impl_gini": 0.2821,
+    "import_count": 2,
+    "language": "javascript",
+    "lines": 17,
+    "max_nesting": 1,
+    "stub_ratio": 0.3556,
+    "total_tokens": 68
+  },
+  "app.py": {
+    "class_count": 1,
+    "content_hash12": "9658fca9077e",
+    "function_count": 6,
+    "functions": [
+      "fetch",
+      "helper_wrapper",
+      "inner",
+      "main",
+      "register",
+      "run"
+    ],
+    "impl_gini": 0.4242,
+    "import_count": 3,
+    "language": "python",
+    "lines": 39,
+    "max_nesting": 2,
+    "stub_ratio": 0.6045,
+    "total_tokens": 110
+  },
+  "calc.go": {
+    "class_count": 0,
+    "content_hash12": "e54d3d1a8e4d",
+    "function_count": 2,
+    "functions": [
+      "Greet",
+      "Sum"
+    ],
+    "impl_gini": 0.0263,
+    "import_count": 2,
+    "language": "go",
+    "lines": 23,
+    "max_nesting": 2,
+    "stub_ratio": 0.0,
+    "total_tokens": 84
+  },
+  "deep.py": {
+    "class_count": 0,
+    "content_hash12": "d41e33ffbc45",
+    "function_count": 1,
+    "functions": [
+      "drill"
+    ],
+    "impl_gini": 0.0,
+    "import_count": 0,
+    "language": "python",
+    "lines": 7,
+    "max_nesting": 4,
+    "stub_ratio": 0.0,
+    "total_tokens": 29
+  },
+  "empty.py": {
+    "class_count": 0,
+    "content_hash12": "e3b0c44298fc",
+    "function_count": 0,
+    "functions": [],
+    "impl_gini": 0.0,
+    "import_count": 0,
+    "language": "python",
+    "lines": 0,
+    "max_nesting": 0,
+    "stub_ratio": 0.0,
+    "total_tokens": 0
+  },
+  "hello.java": {
+    "class_count": 1,
+    "content_hash12": "783143cdbf4e",
+    "function_count": 2,
+    "functions": [
+      "count",
+      "greet"
+    ],
+    "impl_gini": 0.2188,
+    "import_count": 2,
+    "language": "java",
+    "lines": 19,
+    "max_nesting": 1,
+    "stub_ratio": 0.2,
+    "total_tokens": 83
+  },
+  "latin1.py": {
+    "class_count": 0,
+    "content_hash12": "08fdf9265e51",
+    "function_count": 1,
+    "functions": [
+      "valeur"
+    ],
+    "impl_gini": 0.0,
+    "import_count": 0,
+    "language": "python",
+    "lines": 4,
+    "max_nesting": 0,
+    "stub_ratio": 0.7778,
+    "total_tokens": 10
+  },
+  "lib.rs": {
+    "class_count": 1,
+    "content_hash12": "e45eb1de1952",
+    "function_count": 3,
+    "functions": [
+      "add",
+      "helper",
+      "new"
+    ],
+    "impl_gini": 0.2342,
+    "import_count": 1,
+    "language": "rust",
+    "lines": 21,
+    "max_nesting": 1,
+    "stub_ratio": 0.6776,
+    "total_tokens": 94
+  },
+  "main.c": {
+    "class_count": 0,
+    "content_hash12": "48a0df71f50c",
+    "function_count": 2,
+    "functions": [
+      "greet",
+      "sum_even"
+    ],
+    "impl_gini": 0.307,
+    "import_count": 2,
+    "language": "c",
+    "lines": 16,
+    "max_nesting": 2,
+    "stub_ratio": 0.2381,
+    "total_tokens": 80
+  },
+  "service.ts": {
+    "class_count": 2,
+    "content_hash12": "38fad97f2931",
+    "function_count": 3,
+    "functions": [
+      "<anonymous>",
+      "describe",
+      "make"
+    ],
+    "impl_gini": 0.404,
+    "import_count": 1,
+    "language": "typescript",
+    "lines": 18,
+    "max_nesting": 0,
+    "stub_ratio": 0.4694,
+    "total_tokens": 77
+  },
+  "tests/test_calc.py": {
+    "class_count": 0,
+    "content_hash12": "6634178449c8",
+    "function_count": 1,
+    "functions": [
+      "test_register_none"
+    ],
+    "impl_gini": 0.0,
+    "import_count": 1,
+    "language": "python",
+    "lines": 5,
+    "max_nesting": 0,
+    "stub_ratio": 0.5333,
+    "total_tokens": 18
+  },
+  "thing.rb": {
+    "class_count": 2,
+    "content_hash12": "db5e7028e719",
+    "function_count": 3,
+    "functions": [
+      "initialize",
+      "shout",
+      "top_level_utility"
+    ],
+    "impl_gini": 0.3333,
+    "import_count": 1,
+    "language": "ruby",
+    "lines": 19,
+    "max_nesting": 2,
+    "stub_ratio": 0.5555,
+    "total_tokens": 40
+  },
+  "util.py": {
+    "class_count": 0,
+    "content_hash12": "27d780234269",
+    "function_count": 4,
+    "functions": [
+      "real_work",
+      "todo_a",
+      "todo_b",
+      "todo_c"
+    ],
+    "impl_gini": 0.5887,
+    "import_count": 0,
+    "language": "python",
+    "lines": 21,
+    "max_nesting": 2,
+    "stub_ratio": 0.7,
+    "total_tokens": 55
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "program_id": "san.domain-atlas.research-program",
+  "edition": 1,
+  "status": "active",
+  "terminal_gate": "No product may be ratified until every context it imports is adjudicated and its required semantic owners are unique.",
+  "phases": [
+    {
+      "phase_id": "P0",
+      "name": "Metamodel and enumeration",
+      "depends_on": [],
+      "families": [],
+      "gate": "Axes, record schema, ambiguity accounting and deterministic review queue validate."
+    },
+    {
+      "phase_id": "P1",
+      "name": "Foundational meaning and intent",
+      "depends_on": ["P0"],
+      "families": ["constitutional-semantics", "enterprise-intent-and-outcome", "observation-measurement-and-sampling"],
+      "gate": "Identity, type, time, observation, evidence, authority and analytical-intent owners are adjudicated."
+    },
+    {
+      "phase_id": "P2",
+      "name": "Source to governed data product",
+      "depends_on": ["P1"],
+      "families": ["source-estate", "connectivity-acquisition-and-movement", "carrier-type-and-admission", "data-product-asset-and-publication"],
+      "gate": "A hostile source occurrence can become an exact governed cut without semantic or authority gaps."
+    },
+    {
+      "phase_id": "P3",
+      "name": "Modality, transformation and dynamic computation",
+      "depends_on": ["P1", "P2"],
+      "families": ["data-modality-algebras", "binding-mapping-and-transformation", "change-stream-time-and-finality", "workflow-orchestration-and-build"],
+      "gate": "Batch, stream, incremental, correction and rebuild semantics are explicitly related and testable."
+    },
+    {
+      "phase_id": "P4",
+      "name": "Persistence, query and semantic consumption",
+      "depends_on": ["P2", "P3"],
+      "families": ["persistence-catalog-and-serving", "query-planning-and-compute", "metadata-ontology-and-discovery", "analytical-semantics-and-formulas"],
+      "gate": "Exact cuts can be stored, queried and interpreted through portable semantic definitions without provider ownership leakage."
+    },
+    {
+      "phase_id": "P5",
+      "name": "Trust, authority, security and evidence",
+      "depends_on": ["P1", "P2"],
+      "families": ["quality-fitness-and-reconciliation", "lineage-provenance-and-evidence", "governance-ownership-and-authority", "security-privacy-and-data-use"],
+      "gate": "Quality, derivation, access, disclosure, revocation and independent appraisal have separate owners and fail-closed laws."
+    },
+    {
+      "phase_id": "P6",
+      "name": "Analytical studies, results and decisions",
+      "depends_on": ["P1", "P4", "P5"],
+      "families": ["analytical-study-and-method", "analytical-lifecycle-and-result", "decision-proposal-and-action"],
+      "gate": "Questions close into reproducible observations/proposals and re-enter business contexts only through explicit authority."
+    },
+    {
+      "phase_id": "P7",
+      "name": "Client, runtime, evolution and assurance",
+      "depends_on": ["P3", "P4", "P5", "P6"],
+      "families": ["client-consumption-and-collaboration", "platform-runtime-control-and-economics", "evolution-migration-and-assurance"],
+      "gate": "Compiled solutions can be operated, changed, exited and independently appraised under finite budgets."
+    },
+    {
+      "phase_id": "P8",
+      "name": "Global context-map adjudication",
+      "depends_on": ["P1", "P2", "P3", "P4", "P5", "P6", "P7"],
+      "families": [],
+      "gate": "No duplicate semantic owner, unknown dependency, ownership cycle or unaccounted homonym remains in the bounded corpus."
+    },
+    {
+      "phase_id": "P9",
+      "name": "Capabilities, machines and product derivation",
+      "depends_on": ["P8"],
+      "families": [],
+      "gate": "Every product boundary traces to adjudicated contexts, capabilities, implementations, provider requirements and the 110-truth applicability profile."
+    }
+  ]
+}

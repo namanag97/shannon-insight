@@ -1,0 +1,74 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/decision_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "affects": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "allowed_value_shape": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "authority_required": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "binding_phase": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "no_default": {
+      "const": true
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision_id",
+    "edition",
+    "status",
+    "owner_context",
+    "question",
+    "binding_phase",
+    "authority_required",
+    "allowed_value_shape",
+    "no_default",
+    "affects",
+    "source_refs"
+  ],
+  "type": "object"
+}

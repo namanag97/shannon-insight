@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/data-modality-gap-audit/finding.schema.json",
+  "type": "object",
+  "required": ["finding_id", "finding_type", "area", "family_ids", "finding", "recommended_action", "evidence_refs", "status"],
+  "properties": {
+    "finding_id": {"type": "string", "pattern": "^GAP-"},
+    "finding_type": {"enum": ["missing", "split", "merge", "overlap"]},
+    "area": {"type": "string"},
+    "family_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^fam\\."}},
+    "finding": {"type": "string", "minLength": 15},
+    "recommended_action": {"type": "string", "minLength": 15},
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "status": {"const": "open_review"}
+  },
+  "additionalProperties": false
+}

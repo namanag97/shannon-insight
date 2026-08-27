@@ -1,0 +1,82 @@
+{
+  "contract_id": "san.domain-atlas.source-system-compiler-contract",
+  "edition": 1,
+  "status": "active_research_contract",
+  "inputs": [
+    "source-system capability class",
+    "deployed source occurrence",
+    "connector capability declaration",
+    "requested acquisition and assurance requirements"
+  ],
+  "classification_key": [
+    "authority role and field-level claims",
+    "objects, logical models and payload shapes",
+    "discovery/read/write/change interfaces",
+    "schema and compatibility behavior",
+    "time axes and clock model",
+    "ordering, duplicates, gaps and finality",
+    "transaction boundary and consistency",
+    "security and tenancy boundary",
+    "quantitative deployment limits",
+    "hazard and verification obligations"
+  ],
+  "forbidden_dispatch_keys": [
+    "vendor name",
+    "product marketing category",
+    "connector package name",
+    "industry label alone",
+    "file extension alone"
+  ],
+  "rules": [
+    {
+      "rule_id": "source.classification.requires_observed_surfaces",
+      "when": "an occurrence is registered",
+      "must": "match all semantically relevant surfaces to one or more declared classes",
+      "otherwise": "emit a typed unknown-source gap"
+    },
+    {
+      "rule_id": "source.composite.allows_multiple_classes",
+      "when": "one deployment exposes materially different capability surfaces",
+      "must": "classify each surface independently and preserve field/object authority",
+      "otherwise": "do not create a vendor-shaped mega-class"
+    },
+    {
+      "rule_id": "source.adapter.selection",
+      "when": "an acquisition plan is compiled",
+      "must": "select only an adapter whose conformance receipts satisfy every requested operation and assurance requirement",
+      "otherwise": "refuse selection even if source_class_id matches"
+    },
+    {
+      "rule_id": "source.limit.occurrence_owned",
+      "when": "a plan depends on rate, quota, page, payload, concurrency, retention, cursor TTL, timeout, cost, egress or license",
+      "must": "use fresh occurrence-level observed limits",
+      "otherwise": "emit an unprobed-limit gap; never copy a class default"
+    },
+    {
+      "rule_id": "source.write.fail_closed",
+      "when": "a source class permits write or command",
+      "must": "keep write disabled unless an explicit separately authorized control-plane contract and destructive-guard receipt exist",
+      "otherwise": "compile read-only"
+    },
+    {
+      "rule_id": "source.snapshot.change.handoff",
+      "when": "snapshot and incremental acquisition are composed",
+      "must": "require a verified common cut, resume token and reconciliation",
+      "otherwise": "mark the plan incapable of lossless capture"
+    },
+    {
+      "rule_id": "source.unknown.meaning",
+      "when": "authority, deletion, order, finality, time or schema meaning is unresolved",
+      "must": "preserve raw evidence and emit a semantic gap",
+      "otherwise": "never guess from a field or product name"
+    }
+  ],
+  "outputs": [
+    "classified occurrence",
+    "adapter selection with receipts",
+    "read/change plan with cut and reconciliation",
+    "explicit assurance limitations",
+    "typed extension gap"
+  ],
+  "llm_quarantine": "Generic model registries, artifacts and serving telemetry may be source occurrences; LLM, prompt, RAG and agent-memory semantics remain outside the core namespace and cannot alter core dispatch laws."
+}

@@ -1,0 +1,36 @@
+{
+  "capability_offer_target_decision_records": 298,
+  "completion_claim": false,
+  "completion_note": "Finite candidate seed only; enumeration is not proof of provider, engine, service or target completeness.",
+  "counts": {
+    "capability_classes": 149,
+    "compatibility_matrix": 23,
+    "compiler_requirement_offer_mappings": 34,
+    "concrete_offers": 59,
+    "context_candidates": 40,
+    "decisions": 34,
+    "gaps": 25,
+    "implementation_artifacts": 59,
+    "innovations": 26,
+    "library_adapter_boundaries": 22,
+    "provider_classes": 15,
+    "provider_organizations": 30,
+    "qualification_receipts": 25,
+    "refusal_invalidation_rules": 26,
+    "resource_limit_cost_evidence": 30,
+    "sources": 113,
+    "target_occurrences": 20,
+    "target_profiles": 36
+  },
+  "edition": 1,
+  "generated_by": "build_registry.py",
+  "registry_id": "san.provider-target-physical-binding-registry",
+  "retrieved_at": "2026-08-25",
+  "status": "candidate",
+  "thresholds": {
+    "capability_offer_target_decision_records": 180,
+    "context_candidates": 30,
+    "innovations_2021_2026": 20,
+    "primary_official_sources": 60
+  }
+}

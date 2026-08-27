@@ -1,0 +1,118 @@
+{
+  "completion_claim": "candidate_not_complete",
+  "constitutional_laws": [
+    "exact identity is not a display name, alias, version range, or digest",
+    "registry absence is not evidence that a capability does not exist",
+    "structural match is not semantic compatibility",
+    "semantic equivalence is not representation compatibility",
+    "a provider declaration is not a qualification receipt",
+    "documentation, executed test, independent appraisal, qualification, and vertical acceptance are distinct evidence states",
+    "a projected binder offer must preserve the exact upstream offer, artifact, occurrence, compatibility, assessment, and exclusion identities",
+    "feasibility is not optimality and ranking is not qualification",
+    "hard constraints are never weakened into preferences",
+    "a timeout or unsupported theory is unknown, never unsat",
+    "an unsat core is sufficient conflict evidence but not necessarily minimum",
+    "resource capacity is not quota, admission, reservation, allocation, or lease",
+    "compile-time evidence is scoped and can be invalidated at runtime",
+    "a stale receipt cannot silently qualify a changed occurrence",
+    "incremental rebinding must equal a clean rebind over the same snapshot",
+    "migration intent is not authority to execute external effects",
+    "formal model class must be deterministically adjudicated from a closed typed declaration before solver or simulator offer enumeration",
+    "a business problem-family name, provider label, LLM proposal or agent plan is not model-class evidence",
+    "a relaxation, linearization, discretization or encoding cannot change the required model class without equivalence or authority-approved loss evidence",
+    "a model, LLM, or agent proposal cannot satisfy parsing, typing, constraint, qualification, authorization, execution, or receipt obligations",
+    "deterministic selection requires declared objective order and stable final tie-break",
+    "a positive example with absent offers or receipts terminates in typed gaps"
+  ],
+  "constraint_classes": [
+    "identity",
+    "edition",
+    "lifecycle",
+    "semantic",
+    "type",
+    "shape",
+    "operation",
+    "law",
+    "configuration",
+    "authority",
+    "policy",
+    "resource",
+    "budget",
+    "dependency",
+    "evidence",
+    "target",
+    "migration"
+  ],
+  "edition": 1,
+  "identity_tuple": [
+    "namespace",
+    "stable_id",
+    "edition",
+    "occurrence_id_if_runtime",
+    "content_digest_separately"
+  ],
+  "inputs": [
+    "frozen_registry_snapshot",
+    "ir_requirement_graph",
+    "authority_and_decision_graph",
+    "evidence_snapshot",
+    "resource_budget_envelope"
+  ],
+  "metamodel_id": "metamodel.compiler.binder_solver.v1",
+  "non_collapsible_phases": [
+    "structural_matching",
+    "semantic_subsumption",
+    "constraint_solving",
+    "optimization_ranking",
+    "qualification",
+    "allocation_admission",
+    "runtime_verification"
+  ],
+  "outputs": [
+    "candidate_set",
+    "constraint_instance",
+    "feasibility_result",
+    "ranked_alternatives",
+    "binding_plan",
+    "proof_trace",
+    "typed_gaps",
+    "invalidation_index"
+  ],
+  "result_sum_type": [
+    "bound",
+    "partially_bound",
+    "unsat",
+    "unknown",
+    "refused"
+  ],
+  "status": "reviewed_candidate",
+  "truth_values": [
+    "proved_true",
+    "proved_false",
+    "unknown",
+    "not_applicable"
+  ],
+  "upstream_alignment": {
+    "compiler_metamodel": "../compiler-metamodel.json",
+    "ir_lowering": "../ir_lowering/",
+    "library_registry": "../library_registry/",
+    "model_class_adjudication": "../model_class_adjudication/",
+    "proof_catalog": "../proof-obligations.json",
+    "provider_target_registry": "../provider_target_registry/"
+  },
+  "upstream_snapshot_digests": {
+    "model_class_adjudication": {
+      "adjudication-results.jsonl": "4ed1c8667129fab4df09431593e2395d44555782a15c216f022d1d35b5ba6c78",
+      "classification-traces.jsonl": "4ed06aac0e2766002c2be18021b76371fe337c9f342245b7615ca24d5b357432",
+      "manifest.json": "e06d472c60108b4ba673151a7ccd1527fe9a1e15d6293f0d008d1d04af37ff7d",
+      "model-classes.jsonl": "4050661c4b600d48eeab5932b60b7f4a87d87c0cf9fe1ff48ad03aa5a682e142"
+    },
+    "provider_target_registry": {
+      "compatibility-matrix.jsonl": "ae14cc54cd1a4b89eae4b13ee29f9d5daa604b387223ecd2874934c279f13089",
+      "concrete-offers.jsonl": "97f5115c498c1ecca6c7cd46bc50f4c1104773d06b5dfd5ec9c3ea2a48d76125",
+      "manifest.json": "3fac75e727e2941457e1ca21c618023d6945309068de52947b7ecde091a2e3bb",
+      "qualification-receipts.jsonl": "98f9adcc803d6dac4b2abf37a967b1726db137be54cf267aab14e40015e4acdd",
+      "target-occurrences.jsonl": "990f0d1d711c3bf5d1fe99266362c768f6de77759dea5ae1f3665c16677b6d88"
+    }
+  }
+}

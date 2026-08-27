@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/ecosystem/specialist-source-v1.schema.json",
+  "type": "object",
+  "required": ["source_id", "title", "publisher", "source_kind", "url", "published_or_released", "accessed_at", "authority_scope", "supports", "limitations", "currentness"],
+  "properties": {
+    "source_id": {"type": "string", "pattern": "^source\\.[a-z0-9_]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "publisher": {"type": "string", "minLength": 1},
+    "source_kind": {"enum": ["official_company", "official_product_docs", "standard", "professional_body", "peer_reviewed_paper", "official_release", "maintained_open_source", "official_profile", "regulator", "customer_primary", "independent_appraisal"]},
+    "url": {"type": "string", "pattern": "^https://"},
+    "published_or_released": {"type": ["string", "null"]},
+    "accessed_at": {"type": "string", "format": "date"},
+    "authority_scope": {"type": "string", "minLength": 1},
+    "supports": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "currentness": {"enum": ["current", "historical", "version_pinned", "uncertain"]}
+  },
+  "additionalProperties": false
+}

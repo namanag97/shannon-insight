@@ -512,3 +512,25 @@ for path in sorted(store.signal_field.value.per_file.keys()):
 9. **Run `make all` constantly** - After every change
 
 The spec is designed to prevent these. If you follow it exactly, you won't hit them. If you improvise, you will.
+
+---
+
+## V4 addendum (2026-08-23): the bulk-edit defect class
+
+**FM-23 Collateral bulk edit.** Pattern-based scripted edits (sed/replace-all)
+applied to non-unique code patterns rewrote sibling scopes (defect: `_visit_class`
+recursion replaced alongside `_visit` tail; `start_line=` duplicated).
+*Prevention:* enumerate hits with `rg -n` first; require unique anchors for
+targeted edits; never regex-edit constructors.
+
+**FM-24 Contract drift.** Dataclass/method signatures enriched without
+re-verifying every constructor call and attribute read (defects: missing
+`replace` import, bare `fuzzy_name_threshold`, dead `pass` method, orphaned
+helper raising NotImplementedError).
+*Prevention:* after any signature change, `rg "<Name>(" src/` all sites;
+run ruff F-select + import-all smoke before behavior tests.
+
+**FM-25 Late feedback loop.** Defects survived multiple write batches because
+nothing imported or executed the modules until dogfooding.
+*Prevention:* gate order is ALWAYS: ruff(F,E9) → import-all → unit pins →
+integration → dogfood. Never batch >3 files without passing the gate.

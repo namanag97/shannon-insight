@@ -1,0 +1,174 @@
+{
+  "$id": "https://san.example/spec/semantic_metrics_formulas-adjudication-metamodel-v0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "artifact_kinds": {
+    "architecture_pattern": {
+      "definition": "A reusable arrangement without independent adoption or semantic authority.",
+      "kind": "architecture_pattern"
+    },
+    "capability": {
+      "definition": "A typed selectable behavior required or offered at a boundary.",
+      "kind": "capability"
+    },
+    "control_component": {
+      "definition": "A subsystem without a complete adoption, support and exit promise.",
+      "kind": "control_component"
+    },
+    "implementation": {
+      "definition": "An observed provider artifact with no canonical semantic authority.",
+      "kind": "implementation"
+    },
+    "library_contract": {
+      "definition": "A reusable provider-neutral semantic or effect-port seam.",
+      "kind": "library_contract"
+    },
+    "neighbor": {
+      "definition": "A separate bounded context imported through an explicit contract.",
+      "kind": "neighbor"
+    },
+    "product": {
+      "definition": "An independently adopted and operated user-outcome promise.",
+      "kind": "product"
+    },
+    "semantic_contract": {
+      "definition": "Owner of one meaning, identity, lifecycle, invariants and refusals.",
+      "kind": "semantic_contract"
+    },
+    "standard": {
+      "definition": "An exact external edition specializing a contract.",
+      "kind": "standard"
+    },
+    "suite": {
+      "definition": "Packaging of products and components without transferred ownership.",
+      "kind": "suite"
+    }
+  },
+  "binding_phases": [
+    "authoring",
+    "compile_time",
+    "deployment_time",
+    "runtime",
+    "qualification_time"
+  ],
+  "contract_id": "contract.product_adjudication.semantic_metrics_formulas.v0_1_0",
+  "edition": 1,
+  "non_collapse_laws": [
+    "measure != metric != KPI != target != benchmark != observation",
+    "formula expression != formula definition != binding != evaluation",
+    "null != absent != unknown != suppressed != not-applicable != error != zero",
+    "entity relation != authorized join != fanout proof",
+    "additivity != decomposability; aggregate result != sufficient merge state",
+    "unit conversion != currency valuation; event time != valid time != recording time != query time",
+    "freshness != completeness != validity != finality",
+    "semantic query != SQL text; matching SQL != semantic cache equivalence",
+    "metric definition and metric observation have different lifecycle and authority",
+    "semantic metric service != glossary != ontology != query engine != BI presentation",
+    "metric store is an overloaded architecture label, not a second product",
+    "standard/schema acceptance != semantic equivalence != provider qualification",
+    "optional model or agent output is a proposal, never metric meaning or effect authority",
+    "removing all model/agent extensions preserves deterministic parsing, typing, binding, proof, policy, execution and receipts"
+  ],
+  "record_kinds": {
+    "artifact": {
+      "identity_key": "artifact_id",
+      "source_section": "artifacts"
+    },
+    "artifact_kind_definition": {
+      "identity_key": "kind",
+      "source_section": "artifact_kinds"
+    },
+    "boundary_decision": {
+      "identity_key": "decision_id",
+      "source_section": "boundary_decisions"
+    },
+    "capability_offer": {
+      "identity_key": "offer_id",
+      "source_section": "offers"
+    },
+    "capability_requirement": {
+      "identity_key": "requirement_id",
+      "source_section": "requirements"
+    },
+    "evidence_source": {
+      "identity_key": "source_id",
+      "source_section": "sources"
+    },
+    "legacy_crosswalk": {
+      "identity_key": "legacy_ref",
+      "source_section": "crosswalks"
+    },
+    "library_contract": {
+      "identity_key": "library_id",
+      "source_section": "libraries"
+    },
+    "negative_test": {
+      "identity_key": "test_id",
+      "source_section": "negative_tests"
+    },
+    "product_ddd_dossier": {
+      "identity_key": "dossier_id",
+      "source_section": "ddd_dossiers"
+    },
+    "product_library_binding_gap": {
+      "identity_key": "gap_id",
+      "source_section": "binding_gaps"
+    },
+    "product_library_binding_map": {
+      "identity_key": "binding_map_id",
+      "source_section": "binding_maps"
+    },
+    "relation": {
+      "identity_key": "relation_id",
+      "source_section": "relations"
+    },
+    "semantic_or_conformance_gap": {
+      "identity_key": "gap_id",
+      "source_section": "semantic_gaps"
+    },
+    "semantic_ownership": {
+      "identity_key": "meaning_id",
+      "source_section": "ownership"
+    }
+  },
+  "relation_predicates": [
+    "packaged_as",
+    "packages",
+    "offers",
+    "requires",
+    "governed_by",
+    "specializes",
+    "implements",
+    "realizes"
+  ],
+  "split_test_axes": [
+    "user",
+    "job",
+    "adoption",
+    "semantics",
+    "authority",
+    "lifecycle",
+    "operation",
+    "economics",
+    "interface",
+    "market_evidence"
+  ],
+  "split_test_verdicts": {
+    "defer": [
+      7,
+      12
+    ],
+    "merge_or_reclassify": [
+      0,
+      6
+    ],
+    "presumptive_product": [
+      13,
+      16
+    ],
+    "strong_product_candidate": [
+      17,
+      20
+    ]
+  },
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

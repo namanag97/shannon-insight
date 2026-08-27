@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context_id": {
+      "pattern": "^context\\.lpe\\.",
+      "type": "string"
+    },
+    "cross_plane_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "family": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "gaps": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "inside": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "invariants": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "neighbor_context_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "outside": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "sovereign_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "context_id",
+    "edition",
+    "status",
+    "name",
+    "family",
+    "sovereign_question",
+    "inside",
+    "outside",
+    "invariants",
+    "neighbor_context_refs",
+    "evidence_refs",
+    "cross_plane_refs",
+    "gaps"
+  ],
+  "title": "LPE bounded-context candidate",
+  "type": "object"
+}

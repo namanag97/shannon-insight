@@ -195,9 +195,7 @@ class BlobStore:
         Returns:
             Sum of original sizes in bytes.
         """
-        cursor = self._conn.execute(
-            "SELECT COALESCE(SUM(original_size), 0) FROM blobs"
-        )
+        cursor = self._conn.execute("SELECT COALESCE(SUM(original_size), 0) FROM blobs")
         result: int = cursor.fetchone()[0]
         return result
 
@@ -207,8 +205,6 @@ class BlobStore:
         Returns:
             Sum of compressed sizes in bytes.
         """
-        cursor = self._conn.execute(
-            "SELECT COALESCE(SUM(compressed_size), 0) FROM blobs"
-        )
+        cursor = self._conn.execute("SELECT COALESCE(SUM(compressed_size), 0) FROM blobs")
         result: int = cursor.fetchone()[0]
         return result

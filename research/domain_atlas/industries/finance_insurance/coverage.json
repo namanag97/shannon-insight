@@ -1,0 +1,80 @@
+{
+  "industry_id": "industry.finance_insurance",
+  "edition": 1,
+  "as_of": "2026-08-25",
+  "status": "sourced_candidate",
+  "counts": {
+    "analytical_cases": 268,
+    "source_evidence": 63,
+    "publishers": 31,
+    "authority_sources": 60,
+    "source_system_needs": 41,
+    "data_shape_needs": 39,
+    "subindustry_labels": 48,
+    "counterparty_credit_risk_cases": 24
+  },
+  "case_family_counts": {
+    "banking": 20,
+    "counterparty_credit_risk": 24,
+    "payments": 25,
+    "lending": 27,
+    "financial_crime": 18,
+    "capital_markets": 28,
+    "asset_and_wealth_management": 24,
+    "property_casualty_and_specialty_insurance": 30,
+    "life_health_ltc_and_annuities": 18,
+    "reinsurance_and_retrocession": 15,
+    "fintech_and_digital_finance": 18,
+    "financial_market_infrastructure": 21
+  },
+  "analytical_mode_counts": {
+    "anomaly_detection": 42,
+    "bottleneck_analysis": 17,
+    "causal_inference": 23,
+    "conformance_checking": 47,
+    "decision_control": 34,
+    "diagnostic": 139,
+    "experimental": 7,
+    "forecasting": 46,
+    "optimization": 33,
+    "predictive": 39,
+    "process_mining": 19,
+    "reconciliation": 65,
+    "root_cause_analysis": 43,
+    "simulation": 87,
+    "stress_testing": 62,
+    "surveillance": 59,
+    "valuation": 16
+  },
+  "llm_dependency": {
+    "none": 268,
+    "prohibited_core": 0,
+    "quarantined_optional": 0
+  },
+  "validation": {
+    "schema": "../schema/industry-research-record.schema.json",
+    "result": "pass",
+    "checks": [
+      "shared schema",
+      "record identity uniqueness",
+      "local reference integrity",
+      "source and publisher minimums",
+      "authority-source minimum",
+      "subindustry breadth",
+      "analytical-mode breadth",
+      "non-KPI question/action framing",
+      "no LLM analytical dependency",
+      "explicit banking counterparty-credit-risk semantics"
+    ]
+  },
+  "evidence_policy": "Primary normative and official evidence establishes the concern and data need; exact formulas, rules, thresholds, scenarios, and actions require jurisdiction/product/entity-specific adjudication.",
+  "completion_claim": "Broad sourced candidate coverage only; not an exhaustive or adjudicated universal inventory.",
+  "open_gates": [
+    "Twenty-five independent primary sources are not present for each individual subindustry label.",
+    "Clause-level traceability from every formula, threshold, input, and action to exact source sections is incomplete.",
+    "Licensed and proprietary scheme, FMI, venue, vendor, bureau, catastrophe-model, treaty, filing, and market-data specifications must be bound during implementation.",
+    "Jurisdiction-specific legal, prudential, accounting, privacy, conduct, tax, insolvency, and reporting conflicts require adjudication.",
+    "Digital-assets, stablecoin, open-finance, and BNPL sources require high-frequency freshness review.",
+    "Empirical performance claims require confidential or synthetic validation data and formal model governance."
+  ]
+}

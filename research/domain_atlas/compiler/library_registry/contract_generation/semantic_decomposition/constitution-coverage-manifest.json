@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "constitution-coverage-summary.json": {
+      "bytes": 471,
+      "sha256": "1253d7f8df3fd0d72bbd28a9027a8d2186de5bbd0fc516839e8a890c318f220c"
+    },
+    "constitution-coverage.json": {
+      "bytes": 7377,
+      "sha256": "50fb994ce207389c03a73ec4561db4bbbf0de31ac0a8fa559cc2e343b840db64"
+    },
+    "family-inheritance-queue.jsonl": {
+      "bytes": 481238,
+      "sha256": "70475d0f07bfc119d72f9164d787cb61aecbd8b1bb2e1b011611d6e7fac02978"
+    }
+  },
+  "manifest_id": "manifest.semantic-axis.constitution-coverage.v1"
+}

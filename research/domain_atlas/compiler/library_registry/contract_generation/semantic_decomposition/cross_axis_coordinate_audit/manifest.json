@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "axis-package-inventory.jsonl": {
+      "bytes": 70654,
+      "sha256": "e2b14ee190d7877f072b817105c0616b3da05355baf1e546a68ea5c4cbd870b7"
+    },
+    "compiler-ir-coverage.jsonl": {
+      "bytes": 13259,
+      "sha256": "dd573fad067cbc556ef9f993489a00f4ed8c97c8e725c4915ee019fd7d6120da"
+    },
+    "cross-axis-seam-obligations.jsonl": {
+      "bytes": 12145,
+      "sha256": "410b433bdf1a22ef68c220f075150885b4ca90fd2e95f8a111591549a2f5d5d3"
+    },
+    "family-axis-quotient-audits.jsonl": {
+      "bytes": 633528,
+      "sha256": "52646292e191c090b2e24bcfea24a017422468d5630cf3ef88514b1a292bcf56"
+    },
+    "summary.json": {
+      "bytes": 1124,
+      "sha256": "c0756cbd3b791c20cb856dc04123996ae779a29144dbd0a825a3bff91eedee21"
+    }
+  },
+  "manifest_id": "manifest.cross-axis-coordinate-audit.v1"
+}

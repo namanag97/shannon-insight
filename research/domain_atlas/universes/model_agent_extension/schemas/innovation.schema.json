@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "change": {
+      "type": "string"
+    },
+    "edition": {
+      "const": 1
+    },
+    "evidence_refs": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "innovation_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "limitations": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "edition",
+    "status",
+    "name",
+    "year",
+    "change",
+    "evidence_refs",
+    "limitations"
+  ],
+  "type": "object"
+}

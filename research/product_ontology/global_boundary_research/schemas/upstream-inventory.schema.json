@@ -1,0 +1,40 @@
+{
+  "$id": "https://san.example/product-boundary/upstream_inventory.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "bytes": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "line_count": {},
+    "parse_status": {},
+    "path": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "upstream_inventory"
+    },
+    "sha256": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "path",
+    "sha256",
+    "bytes",
+    "line_count",
+    "parse_status"
+  ],
+  "title": "Global boundary research: upstream_inventory",
+  "type": "object"
+}

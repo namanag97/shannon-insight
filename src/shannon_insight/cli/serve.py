@@ -1,7 +1,5 @@
 """``shannon-insight serve`` -- DEPRECATED, dashboard is now the default."""
 
-from pathlib import Path
-
 import typer
 
 from . import app

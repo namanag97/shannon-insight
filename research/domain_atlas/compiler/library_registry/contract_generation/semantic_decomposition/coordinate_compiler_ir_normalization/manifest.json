@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "common-compiler-ir-contract.json": {
+      "bytes": 835,
+      "sha256": "1a6e7face05e4155b8c49baf19e1da762454abb7861ee905bb882ec38bf07d92"
+    },
+    "normalized-axis-profiles.jsonl": {
+      "bytes": 49762,
+      "sha256": "fc4c5b7d30e11fb59d76e685001dc6e0cb0f525bc2c94075602c5cd7f52fa130"
+    },
+    "summary.json": {
+      "bytes": 547,
+      "sha256": "43fb89c40ba804d5451e20f50661dbf22ec5e74528bd85b8aa20cd39212711f4"
+    }
+  },
+  "manifest_id": "manifest.coordinate-compiler-ir-normalization.v1"
+}

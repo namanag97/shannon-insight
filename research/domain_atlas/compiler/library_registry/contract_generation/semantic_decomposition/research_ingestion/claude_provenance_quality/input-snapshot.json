@@ -1,0 +1,78 @@
+{
+  "as_of": "2026-08-26",
+  "inputs": [
+    {
+      "bytes": 40808,
+      "path": "handoffs/claude-provenance-quality/output/source-register.jsonl",
+      "record_count": 41,
+      "sha256": "dd795989a97ccb58685f01c41cefe7ba8258146bd24a59638ecd981b6c553c16"
+    },
+    {
+      "bytes": 49409,
+      "path": "handoffs/claude-provenance-quality/output/semantic-modules.jsonl",
+      "record_count": 37,
+      "sha256": "6d280ebb89c290661452a1eed5a0dbc42baa44aa21456ab4676810a1ecff86a3"
+    },
+    {
+      "bytes": 1222213,
+      "path": "handoffs/claude-provenance-quality/output/library-applicability.jsonl",
+      "record_count": 2516,
+      "sha256": "c8190348e7295258bb8a2f572bb6fcb8caf3ec3d6cb1be7cb286553ee0745194"
+    },
+    {
+      "bytes": 143013,
+      "path": "handoffs/claude-provenance-quality/output/boundary-adjudications.jsonl",
+      "record_count": 68,
+      "sha256": "c583a66869f72988e7e6e9d9d203df7d50b3f1bc427ef146099854f1d37c912d"
+    },
+    {
+      "bytes": 15357,
+      "path": "handoffs/claude-provenance-quality/output/responsibility-migrations.jsonl",
+      "record_count": 48,
+      "sha256": "a64966e20adc602d82295b5d350c4f77c6cb0f8c47f53303e13ebeab4da0aca3"
+    },
+    {
+      "bytes": 8804,
+      "path": "handoffs/claude-provenance-quality/output/merge-candidates.jsonl",
+      "record_count": 12,
+      "sha256": "7e988c9c70835639957c8ab0d39033c099aa70ff5ab8793ff212991256b01c43"
+    },
+    {
+      "bytes": 9285,
+      "path": "handoffs/claude-provenance-quality/output/coverage-report.json",
+      "record_count": 1,
+      "sha256": "3cc35a468a0f17c1e3d9a4fa3635eabc409b9b66cf8a72fa9b2f5b56a86e82c1"
+    },
+    {
+      "bytes": 77857,
+      "path": "domain_atlas/universes/lineage_provenance_evidence/library-boundaries.jsonl",
+      "record_count": 37,
+      "sha256": "2da058ab6ab8bb4e16c92240acbc89b2b50602134d325ace6316b18224ccc2fa"
+    },
+    {
+      "bytes": 40764,
+      "path": "domain_atlas/universes/quality_observability_reconciliation/library-boundary-candidates.jsonl",
+      "record_count": 37,
+      "sha256": "8c443aeed64c3fdad57392339f28219654def519a72ed8dab380a23660ef5af4"
+    },
+    {
+      "bytes": 9316073,
+      "path": "domain_atlas/compiler/library_registry/library-contributions.jsonl",
+      "record_count": 846,
+      "sha256": "09ebd808199d698c7da09d1910fc804fe3a5a181ba5505357e76f06f34e2b7f1"
+    },
+    {
+      "bytes": 352199,
+      "path": "domain_atlas/compiler/library_registry/library-design-contexts.jsonl",
+      "record_count": 653,
+      "sha256": "dacab7aef469f2b80f6b636789b41dabe0f921c6364bff551d482c4b12b9b267"
+    },
+    {
+      "bytes": 1139170,
+      "path": "domain_atlas/compiler/library_registry/exact_api_closure/closure-queue.jsonl",
+      "record_count": 674,
+      "sha256": "1e6aba9c01d89c2b752f22865483915996001cb39698fb8a05ee7edf3d19ccf0"
+    }
+  ],
+  "snapshot_id": "snapshot.claude-provenance-quality.integration.v1"
+}

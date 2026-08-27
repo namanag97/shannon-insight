@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "checks": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "emitted_artifacts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "logical_input": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lowering": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "offer_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "refusal": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "requirement_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "requirement_ref",
+    "offer_ref",
+    "logical_input",
+    "checks",
+    "lowering",
+    "emitted_artifacts",
+    "refusal",
+    "status"
+  ],
+  "title": "Messaging compiler-mapping",
+  "type": "object"
+}

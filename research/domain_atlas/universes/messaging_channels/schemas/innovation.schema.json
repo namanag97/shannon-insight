@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adoption_posture": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "innovation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "llm_dependency": {
+      "const": "none"
+    },
+    "period": {
+      "pattern": "202[1-6]",
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "summary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "why_it_matters": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "period",
+    "summary",
+    "why_it_matters",
+    "evidence_refs",
+    "adoption_posture",
+    "llm_dependency",
+    "status"
+  ],
+  "title": "Messaging innovation",
+  "type": "object"
+}

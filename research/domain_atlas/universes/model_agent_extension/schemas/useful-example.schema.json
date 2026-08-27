@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "core_effects": {
+      "type": "array"
+    },
+    "example_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "intent": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "required_proofs": {
+      "minItems": 2,
+      "type": "array"
+    },
+    "stages": {
+      "minItems": 3,
+      "type": "array"
+    },
+    "useful_outcome": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "example_id",
+    "name",
+    "intent",
+    "stages",
+    "core_effects",
+    "required_proofs",
+    "useful_outcome"
+  ],
+  "type": "object"
+}

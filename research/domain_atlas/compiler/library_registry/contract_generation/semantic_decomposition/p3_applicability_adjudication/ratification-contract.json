@@ -1,0 +1,42 @@
+{
+  "allowed_applicability_decisions": [
+    "REQUIRED",
+    "CONDITIONAL",
+    "INAPPLICABLE",
+    "PROHIBITED",
+    "UNRESOLVED"
+  ],
+  "contract_id": "contract.p3.family-axis-applicability-ratification.v1",
+  "edition": 1,
+  "non_claims": [
+    "A modal cluster is a review optimization, not a family default.",
+    "A completed template is not a ratification receipt.",
+    "Applicability ratification does not close an exact library contract, implementation, qualification or product gate."
+  ],
+  "refusal_conditions": [
+    "input snapshot mismatch",
+    "family-axis authority missing or unauthorized",
+    "generic context or lexical evidence treated as semantic proof",
+    "absence of signal treated as inapplicable",
+    "non-modal cluster or member exception omitted",
+    "negative twin or source conflict not adjudicated",
+    "attestation absent, expired, revoked or unverifiable"
+  ],
+  "required_receipt_fields": [
+    "receipt_id",
+    "input_snapshot_ref",
+    "input_snapshot_sha256",
+    "matrix_ref",
+    "family_ref",
+    "semantic_axis",
+    "family_default_applicability_decision",
+    "default_cluster_semantic_contract_digest",
+    "complete_cluster_decisions",
+    "complete_member_exception_decisions",
+    "negative_twin_appraisal_digest",
+    "evidence_bundle_digest",
+    "effective_edition",
+    "authority_refs",
+    "attestation_ref"
+  ]
+}

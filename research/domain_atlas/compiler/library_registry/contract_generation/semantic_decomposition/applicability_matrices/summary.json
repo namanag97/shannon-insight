@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-26",
+  "automatic_owner_decisions": 0,
+  "axes": 16,
+  "candidate_clusters": 1300,
+  "canonical_exact_gaps_closed": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "families": 23,
+  "family_axis_matrices": 368,
+  "libraries": 674,
+  "preclassification_counts": {
+    "EXPLICIT_SOURCE_CANDIDATE_UNRATIFIED": 674,
+    "LEXICAL_CANDIDATE_UNRATIFIED": 1942,
+    "NO_DISCOVERY_SIGNAL_UNRESOLVED": 8168
+  },
+  "program_id": "program.semantic-axis.applicability-matrices.v1",
+  "raw_member_axis_cells": 10784,
+  "singleton_candidate_clusters": 572,
+  "status": "ACTIVE_OWNER_REVIEW_NOT_RATIFIED",
+  "work_reduction_claim": "Matrices and clusters reduce repeated presentation and authoring only; they do not reduce required semantic accountability or evidence."
+}

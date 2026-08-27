@@ -1,0 +1,180 @@
+{
+  "as_of": "2026-08-27",
+  "canonical_exact_gaps_closed": 0,
+  "canonical_mutations_allowed": 0,
+  "completion_claim": false,
+  "counterfactually_stable_owner_proposals": 195,
+  "counterfactually_unstable_owner_proposals": 15,
+  "edition": 1,
+  "input_snapshot": {
+    "aggregate_sha256": "c0e90316f81ef9e6313eea65aaaaa96dc5a8b37d6b4753fad55cda300b794f77",
+    "files": [
+      {
+        "bytes": 518362,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/symbol-adjudication-packets.jsonl",
+        "record_count": 210,
+        "sha256": "e0733d55ad35f9ab93c44a91ac13ee4981f5a00672d9a706f2c63a2b7e104077"
+      },
+      {
+        "bytes": 103556,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/high-fanout-semantic-research.jsonl",
+        "record_count": 19,
+        "sha256": "de26f975de522f6946e85e634bd810eba96446f01f7238b92358bddc3e240f92"
+      },
+      {
+        "bytes": 157953,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/remaining-symbol-research-batches.jsonl",
+        "record_count": 89,
+        "sha256": "b0363f07b114844b12c789215f424429caf21343832af910f0879eecb565008d"
+      },
+      {
+        "bytes": 72356,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/archetype-research-programs.jsonl",
+        "record_count": 17,
+        "sha256": "704296e4078a42c06930a177e5d08ce0b1fbde9d0c2f23fdf2d69f144ab14272"
+      },
+      {
+        "bytes": 50692,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/archetype-semantic-research.jsonl",
+        "record_count": 17,
+        "sha256": "ccde7e4757cb75f1a89e84ee390ac8a38ea0aa55fe410855971d1f6954be3159"
+      },
+      {
+        "bytes": 109824,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/catchall-symbol-archetype-refinements.jsonl",
+        "record_count": 47,
+        "sha256": "4c2256fd3ccb65e54baad33d182a6f3b8abad2f210aece16d1ad47111b46cd05"
+      },
+      {
+        "bytes": 78586,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/primary-sources.jsonl",
+        "record_count": 110,
+        "sha256": "d59cec625d6d2bb033ec831a5a509ce9907eca905e925770db8e7a0df7009f6a"
+      },
+      {
+        "bytes": 14974,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/analytical-result-classification-candidates.jsonl",
+        "record_count": 5,
+        "sha256": "1fb32b42f47ea831cf7e1c8672e2213e87042cbe3e3e3af3bb3c9c596a3fd79a"
+      },
+      {
+        "bytes": 34658,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/authority-contract-classification-candidates.jsonl",
+        "record_count": 10,
+        "sha256": "8347373d6c7feecc0338ad96e3a3977916cdc5eedd54bc036c707cde39b58b0f"
+      },
+      {
+        "bytes": 44768,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/capability-port-classification-candidates.jsonl",
+        "record_count": 20,
+        "sha256": "b4e754b92d0c5432b8789a9b2afc5c0b7bf8a94fc28f9527337acf7d2eed95f3"
+      },
+      {
+        "bytes": 13927,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/evidence-contract-classification-candidates.jsonl",
+        "record_count": 6,
+        "sha256": "3013795f78c9b6488e6c6953f8a9ad228af45d89fca92b36d32cc41c0ea4d74a"
+      },
+      {
+        "bytes": 11728,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/failure-contract-classification-candidates.jsonl",
+        "record_count": 3,
+        "sha256": "4e8478514cdab1ec3067221a5bfc02570582ba5db2b7704d82f878e97fbb8b29"
+      },
+      {
+        "bytes": 37650,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/identity-contract-classification-candidates.jsonl",
+        "record_count": 11,
+        "sha256": "e937d9a566cce8b1c962849d4c0e4b16c73d51f1ab909a56b0665f89cebd71e3"
+      },
+      {
+        "bytes": 11286,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/measure-contract-classification-candidates.jsonl",
+        "record_count": 3,
+        "sha256": "45937c35c653d32f81010e9fda82ef254002f9d08511bf3900bad5026b71068f"
+      },
+      {
+        "bytes": 8179,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/model-artifact-contract-classification-candidates.jsonl",
+        "record_count": 2,
+        "sha256": "b3c1185ea9a72814fca7334105c5727b6ba892393e60a7dbced01b33c2a39d56"
+      },
+      {
+        "bytes": 178805,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/operation-contract-classification-candidates.jsonl",
+        "record_count": 73,
+        "sha256": "391f88028e22ee3503f23f95308b114e41c30b6519a1284c8f57369f5c0878a6"
+      },
+      {
+        "bytes": 53961,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/policy-contract-classification-candidates.jsonl",
+        "record_count": 18,
+        "sha256": "0074d908550c7caf3b56eece5ac7e2f53c1f54eefcffa89d4137ed7c94a04ce2"
+      },
+      {
+        "bytes": 26162,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/representation-contract-classification-candidates.jsonl",
+        "record_count": 7,
+        "sha256": "670e834ef2410d11dcb4a74e9b528c7f1f99c2eea39ca181d8f89e7e4c3f5782"
+      },
+      {
+        "bytes": 10629,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/resource-contract-classification-candidates.jsonl",
+        "record_count": 3,
+        "sha256": "02d7cb1e972f17dde0a77451322bea6f80cf9a419eec8726d41790faf6ee3443"
+      },
+      {
+        "bytes": 26374,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/shape-contract-classification-candidates.jsonl",
+        "record_count": 7,
+        "sha256": "d556222cfa597c52429d352285d671be7226a747e4a8e16c21d883efec8341be"
+      },
+      {
+        "bytes": 19440,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/time-contract-classification-candidates.jsonl",
+        "record_count": 5,
+        "sha256": "af846a271f9f510a6ebafa273dee27197c70f51ca2307a1019399d93deba5974"
+      },
+      {
+        "bytes": 9316073,
+        "path": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl",
+        "record_count": 846,
+        "sha256": "09ebd808199d698c7da09d1910fc804fe3a5a181ba5505357e76f06f34e2b7f1"
+      },
+      {
+        "bytes": 129492,
+        "path": "research/domain_atlas/compiler/library_registry/dependency-edges.jsonl",
+        "record_count": 196,
+        "sha256": "884a17354c9904f73c53d6ca9d1783d5edd59713c11c68422ae6c52cd016d3bd"
+      }
+    ],
+    "snapshot_id": "snapshot.p2-input.c0e90316f81ef9e6"
+  },
+  "next_gate": "NAMED_OWNER_RATIFICATION_OF_SYMBOL_DISPOSITIONS_THEN_EXACT_OCCURRENCE_DISPOSITIONS",
+  "occurrence_relation_proposals": 666,
+  "occurrence_relation_proposals_unresolved": 345,
+  "owner_adjudication_challenge_packages": 29,
+  "owner_decision_units": 108,
+  "owner_decision_waves": 4,
+  "owner_proposals": 210,
+  "owner_proposals_blocked": 94,
+  "owner_proposals_with_named_candidates": 116,
+  "program_id": "program.p2-public-symbol-owner-adjudication.v1",
+  "proposal_conflicts": 118,
+  "proposal_counterfactuals": 210,
+  "ratification_packet_templates": 210,
+  "ratification_packet_templates_blocked": 118,
+  "ratification_packet_templates_ready_for_authority_review": 92,
+  "ratified_occurrence_dispositions": 0,
+  "ratified_symbol_owners": 0,
+  "represented_occurrences": 666,
+  "symbol_dockets": 210,
+  "symbol_route_counts": {
+    "CROSS_FAMILY_SHARED_OWNER_HYPOTHESIS_RESEARCH": 38,
+    "FAMILY_SHARED_OWNER_OR_LOCAL_IMPORT_RESEARCH": 95,
+    "HOMONYM_OR_DEFINITION_CONFLICT_RESEARCH": 77
+  },
+  "symbols_with_bounded_primary_research": 210,
+  "symbols_with_disposition_hypotheses": 70,
+  "symbols_with_explicit_owner_hypotheses": 2
+}

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/source-system-class.schema.json",
+  "title": "Provider-neutral source-system capability class",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_kind", "class_id", "edition", "status", "name", "family_id", "profile_id",
+    "definition", "not_a_vendor_type", "classification_rule", "authority", "object_model",
+    "interfaces", "schema", "temporality", "order_finality", "transactions", "security",
+    "limits", "hazards", "verification", "evidence_refs", "inherited_seed_refs"
+  ],
+  "properties": {
+    "record_kind": {"const": "source_system_capability_class"},
+    "class_id": {"type": "string", "pattern": "^source\\.[a-z0-9_]+\\.[a-z0-9_]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["enumerated", "researched_candidate", "adjudicated", "deprecated"]},
+    "name": {"type": "string", "minLength": 3},
+    "family_id": {"type": "string", "minLength": 3},
+    "profile_id": {"type": "string", "minLength": 3},
+    "definition": {"type": "string", "minLength": 40},
+    "not_a_vendor_type": {"const": true},
+    "classification_rule": {"type": "string", "minLength": 40},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "field_level_override_required", "replica_may_lag"],
+      "properties": {
+        "role": {"type": "string"},
+        "field_level_override_required": {"type": "boolean"},
+        "replica_may_lag": {"type": "boolean"}
+      }
+    },
+    "object_model": {
+      "type": "object", "additionalProperties": false,
+      "required": ["object_kinds", "logical_models", "payload_shapes", "identity_scope", "identity_reuse_must_be_probed"],
+      "properties": {
+        "object_kinds": {"$ref": "#/$defs/nonemptyStrings"},
+        "logical_models": {"$ref": "#/$defs/nonemptyStrings"},
+        "payload_shapes": {"$ref": "#/$defs/nonemptyStrings"},
+        "identity_scope": {"type": "string", "minLength": 3},
+        "identity_reuse_must_be_probed": {"type": "boolean"}
+      }
+    },
+    "interfaces": {
+      "type": "object", "additionalProperties": false,
+      "required": ["discovery_modes", "read_modes", "write_modes", "change_modes", "access_topologies"],
+      "properties": {
+        "discovery_modes": {"$ref": "#/$defs/nonemptyStrings"},
+        "read_modes": {"$ref": "#/$defs/nonemptyStrings"},
+        "write_modes": {"$ref": "#/$defs/nonemptyStrings"},
+        "change_modes": {"$ref": "#/$defs/nonemptyStrings"},
+        "access_topologies": {"$ref": "#/$defs/nonemptyStrings"}
+      }
+    },
+    "schema": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mode", "compatibility_policy", "registry_or_contract", "unknown_field_policy", "key_and_constraint_discovery_required", "drift_observable"],
+      "properties": {
+        "mode": {"type": "string"},
+        "compatibility_policy": {"type": "string"},
+        "registry_or_contract": {"type": "string"},
+        "unknown_field_policy": {"enum": ["fail_closed", "preserve_unknown", "ignore_unknown", "deployment_required"]},
+        "key_and_constraint_discovery_required": {"type": "boolean"},
+        "drift_observable": {"type": "string"}
+      }
+    },
+    "temporality": {
+      "type": "object", "additionalProperties": false,
+      "required": ["time_axes", "clock_model", "timezone_and_calendar_required", "watermark_or_cursor", "late_data", "retention"],
+      "properties": {
+        "time_axes": {"$ref": "#/$defs/nonemptyStrings"},
+        "clock_model": {"type": "string"},
+        "timezone_and_calendar_required": {"type": "boolean"},
+        "watermark_or_cursor": {"type": "string"},
+        "late_data": {"type": "string"},
+        "retention": {"type": "string"}
+      }
+    },
+    "order_finality": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ordering_scope", "ordering_key", "gap_signal", "duplicate_semantics", "finality_model", "corrections", "deletion_semantics"],
+      "properties": {
+        "ordering_scope": {"type": "string"},
+        "ordering_key": {"type": "string"},
+        "gap_signal": {"type": "string"},
+        "duplicate_semantics": {"type": "string"},
+        "finality_model": {"type": "string"},
+        "corrections": {"type": "string"},
+        "deletion_semantics": {"$ref": "#/$defs/nonemptyStrings"}
+      }
+    },
+    "transactions": {
+      "type": "object", "additionalProperties": false,
+      "required": ["boundary", "consistency_model", "snapshot_cut", "cross_object_atomicity"],
+      "properties": {
+        "boundary": {"type": "string"},
+        "consistency_model": {"type": "string"},
+        "snapshot_cut": {"type": "string"},
+        "cross_object_atomicity": {"type": "string"}
+      }
+    },
+    "security": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authentication", "authorization", "encryption", "tenant_boundary", "auditability", "sensitivity_default", "write_or_command_default"],
+      "properties": {
+        "authentication": {"$ref": "#/$defs/nonemptyStrings"},
+        "authorization": {"$ref": "#/$defs/nonemptyStrings"},
+        "encryption": {"$ref": "#/$defs/nonemptyStrings"},
+        "tenant_boundary": {"type": "string"},
+        "auditability": {"type": "string"},
+        "sensitivity_default": {"type": "string"},
+        "write_or_command_default": {"type": "string"}
+      }
+    },
+    "limits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["class_values_are_portable", "must_probe", "hard_limit_behavior"],
+      "properties": {
+        "class_values_are_portable": {"const": false},
+        "must_probe": {"$ref": "#/$defs/nonemptyStrings"},
+        "hard_limit_behavior": {"type": "string"}
+      }
+    },
+    "hazards": {"$ref": "#/$defs/nonemptyStrings"},
+    "verification": {"$ref": "#/$defs/nonemptyStrings"},
+    "evidence_refs": {"$ref": "#/$defs/nonemptyStrings"},
+    "inherited_seed_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  },
+  "$defs": {
+    "nonemptyStrings": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  }
+}

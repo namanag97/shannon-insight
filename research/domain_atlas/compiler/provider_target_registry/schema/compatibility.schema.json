@@ -1,0 +1,88 @@
+{
+  "$id": "https://san.example/spec/provider-target/compatibility_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capability_class_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "compatibility_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "conditions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_object_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "invalidation_triggers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "left_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "observed_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "result": {
+      "enum": [
+        "compatible",
+        "incompatible",
+        "conditional",
+        "unknown"
+      ]
+    },
+    "right_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "compatibility_id",
+    "edition",
+    "status",
+    "left_ref",
+    "right_ref",
+    "capability_class_ref",
+    "result",
+    "conditions",
+    "evidence_refs",
+    "evidence_object_refs",
+    "observed_at",
+    "invalidation_triggers"
+  ],
+  "title": "Scoped compatibility matrix cell",
+  "type": "object"
+}

@@ -1,0 +1,806 @@
+The correct horizontal **Data and Analytics domain model** is now a deterministic registry of **99 composable candidate libraries across 11 domains**, with open-ended data types, source systems, formats, codecs, methods, formulas, recipes, products, and maintenance procedures kept as configuration/reference packs rather than being miscast as thousands of sovereign libraries.
+
+# Download
+
+[Download the complete SAN DAT Domain Model Registry](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE.zip)
+
+```text
+SHA-256
+ed9f98d5d86179b20a2cf9fbee1722a8f2602550fa9291622be4c5beaff18b3b
+```
+
+Two clean generations produced the same ZIP checksum. The standalone validator passed, the hard-dependency graph is acyclic, and ZIP integrity passed.
+
+# 1. The governing decomposition
+
+The model now has three independent axes:
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│ AXIS 1 — FIXED HORIZONTAL SEMANTIC LIBRARIES                    │
+│                                                                 │
+│ 99 provider-neutral DAT libraries                               │
+│ Own stable data-product, dataflow and analytical laws.          │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │ configured by
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ AXIS 2 — OPEN-WORLD REFERENCE AND CONFIGURATION PACKS           │
+│                                                                 │
+│ data types              source families and products             │
+│ file formats            encodings and codecs                     │
+│ transformation ops      analytical methods                       │
+│ formulas                recipes                                  │
+│ movement modes          storage patterns                         │
+│ maintenance ops         change/evolution events                  │
+│ provider offers         conformance profiles                     │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │ composed by
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ AXIS 3 — INDUSTRY AND APPLICATION VERTICAL PACKS                │
+│                                                                 │
+│ ontology contexts       business capabilities                    │
+│ data products           industry metrics and features            │
+│ analytical recipes      source bindings                          │
+│ reference publications  policies                                 │
+│ experience places       provider requirements                    │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+This follows the uploaded lifecycle requirement: the decomposition is only a review candidate until alternatives, ownership, seams, adversarial review, implementation, execution evidence, and independent certification have been completed. 
+
+It also preserves the Data Atlas’s load-bearing distinction among physical encoding, logical interpretation, and semantic meaning. Those layers are related, but one must never impersonate another merely because a database driver returned a cheerful type name. 
+
+# 2. The vertical composition model
+
+Changing **Sports** to **Oil and Gas** changes packs and bindings, not the horizontal libraries:
+
+```text
+Industry Solution
+    │
+    ▼
+Industry Solution Pack
+    │
+    ├── Domain Ontology packs
+    ├── Application packs
+    ├── Data-product packs
+    ├── Metric and semantic-model packs
+    ├── Feature/model-data packs
+    ├── Analytics recipe packs
+    ├── Source and reference packs
+    ├── Experience packs
+    ├── Policy packs
+    └── Provider-binding profiles
+              │
+              ▼
+     99 Horizontal DAT Libraries
+              │
+              ▼
+     Sovereign Semantic Imports
+              │
+              ▼
+Constitutional Contract Metamodel
++ Application Compilation and Closure
+              │
+              ▼
+       Portable Target IR
+              │
+              ▼
+Runtime Mechanism
++ Resource Guarantees
++ Desired-State Control
++ Management and Repair
+              │
+              ▼
+Provider Offers
++ Specialized Engines
++ Independent Assurance
+```
+
+For example:
+
+```text
+SPORTS SOLUTION PACK
+    athlete, team, match and competition ontology
+    player-performance metrics
+    possession and shot-event recipes
+    tracking-coordinate reference packs
+    injury-risk features
+    sports analyst workspaces
+
+OIL AND GAS SOLUTION PACK
+    well, reservoir, field and equipment ontology
+    production and decline metrics
+    pressure/transient and maintenance recipes
+    geological and unit reference packs
+    failure-prediction features
+    operations and reservoir-engineer workspaces
+
+UNCHANGED
+    collection and cut semantics
+    source observation
+    snapshot and continuation
+    streaming and finality
+    time-series and spatial algebra
+    metric and grain laws
+    statistical-study semantics
+    incremental computation
+    analytical publication
+```
+
+Customization is therefore the lawful assignment of declared decisions and pack inputs, not a fork of the library with `sports_mode = false` changed to `oil_mode = true`. Humans have tried that general strategy before. The repositories remember.
+
+# 3. Final horizontal DAT registry
+
+## Domain 1 — Data Product, Collection and Publication
+
+**6 libraries**
+
+```text
+DAT-COLLECTION
+    Data Collection Semantics
+
+DAT-DATA-CUT
+    Data Cut Semantics
+
+DAT-PRODUCT
+    Data Product Semantics
+
+DAT-DISTRIBUTION
+    Data Distribution Semantics
+
+DAT-DATA-SERVICE
+    Data Service Semantics
+
+DAT-ANALYTICAL-PUBLICATION
+    Analytical Publication Lifecycle
+```
+
+This domain distinguishes:
+
+```text
+collection
+    ≠ data product
+    ≠ exact data cut
+    ≠ distribution
+    ≠ data service
+    ≠ published cut
+```
+
+# Domain 2 — Source Observation, Acquisition and Capture
+
+**17 libraries**
+
+```text
+DAT-SOURCE-OBSERVATION
+DAT-DISCOVERY-INVENTORY
+DAT-SOURCE-STRUCTURE-OBSERVATION
+DAT-SOURCE-METADATA-CHANGE-OBSERVATION
+DAT-EXTRACTION-READ
+DAT-SNAPSHOT-ACQUISITION
+DAT-CONTINUATION-ACQUISITION
+DAT-CHANGE-FEED
+DAT-SNAPSHOT-CONTINUATION-STITCHING
+DAT-SOURCE-FINALIZATION
+DAT-ASYNC-EXPORT-ACQUISITION
+DAT-PARTIAL-OBSERVATION
+DAT-MULTI-SOURCE-CONSISTENCY
+DAT-SOURCE-TRANSFORMATION-BOUNDARY
+DAT-FEDERATED-SOURCE-OBSERVATION
+DAT-DELIVERY-SUBSCRIPTION
+DAT-COMMITTED-FACT-INTAKE
+```
+
+A crucial boundary remains encoded:
+
+```text
+SourceStructureObservation
+    ≠ sovereign Schema
+
+SourceStructureDelta
+    ≠ application semantic change
+
+Connector says “schema evolution supported”
+    ≠ semantic compatibility proved
+```
+
+The earlier acquisition package correctly refused to seal when planning, finalization, provider requirements, and closure created cycles. That failure is retained as evidence rather than airbrushed into a success story. 
+
+# Domain 3 — Change, Time, Streaming, State and Finality
+
+**10 libraries**
+
+```text
+DAT-CHANGELOG
+DAT-ORDER-SEQUENCE
+DAT-EVENT-TIME
+DAT-WATERMARK-FRONTIER
+DAT-WINDOW-TRIGGER-PANE
+DAT-BOUNDEDNESS-STATE
+DAT-STATEFUL-DATAFLOW
+DAT-ANALYTICAL-FINALITY
+DAT-DATAFLOW-RECOVERY-EQUIVALENCE
+DAT-STREAM-TABLE-DUALITY
+```
+
+`DAT-STREAM-TABLE-DUALITY` is an important addition. A dynamic table may be represented through a changelog, and a changelog may be interpreted as a changing table, but only under explicit key, ordering, and change-mode conditions. Flink itself distinguishes insert-only, upsert, and retract modes rather than pretending “stream” and “table” are interchangeable nouns. ([[Apache Nightlies](https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/sql-table-concepts/dynamic_tables/)][1])
+
+# Domain 4 — Data Modality Algebras
+
+**23 libraries**
+
+```text
+DAT-RELATIONAL-ALGEBRA
+DAT-DOCUMENT-VARIANT-ALGEBRA
+DAT-KEY-VALUE-ALGEBRA
+DAT-WIDE-COLUMN-ALGEBRA
+
+DAT-PROPERTY-GRAPH-ALGEBRA
+DAT-RDF-KNOWLEDGE-GRAPH-ALGEBRA
+
+DAT-TIME-SERIES-ALGEBRA
+DAT-SPATIAL-ALGEBRA
+DAT-ARRAY-TENSOR-ALGEBRA
+
+DAT-TEXT-CORPUS-ALGEBRA
+DAT-DOCUMENT-CONTENT-ALGEBRA
+
+DAT-IMAGE-ALGEBRA
+DAT-RASTER-COVERAGE-ALGEBRA
+DAT-AUDIO-ALGEBRA
+DAT-VIDEO-ALGEBRA
+DAT-MULTIMODAL-COMPOSITION-ALGEBRA
+
+DAT-SEARCH-RANKING-ALGEBRA
+DAT-VECTOR-RETRIEVAL-ALGEBRA
+
+DAT-EVENT-OBJECT-PROCESS-ALGEBRA
+DAT-SPREADSHEET-ALGEBRA
+
+DAT-TELEMETRY-METRIC-ALGEBRA
+DAT-LOG-RECORD-ALGEBRA
+DAT-TRACE-SPAN-ALGEBRA
+```
+
+Several previous overloaded libraries were split:
+
+```text
+Text
+    ≠ document layout and extraction
+
+Telemetry metric
+    ≠ log record
+    ≠ execution trace
+
+Image
+    ≠ raster/geospatial coverage
+
+Audio
+    ≠ video
+    ≠ ordinary time series
+
+Key-value
+    ≠ wide-column
+    ≠ document
+```
+
+Cassandra’s partition and clustering keys shape the logical data model and lawful query surface, not merely physical indexing. ([[Apache Cassandra](https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/intro.html)][2])
+
+Likewise, georeferenced raster coverage has grid-to-world and no-data semantics beyond ordinary image pixels; audio has channels, sample rates, and time bases; and timed media distinguishes decode order, presentation order, tracks, and edits. ([[Open Geospatial Consortium](https://docs.ogc.org/is/19-008r4/19-008r4.html)][3])
+
+# Domain 5 — Binding, Mapping and Transformation
+
+**3 libraries**
+
+```text
+DAT-DATA-BINDING-MAPPING
+    Source-to-Semantic Data Binding and Mapping
+
+DAT-TRANSFORMATION-PROGRAM
+    Provider-Neutral Data Transformation Program
+
+DAT-SEMANTIC-LOSS-ACCOUNTING
+    Data Semantic Loss and Preservation Accounting
+```
+
+The design deliberately does **not** create a library for every transform:
+
+```text
+cast
+filter
+join
+pivot
+unpivot
+tokenize
+normalize
+resample
+reproject
+encode
+compress
+flatten
+explode
+```
+
+Those live in the open-world transformation-operator registry. The sovereign libraries own how operators compose, how mappings relate authorities, and how preservation or loss is declared.
+
+# Domain 6 — Metrics, Dimensions and Analytical Semantic Models
+
+**4 libraries**
+
+```text
+DAT-GRAIN-DIMENSION
+DAT-METRIC
+DAT-CUBE-ADDITIVITY
+DAT-ANALYTICAL-SEMANTIC-MODEL
+```
+
+The new `DAT-ANALYTICAL-SEMANTIC-MODEL` owns the provider-neutral composition of:
+
+```text
+analytical entities
+dimensions
+facts and measures
+metrics
+relationships
+valid join paths
+hierarchies
+filters and segments
+queryable semantic surfaces
+```
+
+It imports business concepts from Domain Ontology instead of annexing them.
+
+The emerging Apache Ossie, formerly Open Semantic Interchange, similarly treats semantic models as portable JSON/YAML definitions spanning datasets, fields, relationships, and metrics across analytical tools. It is implementation evidence for the need, not SAN’s semantic owner. ([[GitHub](https://github.com/open-semantic-interchange/OSI?mkt_tok=undefined)][4])
+
+# Domain 7 — Statistical, Experimental, Causal and Decision Analytics
+
+**9 libraries**
+
+```text
+DAT-ANALYTICAL-STUDY
+DAT-STATISTICAL-POPULATION-SAMPLING
+DAT-ANALYTICAL-ESTIMATE
+DAT-FORECAST
+DAT-EXPERIMENT-ANALYSIS
+DAT-CAUSAL-ANALYSIS
+DAT-PRESCRIPTIVE-OPTIMIZATION
+DAT-SIMULATION-SCENARIO
+DAT-PROCESS-ANALYTICS-PRODUCT
+```
+
+Two corrections matter here:
+
+```text
+Descriptive analytics
+Diagnostic analytics
+Predictive analytics
+Prescriptive analytics
+Root-cause analytics
+Survival analysis
+Marketing-mix modeling
+Sports analytics
+Oil-and-gas analytics
+```
+
+are not all sovereign libraries.
+
+They compose across axes:
+
+```text
+decision intent
++
+study design
++
+statistical or computational method
++
+data modality
++
+business-domain ontology
++
+formula and recipe pack
++
+output and evidence contract
+```
+
+The supplied 300-name analytics taxonomy itself notes that the terms overlap and that the better representation is `decision mode + technique + data source + business domain`. 
+
+`DAT-STATISTICAL-POPULATION-SAMPLING` was separated from acquisition-side partial observation because a target population, sampling frame, inclusion probabilities, weights, strata, and clusters define inferential scope. A source API truncating at 10,000 records does not magically become a statistically designed sample. NIST likewise treats the sampling scheme as the specification of what data are obtained and how they are obtained. ([[NIST](https://www.itl.nist.gov/div898/handbook/ppc/section3/ppc332.htm)][5])
+
+# Domain 8 — Machine-Learning, Retrieval and Agent Data Products
+
+**13 libraries**
+
+```text
+DAT-FEATURE-DATASET
+DAT-TRAINING-EVALUATION-DATASET
+DAT-ANNOTATION-LABEL-DATASET
+
+DAT-EMBEDDING-DATASET
+DAT-CHUNKED-CORPUS-INDEX
+DAT-RETRIEVAL-AUGMENTED-PRODUCT
+
+DAT-PROMPT-CONTEXT-DATASET
+DAT-AGENT-TRACE-DATASET
+DAT-AGENT-MEMORY-DATA-PRODUCT
+
+DAT-AI-EVALUATION-DATASET
+DAT-HUMAN-FEEDBACK-PREFERENCE-DATASET
+DAT-MODEL-FEEDBACK-DRIFT-DATASET
+DAT-SYNTHETIC-DATA-PRODUCT
+```
+
+The main false twins are now explicit:
+
+```text
+embedding dataset
+    ≠ vector index
+
+chunk
+    ≠ document
+
+prompt/context dataset
+    ≠ conversation trace
+
+agent trace
+    ≠ generic telemetry trace
+
+agent memory
+    ≠ hidden mutable model state
+
+human preference
+    ≠ objective truth
+
+evaluation score
+    ≠ production certification
+```
+
+# Domain 9 — Incremental, Historical and Corrective Computation
+
+**6 libraries**
+
+```text
+DAT-INCREMENTAL-COMPUTATION
+DAT-MATERIALIZED-RESULT
+DAT-REFRESH-FRESHNESS
+DAT-BACKFILL-RECOMPUTE
+DAT-REPLAY-REPROCESS-REPRODUCE
+DAT-ANALYTICAL-RESTATEMENT
+```
+
+It retains the distinctions:
+
+```text
+incrementalizable
+    ≠ rebuildable
+
+refresh target
+    ≠ observed freshness
+    ≠ freshness guarantee
+
+backfill
+    ≠ replay
+
+replay
+    ≠ reproduce
+
+reproduce
+    ≠ restate
+```
+
+# Domain 10 — Analytical Persistence, Serving, Sharing and Collaboration
+
+**7 libraries**
+
+```text
+DAT-ANALYTICAL-TABLE-SNAPSHOT
+DAT-ROW-CHANGE-DELETE
+DAT-ANALYTICAL-SERVING-CUT
+DAT-SEMANTIC-QUERY-SERVING
+DAT-DATA-SHARE-FEDERATION
+DAT-CLEAN-ROOM-ANALYSIS
+DAT-VIRTUAL-DATA-RELATION
+```
+
+`DAT-VIRTUAL-DATA-RELATION` was added for provider-neutral relations whose rows remain remotely backed or federated.
+
+The compiler owns whether to push down, materialize, or execute locally. Providers publish exact capabilities. DAT owns the meaning and disclosure posture of the virtual relation.
+
+Trino’s connector contract demonstrates why this cannot be a generic `pushdown = true`: individual operations may be unsupported, have no effect, or be deliberately kept local when remote execution risks correctness. ([[Trino](https://trino.io/docs/current/develop/connectors.html)][6])
+
+`DAT-ANALYTICAL-CACHE` was removed as a sovereign DAT owner. Cache keys, invalidation, eviction, and coherence belong to Client-Facing Contract, Runtime Mechanism, Resource Guarantees, and Desired-State Control.
+
+# Domain 11 — Data Statistics and Distribution Profiles
+
+**1 library**
+
+```text
+DAT-DATA-STATISTICS
+```
+
+This owns cut-scoped:
+
+```text
+row and item counts
+null and missing rates
+distinct-value estimates
+min/max and quantiles
+histograms
+correlations
+skew
+confidence
+age
+source and derivation
+unknown posture
+```
+
+It does not own:
+
+```text
+optimizer cost
+business metrics
+quality certification
+generic approximation mathematics
+```
+
+# 4. What is represented as pack/configuration data
+
+The package preserves **19 open-world catalogs** rather than pretending their current contents exhaust civilization:
+
+```text
+Data types
+Data models
+File formats
+Encodings and codecs
+Source families
+Source products
+Deep source profiles
+Transformation operators
+Analytics methods
+Formula families
+Recipes
+Maintenance operations
+Movement modes
+Storage patterns
+Change/evolution events
+Cross-cutting concerns
+Platform capabilities
+Experience archetypes
+Persona/work profiles
+```
+
+The inherited catalogs currently contain, among other things:
+
+```text
+140 data-type profiles
+107 file-format profiles
+57 encoding/codec profiles
+38 source-family profiles
+222 transformation operators
+148 analytical-method profiles
+63 formula families
+107 analytical recipes
+117 maintenance operations
+40 movement modes
+43 storage patterns
+59 change/evolution events
+230 platform-capability claims
+254 product references
+```
+
+The package also extracts all **300 analytics application names** from the supplied research corpus into a separate compositional taxonomy. They are research and recipe candidates, not 300 new libraries.
+
+# 5. Boundary changes from the prior model
+
+## Withdrawn or rehomed
+
+```text
+DAT-ANALYTICAL-CACHE
+    rehomed to Client-Facing Contract,
+    Runtime Mechanism and Desired-State Control
+```
+
+## Superseded
+
+```text
+DAT-DESCRIPTIVE-DIAGNOSTIC-ANALYSIS
+    →
+DAT-ANALYTICAL-STUDY
+```
+
+## Split
+
+```text
+DAT-EMBEDDING-CORPUS-INDEX
+    →
+DAT-EMBEDDING-DATASET
+DAT-CHUNKED-CORPUS-INDEX
+```
+
+```text
+DAT-PROMPT-CONVERSATION-TRACE-DATASET
+    →
+DAT-PROMPT-CONTEXT-DATASET
+DAT-AGENT-TRACE-DATASET
+```
+
+```text
+DAT-TELEMETRY-TRACE-ALGEBRA
+    →
+DAT-TELEMETRY-METRIC-ALGEBRA
+DAT-LOG-RECORD-ALGEBRA
+DAT-TRACE-SPAN-ALGEBRA
+```
+
+```text
+DAT-TEXT-CONTENT-ALGEBRA
+    →
+DAT-TEXT-CORPUS-ALGEBRA
+DAT-DOCUMENT-CONTENT-ALGEBRA
+```
+
+# 6. What remains outside DAT ownership
+
+The package explicitly keeps these elsewhere:
+
+```text
+Sovereign Semantics
+    Identifier
+    Identity
+    Namespace
+    Schema
+    Instant
+    Quantity
+    Evidence
+    Provenance
+    Rule
+    Decision
+    Authorization
+    Purpose
+    Consent
+    Retention
+    Residency
+    Erasure
+    Data Quality
+
+Application Compilation and Closure
+    equivalence search
+    optimizer rule scheduling
+    cost-based selection
+    provider selection
+    materialization substitution
+    plan closure
+
+Portable Target IR
+    logical/physical query plans
+    storage plans
+    stream plans
+    provider dialects
+
+Runtime Mechanism
+    connector loops
+    query execution
+    checkpoint implementation
+    storage commits
+    serving gateways
+
+Provider-Neutral Resource Guarantee
+    durability
+    availability
+    capacity
+    placement
+    resource and cost envelopes
+
+Desired-State Control and Management and Repair
+    maintenance
+    reconciliation
+    drift
+    incidents
+    backup/restore execution
+    compaction
+    vacuum
+    scaling
+    migration execution
+
+Independent Assurance
+    conformance
+    quality findings
+    certification
+    provider recall
+
+Client-Facing Contract
+    dashboards
+    notebooks
+    workspaces
+    app builders
+    visualizations
+```
+
+# 7. Dependency and validation result
+
+```text
+Horizontal DAT libraries       99
+DAT domain groups              11
+Domain models                  99
+Hard dependency edges         174
+Hard dependency cycles          0
+Semantic seams                 10
+Open-world catalogs            19
+Analytics taxonomy entries    300
+Generated package files       263
+```
+
+Validation:
+
+```text
+Unique identities                       PASS
+Suffix-free identities                  PASS
+Separate editions                       PASS
+Domain counts                           PASS
+Dependency reference closure            PASS
+Hard DAG acyclicity                     PASS
+Provider-neutral ownership              PASS
+Generic semantic non-duplication        PASS
+Per-library boundary presence           PASS
+Per-library false twins                 PASS
+Per-library type candidates             PASS
+Per-library operation candidates        PASS
+Per-library law candidates              PASS
+Per-library failure candidates          PASS
+Legacy-candidate dispositions           PASS
+Open-world catalog posture              PASS
+Application Kernel re-entry law         PASS
+Canonical JSON                          PASS
+Manifest hashes                         PASS
+ZIP integrity                           PASS
+Second deterministic generation         PASS
+```
+
+# 8. Honest standing
+
+```json
+{
+  "research_saturated": false,
+  "decomposition_ratified": false,
+  "machine_source_complete": true,
+  "source_verified": false,
+  "ownership_closed": false,
+  "dependency_closed": false,
+  "operation_surface_complete": false,
+  "semantic_execution_verified": false,
+  "compiler_integration_verified": false,
+  "lowering_verified": false,
+  "runtime_vertical_verified": false,
+  "provider_conformance_verified": false,
+  "independently_verified": false,
+  "ratified": false,
+  "certified": false,
+  "status": "DECOMPOSITION_REVIEW_CANDIDATE",
+  "certification": "NONE"
+}
+```
+
+This package deliberately contains **domain models, not fake finished SSPECs**. The universal specification contract requires every eventual specification to cover all mandatory surfaces or publish a typed inapplicable ruling; it also requires Data and Analytics owners to prove exact cuts, time posture, lineage, batch/stream behavior, late inputs, incremental semantics, serving, correction, deletion, rebuilding, and application-Kernel re-entry.  
+
+# Key files
+
+* [Complete registry](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/REGISTRY.json)
+* [99-library registry](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/DAT-LIBRARIES.json)
+* [11-domain registry](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/DAT-DOMAINS.json)
+* [Vertical composition model](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/VERTICAL-COMPOSITION-MODEL.json)
+* [Vertical pack grammar](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/VERTICAL-PACK-GRAMMAR.json)
+* [Horizontal coverage matrix](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/HORIZONTAL-COVERAGE-MATRIX.json)
+* [Hard dependency DAG](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/HARD-DEPENDENCY-DAG.json)
+* [Alternative decompositions](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/ALTERNATIVE-DECOMPOSITIONS.json)
+* [Validation report](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/VALIDATION-REPORT.json)
+* [Deterministic generator](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/generate.py)
+* [Standalone validator](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE/validate.py)
+
+[Download the complete deterministic ZIP](sandbox:/mnt/data/SAN-DAT-DOMAIN-MODEL-REGISTRY-EDITION-2-REVIEW-CANDIDATE.zip)
+
+[1]: https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/sql-table-concepts/dynamic_tables/ "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/sql-table-concepts/dynamic_tables/"
+[2]: https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/intro.html "https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/intro.html"
+[3]: https://docs.ogc.org/is/19-008r4/19-008r4.html "https://docs.ogc.org/is/19-008r4/19-008r4.html"
+[4]: https://github.com/open-semantic-interchange/OSI?mkt_tok=undefined "https://github.com/open-semantic-interchange/OSI?mkt_tok=undefined"
+[5]: https://www.itl.nist.gov/div898/handbook/ppc/section3/ppc332.htm "https://www.itl.nist.gov/div898/handbook/ppc/section3/ppc332.htm"
+[6]: https://trino.io/docs/current/develop/connectors.html "https://trino.io/docs/current/develop/connectors.html"

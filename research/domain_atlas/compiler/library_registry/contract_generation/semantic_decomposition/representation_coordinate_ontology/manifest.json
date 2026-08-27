@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "extension-candidates.jsonl": {
+      "bytes": 47085,
+      "sha256": "8ecfa14f44ef887db52fe53fe054e941ede211d10cbce1741a420fd21f5cbe86"
+    },
+    "member-representation-routes.jsonl": {
+      "bytes": 860502,
+      "sha256": "5d1dd6e19a4b00d4bf117f4a5152af907b75a9c6c3e6c330b23c11521a869903"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 111268,
+      "sha256": "98564b1f96ca9cdc61117080b29a0e02afb238a1bc00b628a48e23c5c63d9cd7"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 7238,
+      "sha256": "4d170b6807de4e72b8513b2542c9e1e56396357b97549aac03a88449ea51a81d"
+    },
+    "representation-bearer-archetypes.jsonl": {
+      "bytes": 14697,
+      "sha256": "2b4bddf1046067d2ee9570033c8ba893a58b41378dc1dce6546454110cce6270"
+    },
+    "representation-coordinate-ontology.json": {
+      "bytes": 5004,
+      "sha256": "b75f042eb9ba8df88ba37a5ef96517c16e4737e890c5b58c3862a07fd184d35c"
+    },
+    "representation-operation-kernels.jsonl": {
+      "bytes": 28628,
+      "sha256": "796396e03bc5a5f7d46bbcbde12d259641061fc836def30d0d64c6ae7d1196d4"
+    },
+    "structural-family-dockets.jsonl": {
+      "bytes": 36083,
+      "sha256": "0e1590a690eb4bc773f8a87bcd73d3c9ca28684a39f8e2724a4d8beb3f56ed75"
+    },
+    "summary.json": {
+      "bytes": 750,
+      "sha256": "931f131f5860f94e5c4923d7aac382e394fd033f742cd38c1d9fe7bd7b6452b5"
+    }
+  },
+  "manifest_id": "manifest.representation-coordinate-ontology-and-rebase.v1"
+}

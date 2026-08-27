@@ -1,0 +1,87 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/boundary_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adapter_responsibilities": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "boundary_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "boundary_kind": {
+      "enum": [
+        "pure_kernel",
+        "effect_port_adapter"
+      ]
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "effect_ports": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "forbidden_ambient_effects": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "pure_contracts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "boundary_id",
+    "edition",
+    "status",
+    "owner_context",
+    "boundary_kind",
+    "pure_contracts",
+    "effect_ports",
+    "adapter_responsibilities",
+    "forbidden_ambient_effects",
+    "source_refs"
+  ],
+  "type": "object"
+}

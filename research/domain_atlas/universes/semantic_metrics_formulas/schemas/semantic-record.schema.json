@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {},
+    "laws": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "meaning": {},
+    "owner_context_ref": {},
+    "record_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "semantic_type",
+        "formula_ast_node",
+        "formula_operator",
+        "formula_function",
+        "aggregation",
+        "join_law",
+        "time_semantic",
+        "operation",
+        "decision_point"
+      ]
+    },
+    "refusal_conditions": {},
+    "signature": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "edition",
+    "status",
+    "record_kind",
+    "owner_context_ref",
+    "meaning",
+    "signature",
+    "laws",
+    "refusal_conditions",
+    "evidence_refs"
+  ],
+  "title": "Semantic type, operation, decision, formula, aggregate, join or time record",
+  "type": "object"
+}

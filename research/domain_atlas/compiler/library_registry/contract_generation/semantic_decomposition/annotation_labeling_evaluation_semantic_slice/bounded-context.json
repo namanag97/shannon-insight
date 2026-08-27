@@ -1,0 +1,49 @@
+{
+  "completion_claim": false,
+  "imported_owners": [
+    "source truth/content",
+    "generic human work",
+    "statistical inference",
+    "modality carriers and geometry",
+    "privacy/safety",
+    "model lifecycle",
+    "downstream decision/effect"
+  ],
+  "inside_annotation_operations": [
+    "annotation project/schema/instructions",
+    "target selection and task sampling",
+    "assignment and annotation occurrence",
+    "review/correction",
+    "agreement/consensus",
+    "adjudication",
+    "accepted reference edition and recall"
+  ],
+  "inside_dataset_curation_workbench": [
+    "purpose and population",
+    "source admission and membership",
+    "curation recipe decisions",
+    "duplicate adjudication",
+    "cohort coverage and partition design",
+    "leakage/contamination audit",
+    "annotation/rights binding",
+    "documentation and immutable edition",
+    "release maintenance and recall"
+  ],
+  "non_collapse_summary": "source != target/selector != annotation occurrence; agreement != correctness; consensus != adjudication; accepted reference != absolute truth; annotation release != dataset release",
+  "product_boundary_candidates": [
+    {
+      "product_ref": "product.annotation_operations",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    },
+    {
+      "product_ref": "product.dataset_curation_workbench",
+      "status": "RETAIN_WITH_EXACT_IMPORTS_UNRATIFIED"
+    }
+  ],
+  "retained_products": [
+    "product.annotation_operations",
+    "product.dataset_curation_workbench"
+  ],
+  "slice_id": "slice.annotation-labeling-evaluation.v1",
+  "status": "CANDIDATE_UNRATIFIED"
+}

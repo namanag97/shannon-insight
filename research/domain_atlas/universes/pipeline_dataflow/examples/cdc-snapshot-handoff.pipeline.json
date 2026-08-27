@@ -1,0 +1,60 @@
+{
+  "decision_bindings": {
+    "decision.pipeline.compression": "frame",
+    "decision.pipeline.execution_mode": "continuous_stream",
+    "decision.pipeline.snapshot_change_strategy": "watermark_windows"
+  },
+  "definition_id": "pipeline.example.customer_cdc",
+  "delivery_contract_ref": "delivery.example.customer_table",
+  "edge_refs": [
+    "edge.example.snapshot_handoff",
+    "edge.example.cdc_handoff",
+    "edge.example.handoff_normalize",
+    "edge.example.normalize_sink"
+  ],
+  "edition": 1,
+  "entry_port_refs": [
+    "port.example.snapshot.rows",
+    "port.example.cdc.changes"
+  ],
+  "evidence_refs": [
+    "src.debezium.incremental_snapshot",
+    "src.flink.fault_tolerance",
+    "src.openlineage.spec"
+  ],
+  "execution_mode": "continuous_stream",
+  "exit_port_refs": [
+    "port.example.sink.receipt"
+  ],
+  "llm_dependency": "none",
+  "name": "Customer baseline and continuous change materialization",
+  "node_refs": [
+    "node.example.snapshot",
+    "node.example.cdc",
+    "node.example.handoff",
+    "node.example.normalize",
+    "node.example.sink"
+  ],
+  "parameter_schema_ref": "schema.example.customer_cdc_parameters_v1",
+  "policy_refs": [
+    "policy.example.source_authority",
+    "policy.example.quality_before_publish",
+    "policy.example.finite_budget"
+  ],
+  "recovery_contract_ref": "recovery.example.customer_pipeline",
+  "state_contract_refs": [
+    "state.example.snapshot_cursor",
+    "state.example.cdc_offset",
+    "state.example.overlap_buffer",
+    "state.example.sink_transaction"
+  ],
+  "status": "validated",
+  "topology_kind": "dag",
+  "trigger": {
+    "definition": {
+      "bootstrap": "manual authorized baseline",
+      "then": "resume durable change position"
+    },
+    "kind": "continuous"
+  }
+}

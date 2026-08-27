@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/product-graph-record-v0.1.0.schema.json",
+  "title": "Sovereign product graph record",
+  "type": "object",
+  "required": ["record_id", "record_kind", "edition", "status", "name", "summary"],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "record_kind": {
+      "enum": [
+        "portfolio",
+        "suite",
+        "product",
+        "capability",
+        "machine",
+        "semantic_library",
+        "implementation_module",
+        "provider_class",
+        "solution_pack",
+        "standard",
+        "interface",
+        "truth_contract",
+        "relation",
+        "evidence",
+        "decision",
+        "gap"
+      ]
+    },
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {
+      "enum": [
+        "hypothesis",
+        "candidate",
+        "researched",
+        "specified",
+        "validated",
+        "ratified",
+        "retired",
+        "rejected"
+      ]
+    },
+    "name": {"type": "string", "minLength": 1},
+    "summary": {"type": "string", "minLength": 1},
+    "product_kind": {
+      "enum": [
+        "market_product",
+        "internal_platform_product",
+        "engine_product",
+        "control_plane_product",
+        "provider_product",
+        "data_product",
+        "experience_product"
+      ]
+    },
+    "sovereign_question": {"type": "string", "minLength": 1},
+    "users": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "jobs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "outcomes": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "owned_meanings": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "excluded_meanings": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "adoption_boundary": {"type": "string"},
+    "exit_boundary": {"type": "string"},
+    "lifecycle_boundary": {"type": "string"},
+    "authority_boundary": {"type": "string"},
+    "slo_boundary": {"type": "string"},
+    "failure_boundary": {"type": "string"},
+    "economic_boundary": {"type": "string"},
+    "interfaces": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "truth_contract_id": {"type": "string"},
+    "truth_profile_status": {
+      "enum": ["not_started", "partial", "complete_unverified", "verified"]
+    },
+    "boundary_evaluation": {
+      "type": "object",
+      "required": ["scores", "total", "verdict"],
+      "properties": {
+        "scores": {
+          "type": "object",
+          "required": ["user", "job", "adoption", "semantics", "authority", "lifecycle", "operation", "economics", "interface", "market_evidence"],
+          "additionalProperties": false,
+          "properties": {
+            "user": {"type": "integer", "minimum": 0, "maximum": 2},
+            "job": {"type": "integer", "minimum": 0, "maximum": 2},
+            "adoption": {"type": "integer", "minimum": 0, "maximum": 2},
+            "semantics": {"type": "integer", "minimum": 0, "maximum": 2},
+            "authority": {"type": "integer", "minimum": 0, "maximum": 2},
+            "lifecycle": {"type": "integer", "minimum": 0, "maximum": 2},
+            "operation": {"type": "integer", "minimum": 0, "maximum": 2},
+            "economics": {"type": "integer", "minimum": 0, "maximum": 2},
+            "interface": {"type": "integer", "minimum": 0, "maximum": 2},
+            "market_evidence": {"type": "integer", "minimum": 0, "maximum": 2}
+          }
+        },
+        "total": {"type": "integer", "minimum": 0, "maximum": 20},
+        "verdict": {"enum": ["merge", "defer", "presumptive_product", "strong_product"]},
+        "rationale": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "from": {"type": "string"},
+    "predicate": {
+      "enum": [
+        "contains",
+        "composed_of",
+        "requires",
+        "offers",
+        "satisfies",
+        "implements",
+        "exposes",
+        "governed_by",
+        "conforms_to",
+        "imports",
+        "owns_semantics_of",
+        "alternative_to",
+        "depends_on",
+        "evidenced_by",
+        "falsified_by"
+      ]
+    },
+    "to": {"type": "string"},
+    "binding_phase": {
+      "enum": ["authoring", "compile_time", "deployment_time", "runtime", "review_time"]
+    },
+    "source_kind": {
+      "enum": ["standard", "official_project", "academic", "industry_framework", "production_implementation", "incident", "local_candidate"]
+    },
+    "uri": {"type": "string"},
+    "claim": {"type": "string"},
+    "scope_limit": {"type": "string"},
+    "retrieved_at": {"type": "string", "format": "date"},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "confidence": {"enum": ["low", "medium", "high"]},
+    "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"record_kind": {"const": "product"}}},
+      "then": {
+        "required": [
+          "product_kind",
+          "sovereign_question",
+          "users",
+          "jobs",
+          "outcomes",
+          "owned_meanings",
+          "excluded_meanings",
+          "adoption_boundary",
+          "exit_boundary",
+          "lifecycle_boundary",
+          "authority_boundary",
+          "slo_boundary",
+          "failure_boundary",
+          "economic_boundary",
+          "interfaces",
+          "truth_contract_id",
+          "truth_profile_status",
+          "boundary_evaluation",
+          "evidence_ids",
+          "confidence"
+        ]
+      }
+    },
+    {
+      "if": {"properties": {"record_kind": {"const": "relation"}}},
+      "then": {"required": ["from", "predicate", "to", "binding_phase", "evidence_ids"]}
+    },
+    {
+      "if": {"properties": {"record_kind": {"const": "evidence"}}},
+      "then": {"required": ["source_kind", "uri", "claim", "scope_limit", "retrieved_at"]}
+    }
+  ],
+  "additionalProperties": false
+}

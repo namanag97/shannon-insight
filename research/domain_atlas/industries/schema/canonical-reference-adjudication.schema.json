@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/canonical-reference-adjudication-v1.schema.json",
+  "title": "Canonical reference adjudication queue record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_kind",
+    "queue_id",
+    "edition",
+    "status",
+    "reference_domain",
+    "raw_ref",
+    "occurrence_count",
+    "origin_packs",
+    "example_origin_records",
+    "candidate_target_refs",
+    "relation",
+    "decision_basis",
+    "required_review",
+    "prohibited_shortcuts"
+  ],
+  "properties": {
+    "record_kind": {"const": "canonical_reference_adjudication"},
+    "queue_id": {"type": "string", "pattern": "^refq\\."},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {
+      "enum": ["open", "researching", "proposed", "independently_reviewed", "adjudicated", "rejected"]
+    },
+    "reference_domain": {
+      "enum": ["analytical_practice", "typed_operation", "source_system_class", "industry_classification"]
+    },
+    "raw_ref": {"type": "string", "minLength": 1},
+    "occurrence_count": {"type": "integer", "minimum": 1},
+    "origin_packs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "example_origin_records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 25,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "candidate_target_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "relation": {
+      "enum": ["unresolved", "equivalent", "narrower", "broader", "overlap", "disjoint", "missing_canonical_concept"]
+    },
+    "decision_basis": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "required_review": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "prohibited_shortcuts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "adjudicated"}}},
+      "then": {
+        "properties": {
+          "candidate_target_refs": {"minItems": 1},
+          "decision_basis": {"minItems": 1},
+          "relation": {"not": {"const": "unresolved"}}
+        }
+      }
+    }
+  ]
+}

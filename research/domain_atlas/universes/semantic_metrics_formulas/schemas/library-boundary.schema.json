@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "boundary_kind": {
+      "enum": [
+        "pure",
+        "effectful"
+      ]
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "forbidden_dependencies": {},
+    "library_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context_ref": {},
+    "responsibilities": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "library_id",
+    "edition",
+    "status",
+    "boundary_kind",
+    "owner_context_ref",
+    "responsibilities",
+    "forbidden_dependencies"
+  ],
+  "title": "Pure or effectful library boundary",
+  "type": "object"
+}

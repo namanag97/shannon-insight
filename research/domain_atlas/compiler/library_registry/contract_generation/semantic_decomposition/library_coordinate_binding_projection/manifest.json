@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "library-axis-binding-requirements.jsonl": {
+      "bytes": 20589733,
+      "sha256": "466d47e736557efc9234f006393e19b9cc19536f78bd9e73d3154a3aa9eabf2e"
+    },
+    "library-coordinate-binding-dockets.jsonl": {
+      "bytes": 3001958,
+      "sha256": "a1b8483d190667b484f843ee7179c37b8428477a44d20645763809a2046039b0"
+    },
+    "summary.json": {
+      "bytes": 651,
+      "sha256": "7cb5197d1fffc2aa2661488848e61cdf924514b2597cd3dc6e2bbe15c0d396d1"
+    }
+  },
+  "manifest_id": "manifest.library-coordinate-binding-projection.v1"
+}

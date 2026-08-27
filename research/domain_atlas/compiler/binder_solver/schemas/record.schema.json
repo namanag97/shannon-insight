@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "edition": {
+      "const": 1
+    },
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "record_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "reviewed_candidate"
+    }
+  },
+  "required": [
+    "id",
+    "record_kind",
+    "edition",
+    "status"
+  ],
+  "type": "object"
+}

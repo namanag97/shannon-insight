@@ -1,0 +1,20 @@
+{
+  "$id": "https://san.example/spec/context-map/library.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "library_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "library_id",
+    "responsibility",
+    "purity",
+    "must_not_own",
+    "decision_points"
+  ],
+  "title": "SAN candidate context-map library",
+  "type": "object"
+}

@@ -1,0 +1,46 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "core_scope": "Provider-neutral connector, adapter and protocol contracts between source-system needs/classes and deployed source occurrences.",
+  "edition": 1,
+  "excludes": [
+    "vendor connector catalog",
+    "LLM or generative core semantics",
+    "credentials",
+    "fabricated live probes",
+    "provider selection by name"
+  ],
+  "files": [
+    "bounded-context-candidates.jsonl",
+    "capabilities.jsonl",
+    "capability-offer-templates.jsonl",
+    "compiler-mappings.jsonl",
+    "compiler-requirements.jsonl",
+    "conformance-tests.jsonl",
+    "connector-classes.jsonl",
+    "coverage-matrix.json",
+    "coverage-report.json",
+    "cross-universe-mappings.jsonl",
+    "decisions.jsonl",
+    "deployed-connector-occurrences.jsonl",
+    "evidence.jsonl",
+    "examples/conformance-harness.json",
+    "examples/hostile-scenarios.json",
+    "gaps.jsonl",
+    "implementation-artifacts.jsonl",
+    "innovations-2021-2026.jsonl",
+    "library-boundaries.jsonl",
+    "lifecycles.jsonl",
+    "negative-twins.jsonl",
+    "operations.jsonl",
+    "protocols.jsonl"
+  ],
+  "identity_law": [
+    "source class != source occurrence",
+    "connector class != implementation artifact",
+    "implementation artifact != deployed connector occurrence",
+    "protocol != data model"
+  ],
+  "status": "candidate_research_contract",
+  "universe_id": "connectors_protocols"
+}

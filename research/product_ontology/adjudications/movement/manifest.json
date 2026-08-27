@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract.product_adjudication.movement.v0_1_0",
+  "counts": {
+    "artifact": 78,
+    "artifact_kind_definition": 13,
+    "boundary_decision": 15,
+    "capability_offer": 10,
+    "capability_requirement": 17,
+    "evidence_source": 20,
+    "legacy_crosswalk": 10,
+    "library_contract": 18,
+    "negative_test": 16,
+    "product_ddd_dossier": 8,
+    "product_library_binding_map": 18,
+    "relation": 48,
+    "semantic_ownership": 27
+  },
+  "derived": {
+    "legacy_crosswalks": 10,
+    "portable_offers": 0,
+    "product_candidates": 8,
+    "qualified_offers": 0,
+    "unbound_requirements": 17
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "e330d34d7d1d1158a0a2fb04db44a3b1de8394f729995c73ec2a8dc38962d457",
+    "artifacts.jsonl": "ca7cfdc21b915e9275196218697610907aa9a635411f8f29456c76f8a4e78d58",
+    "boundary-decisions.jsonl": "498a95c58ab84926093357576b44f2f66920e904021f806f3dff9816a93ec6b7",
+    "evidence.jsonl": "451897259a4424917075a691b85463d7d7a68e09fa52e20dfce804454e0cc85d",
+    "legacy-crosswalks.jsonl": "076b154375d02788ce55bce1cdc54425073c16d9ba7f1125c6f715f526de2f27",
+    "library-contracts.jsonl": "5aa92bde8fa876107544b122297703af89ad1a2dae11f268d4d66748579e86e1",
+    "metamodel.json": "0ecddd4c2289d7ad295240812e78f20337917d5c8425fa77ea9058986989e5e8",
+    "negative-tests.jsonl": "dd56493a9cf249a97c1de836e2bc7d316fc7856f8550b820284b6a1905713252",
+    "offers.jsonl": "a28e65f85bebcdb89808aaf663d06b36d3eaff79453ed36b80c9f416ff4b3822",
+    "product-ddd-dossiers.jsonl": "fb67f0285123aac294ae7f7c74d1de003f74a706e0b0de99c0b1675444383aff",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "5796299c958411b729a07bb476959314bb07139e971cb416d7b526fc45811234",
+    "registry.jsonl": "ba1661e81147c4c79e8a814823cdc3f5193b7c0e2b7d59d98a482220bf8d8adf",
+    "relations.jsonl": "860779ad80a5eac8faeed07ead06d50fc374296ec7db78a4212881a1e0a6fbb5",
+    "requirements.jsonl": "6e680dc0de4cd7150200bd5bbcc1e93cb6de9fd6d7779b719e5a736232690874",
+    "semantic-ownership.jsonl": "d45d71fdc0d65bee8bb6b6353ce0e8faf137ad4a224c422a24cf5e5fe057d7bb"
+  },
+  "negative_scope": "Does not ratify products, qualify providers, bind deployments, own source business semantics or create industry-specific solution packs.",
+  "scope": "Horizontal source connectivity, capture, ingestion, orchestration, transformation, dataflow, event transport and operational activation boundaries.",
+  "source_sha256": "cbde2f8bf01bd321ababbc5ca0dcb6ead43e99a09efbbe174c1eae4d35944b4f",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

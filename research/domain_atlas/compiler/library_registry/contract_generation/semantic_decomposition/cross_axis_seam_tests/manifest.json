@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "seam-negative-twins.jsonl": {
+      "bytes": 96690,
+      "sha256": "5f7e1bf7114187183b6d4855eb36cfee2f7d008ec7a25df9b31eb0a6c2b4ee93"
+    },
+    "seam-test-results.jsonl": {
+      "bytes": 20400,
+      "sha256": "035ac7b78a6cd58ebb477bb4003ae2ac5c4af0aae7e936d36c3191f61836f55e"
+    },
+    "summary.json": {
+      "bytes": 453,
+      "sha256": "8c4c85fba67fc31801a4251c2cfdb20e93a42b14c66f7c8818e42eda63812519"
+    }
+  },
+  "manifest_id": "manifest.cross-axis-seam-tests.v1"
+}

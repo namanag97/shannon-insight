@@ -1,0 +1,16 @@
+{
+  "completion_claim": false,
+  "core_imports": [
+    "signal.cube_tesseract_ga",
+    "signal.openmetadata_mcp_pagination",
+    "signal.snowflake_automation_substrate",
+    "signal.snowflake_restricted_stage_substrate",
+    "signal.snowflake_sandbox_substrate"
+  ],
+  "dependency_direction": "extension_imports_deterministic_core",
+  "edition": 1,
+  "effect_chain_law": "model output != agent plan != validated claim != authorized tool intent != effect receipt",
+  "extension_id": "san.domain-atlas.change-intelligence.extension.llm-agent",
+  "forbidden_reverse_dependency": true,
+  "optional": true
+}

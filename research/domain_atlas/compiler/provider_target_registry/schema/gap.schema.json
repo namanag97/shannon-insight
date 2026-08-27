@@ -1,0 +1,64 @@
+{
+  "$id": "https://san.example/spec/provider-target/gap_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocking": {
+      "type": "boolean"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gap_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "gap_kind": {
+      "type": "string"
+    },
+    "known": {
+      "type": "string"
+    },
+    "prohibited_assumption": {
+      "type": "string"
+    },
+    "resolution_condition": {
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject_ref": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "unknown": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "gap_kind",
+    "subject_ref",
+    "blocking",
+    "known",
+    "unknown",
+    "resolution_condition",
+    "prohibited_assumption",
+    "evidence_refs"
+  ],
+  "title": "Open physical-binding gap",
+  "type": "object"
+}

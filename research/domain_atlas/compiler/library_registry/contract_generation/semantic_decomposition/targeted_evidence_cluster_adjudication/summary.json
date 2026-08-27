@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "axis_workstreams": 6,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "coordinate_answers_supplied": 0,
+  "coordinate_cluster_challenges": 300,
+  "evidence_to_cluster_bindings_adjudicated": 0,
+  "lexical_hypothesis_clusters": 199,
+  "member_adjudication_occurrences": 2805,
+  "member_applicability_decisions": 0,
+  "member_exception_decisions": 0,
+  "no_member_evidence_clusters": 101,
+  "owner_decisions": 0,
+  "p0_cluster_challenges": 105,
+  "p1_cluster_challenges": 195,
+  "program_id": "program.targeted-evidence-cluster-adjudication.v1",
+  "targeted_axes": 6
+}

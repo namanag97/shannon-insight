@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "assertion_id",
+    "assertion_kind",
+    "status"
+  ],
+  "title": "Declared alias or official crosswalk assertion",
+  "type": "object"
+}

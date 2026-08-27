@@ -1,0 +1,254 @@
+{
+  "absence_of_new_category_cycles": 0,
+  "as_of": "2026-08-25",
+  "audit_id": "san.domain-atlas.data-modality-gap-audit.saturation",
+  "claim": "not_saturated",
+  "closure_rule": "Two independent disjoint-domain sweeps add no new constructor/layer distinction, all missing mappings are adjudicated, and every family has two unrelated vertical fixtures.",
+  "honest_limit": "This is one adversarial standards sweep, not an exhaustive census. Source count and cell count are evidence of breadth, not proof of closure.",
+  "independent_review_complete": false,
+  "known_blind_spots": [
+    "proprietary industry formats",
+    "jurisdiction-specific records",
+    "long-tail scientific instruments",
+    "legacy mainframe encodings",
+    "implementation conformance behavior"
+  ],
+  "novelty_curve": [
+    {
+      "cumulative_families": 11,
+      "strata_reviewed": 1
+    },
+    {
+      "cumulative_families": 18,
+      "strata_reviewed": 2
+    },
+    {
+      "cumulative_families": 28,
+      "strata_reviewed": 3
+    },
+    {
+      "cumulative_families": 44,
+      "strata_reviewed": 4
+    },
+    {
+      "cumulative_families": 50,
+      "strata_reviewed": 5
+    },
+    {
+      "cumulative_families": 58,
+      "strata_reviewed": 6
+    },
+    {
+      "cumulative_families": 70,
+      "strata_reviewed": 7
+    },
+    {
+      "cumulative_families": 77,
+      "strata_reviewed": 8
+    },
+    {
+      "cumulative_families": 83,
+      "strata_reviewed": 9
+    },
+    {
+      "cumulative_families": 98,
+      "strata_reviewed": 10
+    },
+    {
+      "cumulative_families": 109,
+      "strata_reviewed": 11
+    },
+    {
+      "cumulative_families": 113,
+      "strata_reviewed": 12
+    },
+    {
+      "cumulative_families": 125,
+      "strata_reviewed": 13
+    },
+    {
+      "cumulative_families": 135,
+      "strata_reviewed": 14
+    },
+    {
+      "cumulative_families": 146,
+      "strata_reviewed": 15
+    },
+    {
+      "cumulative_families": 153,
+      "strata_reviewed": 16
+    },
+    {
+      "cumulative_families": 161,
+      "strata_reviewed": 17
+    },
+    {
+      "cumulative_families": 167,
+      "strata_reviewed": 18
+    },
+    {
+      "cumulative_families": 181,
+      "strata_reviewed": 19
+    },
+    {
+      "cumulative_families": 186,
+      "strata_reviewed": 20
+    },
+    {
+      "cumulative_families": 193,
+      "strata_reviewed": 21
+    }
+  ],
+  "required_cycles_for_saturation_claim": 2,
+  "search_strata": [
+    {
+      "candidate_families_reviewed": 11,
+      "canonical_missing": 0,
+      "cumulative_families": 11,
+      "independent_reviewer": false,
+      "stratum": "arrays"
+    },
+    {
+      "candidate_families_reviewed": 7,
+      "canonical_missing": 0,
+      "cumulative_families": 18,
+      "independent_reviewer": false,
+      "stratum": "code_config"
+    },
+    {
+      "candidate_families_reviewed": 10,
+      "canonical_missing": 0,
+      "cumulative_families": 28,
+      "independent_reviewer": false,
+      "stratum": "core"
+    },
+    {
+      "candidate_families_reviewed": 16,
+      "canonical_missing": 1,
+      "cumulative_families": 44,
+      "independent_reviewer": false,
+      "stratum": "documents"
+    },
+    {
+      "candidate_families_reviewed": 6,
+      "canonical_missing": 1,
+      "cumulative_families": 50,
+      "independent_reviewer": false,
+      "stratum": "email"
+    },
+    {
+      "candidate_families_reviewed": 8,
+      "canonical_missing": 5,
+      "cumulative_families": 58,
+      "independent_reviewer": false,
+      "stratum": "engineering"
+    },
+    {
+      "candidate_families_reviewed": 12,
+      "canonical_missing": 0,
+      "cumulative_families": 70,
+      "independent_reviewer": false,
+      "stratum": "events"
+    },
+    {
+      "candidate_families_reviewed": 7,
+      "canonical_missing": 1,
+      "cumulative_families": 77,
+      "independent_reviewer": false,
+      "stratum": "finance"
+    },
+    {
+      "candidate_families_reviewed": 6,
+      "canonical_missing": 6,
+      "cumulative_families": 83,
+      "independent_reviewer": false,
+      "stratum": "genomics"
+    },
+    {
+      "candidate_families_reviewed": 15,
+      "canonical_missing": 2,
+      "cumulative_families": 98,
+      "independent_reviewer": false,
+      "stratum": "geospatial"
+    },
+    {
+      "candidate_families_reviewed": 11,
+      "canonical_missing": 0,
+      "cumulative_families": 109,
+      "independent_reviewer": false,
+      "stratum": "graphs"
+    },
+    {
+      "candidate_families_reviewed": 4,
+      "canonical_missing": 1,
+      "cumulative_families": 113,
+      "independent_reviewer": false,
+      "stratum": "health"
+    },
+    {
+      "candidate_families_reviewed": 12,
+      "canonical_missing": 3,
+      "cumulative_families": 125,
+      "independent_reviewer": false,
+      "stratum": "media"
+    },
+    {
+      "candidate_families_reviewed": 10,
+      "canonical_missing": 0,
+      "cumulative_families": 135,
+      "independent_reviewer": false,
+      "stratum": "messages"
+    },
+    {
+      "candidate_families_reviewed": 11,
+      "canonical_missing": 1,
+      "cumulative_families": 146,
+      "independent_reviewer": false,
+      "stratum": "metadata"
+    },
+    {
+      "candidate_families_reviewed": 7,
+      "canonical_missing": 0,
+      "cumulative_families": 153,
+      "independent_reviewer": false,
+      "stratum": "packaging"
+    },
+    {
+      "candidate_families_reviewed": 8,
+      "canonical_missing": 4,
+      "cumulative_families": 161,
+      "independent_reviewer": false,
+      "stratum": "scientific"
+    },
+    {
+      "candidate_families_reviewed": 6,
+      "canonical_missing": 1,
+      "cumulative_families": 167,
+      "independent_reviewer": false,
+      "stratum": "signals"
+    },
+    {
+      "candidate_families_reviewed": 14,
+      "canonical_missing": 0,
+      "cumulative_families": 181,
+      "independent_reviewer": false,
+      "stratum": "tables"
+    },
+    {
+      "candidate_families_reviewed": 5,
+      "canonical_missing": 0,
+      "cumulative_families": 186,
+      "independent_reviewer": false,
+      "stratum": "telemetry"
+    },
+    {
+      "candidate_families_reviewed": 7,
+      "canonical_missing": 0,
+      "cumulative_families": 193,
+      "independent_reviewer": false,
+      "stratum": "time_series"
+    }
+  ],
+  "unseen_mass_estimate": null,
+  "why_no_unseen_mass_estimate": "Standards strata were purposively sampled rather than independent identically distributed discoveries."
+}

@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cardinality": {
+      "type": "string"
+    },
+    "cycle_law": {
+      "type": "string"
+    },
+    "edge_id": {
+      "$ref": "#/$defs/id"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "preservation_law": {
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "ir_edge_candidate"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "source_role": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "target_role": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edge_id",
+    "edition",
+    "status",
+    "name",
+    "source_role",
+    "target_role",
+    "cardinality",
+    "preservation_law",
+    "cycle_law",
+    "source_refs"
+  ],
+  "title": "IR edge candidate",
+  "type": "object"
+}

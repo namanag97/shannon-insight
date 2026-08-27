@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/data-modality-gap-audit/classification-axes.schema.json",
+  "type": "object",
+  "required": ["audit_id", "edition", "status", "non_cartesian_law", "unstructured_law", "axes"],
+  "properties": {
+    "audit_id": {"type": "string"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"const": "candidate_audit"},
+    "non_cartesian_law": {"type": "string", "minLength": 20},
+    "unstructured_law": {"type": "string", "minLength": 20},
+    "axes": {
+      "type": "array",
+      "minItems": 15,
+      "items": {
+        "type": "object",
+        "required": ["axis_id", "layer", "values", "independence_rule"],
+        "properties": {
+          "axis_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "layer": {"type": "string"},
+          "values": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+          "independence_rule": {"type": "string", "minLength": 15}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

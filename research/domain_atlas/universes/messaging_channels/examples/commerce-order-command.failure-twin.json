@@ -1,0 +1,9 @@
+{
+  "actual_risk": "both occurrences pass transport deduplication; only the business idempotency key can collapse the payment effect",
+  "example_id": "msg.example.commerce_order_command.failure_twin",
+  "failure": "producer times out after broker commit and retries with a new message_id",
+  "required_outcome": "return prior business outcome or refuse conflicting payload under the same key",
+  "twin_of": "msg.example.commerce_order_command",
+  "unsafe_inference": "broker deduplication by message_id prevents a second payment",
+  "vertical": "commerce_order_fulfillment"
+}

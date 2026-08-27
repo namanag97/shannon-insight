@@ -1,0 +1,16 @@
+{
+  "audit_id": "audit.product_boundary.quality_reconciliation_split.edition1",
+  "edition": 1,
+  "existing_candidate_ref": "candidate.product.quality_reconciliation",
+  "library_assignment_count": 37,
+  "negative_test_count": 8,
+  "non_completion_claim": "The canonical split, full product adjudications, DDD dossiers, exact compiler maps and structural vertical remaps are complete; neither replacement product is ratified, no provider is qualified or portable and no vertical acceptance has been executed.",
+  "open_gap_count": 3,
+  "replacement_candidate_refs": [
+    "candidate.product.data_quality_operations",
+    "candidate.product.reconciliation_control_operations"
+  ],
+  "ruling": "The existing Data Quality and Reconciliation candidate is an overloaded suite-shaped boundary. Data-quality operations and reconciliation/control operations have different sovereign questions, truth roles, aggregate lifecycles, authorities, users, vertical applicability and effect paths and must be adjudicated as separate product candidates.",
+  "status": "canonical_split_promoted_unratified",
+  "vertical_remap_count": 4
+}

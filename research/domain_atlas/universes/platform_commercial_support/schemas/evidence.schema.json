@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "claim": {
+      "type": "string"
+    },
+    "does_not_prove": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "evidence_id": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "evidence_claim"
+      ]
+    },
+    "source_ref": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "supports": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "verification": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "evidence_id",
+    "source_ref",
+    "claim",
+    "supports",
+    "does_not_prove",
+    "verification"
+  ],
+  "title": "Scoped evidence claim",
+  "type": "object"
+}

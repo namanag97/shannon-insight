@@ -1,0 +1,21 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "compatibility_and_evolution",
+  "canonical_gaps_closed": 0,
+  "change_lifecycle_profiles_supplied": 0,
+  "compatibility_evolution_bearer_archetypes": 50,
+  "compatibility_evolution_operation_kernels": 72,
+  "completion_claim": false,
+  "directional_compatibility_vectors_supplied": 0,
+  "family_extension_candidates": 23,
+  "family_source_evidence_bindings_supplied": 0,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "primary_sources": 14,
+  "program_id": "program.compatibility-evolution-coordinate-ontology-and-rebase.v1",
+  "research_clusters": 40,
+  "routes_with_lexical_evolution_projection": 61,
+  "routes_with_no_evolution_projection": 613,
+  "structural_family_dockets": 23,
+  "target_member_routes": 674
+}

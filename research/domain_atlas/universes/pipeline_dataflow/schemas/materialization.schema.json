@@ -1,0 +1,103 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/materialization-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "commit_receipt_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "content_identity": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "data_cut_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "lineage_receipt_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "materialization_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "object_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "output_port_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "producer_node_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "quality_receipt_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "recorded_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "run_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "qualified",
+        "published",
+        "recalled",
+        "superseded"
+      ]
+    },
+    "version_identity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "visibility": {
+      "enum": [
+        "staged",
+        "committed_unpublished",
+        "published",
+        "quarantined",
+        "recalled",
+        "superseded"
+      ]
+    }
+  },
+  "required": [
+    "materialization_id",
+    "edition",
+    "run_ref",
+    "producer_node_ref",
+    "output_port_ref",
+    "data_cut_ref",
+    "object_ref",
+    "version_identity",
+    "content_identity",
+    "commit_receipt_ref",
+    "quality_receipt_refs",
+    "lineage_receipt_ref",
+    "visibility",
+    "recorded_at",
+    "status"
+  ],
+  "title": "Pipeline materialization",
+  "type": "object"
+}

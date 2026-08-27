@@ -1,0 +1,47 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/security-availability-tradeoffs.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "availability_cost_or_risk": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "coverage_plane_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_control": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "security_or_control_gain": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "tradeoff_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "availability_cost_or_risk",
+    "coverage_plane_ids",
+    "proof_obligation_ids",
+    "required_control",
+    "security_or_control_gain",
+    "tradeoff_id"
+  ],
+  "title": "security-availability-tradeoffs",
+  "type": "object"
+}

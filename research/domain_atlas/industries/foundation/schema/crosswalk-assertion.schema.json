@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/industry-crosswalk-assertion-v1.schema.json",
+  "title": "Evidence-bearing, loss-aware classification crosswalk assertion",
+  "type": "object",
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "source_members",
+    "target_members",
+    "relation",
+    "cardinality",
+    "aggregation_semantics",
+    "mapping_basis",
+    "dimension_assessment",
+    "losses",
+    "transitive_use",
+    "allocation",
+    "evidence_refs",
+    "review"
+  ],
+  "properties": {
+    "record_id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_-]*)+$"},
+    "record_kind": {"const": "crosswalk_assertion"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["hypothesis", "official_import", "reviewed", "adjudicated", "rejected", "stale"]},
+    "source_members": {"$ref": "#/$defs/members"},
+    "target_members": {"$ref": "#/$defs/members"},
+    "relation": {
+      "enum": [
+        "equivalent_extent",
+        "source_subset_of_target",
+        "source_superset_of_target",
+        "partial_overlap",
+        "disjoint",
+        "unresolved"
+      ]
+    },
+    "cardinality": {"enum": ["one_to_one", "one_to_many", "many_to_one", "many_to_many"]},
+    "aggregation_semantics": {"enum": ["single", "union_exact", "union_cover", "intersection", "allocation_required", "not_applicable"]},
+    "mapping_basis": {"enum": ["official_correspondence", "explanatory_note_comparison", "expert_adjudication", "empirical_bridge", "unassessed"]},
+    "dimension_assessment": {
+      "type": "object",
+      "required": ["concept", "statistical_unit", "geography", "time", "inclusions_exclusions"],
+      "properties": {
+        "concept": {"$ref": "#/$defs/compatibility"},
+        "statistical_unit": {"$ref": "#/$defs/compatibility"},
+        "geography": {"$ref": "#/$defs/compatibility"},
+        "time": {"$ref": "#/$defs/compatibility"},
+        "inclusions_exclusions": {"$ref": "#/$defs/compatibility"}
+      },
+      "additionalProperties": false
+    },
+    "losses": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "transitive_use": {"enum": ["forbidden", "exact_chain_only_after_review"]},
+    "allocation": {
+      "type": "object",
+      "required": ["required", "weight_semantics"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "weight_semantics": {"enum": ["none", "official", "empirical_period_specific", "prohibited"]},
+        "weight_source_ref": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true},
+    "review": {
+      "type": "object",
+      "required": ["classification_reviewer", "domain_reviewer", "reviewed_at"],
+      "properties": {
+        "classification_reviewer": {"type": ["string", "null"]},
+        "domain_reviewer": {"type": ["string", "null"]},
+        "reviewed_at": {"type": ["string", "null"], "format": "date"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "members": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["scheme_edition_id", "code"],
+        "properties": {
+          "scheme_edition_id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_-]*)+$"},
+          "code": {"type": "string", "minLength": 1},
+          "node_id": {"type": ["string", "null"]},
+          "extent_qualifier": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "compatibility": {"enum": ["same", "compatible_with_qualification", "different", "unassessed"]}
+  },
+  "additionalProperties": false
+}

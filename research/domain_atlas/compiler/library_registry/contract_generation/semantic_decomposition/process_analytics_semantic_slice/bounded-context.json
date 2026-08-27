@@ -1,0 +1,56 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.process-analytics-semantic-slice.v1",
+  "inside": [
+    "event-data semantic admission",
+    "object-centric event-data meaning",
+    "case/object/graph/state projections",
+    "process discovery",
+    "conformance checking",
+    "performance and bottleneck measurement",
+    "scoped finding handoff"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.source-connectivity",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.object-centric-event-data",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.analytical-finding",
+      "relationship": "open_host_service"
+    },
+    {
+      "context_ref": "context.domain-decision-authority",
+      "relationship": "anti_corruption_layer"
+    }
+  ],
+  "outside": [
+    "source-system extraction and CDC",
+    "generic graph/database runtime",
+    "domain ownership of object states and thresholds",
+    "causal identification beyond declared process methods",
+    "predictive model lifecycle",
+    "operational authorization and mutation",
+    "UI and workflow"
+  ],
+  "published_language": [
+    "EventDataView",
+    "CaseProjection",
+    "ProjectionLoss",
+    "EventKnowledgeGraph",
+    "TemporalEventKnowledgeGraph",
+    "StateAwareEventView",
+    "ProcessModelCandidate",
+    "Alignment",
+    "PerformanceFinding",
+    "ProcessFindingEnvelope"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can observed event/object data be projected into scoped behavioral structures and analyzed without collapsing source truth, perspective, state semantics, evidence or decision authority?"
+}

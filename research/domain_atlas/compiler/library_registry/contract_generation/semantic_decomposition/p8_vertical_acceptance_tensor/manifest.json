@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "acceptance-class-workstreams.jsonl": {
+      "bytes": 129659,
+      "sha256": "2677cc1a14676939374129c178e2acf585be5c310a4ef68421685715926a0fe7"
+    },
+    "product-two-vertical-acceptance-gates.jsonl": {
+      "bytes": 57360,
+      "sha256": "934ac2710399820e5ba235fb03ab8965b6c54506880756d4581d4c850643a427"
+    },
+    "product-vertical-slot-dockets.jsonl": {
+      "bytes": 195922,
+      "sha256": "1ea8d735087f1be4443ff2f75cb3e9e6132cb92c7f246be32c996d0395bc4bd4"
+    },
+    "summary.json": {
+      "bytes": 2118,
+      "sha256": "889c181e9d065f04480bc8ec689477930e4bb4de8e281258613a0619df6f456f"
+    },
+    "vertical-acceptance-intake-templates.jsonl": {
+      "bytes": 146252,
+      "sha256": "832b87e6b4f25e6b8598fbdfc70e189b0dbc0104bb00b402916a0e287475b057"
+    }
+  },
+  "manifest_id": "manifest.p8-vertical-acceptance-tensor.v1"
+}

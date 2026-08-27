@@ -1,0 +1,65 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/receipt_contract_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claim": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "non_claim": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "phase": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "receipt_contract_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "required_fields": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_producer": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "required_subject": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "verification_method": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "receipt_contract_id",
+    "edition",
+    "status",
+    "phase",
+    "claim",
+    "required_subject",
+    "required_producer",
+    "verification_method",
+    "required_fields",
+    "non_claim"
+  ],
+  "type": "object"
+}

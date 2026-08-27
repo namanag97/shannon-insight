@@ -1,0 +1,47 @@
+{
+  "candidate_new_products": [],
+  "completion_claim": false,
+  "imported_owners": [
+    "source content and catalog truth",
+    "document extraction",
+    "enterprise identity",
+    "ontology and vertical vocabularies",
+    "embedding/ranking model lifecycle",
+    "data-use authorization",
+    "recommendation/marketplace policy",
+    "business decisions and effects"
+  ],
+  "metadata_discovery_inside": [
+    "source acquisition",
+    "metadata assertions and conflicts",
+    "resource/record projection",
+    "vocabulary mapping",
+    "federation and browse",
+    "freshness and coverage evidence"
+  ],
+  "non_collapse_summary": "source != assertion != projection != index document; mutation ack != visibility; match != relevance; score != probability; rank != decision; exact != approximate neighbor; vector retrieval != AI product; discovery != completeness",
+  "product_boundary_candidates": [
+    {
+      "product_ref": "product.metadata_discovery",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    },
+    {
+      "product_ref": "product.search_index_service",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    }
+  ],
+  "retained_products": [
+    "product.metadata_discovery",
+    "product.search_index_service"
+  ],
+  "search_inside": [
+    "index schema and analysis chain",
+    "mutation generations and visibility cuts",
+    "lexical/structured/spatial/vector/hybrid retrieval",
+    "ranking profiles and results",
+    "relevance and approximation evidence",
+    "deletion/rebuild lifecycle"
+  ],
+  "slice_id": "slice.search-information-retrieval.v1",
+  "status": "CANDIDATE_UNRATIFIED"
+}

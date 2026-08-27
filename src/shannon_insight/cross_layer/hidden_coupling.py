@@ -1,7 +1,8 @@
 """Hidden coupling detection."""
+
 from __future__ import annotations
 
-from ..tensor.core import RelationTensor, IMPORT, COCHANGE
+from ..tensor.core import COCHANGE, IMPORT, RelationTensor
 
 
 def find_hidden_coupling(

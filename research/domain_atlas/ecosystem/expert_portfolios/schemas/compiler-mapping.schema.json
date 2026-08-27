@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["mapping_id", "family_id", "mapping_state", "domain_inputs", "domain_outputs", "decision_points", "invariants", "compiler_targets", "library_boundaries", "qualification_requirements", "limitations"],
+  "properties": {
+    "mapping_id": {"type": "string", "pattern": "^mapping\\."},
+    "family_id": {"type": "string", "pattern": "^family\\."},
+    "mapping_state": {"enum": ["candidate_requires_artifact_content_review", "reviewed_candidate", "qualified"]},
+    "domain_inputs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "domain_outputs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "decision_points": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "invariants": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "compiler_targets": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "library_boundaries": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "qualification_requirements": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

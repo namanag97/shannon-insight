@@ -1,0 +1,35 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "conformance-context-workstreams.jsonl": {
+      "bytes": 1173637,
+      "sha256": "c5ce8a0aabb7f29241ca9d9459b99a899e51e54050179b9207d64f39dd06ffd8"
+    },
+    "evidence-carrier-source-claims.jsonl": {
+      "bytes": 1527,
+      "sha256": "05801ea6ffb5d69374b8b7fad76e626882a410bff0d2c52fd7b01c5d35f96424"
+    },
+    "implementation-offer-intake-templates.jsonl": {
+      "bytes": 1536836,
+      "sha256": "ca6ac6bfa1fa43aaa0dd9eeb8e0e63fa0d8e3d9ca4f3eae6804771f5ad5898e8"
+    },
+    "provider-registry-interface-summary.json": {
+      "bytes": 733,
+      "sha256": "9dc1ccb1ddc021b134a6faaab1967b3b6ab5f27e408e67af26bb01fce8f29cb8"
+    },
+    "qualification-profile-kernels.jsonl": {
+      "bytes": 317634,
+      "sha256": "bd6c44e5921ce5b6d7750c5ac0905aff8b1de3cda7a9818ebbf8e0f744cdf7b4"
+    },
+    "semantic-physical-binding-gates.jsonl": {
+      "bytes": 1055066,
+      "sha256": "aa85bc8b1f6c2aaf27332829f64d4599d483c43b3c9806bdd8d38212f56e8aa4"
+    },
+    "summary.json": {
+      "bytes": 3234,
+      "sha256": "3116ed8cfeb30f1030c239428f278fd97fcdfab9e8341aa5ede506f059907a0d"
+    }
+  },
+  "manifest_id": "manifest.p7-offer-binding-qualification.v1"
+}

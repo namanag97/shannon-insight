@@ -1,0 +1,26 @@
+{
+  "completion_claim": false,
+  "files": {
+    "input-snapshot.json": {
+      "bytes": 2913,
+      "sha256": "e05a24f0da0c4868defeb558e81290ee6183c3c2f91fd41dac2b91a9fcaf2ac6"
+    },
+    "integration-gaps.jsonl": {
+      "bytes": 3810,
+      "sha256": "e2927a651c8a9b864ca9df587b635c54b9637af953e47a9d69ccdddc78fb5034"
+    },
+    "merge-candidate-integration-review.jsonl": {
+      "bytes": 19122,
+      "sha256": "130d647b7cfa384934ba8eed6b1e1a163f1861ea278eb8d9743e8643fa7e8046"
+    },
+    "module-integration-review.jsonl": {
+      "bytes": 39087,
+      "sha256": "ab6fff3430c8267e4ba6928c736c56e6e941e77f3e89088626a99052345d6e9d"
+    },
+    "summary.json": {
+      "bytes": 1120,
+      "sha256": "678b143f0eaeb716e347ae4415b1f8cd4beef5672b9d19f4bbf7e560a36c1539"
+    }
+  },
+  "manifest_id": "manifest.claude-provenance-quality.integration.v1"
+}

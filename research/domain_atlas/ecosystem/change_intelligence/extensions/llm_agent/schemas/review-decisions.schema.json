@@ -1,0 +1,44 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/llm-agent-review-decisions.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "decided_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extension_decision_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extension_signal_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "rationale": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "required_effect_state_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "decided_at",
+    "decision",
+    "extension_decision_id",
+    "extension_signal_id",
+    "rationale",
+    "required_effect_state_ids"
+  ],
+  "title": "llm-agent-review-decisions",
+  "type": "object"
+}

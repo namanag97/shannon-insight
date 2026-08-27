@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/runtime-resource-state-machine-v0.1.0.schema.json",
+  "title": "Runtime/resource total lifecycle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_kind", "state_machine_id", "edition", "status", "owner_context_ref", "subject_type_ref", "states", "initial_state", "terminal_states", "transitions", "outcome_precedence", "illegal_transition_law", "concurrency", "idempotency", "time_model", "evidence_refs"],
+  "properties": {
+    "record_kind": {"const": "state_machine"},
+    "state_machine_id": {"type": "string", "pattern": "^state-machine\\.runtime-resource\\."},
+    "edition": {"type": "string"},
+    "status": {"type": "string"},
+    "owner_context_ref": {"type": "string"},
+    "subject_type_ref": {"type": "string"},
+    "states": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+    "initial_state": {"type": "string"},
+    "terminal_states": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "transitions": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["from", "command_or_fact", "to"], "properties": {"from": {"type": "string"}, "command_or_fact": {"type": "string"}, "to": {"type": "string"}}}},
+    "outcome_precedence": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "illegal_transition_law": {"type": "string", "minLength": 1},
+    "concurrency": {"type": "string", "minLength": 1},
+    "idempotency": {"type": "string", "minLength": 1},
+    "time_model": {"type": "string", "minLength": 1},
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  }
+}

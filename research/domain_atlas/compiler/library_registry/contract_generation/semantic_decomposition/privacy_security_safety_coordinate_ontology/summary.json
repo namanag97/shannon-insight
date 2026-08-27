@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "privacy_security_safety",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "family_extension_candidates": 23,
+  "family_source_evidence_bindings_supplied": 0,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "primary_sources": 17,
+  "privacy_profiles_supplied": 0,
+  "privacy_security_safety_bearer_archetypes": 60,
+  "privacy_security_safety_operation_kernels": 80,
+  "program_id": "program.privacy-security-safety-coordinate-ontology-and-rebase.v1",
+  "research_clusters": 60,
+  "routes_with_lexical_privacy_security_safety_projection": 85,
+  "routes_with_no_privacy_security_safety_projection": 589,
+  "safety_profiles_supplied": 0,
+  "security_profiles_supplied": 0,
+  "structural_family_dockets": 23,
+  "target_member_routes": 674
+}

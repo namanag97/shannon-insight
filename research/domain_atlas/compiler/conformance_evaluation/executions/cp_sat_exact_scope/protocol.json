@@ -1,0 +1,299 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "fixtures": [
+    {
+      "expected": {"objective": null, "status": "optimal"},
+      "fixture_id": "fixture.cpsat.feasible_all_different",
+      "model": {
+        "constraints": [
+          {"type": "all_different", "variables": ["x", "y", "z"]}
+        ],
+        "intervals": [],
+        "objective": null,
+        "variables": [
+          {"kind": "integer", "lower": 0, "name": "x", "upper": 2},
+          {"kind": "integer", "lower": 0, "name": "y", "upper": 2},
+          {"kind": "integer", "lower": 0, "name": "z", "upper": 2}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.core", "profile.cpsat.global_constraints"],
+      "purpose": "A pure feasibility model with a finite-domain global constraint."
+    },
+    {
+      "expected": {"objective": 26, "status": "optimal"},
+      "fixture_id": "fixture.cpsat.integer_linear_optimal",
+      "model": {
+        "constraints": [
+          {"coefficients": {"x": 2, "y": 1}, "rhs": 14, "sense": "<=", "type": "linear"}
+        ],
+        "intervals": [],
+        "objective": {"coefficients": {"x": 3, "y": 2}, "sense": "maximize"},
+        "variables": [
+          {"kind": "integer", "lower": 0, "name": "x", "upper": 10},
+          {"kind": "integer", "lower": 0, "name": "y", "upper": 10}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.core"],
+      "purpose": "A bounded integer-linear optimization result with an independently enumerable optimum."
+    },
+    {
+      "expected": {"objective": null, "status": "infeasible"},
+      "fixture_id": "fixture.cpsat.infeasible",
+      "model": {
+        "constraints": [
+          {"coefficients": {"x": 1}, "rhs": 2, "sense": ">=", "type": "linear"},
+          {"coefficients": {"x": 1}, "rhs": 1, "sense": "<=", "type": "linear"}
+        ],
+        "intervals": [],
+        "objective": null,
+        "variables": [
+          {"kind": "integer", "lower": 0, "name": "x", "upper": 5}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.core"],
+      "purpose": "Contradictory bounded integer constraints require a precise infeasible result."
+    },
+    {
+      "expected": {"objective": 1, "status": "optimal"},
+      "fixture_id": "fixture.cpsat.binary_exactly_one",
+      "model": {
+        "constraints": [
+          {"type": "exactly_one", "variables": ["a", "b", "c"]}
+        ],
+        "intervals": [],
+        "objective": {"coefficients": {"a": 3, "b": 2, "c": 1}, "sense": "minimize"},
+        "variables": [
+          {"kind": "boolean", "lower": 0, "name": "a", "upper": 1},
+          {"kind": "boolean", "lower": 0, "name": "b", "upper": 1},
+          {"kind": "boolean", "lower": 0, "name": "c", "upper": 1}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.core", "profile.cpsat.global_constraints"],
+      "purpose": "Boolean identity and exactly-one semantics must survive objective execution."
+    },
+    {
+      "enumerate_all_solutions": true,
+      "expected": {"objective": null, "solution_count": 2, "status": "optimal"},
+      "fixture_id": "fixture.cpsat.complete_enumeration",
+      "model": {
+        "constraints": [
+          {"coefficients": {"x": 1, "y": 1}, "rhs": 1, "sense": "==", "type": "linear"}
+        ],
+        "intervals": [],
+        "objective": null,
+        "variables": [
+          {"kind": "boolean", "lower": 0, "name": "x", "upper": 1},
+          {"kind": "boolean", "lower": 0, "name": "y", "upper": 1}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.enumeration"],
+      "purpose": "Complete enumeration must distinguish all-solutions completion from a partial feasible search."
+    },
+    {
+      "expected": {"objective": 5, "status": "optimal"},
+      "fixture_id": "fixture.cpsat.job_shop_no_overlap",
+      "model": {
+        "constraints": [
+          {"first_end": "j0_t0_end", "second_start": "j0_t1_start", "type": "precedence"},
+          {"first_end": "j1_t0_end", "second_start": "j1_t1_start", "type": "precedence"},
+          {"intervals": ["j0_t0", "j1_t1"], "type": "no_overlap"},
+          {"intervals": ["j0_t1", "j1_t0"], "type": "no_overlap"},
+          {"target": "makespan", "type": "max_equality", "variables": ["j0_t1_end", "j1_t1_end"]}
+        ],
+        "intervals": [
+          {"duration": 3, "end": "j0_t0_end", "name": "j0_t0", "start": "j0_t0_start"},
+          {"duration": 2, "end": "j0_t1_end", "name": "j0_t1", "start": "j0_t1_start"},
+          {"duration": 2, "end": "j1_t0_end", "name": "j1_t0", "start": "j1_t0_start"},
+          {"duration": 1, "end": "j1_t1_end", "name": "j1_t1", "start": "j1_t1_start"}
+        ],
+        "objective": {"coefficients": {"makespan": 1}, "sense": "minimize"},
+        "variables": [
+          {"kind": "integer", "lower": 0, "name": "j0_t0_start", "upper": 8},
+          {"kind": "integer", "lower": 0, "name": "j0_t0_end", "upper": 8},
+          {"kind": "integer", "lower": 0, "name": "j0_t1_start", "upper": 8},
+          {"kind": "integer", "lower": 0, "name": "j0_t1_end", "upper": 8},
+          {"kind": "integer", "lower": 0, "name": "j1_t0_start", "upper": 8},
+          {"kind": "integer", "lower": 0, "name": "j1_t0_end", "upper": 8},
+          {"kind": "integer", "lower": 0, "name": "j1_t1_start", "upper": 8},
+          {"kind": "integer", "lower": 0, "name": "j1_t1_end", "upper": 8},
+          {"kind": "integer", "lower": 0, "name": "makespan", "upper": 8}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.core", "profile.cpsat.scheduling"],
+      "purpose": "Interval identity, precedence, no-overlap and makespan objective form a small independently checked job shop."
+    },
+    {
+      "expected": {"objective": null, "status": "invalid_input"},
+      "fixture_id": "fixture.cpsat.invalid_fractional_coefficient",
+      "model": {
+        "constraints": [],
+        "intervals": [],
+        "objective": {"coefficients": {"x": 0.5}, "sense": "maximize"},
+        "variables": [
+          {"kind": "integer", "lower": 0, "name": "x", "upper": 1}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.core"],
+      "purpose": "The canonical adapter refuses noninteger coefficients before provider validation or solving."
+    },
+    {
+      "expected": {"objective": null, "status": "invalid_input"},
+      "fixture_id": "fixture.cpsat.invalid_domain",
+      "model": {
+        "constraints": [],
+        "intervals": [],
+        "objective": null,
+        "variables": [
+          {"kind": "integer", "lower": 2, "name": "x", "upper": 1}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.core"],
+      "purpose": "The canonical adapter refuses an inverted variable domain before provider invocation."
+    },
+    {
+      "expected": {"objective": null, "status": "model_invalid"},
+      "fixture_id": "fixture.cpsat.provider_overflow_model_invalid",
+      "model": {
+        "constraints": [
+          {"coefficients": {"x": 9223372036854775807}, "rhs": 9223372036854775807, "sense": "<=", "type": "linear"}
+        ],
+        "intervals": [],
+        "objective": null,
+        "variables": [
+          {"kind": "integer", "lower": 0, "name": "x", "upper": 9223372036854775807}
+        ]
+      },
+      "profile_refs": ["profile.cpsat.core"],
+      "purpose": "Individually valid int64 values create an unsafe aggregate magnitude that the exact provider validator must reject."
+    },
+    {
+      "expected": {"objective": null, "status": "unknown"},
+      "fixture_id": "fixture.cpsat.zero_deterministic_budget",
+      "model": {
+        "constraints": [
+          {"type": "all_different", "variables": ["x", "y", "z"]}
+        ],
+        "intervals": [],
+        "objective": null,
+        "variables": [
+          {"kind": "integer", "lower": 0, "name": "x", "upper": 100},
+          {"kind": "integer", "lower": 0, "name": "y", "upper": 100},
+          {"kind": "integer", "lower": 0, "name": "z", "upper": 100}
+        ]
+      },
+      "parameters": {"max_deterministic_time": 0.0},
+      "profile_refs": ["profile.cpsat.limit_no_strengthening"],
+      "purpose": "A zero deterministic-work budget must remain UNKNOWN rather than being strengthened to infeasible."
+    }
+  ],
+  "invalidation_triggers": [
+    "OR-Tools package, dependency lock, wheel bytes, native library or adapter changes",
+    "Python, operating system, architecture, parameter, random seed or worker-count changes",
+    "fixture, canonical model schema, independent oracle or result-map edition changes",
+    "provider status, validation, integer-domain, interval, enumeration or limit semantics change",
+    "provider security, license, release or dependency posture changes"
+  ],
+  "non_collapse_laws": [
+    "finite-domain CP != CP-SAT exact integer interface != MILP != SAT encoding",
+    "OR-Tools suite != CP-SAT solver != Python adapter != loaded wheel/native artifact != target occurrence",
+    "FEASIBLE != OPTIMAL and UNKNOWN != INFEASIBLE",
+    "complete solution enumeration != one feasible solution",
+    "model.Validate pass != solve pass != independent qualification != vertical acceptance",
+    "job-shop problem family != interval/no-overlap formulation != exact provider offer",
+    "LLM or agent proposal != model validity, solver result, schedule authority or effect receipt"
+  ],
+  "profiles": [
+    {
+      "profile_id": "profile.cpsat.core",
+      "requires": [
+        "bounded integer and Boolean domains",
+        "integer-linear objective and constraints",
+        "canonical invalid inputs refused before provider invocation",
+        "provider-invalid models preserved as MODEL_INVALID",
+        "optimal solutions independently satisfy domains, constraints and objective",
+        "infeasible and unknown statuses remain distinct"
+      ]
+    },
+    {
+      "profile_id": "profile.cpsat.global_constraints",
+      "requires": ["all-different semantics", "exactly-one semantics", "independent solution validation"]
+    },
+    {
+      "profile_id": "profile.cpsat.scheduling",
+      "requires": ["fixed interval identity", "end equals start plus duration", "precedence", "no overlap", "makespan objective"]
+    },
+    {
+      "profile_id": "profile.cpsat.enumeration",
+      "requires": ["all-solution enumeration requested", "complete count independently known", "partial FEASIBLE not promoted to complete"]
+    },
+    {
+      "profile_id": "profile.cpsat.limit_no_strengthening",
+      "requires": ["finite deterministic-work budget", "UNKNOWN retained when search establishes neither feasibility nor infeasibility"]
+    }
+  ],
+  "protocol_id": "protocol.conformance.cp_sat_exact_scope.v1",
+  "provider": {
+    "adapter": "ortools_cp_sat_python",
+    "declared_dependency_lock": [
+      "absl-py==2.5.0",
+      "immutabledict==4.3.1",
+      "numpy==2.4.3",
+      "ortools==9.15.6755",
+      "pandas==3.0.5",
+      "protobuf==6.33.6",
+      "python-dateutil==2.9.0.post0",
+      "six==1.17.0",
+      "typing_extensions==4.15.0"
+    ],
+    "exact_offer_id": "offer.operations_research.ortools.cp_sat.python.9_15_6755",
+    "package": "ortools",
+    "provider_id": "provider.operations_research.ortools.cp_sat.python",
+    "source_refs": [
+      "source.cpsat.release.9_15",
+      "source.cpsat.solver_documentation",
+      "source.cpsat.model_proto.9_15",
+      "source.cpsat.parameters.9_15"
+    ],
+    "version": "9.15.6755"
+  },
+  "scope": {
+    "accepted_canonical_statuses": ["optimal", "feasible", "infeasible", "model_invalid", "unknown", "invalid_input", "provider_failure"],
+    "excluded": [
+      "arbitrary MiniZinc, finite-domain CP, MILP, SAT, SMT, routing or planning semantics",
+      "floating-point coefficients and implicit scaling from continuous models",
+      "optional intervals, cumulative/reservoir/circuit/table/automaton constraints and callbacks",
+      "parallel-search determinism, hints, assumptions, unsat cores and proof certificates",
+      "performance, scalability, energy, cost, security, license and production fitness",
+      "manufacturing or enterprise vertical acceptance and schedule effect authority"
+    ],
+    "model_class_refs": ["class.mca.cp_sat_integer"],
+    "numeric_policy": {"integer_only": true, "max_int64": 9223372036854775807, "min_int64": -9223372036854775808},
+    "parameter_policy": {"num_search_workers": 1, "random_seed": 1729},
+    "target": "local isolated Python process on the recorded macOS arm64 occurrence"
+  },
+  "sources": [
+    {
+      "source_id": "source.cpsat.release.9_15",
+      "title": "OR-Tools v9.15 release",
+      "url": "https://github.com/google/or-tools/releases/tag/v9.15"
+    },
+    {
+      "source_id": "source.cpsat.solver_documentation",
+      "title": "CP-SAT Solver",
+      "url": "https://developers.google.com/optimization/cp/cp_solver"
+    },
+    {
+      "source_id": "source.cpsat.model_proto.9_15",
+      "title": "CP-SAT model and result protocol at v9.15",
+      "url": "https://github.com/google/or-tools/blob/v9.15/ortools/sat/cp_model.proto"
+    },
+    {
+      "source_id": "source.cpsat.parameters.9_15",
+      "title": "CP-SAT parameter protocol at v9.15",
+      "url": "https://github.com/google/or-tools/blob/v9.15/ortools/sat/sat_parameters.proto"
+    }
+  ],
+  "status": "candidate_executable_not_qualified"
+}

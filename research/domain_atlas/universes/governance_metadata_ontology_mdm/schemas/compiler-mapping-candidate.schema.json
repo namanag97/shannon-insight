@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "compiler_steps": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "offer": {
+      "type": "object"
+    },
+    "record_kind": {
+      "const": "requirement_offer_compiler_mapping_candidate"
+    },
+    "requirement": {
+      "type": "object"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    },
+    "typed_failures": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "mapping_id",
+    "requirement",
+    "offer",
+    "compiler_steps",
+    "typed_failures"
+  ],
+  "title": "Requirement, offer and compiler mapping candidate",
+  "type": "object"
+}

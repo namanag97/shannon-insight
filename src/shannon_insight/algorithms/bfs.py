@@ -4,10 +4,11 @@ NOTE: blast_radius() runs BFS from every node — O(n × (n+e)) time and O(n²) 
 For large codebases (>2000 files) this becomes a bottleneck. Consider sampling
 or approximating blast radius instead.
 """
+
 from __future__ import annotations
 
 from collections import deque
-import numpy as np
+
 from scipy import sparse
 
 
@@ -26,7 +27,7 @@ def bfs_depth(
         {node: depth} where depth = -1 if unreachable
     """
     n = A.shape[0]
-    depth = {i: -1 for i in range(n)}
+    depth = dict.fromkeys(range(n), -1)
 
     queue: deque[int] = deque()
     for s in sources:

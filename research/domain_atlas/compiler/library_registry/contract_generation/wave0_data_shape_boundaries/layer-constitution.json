@@ -1,0 +1,109 @@
+{
+  "admission_tests": [
+    "distinct sovereign question and semantic owner",
+    "identity grain time order topology and change laws not representable by an existing shape",
+    "at least one domain-valid operation or invalid operation unique to the shape",
+    "independent removal from every codec and provider",
+    "explicit relation to broader existing canonical shapes",
+    "unrelated-vertical reuse or a justified standard published-language boundary"
+  ],
+  "as_of": "2026-08-26",
+  "constitution_id": "constitution.wave0.data-shape-layers.v1",
+  "dependency_direction": [
+    "domain semantics may name requirements on published languages and representation bindings",
+    "published-language profiles import domain concepts through explicit mappings and anti-corruption layers",
+    "representation bindings depend on both source semantic and target profile editions",
+    "codecs depend on representation profiles but cannot depend on product or business authority",
+    "provider adapters depend on codec and effect-port contracts and return observations inward"
+  ],
+  "edition": 1,
+  "generation_law": "This constitution governs adjudication only; it creates no exact API, canonical identifier, implementation offer or qualification.",
+  "layers": [
+    {
+      "does_not_own": [
+        "wire syntax",
+        "container bytes",
+        "provider I/O"
+      ],
+      "layer": "domain_or_observation_semantics",
+      "owns": [
+        "grain",
+        "identity",
+        "time",
+        "order",
+        "topology",
+        "change",
+        "uncertainty",
+        "domain-valid operations"
+      ]
+    },
+    {
+      "does_not_own": [
+        "local business truth",
+        "local authority",
+        "transport execution"
+      ],
+      "layer": "published_language_or_standard_logical_model",
+      "owns": [
+        "standard-defined types",
+        "profile edition",
+        "extensions",
+        "standard conformance"
+      ]
+    },
+    {
+      "does_not_own": [
+        "semantic source truth",
+        "codec execution"
+      ],
+      "layer": "representation_binding",
+      "owns": [
+        "semantic-to-profile mapping",
+        "preservation set",
+        "loss and residual",
+        "profile compatibility"
+      ]
+    },
+    {
+      "does_not_own": [
+        "domain identity",
+        "fitness",
+        "authority"
+      ],
+      "layer": "codec_container_layout",
+      "owns": [
+        "syntax",
+        "bytes",
+        "framing",
+        "compression",
+        "physical layout",
+        "malformed-input handling"
+      ]
+    },
+    {
+      "does_not_own": [
+        "canonical semantics",
+        "business acceptance"
+      ],
+      "layer": "provider_runtime_adapter",
+      "owns": [
+        "I/O",
+        "capability negotiation",
+        "provider errors",
+        "attempt observations"
+      ]
+    }
+  ],
+  "non_collapse_laws": [
+    "format or filename is not a semantic type",
+    "parse success is not schema profile or domain validity",
+    "schema or profile conformance is not business clinical scientific or legal truth",
+    "logical equality representation equality byte equality and occurrence identity are distinct",
+    "conversion proves an exact preservation set emits residual loss or refuses",
+    "provider support is not implementation qualification",
+    "a representation-native logical model can be useful without becoming universal domain meaning",
+    "one library may not own both domain semantics and every representation/provider effect used to carry it"
+  ],
+  "record_kind": "data_shape_layer_constitution_candidate",
+  "status": "EVIDENCE_ADJUDICATED_CANDIDATE_PENDING_CANONICAL_RATIFICATION"
+}

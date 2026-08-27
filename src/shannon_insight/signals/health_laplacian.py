@@ -118,9 +118,7 @@ def compute_raw_risk(
     instab_factor = min(fs.churn_cv / 2.0, 1.0) if fs.churn_cv > 0 else 0.0
     bf_term = max(0.0, 1.0 - fs.bus_factor / _SAFE_BUS_FACTOR)
 
-    raw_risk = (
-        0.35 * graph_impact_raw + 0.25 * cog_term + 0.25 * instab_factor + 0.15 * bf_term
-    )
+    raw_risk = 0.35 * graph_impact_raw + 0.25 * cog_term + 0.25 * instab_factor + 0.15 * bf_term
 
     return max(0.0, min(1.0, raw_risk))
 

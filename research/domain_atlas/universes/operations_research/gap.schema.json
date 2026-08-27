@@ -1,0 +1,61 @@
+{
+  "$id": "https://san.example/spec/operations-research-gap-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocked_outputs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "closure_evidence": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "gap_class": {
+      "enum": [
+        "authority",
+        "coverage",
+        "evidence",
+        "implementation",
+        "qualification"
+      ]
+    },
+    "gap_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "scope_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "semantic_axes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "const": "OPEN"
+    }
+  },
+  "required": [
+    "gap_id",
+    "gap_class",
+    "semantic_axes",
+    "scope_refs",
+    "closure_evidence",
+    "blocked_outputs",
+    "status"
+  ],
+  "type": "object"
+}

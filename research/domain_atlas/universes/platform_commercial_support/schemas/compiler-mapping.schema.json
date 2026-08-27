@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "compiler_stage": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "emits": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "from_requirement_ref": {
+      "type": "string"
+    },
+    "invalidated_by": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "mapping_id": {
+      "type": "string"
+    },
+    "must_prove": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "record_kind": {
+      "enum": [
+        "compiler_mapping"
+      ]
+    },
+    "release_gate": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "through_library_ref": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "mapping_id",
+    "from_requirement_ref",
+    "through_library_ref",
+    "compiler_stage",
+    "emits",
+    "must_prove",
+    "invalidated_by",
+    "release_gate"
+  ],
+  "title": "Compiler requirement mapping",
+  "type": "object"
+}

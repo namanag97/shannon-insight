@@ -1,0 +1,190 @@
+{
+  "as_of": "2026-08-26",
+  "axis_bindings": [
+    {
+      "axis": "authority_and_trust",
+      "constitution_ref": "constitution.semantic-axis.phase3.authority-effect-safety.v1",
+      "module_ref": "module.semantic-axis.authority-trust.v1",
+      "phase": 3,
+      "source_path": "phase3_authority_effect_safety/constitution.json"
+    },
+    {
+      "axis": "compatibility_and_evolution",
+      "constitution_ref": "constitution.semantic-axis.phase4.representation-evolution.v1",
+      "module_ref": "module.semantic-axis.compatibility-evolution.v1",
+      "phase": 4,
+      "source_path": "phase4_representation_evolution/constitution.json"
+    },
+    {
+      "axis": "composition_algebra",
+      "constitution_ref": "constitution.semantic-axis.phase5.behavior-resources-proof.v1",
+      "module_ref": "module.semantic-axis.composition-algebra.v1",
+      "phase": 5,
+      "source_path": "phase5_behavior_resources_proof/constitution.json"
+    },
+    {
+      "axis": "effect_boundary",
+      "constitution_ref": "constitution.semantic-axis.phase3.authority-effect-safety.v1",
+      "module_ref": "module.semantic-axis.effect-boundary.v1",
+      "phase": 3,
+      "source_path": "phase3_authority_effect_safety/constitution.json"
+    },
+    {
+      "axis": "evidence_and_conformance",
+      "constitution_ref": "constitution.semantic-axis.phase5.behavior-resources-proof.v1",
+      "module_ref": "module.semantic-axis.evidence-conformance.v1",
+      "phase": 5,
+      "source_path": "phase5_behavior_resources_proof/constitution.json"
+    },
+    {
+      "axis": "grain_and_cardinality",
+      "constitution_ref": "constitution.semantic-axis.phase1.subject-identity-grain.v1",
+      "module_ref": "module.semantic-axis.grain-cardinality.v1",
+      "phase": 1,
+      "source_path": "phase1_subject_grain/constitution.json"
+    },
+    {
+      "axis": "identity_and_equality",
+      "constitution_ref": "constitution.semantic-axis.phase1.subject-identity-grain.v1",
+      "module_ref": "module.semantic-axis.identity-equality.v1",
+      "phase": 1,
+      "source_path": "phase1_subject_grain/constitution.json"
+    },
+    {
+      "axis": "order_and_topology",
+      "constitution_ref": "constitution.semantic-axis.phase2.dynamics-information.v1",
+      "module_ref": "module.semantic-axis.order-topology.v1",
+      "phase": 2,
+      "source_path": "phase2_dynamics_information/constitution.json"
+    },
+    {
+      "axis": "partiality_and_uncertainty",
+      "constitution_ref": "constitution.semantic-axis.phase2.dynamics-information.v1",
+      "module_ref": "module.semantic-axis.partiality-uncertainty.v1",
+      "phase": 2,
+      "source_path": "phase2_dynamics_information/constitution.json"
+    },
+    {
+      "axis": "privacy_security_safety",
+      "constitution_ref": "constitution.semantic-axis.phase3.authority-effect-safety.v1",
+      "module_ref": "module.semantic-axis.privacy-security-safety.v1",
+      "phase": 3,
+      "source_path": "phase3_authority_effect_safety/constitution.json"
+    },
+    {
+      "axis": "representation",
+      "constitution_ref": "constitution.semantic-axis.phase4.representation-evolution.v1",
+      "module_ref": "module.semantic-axis.representation.v1",
+      "phase": 4,
+      "source_path": "phase4_representation_evolution/constitution.json"
+    },
+    {
+      "axis": "resources_and_failure",
+      "constitution_ref": "constitution.semantic-axis.phase5.behavior-resources-proof.v1",
+      "module_ref": "module.semantic-axis.resources-failure.v1",
+      "phase": 5,
+      "source_path": "phase5_behavior_resources_proof/constitution.json"
+    },
+    {
+      "axis": "semantic_object",
+      "constitution_ref": "constitution.semantic-axis.phase1.subject-identity-grain.v1",
+      "module_ref": "module.semantic-axis.semantic-object.v1",
+      "phase": 1,
+      "source_path": "phase1_subject_grain/constitution.json"
+    },
+    {
+      "axis": "semantic_role",
+      "constitution_ref": "constitution.semantic-axis.phase5.behavior-resources-proof.v1",
+      "module_ref": "module.semantic-axis.semantic-role.v1",
+      "phase": 5,
+      "source_path": "phase5_behavior_resources_proof/constitution.json"
+    },
+    {
+      "axis": "state_and_change",
+      "constitution_ref": "constitution.semantic-axis.phase2.dynamics-information.v1",
+      "module_ref": "module.semantic-axis.state-change.v1",
+      "phase": 2,
+      "source_path": "phase2_dynamics_information/constitution.json"
+    },
+    {
+      "axis": "time",
+      "constitution_ref": "constitution.semantic-axis.phase2.dynamics-information.v1",
+      "module_ref": "module.semantic-axis.time.v1",
+      "phase": 2,
+      "source_path": "phase2_dynamics_information/constitution.json"
+    }
+  ],
+  "axis_count": 16,
+  "canonical_gap_effect": 0,
+  "completion_claim": false,
+  "coverage_id": "coverage.semantic-axis.constitutions.v1",
+  "edition": 1,
+  "execution_rule": "Ratify five global phase constitutions once; then process 23 family exception matrices per axis. Never copy full constitutions into 674 libraries and never infer applicability from lexical matches.",
+  "family_axis_matrix_count": 368,
+  "family_count": 23,
+  "phases": [
+    {
+      "axes": [
+        "semantic_object",
+        "identity_and_equality",
+        "grain_and_cardinality"
+      ],
+      "completion_claim": false,
+      "constitution_ref": "constitution.semantic-axis.phase1.subject-identity-grain.v1",
+      "phase": 1,
+      "source_path": "phase1_subject_grain/constitution.json",
+      "status": "EVIDENCE_BACKED_CANDIDATE_PENDING_OWNER_RATIFICATION"
+    },
+    {
+      "axes": [
+        "state_and_change",
+        "time",
+        "order_and_topology",
+        "partiality_and_uncertainty"
+      ],
+      "completion_claim": false,
+      "constitution_ref": "constitution.semantic-axis.phase2.dynamics-information.v1",
+      "phase": 2,
+      "source_path": "phase2_dynamics_information/constitution.json",
+      "status": "EVIDENCE_BACKED_CANDIDATE_PENDING_OWNER_RATIFICATION"
+    },
+    {
+      "axes": [
+        "authority_and_trust",
+        "effect_boundary",
+        "privacy_security_safety"
+      ],
+      "completion_claim": false,
+      "constitution_ref": "constitution.semantic-axis.phase3.authority-effect-safety.v1",
+      "phase": 3,
+      "source_path": "phase3_authority_effect_safety/constitution.json",
+      "status": "EVIDENCE_BACKED_CANDIDATE_PENDING_OWNER_RATIFICATION"
+    },
+    {
+      "axes": [
+        "representation",
+        "compatibility_and_evolution"
+      ],
+      "completion_claim": false,
+      "constitution_ref": "constitution.semantic-axis.phase4.representation-evolution.v1",
+      "phase": 4,
+      "source_path": "phase4_representation_evolution/constitution.json",
+      "status": "EVIDENCE_BACKED_CANDIDATE_PENDING_OWNER_RATIFICATION"
+    },
+    {
+      "axes": [
+        "semantic_role",
+        "composition_algebra",
+        "resources_and_failure",
+        "evidence_and_conformance"
+      ],
+      "completion_claim": false,
+      "constitution_ref": "constitution.semantic-axis.phase5.behavior-resources-proof.v1",
+      "phase": 5,
+      "source_path": "phase5_behavior_resources_proof/constitution.json",
+      "status": "EVIDENCE_BACKED_CANDIDATE_PENDING_OWNER_RATIFICATION"
+    }
+  ],
+  "record_kind": "semantic_constitution_coverage",
+  "status": "ALL_GLOBAL_CONSTITUTIONS_CANDIDATE_COMPLETE_OWNER_RATIFICATION_OPEN"
+}

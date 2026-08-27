@@ -1,0 +1,42 @@
+{
+  "$id": "https://san.example/product-boundary/substitution.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "alternatives": {},
+    "candidate_id": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "not_equivalent_until": {},
+    "provider_class": {},
+    "qualification_contract": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "substitution"
+    },
+    "required_evidence": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "candidate_id",
+    "provider_class",
+    "alternatives",
+    "qualification_contract",
+    "required_evidence",
+    "not_equivalent_until"
+  ],
+  "title": "Global boundary research: substitution",
+  "type": "object"
+}

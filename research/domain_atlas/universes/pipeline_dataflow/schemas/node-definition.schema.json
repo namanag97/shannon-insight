@@ -1,0 +1,138 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/node-definition-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "decision_bindings": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "determinism": {
+      "enum": [
+        "deterministic",
+        "seeded",
+        "environment_dependent",
+        "nondeterministic_refused"
+      ]
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "effect_class": {
+      "enum": [
+        "pure",
+        "reads_external",
+        "writes_external",
+        "read_write_external",
+        "control_effect"
+      ]
+    },
+    "idempotency": {
+      "enum": [
+        "always",
+        "by_key",
+        "conditional",
+        "never",
+        "not_applicable"
+      ]
+    },
+    "input_port_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "node_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "node_kind": {
+      "enum": [
+        "source",
+        "transform",
+        "router",
+        "union",
+        "exchange",
+        "barrier",
+        "delay",
+        "loop_head",
+        "loop_tail",
+        "subflow",
+        "quality_gate",
+        "materializer",
+        "sink",
+        "control"
+      ]
+    },
+    "operation_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "output_port_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "resource_requirements": {
+      "additionalProperties": false,
+      "properties": {
+        "bounded": {
+          "type": "boolean"
+        },
+        "expressions": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "bounded"
+      ],
+      "type": "object"
+    },
+    "retry_policy_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state_contract_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "node_id",
+    "edition",
+    "node_kind",
+    "operation_refs",
+    "input_port_refs",
+    "output_port_refs",
+    "effect_class",
+    "determinism",
+    "idempotency",
+    "state_contract_refs",
+    "retry_policy_ref",
+    "resource_requirements",
+    "decision_bindings"
+  ],
+  "title": "Pipeline node definition",
+  "type": "object"
+}

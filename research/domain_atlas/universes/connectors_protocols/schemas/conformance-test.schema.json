@@ -1,0 +1,117 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/test_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_outcomes": {
+      "items": {
+        "enum": [
+          "pass",
+          "fail",
+          "not_supported",
+          "not_authorized",
+          "inconclusive"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "destructive": {
+      "type": "boolean"
+    },
+    "distinguishes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "expected_receipts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "oracle": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "preconditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "scope": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    },
+    "stimulus": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "test_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "test_id",
+    "edition",
+    "status",
+    "name",
+    "scope",
+    "preconditions",
+    "stimulus",
+    "oracle",
+    "expected_receipts",
+    "allowed_outcomes",
+    "distinguishes",
+    "destructive",
+    "evidence_refs"
+  ],
+  "title": "Connector conformance test",
+  "type": "object"
+}

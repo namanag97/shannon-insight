@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/persistence-innovation-v0.1.0.schema.json",
+  "title": "Non-LLM persistence innovation candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["innovation_id", "edition", "status", "year", "name", "non_llm", "problem_and_innovation", "evidence_refs", "boundary_implications", "limitations", "compiler_implications", "gaps"],
+  "properties": {
+    "innovation_id": {"type": "string", "pattern": "^innovation\\.persistence\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["researched_candidate", "reviewed", "adjudicated", "superseded"]},
+    "year": {"type": "integer", "minimum": 2021, "maximum": 2026},
+    "name": {"type": "string", "minLength": 1},
+    "non_llm": {"const": true},
+    "problem_and_innovation": {"type": "string", "minLength": 1},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "boundary_implications": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "compiler_implications": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "gaps": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+  }
+}

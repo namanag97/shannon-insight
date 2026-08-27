@@ -614,7 +614,6 @@ class TestMathFormulas:
         assert compute_gini([0, 0, 0]) == 0.0
 
     def test_shannon_entropy(self):
-
         from shannon_insight.infrastructure.math import compute_entropy
 
         # Single value (certainty)

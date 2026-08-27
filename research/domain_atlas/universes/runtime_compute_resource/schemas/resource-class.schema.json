@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/runtime-resource-class-v0.1.0.schema.json",
+  "title": "Semantic resource class",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_kind", "resource_class_id", "edition", "status", "name", "dimension", "canonical_unit", "consumability", "shareability", "divisibility", "compressibility", "overcommit_law", "topology_relations", "reservation_semantics", "usage_measurement", "hazards", "evidence_refs"],
+  "properties": {
+    "record_kind": {"const": "resource_class"},
+    "resource_class_id": {"type": "string", "pattern": "^resource-class\\.[a-z0-9-]+$"},
+    "edition": {"type": "string"},
+    "status": {"type": "string"},
+    "name": {"type": "string", "minLength": 1},
+    "dimension": {"type": "string", "minLength": 1},
+    "canonical_unit": {"type": "string", "minLength": 1},
+    "consumability": {"enum": ["renewable_rate", "reusable_capacity", "quality_attribute", "consumable"]},
+    "shareability": {"type": "string", "minLength": 1},
+    "divisibility": {"type": "string", "minLength": 1},
+    "compressibility": {"enum": ["compressible", "partially_compressible", "non_compressible"]},
+    "overcommit_law": {"type": "string", "minLength": 1},
+    "topology_relations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "reservation_semantics": {"type": "string", "minLength": 1},
+    "usage_measurement": {"type": "string", "minLength": 1},
+    "hazards": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  }
+}

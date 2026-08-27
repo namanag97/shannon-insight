@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "closure_law": {
+      "type": "string"
+    },
+    "covered_context_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "library_replacement"
+      ]
+    },
+    "replacement_id": {
+      "type": "string"
+    },
+    "replacement_library_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "retired_library_ref": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "replacement_id",
+    "retired_library_ref",
+    "covered_context_refs",
+    "replacement_library_refs",
+    "rationale",
+    "closure_law"
+  ],
+  "title": "Retired composite library replacement",
+  "type": "object"
+}

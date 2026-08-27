@@ -1,0 +1,27 @@
+{
+  "completion_claim": false,
+  "corpus_id": "san.query-compute-kernel-universe",
+  "counts": {
+    "compiler_mapping_patterns": 20,
+    "context_candidates": 37,
+    "innovations_2021_2026": 18,
+    "kernel_contracts": 79,
+    "library_boundaries": 32,
+    "logical_operators": 70,
+    "open_gaps": 18,
+    "provider_capability_classes": 15,
+    "sources": 76,
+    "target_profiles": 12
+  },
+  "coverage_claim": "Research seed with explicit gaps; not universal completeness or provider qualification.",
+  "edition": 1,
+  "forbidden_core_dependencies": [
+    "llm",
+    "large_language_model",
+    "prompt",
+    "rag",
+    "agent_memory",
+    "generative_model"
+  ],
+  "generated_at": "2026-08-25"
+}

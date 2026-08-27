@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "events": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "initial_state": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lifecycle_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "states": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "terminal_states": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "totality_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "transitions": {
+      "items": {
+        "minProperties": 1,
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "undefined_transition": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "lifecycle_id",
+    "subject_kind",
+    "states",
+    "events",
+    "initial_state",
+    "terminal_states",
+    "transitions",
+    "undefined_transition",
+    "totality_law",
+    "status"
+  ],
+  "title": "Messaging lifecycle",
+  "type": "object"
+}

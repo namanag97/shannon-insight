@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 4,
+      "sha256": "95a287d6fe5664b201690a1d60f2df05eec41c24abd222b35b70748bf9ade4ec"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 3,
+      "sha256": "6f8a200afe9667594cec46cf5fcefa2a138d59d09ad249bc11731856c8a5d273"
+    },
+    "decision-points.jsonl": {
+      "records": 12,
+      "sha256": "a719fa61128c80609f4b681b6410af7c95859aafec745b33a36da248d1939627"
+    },
+    "library-contracts.jsonl": {
+      "records": 1,
+      "sha256": "f710cd5b7d00b56e1ff4b26907adfef324e494fef5b096d196f96c54045a1a1b"
+    },
+    "negative-twins.jsonl": {
+      "records": 8,
+      "sha256": "93d3c30b3c6d524fcbafd9046f1e486f0a7508c9cd8009fccec1a7ac839dccee"
+    },
+    "sources.jsonl": {
+      "records": 7,
+      "sha256": "c0830a883ac94a83d7ce9b29ce1da5277023ae9dcc4b1ec8a4d9acaf0dd26e89"
+    }
+  },
+  "manifest_id": "product_composition_lifecycle_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

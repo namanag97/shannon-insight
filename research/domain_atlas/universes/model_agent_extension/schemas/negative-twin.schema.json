@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "expected": {
+      "type": "string"
+    },
+    "left": {
+      "type": "string"
+    },
+    "right": {
+      "type": "string"
+    },
+    "twin_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "unsafe_collapse": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "twin_id",
+    "left",
+    "right",
+    "unsafe_collapse",
+    "expected"
+  ],
+  "type": "object"
+}

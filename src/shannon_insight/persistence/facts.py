@@ -536,17 +536,10 @@ class FactDatabase:
                 fid = row["id"]
                 path = row["path"]
                 functions = [
-                    self._row_to_function_fact(r, path)
-                    for r in functions_by_file.get(fid, [])
+                    self._row_to_function_fact(r, path) for r in functions_by_file.get(fid, [])
                 ]
-                classes = [
-                    self._row_to_class_fact(r, path)
-                    for r in classes_by_file.get(fid, [])
-                ]
-                imports = [
-                    self._row_to_import_fact(r, path)
-                    for r in imports_by_file.get(fid, [])
-                ]
+                classes = [self._row_to_class_fact(r, path) for r in classes_by_file.get(fid, [])]
+                imports = [self._row_to_import_fact(r, path) for r in imports_by_file.get(fid, [])]
                 results.append(
                     FileFact(
                         path=path,

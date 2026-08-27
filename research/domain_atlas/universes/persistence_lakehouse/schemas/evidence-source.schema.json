@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/persistence-evidence-source-v0.1.0.schema.json",
+  "title": "Persistence and lakehouse evidence source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id", "edition", "status", "title", "publisher", "source_kind",
+    "url", "authority_scope", "supports", "limitations", "primary_or_official",
+    "accessed_at"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "pattern": "^source\\.persistence\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["active", "superseded", "historical", "draft"]},
+    "title": {"type": "string", "minLength": 1},
+    "publisher": {"type": "string", "minLength": 1},
+    "source_kind": {"enum": ["standard", "government_standard", "internet_standard", "protocol_specification", "format_specification", "official_documentation", "official_api_documentation", "official_library_documentation", "official_release", "official_architecture", "primary_research", "official_source_code"]},
+    "url": {"type": "string", "pattern": "^https://"},
+    "authority_scope": {"type": "string", "minLength": 1},
+    "supports": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "primary_or_official": {"const": true},
+    "accessed_at": {"type": "string", "format": "date"}
+  }
+}

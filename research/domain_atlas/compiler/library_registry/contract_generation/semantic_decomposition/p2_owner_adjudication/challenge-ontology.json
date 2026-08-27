@@ -1,0 +1,56 @@
+{
+  "COUNTERFACTUAL_INSTABILITY": {
+    "questions": [
+      "Which non-lexical primary or dependency evidence establishes the owner?",
+      "Does the proposed owner survive removal of every spelling-derived feature?"
+    ],
+    "semantic_axis_refs": [
+      "evidence_and_conformance",
+      "identity_and_equality"
+    ]
+  },
+  "IMPLEMENTATION_LOCUS_REJECTED": {
+    "questions": [
+      "Which semantic contract does the implementation/provider boundary depend on?",
+      "Where is the provider-neutral meaning owner and conformance oracle?"
+    ],
+    "semantic_axis_refs": [
+      "bounded_context_and_ownership",
+      "effect_and_external_interaction",
+      "evidence_and_conformance"
+    ]
+  },
+  "INCOMPLETE_CONTEXT_OWNER_MAP": {
+    "questions": [
+      "Which bounded context owns each distinct local meaning?",
+      "Are uncovered contexts exact imports, profiled imports or qualified homonyms?"
+    ],
+    "semantic_axis_refs": [
+      "bounded_context_and_ownership",
+      "identity_and_equality",
+      "scope_and_grain"
+    ]
+  },
+  "INSUFFICIENT_OWNER_SEPARATION": {
+    "questions": [
+      "What positive authority evidence distinguishes the leading owner from its peers?",
+      "What counterexample falsifies each losing owner candidate?"
+    ],
+    "semantic_axis_refs": [
+      "bounded_context_and_ownership",
+      "identity_and_equality",
+      "evidence_and_conformance"
+    ]
+  },
+  "UNRESOLVED_SYMBOL_DISPOSITION": {
+    "questions": [
+      "Is the repeated spelling one carrier, a family carrier, a qualified homonym or an invalid duplicate?",
+      "What equality, canonicalization and migration laws distinguish the alternatives?"
+    ],
+    "semantic_axis_refs": [
+      "identity_and_equality",
+      "representation_and_canonicalization",
+      "compatibility_and_evolution"
+    ]
+  }
+}

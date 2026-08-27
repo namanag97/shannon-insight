@@ -1,0 +1,57 @@
+{
+  "binding_sequence": [
+    "resolve bounded context and semantic owner",
+    "bind subject classification edition",
+    "bind identity domain and comparison purpose",
+    "bind equality and canonicalization profiles",
+    "bind all nine grain coordinates and cardinality states",
+    "compare producer and consumer contracts",
+    "insert only proved lossless adapters or explicitly authorized lossy regrain plans",
+    "emit residual ownership and refusal when any coordinate remains unresolved"
+  ],
+  "edition": 1,
+  "generation_prohibition": "Do not generate Rust types, IR nodes or adapters from labels alone; exact owner-ratified modules and family applicability are prerequisites.",
+  "projection_id": "projection.compiler.semantic-axis.phase1.v1",
+  "record_kind": "semantic_axis_compiler_projection_candidate",
+  "refusal_roles": [
+    "subject_unresolved",
+    "classification_disputed",
+    "identity_domain_unbound",
+    "equality_relation_unbound",
+    "comparison_incomparable",
+    "grain_unbound",
+    "cardinality_incompatible",
+    "boundedness_incompatible",
+    "multiplicity_loss_unaccepted",
+    "ordering_loss_unaccepted",
+    "completeness_unproved",
+    "adapter_proof_missing"
+  ],
+  "required_adapter_proofs": [
+    "subject-kind preservation",
+    "identity preservation",
+    "multiplicity preservation",
+    "ordering preservation",
+    "boundedness/completion preservation",
+    "partition/global semantics",
+    "aggregation or disaggregation law",
+    "loss and residual evidence"
+  ],
+  "required_ir_roles": [
+    "SemanticSubjectRef",
+    "SubjectKindRef",
+    "SubjectClassificationRef",
+    "IdentityDomainRef",
+    "EqualityRelationRef",
+    "CanonicalizationProfileRef",
+    "GrainContractRef",
+    "CardinalityContractRef",
+    "Boundedness",
+    "CollectionSemantics",
+    "ComparisonOutcome",
+    "RegrainPlan",
+    "PreservationSet",
+    "Residual"
+  ],
+  "status": "STRUCTURAL_PROJECTION_NOT_IR_AUTHORITY"
+}

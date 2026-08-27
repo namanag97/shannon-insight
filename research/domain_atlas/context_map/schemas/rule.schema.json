@@ -1,0 +1,20 @@
+{
+  "$id": "https://san.example/spec/context-map/rule.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "rule_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "rule_id",
+    "law",
+    "failure_code",
+    "precedence",
+    "required_action"
+  ],
+  "title": "SAN candidate context-map rule",
+  "type": "object"
+}

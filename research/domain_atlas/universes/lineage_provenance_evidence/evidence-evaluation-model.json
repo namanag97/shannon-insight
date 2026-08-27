@@ -1,0 +1,338 @@
+{
+  "authority_dimensions": [
+    {
+      "dimension": "identity_resolution",
+      "levels": [
+        "unknown",
+        "self_identified",
+        "authenticated",
+        "independently_bound"
+      ],
+      "question": "Is the issuer/appraiser identity resolved under a qualified scheme at the relevant time?"
+    },
+    {
+      "dimension": "mandate",
+      "levels": [
+        "none_or_unknown",
+        "claimed",
+        "documented_scoped",
+        "externally_confirmed_scoped"
+      ],
+      "question": "Does the actor have authority for this exact subject, proposition, action, jurisdiction and interval?"
+    },
+    {
+      "dimension": "competence",
+      "levels": [
+        "unknown",
+        "claimed",
+        "evidenced",
+        "independently_qualified"
+      ],
+      "question": "Is the actor competent for the method and proposition?"
+    },
+    {
+      "dimension": "independence",
+      "levels": [
+        "self",
+        "second_party",
+        "independent_with_conflicts",
+        "independent_conflicts_controlled"
+      ],
+      "question": "What organizational, financial and method independence exists?"
+    },
+    {
+      "dimension": "method_authority",
+      "levels": [
+        "unknown",
+        "documented",
+        "validated_for_scope",
+        "independently_reviewed_for_scope"
+      ],
+      "question": "Is the evidence-generation/appraisal method governed and fit for use?"
+    },
+    {
+      "dimension": "conflict_of_interest",
+      "levels": [
+        "unknown",
+        "disclosed",
+        "mitigated",
+        "independently_reviewed"
+      ],
+      "question": "Are relevant conflicts disclosed and controlled?"
+    }
+  ],
+  "completion_claim": false,
+  "defeater_model": [
+    {
+      "effect": "supports an incompatible proposition or the negation of the claim",
+      "kind": "rebutting"
+    },
+    {
+      "effect": "shows issuer mandate, competence or independence is absent/narrower",
+      "kind": "authority_undercutter"
+    },
+    {
+      "effect": "shows payload, identity, signature, digest or canonicalization is compromised/mismatched",
+      "kind": "integrity_undercutter"
+    },
+    {
+      "effect": "shows collection, derivation, measurement or appraisal method is invalid for scope",
+      "kind": "method_undercutter"
+    },
+    {
+      "effect": "shows subject, population, condition, jurisdiction or interval mismatch",
+      "kind": "relevance_undercutter"
+    },
+    {
+      "effect": "shows uncontrolled handling, missing transfer or preservation failure",
+      "kind": "custody_undercutter"
+    },
+    {
+      "effect": "shows stale status, expired validity or changed source state",
+      "kind": "freshness_undercutter"
+    },
+    {
+      "effect": "shows missing events, blind spots, sampling gaps or selective disclosure",
+      "kind": "coverage_undercutter"
+    },
+    {
+      "effect": "shows unresolved inconsistency among evidence items or appraisals",
+      "kind": "conflict"
+    }
+  ],
+  "edition": 1,
+  "evaluation_output": {
+    "aggregation_law": "No global numeric score is canonical. A relying policy may define monotone gates or aggregation, but must expose dimension inputs and must not compensate for blocking integrity, authority, relevance or freshness failures unless the policy explicitly permits and records an exception.",
+    "required": [
+      "claim_ref",
+      "evidence_refs",
+      "policy_ref",
+      "decision_time",
+      "dimension_results",
+      "defeaters",
+      "verdict",
+      "rationale",
+      "residual_uncertainty",
+      "appraiser_ref"
+    ],
+    "verdicts": [
+      "support_sufficient_for_policy",
+      "support_insufficient",
+      "defeated",
+      "conflicted",
+      "indeterminate",
+      "not_applicable"
+    ]
+  },
+  "evidence_refs": [
+    "source.lpe.omg.sacm",
+    "source.lpe.w3c.vc2",
+    "source.lpe.ietf.rfc9334",
+    "source.lpe.nist.ir.8354",
+    "source.lpe.w3c.vc.status"
+  ],
+  "freshness_model": {
+    "recheck_triggers": [
+      "source_changed",
+      "schema_or_method_changed",
+      "credential_status_changed",
+      "key_or_algorithm_changed",
+      "new_counterevidence",
+      "custody_gap",
+      "policy_changed",
+      "retention_or_hold_changed"
+    ],
+    "rule": "Freshness is evaluated at decision_time using source volatility, status mechanism, valid interval, maximum age and recheck triggers; recording_time never substitutes for event_time or validity.",
+    "states": [
+      "fresh_for_use",
+      "stale_but_usable_by_exception",
+      "expired",
+      "status_unknown",
+      "future_not_yet_valid",
+      "temporally_conflicting"
+    ],
+    "time_fields": [
+      "event_time",
+      "observation_time",
+      "recording_time",
+      "signing_time",
+      "registration_time",
+      "valid_from",
+      "valid_until",
+      "retrieval_time",
+      "appraisal_time",
+      "decision_time"
+    ]
+  },
+  "model_id": "model.lpe.evidence-evaluation",
+  "non_inferences": [
+    "valid signature => claim truth",
+    "matching digest => semantic correctness",
+    "trusted issuer => authority for every claim",
+    "more citations => stronger evidence",
+    "recent recording time => current validity",
+    "no logged event => event did not occur",
+    "successful runtime status => durable external effects",
+    "provenance path => confirmed causation or impact"
+  ],
+  "purpose": "Assess whether identified evidence can support a precise claim for a relying decision without confusing integrity, identity, authority or assertion with truth.",
+  "roles": [
+    {
+      "meaning": "issues an assertion",
+      "not_equivalent_to": [
+        "attester",
+        "independent_appraiser"
+      ],
+      "role": "claimant"
+    },
+    {
+      "meaning": "authenticates a typed statement",
+      "not_equivalent_to": [
+        "claim_truth_authority",
+        "independent_appraiser"
+      ],
+      "role": "attester"
+    },
+    {
+      "meaning": "produces an evidence item under a method",
+      "not_equivalent_to": [
+        "custodian",
+        "verifier"
+      ],
+      "role": "evidence_producer"
+    },
+    {
+      "meaning": "maintains custody/preservation continuity",
+      "not_equivalent_to": [
+        "claimant",
+        "appraiser"
+      ],
+      "role": "custodian"
+    },
+    {
+      "meaning": "checks integrity, syntax or cryptographic validity",
+      "not_equivalent_to": [
+        "independent_appraiser"
+      ],
+      "role": "verifier"
+    },
+    {
+      "meaning": "applies a declared appraisal policy for a relying party",
+      "not_equivalent_to": [
+        "issuer",
+        "automatic_signature_checker"
+      ],
+      "role": "independent_appraiser"
+    },
+    {
+      "meaning": "decides whether and how to rely under its policy",
+      "not_equivalent_to": [
+        "truth_oracle"
+      ],
+      "role": "relying_party"
+    }
+  ],
+  "status": "candidate",
+  "strength_dimensions": [
+    {
+      "dimension": "integrity",
+      "levels": [
+        "failed",
+        "unknown",
+        "weakly_checked",
+        "verified",
+        "independently_verified"
+      ],
+      "question": "Is the exact assessed representation intact?"
+    },
+    {
+      "dimension": "identity",
+      "levels": [
+        "conflicting",
+        "unknown",
+        "partially_resolved",
+        "resolved_scoped",
+        "cross-system-confirmed"
+      ],
+      "question": "Are subject and occurrence identities unambiguous for the claim?"
+    },
+    {
+      "dimension": "directness",
+      "levels": [
+        "irrelevant",
+        "remote_inference",
+        "indirect",
+        "direct",
+        "direct_with_method_controls"
+      ],
+      "question": "How directly does the item observe or measure the proposition?"
+    },
+    {
+      "dimension": "relevance",
+      "levels": [
+        "mismatch",
+        "unknown",
+        "partial",
+        "matched",
+        "matched_with_boundary_tests"
+      ],
+      "question": "Does the evidence apply to the exact subject, interval, population and conditions?"
+    },
+    {
+      "dimension": "method_quality",
+      "levels": [
+        "invalid",
+        "unknown",
+        "documented",
+        "validated",
+        "independently_replicated"
+      ],
+      "question": "Are collection, computation and appraisal methods documented and validated?"
+    },
+    {
+      "dimension": "custody",
+      "levels": [
+        "broken",
+        "unknown",
+        "documented_with_gaps",
+        "continuous",
+        "continuous_and_independently_checked"
+      ],
+      "question": "Is handling and preservation continuity sufficient for this reliance?"
+    },
+    {
+      "dimension": "corroboration",
+      "levels": [
+        "contradicted",
+        "none",
+        "dependent_repeat",
+        "independent_agreement",
+        "multiple_independent_methods"
+      ],
+      "question": "Do genuinely independent sources/methods agree?"
+    },
+    {
+      "dimension": "reproducibility",
+      "levels": [
+        "failed",
+        "not_assessed",
+        "materials_partial",
+        "reproduced",
+        "independently_replicated"
+      ],
+      "question": "Can the generation/evaluation be rerun to a declared equivalence target?"
+    },
+    {
+      "dimension": "completeness",
+      "levels": [
+        "known_incomplete",
+        "unknown",
+        "bounded_partial",
+        "coverage_accounted",
+        "coverage_independently_checked"
+      ],
+      "question": "Does the item cover all records/events required for the claim?"
+    }
+  ],
+  "unit_of_assessment": "claim-evidence-support edge under one relying policy, subject cut and decision time"
+}

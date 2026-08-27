@@ -119,11 +119,11 @@ class PhaseResult:
     items_failed: int = 0
 
     @classmethod
-    def ok(cls, items_processed: int = 0, data: Optional[dict] = None) -> "PhaseResult":
+    def ok(cls, items_processed: int = 0, data: Optional[dict] = None) -> PhaseResult:
         """Create a successful phase result."""
         return cls(success=True, items_processed=items_processed, data=data)
 
     @classmethod
-    def fail(cls, error: Exception, items_processed: int = 0) -> "PhaseResult":
+    def fail(cls, error: Exception, items_processed: int = 0) -> PhaseResult:
         """Create a failed phase result."""
         return cls(success=False, error=error, items_processed=items_processed)

@@ -1,0 +1,35 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "extension-candidates.jsonl": {
+      "bytes": 41704,
+      "sha256": "017089ab97b8f80ee21c77e2408f9725f01c96b69314bc683d1c03b56d7982cc"
+    },
+    "grain-coordinate-ontology.json": {
+      "bytes": 6130,
+      "sha256": "abd522d0748d0d56ea0b30dd64b02844d3881eb8266f61ee09dd462174f4b435"
+    },
+    "grain-transformation-kernels.jsonl": {
+      "bytes": 21947,
+      "sha256": "25a56663b1b2ff68940447ca74469b3b6c796ffff9d79b1ea8ef1305219704d4"
+    },
+    "member-operation-routes.jsonl": {
+      "bytes": 745159,
+      "sha256": "e863c799832073fb257c0c963d79b876ad9c82088b21f0748c4f556150c7cb48"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 84101,
+      "sha256": "d62d4b624520bfa9c6836e3f1e7df6d5480327daba57b2c61adda23da2c08edc"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 2385,
+      "sha256": "16fcd99586ee14e6e64d2a5a7b688d8e21e4ab66861fd7762b8747aefa18d1f2"
+    },
+    "summary.json": {
+      "bytes": 556,
+      "sha256": "80e7ddc5afe93a2fa0032ef4666e9f16a07d60acd48a128be09940daa13ec631"
+    }
+  },
+  "manifest_id": "manifest.p3e.grain-coordinate-ontology-and-rebase.v1"
+}

@@ -1,0 +1,87 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/verified-change-events.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "canonical_semantics_authority": {
+      "type": "boolean"
+    },
+    "change_event_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "coverage_plane_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "deployed_rollout_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "llm_posture": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "maturity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "signal_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "verification_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "verified_at": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "canonical_semantics_authority",
+    "change_event_id",
+    "claim_boundary",
+    "coverage_plane_ids",
+    "deployed_rollout_status",
+    "llm_posture",
+    "maturity",
+    "proof_obligation_ids",
+    "signal_ids",
+    "source_ids",
+    "title",
+    "verification_status",
+    "verified_at"
+  ],
+  "title": "verified-change-events",
+  "type": "object"
+}

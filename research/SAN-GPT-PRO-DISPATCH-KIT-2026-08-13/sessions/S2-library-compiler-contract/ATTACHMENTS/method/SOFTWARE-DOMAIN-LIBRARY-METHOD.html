@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SAN Software-Domain Library Method — Edition 4</title>
+<style>
+:root{--ink:#202522;--muted:#5f6862;--paper:#fbfaf6;--panel:#f1efe7;--rule:#c8c3b6;--ok:#225f3b;--warn:#8a5a12;--bad:#8a2f2f;--blue:#315d72}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.52 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.main{max-width:1180px;margin:auto;padding:48px 42px 100px}h1{font:700 38px/1.08 ui-serif,Georgia,serif;margin:0 0 8px}h2{font:700 26px/1.2 ui-serif,Georgia,serif;border-top:2px solid var(--ink);padding-top:22px;margin-top:48px}h3{font-size:18px;margin-top:30px}h4{font-size:15px;margin:20px 0 8px}p{max-width:92ch}a{color:var(--blue)}code{background:#e9e6dc;padding:.08rem .25rem;border-radius:3px}pre,.ascii{background:#202522;color:#f5f1e7;padding:18px 20px;border-radius:7px;overflow:auto;white-space:pre-wrap;font:13px/1.42 ui-monospace,SFMono-Regular,Menlo,monospace}.meta,.ruling,.warning{padding:16px 18px;border:1px solid var(--rule);background:var(--panel);border-radius:7px}.ruling{border-left:5px solid var(--ok)}.warning{border-left:5px solid var(--bad)}table{border-collapse:collapse;width:100%;margin:14px 0 22px;font-size:13px}th,td{border:1px solid var(--rule);padding:8px 9px;vertical-align:top;text-align:left}th{background:#e8e5dc}.pass{color:var(--ok);font-weight:700}.partial{color:var(--warn);font-weight:700}.fail{color:var(--bad);font-weight:700}.small{font-size:12px;color:var(--muted)}ul,ol{max-width:100ch}li{margin:.24rem 0}.tag{display:inline-block;border:1px solid var(--rule);padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700}.toc{columns:2;padding:14px 28px;background:var(--panel);border:1px solid var(--rule)}
+</style>
+</head>
+<body><div class="main">
+<div class="header">
+<h1>SAN Software-Domain Library Method</h1>
+<p class="small">Edition 4 · review candidate · 2026-08-07 ·
+<a href="PURE-LIBRARY-CONSTITUTION.html">Constitution</a> ·
+<a href="COMPOSABLE-PRODUCT-KERNEL.html">Kernel</a> ·
+<a href="../toolkit/FAMILY-SPECS.md">FAMILY-SPECS ledger</a> ·
+<a href="../toolkit/reference/docs/REFERENCE-FAMILY-SPEC.html">Reference spec</a> ·
+<a href="PROGRAM.html">Program dashboard</a></p>
+<div class="meta">
+<p><strong>Purpose.</strong> A phase-by-phase method for deciding whether a concern deserves a pure Rust library, discovering its complete semantics, splitting it at real DDD boundaries, exposing every lawful decision, and proving composition without duplicating platform machinery in each domain.</p>
+<p><strong>Authority.</strong> <a href="PURE-LIBRARY-CONSTITUTION.html">PURE-LIBRARY-CONSTITUTION.html</a> remains the sole normative library law. The derived <a href="architecture/domain-libraries/pure-library-rules.md#0-canonical-review-list">R01–R44 checklist</a> is the operational gate. This document defines the review and realization procedure. It does not add semantic law and supersedes <code>SPEC-METHOD.html</code> edition 1.</p>
+<p><strong>Prime correction.</strong> The 28 DDD artifacts are an applicability audit. They are not 28 mandatory products. A census of 100 nouns is evidence about the world, not evidence that one proposed family owns them.</p>
+<p><strong>Greenfield rule.</strong> New canonical libraries are designed from product intent, domain evidence, the Constitution and current authoritative sources. The old SAN toolkit is deprecated, explicitly including <code>toolkit/factory/**</code>, <code>toolkit/foundation/**</code>, old chassis/kernel/platform families and their local contracts, registries, envelopes, compilers and IRs. Deprecated code is read-only evidence during specification work. It is neither a supplier nor an implementation destination; its names, crates, APIs and boundaries are not design constraints.</p>
+</div>
+</div>
+
+<ol class="toc">
+<li><a href="#failure">Corrections to the former procedure</a></li>
+<li><a href="#model">Project model and category map</a></li>
+<li><a href="#pipeline">Review and realization pipeline</a></li>
+<li><a href="#machine">Finite semantic-machine specification</a></li>
+<li><a href="#rules">R01–R44 grouped rules</a></li>
+<li><a href="#ddd">Conditional 28-point DDD matrix</a></li>
+<li><a href="#ontology">Ontology census and ownership matrix</a></li>
+<li><a href="#domains">Candidate register schema</a></li>
+<li><a href="#crate">Crate boundary gate</a></li>
+<li><a href="#agent">Phase-by-phase agent workflow</a></li>
+<li><a href="#vertical">First vertical and completion evidence</a></li>
+</ol>
+
+<h2 id="failure">1. Corrections to the former procedure</h2>
+<table><thead><tr><th>Former instruction</th><th>Observed defect</th><th>Replacement</th></tr></thead><tbody>
+<tr><td>“Produce 100+ nouns, verbs and events for this domain”</td><td>Research terms become claimed ownership. Neighboring domains are annexed because the output has no owner/class column.</td><td>Produce a world census, then place every term as native, imported, exported, pack-owned, runtime-owned, provider-owned or rejected.</td></tr>
+<tr><td>“8–14 bounded contexts”</td><td>Assumes the candidate is already a large sovereign domain. This incorrectly assigns bounded subcontexts to some foundation algebras.</td><td>Classify first. A foundation algebra may have zero bounded subcontexts; a pack may decompose into several sovereign families.</td></tr>
+<tr><td>“2–5 aggregates, 126 commands, events…”</td><td>Stateless value and decision libraries are forced to invent institutional state.</td><td>Aggregates, commands and events exist only when the candidate owns durable invariants and a consistency boundary.</td></tr>
+<tr><td>“Every family emits plans and cards”</td><td>Creates a compiler/card ecosystem per family.</td><td>Native plan only for real semantic closure; cards only for authored, selected or exchanged family data; one shared descriptor/linker protocol.</td></tr>
+<tr><td>“10–18 crates”</td><td>Headings become link boundaries before consumers and dependency profiles exist.</td><td>Modules first. A crate is earned by the five-part boundary test and measured consumer graph.</td></tr>
+<tr><td>“One generic driver runs all aggregates”</td><td>Conflates distinct progress semantics.</td><td>Shared drivers exist per execution algebra: aggregate, process, query, reconciler, stream, analytical, and others only when witnessed.</td></tr>
+<tr><td>“Greenfield” without repository inventory</td><td>Persisted commitments, real consumers, failures and usable subordinate mechanics can be missed.</td><td>Ground inventory is Gate 0, but it is evidence rather than design authority. New semantics and boundaries remain greenfield.</td></tr>
+<tr><td>Round-number completeness</td><td>A fixed count of contexts or nouns does not establish semantic saturation.</td><td>Stop only when materially different contexts add no new term, law, decision, seam, refusal or gap.</td></tr>
+</tbody></table>
+
+<div class="ruling"><strong>Rule:</strong> ontology breadth is retained. Ownership is not inferred from breadth. The agent completes the research lanes, partitions every observed term by semantic owner and disposition, and designs only the selected closure.</div>
+
+<h2 id="model">2. Project model and category map</h2>
+<div class="ascii">WORKING ENTERPRISE APPLICATION
+= vertical product content
+× sovereign semantic libraries
+× artifact grammar
+× concern/obligation closure
+× shared contract linking
+× target-owned compilers
+× generic execution mechanisms
+× provider binding
+× delivery/control
+× proofs
+
+PRODUCT GRAPH
+industry → jurisdiction/function packs → solution → application → module
+        → archetype → composite capability → profile → family instance
+
+This is a many-to-many composition graph, not inheritance and not a crate DAG.</div>
+
+<table><thead><tr><th>Map</th><th>Question</th><th>Examples</th><th>Must not become</th></tr></thead><tbody>
+<tr><td>M0 Value vocabulary</td><td>What universal typed words exist?</td><td>canonical bytes, digest, instant, exact magnitude, identifiers, refusals</td><td>global runtime buses</td></tr>
+<tr><td>M1 Artifact grammar</td><td>What can an application contain?</td><td>field, aggregate, command, event, form, queue, migration, alert</td><td>semantic-domain ownership</td></tr>
+<tr><td>M2 Obligation lenses</td><td>What must be proven about each artifact?</td><td>authority, tenancy, privacy, evidence, failure, performance, evolution</td><td>24 mandatory families</td></tr>
+<tr><td>M3 Sovereign context map</td><td>Who owns each semantic answer?</td><td>Identifier, AuthN, Calendar, Truth, Work, Money</td><td>one crate per row</td></tr>
+<tr><td>M4 Runtime mechanisms</td><td>How does progress occur safely?</td><td>mutation, journal, event fabric, workflow, query, reconciliation</td><td>domain semantics</td></tr>
+<tr><td>M5 Compiler/product map</td><td>How do declarations become artifacts?</td><td>resolver, linker, obligation closure, semantic graph, target lowerers</td><td>one family-local compiler per domain</td></tr>
+<tr><td>M6 Provider/composition map</td><td>How are physical guarantees realized?</td><td>Postgres, object store, Kafka, KMS, OIDC, OTel, Kubernetes</td><td>vendor names in portable declarations</td></tr>
+<tr><td>M7 Product ladder</td><td>What reusable content composes applications?</td><td>profiles, capabilities, archetypes, function/industry packs, solutions</td><td>a universal inheritance tree</td></tr>
+</tbody></table>
+
+<h3>2.1 Primary architectural classes</h3>
+<p>Every candidate receives exactly one primary class before ontology ownership or crate design. Participation in another class occurs through a typed contract and does not change the primary class.</p>
+<table><thead><tr><th>Class</th><th>Owned result</th><th>Qualification test</th></tr></thead><tbody>
+<tr><td>Foundation algebra</td><td>universal typed values or pure algebra</td><td>no institutional authority or lifecycle; broadly reused below domain meaning</td></tr>
+<tr><td>Sovereign family</td><td>one independently evolving semantic answer</td><td>passes the seven sovereign-family tests in R02</td></tr>
+<tr><td>Composite capability</td><td>a smaller public contract over several child contracts</td><td>owns cross-child constraints, not child semantics</td></tr>
+<tr><td>Application archetype</td><td>reusable application structure and interaction pattern</td><td>instantiates families and capabilities for a recurring use case</td></tr>
+<tr><td>Vertical pack</td><td>industry, jurisdiction or function content</td><td>primarily data, policy, reference and configuration over published contracts</td></tr>
+<tr><td>Execution algebra</td><td>generic progress semantics</td><td>several families require the same transition or scheduling mechanism</td></tr>
+<tr><td>Platform-control product</td><td>desired/reported-state governance of software or infrastructure</td><td>owns control semantics and plans, not application business meaning</td></tr>
+<tr><td>Reference data</td><td>governed external facts and their passport</td><td>authority is a curator or standards publisher; values change independently of code</td></tr>
+<tr><td>Physical provider</td><td>an implementation of a provider-neutral port</td><td>contains vendor or technology mechanics and no independent domain meaning</td></tr>
+<tr><td>Coverage lens</td><td>a cross-cutting completeness or obligation view</td><td>asks a question of another artifact without owning that artifact's lifecycle</td></tr>
+</tbody></table>
+
+<h3>2.2 Three compiled products, never one</h3>
+<div class="ascii">AppRelease
+  portable application meaning + locked semantic dependencies + proofs
+        │ + tenant desired state / policy binding
+        ▼
+PortableDeploymentRequirements
+  topology/resource/security/operability requirements, no providers
+        │ + environment catalog + certified provider offers
+        ▼
+BoundDeploymentPlan
+  exact providers, placement, sequence, rollback, receipts
+        │ reconcile
+        ▼
+ReportedRunningState</div>
+<p>A provider-bound plan is not provider-neutral. Customer business records belong to the tenant runtime and are not part of any of these artifacts.</p>
+
+<h3>2.3 IR ruling</h3>
+<p>There is one canonical <strong>application semantic graph</strong> for products, contracts, decisions, provenance, obligations, conflicts and gaps. Executable representations remain <strong>target-owned IRs</strong> for Data, Behavior, Event, Read, Experience, Integration, Operations, Migration and Assurance. A single executable IR is rejected because target semantics and consumers differ.</p>
+
+<h3>2.4 Standards and implementation evidence protocol</h3>
+<p>Standards and dependency claims are dated evidence. Each adopted mechanism or semantic rule must have one review record with the fields below. A search result, secondary summary, crate popularity count or repository README is not normative evidence.</p>
+<table><thead><tr><th>Field</th><th>Required content</th></tr></thead><tbody>
+<tr><td>Question</td><td>the exact semantic or mechanical decision being supported</td></tr>
+<tr><td>Primary authority</td><td>standards body specification, official language/library documentation, peer-reviewed paper, or authoritative upstream source</td></tr>
+<tr><td>Edition posture</td><td>identifier, publication date, status, errata, supersession and access date</td></tr>
+<tr><td>Adoption ruling</td><td>adopt · adapt · wrap · reference · reject, with the owned and delegated semantics stated</td></tr>
+<tr><td>Rust mechanism</td><td>crate and version, maintained status, MSRV, feature/dependency surface, unsafe posture, license and relevant API</td></tr>
+<tr><td>Evidence</td><td>official vectors/corpora, differential or interoperability evidence, known limits and unsupported cases</td></tr>
+<tr><td>Revalidation trigger</td><td>standard revision, upstream major version, vulnerability, semantic defect, or evidence expiry</td></tr>
+</tbody></table>
+<p>Primary sources take precedence over recollection and secondary commentary. A current claim is rechecked when it can change independently of the repository. Standards supply subordinate mechanics or published-language constraints; they do not silently become the family's semantic authority.</p>
+
+<h2 id="pipeline">3. Review and realization pipeline</h2>
+<table><thead><tr><th>Stage</th><th>Required output</th><th>Gate</th></tr></thead><tbody>
+<tr><td>S0 Ground inventory</td><td>existing files/symbols, code status, dependencies, consumers, tests, providers, duplicates, salvage/reject record</td><td>G0: no recommendation duplicates an existing implementation unknowingly</td></tr>
+<tr><td>S1 Architectural classification</td><td>exactly one primary class; sovereign question where applicable; negative charter</td><td>G1: all ten R01 classes were tested and the selected class has direct evidence</td></tr>
+<tr><td>S2 Evidence saturation</td><td>practice, standards, OSS, research and failures; dated source records and saturation evidence</td><td>G2: additional materially distinct contexts add no new semantic requirement; current claims have primary-source evidence</td></tr>
+<tr><td>S3 Ontology census</td><td>nouns, predicates, verbs, events, fates, refusals—with owner and architectural class per term</td><td>G3: every term is native/import/export/delegated/rejected; no “miscellaneous” bucket</td></tr>
+<tr><td>S4 Boundary/split ruling</td><td>materially distinct candidate decompositions, context map, seam contracts, selected design and strongest rejected alternative</td><td>G4: alternatives were tested until no new ownership boundary appeared; one coherent closure or explicit decomposition remains</td></tr>
+<tr><td>S5 Conditional native semantics</td><td>applicable DDD artifacts, pure APIs, state matrices where state exists, total answer/refusal vocabularies</td><td>G5: every applicable cell implemented in the spec; every N/A has a structural reason</td></tr>
+<tr><td>S6 Decision/composition closure</td><td>decision coordinates, three algebras, requirements/offers, artifact classes, output traceability, shared descriptor contribution</td><td>G6: no hidden choice, untyped seam, provider leakage or family-local compiler platform</td></tr>
+<tr><td>S7 Evolution, safety and resource closure</td><td>compatibility/migration/recall rules, reference passports, obligation preservation, resource contract and disclosure behavior</td><td>G7: R29–R33 are explicit and every unsupported case is a typed gap</td></tr>
+<tr><td>S8 Rust realization</td><td>build-versus-wrap dossier, admitted types, module-first design, measured crate boundary record, ordinary Rust API and declaration admission path</td><td>G8: public invariants cannot be bypassed; direct and declarative paths converge; crate splits pass the physical test</td></tr>
+<tr><td>S9 Proof and promotion</td><td>nine closures, A1–A18, focused release tests, strict static analysis, purity/dependency checks, golden thread, gap ledger and certification record</td><td>G9: evidence covers each claim; no vacuous certificate, generated authority drift or overclaimed status</td></tr>
+</tbody></table>
+
+<div class="warning"><strong>Stop rule.</strong> A failed gate records the exact missing evidence and prevents promotion to the next status. Research, correction and implementation work may continue where it directly closes that record; the missing requirement is not replaced by an assumption.</div>
+
+<h3>3.1 Mandatory review records</h3>
+<p>The records below are required outputs. Prose may explain them but does not replace them.</p>
+<table><thead><tr><th>Record</th><th>Required fields</th></tr></thead><tbody>
+<tr><td>Inventory item</td><td>path · symbol · owning package · dependency direction · consumers · compile status · exercising tests · runnable wiring · production/dev provider · duplicate/dead evidence · status</td></tr>
+<tr><td>Classification ruling</td><td>candidate · selected primary class · qualification evidence · rejected classes and reasons · owned result · negative charter · amendment trigger</td></tr>
+<tr><td>Ontology term</td><td>stable term · definition · kind · observed context · semantic owner · architectural class · native/import/export direction · exact contract · disposition</td></tr>
+<tr><td>Decision point</td><td>stable ID · typed value · authority · resolution mode · binding phase · absence/default/provenance · validation/canonicalization · contribution merge · requirement join · compatibility · effects · evidence</td></tr>
+<tr><td>Seam</td><td>consumer · provider · direction · contract kind/identity/edition · payload schema · guarantees · cardinality · scope · phase · applicability · join operation · satisfaction proof/refusals</td></tr>
+<tr><td>Output trace</td><td>artifact field · source invariant/decision/import/derivation · transformation · consumer · compatibility and disclosure consequence</td></tr>
+<tr><td>Gap</td><td>stable ID · owner · affected requirement · blocked scope · current evidence · reopening condition · required evidence · permitted fallback, if any</td></tr>
+<tr><td>Evidence</td><td>claim · level · executable operation or structural proof · input corpus · expected result · actual result · environment/toolchain · date · limits · artifact reference</td></tr>
+<tr><td>Crate boundary</td><td>proposed crate · protected consumer · independent dependency/security/resource/evolution boundary · measured benefit · rejected module design · collapse trigger</td></tr>
+<tr><td>Promotion</td><td>specification edition/digest · code revision · R01–R44 dispositions · A1–A18 dispositions · commands run · resulting evidence · certification level · unresolved gaps</td></tr>
+</tbody></table>
+
+<h3>3.2 Status vocabularies</h3>
+<p>Implementation inventory uses exactly <code>REAL</code>, <code>PARTIAL</code>, <code>STUB</code>, <code>SPEC_ONLY</code>, <code>DUPLICATE</code>, <code>DEAD</code> or <code>UNKNOWN</code>. Rule review uses exactly <code>PASS</code>, <code>PARTIAL</code>, <code>FAIL</code>, <code>INAPPLICABLE</code> with a structural reason, or <code>UNKNOWN</code>. Certification uses exactly <code>none</code>, <code>library-conformant</code>, <code>composition-certified</code>, <code>runtime-certified</code> or <code>production-certified</code>. These vocabularies answer different questions and are not interchangeable.</p>
+
+<h3>3.3 Specification and code authority</h3>
+<div class="ascii">research record
+  → review candidate specification
+  → implementation candidate specification
+  → Rust realization + executable evidence
+  → library-conformant edition
+  → composition/runtime/production certification, when applicable</div>
+<ul>
+<li>A review candidate records unresolved alternatives and does not authorize implementation claims.</li>
+<li>An implementation candidate has passed S0–S7 and is the sole semantic target for Rust realization.</li>
+<li>Rust code is evidence only for the exact specification edition and digest it implements.</li>
+<li>A code/spec mismatch changes the implementation status to <code>PARTIAL</code>; passing legacy tests does not overrule the normative specification.</li>
+<li>A specification amendment records the changed law, decision, seam, artifact, compatibility consequence, affected symbols and required evidence refresh.</li>
+<li>Generated manifests and evidence may be replaced only by regeneration from the authoritative descriptors and code revision.</li>
+</ul>
+
+<h3>3.4 Domain-exhaustion research packet</h3>
+<p>S2 is complete only when the packet below exists. The packet records evidence and open decisions; it does not assign ownership before S4.</p>
+<table><thead><tr><th>Research lane</th><th>Minimum investigation</th><th>Required output</th></tr></thead><tbody>
+<tr><td>Repository reality</td><td>all specifications, symbols, manifests, tests, consumers, providers, duplicate mechanisms and historical decisions in scope</td><td>S0 inventory records with exact paths and statuses</td></tr>
+<tr><td>Consumer contexts</td><td>materially different industries, jurisdictions, deployment modes, scale bands, failure modes and human/machine consumers</td><td>context ledger stating the new term, law, decision, seam or gap contributed by each context</td></tr>
+<tr><td>Mature-company practice</td><td>public specifications, architecture papers, APIs, operational guides and postmortems from operators that run the concern at relevant scale</td><td>practice comparison: problem, mechanism, invariants, trade-offs, limits, adoption ruling; company product boundaries are not copied as SAN boundaries</td></tr>
+<tr><td>Authoritative standards</td><td>current and superseded standards, profiles, errata, registries and interoperability requirements</td><td>one §2.4 evidence record per adopted, adapted, referenced or rejected standard</td></tr>
+<tr><td>Rust and OSS landscape</td><td>maintained crates and reference implementations, upstream APIs, features, MSRV, unsafe surface, licenses, security history and conformance assets</td><td>build/wrap/reuse/reject dossier; subordinate mechanics are preferred when they preserve SAN semantics</td></tr>
+<tr><td>Frontier research</td><td>peer-reviewed work, formal models, active research systems and relevant draft standards that change a semantic or engineering decision</td><td>decision impact record; speculative results remain profiles, experiments or gaps rather than default law</td></tr>
+<tr><td>Failure evidence</td><td>vulnerabilities, incident reports, compatibility breaks, ambiguity attacks, corruption cases, operational failures and abandoned approaches</td><td>failure museum mapped to laws, refusals, HAZOP/STPA entries and negative tests</td></tr>
+<tr><td>Adjacent owners</td><td>neighboring semantic authorities and shared foundation owners that may already answer part of the question</td><td>context map and candidate seam contracts; no duplicated ownership</td></tr>
+<tr><td>Evolution horizon</td><td>historical interpretation, coexistence, migration, deprecation, recall and likely standards/provider change</td><td>compatibility matrix and reopening triggers</td></tr>
+</tbody></table>
+
+<h4>Research source record</h4>
+<pre>Source ID:
+Research lane:
+Question answered:
+Primary source URL or repository path:
+Publisher / authors:
+Edition, status, publication date, access date:
+Observed mechanism and invariant:
+Material trade-off or failure:
+What this adds to the ontology or decision space:
+Adoption posture: adopt | adapt | wrap | reference | reject | unresolved
+Reason and authority:
+Affected law / decision / seam / gap:
+Revalidation trigger:</pre>
+
+<h4>Saturation rule</h4>
+<p>Research proceeds by materially distinct context, not by a target source count. Each additional context is logged with the semantic delta it contributed. Saturation is reached only when the latest distinct contexts contribute no new native term, invariant, decision, state transition, refusal, seam, evolution case or named gap. Repeated mechanisms without semantic delta are recorded as corroboration. The agent reports uncovered lanes and confidence; it does not declare exhaustion when a lane was not investigated.</p>
+
+<h4>User decision checkpoints</h4>
+<table><thead><tr><th>Checkpoint</th><th>User input required</th><th>Agent responsibility before asking</th></tr></thead><tbody>
+<tr><td>U0 Intent</td><td>product outcome, priority consumers, explicit exclusions and unacceptable compromises</td><td>summarize current evidence and identify only ambiguities that change the work</td></tr>
+<tr><td>U1 Boundary</td><td>selection where two evidence-supported ownership boundaries remain materially different</td><td>present both boundaries, dependency consequences, rejected terms and migration cost</td></tr>
+<tr><td>U2 Authority/defaults</td><td>who may set contested decisions and whether a proposed default is acceptable</td><td>show the complete decision coordinate, strengthening order and consequence of absence</td></tr>
+<tr><td>U3 Gap posture</td><td>support now, explicit unsupported gap, or defer to a named extension/provider</td><td>show blocked consumers, available mechanisms, risk and reopening evidence</td></tr>
+<tr><td>U4 Promotion</td><td>accept the implementation-candidate specification</td><td>provide S0–S7 records, R01–R44 disposition, exact unresolved gaps and semantic diff from the prior edition</td></tr>
+</tbody></table>
+<p>The agent does not ask for information it can establish from sources or the repository. It does not infer product authority, acceptable risk or contested defaults from technical practice. A question presents the evidence, available decisions and consequences.</p>
+
+<h3>3.5 Greenfield realization and legacy disposition</h3>
+<div class="warning"><strong>Fail-closed source boundary.</strong> No canonical candidate may depend on or add canonical machinery to the old toolkit. In particular, Factory is deprecated: shared descriptors, contract headers, composition algebras, IR and linking machinery must be designed in a separately ratified greenfield platform boundary. An existing dependency into the old toolkit is recorded as a migration defect, not accepted as a supplier seam.</div>
+<table><thead><tr><th>Stage</th><th>Legacy-tree rule</th></tr></thead><tbody>
+<tr><td>S0 Inventory</td><td>read only; recover requirements, consumers, persisted representations, issued proofs, failures, duplicates and potentially reusable subordinate mechanics</td></tr>
+<tr><td>S1–S4 Classification/boundary</td><td>legacy names, crate count, layering and ownership do not constrain the candidate; each retained concept requires independent semantic evidence</td></tr>
+<tr><td>S5–S7 Specification</td><td>define the complete greenfield semantics, decision space, seams, evolution and resource laws; do not patch legacy APIs or write compatibility clauses without a proven commitment</td></tr>
+<tr><td>S8 Rust realization</td><td>implement in the new canonical family or ratified greenfield platform location; do not depend on deprecated internals or place replacements in old Factory/Foundation; prefer current audited external crates for subordinate mechanics</td></tr>
+<tr><td>S9 Evidence</td><td>prove the new implementation directly; a wrapper around legacy code or a passing legacy suite is not new-family conformance</td></tr>
+<tr><td>Post-conformance migration</td><td>write explicit import, upcast, compatibility or anti-corruption adapters only for proven persisted values, issued evidence or contractual consumers</td></tr>
+</tbody></table>
+<p>A legacy symbol may be transplanted only after a disposition record identifies the exact symbol, semantic equivalence, dependency posture, safety/resource behavior, required refactor and evidence. The implementation is then owned by the new family. An old crate is not imported wholesale to preserve an obsolete boundary.</p>
+<pre>Legacy disposition:
+Path and symbol:
+Status: salvage | replace | wrap at boundary | migrate data | retire
+Recovered requirement or consumer:
+Semantic equivalence to new specification:
+Persisted/evidence/contract compatibility obligation:
+Dependency and safety posture:
+Required transformation:
+Evidence required before admission:</pre>
+
+<h3 id="machine">3.6 One finite semantic machine per normative specification</h3>
+<div class="ruling"><strong>Document law.</strong> A normative specification owns exactly one finite semantic machine. A document that answers multiple sovereign questions, calls itself a mixed class, or owns several independent transition systems is an architecture map and must split before normative review.</div>
+<div class="ascii">question
+  → prime distinctions
+  → owned mathematical object
+  → authority map
+  → native operations
+  → closed outcomes and refusals
+  → laws over those operations
+  → nominal seams
+  → resource behavior
+  → evolution
+  → falsification and conformance</div>
+<table><thead><tr><th>#</th><th>Normative section</th><th>Required content</th></tr></thead><tbody>
+<tr><td>0</td><td>Identity</td><td>name, primary class, edition, certification, one question, one answer and exact owned artifact</td></tr>
+<tr><td>1</td><td>Prime distinctions</td><td>central equation and nearest false twins; separating edge case and API consequence for each</td></tr>
+<tr><td>2</td><td>Authority map</td><td>owner, earliest bind, lawful variation and narrowing for every coordinate</td></tr>
+<tr><td>3</td><td>Closed semantic model</td><td>finite Rust-shaped values and one function or transition system</td></tr>
+<tr><td>4</td><td>Native API</td><td>every operation; every input classified as owned value, imported witness, policy, observation or resource budget</td></tr>
+<tr><td>5</td><td>Laws</td><td>statement, governed operations, impossible invalid state and executable hostile witness</td></tr>
+<tr><td>6</td><td>Decisions and variation</td><td>only real variation; merge, join and satisfaction exist only when the semantic shape and named consumer require them</td></tr>
+<tr><td>7</td><td>Outcomes and refusals</td><td>semantic refusal, incompatibility, resource exhaustion, provider fault, cancellation and defect remain distinct</td></tr>
+<tr><td>8</td><td>Nominal seams</td><td>owner, exact identity/edition, payload, cardinality, bind phase, proof, failure, evolution and obligations</td></tr>
+<tr><td>9</td><td>Resources</td><td>input, allocation, work and output bounds; streaming and partial-result policy</td></tr>
+<tr><td>10</td><td>Evolution</td><td>semantic/profile/reference/certificate changes, upgrade order and interpretation of persisted values</td></tr>
+<tr><td>11</td><td>Conformance</td><td>vectors, properties, metamorphic laws, negative twins, parity, mutation, boundaries, hostile inputs and one real consumer</td></tr>
+<tr><td>12</td><td>Physical shape</td><td>module/crate/DAG proposal only after semantic closure</td></tr>
+<tr><td>13</td><td>Open semantic gaps</td><td>only unresolved meaning or missing proof; implementation task status belongs elsewhere</td></tr>
+</tbody></table>
+
+<h4>Separate HTML artifacts</h4>
+<pre>&lt;CONCERN&gt;-SPEC.html            sole normative semantic target
+&lt;CONCERN&gt;-RESEARCH.html        standards, products, papers, failure museum
+&lt;CONCERN&gt;-IMPLEMENTATION.html  code inventory, duplicates, migration/build status
+&lt;CONCERN&gt;-CONFORMANCE.html     vectors, generators, mutation and certification
+&lt;CONCERN&gt;-CHANGELOG.html       editions, amendments and retractions
+&lt;CONCERN&gt;-SURFACE.json         generated descriptor; never hand-authored</pre>
+<p>Research justifies rulings but is not itself the ruling. Implementation state cites the specification but cannot change its semantics. Generated surfaces derive from the normative source and fail drift checks.</p>
+
+<h4>Twelve-answer rewrite gate</h4>
+<ol>
+<li>What one question does it answer?</li><li>What exact artifact does it own?</li>
+<li>What are its nearest false twins?</li><li>Who owns every coordinate?</li>
+<li>What is the mathematical function or transition system?</li><li>What are the exact public operations?</li>
+<li>What are the closed results and refusals?</li><li>Which laws govern which operations?</li>
+<li>Which exact cross-owner contracts exist?</li><li>What hostile case falsifies each law?</li>
+<li>How do old values remain interpretable?</li><li>What evidence justifies implemented, conformant and certified?</li>
+</ol>
+<div class="warning">A draft is rejected if any answer is “see repo sweep”, “per the Constitution”, “mixed class”, “borrowed template”, “structurally inapplicable” or “classification remains open”.</div>
+
+<h4>Sovereign-import and no-reinvention gate</h4>
+<p>Before defining a public field or type, the author searches the candidate shelf and identifies its semantic owner. A consumer may specialize an imported value with a nominal role marker, but it may not reimplement the supplier's grammar, construction, equality, ordering, lifecycle, verification or authority.</p>
+<table><thead><tr><th>Meaning</th><th>Required owner</th><th>Consumer rule</th></tr></thead><tbody>
+<tr><td>instance, request, event, key and document identifiers</td><td>Identifier</td><td>use an admitted Identifier value with a role/kind marker; never add a local codec, UUID wrapper, parser, allocator or equality law</td></tr>
+<tr><td>what a stable identifier denotes, continuity, fate, aliasing and resolution</td><td>Identity</td><td>hold <code>IdentityRef</code> or consume an Identity passport/call contract; never create a second identity biography</td></tr>
+<tr><td>tenant and custody coordinates</td><td>Tenancy</td><td>consume <code>VerifiedTenantContext</code> or a Tenancy passport; never define a local <code>TenantId</code> or <code>TenantScope</code></td></tr>
+<tr><td>timeline, duration, digest and canonical octets</td><td>Instant, Duration, Digest and Canonical Form</td><td>import admitted values/witnesses; primitive integers and local wrappers are not semantic substitutes</td></tr>
+<tr><td>proof, authority, disclosure and classification</td><td>Evidence, Authorization/Authority and Classification</td><td>cite the owner contract and preserve obligations; evidence never becomes authority</td></tr>
+</tbody></table>
+<pre>allowed:   type RequestId = Identifier&lt;RequestRole&gt;
+allowed:   subject: IdentityRef
+forbidden: struct RequestId(String)        // second Identifier family
+forbidden: struct WorkloadIdentity { ... } // second Identity biography
+forbidden: struct TenantScope(String)      // second Tenancy family</pre>
+<p>Every closed model includes a field-level import/ownership table. An unowned field is either justified as native to the sovereign question or recorded as an unresolved gap. Similar-looking local types fail the gate.</p>
+
+<h4>Structural-checker boundary</h4>
+<p>A checker may prove section presence, unique identifiers, operation/law cross-references and companion/index parity. It may not require fake <code>ContextSpec</code> records, R01–R44 restatement, decision algebras, C-gate tables, reviewer declarations or implementation ledgers inside every normative spec.</p>
+
+<h2 id="rules">4. Updated library rules list</h2>
+<p>The authoritative detailed checklist is R01–R44. This grouped HTML index is for human review; identifiers match the Markdown checklist exactly.</p>
+<table><thead><tr><th>Rules</th><th>Required proof</th></tr></thead><tbody>
+<tr><td>R01–R05 Classification</td><td>one primary class; Q1–Q7 only for sovereign families; negative charter; conditional semantic shapes; one owner per meaning</td></tr>
+<tr><td>R06–R11 Native Rust</td><td>ordinary compiler-independent use; explicit time/entropy/authority; admitted construction; typed surface; direct/declaration semantic identity; idiomatic bounded Rust and audited subordinate dependencies</td></tr>
+<tr><td>R12–R17 Decisions</td><td>branch closure; authority + mode + phase; separate contribution merge, requirement join and proof-producing satisfaction; effective decisions; portable closure; invariant-preserving customization</td></tr>
+<tr><td>R18–R24 Composition</td><td>one shared descriptor metamodel; one typed contract protocol; exact seams; correct artifact classes; output traceability; conditional plans/cards/envelopes/IR; recursive encapsulation</td></tr>
+<tr><td>R25–R28 State/effects</td><td>total state×command matrix where applicable; pure decide/evolve seam; effect intents behind ports; no family-owned driver/store loop/host</td></tr>
+<tr><td>R29–R33 Evolution/safety</td><td>compatibility/coexistence/migration/recall/retirement; complete reference-data passports; obligation preservation; resource bounds; safe debug/display/error/schema behavior</td></tr>
+<tr><td>R34–R40 Proof/authority</td><td>nine total closures; complete API manifest; systematic audits; generated counts/manifests; staged evidence; non-vacuous certificates; owned gaps and honest claims</td></tr>
+<tr><td>R41–R44 Physical design</td><td>modules first; contract-only acyclic DAG; additive non-semantic Cargo features; generated/honest crate inventory</td></tr>
+</tbody></table>
+
+<h3>4.1 Five anti-multiplication rules</h3>
+<ol>
+<li>A family may contribute to the shared compiler; it does not own a private application compiler/linker/registry.</li>
+<li>A native family plan is a rich semantic product only when real closure/conflict resolution exists; it is not generic application IR.</li>
+<li>A card is a versioned published contract for authored/selected/exchanged family data, not the universal container for every value.</li>
+<li>A law suite may be family-owned; harness and certificate vocabulary are shared. Empty/all-N/A suites cannot certify.</li>
+<li>A runtime is shared by progress algebra. A runtime heading is not automatically a process or crate.</li>
+</ol>
+
+<h3>4.2 Rust-feature selection record</h3>
+<p>The Rust feature atlas is a design search space, not a requirement to use every language feature. During S7 each proposed public mechanism records the obligation it discharges and the rejected simpler mechanisms. During S8 code follows the R11 realization profile.</p>
+<table><thead><tr><th>Question</th><th>Default ruling</th><th>Required exception evidence</th></tr></thead><tbody>
+<tr><td>Value validity</td><td>private fields; smart constructors; validating <code>TryFrom</code>; exhaustive enums</td><td>why an invalid state must remain representable</td></tr>
+<tr><td>Ownership</td><td>borrow inputs, own outputs; move aggregate state by value</td><td>measured need for <code>Arc</code>, interior mutability, arena or clone</td></tr>
+<tr><td>Dispatch</td><td>generic/static for closed hot paths; enum for a closed selected set</td><td>open heterogeneous set and code-size/runtime evidence for <code>dyn Trait</code></td></tr>
+<tr><td>State/concurrency</td><td>none in a pure core</td><td>proof that concurrency is native semantics rather than runtime machinery</td></tr>
+<tr><td>Arithmetic</td><td>checked operation with typed refusal; explicit exact/rounded semantics</td><td>law authorizing saturation, wrapping or approximation</td></tr>
+<tr><td>Allocation</td><td>bounded collection, deliberate capacity, iterator/borrowed view</td><td>resource contract for growth, exhaustion and cancellation</td></tr>
+<tr><td>Macros</td><td>ordinary Rust first</td><td>repetition/diagnostic benefit, generated surface, compile-cost boundary</td></tr>
+<tr><td>Unsafe/nightly</td><td>forbidden/stable 2024</td><td>unmet measured requirement, safety/portability owner and removal plan</td></tr>
+<tr><td>Cargo features</td><td>additive non-semantic capability or portability only</td><td>none for semantic variation; use typed data or a separate adapter</td></tr>
+<tr><td>Layout/wire</td><td>explicit admitted representation; never <code>repr(Rust)</code></td><td>versioned FFI contract with <code>repr(C)</code>/<code>transparent</code></td></tr>
+</tbody></table>
+<pre>Rust feature selection:
+Obligation:
+Selected mechanism:
+Simpler mechanisms rejected and why:
+Ownership/borrowing model:
+Dispatch and monomorphization posture:
+Allocation and complexity bound:
+Arithmetic and conversion posture:
+Panic/unsafe/nightly posture:
+Feature and portability posture:
+Public API and semver consequence:</pre>
+
+<h2 id="ddd">5. Conditional 28-point DDD matrix</h2>
+<table><thead><tr><th>#</th><th>DDD artifact</th><th>Applicability rule for a pure library</th></tr></thead><tbody>
+<tr><td>1–7</td><td>vision, classification, boundary, language, context map, ACLs, published language</td><td>Always for a sovereign family. Foundation algebras use a charter and dependency/seam map; packs publish component and external-contract maps and are not modeled as one bounded context.</td></tr>
+<tr><td>8</td><td>Value objects</td><td>Required when value semantics exist. Illegal values are unconstructible.</td></tr>
+<tr><td>9</td><td>Entities</td><td>Only when identity persists independently of current attributes. Content-addressed immutable values are not entities.</td></tr>
+<tr><td>10–11</td><td>Aggregates and transactional invariants</td><td>Only when this library owns durable institutional state and a consistency boundary. Otherwise publish a requirement to the actual transaction owner.</td></tr>
+<tr><td>12–14</td><td>Commands, events, refusals</td><td>Commands/events only for owned state transitions. Stateless operations still require typed inputs/results/refusals, but must not fake event sourcing.</td></tr>
+<tr><td>15</td><td>Domain services</td><td>Pure cross-value/aggregate logic that belongs to this sovereign language. Often the whole shape of a stateless family.</td></tr>
+<tr><td>16</td><td>Application services</td><td>Usually inapplicable inside pure libraries. Composition/orchestration belongs to application/compiler/runtime layers.</td></tr>
+<tr><td>17</td><td>Repositories</td><td>Inapplicable inside pure libraries. External persistence uses platform ports/adapters; a family may publish semantic storage requirements.</td></tr>
+<tr><td>18</td><td>Factories</td><td>Smart constructors/admission functions where creation is nontrivial. No ambient provider discovery.</td></tr>
+<tr><td>19</td><td>Specifications</td><td>Only for reusable family-owned predicates with typed proof/refusal semantics.</td></tr>
+<tr><td>20</td><td>State machines/lifecycles</td><td>For owned lifecycle state, profile/reference-data lifecycle, or an explicit structural absence.</td></tr>
+<tr><td>21</td><td>Policies/reactions</td><td>Family may define pure policy meaning and typed trigger requirements. Runtime execution is external.</td></tr>
+<tr><td>22</td><td>Sagas/process managers</td><td>Usually application archetype/runtime territory. A pure family owns one only if the process question is itself sovereign; it still publishes pure progress semantics, not a driver.</td></tr>
+<tr><td>23</td><td>Read models/projections</td><td>Pure derivation rules and target-neutral contracts only. Materialization/runtime ownership is external.</td></tr>
+<tr><td>24</td><td>Domain vs integration events</td><td>Applicable only if events exist. Boundary flow uses the shared contract protocol.</td></tr>
+<tr><td>25</td><td>Concurrency/idempotency</td><td>Always considered; may be structural determinism for values, or OCC/idempotency for state.</td></tr>
+<tr><td>26</td><td>Time model</td><td>Always considered. “No time semantics” is valid; ambient time is not.</td></tr>
+<tr><td>27</td><td>Event-storming</td><td>Useful research/proof technique for state/process families; inapplicable to a pure bijection with a reason.</td></tr>
+<tr><td>28</td><td>Non-functional laws</td><td>Always. Purity, determinism, resource, security, compatibility and proof claims become executable contracts or named gaps.</td></tr>
+</tbody></table>
+
+<div class="ruling"><strong>The count is not the target.</strong> A foundation algebra can legitimately produce values, constructors, laws and no aggregate, repository, saga, card or plan. A composed pack can legitimately own no entity or state because its children do.</div>
+
+<h2 id="ontology">6. Ontology census and ownership matrix</h2>
+<p>The agent still produces the rich ontology. Every row must now carry these columns:</p>
+<table><thead><tr><th>Term</th><th>Kind</th><th>Observed contexts</th><th>Semantic owner</th><th>Architectural class</th><th>Direction</th><th>Exact contract</th><th>Disposition</th></tr></thead><tbody>
+<tr><td>example: lease fence</td><td>value + decision</td><td>distributed locks, reconciler</td><td>Coordination/Lease</td><td>sovereign family</td><td>offer to storage/reconciler</td><td>FencingRequirement/FencingProof</td><td>import; Causality does not own</td></tr>
+<tr><td>example: restatement</td><td>temporal trigger vs operational obligation</td><td>finance, insurance</td><td>Bitemporality / Obligation</td><td>two sovereign families</td><td>requirement out / obligation lifecycle</td><td>RestatementRequirement</td><td>split at lifecycle authority</td></tr>
+</tbody></table>
+<p>Allowed dispositions: <code>native</code> · <code>import</code> · <code>export</code> · <code>pack composition</code> · <code>runtime mechanism</code> · <code>reference data</code> · <code>provider</code> · <code>coverage lens</code> · <code>reject</code> · <code>gap</code>.</p>
+
+<h2 id="domains">7. Candidate register schema</h2>
+<p>The project backlog is maintained separately from this reusable method. The method does not pre-classify a concern or prescribe a crate. Each candidate row must contain the following fields and must pass S0–S4 before specification or implementation begins.</p>
+<table><thead><tr><th>Field</th><th>Required content</th></tr></thead><tbody>
+<tr><td>Candidate identity</td><td>stable name and current source record</td></tr>
+<tr><td>Question</td><td>the proposed owned question; blank when the candidate is not a sovereign family</td></tr>
+<tr><td>Primary class</td><td>one R01 class or <code>UNKNOWN</code> before classification</td></tr>
+<tr><td>Existing inventory</td><td>specification, code, consumer and duplicate references from S0</td></tr>
+<tr><td>Boundary status</td><td>unreviewed · under review · retained · split · merged · reclassified · rejected</td></tr>
+<tr><td>Dependencies</td><td>typed public contracts only; no crate or provider name used as a semantic dependency</td></tr>
+<tr><td>Evidence status</td><td>current stage/gate, unresolved records and next evidence required</td></tr>
+<tr><td>Implementation authority</td><td>normative specification edition and digest, or <code>none</code></td></tr>
+</tbody></table>
+
+<h2 id="crate">8. Crate boundary gate</h2>
+<p>Begin with one crate and modules. A separate crate requires at least one strong reason and must name the consumer protected by the boundary:</p>
+<ol>
+<li>independently versioned public contract;</li>
+<li>materially different dependency or supply-chain profile;</li>
+<li>distinct durable-state/consistency/trust model that must be mechanically isolated;</li>
+<li>independent consumers that need only this surface;</li>
+<li>material compile-time, security, ownership or deployment isolation benefit.</li>
+</ol>
+<p>“It has a heading,” “it may be useful later,” “the old toolkit had one,” and “the standard anatomy says so” are not reasons. The boundary collapses when the promised asymmetric consumer does not materialize.</p>
+
+<h2 id="agent">9. Phase-by-phase agent workflow</h2>
+<p>Each phase is a separate review unit. Its records are reviewed against the applicable gate before promotion. Several units may be researched concurrently only when their ownership and files do not overlap.</p>
+<table><thead><tr><th>Agent task</th><th>Prompt kernel</th><th>Forbidden shortcut</th></tr></thead><tbody>
+<tr><td>0. Ground</td><td>“Inventory every existing implementation, spec, dependency, consumer, test and provider relevant to X. Exact paths/symbols. Classify REAL/PARTIAL/STUB/SPEC_ONLY/DUPLICATE/DEAD/UNKNOWN. Recommend nothing.”</td><td>greenfield assumptions</td></tr>
+<tr><td>1. Classify</td><td>“Using the inventory, test every materially plausible architectural class and boundary decomposition. Apply R01/R02 and the crate gate. Select one primary class and record the strongest rejected alternative.”</td><td>assuming ‘domain’ means sovereign family</td></tr>
+<tr><td>2. Exhaust</td><td>“Complete all nine research lanes in §3.4, including mature-company practice and frontier research. Record the semantic delta from every materially distinct context and prove saturation.”</td><td>round-number census or uncovered research lane</td></tr>
+<tr><td>3. Ontology</td><td>“Produce the full ontology, but every term must name semantic owner, class, direction, contract and disposition. Do not design crates.”</td><td>claiming every observed term</td></tr>
+<tr><td>4. Boundary</td><td>“Partition the ontology into native/import/export/pack/runtime/provider/reference/lens. Draw exact seams. Split or reclassify if authority/lifecycle/failure/evolution differ.”</td><td>multiple independent authorities grouped under one family label</td></tr>
+<tr><td>5. Semantics</td><td>“Apply the conditional 28-point matrix. Publish only applicable native types/operations/state. Mark every absent item with structural reason.”</td><td>inventing aggregates/events/cards</td></tr>
+<tr><td>6. Decisions/composition</td><td>“Close R12–R24: coordinates, three algebras, exact requirements/offers/proofs, artifact classes, traceability and shared descriptor contribution.”</td><td>one generic merge or bool satisfaction</td></tr>
+<tr><td>7. Evolution/safety</td><td>“Close R29–R33 for every public value and artifact. Record compatibility, migration, recall, passport, obligation, resource and disclosure behavior or a typed gap.”</td><td>version numbers used as compatibility analysis</td></tr>
+<tr><td>8. Rust</td><td>“Compare materially distinct idiomatic Rust realizations; reuse audited subordinate crates; design admitted construction and resource bounds; use modules first; then apply the crate gate.”</td><td>public deserializable proof/plan/state DTOs</td></tr>
+<tr><td>9. Red team and promote</td><td>“Audit R01–R44, nine closures and A1–A18. Run focused release, strict static, dependency and purity gates. Record exact evidence and promote only to the level proved.”</td><td>document size, compilation or test count used as conformance</td></tr>
+</tbody></table>
+
+<h3>9.1 Required agent output header</h3>
+<pre>Candidate:
+Primary architectural class:
+Sovereign question (if applicable):
+Negative charter:
+Inventory evidence date:
+Current stage and gate:
+Open blockers:
+Files/symbols changed: none | exact list
+Certification level: none | library-conformant | composition-certified | runtime-certified | production-certified</pre>
+
+<h3>9.2 Copyable agent task contract</h3>
+<pre>You are reviewing one candidate for a reusable, pure, composable Rust
+software-domain library in SAN.
+
+AUTHORITIES
+1. docs/PURE-LIBRARY-CONSTITUTION.html is the sole normative library law.
+2. R01–R44 in docs/architecture/domain-libraries/pure-library-rules.md is
+   the operational checklist.
+3. docs/SOFTWARE-DOMAIN-LIBRARY-METHOD.html defines the required procedure.
+4. Repository code and executable evidence determine implementation status.
+
+INPUT
+Candidate: &lt;name&gt;
+User intent and priority consumers: &lt;statement or UNKNOWN&gt;
+Explicit exclusions: &lt;list or UNKNOWN&gt;
+Current stage authorized: S0 | S1 | ... | S9
+Files allowed to change: none | &lt;exact paths&gt;
+
+WORK
+- Execute only the authorized stage and produce every mandatory record for it.
+- For S0, inventory exact paths, symbols, consumers, tests, wiring and providers.
+- Treat the existing/deprecated tree as read-only evidence, not design authority.
+- Design the canonical library greenfield from intent, evidence and the
+  Constitution. Do not preserve old names, APIs, crates or boundaries by default.
+- For S2, complete every lane in §3.4: repository, consumer contexts,
+  mature-company practice, standards, Rust/OSS, frontier research, failures,
+  adjacent owners and evolution horizon.
+- Record sources using the §3.4 source schema and demonstrate saturation by
+  semantic delta, not source count.
+- Classify every observed term as native, import, export, pack, runtime,
+  provider, reference data, coverage lens, reject or gap.
+- Test every materially plausible class and boundary. Do not assume the
+  candidate is a sovereign family or a crate.
+- Use exact typed decisions, seams, outputs, refusals, gaps and evidence.
+- Report R01–R44 as PASS, PARTIAL, FAIL, INAPPLICABLE with reason, or UNKNOWN.
+- Report implementation as REAL, PARTIAL, STUB, SPEC_ONLY, DUPLICATE, DEAD,
+  or UNKNOWN, supported by compile/test/wiring/provider evidence.
+
+USER CHECKPOINT
+Ask only at U0–U4 when the missing product decision changes the result.
+Before asking, provide the evidence, lawful options, consequences and your
+recommended option. Do not infer product authority or risk acceptance.
+
+PROHIBITIONS
+- Do not assign ontology ownership merely because a term was observed.
+- Do not edit deprecated code during S0–S7 or depend on deprecated family
+  internals from the new implementation.
+- Do not use compatibility as a default requirement. Require proof of persisted
+  values, issued evidence or contractual consumers and isolate migration later.
+- Do not target a noun, context, command, event, crate or source count.
+- Do not invent aggregates, cards, plans, compilers, runtimes or crates to
+  satisfy a template.
+- Do not copy another company's product boundary as SAN's domain boundary.
+- Do not treat secondary commentary, popularity, compilation or test count as
+  semantic or production conformance.
+- Do not wrap a legacy implementation and claim new-family conformance without
+  symbol-level semantic equivalence and new-family evidence.
+- Do not hide an unsupported case behind a default, raw string, JSON value,
+  generic map, feature flag or provider-specific declaration.
+
+OUTPUT
+Use the §9.1 header. Return the required records, evidence references,
+semantic deltas, rejected alternatives, current gate result, exact blockers,
+user decisions required and the next authorized stage. Claims without an
+exact record and evidence are UNKNOWN.</pre>
+
+<h2 id="vertical">10. First vertical and completion evidence</h2>
+<p>A completeness matrix over an empty application is insufficient evidence. After the shared descriptor and linker exist, select one named vertical that exercises identity, state, work, authority, sensitive data, temporal correction, integration, read models, evidence, lifecycle, UI and deployment.</p>
+<div class="ascii">vertical declarations
+→ selected families, capabilities and policies
+→ application semantic graph
+→ target-owned storage/API/UI/runtime plans
+→ AppRelease
+→ portable deployment requirements
+→ bound local deployment
+→ mutation, journal, outbox, projection and receipt</div>
+<p>This is the first cross-family composition proof. Every unsupported cell becomes a named <code>GapCase</code> with owner, blocked scope, reopening rule and evidence requirement.</p>
+
+<h3>10.1 Definition of done for a new library</h3>
+<ol>
+<li>S0–S9 gates pass and R01–R44 have explicit dispositions.</li>
+<li>The ordinary Rust API works without the compiler/runtime.</li>
+<li>Every lawful decision is explicit; no branch requires a fork.</li>
+<li>Every seam has exact requirement, offer, typed satisfaction proof and refusal.</li>
+<li>All applicable DDD artifacts exist; all others are structurally inapplicable.</li>
+<li>Counts, manifests, schemas and documentation inventories derive from one descriptor source and drift checks fail closed.</li>
+<li>Minimal and maximal witness applications use the same implementation.</li>
+<li>The normative specification edition and digest are bound to the code and evidence revision.</li>
+<li>Certification status names only evidence actually produced.</li>
+</ol>
+
+<div class="small footer"><p>Source of rules: <code>docs/PURE-LIBRARY-CONSTITUTION.html</code>. Operational checklist: <code>docs/architecture/domain-libraries/pure-library-rules.md</code>. This method is procedural and does not create a second semantic constitution.</p></div>
+</div></body></html>

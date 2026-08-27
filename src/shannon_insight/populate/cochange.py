@@ -8,6 +8,7 @@ Rules:
   - Only add edges where lift > 1.0.
   - Symmetric: both (a,b) and (b,a) are stored.
 """
+
 from __future__ import annotations
 
 import math

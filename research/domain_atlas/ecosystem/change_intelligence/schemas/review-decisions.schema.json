@@ -1,0 +1,67 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/review-decisions.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "coverage_plane_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "decided_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "rationale": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "review_decision_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "revisit_trigger_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "signal_id": {
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  },
+  "required": [
+    "authority_role",
+    "coverage_plane_ids",
+    "decided_at",
+    "decision",
+    "proof_obligation_ids",
+    "rationale",
+    "review_decision_id",
+    "revisit_trigger_ids",
+    "signal_id"
+  ],
+  "title": "review-decisions",
+  "type": "object"
+}

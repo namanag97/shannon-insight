@@ -1,0 +1,1049 @@
+[
+ {
+  "family_slug": "optional_model_agent_extensions",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers: tool-call chains compose provider_adapter contracts with model-generated arguments validated against JSON-Schema output schemas; parallel calls disable-able; strict-mode schemas act as constraint conjunction narrowing accepted generations; failure of one call is recoverable without conflating sibling results.",
+    "family_counterexamples": [
+     "Parallel tool calls mutate shared state concurrently, treating independence as given because both returned successfully.",
+     "Schema-constrained output silently coerced into a typed struct absorbs validation residual without recording it."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Function Calling Guide (strict mode, parallel_tool_calls)",
+      "uri": "https://developers.openai.com/api/docs/guides/function-calling",
+      "issuer": "OpenAI",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Grains: listing operations return server-sized pages via opaque cursors \u2014 clients must not assume page size or parse cursors; observation grain is one paginated chunk of the tool/resource registry; token-window budgets bound cardinality of context admitted per turn.",
+    "family_counterexamples": [
+     "Client assumes fixed page size, drops trailing tools when final short page arrives.",
+     "Cursor persisted across sessions then reused, resolving to a shifted position in the changed result set."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Model Context Protocol \u2014 Pagination (cursor-based list operations)",
+      "uri": "https://modelcontextprotocol.io/specification/2025-06-18/server/utilities/pagination",
+      "issuer": "Anthropic, et al. / MCP specification",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Identity carriers: tools uniquely identified by name with title/description metadata; annotations treated as untrusted unless server trusted; protocol-version strings identity-check session dialect; structured content distinguished from schema-constrained generation so server-produced JSON never masquerades as model output identity.",
+    "family_counterexamples": [
+     "Tool renamed between sessions breaks identity continuity for callers caching by name only.",
+     "Annotations from an untrusted server accepted as authoritative behavioral facts."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Model Context Protocol \u2014 Tools specification (2025-06-18)",
+      "uri": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "issuer": "Anthropic, et al. / MCP specification",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Topology: lifecycle fixes strict ordering \u2014 initialize request first, initialized notification gates normal requests, pings-only exceptions \u2014 establishing happens-before for capability negotiation; version negotiation orders compatibility; timeouts may reset on progress notifications but always enforce maxima.",
+    "family_counterexamples": [
+     "Client sends requests before receiving initialize response, violating the ordering edge.",
+     "Unbounded progress-notification resets let a hung connection evade its maximum timeout."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Model Context Protocol \u2014 Lifecycle (2025-06-18)",
+      "uri": "https://modelcontextprotocol.io/specification/2025-06-18/basic/lifecycle",
+      "issuer": "Anthropic, et al. / MCP specification",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Uncertainty carriers: dual error channels keep failure modes distinguishable \u2014 JSON-RPC protocol errors (unknown tool -32602) versus in-band isError:true tool-execution errors; human-approval refusals are explicit denials; unresolved tool futures cancelled via notifications rather than resolved as fabricated successes.",
+    "family_counterexamples": [
+     "Tool execution failure swallowed as protocol success, conflating transport health with task truth.",
+     "Timeout cancellation never issued, leaving unknown outcome recorded as completed."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Model Context Protocol \u2014 Tools specification, Error Handling (isError vs protocol errors)",
+      "uri": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "issuer": "Anthropic, et al. / MCP specification",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Change carriers: sessions traverse negotiated lifecycle phases (initialization \u2192 operation \u2192 shutdown) with capability state immutable after negotiation; registry changes announced via tools/list_changed notifications forcing re-observation; stdio shutdown sequences (close stdin \u2192 SIGTERM \u2192 SIGKILL) are legal transition ladders.",
+    "family_counterexamples": [
+     "Server mutates advertised capabilities mid-operation without negotiation, silently changing the contract.",
+     "Client caches tool lists forever despite list_changed notifications, acting on a superseded registry state."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Model Context Protocol \u2014 Tools specification (listChanged notification)",
+      "uri": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "issuer": "Anthropic, et al. / MCP specification",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "persistence_lakehouse",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers: Iceberg snapshots/metadata trees and Delta log entries compose via parent-snapshot lineage and monotonic table versions; compaction/rewrite is a set algebra over data files whose union must preserve committed state.",
+    "family_counterexamples": [
+     "Rewriting files while a concurrent snapshot references them silently diverges readers",
+     "A commit that skips a version breaks Delta's contiguous-version law"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Apache Iceberg Table Spec (Snapshots, Table Metadata, Partitioning)",
+      "uri": "https://iceberg.apache.org/spec/",
+      "issuer": "Apache Iceberg",
+      "confidence": "high"
+     },
+     {
+      "title": "Delta Lake Transaction Protocol",
+      "uri": "https://github.com/delta-io/delta/blob/master/PROTOCOL.md",
+      "issuer": "Delta Lake / Linux Foundation",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Grain runs file-manifest-entry (bounded cardinality recorded in manifest lists), partition-spec (partitioned facet), row-group/data-file record grain, to unbounded table state assembled from add/remove file entries per snapshot.",
+    "family_counterexamples": [
+     "Assuming one manifest equals one atomic unit instead of per-file entries",
+     "Unpartitioned tables where cardinality claims require full scans"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Apache Iceberg Table Spec (Manifests, Data File Fields, Partition Transforms)",
+      "uri": "https://iceberg.apache.org/spec/",
+      "issuer": "Apache Iceberg",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Table identity is an immutable GUID (Delta) plus schema-id/versioned identity (Iceberg); file equality is path+content-addressed via manifest entries, not value equality of rows. Equivalence classes attach to snapshot ids, never physical layout alone.",
+    "family_counterexamples": [
+     "Two paths holding identical rows are distinct files, not equal",
+     "A rewritten table keeps the same GUID while all files change"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Delta Lake Protocol: Format Specification (table id GUID, txn identifiers)",
+      "uri": "https://github.com/delta-io/delta/blob/master/PROTOCOL.md",
+      "issuer": "Delta Lake / Linux Foundation",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Topology is the snapshot DAG with branch/tag references (partial order); within files, sort orders declare total order over columns; partition specs impose a hierarchy bounding file topology independent of logical row order.",
+    "family_counterexamples": [
+     "Row order inside data files is unordered and must not be relied on by consumers",
+     "Branches make snapshot ordering partial, not linear"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Apache Iceberg Table Spec (Sort Orders, Snapshot References branches/tags)",
+      "uri": "https://iceberg.apache.org/spec/",
+      "issuer": "Apache Iceberg",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Frozen package lists no library for this axis; the honest carriers would be per-column null counts/deletion vectors distinguishing missing from deleted, but no in-repo lakehouse kernel was registered, so this axis stays a vacancy pending a metadata-statistics library.",
+    "family_counterexamples": [
+     "Reporting zero because statistics were absent conflates unknown with empty",
+     "Deletion-vector rows indistinguishable from never-written rows"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Apache Iceberg Table Spec (Field-level Metrics and Statistics, Content Stats)",
+      "uri": "https://iceberg.apache.org/spec/",
+      "issuer": "Apache Iceberg",
+      "confidence": "medium"
+     }
+    ],
+    "status": "RESEARCHED_WITH_VACANCY"
+   },
+   "state_and_change": {
+    "family_application": "State changes append-only: every Delta commit is an ordered, append-only log entry (snapshot-and-delta facet); deletes become deletion vectors or CDC change files; compensation is a forward compensating commit, never in-place mutation.",
+    "family_counterexamples": [
+     "Editing a historical commit file rewrites past truth",
+     "Vacuum removing files still referenced by live snapshots breaks time travel"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Delta Lake Protocol (Delta Log Entries, Deletion Vectors, Change Data Files)",
+      "uri": "https://github.com/delta-io/delta/blob/master/PROTOCOL.md",
+      "issuer": "Delta Lake / Linux Foundation",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "pipeline_dataflow",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers are PTransform chains composed into execution-graph DAGs; composition laws mirror Beam's nested composite transforms plus Flink operator chaining; progress/checkpoint coordinators define the sequential-and-process and parallel-or-distributed facets.",
+    "family_counterexamples": [
+     "Nested transform expansion hiding non-deterministic side inputs from the declared graph",
+     "Operator fusion across a barrier that requires alignment"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Beam Programming Guide (composite transforms)",
+      "uri": "https://beam.apache.org/documentation/programming-guide/",
+      "issuer": "Apache Beam",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Element grain moves through windowed PCollections: fixed/sliding/session windows bound unbounded streams into finite collection grains; checkpoint completion gives exactly-once cardinality of effects regardless of retry-induced input replay.",
+    "family_counterexamples": [
+     "Session windows whose unbounded extent makes 'records processed' ill-defined until closure",
+     "At-least-once sinks double-counting retried records"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Beam Programming Guide (Windowing, fixed/sliding/session windows)",
+      "uri": "https://beam.apache.org/documentation/programming-guide/",
+      "issuer": "Apache Beam",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Identity lives in checkpoint IDs and savepoint names naming recoverable job states; task/keyed-state identity is operator-subtask-key scoped; equality of recovery points is snapshot equality, never wall-clock or hostname equality.",
+    "family_counterexamples": [
+     "Restarting with changed parallelism invalidates naive key-group identity matching",
+     "Two checkpoints at the same interval tick are distinct identities"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Flink Checkpointing (checkpoint storage, externalized checkpoints, resume)",
+      "uri": "https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/datastream/fault-tolerance/checkpointing/",
+      "issuer": "Apache Flink",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Order is event-time partial order coordinated by watermarks, not arrival order; job topology is the execution DAG the planner produces; watermark propagation defines which upstreams must complete before downstream operators close windows.",
+    "family_counterexamples": [
+     "Treating Kafka partition offsets as global event-time order",
+     "Watermark idle sources stalling downstream window closure"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Beam Programming Guide (watermarks, event timestamps)",
+      "uri": "https://beam.apache.org/documentation/programming-guide/",
+      "issuer": "Apache Beam",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Late data makes membership underdetermined: watermarks carry uncertainty about future arrivals; triggers emit provisional (early/on-time) panes then refinements, keeping 'unknown whether more events will arrive' explicit rather than collapsed into a final count.",
+    "family_counterexamples": [
+     "Dropping late records without declaring allowed-lateness collapses uncertainty into silent loss",
+     "Recomputing a pane after watermark passage without marking prior output as tentative"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Beam Programming Guide (watermarks, late data, triggers)",
+      "uri": "https://beam.apache.org/documentation/programming-guide/",
+      "issuer": "Apache Beam",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Change is barrier-driven distributed snapshotting: checkpoints capture consistent operator-state-plus-stream-position states enabling exactly-once recovery; Flink distinguishes exactly-once vs at-least-once modes as different change-discipline contracts over the same state backends.",
+    "family_counterexamples": [
+     "Side-effectful sinks firing before barrier acknowledgement leak unrecoverable changes",
+     "At-least-once mode replaying window state yields duplicated applied effects"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Flink Checkpointing (exactly-once/at-least-once, resume from checkpoints)",
+      "uri": "https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/datastream/fault-tolerance/checkpointing/",
+      "issuer": "Apache Flink",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "platform_commercial_support",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers: invoice line items composing catalog prices, usage ratings, taxes, and credits into amount-due arithmetic; Stripe supports credit notes reducing finalized invoices without voiding \u2014 a residual-preserving subtraction over already-finalized compositions.",
+    "family_counterexamples": [
+     "Mutating a finalized invoice's line items instead of issuing a credit note",
+     "Tax recomputed post-finalization changing a paid total"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "How invoicing works: lifecycle, credit notes",
+      "uri": "https://docs.stripe.com/invoicing/overview",
+      "issuer": "Stripe",
+      "confidence": "high"
+     },
+     {
+      "title": "Place a hold on a payment method (manual capture composition)",
+      "uri": "https://docs.stripe.com/payments/place-a-hold-on-a-payment-method",
+      "issuer": "Stripe",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Grains span metering-event (per usage record), subscription-cycle sub-invoice, and incident-case grains; adapters (OpenMeter, PagerDuty, Statuspage, PEPPOL) bound provider-native event cardinality into internal rating/allocation cores that assume de-duplicated units.",
+    "family_counterexamples": [
+     "Metered billing aggregating duplicate submitted usage events into double charges",
+     "One incident fanned out to multiple escalation policies counted as multiple cases"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "How invoicing works (subscription-generated invoices per billing cycle)",
+      "uri": "https://docs.stripe.com/invoicing/overview",
+      "issuer": "Stripe",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Request identity is client-supplied idempotency keys (V4 UUID advised): retries with the same key return the first saved result; key reuse with differing parameters errors, making intention identity explicit before object identity exists.",
+    "family_counterexamples": [
+     "Key pruned after 24h then reused creates a second object despite identical intent",
+     "Concurrent same-key requests before either executes are not deduplicated"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Idempotent requests",
+      "uri": "https://docs.stripe.com/api/idempotent_requests",
+      "issuer": "Stripe",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Lifecycle stages impose strict precedence topologies: draft\u2192open\u2192(paid|void|uncollectible) transitions are gated, actions permitted depend on current status; policy-precedence style applies in tax determination and credit notes' conditional effect on invoice status.",
+    "family_counterexamples": [
+     "Voiding a draft instead of deleting, leaving a payable artifact falsely cancelled",
+     "Crediting an invoice that bypasses the open/paid preconditions"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Invoice statuses and possible transitions",
+      "uri": "https://docs.stripe.com/invoicing/overview",
+      "issuer": "Stripe",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Uncaptured authorizations are committed-partial values: funds held but not captured, expiring to canceled unless captured within network validity windows; partial captures release residuals explicitly rather than defaulting to full amounts.",
+    "family_counterexamples": [
+     "Treating requires_capture as revenue booked (authorization expires uncaptured)",
+     "Second capture attempt on partially captured payment silently fails"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Separate authorization and capture (validity windows, partial capture releases remainder)",
+      "uri": "https://docs.stripe.com/payments/place-a-hold-on-a-payment-method",
+      "issuer": "Stripe",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Explicit lifecycle-transition machines: invoices move draft\u2192open\u2192paid/void/uncollectible with terminal and reversible states (paid can revert via payment unapply); credit notes perform compensation-or-reversal against finalized state without erasing history.",
+    "family_counterexamples": [
+     "Attempting void on an already-paid terminal-transitioned invoice",
+     "Deleting a finalized invoice rather than leaving a voided paper trail"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Invoice lifecycle and status transitions",
+      "uri": "https://docs.stripe.com/invoicing/overview",
+      "issuer": "Stripe",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "predictive_analytics",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers: scikit-learn Pipeline objects chaining transformer/estimator steps under fit-transform sequencing laws; joint grid-search composes parameter spaces across steps; pipelines guarantee preprocessing statistics come only from training folds when composed correctly.",
+    "family_counterexamples": [
+     "SelectKBest fitted before train/test split leaks test statistics into selection",
+     "Scaler fit on train but transform omitted on test inflates error measures"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "scikit-learn: Composite estimators, Pipelines and FeatureUnion",
+      "uri": "https://scikit-learn.org/stable/modules/compose.html",
+      "issuer": "scikit-learn",
+      "confidence": "high"
+     },
+     {
+      "title": "scikit-learn: Common pitfalls (leakage, transformers fitted on train only)",
+      "uri": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "issuer": "scikit-learn",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Prediction grain is per-instance scoring (n_samples arrays for classification/count models; multi-output grids for forecasts and image/graph features); batch-scoring kernels fix exact output cardinality contracts tied to feature-contract column sets.",
+    "family_counterexamples": [
+     "1d vs 2d array shape mismatches breaking single-instance predict calls",
+     "Forecast horizons returning fewer points than demanded without signaling shortfall"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "scikit-learn: Common pitfalls (input reshaping and sample dimensionality examples)",
+      "uri": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "issuer": "scikit-learn",
+      "confidence": "medium"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Artifact identity is environment-bound persistence: pickled/skops model files carry InconsistentVersionWarning semantics and loading across scikit-learn versions is unsupported \u2014 model equality means byte-identical artifact under identical environment, not retrained behavioral equality.",
+    "family_counterexamples": [
+     "Same hyperparameters retrained yield different weights under random_state variation",
+     "Pickled model loads under a newer sklearn version producing unexpected results"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "scikit-learn: Model persistence (version incompatibility, InconsistentVersionWarning)",
+      "uri": "https://scikit-learn.org/stable/model_persistence.html",
+      "issuer": "scikit-learn",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Temporal family members (forecast_models, drift_response) impose time-series order as the evaluation topology: random shuffling is invalid there; graph kernels impose message-passing neighborhood topology instead of i.i.d. row order.",
+    "family_counterexamples": [
+     "Shuffled KFold on temporally ordered data inflates forecast accuracy via leakage",
+     "Graph sampling destroying node-degree topology changes GNN predictions materially"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "scikit-learn: Common pitfalls (data leakage through improper splitting/order)",
+      "uri": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "issuer": "scikit-learn",
+      "confidence": "medium"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Conformal prediction kernels turn point outputs into prediction sets with distribution-free coverage guarantees (user-specified probability like 90%), separating model confidence from instance certainty; calibration kernels keep score-to-probability maps explicit.",
+    "family_counterexamples": [
+     "Softmax probabilities reported as calibrated confidence without any calibration step",
+     "Coverage guarantee stated distributionally misread as per-instance certainty"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification",
+      "uri": "https://arxiv.org/abs/2107.07511",
+      "issuer": "arXiv (Angelopoulos & Bates)",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Models are immutable trained artifacts; world state drifts underneath: concept-drift handling (drift_response, calibration refresh) treats the learned mapping's validity time as bounded, requiring adaptation mechanisms rather than silent continued scoring.",
+    "family_counterexamples": [
+     "Frozen batch_scoring model served indefinitely while input distribution drifted",
+     "Baseline recalibration overwriting anomaly history instead of appending new baselines"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Learning under Concept Drift: an Overview (Zliobaite, technical report)",
+      "uri": "https://arxiv.org/abs/1010.4784",
+      "issuer": "arXiv / Vilnius University",
+      "confidence": "medium"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "query_compilation_execution",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers: relational-algebra operator trees (scan/project/filter/join/aggregate/union) built compositionally, planner passes rewriting them, and semantic_algebra libraries declaring closure, identities, and lossless/lossy rewrite laws; fused plans must prove equivalence against declared algebraic laws rather than silently replace composites.",
+    "family_counterexamples": [
+     "An optimizer fuses two operators and hides the intermediate artifact, making attribution of a downstream row unprovable from lineage.",
+     "A join operator exposed without its key signature lets duplicate-attribution checks pass under weaker equality than the operator's."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Apache Calcite \u2014 Algebra (RelBuilder)",
+      "uri": "https://calcite.apache.org/docs/algebra.html",
+      "issuer": "The Apache Software Foundation",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Grains: one operator invocation on one input partition (RDD-style coarse-grained transformation), one compiled plan edition, one query execution; cardinality constraints cover fan-out of shuffle/repartition steps and fan-in at aggregation nodes with declared additive vs non-additive measures.",
+    "family_counterexamples": [
+     "Aggregating per-partition metrics to a whole-job metric double-counts rows replicated by a shuffle.",
+     "Cost statistics sampled at summary grain are reused as if atomic, invalidating join-cardinality estimates."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing (NSDI '12)",
+      "uri": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia",
+      "issuer": "USENIX",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Identities: logical plan node identity vs physical plan occurrence vs result-digest equality are kept separate; canonical-form equality (normalized expression trees) licenses 'same query' claims, while digest equality proves only byte-equality of serialized outputs.",
+    "family_counterexamples": [
+     "Two serializations of the same plan hash differently, so digest mismatch is misread as semantic difference.",
+     "Cache hits keyed by SQL string equality reuse results for logically different queries differing in bound parameters."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "RDF Dataset Canonicalization (RDFC-1.0), W3C Recommendation",
+      "uri": "https://www.w3.org/TR/rdf-canon/",
+      "issuer": "W3C",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Topology: plan dependency DAGs give partial order over operators; logical clocks order cross-node execution events; topological scheduling is snapshot advice \u2014 cycle checks over an edge-set edition void when the plan or lineage graph changes, and totalizations must be marked tie-broken.",
+    "family_counterexamples": [
+     "'No cycle found' over an incomplete observed edge set is reported as proof the dataflow DAG is acyclic.",
+     "Replay in recorded order is claimed causality-preserving although a non-idempotent effect executed twice."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Time, Clocks, and the Ordering of Events in a Distributed System",
+      "uri": "https://lamport.azurewebsites.net/pubs/time-clocks.pdf",
+      "issuer": "Leslie Lamport / Communications of the ACM",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Partiality carriers: NULL-valued inputs propagate unknown through comparisons so filtered-row absence is not falsity; truncated/partial executions surface unknown completion instead of empty success; cost estimates carry confidence bands distinct from observed cardinalities.",
+    "family_counterexamples": [
+     "7 = NULL is unknown yet a report counts excluded rows as provably non-matching.",
+     "A timeout-truncated scan returns zero rows presented as complete success rather than partial coverage."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "PostgreSQL Documentation \u2014 Comparison Functions and Operators (NULL three-valued behavior)",
+      "uri": "https://www.postgresql.org/docs/current/functions-comparison.html",
+      "issuer": "The PostgreSQL Global Development Group",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Change carriers: plan/catalog editions supersede predecessors via revision links without erasure; prepared-statement plans become stale on schema change and must be recompiled explicitly; query-history logs are append-only, corrections added as compensating records.",
+    "family_counterexamples": [
+     "A cached plan silently executes against an evolved schema, collapsing old and new catalog states into one 'current truth'.",
+     "Rewriting a stored execution log entry destroys every derivation replayed from it."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "PROV-DM: The PROV Data Model (wasDerivedFrom / revision)",
+      "uri": "https://www.w3.org/TR/prov-dm/",
+      "issuer": "W3C",
+      "confidence": "medium"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "representation_codec",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers: Arrow record batches compose buffers and children by depth-first traversal with dictionary batches carrying delta/replace semantics; stream codecs concatenate encapsulated messages so composition is buffer-level concatenation under layout invariants (e.g., monotonic offsets).",
+    "family_counterexamples": [
+     "Concatenating IPC streams with conflicting dictionary replacements merged wrongly",
+     "Offset arrays violating monotonicity break valid-record proofs"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Arrow Columnar Format specification (Serialization and IPC, Dictionary-encoded Layout)",
+      "uri": "https://arrow.apache.org/docs/format/Columnar.html",
+      "issuer": "Apache Arrow",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Columnar grains run page < column chunk < row group < file for Parquet-style containers, versus record-batch/array grain in Arrow; length counts and null counts are first-class metadata binding claimed cardinality to physical layout.",
+    "family_counterexamples": [
+     "Row groups read as atomic semantic records rather than column-sliced pages",
+     "Null-count mismatch with actual validity-bitmap population corrupting scans"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Apache Parquet documentation index (column chunks, pages, encodings, metadata)",
+      "uri": "https://parquet.apache.org/docs/",
+      "issuer": "Apache Parquet",
+      "confidence": "medium"
+     },
+     {
+      "title": "Arrow Columnar Format (null count, buffer listing per layout)",
+      "uri": "https://arrow.apache.org/docs/format/Columnar.html",
+      "issuer": "Apache Arrow",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Encoded-bytes grain gives content-addressed equality candidates; canonical-equivalence demands normalized encoding \u2014 proto serialization is explicitly nondeterministic (field order unstable), so byte equality is weaker than message-value equality across serializers.",
+    "family_counterexamples": [
+     "Hashing serialized protos for dedupe failing due to unstable field ordering",
+     "Arrow validity bitmap omitted vs present yielding different bytes, same logical array"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Protocol Buffers Encoding (Field Order, Base 128 Varints, packed repeated)",
+      "uri": "https://protobuf.dev/programming-guides/encoding/",
+      "issuer": "Google (protobuf.dev)",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Wire topology is tag-delimited graphs: parsers must accept fields in any order, packed repeated fields nest into single LEN records, and reader-visible hierarchy comes from nesting depth of length-delimited submessages, not positional assumptions.",
+    "family_counterexamples": [
+     "Assuming field number order matches emitted byte order during parsing",
+     "Reading packed varints as individual tags corrupts list decoding"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Protocol Buffers Encoding (wire types, Field Order, packed fields)",
+      "uri": "https://protobuf.dev/programming-guides/encoding/",
+      "issuer": "Google (protobuf.dev)",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Proto3 separates implicit vs explicit presence: basic scalars don't track presence by default; optional/oneof/message fields do, giving has_foo three-valued distinction between unset, defaulted, and explicitly-set \u2014 preserving 'not known' from collapsing to default.",
+    "family_counterexamples": [
+     "Patching a scalar back to its default without presence tracking looks identical to unset",
+     "Round-trip across schemas losing explicit presence signals divergence"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Protocol Buffers: Field Presence (implicit vs explicit presence, optional keyword)",
+      "uri": "https://protobuf.dev/programming-guides/field_presence/",
+      "issuer": "Google (protobuf.dev)",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Codec evolution is writer-schema/read-time interpretation: old parsers skip unknown fields, added fields flow forward as preserved-but-invisible state; editions change packing defaults, so change happens at schema boundaries while previously encoded bytes stay frozen.",
+    "family_counterexamples": [
+     "Renaming a field keeps wire compatibility yet changes documented meaning",
+     "Reparsing old bytes under new edition defaults alters packed-vs-unpacked reading expectations"
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Protocol Buffers Encoding (unknown-field skipping across schema versions)",
+      "uri": "https://protobuf.dev/programming-guides/encoding/",
+      "issuer": "Google (protobuf.dev)",
+      "confidence": "medium"
+     },
+     {
+      "title": "Arrow Columnar Format (DictionaryBatch delta/replace message semantics)",
+      "uri": "https://arrow.apache.org/docs/format/Columnar.html",
+      "issuer": "Apache Arrow",
+      "confidence": "medium"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "runtime_resource_control",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers: hierarchical cgroup limit controllers (cpu.max, memory.high, io.max) compose down the tree where child limits intersect parent constraints; quota overlays combine intersection-wise; identity element is unconstrained, and effective-limit derivation exposes the residual rather than absorbing it.",
+    "family_counterexamples": [
+     "Setting a child cgroup's cpu.max above the parent's cap reports the child value as effective although enforcement uses the intersection.",
+     "Merging two workload quotas treats disjoint resource dimensions as summed budgets, silently absorbing scope differences."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Control Groups v2 \u2014 kernel administration guide",
+      "uri": "https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html",
+      "issuer": "kernel.org (Linux kernel documentation)",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Grains: observation grain is per-cgroup controller stat file read; control grains span namespace-scoped ResourceQuota aggregates, PriorityClass scopes, pod, container, and thread-partition; fan-in reconciliation occurs when usage rollups aggregate across pods into quota accounting.",
+    "family_counterexamples": [
+     "Per-container limits summed naively into a pod-level budget ignore shared-page accounting, breaking additivity.",
+     "A scoped quota (PriorityClass=high) is reported as cluster-wide headroom despite applying only to matching pods."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Resource Quotas \u2014 Kubernetes Concepts",
+      "uri": "https://kubernetes.io/docs/concepts/policy/resource-quotas/",
+      "issuer": "CNCF / Kubernetes",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Identity carriers: process identity is namespace-relative (a PID exists once per visible namespace layer); container IDs, cgroup paths, and UID/GID are distinct identity regimes; digest equality of images proves byte-equality while name:tag references are mutable aliases.",
+    "family_counterexamples": [
+     "PID equality across namespaces is asserted as same-process identity even though each layer assigns its own PID.",
+     "Image tag 'latest' resolving to different digests over time is treated as one stable identifier."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "pid_namespaces(7) \u2014 Linux man-pages",
+      "uri": "https://man7.org/linux/man-pages/man7/pid_namespaces.7.html",
+      "issuer": "man7.org",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Topology: priority classes impose a totalization over pending-work order that scheduler arbitration marks as policy tie-breaking, not derived precedence; happens-before between issuer and victim in preemption is observability ordering, not causal blame; admission queues are snapshot-ranked.",
+    "family_counterexamples": [
+     "Higher-priority preemption evidence is recorded as proving the preempted pod caused the pressure event.",
+     "A queue rank computed at one admission snapshot is reused after pod churn as if still valid."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Pod Priority and Preemption \u2014 Kubernetes Concepts",
+      "uri": "https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/",
+      "issuer": "CNCF / Kubernetes",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Uncertainty carriers: QoS class (Guaranteed/Burstable/BestEffort) fixed at pod creation propagates as coarse eviction-risk evidence that never upgrades within a pod lifetime; node-pressure predictions remain unknown until observed; throttled/OOM outcomes are distinct refusal facts, not silent degradations.",
+    "family_counterexamples": [
+     "A Burstable pod near its limit is reported with Guaranteed-level eviction immunity because historical usage looked low.",
+     "OOM-kill risk under memory pressure is encoded as zero because no kill occurred during observation."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Configure Quality of Service for Pods \u2014 Kubernetes",
+      "uri": "https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/",
+      "issuer": "CNCF / Kubernetes",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Change carriers: pod lifecycle phases (Pending/Running/Succeeded/Failed, plus Unknown) with container states form a declared transition law; eviction/preemption events append to history; restart policies govern legal re-entries; resize and termination flows are recorded transitions, not ahistorical overwrites.",
+    "family_counterexamples": [
+     "Container restart counter resets mask prior crash history, collapsing occurrences into 'always healthy'.",
+     "Node-reported Unknown phase is finalized as Failed, inventing certainty the observer never had."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Pod Lifecycle \u2014 Kubernetes Concepts",
+      "uri": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/",
+      "issuer": "CNCF / Kubernetes",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "semantic_metrics_formulas",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Carriers: metric formulas compose measurement functions whose operands and uncertainty compose under GUM propagation laws; aggregation operators declare additive/semi-additive/non-additive behavior; canonicalizer registries pin formula identity; composition may only narrow semantics, with residuals for narrowed rejections.",
+    "family_counterexamples": [
+     "Composing rate metrics by summation violates the declared non-additive law yet returns a number.",
+     "Uncertainty is dropped when two measured quantities enter a ratio formula, publishing precision that was never propagated."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "JCGM 100:2008 \u2014 Guide to the Expression of Uncertainty in Measurement (GUM)",
+      "uri": "https://www.bipm.org/en/publications/guides/gum.html",
+      "issuer": "BIPM / JCGM",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Grains: the measurand (quantity intended to be measured) fixes what a value refers to before any formula runs; fact-table grain declarations precede dimensions/measures; sampling frames map inspected subsets to populations; fan-out aggregation must declare which additive rules preserve meaning.",
+    "family_counterexamples": [
+     "Redefining the measurand (average order vs average line item) keeps identical numerics while changing referent silently.",
+     "Balances at daily grain are summed across days as if flow measures, multiplying meaningless values."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "International Vocabulary of Metrology (VIM, JCGM 200), online edition",
+      "uri": "https://jcgm.bipm.org/vim/en/index.html",
+      "issuer": "BIPM / JCGM",
+      "confidence": "medium"
+     },
+     {
+      "title": "Kimball Dimensional Modeling Techniques (Grain declaration)",
+      "uri": "https://www.kimballgroup.com/data-warehouse-business-intelligence-references/kimball-techniques/dimensional-modeling-techniques/",
+      "issuer": "Kimball Group",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Identity carriers: metric streams are identified by instrument name plus attribute sets; value equality across recomputations requires pinned formula version, canonical units, and normalization; two numerically equal readings under different definitions denote different metrics, not the same one.",
+    "family_counterexamples": [
+     "Same-name metrics with different attribute sets collide in dashboards as one identity.",
+     "Unit conversion followed by float comparison declares metric equality though normalization was not pinned."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "OpenTelemetry Metrics Data Model \u2014 Metric identity, attributes, temporality",
+      "uri": "https://opentelemetry.io/docs/specs/otel/metrics/data-model/",
+      "issuer": "CNCF / OpenTelemetry",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Topology: collection intervals order metric points; cumulative vs delta temporality fixes whether point Tn subsumes prior intervals ((T0,T1] repeated) or advances ((T1,T2]); out-of-order samples must resolve against the declared interval topology rather than overwrite totals arbitrarily.",
+    "family_counterexamples": [
+     "Delta points from a restarted exporter are merged into a cumulative series, inverting interval containment.",
+     "Late-arriving window data overwrites an already-published interval without marking the reordering."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "OpenTelemetry Metrics Data Model \u2014 Temporality (cumulative/delta)",
+      "uri": "https://opentelemetry.io/docs/specs/otel/metrics/data-model/",
+      "issuer": "CNCF / OpenTelemetry",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Uncertainty carriers: every published value travels with standard uncertainty/coverage band and provenance tag (observed | imputed | defaulted | inferred); missing observations stay NULL distinct from zero; aggregates over partial windows disclose denominator and coverage fraction alongside the number.",
+    "family_counterexamples": [
+     "Metric over a partial month publishes without coverage disclosure, equalizing covered and uncovered periods visually.",
+     "Failed samples default to zero and propagate as observed data through downstream ratios."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "JCGM 100:2008 \u2014 Evaluation of measurement data (GUM)",
+      "uri": "https://www.bipm.org/en/publications/guides/gum.html",
+      "issuer": "BIPM / JCGM",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Change carriers: metric definitions version forward with revisions linked to predecessors; redefinitions change measurand reference going forward while transaction-time history stays append-only; dashboard series distinguish retrospectively corrected values from originally published ones.",
+    "family_counterexamples": [
+     "A metric definition change retroactively rewrites historical chart values, erasing what was known when.",
+     "Formula bugfix patches stored source events in place instead of appending a corrected computation edition."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "PROV-DM: The PROV Data Model (revision as derivation subtype)",
+      "uri": "https://www.w3.org/TR/prov-dm/",
+      "issuer": "W3C",
+      "confidence": "medium"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ },
+ {
+  "family_slug": "shared_semantic_foundations",
+  "axes": {
+   "composition_algebra": {
+    "family_application": "Family-wide carriers: semantic_algebra contracts (35 libraries) define operators with declared associativity, idempotency tested against specific carrier equality, identities/zeros, and residuals; RDFC-1.0 shows canonical composition law \u2014 same result iff isomorphic \u2014 pinning algorithm id and version in the contract.",
+    "family_counterexamples": [
+     "Merge declared globally idempotent fails under carrier equality weaker than the operator's equality.",
+     "Fusing composite pipelines swaps association order invisibly to lineage consumers without proof obligation."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "RDF Dataset Canonicalization (RDFC-1.0) \u2014 W3C Recommendation",
+      "uri": "https://www.w3.org/TR/rdf-canon/",
+      "issuer": "W3C",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "grain_and_cardinality": {
+    "family_application": "Family-wide carriers: the sixty-library lattice shares grain declarations \u2014 Kimball-style 'declare the grain before dimensions/facts', cardinality constraints at rest (key uniqueness/multiplicity), measurand identity fixing referents, and legal regrain operations with declared additive rules.",
+    "family_counterexamples": [
+     "Two families join at mismatched key grains, multiplying rows while reporting successful reconciliation.",
+     "Summary-grain rolls substitute for atomic grain, assuming questions in advance and failing novel queries."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Kimball Dimensional Modeling Techniques \u2014 Grain listed first among fundamentals",
+      "uri": "https://www.kimballgroup.com/data-warehouse-business-intelligence-references/kimball-techniques/dimensional-modeling-techniques/",
+      "issuer": "Kimball Group",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "identity_and_equality": {
+    "family_application": "Family-wide carriers: equality APIs name their relation \u2014 byte digest, canonical-form (RFC 3986 comparison ladder), opaque identifier, or entity semantic equality; opaque IDs carried verbatim without parsing; lineage nodes separate node identity, payload digest, and dataset identity fields.",
+    "family_counterexamples": [
+     "SHA-256 digest equality across two artifacts is cited as proof they denote the same real-world asset.",
+     "URI comparison skips scheme-specific normalization, flipping equality verdicts between editions."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "RFC 3986 \u2014 Uniform Resource Identifier (URI): Generic Syntax, \u00a76 Normalization and Comparison",
+      "uri": "https://www.rfc-editor.org/rfc/rfc3986",
+      "issuer": "IETF",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "order_and_topology": {
+    "family_application": "Family-wide carriers: happens-before annotated per event record with logical timestamps; cycle detection pure in edge-set edition; topo schedules respect asserted precedence without inverting edges; clock merges monotone; knowledge bounds distinguish 'no cycle found' from acyclicity.",
+    "family_counterexamples": [
+     "Lamport-clock comparability between unrelated processes is asserted, inferring simultaneity from equal counters.",
+     "Flattening a partial authority-delegation order into a total ranking presents arbitrary tie-breaks as derived."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "Time, Clocks, and the Ordering of Events in a Distributed System",
+      "uri": "https://lamport.azurewebsites.net/pubs/time-clocks.pdf",
+      "issuer": "Leslie Lamport / Communications of the ACM",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "partiality_and_uncertainty": {
+    "family_application": "Family-wide carriers: typed absence (Option/Result/nullable) distinct from sentinels; NULL differs from zero/empty-set/empty-string; open-world semantics keep unentailed triples unknown, negative evidence explicitly asserted; uncertainty bands propagate GUM-style with provenance tags through composition.",
+    "family_counterexamples": [
+     "Absence of a denial assertion is read as granted permission under open-world semantics.",
+     "Silence from an unqueried source is recorded as zero rather than unknown coverage."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "RDF 1.1 Semantics \u2014 W3C Recommendation (open-world entailment)",
+      "uri": "https://www.w3.org/TR/rdf11-semantics/",
+      "issuer": "W3C",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   },
+   "state_and_change": {
+    "family_application": "Family-wide carriers: bitemporal records keep valid time orthogonal to transaction time; supersession, retraction, amendment stay three distinct relations; optimistic concurrency (ETag/If-Match \u2192 412) converts races into explicit failures; compensation appended, transaction-time history append-only across all sixty libraries.",
+    "family_counterexample_note": null,
+    "family_counterexamples": [
+     "One collapsed 'update' timestamp makes a retroactive correction indistinguishable from newly learned knowledge.",
+     "Replayed command lacking idempotency key re-executes instead of returning the original outcome."
+    ],
+    "extra_verified_sources": [
+     {
+      "title": "PROV-DM: The PROV Data Model \u2014 entities, derivations, revision type",
+      "uri": "https://www.w3.org/TR/prov-dm/",
+      "issuer": "W3C",
+      "confidence": "high"
+     }
+    ],
+    "status": "RESEARCHED"
+   }
+  }
+ }
+]

@@ -1,0 +1,151 @@
+{
+  "attachments": [
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 57578,
+      "origin": "docs/SOFTWARE-DOMAIN-LIBRARY-METHOD.html",
+      "path": "ATTACHMENTS/method/SOFTWARE-DOMAIN-LIBRARY-METHOD.html",
+      "role": "SAN domain-to-library method candidate",
+      "sha256": "7c7f9c34f1bed6caa71eee96b8bdf29a1b89514cb77576789a1e1268aae50c30"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 321736,
+      "origin": "docs/PURE-LIBRARY-CONSTITUTION.html",
+      "path": "ATTACHMENTS/method/PURE-LIBRARY-CONSTITUTION.html",
+      "role": "SAN pure-library constitutional candidate",
+      "sha256": "3756172ab8fa5ab4cc304d5d355d5dbb91ce6de0bd947a828b21c747ded45109"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 192041,
+      "origin": "docs/COMPOSABLE-PRODUCT-KERNEL.html",
+      "path": "ATTACHMENTS/method/COMPOSABLE-PRODUCT-KERNEL.html",
+      "role": "SAN recursive product-composition candidate",
+      "sha256": "3f6ae5a8a1664b8dae05ed6a45ac2a82411fcb7702ce80741d04d94dafec4f74"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 89183,
+      "origin": "toolkit/FAMILY-SPECS.md",
+      "path": "ATTACHMENTS/method/FAMILY-SPECS.md",
+      "role": "Current SAN family specification guidance",
+      "sha256": "7e85cd06b77fb11d7629d230f270cedaff6ac96e11d3879c8a9c58ac16dfb701"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 212303,
+      "origin": "toolkit/identifier/docs/IDENTIFIER-FAMILY-SPEC.html",
+      "path": "ATTACHMENTS/identifier/IDENTIFIER-FAMILY-SPEC.html",
+      "role": "High-detail semantic-family stress example",
+      "sha256": "633335275edfa7a8c0ad5c34f163a4357f5097ecd694aa1ad29c1e887ab2608e"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 98570,
+      "origin": "toolkit/identifier/spec/SEM-014-CONTEXT-SPEC.json",
+      "path": "ATTACHMENTS/identifier/SEM-014-CONTEXT-SPEC.json",
+      "role": "Machine-readable Identifier domain-specification stress example",
+      "sha256": "45d1c6e71a4591254c91bfdd69e19a12ee977c345f930863e3c690f1eae4faf6"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 14233,
+      "origin": "toolkit/identifier/spec/SEM-014-IMPLEMENTATION-POSTURE.json",
+      "path": "ATTACHMENTS/identifier/SEM-014-IMPLEMENTATION-POSTURE.json",
+      "role": "Identifier specification-to-implementation posture evidence",
+      "sha256": "2dc362ef1fd5b9b553827904546cada82e33995b692eec2ccf5bec26223a2240"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 407304,
+      "origin": "docs/spec-inputs/programs/2026-08-13/shared/registry/SAN-GLOBAL-PROGRAM-REGISTRY-ARCHITECTURE-EDITION-1.zip",
+      "path": "ATTACHMENTS/registry/SAN-GLOBAL-PROGRAM-REGISTRY-ARCHITECTURE-EDITION-1.zip",
+      "role": "Candidate global registry and crosswalk target; not ratification evidence",
+      "sha256": "757d1fd0fa1ef977158a39b7ed91272f231121ff8a9c138e4ba8aed8d5dd9b3c"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 2857072,
+      "origin": "docs/spec-inputs/programs/2026-08-13/non-data/05-atlas/SAN-UNIVERSAL-NON-DATA-DOMAIN-ATLAS-v0.1.0.zip",
+      "path": "ATTACHMENTS/atlas/SAN-UNIVERSAL-NON-DATA-DOMAIN-ATLAS-v0.1.0.zip",
+      "role": "Current non-data atlas rebase subject and stress corpus",
+      "sha256": "5709a57a2bbe35257e756cade440d73c60e3fe6b8c6d65c80a4a731466767b96"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 653311,
+      "origin": "docs/spec-inputs/programs/2026-08-13/shared/compiler/SAN-COMPILER-DOMAIN-MODELING-ADJUDICATION-SSPEC-EDITION-2-REVIEW-CANDIDATE.zip",
+      "path": "ATTACHMENTS/compiler/SAN-COMPILER-DOMAIN-MODELING-ADJUDICATION-SSPEC-EDITION-2-REVIEW-CANDIDATE.zip",
+      "role": "Current compiler/domain-modeling adjudication candidate",
+      "sha256": "b053358ab01719c75feb066b0b9317c3c4ce0a1c97db92bbe92b7d531cd6334b"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 301737,
+      "origin": "docs/spec-inputs/programs/2026-08-13/shared/compiler/SAN-CROSS-REGISTRY-COMPOSABILITY-IR-EXECUTION-CLOSURE-REVIEW-CANDIDATE-2026-08-12.zip",
+      "path": "ATTACHMENTS/compiler/SAN-CROSS-REGISTRY-COMPOSABILITY-IR-EXECUTION-CLOSURE-REVIEW-CANDIDATE-2026-08-12.zip",
+      "role": "Cross-registry composition, IR, and execution-closure review candidate",
+      "sha256": "93b7100ba6dae8aa5f1e0242da486bc05fbb7be49bac139ebe625540b01eb59a"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 162489,
+      "origin": "docs/spec-inputs/programs/2026-08-13/shared/compiler/SAN-CON-CMP-STAGE0-CORRECTION-PROPOSED-2026-08-12.zip",
+      "path": "ATTACHMENTS/compiler/SAN-CON-CMP-STAGE0-CORRECTION-PROPOSED-2026-08-12.zip",
+      "role": "Proposed constitutional/compiler stage-zero correction",
+      "sha256": "4ca5e12687ad8a2fa39ed20dd42ca07e369f459b87cf6c1718eab4a58724dbf6"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 51314,
+      "origin": "docs/spec-inputs/programs/2026-08-13/shared/compiler/SAN-GPT-B-COMPILER-ADVERSARIAL-ADJUDICATION-2026-08-12.zip",
+      "path": "ATTACHMENTS/compiler/SAN-GPT-B-COMPILER-ADVERSARIAL-ADJUDICATION-2026-08-12.zip",
+      "role": "Adversarial compiler adjudication candidate",
+      "sha256": "437482dca197f970199bf3fa04c75edddc080690ed1bdf1659e8fdd3ca8b53d6"
+    },
+    {
+      "authority_posture": "candidate_evidence",
+      "bytes": 580568,
+      "origin": "docs/spec-inputs/programs/2026-08-13/data-analytics/05-library-candidates/SAN-DATA-SOVEREIGN-LIBRARIES-EDITION-1-REVIEW-CANDIDATE.zip",
+      "path": "ATTACHMENTS/stress-inputs/SAN-DATA-SOVEREIGN-LIBRARIES-EDITION-1-REVIEW-CANDIDATE.zip",
+      "role": "Non-authoritative data-library stress candidate",
+      "sha256": "eef9a9d58784d034b98780f77da9d4f150f6ff548f8dbe981cd69643c16fcb90"
+    },
+    {
+      "authority_posture": "integrity_metadata",
+      "bytes": 126,
+      "origin": "docs/spec-inputs/programs/2026-08-13/data-analytics/05-library-candidates/SAN-DATA-SOVEREIGN-LIBRARIES-EDITION-1-REVIEW-CANDIDATE.zip.sha256",
+      "path": "ATTACHMENTS/stress-inputs/SAN-DATA-SOVEREIGN-LIBRARIES-EDITION-1-REVIEW-CANDIDATE.zip.sha256",
+      "role": "Published checksum sidecar for the data-library stress candidate",
+      "sha256": "9fceceff90875cf16ac05eb7410ec03b59865bdf22c59f86e0f5a94d794afe5b"
+    }
+  ],
+  "control_files": [
+    {
+      "bytes": 8678,
+      "path": "PROMPT.md",
+      "sha256": "ec334e48a7fa9a522d0679ab3b4958f5ba3f03baa99e9df98e67481df97093c8"
+    },
+    {
+      "bytes": 5229,
+      "path": "BASE-RESEARCH-CONSTITUTION.md",
+      "sha256": "1fb4fe5a25bac6484bcd122735d10bdbce97aa5f893e4c3675959ee3e0e712bd"
+    },
+    {
+      "bytes": 6606,
+      "path": "PROGRAM-DAG.md",
+      "sha256": "f79b480c249ab5ebbb76046e87c8bdf95adf6c6a18aee19e98f804b22a14fdde"
+    },
+    {
+      "bytes": 2717,
+      "path": "ARTIFACT-CONTRACT.md",
+      "sha256": "71c4e9882c29690fa2ddeaaf4c337225ce913e90a709ca38adad688db53864b7"
+    }
+  ],
+  "expected_return": "candidate-b-library-composition-compiler-contract-v0.1.0.zip",
+  "independence_rule": "Use only this session package, globally researched Internet evidence, and no output from either parallel independent contract candidate session.",
+  "manifest_version": "0.1.0",
+  "purpose": "Independent library, composition, and compiler contract candidate",
+  "session_id": "S2-library-compiler-contract"
+}

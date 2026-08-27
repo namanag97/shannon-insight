@@ -1,0 +1,35 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 10,
+      "sha256": "57dd9d86198bb98da6f2349f3d4bc29111cc032492d7f0cdde2793346cbedf6f"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 30,
+      "sha256": "3fa7a54a9ffa9540ffeff02eb6b34db3c65d1ebeb883366215a092033a60bb13"
+    },
+    "decision-points.jsonl": {
+      "records": 60,
+      "sha256": "e41cc52da162b76a17fcaa58441f0bbcfcc4be5ded7c27ccac039e35d9c5f1da"
+    },
+    "library-contracts.jsonl": {
+      "records": 10,
+      "sha256": "19bca036bed8d811da84d5d5a830ff57410f7fdf3249506a22d1e0f6cf8dcaef"
+    },
+    "negative-twins.jsonl": {
+      "records": 14,
+      "sha256": "92f1aa0d3f8174686aed22f439ded7300f251dcaa0f9d926e4b8acceb972f058"
+    },
+    "sources.jsonl": {
+      "records": 15,
+      "sha256": "48d45c4f7a04401b8cfb5dbe019bd25524e00dab52a315e4cb4d9b4a90d55d54"
+    }
+  },
+  "manifest_id": "telemetry_signal_semantics_v0_1_0",
+  "qualified_implementation_count": 0,
+  "stable_profile_contract_available": false,
+  "status": "specified_unimplemented_open_world"
+}

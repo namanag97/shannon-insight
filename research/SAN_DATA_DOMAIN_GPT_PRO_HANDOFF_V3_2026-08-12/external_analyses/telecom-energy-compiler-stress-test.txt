@@ -1,0 +1,1170 @@
+**For the “reduce electricity per useful GB transferred” problem, SAN’s compiler must not directly “find the answer”; it must turn the customer objective, telecom world model, measurements, constraints, and provider capabilities into a closed, validated optimization-and-control program that can safely choose actions at runtime.**
+
+The architecture I would want is closer to an **industrial optimizing compiler** than an app generator.
+
+```text
+Customer intent
+      +
+telecom model
+      +
+current topology
+      +
+historical evidence
+      +
+equipment capabilities
+      +
+operational constraints
+            │
+            ▼
+      SAN COMPILER
+            │
+   ┌────────┼─────────┐
+   ▼        ▼         ▼
+meaning   legality   possibilities
+   │        │         │
+   └────────┼─────────┘
+            ▼
+       optimization IR
+            │
+            ▼
+    validated decision space
+            │
+            ▼
+       runtime optimizer
+            │
+            ▼
+           action
+            │
+            ▼
+     measure outcome
+```
+
+The important bit is that **compile time establishes what is meaningful, possible, legal, safe, and measurable. Runtime chooses what is best given current conditions.**
+
+---
+
+## 1. First compile the KPI itself
+
+The compiler cannot accept:
+
+```text
+minimize electricity_per_GB
+```
+
+and shrug enthusiastically.
+
+It needs to resolve exactly what this means.
+
+Something closer to:
+
+```text
+objective EnergyIntensity {
+    numerator:
+        ElectricityConsumption {
+            boundary: RAN
+            includes: [
+                radio,
+                baseband,
+                cooling,
+                power_conversion
+            ]
+        }
+
+    denominator:
+        SuccessfullyDeliveredUserPlaneData {
+            direction: uplink + downlink
+            retransmissions: excluded
+        }
+
+    aggregation:
+        site × 15_minutes
+
+    optimize:
+        minimize
+}
+```
+
+Compiler duties:
+
+```text
+resolve units
+check dimensions
+resolve measurement boundaries
+resolve aggregation grain
+check numerator/denominator time alignment
+check whether measurements actually exist
+check whether denominator can be zero
+define missing-data semantics
+define uncertainty
+```
+
+This should come from your generic libraries:
+
+```text
+Quantity
+Unit
+Measurement
+Time
+Interval
+Aggregation
+Metric
+Evidence
+```
+
+Not telecom-specific code.
+
+---
+
+# 2. Compile the telecom ontology into a system graph
+
+You need to represent the actual physical system.
+
+```text
+Region
+  └─ Site
+      ├─ Sector
+      │   ├─ Cell
+      │   │   ├─ Carrier
+      │   │   └─ RadioUnit
+      │   └─ NeighborRelation
+      │
+      ├─ BasebandUnit
+      ├─ BackhaulLink
+      ├─ PowerSystem
+      └─ CoolingSystem
+```
+
+Then relationships:
+
+```text
+Cell A
+    covers Area X
+
+Cell A
+    neighbors Cell B
+
+Carrier C
+    executes_on RadioUnit R
+
+RadioUnit R
+    consumes electricity from Site S
+
+Traffic T
+    traverses Cell A
+
+Customer SLA Q
+    applies_to Area X
+```
+
+This becomes a **typed topology graph**.
+
+Your compiler then has something on which it can reason.
+
+Without this, "optimize network energy" is just PowerPoint with ambition.
+
+---
+
+# 3. Compile measurements onto that graph
+
+Raw telemetry might be:
+
+```text
+power_meter_481 = 4.2kW
+counter_994     = 18,993,281 bytes
+prb_dl          = 0.11
+temp            = 31°C
+```
+
+Those values are useless until attached semantically:
+
+```text
+Measurement
+   │
+   ├── observes → SitePower
+   ├── subject  → Site-481
+   ├── interval → 14:00–14:05
+   ├── unit     → kWh
+   ├── source   → Meter-X
+   └── quality  → Validated
+```
+
+and:
+
+```text
+TrafficMeasurement
+   │
+   ├── subject → Cell-77
+   ├── measure → DeliveredUserPlaneBytes
+   └── interval → same interval
+```
+
+The DAT compiler needs to perform:
+
+```text
+source mapping
+schema resolution
+unit normalization
+time alignment
+identity/correspondence
+quality validation
+late-data policy
+missing-data policy
+lineage
+aggregation
+```
+
+This is absolutely compiler territory because every subsequent decision depends on it.
+
+---
+
+# 4. Compile the **legal action space**
+
+Now we get to the interesting part.
+
+Equipment gives possible actions:
+
+```text
+CarrierSleep
+RadioDeepSleep
+CellShutdown
+TransmitPowerChange
+TrafficSteer
+CapacityActivate
+CarrierActivate
+```
+
+But not every piece of hardware supports every operation.
+
+For example:
+
+```text
+EricssonRadioModelX {
+    supports:
+        DeepSleep(level=1..3)
+
+    wake_latency:
+        40ms
+
+    minimum_sleep:
+        500ms
+}
+```
+
+Another device might support only:
+
+```text
+TransmitPowerChange
+```
+
+This maps beautifully onto:
+
+```text
+RES
+    required capability
+
+PRV
+    provider implementation evidence
+```
+
+Compiler asks:
+
+```text
+Requested action:
+    DeepSleep
+
+Target:
+    Radio-44
+
+Provider:
+    VendorModel-Y
+
+Does provider guarantee it?
+```
+
+If no:
+
+```text
+REFUSED
+
+PRV-TELECOM-441 does not discharge
+RES-RAN-DEEP-SLEEP.
+```
+
+This is a linker problem.
+
+---
+
+# 5. Compile every action's consequences
+
+This is where the domain libraries become genuinely important.
+
+For example:
+
+```text
+Sleep(Carrier C)
+```
+
+is not merely an API call.
+
+It implies:
+
+```text
+available capacity decreases
+power consumption decreases
+traffic must migrate
+neighbor load may increase
+handover pattern changes
+coverage may change
+wake-up delay appears
+```
+
+So the telecom knowledge pack should contain machine-readable laws such as:
+
+```text
+CarrierSleep(C)
+    implies AvailableCapacity(C) = 0
+
+CarrierSleep(C)
+    requires NeighborCapacity >= DivertedTraffic
+
+CarrierSleep(C)
+    requires CoveragePreserved
+
+CarrierSleep(C)
+    requires WakeLatency <= RecoveryBudget
+```
+
+Then the compiler can derive obligations.
+
+This is the critical transformation:
+
+```text
+ACTION
+  ↓
+SEMANTIC CONSEQUENCES
+  ↓
+OBLIGATIONS
+```
+
+A senior telecom architect currently does much of this in their head.
+
+---
+
+# 6. Compile business/SLA constraints into hard invariants
+
+The customer doesn't really want:
+
+```text
+minimum electricity
+```
+
+They want:
+
+```text
+minimum electricity
+
+subject to...
+```
+
+For example:
+
+```text
+constraint Coverage {
+    availability >= 99.999%
+}
+
+constraint Latency {
+    p95 <= 20ms
+}
+
+constraint Throughput {
+    minimum >= X
+}
+
+constraint EmergencyService {
+    coverage == mandatory
+}
+
+constraint CapacityHeadroom {
+    remaining >= 25%
+}
+```
+
+Now the compiler can distinguish:
+
+```text
+HARD CONSTRAINT
+    may never be violated
+
+SOFT OBJECTIVE
+    optimize when possible
+```
+
+That's essential.
+
+Otherwise your optimizer discovers the revolutionary telecommunications strategy:
+
+```text
+turn network off
+```
+
+Zero electricity. Industry transformed.
+
+---
+
+# 7. Compile interference between actions
+
+This is one of the harder requirements.
+
+Actions are not independent.
+
+For example:
+
+```text
+Sleep Cell B
+       ↓
+traffic moves to Cell A
+       ↓
+Cell A load rises
+       ↓
+Cell A loses sleep opportunity
+```
+
+or:
+
+```text
+lower transmit power
+       ↓
+coverage shrinks
+       ↓
+handover increases
+       ↓
+neighbor traffic rises
+       ↓
+energy elsewhere increases
+```
+
+Therefore the compiler needs an **effect graph**.
+
+```text
+Action
+   ↓
+direct effects
+   ↓
+derived effects
+   ↓
+affected resources
+   ↓
+affected constraints
+   ↓
+possible secondary actions
+```
+
+That is much closer to a query optimizer or planning compiler than ordinary codegen.
+
+---
+
+# 8. Compile an optimization problem
+
+Once all of the above exists, the compiler can produce something mathematically meaningful.
+
+Conceptually:
+
+```text
+Decision variables:
+
+x_cell_1_sleep ∈ {0,1}
+x_cell_2_sleep ∈ {0,1}
+
+power_cell_1 ∈ allowed_power_levels
+
+traffic_A_to_B ∈ feasible_routes
+```
+
+Objective:
+
+```text
+minimize predicted_energy
+         /
+         predicted_useful_data
+```
+
+subject to:
+
+```text
+coverage >= Cmin
+capacity >= traffic + headroom
+latency <= Lmax
+handover_failure <= Hmax
+provider capabilities satisfied
+safety invariants satisfied
+```
+
+The compiler does **not necessarily solve this itself**.
+
+It can lower into:
+
+```text
+MILP solver
+constraint solver
+graph optimizer
+heuristic planner
+ML-assisted optimizer
+simulation search
+```
+
+This is where `TGT` becomes interesting.
+
+---
+
+# 9. Produce a target-independent optimization IR
+
+I'd introduce something conceptually like:
+
+```text
+OptimizationProgram {
+    objective
+    decision_variables
+    state_variables
+    observations
+    hard_constraints
+    soft_constraints
+    actions
+    effects
+    uncertainty
+    provider_capabilities
+    evidence_requirements
+    safety_envelope
+}
+```
+
+Maybe call it part of TGT rather than making another sovereign track.
+
+Example:
+
+```text
+objective:
+    minimize EnergyIntensity
+
+observations:
+    TrafficLoad(Cell)
+    EnergyConsumption(Site)
+    Capacity(Cell)
+    NeighborLoad(Cell)
+
+action:
+    SleepCarrier(Carrier)
+
+preconditions:
+    ProviderSupportsSleep
+    NeighborCapacitySufficient
+    CoveragePreserved
+
+effect_model:
+    EnergyReductionEstimate
+    CapacityReduction
+    TrafficRedistribution
+
+safety:
+    never violate EmergencyCoverage
+```
+
+Now you have a portable logical optimization program.
+
+---
+
+# 10. Compile a **safety envelope**, not one fixed decision
+
+This is extremely important.
+
+At build time you probably cannot know whether Cell B should sleep tonight.
+
+But you can compile:
+
+```text
+Cell B MAY sleep if:
+
+forecast_load < 15%
+AND
+neighbor_capacity > required_capacity
+AND
+coverage_model proves preservation
+AND
+no active emergency condition
+AND
+wake_latency < 100ms
+AND
+confidence >= 0.98
+```
+
+So instead of:
+
+```text
+compile → Sleep B
+```
+
+you get:
+
+```text
+compile
+   ↓
+valid decision region
+   ↓
+runtime observes current world
+   ↓
+chooses inside valid region
+```
+
+That is a vastly better architecture.
+
+---
+
+# 11. Compile uncertainty explicitly
+
+Physical systems are not deterministic software objects.
+
+Suppose model predicts:
+
+```text
+Sleep Cell B
+
+expected energy reduction:
+    17%
+
+expected p95 latency increase:
+    4ms
+```
+
+Those are predictions.
+
+They need:
+
+```text
+confidence
+error bounds
+model version
+evidence window
+validity domain
+```
+
+So your type shouldn't be:
+
+```text
+EnergySaving = 17%
+```
+
+but something closer to:
+
+```text
+Prediction<EnergySaving> {
+    expected: 17%
+    interval: [13%, 20%]
+    confidence: ...
+    model: EnergyModel.v4
+    evidence: ...
+}
+```
+
+Then compiler laws can say:
+
+```text
+if uncertainty crosses a hard safety threshold
+    → autonomous execution prohibited
+```
+
+Maybe:
+
+```text
+high confidence
+    → automatic
+
+medium confidence
+    → operator approval
+
+low confidence
+    → simulation only
+```
+
+That's Decision + Evidence + Policy + Work.
+
+---
+
+# 12. Compile execution semantics
+
+Suppose runtime finally chooses:
+
+```text
+Sleep Carrier C
+```
+
+Now SAN must determine:
+
+```text
+who executes?
+through which provider?
+is it reversible?
+is it idempotent?
+what if acknowledgement is lost?
+what proves success?
+when is rollback required?
+```
+
+That sounds familiar because it is your existing mutation architecture.
+
+```text
+Decision
+   ↓
+EffectIntent
+   ↓
+RUN
+   ↓
+provider adapter
+   ↓
+OSS / vendor API
+   ↓
+receipt/evidence
+```
+
+And:
+
+```text
+RequestedState:
+    Carrier C = Sleeping
+
+ObservedState:
+    Carrier C = Active
+```
+
+means:
+
+```text
+effect not yet proven
+```
+
+Not:
+
+```text
+we sent HTTP 200, therefore reality obeyed
+```
+
+Physical-world actuation needs stronger evidence semantics.
+
+---
+
+# 13. Compile rollback / compensation
+
+Suppose we sleep B.
+
+Then:
+
+```text
+latency rises
+coverage quality falls
+neighbor congestion rises
+```
+
+The compiled control program should already know:
+
+```text
+if SLA violation:
+    Wake(B)
+```
+
+Not have an LLM improvising at 3 a.m. over a production mobile network, because some boundaries deserve respect.
+
+So every risky action needs:
+
+```text
+forward action
+verification
+failure condition
+rollback action
+rollback verification
+```
+
+Potentially:
+
+```text
+ActionContract {
+    apply
+    expected_effect
+    verify
+    abort_threshold
+    compensate
+}
+```
+
+---
+
+# 14. Compile an experiment when knowledge is insufficient
+
+This is a subtle but powerful thing.
+
+The compiler may discover:
+
+```text
+We cannot determine whether
+sleeping this carrier improves
+energy intensity safely.
+
+Missing:
+    empirical wake latency
+    actual neighbor offload behavior
+```
+
+Don't just fail.
+
+It could produce:
+
+```text
+EVIDENCE GAP
+
+To discharge OPT-117:
+
+Run controlled experiment:
+    sample sites = ...
+    traffic band = ...
+    action = SleepLevel1
+    duration = ...
+    required observations = ...
+    rollback threshold = ...
+```
+
+So compilation can produce:
+
+```text
+application
+```
+
+or:
+
+```text
+decision program
+```
+
+or:
+
+```text
+required experiment
+```
+
+That's very strong for engineering work.
+
+---
+
+# 15. Compile the closed-loop monitoring requirement
+
+Optimization does not end at deployment.
+
+```text
+predicted saving: 17%
+
+actual saving: 9%
+```
+
+That must become evidence.
+
+```text
+decision
+   ↓
+execution
+   ↓
+observed outcome
+   ↓
+compare prediction
+   ↓
+model error
+   ↓
+update evidence/model
+```
+
+So the compiler should generate an **observation contract** for every action:
+
+```text
+after SleepCarrier:
+    observe:
+        SiteEnergy
+        DeliveredTraffic
+        Latency
+        Coverage
+        NeighborLoad
+
+    windows:
+        baseline
+        intervention
+        stabilization
+
+    evaluate:
+        objective change
+        constraint violations
+```
+
+Otherwise you cannot learn.
+
+---
+
+# 16. Here's what each SAN track would do
+
+This example is actually an excellent stress test of your current decomposition.
+
+| Track   | Job in energy/GB problem                                                               |
+| ------- | -------------------------------------------------------------------------------------- |
+| **SEM** | Quantity, measurement, unit, time, identity, evidence, decision, objective, constraint |
+| **ONT** | Telecom ontology: site, cell, carrier, radio, coverage, topology                       |
+| **DAT** | Telemetry ingestion, temporal alignment, quality, lineage, metric computation          |
+| **REF** | Published telecom/equipment definitions and governed metric identities                 |
+| **CON** | Express operation/action/constraint/effect contracts                                   |
+| **CMP** | Resolve, infer obligations, derive action consequences, establish closure              |
+| **TGT** | Portable optimization/control IR                                                       |
+| **RES** | Required capabilities such as DeepSleep, power measurement, traffic steering           |
+| **PRV** | Ericsson/Nokia/customer equipment evidence satisfying capabilities                     |
+| **RUN** | Observe current state, execute actions, verify effects                                 |
+| **ASR** | Prove constraints, provider compatibility, safety properties                           |
+| **MGT** | Repair, rollback, reconcile, respond to drift                                          |
+| **EXP** | NOC/operator UI, explanation, approvals                                                |
+| **CTL** | Operational control/safety governance, if you retain this track                        |
+
+This is actually much more compelling than using an invoice CRUD app to validate those tracks.
+
+---
+
+# 17. But you need additional compiler concepts
+
+I think your current compiler work would need to explicitly support at least:
+
+```text
+Objective
+
+Constraint
+    hard
+    soft
+
+Observation
+
+Measurement
+
+DecisionVariable
+
+ControllableResource
+
+Action
+
+ActionPrecondition
+
+EffectModel
+
+StateTransition
+
+Capability
+
+SafetyEnvelope
+
+Uncertainty
+
+Prediction
+
+Evidence
+
+Experiment
+
+OptimizationProblem
+
+CandidatePlan
+
+PlanScore
+
+DecisionPolicy
+
+ExecutionPlan
+
+VerificationPlan
+
+CompensationPlan
+```
+
+These shouldn't all become sovereign domains. Many are compiler metamodel concepts.
+
+That's an important distinction.
+
+---
+
+# 18. The compiler pipeline could look like this
+
+```text
+         CUSTOMER DECLARATION
+                 │
+                 ▼
+
+① NAME / TYPE RESOLUTION
+   "GB" → DataVolume
+   "electricity" → Energy
+                 │
+                 ▼
+
+② METRIC CLOSURE
+   define exact kWh/GB semantics
+                 │
+                 ▼
+
+③ ONTOLOGY CLOSURE
+   resolve cell/site/carrier/topology
+                 │
+                 ▼
+
+④ DATA CLOSURE
+   can every required observation be measured?
+                 │
+                 ▼
+
+⑤ CAPABILITY CLOSURE
+   what actions can each provider actually execute?
+                 │
+                 ▼
+
+⑥ EFFECT CLOSURE
+   what does each action change?
+                 │
+                 ▼
+
+⑦ CONSTRAINT PROPAGATION
+   what downstream constraints can be affected?
+                 │
+                 ▼
+
+⑧ SAFETY CLOSURE
+   eliminate unsafe actions/plans
+                 │
+                 ▼
+
+⑨ OPTIMIZATION LOWERING
+   objective + variables + constraints
+                 │
+                 ▼
+
+⑩ SOLVER / PLANNER SELECTION
+   MILP / heuristic / simulation / learned optimizer
+                 │
+                 ▼
+
+⑪ DECISION-PROGRAM GENERATION
+   compile valid runtime decision space
+                 │
+                 ▼
+
+⑫ EXECUTION LOWERING
+   vendor/OSS operations
+                 │
+                 ▼
+
+⑬ VERIFICATION GENERATION
+   how success/failure is observed
+                 │
+                 ▼
+
+⑭ ASSURANCE
+   prove closure
+                 │
+                 ▼
+
+             TGT / RUN
+```
+
+That's a real compiler architecture.
+
+---
+
+# 19. What humans still have to do
+
+This cannot become:
+
+```text
+customer:
+  optimize energy
+
+SAN:
+  done
+```
+
+That would be nonsense.
+
+Humans still have to supply or establish:
+
+```text
+what customer wants
+
+how KPI is defined
+
+telecom ontology specifics
+
+equipment capabilities
+
+physical models
+
+empirical relationships
+
+acceptable SLA thresholds
+
+business risk appetite
+
+which actions may be autonomous
+
+which require approval
+
+vendor-specific control interfaces
+
+novel failure modes
+```
+
+But crucially:
+
+> **Once that knowledge has been captured correctly, the next application/customer should not require the same reasoning from zero.**
+
+That's your compounding mechanism.
+
+---
+
+# 20. And now we can state the compiler's job much more precisely
+
+For this kind of problem, SAN should perform four different forms of compilation:
+
+```text
+1. SEMANTIC COMPILATION
+   What exactly does the objective mean?
+
+2. SYSTEM COMPILATION
+   What physical/logical world does it apply to?
+
+3. CONSTRAINT + OPTIMIZATION COMPILATION
+   Which plans are possible, safe and desirable?
+
+4. EXECUTION COMPILATION
+   How does a chosen plan become verified real-world action?
+```
+
+And around all four:
+
+```text
+                    ASSURANCE
+
+Meaning correct?
+Data sufficient?
+Capabilities real?
+Constraints satisfied?
+Prediction evidence valid?
+Action reversible?
+Outcome observable?
+```
+
+That is why this example is so useful for SAN.
+
+A traditional application compiler mostly asks:
+
+```text
+"Can I turn declarations into software?"
+```
+
+This forces SAN to answer the much harder question:
+
+> **Can I turn a high-level enterprise objective into a formally constrained, evidence-backed, provider-linked decision system without pretending the uncertain physical world is deterministic?**
+
+If you can design `CMP + TGT + RUN + RES/PRV + ASR` so this case fits naturally, then your compiler architecture is starting to become much more than app generation.

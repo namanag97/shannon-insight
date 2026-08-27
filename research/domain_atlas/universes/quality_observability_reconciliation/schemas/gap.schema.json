@@ -1,0 +1,47 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/gap.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocking": {
+      "type": "boolean"
+    },
+    "compiler_behavior": {
+      "const": "emit_typed_gap_and_refuse_semantic_guessing"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "gap_class": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "gap_id": {
+      "pattern": "^qor\\.gap\\.",
+      "type": "string"
+    },
+    "next_evidence_action": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "statement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "explicit_open_gap"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "statement",
+    "gap_class",
+    "blocking",
+    "next_evidence_action",
+    "compiler_behavior"
+  ],
+  "title": "Explicit quality universe gap",
+  "type": "object"
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/method-kernel-qualification-receipt-v0.1.0.schema.json",
+  "title": "Provider qualification profile or execution receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id", "edition", "record_kind", "status", "subject_ref", "claim",
+    "scope", "environment", "configuration", "fixtures", "oracles", "results",
+    "evidence_refs", "validity", "invalidation_triggers", "limitations"
+  ],
+  "properties": {
+    "receipt_id": {"type": "string", "pattern": "^receipt\\.method_kernel\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "record_kind": {"enum": ["qualification_profile", "receipt_template", "executed_receipt"]},
+    "status": {"enum": ["template_not_executed", "observed", "pass", "fail", "inconclusive", "expired"]},
+    "subject_ref": {"type": "string", "minLength": 1},
+    "claim": {"type": "string", "minLength": 1},
+    "scope": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "environment": {"type": "object"},
+    "configuration": {"type": "object"},
+    "fixtures": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "oracles": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "results": {"type": "array", "items": {"type": "object"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "validity": {"type": "object", "required": ["from", "until"], "properties": {"from": {"type": ["string", "null"]}, "until": {"type": ["string", "null"]}}, "additionalProperties": false},
+    "invalidation_triggers": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"record_kind": {"enum": ["qualification_profile", "receipt_template"]}}},
+      "then": {"properties": {"status": {"const": "template_not_executed"}, "results": {"maxItems": 0}}}
+    },
+    {
+      "if": {"properties": {"record_kind": {"const": "executed_receipt"}}},
+      "then": {"properties": {"results": {"minItems": 1}, "evidence_refs": {"minItems": 1}}}
+    }
+  ]
+}

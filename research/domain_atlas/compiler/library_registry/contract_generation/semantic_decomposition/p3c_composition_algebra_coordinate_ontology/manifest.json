@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "composition-algebra-coordinate-ontology.json": {
+      "bytes": 5053,
+      "sha256": "3275c49af9193ce87e6a671e3e5aece79b4dd6c164d425f7b4e16606e553b907"
+    },
+    "extension-candidates.jsonl": {
+      "bytes": 40310,
+      "sha256": "68014e583bb86d038ccc4051c8f134e69eb6bdc56e35e5bd488d40a84c8d9f97"
+    },
+    "member-composition-routes.jsonl": {
+      "bytes": 804864,
+      "sha256": "797a925f6ccc0b2c949e1c4e933e9ce42498cd0f8cfae688eced8a8f457df5bd"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 89083,
+      "sha256": "b9e3e5b7beee6a8bbef754d18f94c609e946b05ddbd9cc8b3cf8c9a83fd74c0c"
+    },
+    "operator-archetypes.jsonl": {
+      "bytes": 11270,
+      "sha256": "d63fe550fc823c55e5dd8981e6d66f3b9dae1df1bd53555a0491ca311a34884b"
+    },
+    "operator-kernels.jsonl": {
+      "bytes": 60244,
+      "sha256": "49edea3f298673b0ec21997f7ecec03f224c344cbd950e13093cb0db544a0ff2"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 5312,
+      "sha256": "03c52d2fb4fde22b18289d91f9ac1f8e9f5e13b9460a0e8bff45d59f320d14a1"
+    },
+    "summary.json": {
+      "bytes": 637,
+      "sha256": "0a3d7dbc48f41404497d79a66757edaccf30f694e84d05936eb0f9f65882cf2f"
+    }
+  },
+  "manifest_id": "manifest.p3c.composition-algebra-coordinate-ontology-and-rebase.v1"
+}

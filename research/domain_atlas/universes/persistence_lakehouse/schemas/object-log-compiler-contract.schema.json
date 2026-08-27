@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/persistence-object-log-compiler-contract-v0.1.0.schema.json",
+  "title": "Object-log durability architecture compiler contracts",
+  "oneOf": [
+    {"$ref": "#/$defs/requirement"},
+    {"$ref": "#/$defs/offer"},
+    {"$ref": "#/$defs/bindingRule"}
+  ],
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "nonemptyStrings": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "capabilityClause": {
+      "type": "object", "additionalProperties": false,
+      "required": ["clause_id", "operator", "capability_refs"],
+      "properties": {
+        "clause_id": {"type": "string", "pattern": "^clause\\.persistence\\.object_log\\.[a-z0-9_.-]+$"},
+        "operator": {"enum": ["all", "any"]},
+        "capability_refs": {"$ref": "#/$defs/nonemptyStrings"}
+      }
+    },
+    "requirement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "requirement_id", "edition", "status", "intent", "required_workload_classes_any", "allowed_architecture_classes", "required_capability_clauses", "decision_refs", "required_library_refs", "missing_library_contracts", "evidence_gates", "fallback_law", "gaps"],
+      "properties": {
+        "record_kind": {"const": "durability_architecture_requirement"},
+        "requirement_id": {"type": "string", "pattern": "^requirement\\.persistence\\.object_log\\.[a-z0-9_.-]+$"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["candidate", "declared", "reviewed"]},
+        "intent": {"type": "string", "minLength": 1},
+        "required_workload_classes_any": {"$ref": "#/$defs/nonemptyStrings"},
+        "allowed_architecture_classes": {"$ref": "#/$defs/nonemptyStrings"},
+        "required_capability_clauses": {"type": "array", "items": {"$ref": "#/$defs/capabilityClause"}, "minItems": 1},
+        "decision_refs": {"$ref": "#/$defs/nonemptyStrings"},
+        "required_library_refs": {"$ref": "#/$defs/nonemptyStrings"},
+        "missing_library_contracts": {"$ref": "#/$defs/strings"},
+        "evidence_gates": {"$ref": "#/$defs/nonemptyStrings"},
+        "fallback_law": {"const": "refuse"},
+        "gaps": {"$ref": "#/$defs/nonemptyStrings"}
+      }
+    },
+    "offer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "offer_id", "edition", "status", "architecture_ref", "architecture_class", "provider_subject", "workload_classes", "capability_claim_refs", "decision_refs", "commit_frontier_roles", "evidence_refs", "qualified_deployment_count", "portable", "selectable", "claim_law", "qualification_gates", "gaps"],
+      "properties": {
+        "record_kind": {"const": "durability_architecture_offer"},
+        "offer_id": {"type": "string", "pattern": "^offer\\.persistence\\.object_log\\.[a-z0-9_.-]+$"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"const": "architecture_candidate_unqualified"},
+        "architecture_ref": {"type": "string", "pattern": "^architecture\\.persistence\\.[a-z0-9_.-]+$"},
+        "architecture_class": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "provider_subject": {
+          "type": "object", "additionalProperties": false, "required": ["name", "kind"],
+          "properties": {"name": {"type": "string", "minLength": 1}, "kind": {"enum": ["cloud_provider", "company_product_team", "open_source_project", "primary_research"]}}
+        },
+        "workload_classes": {"$ref": "#/$defs/nonemptyStrings"},
+        "capability_claim_refs": {"$ref": "#/$defs/nonemptyStrings"},
+        "decision_refs": {"$ref": "#/$defs/nonemptyStrings"},
+        "commit_frontier_roles": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyStrings"},
+        "qualified_deployment_count": {"const": 0},
+        "portable": {"const": false},
+        "selectable": {"const": false},
+        "claim_law": {"type": "string", "minLength": 1},
+        "qualification_gates": {"$ref": "#/$defs/nonemptyStrings"},
+        "gaps": {"$ref": "#/$defs/nonemptyStrings"}
+      }
+    },
+    "bindingRule": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "binding_rule_id", "edition", "status", "requirement_ref", "eligible_architecture_offer_refs", "compatibility_clauses", "rejection_clauses", "selection_law", "current_outcome", "receipts"],
+      "properties": {
+        "record_kind": {"const": "durability_architecture_binding_rule"},
+        "binding_rule_id": {"type": "string", "pattern": "^binding_rule\\.persistence\\.object_log\\.[a-z0-9_.-]+$"},
+        "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["candidate", "declared", "reviewed"]},
+        "requirement_ref": {"type": "string", "pattern": "^requirement\\.persistence\\.object_log\\.[a-z0-9_.-]+$"},
+        "eligible_architecture_offer_refs": {"$ref": "#/$defs/nonemptyStrings"},
+        "compatibility_clauses": {"$ref": "#/$defs/nonemptyStrings"},
+        "rejection_clauses": {"$ref": "#/$defs/nonemptyStrings"},
+        "selection_law": {"type": "string", "minLength": 1},
+        "current_outcome": {"enum": ["blocked_missing_libraries_and_or_qualified_deployment", "blocked_no_qualified_deployment"]},
+        "receipts": {"$ref": "#/$defs/nonemptyStrings"}
+      }
+    }
+  }
+}

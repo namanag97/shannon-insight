@@ -1,0 +1,84 @@
+{
+  "$id": "https://san.example/domain-atlas/connectors-protocols/decision_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_values": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "binding_phase": {
+      "enum": [
+        "logical_planning",
+        "physical_binding",
+        "deployment_binding",
+        "runtime_reconciliation",
+        "evidence_verification"
+      ]
+    },
+    "decision_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "default_law": {
+      "enum": [
+        "forbidden",
+        "explicit_safe_constant",
+        "probe_with_receipt"
+      ]
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "negative_twin": {
+      "minLength": 10,
+      "type": "string"
+    },
+    "owner_context_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "question": {
+      "minLength": 10,
+      "type": "string"
+    },
+    "required_evidence": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "hypothesis",
+        "test_fixture",
+        "deprecated_candidate",
+        "open"
+      ]
+    }
+  },
+  "required": [
+    "decision_id",
+    "edition",
+    "status",
+    "question",
+    "owner_context_ref",
+    "allowed_values",
+    "default_law",
+    "binding_phase",
+    "required_evidence",
+    "negative_twin"
+  ],
+  "title": "Connector decision point candidate",
+  "type": "object"
+}

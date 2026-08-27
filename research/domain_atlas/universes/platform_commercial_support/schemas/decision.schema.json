@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "allowed_values": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "authority_ref": {
+      "type": "string"
+    },
+    "binding_phase": {
+      "type": "string"
+    },
+    "constraints": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "decision_id": {
+      "type": "string"
+    },
+    "default_law": {
+      "const": "forbidden"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "invalidation": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "owner_context_ref": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "decision"
+      ]
+    },
+    "source_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "decision_id",
+    "owner_context_ref",
+    "question",
+    "allowed_values",
+    "binding_phase",
+    "authority_ref",
+    "default_law",
+    "constraints",
+    "invalidation",
+    "source_refs"
+  ],
+  "title": "Compiler-visible platform decision",
+  "type": "object"
+}

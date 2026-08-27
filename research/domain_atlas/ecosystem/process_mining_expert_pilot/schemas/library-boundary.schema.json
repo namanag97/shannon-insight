@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/process-mining-library-boundary-v0.1.0.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "artifact_id", "library_kind", "responsibility", "public_surface", "must_not_own", "exposed_decisions", "source_ids"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^lib\\."},
+    "artifact_id": {"type": "string", "pattern": "^art\\."},
+    "library_kind": {"enum": ["pure", "runtime", "adapter", "test"]},
+    "responsibility": {"type": "string", "minLength": 10},
+    "public_surface": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "must_not_own": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "exposed_decisions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "source_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^src\\."}, "uniqueItems": true}
+  }
+}

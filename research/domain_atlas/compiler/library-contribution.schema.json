@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/library-contribution-v0.1.0.schema.json",
+  "title": "Reusable library contribution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "library_id", "edition", "status", "library_kind", "semantic_owner_refs", "contributes_to_context_refs",
+    "effect_boundary", "public_types", "public_traits", "operation_refs", "error_contracts",
+    "decision_refs", "requirement_refs", "offer_refs", "configuration_contracts", "effect_intents",
+    "runtime_receipts", "laws", "oracles", "resource_contracts", "concurrency", "cancellation",
+    "unsafe_ffi_generated_policy", "dependencies", "targets", "compatibility", "removal_seams",
+    "forbidden_responsibilities", "evidence_refs", "gaps"
+  ],
+  "properties": {
+    "library_id": {"type": "string", "pattern": "^library\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["hypothesis", "specified", "implemented", "qualified", "deprecated", "retired"]},
+    "library_kind": {"enum": ["semantic_pure", "algorithm_pure", "policy_pure", "test_oracle", "runtime_mechanism", "provider_adapter", "target_backend", "generated_support"]},
+    "semantic_owner_refs": {"type": "array", "items": {"type": "string"}, "maxItems": 1, "uniqueItems": true},
+    "contributes_to_context_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "effect_boundary": {"enum": ["pure_no_io", "pure_effect_intents", "effectful_runtime", "ffi_boundary", "generated_boundary"]},
+    "public_types": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "public_traits": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "operation_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "error_contracts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "decision_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "requirement_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "offer_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "configuration_contracts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "effect_intents": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "runtime_receipts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "laws": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "oracles": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "resource_contracts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "concurrency": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "cancellation": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "unsafe_ffi_generated_policy": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "dependencies": {"type": "array", "items": {"type": "object", "required": ["ref", "kind", "purpose", "optional", "removable"], "properties": {"ref": {"type": "string"}, "kind": {"enum": ["semantic", "algorithm", "runtime", "provider", "build", "test"]}, "purpose": {"type": "string"}, "optional": {"type": "boolean"}, "removable": {"type": "boolean"}}, "additionalProperties": false}},
+    "targets": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "compatibility": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "removal_seams": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "forbidden_responsibilities": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "gaps": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"library_kind": {"enum": ["semantic_pure", "algorithm_pure", "policy_pure", "test_oracle"]}}},
+      "then": {"properties": {"effect_boundary": {"enum": ["pure_no_io", "pure_effect_intents"]}}}
+    },
+    {
+      "if": {"properties": {"library_kind": {"const": "semantic_pure"}}},
+      "then": {"properties": {"semantic_owner_refs": {"minItems": 1, "maxItems": 1}}}
+    }
+  ]
+}

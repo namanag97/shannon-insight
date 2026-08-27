@@ -1,4 +1,5 @@
 """Mutual information between graph layers."""
+
 from __future__ import annotations
 
 import numpy as np

@@ -1,0 +1,46 @@
+{
+  "as_of": "2026-08-25",
+  "bounded_context_count": 45,
+  "cited_source_count": 70,
+  "combined_capability_operation_threat_decision_candidates": 319,
+  "completion_claim": false,
+  "counts": {
+    "assets-trust-boundaries": 40,
+    "bounded-context-candidates": 45,
+    "capabilities": 84,
+    "capability-offers": 22,
+    "compiler-mappings": 45,
+    "compiler-requirements": 48,
+    "decisions": 56,
+    "evidence": 38,
+    "gaps": 24,
+    "innovations": 28,
+    "invariants-refusals": 64,
+    "library-boundaries": 26,
+    "operations": 112,
+    "sources": 70,
+    "threat-abuse-cases": 67
+  },
+  "cross_platform_surfaces": [
+    "source_occurrences",
+    "types_shapes",
+    "pipelines",
+    "persistence",
+    "runtime",
+    "governance",
+    "lineage",
+    "consumption"
+  ],
+  "edition": 1,
+  "limits": [
+    "Open-world enumeration cannot prove that every security, privacy or trust concept has been found.",
+    "Legal texts identify obligation vocabulary but this corpus does not decide applicability or provide legal advice.",
+    "Provider capabilities and control effectiveness require independent qualification and recurring evidence.",
+    "Research candidates require split/merge, domain-owner adjudication and two-unrelated-platform validation.",
+    "Generative-model methods are excluded from the core universe."
+  ],
+  "primary_source_count": 70,
+  "recent_innovation_count": 28,
+  "report_id": "san.domain-atlas.security-privacy-trust.coverage",
+  "status": "candidate_corpus_incomplete"
+}

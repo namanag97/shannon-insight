@@ -1,0 +1,127 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "analytical-result-classification-candidates.jsonl": {
+      "bytes": 14974,
+      "sha256": "1fb32b42f47ea831cf7e1c8672e2213e87042cbe3e3e3af3bb3c9c596a3fd79a"
+    },
+    "archetype-research-programs.jsonl": {
+      "bytes": 72356,
+      "sha256": "704296e4078a42c06930a177e5d08ce0b1fbde9d0c2f23fdf2d69f144ab14272"
+    },
+    "archetype-semantic-research.jsonl": {
+      "bytes": 50692,
+      "sha256": "ccde7e4757cb75f1a89e84ee390ac8a38ea0aa55fe410855971d1f6954be3159"
+    },
+    "authority-contract-classification-candidates.jsonl": {
+      "bytes": 34658,
+      "sha256": "8347373d6c7feecc0338ad96e3a3977916cdc5eedd54bc036c707cde39b58b0f"
+    },
+    "capability-port-classification-candidates.jsonl": {
+      "bytes": 44768,
+      "sha256": "b4e754b92d0c5432b8789a9b2afc5c0b7bf8a94fc28f9527337acf7d2eed95f3"
+    },
+    "catchall-symbol-archetype-refinements.jsonl": {
+      "bytes": 109824,
+      "sha256": "4c2256fd3ccb65e54baad33d182a6f3b8abad2f210aece16d1ad47111b46cd05"
+    },
+    "evidence-contract-classification-candidates.jsonl": {
+      "bytes": 13927,
+      "sha256": "3013795f78c9b6488e6c6953f8a9ad228af45d89fca92b36d32cc41c0ea4d74a"
+    },
+    "evidence-lane-archetype-refinements.jsonl": {
+      "bytes": 34736,
+      "sha256": "cd88c958ef92327c6396057f62360f5dd35e967451af738004bac9126fb60a04"
+    },
+    "failure-contract-classification-candidates.jsonl": {
+      "bytes": 11728,
+      "sha256": "4e8478514cdab1ec3067221a5bfc02570582ba5db2b7704d82f878e97fbb8b29"
+    },
+    "high-fanout-semantic-research.jsonl": {
+      "bytes": 103556,
+      "sha256": "de26f975de522f6946e85e634bd810eba96446f01f7238b92358bddc3e240f92"
+    },
+    "identity-contract-classification-candidates.jsonl": {
+      "bytes": 37650,
+      "sha256": "e937d9a566cce8b1c962849d4c0e4b16c73d51f1ab909a56b0665f89cebd71e3"
+    },
+    "measure-contract-classification-candidates.jsonl": {
+      "bytes": 11286,
+      "sha256": "45937c35c653d32f81010e9fda82ef254002f9d08511bf3900bad5026b71068f"
+    },
+    "measure-lane-archetype-refinements.jsonl": {
+      "bytes": 11487,
+      "sha256": "21f3a49dfe31e3cff9cdd5b238f3996157c0c0833bbde4274f3716bb80838699"
+    },
+    "model-artifact-contract-classification-candidates.jsonl": {
+      "bytes": 8179,
+      "sha256": "b3c1185ea9a72814fca7334105c5727b6ba892393e60a7dbced01b33c2a39d56"
+    },
+    "operation-contract-classification-candidates.jsonl": {
+      "bytes": 178805,
+      "sha256": "391f88028e22ee3503f23f95308b114e41c30b6519a1284c8f57369f5c0878a6"
+    },
+    "policy-contract-classification-candidates.jsonl": {
+      "bytes": 53961,
+      "sha256": "0074d908550c7caf3b56eece5ac7e2f53c1f54eefcffa89d4137ed7c94a04ce2"
+    },
+    "policy-lane-archetype-refinements.jsonl": {
+      "bytes": 44597,
+      "sha256": "f23d952ee3aaf069725965be536cda3ce57642078d51d1df6c24d02740aaaa28"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 78586,
+      "sha256": "d59cec625d6d2bb033ec831a5a509ce9907eca905e925770db8e7a0df7009f6a"
+    },
+    "remaining-symbol-research-batches.jsonl": {
+      "bytes": 157953,
+      "sha256": "b0363f07b114844b12c789215f424429caf21343832af910f0879eecb565008d"
+    },
+    "representation-contract-classification-candidates.jsonl": {
+      "bytes": 26162,
+      "sha256": "670e834ef2410d11dcb4a74e9b528c7f1f99c2eea39ca181d8f89e7e4c3f5782"
+    },
+    "resource-contract-classification-candidates.jsonl": {
+      "bytes": 10629,
+      "sha256": "02d7cb1e972f17dde0a77451322bea6f80cf9a419eec8726d41790faf6ee3443"
+    },
+    "shape-contract-classification-candidates.jsonl": {
+      "bytes": 26374,
+      "sha256": "d556222cfa597c52429d352285d671be7226a747e4a8e16c21d883efec8341be"
+    },
+    "source-authority-packets.jsonl": {
+      "bytes": 65817,
+      "sha256": "aab53dc56ea1ad9f0125a65b19d0c09a390ce2e116a94062e44e6bb74a2e89cc"
+    },
+    "summary.json": {
+      "bytes": 3531,
+      "sha256": "4fa6da73c7fb3e47a4506b6e97c2aa5266ba34bc87f490432f248ed474ef41bc"
+    },
+    "symbol-adjudication-packet.schema.json": {
+      "bytes": 647,
+      "sha256": "a7f2e7e66620b733bf1e200a50ae324c73bb66b9498142ea94e2559a95a7f738"
+    },
+    "symbol-adjudication-packets.jsonl": {
+      "bytes": 518362,
+      "sha256": "e0733d55ad35f9ab93c44a91ac13ee4981f5a00672d9a706f2c63a2b7e104077"
+    },
+    "symbol-occurrence-applicability.jsonl": {
+      "bytes": 521843,
+      "sha256": "535beaf88ee1cd907b2272b4cf215cda3ba2ad160c0df24c08a42530294c7cf7"
+    },
+    "symbol-research-archetype-ontology.json": {
+      "bytes": 11038,
+      "sha256": "67e64d028b5768f711fb4f93b9c19079a3d480ea0f2ad59de918042ba30ce029"
+    },
+    "symbol-work-waves.jsonl": {
+      "bytes": 17684,
+      "sha256": "6e03a790cbbc3cf085096eae23383655bfd0292e9c9bf7ee3eead7d9befd1042"
+    },
+    "time-contract-classification-candidates.jsonl": {
+      "bytes": 19440,
+      "sha256": "af846a271f9f510a6ebafa273dee27197c70f51ca2307a1019399d93deba5974"
+    }
+  },
+  "manifest_id": "manifest.p1-authority-symbols.v1"
+}

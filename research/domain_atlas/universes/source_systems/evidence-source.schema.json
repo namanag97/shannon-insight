@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/source-system-evidence.schema.json",
+  "title": "Source-system primary evidence record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidence_id", "title", "issuer", "url", "authority", "source_kind", "supports_surfaces", "retrieved_on", "use_limit"],
+  "properties": {
+    "evidence_id": {"type": "string", "pattern": "^ev\\.[a-z0-9_.]+$"},
+    "title": {"type": "string", "minLength": 5},
+    "issuer": {"type": "string", "minLength": 2},
+    "url": {"type": "string", "pattern": "^https://"},
+    "authority": {"const": "primary"},
+    "source_kind": {"enum": ["normative_standard", "official_specification", "official_implementation_documentation", "official_provider_contract", "standards_body_primary_overview", "standards_body_primary_catalogue"]},
+    "supports_surfaces": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "retrieved_on": {"type": "string", "format": "date"},
+    "use_limit": {"type": "string", "minLength": 30}
+  }
+}

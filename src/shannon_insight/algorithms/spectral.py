@@ -1,4 +1,5 @@
 """Spectral graph analysis."""
+
 from __future__ import annotations
 
 import numpy as np
@@ -34,7 +35,7 @@ def spectral_analysis(
         return 0.0, 0.0, np.array([]), 0.0
 
     # --- Largest connected component extraction --------------------------
-    n_components, labels = connected_components(A, directed=False, connection='weak')
+    n_components, labels = connected_components(A, directed=False, connection="weak")
 
     if n_components > 1:
         # Find largest component
@@ -63,7 +64,7 @@ def spectral_analysis(
     # Compute smallest eigenvalues
     k_eff = min(k, n_comp - 1)
     try:
-        eigenvalues, _ = eigsh(L, k=k_eff, which='SM')
+        eigenvalues, _ = eigsh(L, k=k_eff, which="SM")
         eigenvalues = np.sort(eigenvalues)
     except Exception:
         return 0.0, 0.0, np.array([]), component_ratio

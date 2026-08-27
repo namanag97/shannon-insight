@@ -1,0 +1,109 @@
+{
+ "axis": "partiality_and_uncertainty",
+ "owned_question": "How does a compiled semantic library keep 'not known' from collapsing into a definite answer — so that missing data, negative evidence, and unknown each remain distinguishable values that propagate honestly through queries, contracts, and reported numbers?",
+ "terms": [
+  "missing data (absent observation)",
+  "negative evidence (evidence of absence, asserted false)",
+  "unknown / applicable-but-unobserved value",
+  "inapplicable vs null",
+  "three-valued logic (true/false/unknown)",
+  "missingness mechanism (MCAR/MAR/MNAR)",
+  "open-world assumption (OWA)",
+  "closed-world assumption (CWA)",
+  "typed absence (Option/Result/nullable)",
+  "standard uncertainty and coverage interval",
+  "imputation vs deletion (disclosure obligation)"
+ ],
+ "non_collapse_laws": [
+  "NULL differs from zero, from the empty set, and from empty string; silence of an unqueried source is neither zero nor negative evidence.",
+  "Under three-valued logic, comparison with an unknown yields unknown, not false: 7 = NULL and 7 <> NULL are both unknown; absence of a row from a filtered result is therefore not evidence of falsity.",
+  "Negative evidence must be explicitly asserted (e.g., OWL negative property assertions); under open-world semantics anything not stated is merely unknown, and an unentailed triple is not false.",
+  "A numeric result carries its uncertainty with it: publishing a value without its standard uncertainty or interval misreports what is known; truncation by timeout must surface unknown/partial-coverage, not an empty success.",
+  "Typed absence cannot be silently unwrapped: a contract carrying Option/Result forces every consumer to branch on absence; implicit coercion of None/Error to a default or zero is prohibited without a declared default at the boundary.",
+  "Imputed or defaulted values must be marked as such downstream — an imputed value propagates as imputed (or widened-band), never as observed.",
+  "Coverage/completeness travels with results: any aggregate over partial data discloses denominator and coverage fraction; equal treatment of covered and uncovered subpopulations in presentation is forbidden."
+ ],
+ "carrier_requirements": [
+  "An uncertain_value carrier pairing value with a band/interval and provenance (observed | imputed | defaulted | inferred), band carried through arithmetic per GUM-style propagation.",
+  "An absent-typed carrier (Option-like) for nullable fields, distinct from sentinel values, with no implicit unwrap.",
+  "A result/error-typed carrier (Result-like) distinguishing failure from valid absence across API boundaries.",
+  "A tri-state boolean outcome (true/false/unknown) with explicit IS UNKNOWN-type inspection instead of coercing unknown to false.",
+  "A coverage_report metadata object attached to query/aggregation outputs: rows examined, sources consulted, sources unreachable, time-boundedness (query cutoff).",
+  "Provenance tags marking imputation method, default-applied, and deleted-case counts in any analytic output."
+ ],
+ "operations_or_relations": [
+  "coalesce_explicit(values..., fallback) — requires caller-visible fallback choice",
+  "declared_default(field, default_value, tag=defaulted) — defaulting only at declared boundaries",
+  "uncertain_value(value, band, provenance)",
+  "propagate_uncertainty(combined standard uncertainty per GUM law of propagation)",
+  "coverage_report(sources_queried, sources_silent, rows_matched, cutoff_time)",
+  "assert_absence(entity, property) — explicit negative evidence, unlike unstated",
+  "is_unknown(x) / is_distinct_from(x, y) — null-safe equality",
+  "try_unwrap(option) -> Result(value | AbsenceReason)",
+  "open_world_query(q) returns {matches, unknown_completeness: true}; closed_world_query(q) declares CWA posture explicitly"
+ ],
+ "invariants": [
+  "No operation may map {unknown, absent, inapplicable} onto {0, [], \"\", false} implicitly.",
+  "Every comparison chain through an unknown preserves unknown unless an explicit coalesce/default operator intervenes.",
+  "Every published measurement is accompanied by uncertainty or is flagged uncertain-free-by-declaration (never silent).",
+  "Aggregate outputs include a coverage report whenever input data was incomplete at collection or query time.",
+  "Absence crossing a contract boundary is typed (Option/Result/tri-state), never encoded via sentinels like -1 or NULL-as-magic-value in new contracts.",
+  "Closed-world closure (treating not-found as false) occurs only inside operations that name their closed-world posture; open-world consumers receive unknown rather than false."
+ ],
+ "refusals": [
+  "Refuse to impute or substitute defaults without recording provenance and surfacing the substitution to downstream consumers.",
+  "Refuse to emit 'no results found' for a query whose source list was truncated by timeout/error without marking coverage partial/unknown.",
+  "Refuse to report a point estimate without error bars where GUM-applicable inputs were combined numerically.",
+  "Refuse to compile nullable-to-nonnullable coercions (implicit unwrap, sentinel coalescing) at internal boundaries.",
+  "Refuse to treat lack of assertion as refutation under open-world semantics (no automatic CWA negation)."
+ ],
+ "counterexamples": [
+  "SELECT count(*) FROM t WHERE status <> 'active' excludes rows with status = NULL entirely because status <> 'active' evaluates to unknown — the aggregate quietly reports fewer exceptions than exist; disclosed only if coverage logic distinguishes excluded-unknown rows.",
+  "Inverting a sparse feature matrix's zeros as 'user has no interest' confuses unqueried/unobserved entries (unknown) with observed negatives; recommendation scores then launder missing data into negative evidence.",
+  "An ETL job times out mid-scan and writes an empty batch; dashboards read '0 events today', converting a truncation failure into confident zero — should have surfaced unknown/partial with a coverage marker.",
+  "f(x) = sqrt(mean of measurements X_i) computed and shipped without combining component standard uncertainties; downstream users compare two such numbers as exact when their intervals overlap heavily."
+ ],
+ "authority_limit": "This axis governs representation, propagation, and disclosure of partiality and uncertainty within compiled semantic artifacts (carriers, contracts, query postures, reports). It does not license choosing statistical estimators, setting MAR-vs-MNAR modeling assumptions, defining SQL-standard semantics itself, or adjudicating domain truth; it obligates honest transport of whatever missingness/uncertainty structure the analyst or standard assigns.",
+ "sources": [
+  {
+   "id": "gum",
+   "title": "JCGM 100:2008 — Evaluation of measurement data: Guide to the expression of uncertainty in measurement (GUM)",
+   "publisher": "BIPM/JCGM",
+   "url": "https://www.bipm.org/en/publications/guides/gum.html",
+   "verified": true,
+   "note": "Free PDF verified on BIPM site; basis for uncertainty-propagation and error-bar obligations (Type A/B evaluation, combined standard uncertainty)."
+  },
+  {
+   "id": "rubin1976",
+   "title": "Rubin, D.B. (1976). Inference and Missing Data. Biometrika 63(3):581–592",
+   "url": "https://academic.oup.com/biomet/article-abstract/63/3/581/270932",
+   "verified": true,
+   "note": "MCAR/MAR taxonomy; ignoring-the-mechanism conditions — basis for distinguishing deletion/imputation disclosure duties."
+  },
+  {
+   "id": "owl2primer",
+   "title": "OWL 2 Web Ontology Language Primer (W3C Recommendation)",
+   "url": "https://www.w3.org/TR/owl2-primer/",
+   "verified": true,
+   "note": "Verified quote contrasting closed-world databases with OWL open-world assumption ('may simply be missing... possibly true'); §4.4 negative property assertions as explicit negative evidence."
+  },
+  {
+   "id": "pgnull",
+   "title": "PostgreSQL Documentation §9.2 Comparison Functions and Operators",
+   "url": "https://www.postgresql.org/docs/current/functions-comparison.html",
+   "verified": true,
+   "note": "Implementation evidence (not the ISO standard): comparisons with NULL yield unknown; 'Do not write expression = NULL'; IS DISTINCT FROM and IS UNKNOWN predicates."
+  },
+  {
+   "id": "iso9075",
+   "title": "ISO/IEC 9075 (SQL) three-valued NULL semantics",
+   "url": "ISO.org landing pages return HTTP 403 to automated fetch; the SQL:2023 text is paywalled",
+   "verified": false
+  }
+ ],
+ "evidence_vacancies_if_any": [
+  "Direct citation of ISO/IEC 9075 clause defining NULL/unknown three-valued logic (SQLFoundation Part 2, ~§4 contraconditions) — standard text paywalled and ISO.org blocked automated fetch; PostgreSQL docs stand in as implementation evidence only.",
+  "Primary-source reference for typed-absence lineage (e.g., original Maybe type in Miranda/Haskell reports, or Rust std Option docs) — plausible but not fetched/verified this session; mark as vacancy rather than cite.",
+  "Halpern & Knobe work on how people reason about omissions vs commissions — real line of research but specific paper not verified here; left as vacancy."
+ ]
+}

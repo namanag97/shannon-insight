@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "artifact_kind": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "lifecycle_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context_ref": {},
+    "states": {
+      "minItems": 2,
+      "type": "array"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "transition_contract": {}
+  },
+  "required": [
+    "lifecycle_id",
+    "edition",
+    "status",
+    "artifact_kind",
+    "owner_context_ref",
+    "states",
+    "transition_contract"
+  ],
+  "title": "Semantic lifecycle",
+  "type": "object"
+}

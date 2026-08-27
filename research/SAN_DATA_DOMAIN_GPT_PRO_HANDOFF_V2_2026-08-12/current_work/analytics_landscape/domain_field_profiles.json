@@ -1,0 +1,41 @@
+{
+  "metadata":{"version":"1.0.0","purpose":"Demonstrate that sports and oil-and-gas domain contracts share one semantic type system while supplying different vocabulary, units, grain, and rules."},
+  "profiles":[
+    {
+      "id":"profile.sports.match_event","domain_pack_id":"domain.sports","version":"0.1.0","observation_type_id":"observation.event",
+      "grain_fields":["competition_id","fixture_id","event_id"],"primary_key":["competition_id","fixture_id","event_id"],
+      "temporal_model":{"roles":["event_time","system_time"],"timezone_policy":"UTC storage; competition timezone for presentation","calendar":"calendar.sports.competition"},
+      "update_semantics":"correction","finality_states":["provisional","revised","final","superseded"],
+      "fields":[
+        {"name":"competition_id","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.key"],"semantic_type_id":"semantic.identifier","nullable":false,"missingness_allowed":["present"],"qualifiers":{"namespace":"sports.competition","stability":"permanent","uniqueness_scope":"global"},"roles":["entity_reference"],"sensitivity":"internal","provenance_required":true},
+        {"name":"fixture_id","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.key"],"semantic_type_id":"semantic.identifier","nullable":false,"missingness_allowed":["present"],"qualifiers":{"namespace":"sports.fixture","stability":"permanent","uniqueness_scope":"competition"},"roles":["entity_reference"],"sensitivity":"internal","provenance_required":true},
+        {"name":"event_id","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.key"],"semantic_type_id":"semantic.identifier","nullable":false,"missingness_allowed":["present"],"qualifiers":{"namespace":"sports.match_event","stability":"permanent across corrections","uniqueness_scope":"fixture"},"roles":["event_id"],"sensitivity":"internal","provenance_required":true},
+        {"name":"event_type","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.dictionary"],"semantic_type_id":"semantic.nominal_category","nullable":false,"missingness_allowed":["present"],"qualifiers":{"code_system":"sports.match_event_type","code_system_version":"0.1.0"},"roles":["event_type"],"sensitivity":"internal","provenance_required":true},
+        {"name":"occurred_at","carrier_type_id":"carrier.timestamp","semantic_type_id":"semantic.timestamp","nullable":false,"missingness_allowed":["present"],"qualifiers":{"temporal_role":"event_time","timezone_policy":"UTC","precision":"millisecond"},"roles":["event_time"],"sensitivity":"internal","provenance_required":true},
+        {"name":"recorded_at","carrier_type_id":"carrier.timestamp","semantic_type_id":"semantic.timestamp","nullable":false,"missingness_allowed":["present"],"qualifiers":{"temporal_role":"system_time","timezone_policy":"UTC","precision":"microsecond"},"roles":["system_time"],"sensitivity":"internal","provenance_required":true},
+        {"name":"points","carrier_type_id":"carrier.signed_integer","semantic_type_id":"semantic.count","nullable":true,"missingness_allowed":["present","not_applicable","not_collected"],"qualifiers":{"counted_object":"competition points awarded by event","aggregation_scope":"fixture and team"},"roles":["measure"],"sensitivity":"internal","provenance_required":true},
+        {"name":"player_id","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.optional","composite.reference"],"semantic_type_id":"semantic.identifier","nullable":true,"missingness_allowed":["present","not_applicable","withheld","unknown"],"qualifiers":{"namespace":"sports.player","stability":"permanent","uniqueness_scope":"governing body"},"roles":["related_entity"],"sensitivity":"personal","provenance_required":true}
+      ],
+      "constraints":[{"id":"sports.event.time","expression":"occurred_at within configured fixture tolerance","severity":"error"},{"id":"sports.event.player","expression":"player_id required only for participant-level event types","severity":"error"}],
+      "source_ids":["std_cloudevents"]
+    },
+    {
+      "id":"profile.oil.production_measurement","domain_pack_id":"domain.oil_gas","version":"0.1.0","observation_type_id":"observation.measurement",
+      "grain_fields":["asset_id","measurement_type","occurred_at","source_id"],"primary_key":["asset_id","measurement_type","occurred_at","source_id"],
+      "temporal_model":{"roles":["event_time","system_time"],"timezone_policy":"UTC storage; production-calendar boundaries configured separately","calendar":"calendar.oil.production"},
+      "update_semantics":"correction","finality_states":["provisional","revised","final","superseded"],
+      "fields":[
+        {"name":"asset_id","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.key","composite.reference"],"semantic_type_id":"semantic.identifier","nullable":false,"missingness_allowed":["present"],"qualifiers":{"namespace":"oil.asset","stability":"permanent","uniqueness_scope":"operator or regulator"},"roles":["subject","entity_reference"],"sensitivity":"confidential","provenance_required":true},
+        {"name":"measurement_type","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.dictionary"],"semantic_type_id":"semantic.code","nullable":false,"missingness_allowed":["present"],"qualifiers":{"code_system":"oil.measurement_type","code_system_version":"0.1.0","display_mapping":"domain vocabulary"},"roles":["predicate"],"sensitivity":"internal","provenance_required":true},
+        {"name":"occurred_at","carrier_type_id":"carrier.timestamp","semantic_type_id":"semantic.timestamp","nullable":false,"missingness_allowed":["present"],"qualifiers":{"temporal_role":"event_time","timezone_policy":"UTC","precision":"second"},"roles":["measurement_time","event_time"],"sensitivity":"confidential","provenance_required":true},
+        {"name":"recorded_at","carrier_type_id":"carrier.timestamp","semantic_type_id":"semantic.timestamp","nullable":false,"missingness_allowed":["present"],"qualifiers":{"temporal_role":"system_time","timezone_policy":"UTC","precision":"microsecond"},"roles":["system_time"],"sensitivity":"confidential","provenance_required":true},
+        {"name":"value","carrier_type_id":"carrier.decimal","semantic_type_id":"semantic.quantity","nullable":true,"missingness_allowed":["present","not_collected","unknown","below_detection","not_yet_final"],"qualifiers":{"quantity_kind":"selected by measurement_type","unit_code":"required from source field and normalized separately","unit_system":"UCUM","precision":"source-declared","measurement_method":"meter or allocation procedure reference"},"roles":["quantity"],"sensitivity":"confidential","provenance_required":true},
+        {"name":"source_id","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.reference"],"semantic_type_id":"semantic.identifier","nullable":false,"missingness_allowed":["present"],"qualifiers":{"namespace":"oil.measurement_source","stability":"effective-dated","uniqueness_scope":"operator"},"roles":["instrument_or_procedure"],"sensitivity":"confidential","provenance_required":true},
+        {"name":"quality_code","carrier_type_id":"carrier.utf8","composite_type_ids":["composite.dictionary"],"semantic_type_id":"semantic.ordinal_category","nullable":false,"missingness_allowed":["present"],"qualifiers":{"ordered_code_set":"measured,validated,allocated,estimated,rejected","version":"0.1.0"},"roles":["quality"],"sensitivity":"internal","provenance_required":true},
+        {"name":"revision","carrier_type_id":"carrier.unsigned_integer","semantic_type_id":"semantic.count","nullable":false,"missingness_allowed":["present"],"qualifiers":{"counted_object":"published revisions of the same logical measurement","aggregation_scope":"logical measurement identity"},"roles":["revision"],"sensitivity":"internal","provenance_required":true}
+      ],
+      "constraints":[{"id":"oil.measurement.dimension","expression":"measurement_type determines compatible quantity dimension and unit","severity":"error"},{"id":"oil.measurement.revision","expression":"revision monotonically increases and prior revisions remain addressable","severity":"error"}],
+      "source_ids":["std_ucum","std_w3c_prov"]
+    }
+  ]
+}

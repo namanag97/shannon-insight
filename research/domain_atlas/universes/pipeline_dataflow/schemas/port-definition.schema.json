@@ -1,0 +1,169 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/port-definition-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "boundedness": {
+      "enum": [
+        "bounded",
+        "unbounded",
+        "bounded_per_cut"
+      ]
+    },
+    "cardinality": {
+      "enum": [
+        "zero_or_one",
+        "exactly_one",
+        "zero_or_more",
+        "one_or_more"
+      ]
+    },
+    "carrier_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision_bindings": {
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "integer",
+          "boolean",
+          "object",
+          "array",
+          "null"
+        ]
+      },
+      "type": "object"
+    },
+    "direction": {
+      "enum": [
+        "input",
+        "output"
+      ]
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "null_missing": {
+      "enum": [
+        "distinct",
+        "coalesced_with_declared_loss",
+        "forbidden"
+      ]
+    },
+    "ordering": {
+      "enum": [
+        "none",
+        "per_key",
+        "per_partition",
+        "total",
+        "causal"
+      ]
+    },
+    "partitioning": {
+      "additionalProperties": false,
+      "properties": {
+        "key_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "kind": {
+          "enum": [
+            "none",
+            "hash",
+            "range",
+            "round_robin",
+            "broadcast",
+            "singleton",
+            "provider"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "key_refs"
+      ],
+      "type": "object"
+    },
+    "port_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "schema_evolution": {
+      "enum": [
+        "exact",
+        "backward",
+        "forward",
+        "full",
+        "explicit_transform"
+      ]
+    },
+    "shape_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "time_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "domains": {
+          "items": {
+            "enum": [
+              "event_time",
+              "processing_time",
+              "valid_time",
+              "recording_time",
+              "commit_time"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "progress_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "domains",
+        "progress_ref"
+      ],
+      "type": "object"
+    },
+    "update_model": {
+      "enum": [
+        "snapshot",
+        "append",
+        "upsert",
+        "retract",
+        "full_changelog",
+        "control_only"
+      ]
+    }
+  },
+  "required": [
+    "port_id",
+    "edition",
+    "direction",
+    "carrier_ref",
+    "shape_ref",
+    "boundedness",
+    "update_model",
+    "cardinality",
+    "time_contract",
+    "ordering",
+    "partitioning",
+    "null_missing",
+    "schema_evolution",
+    "decision_bindings"
+  ],
+  "title": "Pipeline port definition",
+  "type": "object"
+}

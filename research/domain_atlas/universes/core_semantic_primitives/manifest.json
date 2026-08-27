@@ -1,0 +1,53 @@
+{
+  "completion_claim": false,
+  "counts": {
+    "bounded_contexts": 171,
+    "compiler_contracts": 684,
+    "context_acls": 25,
+    "expert_learning_routes": 48,
+    "gaps": 18,
+    "innovations_2021_2026": 35,
+    "invariants_refusals": 342,
+    "library_boundaries": 60,
+    "lifecycles": 24,
+    "rust_applicability": 36,
+    "semantic_records": 1576,
+    "sources": 138,
+    "vertical_examples": 2
+  },
+  "edition": 1,
+  "generated_files": [
+    "bounded-contexts.jsonl",
+    "compiler-contracts.jsonl",
+    "context-acls.jsonl",
+    "experts.jsonl",
+    "gaps.jsonl",
+    "innovations-2021-2026.jsonl",
+    "invariants-refusals.jsonl",
+    "library-boundaries.jsonl",
+    "lifecycles.jsonl",
+    "rust-applicability.jsonl",
+    "semantic-records.jsonl",
+    "sources.jsonl",
+    "vertical-examples.jsonl",
+    "metamodel.json"
+  ],
+  "id": "manifest.core-semantic-primitives.edition-1",
+  "sha256": {
+    "bounded-contexts.jsonl": "e4be104193f0b97c003a9102c9ca89bb73573764494ced749f340f6315361a5f",
+    "compiler-contracts.jsonl": "74dd0399dd78fca6547049f736d81ed663efdb96bac222aa5685034db16ef0a9",
+    "context-acls.jsonl": "ebbc5d4be77a7cff64e2f8d7825cf69b255ca2565f5e77a0e5f8ca0e5dda3eda",
+    "experts.jsonl": "727e6af8154e2145b8cce19ff6d73ae48d8417ef85ea1a434b9576e9fecb636f",
+    "gaps.jsonl": "e5441bd607594563ee16aac82d30e4d2cb59a1163d642fda06c6b695ec0349f4",
+    "innovations-2021-2026.jsonl": "1fe936d3f4280c9df33e64b21c5e8e3533f433b4ee880b8eb740aac245ef0138",
+    "invariants-refusals.jsonl": "174b7293d7ae8b86d40b5a7aa283a0ad7c96f0d4d9f7bce46802fca046c52bd9",
+    "library-boundaries.jsonl": "22f58a403b41071dd70e2d578f7f04cfc925f96e64efc70288677a5d03513fe9",
+    "lifecycles.jsonl": "4ad8cae759529554eda65b99852306475377f0f62077ff48b28fd7f2f7fe3d7b",
+    "metamodel.json": "626c921dddcb756d3984d149420933adebbdd0b163128375dc3c3134a9e7db0f",
+    "rust-applicability.jsonl": "86b18fdcb22dfacdd6c2462ce36034107d2066235e868e4676699fc6afe7a23f",
+    "semantic-records.jsonl": "86fa6cc93f1b67ecc6dd6129ebb677c6786aaa64a57379c4673494e9265ece04",
+    "sources.jsonl": "cf1ea005dc0e7456397a688046c35e4fb64c48bc77cdd200ede9fbc154c50efe",
+    "vertical-examples.jsonl": "437714d051951d92cbba27b6f7cf30591a8dd5b6b8a2963eab21978d6df70e4a"
+  },
+  "status": "candidate"
+}

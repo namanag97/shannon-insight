@@ -1,0 +1,566 @@
+{
+  "completion_claim": false,
+  "dimensions": [
+    {
+      "connector_class_refs": [
+        "connector.class.cp.relational_query_reader",
+        "connector.class.cp.database_cdc_reader"
+      ],
+      "context_refs": [
+        "context.cp.query_request",
+        "context.cp.change_capture",
+        "context.cp.cdc_resume"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "database_wire_query_change",
+      "protocol_refs": [
+        "protocol.cp.postgresql_wire",
+        "protocol.cp.mysql_client_server",
+        "protocol.cp.tds",
+        "protocol.cp.mongodb_wire",
+        "protocol.cp.postgresql_logical_replication"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.managed_file_receiver",
+        "connector.class.cp.object_store_reader",
+        "connector.class.cp.resumable_object_writer"
+      ],
+      "context_refs": [
+        "context.cp.file_transfer",
+        "context.cp.recovery_replay"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "file_object_transfer",
+      "protocol_refs": [
+        "protocol.cp.ftp",
+        "protocol.cp.sftp",
+        "protocol.cp.rsync",
+        "protocol.cp.s3_rest",
+        "protocol.cp.tus10"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.http_resource_reader",
+        "connector.class.cp.graphql_reader",
+        "connector.class.cp.rpc_reader",
+        "connector.class.cp.soap_service_adapter",
+        "connector.class.cp.odata_delta_reader"
+      ],
+      "context_refs": [
+        "context.cp.query_request",
+        "context.cp.pagination",
+        "context.cp.serialization_framing"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "rest_graphql_grpc_soap_odata",
+      "protocol_refs": [
+        "protocol.cp.http11",
+        "protocol.cp.openapi32",
+        "protocol.cp.graphql2025",
+        "protocol.cp.grpc",
+        "protocol.cp.soap12",
+        "protocol.cp.odata401"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.webhook_receiver"
+      ],
+      "context_refs": [
+        "context.cp.webhook_delivery",
+        "context.cp.subscription"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "webhooks",
+      "protocol_refs": [
+        "protocol.cp.webhook_http",
+        "protocol.cp.websub"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.amqp_consumer",
+        "connector.class.cp.mqtt_consumer",
+        "connector.class.cp.partitioned_log_consumer"
+      ],
+      "context_refs": [
+        "context.cp.event_message_settlement",
+        "context.cp.partition_assignment"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "event_messaging",
+      "protocol_refs": [
+        "protocol.cp.amqp10",
+        "protocol.cp.mqtt5",
+        "protocol.cp.kafka_wire",
+        "protocol.cp.stomp12",
+        "protocol.cp.nats_jetstream"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.bulk_export_job_reader",
+        "connector.class.cp.bulk_import_writer"
+      ],
+      "context_refs": [
+        "context.cp.bulk_job",
+        "context.cp.file_transfer"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "bulk_export_import",
+      "protocol_refs": [
+        "protocol.cp.fhir_bulk20",
+        "protocol.cp.odata_batch",
+        "protocol.cp.scim_bulk",
+        "protocol.cp.s3_multipart"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.enterprise_saas_resource_reader",
+        "connector.class.cp.collaboration_saas_reader",
+        "connector.class.cp.devops_saas_reader",
+        "connector.class.cp.security_saas_reader",
+        "connector.class.cp.analytical_saas_reader",
+        "connector.class.cp.saas_writeback_adapter"
+      ],
+      "context_refs": [
+        "context.cp.capability_discovery",
+        "context.cp.pagination",
+        "context.cp.rate_limit",
+        "context.cp.quota_cost"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "saas_apis",
+      "protocol_refs": [
+        "protocol.cp.http11",
+        "protocol.cp.openapi32",
+        "protocol.cp.graphql2025",
+        "protocol.cp.odata401"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.opcua_reader",
+        "connector.class.cp.modbus_reader",
+        "connector.class.cp.power_telecontrol_reader",
+        "connector.class.cp.iot_resource_reader",
+        "connector.class.cp.guarded_industrial_commander"
+      ],
+      "context_refs": [
+        "context.cp.industrial_command_safety",
+        "context.cp.subscription"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "industrial_ot_iot",
+      "protocol_refs": [
+        "protocol.cp.opcua",
+        "protocol.cp.modbus_tcp",
+        "protocol.cp.bacnet",
+        "protocol.cp.iec61850",
+        "protocol.cp.dnp3",
+        "protocol.cp.sparkplug30",
+        "protocol.cp.onem2m",
+        "protocol.cp.matter"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.fhir_reader",
+        "connector.class.cp.dicom_reader",
+        "connector.class.cp.hl7_message_receiver"
+      ],
+      "context_refs": [
+        "context.cp.domain_profile_conformance",
+        "context.cp.bulk_job"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "healthcare",
+      "protocol_refs": [
+        "protocol.cp.fhir_r5_rest",
+        "protocol.cp.fhir_bulk20",
+        "protocol.cp.dicomweb",
+        "protocol.cp.dicom_dimse",
+        "protocol.cp.hl7v2_mllp",
+        "protocol.cp.ihe_xds"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.fix_market_reader",
+        "connector.class.cp.financial_message_adapter",
+        "connector.class.cp.regulatory_filing_reader"
+      ],
+      "context_refs": [
+        "context.cp.ordering",
+        "context.cp.finality_correction",
+        "context.cp.domain_profile_conformance"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "finance_market_messaging",
+      "protocol_refs": [
+        "protocol.cp.fix_session",
+        "protocol.cp.fixp",
+        "protocol.cp.iso20022_messages",
+        "protocol.cp.xbrl_reporting",
+        "protocol.cp.ofx23"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.geospatial_feature_reader",
+        "connector.class.cp.geospatial_catalog_reader",
+        "connector.class.cp.sensor_observation_reader",
+        "connector.class.cp.chunked_array_reader"
+      ],
+      "context_refs": [
+        "context.cp.schema_introspection",
+        "context.cp.type_mapping",
+        "context.cp.pagination"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "geospatial_scientific",
+      "protocol_refs": [
+        "protocol.cp.ogc_api_features",
+        "protocol.cp.wfs20",
+        "protocol.cp.stac11",
+        "protocol.cp.sensorthings11",
+        "protocol.cp.zarr3",
+        "protocol.cp.netcdf",
+        "protocol.cp.hdf5"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.edi_interchange_receiver",
+        "connector.class.cp.supply_chain_event_reader"
+      ],
+      "context_refs": [
+        "context.cp.receipt_evidence",
+        "context.cp.legacy_record_transport",
+        "context.cp.domain_profile_conformance"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "edi",
+      "protocol_refs": [
+        "protocol.cp.un_edifact",
+        "protocol.cp.x12_edi",
+        "protocol.cp.as2",
+        "protocol.cp.as4",
+        "protocol.cp.ebms3",
+        "protocol.cp.epcis20"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.mailbox_reader",
+        "connector.class.cp.mail_sender",
+        "connector.class.cp.calendar_reader",
+        "connector.class.cp.contact_activity_reader"
+      ],
+      "context_refs": [
+        "context.cp.read_cursor",
+        "context.cp.change_capture",
+        "context.cp.time_watermark"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "email_collaboration",
+      "protocol_refs": [
+        "protocol.cp.imap4rev2",
+        "protocol.cp.smtp",
+        "protocol.cp.jmap",
+        "protocol.cp.caldav",
+        "protocol.cp.carddav",
+        "protocol.cp.activitystreams20"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.mainframe_terminal_adapter",
+        "connector.class.cp.legacy_batch_reader"
+      ],
+      "context_refs": [
+        "context.cp.legacy_record_transport"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "mainframe_legacy",
+      "protocol_refs": [
+        "protocol.cp.drda",
+        "protocol.cp.tn3270e",
+        "protocol.cp.fixed_record_ftp",
+        "protocol.cp.ebcdic_blocked_file"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.filesystem_scanner",
+        "connector.class.cp.object_store_reader",
+        "connector.class.cp.block_replication_adapter"
+      ],
+      "context_refs": [
+        "context.cp.file_transfer",
+        "context.cp.recovery_replay"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "filesystem_object_block",
+      "protocol_refs": [
+        "protocol.cp.posix_file_io",
+        "protocol.cp.nfs41",
+        "protocol.cp.smb3",
+        "protocol.cp.s3_rest",
+        "protocol.cp.iscsi",
+        "protocol.cp.nvme_over_fabrics"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.telemetry_exporter",
+        "connector.class.cp.browser_telemetry_collector"
+      ],
+      "context_refs": [
+        "context.cp.browser_client_telemetry",
+        "context.cp.observability",
+        "context.cp.receipt_evidence"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "browser_client_telemetry",
+      "protocol_refs": [
+        "protocol.cp.otlp",
+        "protocol.cp.trace_context",
+        "protocol.cp.beacon",
+        "protocol.cp.reporting_api",
+        "protocol.cp.navigation_timing2"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.guarded_resource_writer",
+        "connector.class.cp.saas_writeback_adapter",
+        "connector.class.cp.guarded_industrial_commander"
+      ],
+      "context_refs": [
+        "context.cp.write_mutation",
+        "context.cp.command_acceptance",
+        "context.cp.idempotency",
+        "context.cp.industrial_command_safety"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "command_writeback",
+      "protocol_refs": [
+        "protocol.cp.http11",
+        "protocol.cp.openapi32",
+        "protocol.cp.odata401",
+        "protocol.cp.opcua",
+        "protocol.cp.modbus_tcp",
+        "protocol.cp.matter"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.http_resource_reader",
+        "connector.class.cp.opcua_reader",
+        "connector.class.cp.geospatial_catalog_reader"
+      ],
+      "context_refs": [
+        "context.cp.capability_discovery",
+        "context.cp.namespace_discovery",
+        "context.cp.schema_introspection"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "discovery_introspection",
+      "protocol_refs": [
+        "protocol.cp.openapi32",
+        "protocol.cp.wsdl20",
+        "protocol.cp.opcua",
+        "protocol.cp.stac11"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.http_resource_reader",
+        "connector.class.cp.rpc_reader",
+        "connector.class.cp.managed_file_receiver",
+        "connector.class.cp.mqtt_consumer"
+      ],
+      "context_refs": [
+        "context.cp.authentication",
+        "context.cp.authorization_scope",
+        "context.cp.secret_reference",
+        "context.cp.network_security"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "authentication_authorization_secrets",
+      "protocol_refs": [
+        "protocol.cp.http11",
+        "protocol.cp.grpc",
+        "protocol.cp.sftp",
+        "protocol.cp.mqtt5"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.database_cdc_reader",
+        "connector.class.cp.odata_delta_reader",
+        "connector.class.cp.mailbox_reader"
+      ],
+      "context_refs": [
+        "context.cp.snapshot_cut",
+        "context.cp.read_cursor",
+        "context.cp.change_capture",
+        "context.cp.cdc_resume",
+        "context.cp.snapshot_change_handoff"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "snapshot_cut_cursor_resume_change",
+      "protocol_refs": [
+        "protocol.cp.postgresql_logical_replication",
+        "protocol.cp.mysql_binary_log",
+        "protocol.cp.mongodb_wire",
+        "protocol.cp.odata401",
+        "protocol.cp.jmap"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.graphql_reader",
+        "connector.class.cp.rpc_reader",
+        "connector.class.cp.cloud_event_adapter",
+        "connector.class.cp.fix_market_reader",
+        "connector.class.cp.chunked_array_reader"
+      ],
+      "context_refs": [
+        "context.cp.schema_introspection",
+        "context.cp.type_mapping",
+        "context.cp.time_watermark",
+        "context.cp.ordering",
+        "context.cp.finality_correction"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "schema_type_time_order_finality",
+      "protocol_refs": [
+        "protocol.cp.graphql2025",
+        "protocol.cp.grpc",
+        "protocol.cp.cloudevents10",
+        "protocol.cp.fix_session",
+        "protocol.cp.zarr3"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.http_resource_reader",
+        "connector.class.cp.partitioned_log_consumer"
+      ],
+      "context_refs": [
+        "context.cp.rate_limit",
+        "context.cp.quota_cost"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "limits_rate_quota_cost",
+      "protocol_refs": [
+        "protocol.cp.http11",
+        "protocol.cp.odata401",
+        "protocol.cp.kafka_wire"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.http_resource_reader",
+        "connector.class.cp.rpc_reader",
+        "connector.class.cp.amqp_consumer",
+        "connector.class.cp.coap_device_reader"
+      ],
+      "context_refs": [
+        "context.cp.retry",
+        "context.cp.idempotency",
+        "context.cp.cancellation"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "retry_idempotency_cancellation",
+      "protocol_refs": [
+        "protocol.cp.http11",
+        "protocol.cp.grpc",
+        "protocol.cp.amqp10",
+        "protocol.cp.coap"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.partitioned_log_consumer",
+        "connector.class.cp.nats_consumer",
+        "connector.class.cp.filesystem_scanner",
+        "connector.class.cp.block_replication_adapter"
+      ],
+      "context_refs": [
+        "context.cp.partition_assignment",
+        "context.cp.recovery_replay"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "partition_recovery",
+      "protocol_refs": [
+        "protocol.cp.kafka_wire",
+        "protocol.cp.nats_jetstream",
+        "protocol.cp.nfs41",
+        "protocol.cp.iscsi"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.telemetry_exporter",
+        "connector.class.cp.edi_interchange_receiver",
+        "connector.class.cp.amqp_consumer"
+      ],
+      "context_refs": [
+        "context.cp.observability",
+        "context.cp.receipt_evidence"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "observability_receipts",
+      "protocol_refs": [
+        "protocol.cp.otlp",
+        "protocol.cp.trace_context",
+        "protocol.cp.as2",
+        "protocol.cp.amqp10"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.http_resource_reader",
+        "connector.class.cp.graphql_reader",
+        "connector.class.cp.fhir_reader",
+        "connector.class.cp.chunked_array_reader"
+      ],
+      "context_refs": [
+        "context.cp.version_negotiation",
+        "context.cp.deprecation_exit"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "versioning_deprecation",
+      "protocol_refs": [
+        "protocol.cp.openapi32",
+        "protocol.cp.graphql2025",
+        "protocol.cp.fhir_r5_rest",
+        "protocol.cp.zarr3"
+      ]
+    },
+    {
+      "connector_class_refs": [
+        "connector.class.cp.artifact_registry_reader"
+      ],
+      "context_refs": [
+        "context.cp.license_supply_chain",
+        "context.cp.implementation_qualification"
+      ],
+      "coverage_law": "Presence demonstrates modeled coverage only; binding still requires artifact qualification and occurrence evidence.",
+      "dimension": "licensing_supply_chain",
+      "protocol_refs": [
+        "protocol.cp.oci_distribution"
+      ]
+    }
+  ],
+  "edition": 1,
+  "matrix_id": "coverage.cp.requested_surfaces",
+  "status": "candidate"
+}

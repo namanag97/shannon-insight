@@ -1,7 +1,5 @@
 """Integration tests for RuntimeKernel with real analysis."""
 
-from pathlib import Path
-
 import pytest
 
 from shannon_insight.config import load_config

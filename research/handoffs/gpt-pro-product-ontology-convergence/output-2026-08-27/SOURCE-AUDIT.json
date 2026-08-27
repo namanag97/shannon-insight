@@ -1,0 +1,12 @@
+{
+  "all_fresh_records_have_authority_limit": true,
+  "all_fresh_records_have_bounded_claim": true,
+  "all_fresh_records_have_negative_twin": true,
+  "all_fresh_records_have_url": true,
+  "audit_date": "2026-08-27",
+  "completion_claim": false,
+  "example_regression": "BIM facility model no longer inherits graph grain or intrinsic time from generic negative-charter/template text.",
+  "fresh_independent_WEB26_records": 58,
+  "negative_charter_leakage_regression_checked": true,
+  "source_register_records": 1515
+}

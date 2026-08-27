@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "canonical_scope": {
+      "type": "boolean"
+    },
+    "claim": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "defeaters": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "source_ref",
+    "claim",
+    "evidence_role",
+    "canonical_scope",
+    "defeaters",
+    "status"
+  ],
+  "title": "Messaging evidence",
+  "type": "object"
+}

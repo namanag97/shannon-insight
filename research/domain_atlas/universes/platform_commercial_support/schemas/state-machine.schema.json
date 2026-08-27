@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "commands": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "initial_state": {
+      "type": "string"
+    },
+    "owner_context_ref": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "state_machine"
+      ]
+    },
+    "refusal_matrix": {
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "state_machine_id": {
+      "type": "string"
+    },
+    "states": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "type": "string"
+    },
+    "terminal_states": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "totality_law": {
+      "type": "string"
+    },
+    "transitions": {
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "state_machine_id",
+    "owner_context_ref",
+    "states",
+    "initial_state",
+    "terminal_states",
+    "commands",
+    "transitions",
+    "refusal_matrix",
+    "totality_law",
+    "source_refs"
+  ],
+  "title": "Total platform lifecycle",
+  "type": "object"
+}

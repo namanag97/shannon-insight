@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "family-axis-ratification-packet-templates.jsonl": {
+      "bytes": 1383960,
+      "sha256": "2b1008fe046fcb8bc95210abbc236eee86901a1b2697fb829ab5f6910e8cd920"
+    },
+    "family-axis-review-dockets.jsonl": {
+      "bytes": 1195093,
+      "sha256": "6686ad3ae372029939f9fa9dc6a089ef6e1d48816d87753b40e8c016cb1f055f"
+    },
+    "family-axis-review-packages.jsonl": {
+      "bytes": 93197,
+      "sha256": "519244f82ab389ee0ed3b9b47cc435f8447203fe7a03fa6396873394d7b4c0c9"
+    },
+    "ratification-contract.json": {
+      "bytes": 1376,
+      "sha256": "ea96449ea9e16d361c3eca5930dbf6a732b4912522b62eb0e227a7b6fd499844"
+    },
+    "review-ontology.json": {
+      "bytes": 1023,
+      "sha256": "5e992116eb6d2ac96a0af7d1506114b75033c408ee401c1354b8da71aaeea8b5"
+    },
+    "summary.json": {
+      "bytes": 2623,
+      "sha256": "c90399e2740813f2614f1b82b2efcd52bfdc33114b09bf3d9495bc295f8da6e1"
+    }
+  },
+  "manifest_id": "manifest.p3-applicability-adjudication.v1"
+}

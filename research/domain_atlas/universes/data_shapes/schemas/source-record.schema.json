@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/data-shape-source-record-v1.json",
+  "title": "Data shape universe evidence source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source_id", "title", "publisher", "source_kind", "authority", "url", "supports", "limitations", "accessed_at"],
+  "properties": {
+    "source_id": {"type": "string", "pattern": "^DSS-[0-9]{3}$"},
+    "title": {"type": "string", "minLength": 3},
+    "publisher": {"type": "string", "minLength": 2},
+    "source_kind": {"enum": ["international_standard", "consortium_standard", "open_specification", "government_standard_or_guidance", "regulation", "primary_research", "reference_implementation_spec"]},
+    "authority": {"enum": ["normative", "authoritative_primary", "primary_implementation", "primary_research"]},
+    "url": {"type": "string", "pattern": "^https://"},
+    "supports": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "accessed_at": {"type": "string", "format": "date"},
+    "edition_or_version": {"type": "string"}
+  }
+}

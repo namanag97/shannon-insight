@@ -1,0 +1,12 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "identity_and_equality",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "family_dockets": 7,
+  "member_applicability_decisions": 0,
+  "owner_decisions": 0,
+  "primary_evidence_candidates": 7,
+  "program_id": "program.p3i.identity-equality-evidence.v1",
+  "represented_library_occurrences": 223
+}

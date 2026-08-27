@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/invalid-inference-v1.json",
+  "title": "Forbidden representation/structure-to-meaning inference",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["inference_id", "source_assertion", "invalid_conclusion", "why_invalid", "required_evidence", "affected_records", "owner_context", "evidence_refs", "severity", "compiler_behavior", "refusal_code", "status"],
+  "properties": {
+    "inference_id": {"type": "string", "pattern": "^infer\\.invalid\\.[0-9]{3}$"},
+    "source_assertion": {"type": "string", "minLength": 8},
+    "invalid_conclusion": {"type": "string", "minLength": 8},
+    "why_invalid": {"type": "string", "minLength": 20},
+    "required_evidence": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "affected_records": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^(shape|dt\\.(carrier|semantic))\\.[a-z0-9_.-]+$"}},
+    "owner_context": {"type": "string", "pattern": "^bc\\.[a-z0-9_.-]+$"},
+    "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^DSS-[0-9]{3}$"}},
+    "severity": {"enum": ["error", "warning"]},
+    "compiler_behavior": {"enum": ["refuse_or_emit_typed_unresolved_semantic_gap"]},
+    "refusal_code": {"type": "string", "pattern": "^DATA_INVALID_INFERENCE_[0-9]{3}$"},
+    "status": {"enum": ["candidate", "verified"]}
+  }
+}

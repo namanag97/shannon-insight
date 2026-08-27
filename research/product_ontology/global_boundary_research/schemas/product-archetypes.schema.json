@@ -1,0 +1,58 @@
+{
+  "$id": "https://san.example/product-boundary/product_boundary_candidate.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "adoption_boundary": {},
+    "archetype_kind": {},
+    "boundary_evaluation": {},
+    "commercial_boundary": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "exit_boundary": {},
+    "falsifiers": {},
+    "family": {},
+    "name": {},
+    "operation_boundary": {},
+    "owned_meanings": {},
+    "positive_promise": {},
+    "ratification": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "product_boundary_candidate"
+    },
+    "sovereign_question": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "support_boundary": {}
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "name",
+    "family",
+    "archetype_kind",
+    "sovereign_question",
+    "positive_promise",
+    "owned_meanings",
+    "adoption_boundary",
+    "operation_boundary",
+    "support_boundary",
+    "commercial_boundary",
+    "exit_boundary",
+    "boundary_evaluation",
+    "falsifiers",
+    "ratification"
+  ],
+  "title": "Global boundary research: product_boundary_candidate",
+  "type": "object"
+}

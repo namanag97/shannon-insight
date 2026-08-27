@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-27",
+  "bound_libraries": 40,
+  "candidate_new_library_vacancies": 26,
+  "candidate_new_products": 0,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "declared_product_libraries": 12,
+  "exact_contracts_selected": 0,
+  "expert_learning_profiles": 26,
+  "justified_neighbor_libraries": 28,
+  "library_axis_decision_candidates": 640,
+  "method_types": 137,
+  "non_collapse_laws": 57,
+  "owner_decisions": 0,
+  "primary_or_official_sources": 40,
+  "qualified_implementations": 0,
+  "recent_innovations": 15,
+  "retained_products": 2,
+  "semantic_modules": 53,
+  "slice_id": "slice.forecasting-planning.v1"
+}

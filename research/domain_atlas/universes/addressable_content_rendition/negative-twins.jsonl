@@ -1,0 +1,31 @@
+{"negative_id":"negative.acr.uri_occurrence","required_behavior":"Bind occurrence, representation and state.","status":"active","unsafe_inference":"A URI uniquely identifies one immutable content occurrence."}
+{"negative_id":"negative.acr.fragment_resolve","required_behavior":"Run media-profile resolution.","status":"active","unsafe_inference":"A valid fragment syntax guarantees resolution."}
+{"negative_id":"negative.acr.selector_entity","required_behavior":"Keep content addressing and domain identity separate.","status":"active","unsafe_inference":"A selector identifies a business entity."}
+{"negative_id":"negative.acr.position_stable","required_behavior":"Bind representation/normalization and detect staleness.","status":"active","unsafe_inference":"Text offsets survive edits and normalization."}
+{"negative_id":"negative.acr.quote_unique","required_behavior":"Use prefix/suffix/cardinality policy.","status":"active","unsafe_inference":"A text quote resolves uniquely."}
+{"negative_id":"negative.acr.path_durable","required_behavior":"Bind exact tree/document revision.","status":"active","unsafe_inference":"XPath, CSS selector or JSON Pointer is durable identity."}
+{"negative_id":"negative.acr.pixel_absolute","required_behavior":"Bind coordinate frame, transforms and resolution.","status":"active","unsafe_inference":"Pixel coordinates are absolute across renditions."}
+{"negative_id":"negative.acr.time_frame","required_behavior":"Bind timebase, precision and boundary semantics.","status":"active","unsafe_inference":"A timestamp uniquely identifies a media frame."}
+{"negative_id":"negative.acr.latest_target","required_behavior":"Require explicit revision mapping.","status":"active","unsafe_inference":"A selector may float to the latest source revision."}
+{"negative_id":"negative.acr.first_match","required_behavior":"Apply explicit ambiguity policy.","status":"active","unsafe_inference":"Resolver may choose the first of multiple matches."}
+{"negative_id":"negative.acr.resolve_correct","required_behavior":"Keep addressing and judgment separate.","status":"active","unsafe_inference":"Successful resolution proves annotation correctness."}
+{"negative_id":"negative.acr.network_help","required_behavior":"Require a supplied finite representation.","status":"active","unsafe_inference":"Resolver may fetch missing resources from the network."}
+{"negative_id":"negative.acr.agent_reanchor","required_behavior":"Emit an attributed mapping proposal and residual.","status":"active","unsafe_inference":"An agent may silently reanchor a stale target."}
+{"negative_id":"negative.acr.bytes_pages","required_behavior":"Bind the complete rendition plan.","status":"active","unsafe_inference":"Document bytes uniquely determine rendered pages."}
+{"negative_id":"negative.acr.format_safe","required_behavior":"Apply active-content, container and budget policies.","status":"active","unsafe_inference":"A recognized PDF/HTML/office format is safe to render."}
+{"negative_id":"negative.acr.renderer_name","required_behavior":"Bind implementation contract and edition/digest.","status":"active","unsafe_inference":"A renderer product name identifies exact behavior."}
+{"negative_id":"negative.acr.font_family","required_behavior":"Bind exact font bytes and shaping profile.","status":"active","unsafe_inference":"A font family name closes font resources."}
+{"negative_id":"negative.acr.substitute_equal","required_behavior":"Record substitution and evaluate declared equivalence.","status":"active","unsafe_inference":"A substituted font is visually equivalent."}
+{"negative_id":"negative.acr.default_locale","required_behavior":"Bind them explicitly.","status":"active","unsafe_inference":"Host locale/timezone may supply rendering defaults."}
+{"negative_id":"negative.acr.url_fetch","required_behavior":"Supply digest-addressed resources or refuse.","status":"active","unsafe_inference":"External URLs may be fetched during rendering."}
+{"negative_id":"negative.acr.script_needed","required_behavior":"Apply explicit sandbox/active-content policy.","status":"active","unsafe_inference":"Scripts/macros may run because the document requires them."}
+{"negative_id":"negative.acr.declared_size","required_behavior":"Enforce independent decompression/memory limits.","status":"active","unsafe_inference":"Container-declared sizes are safe allocation budgets."}
+{"negative_id":"negative.acr.page_success","required_behavior":"Return page coverage and partial/truncation state.","status":"active","unsafe_inference":"A successful call proves every page rendered."}
+{"negative_id":"negative.acr.warning_success","required_behavior":"Classify and retain diagnostics.","status":"active","unsafe_inference":"Warnings can be discarded after successful rendering."}
+{"negative_id":"negative.acr.parallel_equal","required_behavior":"Prove counters/shared-state/resource equivalence.","status":"active","unsafe_inference":"Pages can always render independently in parallel."}
+{"negative_id":"negative.acr.same_pixels","required_behavior":"Bind accessibility/text/structure and allowed differences.","status":"active","unsafe_inference":"Same pixels prove semantic rendition equivalence."}
+{"negative_id":"negative.acr.different_pixels","required_behavior":"Evaluate the declared equivalence/tolerance profile.","status":"active","unsafe_inference":"Different pixels prove semantic failure."}
+{"negative_id":"negative.acr.render_extract","required_behavior":"Run separate OCR/layout/content analysis.","status":"active","unsafe_inference":"Rendered pages are the document content graph."}
+{"negative_id":"negative.acr.render_truth","required_behavior":"Keep representation and factual acceptance separate.","status":"active","unsafe_inference":"A faithful rendition proves document claims are true."}
+{"negative_id":"negative.acr.agent_fidelity","required_behavior":"Require deterministic evidence and qualified comparison.","status":"active","unsafe_inference":"A model may declare a visually plausible rendition faithful."}
+{"negative_id":"negative.acr.one_renderer","required_behavior":"Require two independent qualified implementations.","status":"active","unsafe_inference":"One renderer's golden output proves portability."}

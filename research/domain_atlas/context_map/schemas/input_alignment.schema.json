@@ -1,0 +1,21 @@
+{
+  "$id": "https://san.example/spec/context-map/input_alignment.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "alignment_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "alignment_id",
+    "local_context_id",
+    "input_candidate_id",
+    "match_basis",
+    "synonymy_inferred",
+    "owner_inherited"
+  ],
+  "title": "SAN candidate context-map input_alignment",
+  "type": "object"
+}

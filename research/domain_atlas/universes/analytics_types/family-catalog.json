@@ -1,0 +1,728 @@
+{
+  "candidate_count": 908,
+  "completion_claim": false,
+  "duplicate_label_review_queue": {
+    "observability analysis": [
+      "analytics.measurement_uncertainty.observability_analysis",
+      "analytics.control_feedback.observability_analysis"
+    ],
+    "productivity analysis": [
+      "analytics.econometric_longitudinal.productivity_analysis",
+      "analytics.cost_performance.productivity_analysis"
+    ],
+    "simulation optimization": [
+      "analytics.simulation.simulation_optimization",
+      "analytics.optimization.simulation_optimization"
+    ],
+    "small-area estimation": [
+      "analytics.inferential.small_area_estimation",
+      "analytics.survey_official_statistics.small_area_estimation"
+    ],
+    "stability analysis": [
+      "analytics.model_evaluation.stability_analysis",
+      "analytics.control_feedback.stability_analysis"
+    ],
+    "state estimation": [
+      "analytics.signal_sensor.state_estimation",
+      "analytics.control_feedback.state_estimation"
+    ],
+    "waiting-time analysis": [
+      "analytics.process.waiting_time_analysis",
+      "analytics.queue_flow_capacity.waiting_time_analysis"
+    ]
+  },
+  "edition": 1,
+  "families": [
+    {
+      "basis": [
+        "intent",
+        "output_contract"
+      ],
+      "candidate_count": 20,
+      "evidence": [
+        "evidence.nist.eda"
+      ],
+      "id": "descriptive_profile",
+      "intent": [
+        "describe",
+        "compare",
+        "decompose"
+      ],
+      "kind": "study",
+      "name": "Descriptive, comparative and profile analytics"
+    },
+    {
+      "basis": [
+        "intent",
+        "study_design"
+      ],
+      "candidate_count": 19,
+      "evidence": [
+        "evidence.nist.eda"
+      ],
+      "id": "exploratory",
+      "intent": [
+        "explore",
+        "discover",
+        "diagnose"
+      ],
+      "kind": "study",
+      "name": "Exploratory and structure-discovery analytics"
+    },
+    {
+      "basis": [
+        "study_design",
+        "assumption",
+        "uncertainty",
+        "evidence"
+      ],
+      "candidate_count": 21,
+      "evidence": [
+        "evidence.nist.statistics"
+      ],
+      "id": "inferential",
+      "intent": [
+        "estimate",
+        "test",
+        "generalize"
+      ],
+      "kind": "method",
+      "name": "Statistical inference"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "uncertainty",
+        "evidence"
+      ],
+      "candidate_count": 19,
+      "evidence": [
+        "evidence.nist.measurement"
+      ],
+      "id": "measurement_uncertainty",
+      "intent": [
+        "measure",
+        "calibrate",
+        "quantify uncertainty"
+      ],
+      "kind": "measurement",
+      "name": "Measurement, calibration and uncertainty analytics"
+    },
+    {
+      "basis": [
+        "study_design",
+        "assumption",
+        "evidence"
+      ],
+      "candidate_count": 20,
+      "evidence": [
+        "evidence.nist.experiment_design"
+      ],
+      "id": "experimental_design",
+      "intent": [
+        "experiment",
+        "compare",
+        "estimate intervention effect"
+      ],
+      "kind": "study",
+      "name": "Experimental design and controlled comparison"
+    },
+    {
+      "basis": [
+        "intent",
+        "study_design",
+        "assumption",
+        "evidence"
+      ],
+      "candidate_count": 28,
+      "evidence": [
+        "evidence.causal.inference"
+      ],
+      "id": "causal",
+      "intent": [
+        "identify cause",
+        "estimate effect",
+        "evaluate policy"
+      ],
+      "kind": "study",
+      "name": "Causal inference and policy-effect analytics"
+    },
+    {
+      "basis": [
+        "intent",
+        "time",
+        "uncertainty",
+        "evaluation"
+      ],
+      "candidate_count": 33,
+      "evidence": [
+        "evidence.hyndman.fpp3"
+      ],
+      "id": "forecasting",
+      "intent": [
+        "forecast",
+        "nowcast",
+        "anticipate"
+      ],
+      "kind": "study",
+      "name": "Forecasting, nowcasting and anticipatory analytics"
+    },
+    {
+      "basis": [
+        "intent",
+        "input_contract",
+        "runtime",
+        "evaluation"
+      ],
+      "candidate_count": 21,
+      "evidence": [
+        "evidence.nist.monitoring"
+      ],
+      "id": "anomaly_change",
+      "intent": [
+        "detect",
+        "localize change",
+        "characterize regime"
+      ],
+      "kind": "diagnostic",
+      "name": "Anomaly, change and regime analytics"
+    },
+    {
+      "basis": [
+        "intent",
+        "input_contract",
+        "output_contract",
+        "evaluation"
+      ],
+      "candidate_count": 36,
+      "evidence": [
+        "evidence.ieee.process_mining_manifesto"
+      ],
+      "id": "process",
+      "intent": [
+        "discover process",
+        "check conformance",
+        "improve flow"
+      ],
+      "kind": "diagnostic",
+      "name": "Process, workflow and case analytics"
+    },
+    {
+      "basis": [
+        "intent",
+        "evidence",
+        "decision"
+      ],
+      "candidate_count": 22,
+      "evidence": [
+        "evidence.nist.process_improvement"
+      ],
+      "id": "diagnostic_rca",
+      "intent": [
+        "diagnose",
+        "localize cause",
+        "explain change"
+      ],
+      "kind": "diagnostic",
+      "name": "Diagnostic and root-cause analytics"
+    },
+    {
+      "basis": [
+        "study_design",
+        "runtime",
+        "decision"
+      ],
+      "candidate_count": 21,
+      "evidence": [
+        "evidence.nist.monitoring",
+        "evidence.nist.process_improvement"
+      ],
+      "id": "quality_spc",
+      "intent": [
+        "monitor quality",
+        "control process",
+        "improve process"
+      ],
+      "kind": "operational_support",
+      "name": "Statistical quality and process-control analytics"
+    },
+    {
+      "basis": [
+        "time",
+        "censoring",
+        "uncertainty",
+        "decision"
+      ],
+      "candidate_count": 26,
+      "evidence": [
+        "evidence.nist.reliability"
+      ],
+      "id": "reliability_survival",
+      "intent": [
+        "estimate survival",
+        "assess reliability",
+        "predict failure"
+      ],
+      "kind": "study",
+      "name": "Reliability, survival and event-history analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "method",
+        "decision"
+      ],
+      "candidate_count": 21,
+      "evidence": [
+        "evidence.informs.operations_research"
+      ],
+      "id": "queue_flow_capacity",
+      "intent": [
+        "analyze flow",
+        "locate bottleneck",
+        "plan capacity"
+      ],
+      "kind": "diagnostic",
+      "name": "Queue, flow, congestion and capacity analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "output_contract",
+        "uncertainty",
+        "evaluation"
+      ],
+      "candidate_count": 21,
+      "evidence": [
+        "evidence.informs.simulation"
+      ],
+      "id": "simulation",
+      "intent": [
+        "simulate",
+        "stress",
+        "compare scenarios"
+      ],
+      "kind": "method",
+      "name": "Simulation and what-if analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "assumption",
+        "decision",
+        "evaluation"
+      ],
+      "candidate_count": 37,
+      "evidence": [
+        "evidence.informs.operations_research"
+      ],
+      "id": "optimization",
+      "intent": [
+        "optimize",
+        "allocate",
+        "schedule"
+      ],
+      "kind": "decision",
+      "name": "Optimization and mathematical-programming analytics"
+    },
+    {
+      "basis": [
+        "method",
+        "runtime",
+        "evaluation",
+        "decision"
+      ],
+      "candidate_count": 54,
+      "evidence": [
+        "evidence.ortools.routing_search",
+        "evidence.informs.operations_research"
+      ],
+      "id": "heuristic_search",
+      "intent": [
+        "find feasible solution",
+        "improve solution",
+        "search under budget"
+      ],
+      "kind": "decision",
+      "name": "Heuristic, metaheuristic and hybrid optimization"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "assumption",
+        "evidence",
+        "runtime",
+        "decision"
+      ],
+      "candidate_count": 45,
+      "evidence": [
+        "evidence.informs.operations_research",
+        "evidence.ortools.reference"
+      ],
+      "id": "or_modeling",
+      "intent": [
+        "formulate decision problem",
+        "select method",
+        "assure solution"
+      ],
+      "kind": "decision",
+      "name": "Operations-research problem formulation and solution assurance"
+    },
+    {
+      "basis": [
+        "intent",
+        "uncertainty",
+        "decision",
+        "evidence"
+      ],
+      "candidate_count": 28,
+      "evidence": [
+        "evidence.informs.decision_analysis"
+      ],
+      "id": "decision_risk",
+      "intent": [
+        "decide",
+        "prioritize",
+        "manage risk"
+      ],
+      "kind": "decision",
+      "name": "Decision, risk and policy analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "method",
+        "output_contract"
+      ],
+      "candidate_count": 29,
+      "evidence": [
+        "evidence.network_science"
+      ],
+      "id": "graph_network",
+      "intent": [
+        "analyze relationships",
+        "trace paths",
+        "diagnose networks"
+      ],
+      "kind": "study",
+      "name": "Graph, network and relationship analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "time",
+        "method",
+        "output_contract"
+      ],
+      "candidate_count": 26,
+      "evidence": [
+        "evidence.ogc.spatial"
+      ],
+      "id": "spatial",
+      "intent": [
+        "locate",
+        "compare space",
+        "analyze movement"
+      ],
+      "kind": "study",
+      "name": "Spatial and spatiotemporal analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "method",
+        "output_contract"
+      ],
+      "candidate_count": 27,
+      "evidence": [
+        "evidence.information_retrieval"
+      ],
+      "id": "text_content",
+      "intent": [
+        "analyze text",
+        "extract structure",
+        "compare documents"
+      ],
+      "kind": "study",
+      "name": "Non-generative text, document and content analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "time",
+        "method",
+        "runtime"
+      ],
+      "candidate_count": 27,
+      "evidence": [
+        "evidence.signal_processing"
+      ],
+      "id": "signal_sensor",
+      "intent": [
+        "analyze signal",
+        "detect event",
+        "estimate state"
+      ],
+      "kind": "method",
+      "name": "Signal, waveform and sensor analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "method",
+        "output_contract"
+      ],
+      "candidate_count": 20,
+      "evidence": [
+        "evidence.image_processing"
+      ],
+      "id": "image_video",
+      "intent": [
+        "measure image",
+        "detect visual structure",
+        "track change"
+      ],
+      "kind": "method",
+      "name": "Classical image and video analytics"
+    },
+    {
+      "basis": [
+        "intent",
+        "method",
+        "evaluation"
+      ],
+      "candidate_count": 26,
+      "evidence": [
+        "evidence.data_mining"
+      ],
+      "id": "data_mining",
+      "intent": [
+        "predict",
+        "classify",
+        "discover pattern"
+      ],
+      "kind": "method",
+      "name": "Classical data-mining and predictive analytics"
+    },
+    {
+      "basis": [
+        "study_design",
+        "time",
+        "assumption",
+        "uncertainty"
+      ],
+      "candidate_count": 24,
+      "evidence": [
+        "evidence.econometrics"
+      ],
+      "id": "econometric_longitudinal",
+      "intent": [
+        "estimate relationship",
+        "analyze longitudinal change",
+        "evaluate shock"
+      ],
+      "kind": "study",
+      "name": "Econometric, panel and longitudinal analytics"
+    },
+    {
+      "basis": [
+        "intent",
+        "population",
+        "time",
+        "decision"
+      ],
+      "candidate_count": 25,
+      "evidence": [
+        "evidence.behavior_analytics"
+      ],
+      "id": "behavior_journey",
+      "intent": [
+        "understand behavior",
+        "analyze journey",
+        "predict retention"
+      ],
+      "kind": "study",
+      "name": "Population behavior, journey and relationship analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "evidence",
+        "runtime",
+        "decision"
+      ],
+      "candidate_count": 25,
+      "evidence": [
+        "evidence.data_quality"
+      ],
+      "id": "data_quality_observability",
+      "intent": [
+        "validate data",
+        "reconcile",
+        "diagnose data incident"
+      ],
+      "kind": "validation",
+      "name": "Data quality, reconciliation and observability analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "output_contract",
+        "assumption",
+        "evidence"
+      ],
+      "candidate_count": 26,
+      "evidence": [
+        "evidence.sdmx",
+        "evidence.openformula"
+      ],
+      "id": "semantic_metric",
+      "intent": [
+        "evaluate measure",
+        "aggregate correctly",
+        "explain formula"
+      ],
+      "kind": "semantic_evaluation",
+      "name": "Semantic, metric and multidimensional evaluation analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "evaluation",
+        "runtime"
+      ],
+      "candidate_count": 21,
+      "evidence": [
+        "evidence.information_retrieval"
+      ],
+      "id": "search_retrieval",
+      "intent": [
+        "retrieve",
+        "match",
+        "resolve identity"
+      ],
+      "kind": "method",
+      "name": "Search, retrieval, matching and resolution analytics"
+    },
+    {
+      "basis": [
+        "evidence",
+        "uncertainty",
+        "decision"
+      ],
+      "candidate_count": 23,
+      "evidence": [
+        "evidence.nist.privacy",
+        "evidence.nist.ai_rmf_measure"
+      ],
+      "id": "privacy_fairness",
+      "intent": [
+        "assess privacy",
+        "assess bias",
+        "validate fairness"
+      ],
+      "kind": "validation",
+      "name": "Privacy, disclosure, representativeness and fairness analytics"
+    },
+    {
+      "basis": [
+        "evaluation",
+        "evidence",
+        "runtime"
+      ],
+      "candidate_count": 28,
+      "evidence": [
+        "evidence.model_risk_management"
+      ],
+      "id": "model_evaluation",
+      "intent": [
+        "validate model",
+        "compare model",
+        "monitor performance"
+      ],
+      "kind": "validation",
+      "name": "Analytical model evaluation, validation and monitoring"
+    },
+    {
+      "basis": [
+        "study_design",
+        "input_contract",
+        "uncertainty",
+        "evidence"
+      ],
+      "candidate_count": 22,
+      "evidence": [
+        "evidence.un.official_statistics",
+        "evidence.sdmx"
+      ],
+      "id": "survey_official_statistics",
+      "intent": [
+        "estimate population",
+        "adjust sample",
+        "publish statistics"
+      ],
+      "kind": "study",
+      "name": "Survey, census and official-statistics analytics"
+    },
+    {
+      "basis": [
+        "decision",
+        "time",
+        "input_contract"
+      ],
+      "candidate_count": 24,
+      "evidence": [
+        "evidence.informs.operations_research"
+      ],
+      "id": "operations_supply",
+      "intent": [
+        "plan operations",
+        "control inventory",
+        "manage supply"
+      ],
+      "kind": "decision",
+      "name": "Operations, inventory and supply-network analytics"
+    },
+    {
+      "basis": [
+        "input_contract",
+        "assumption",
+        "decision"
+      ],
+      "candidate_count": 22,
+      "evidence": [
+        "evidence.cost_accounting",
+        "evidence.performance_engineering"
+      ],
+      "id": "cost_performance",
+      "intent": [
+        "attribute cost",
+        "analyze efficiency",
+        "plan resources"
+      ],
+      "kind": "diagnostic",
+      "name": "Cost, resource and performance-efficiency analytics"
+    },
+    {
+      "basis": [
+        "runtime",
+        "decision",
+        "evaluation"
+      ],
+      "candidate_count": 21,
+      "evidence": [
+        "evidence.control_systems"
+      ],
+      "id": "control_feedback",
+      "intent": [
+        "monitor",
+        "control",
+        "adapt"
+      ],
+      "kind": "operational_support",
+      "name": "Control, feedback and closed-loop operational analytics"
+    }
+  ],
+  "family_count": 35,
+  "status": "hypothesis_queue"
+}

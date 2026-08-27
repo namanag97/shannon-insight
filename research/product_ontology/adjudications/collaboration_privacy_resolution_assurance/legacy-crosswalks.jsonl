@@ -1,0 +1,8 @@
+{"canonical_refs":["suite.unified_data_governance"],"disposition":"reclassify_as_suite","edition":1,"legacy_ref":"candidate.product.all_governance_bundle","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.controlled_data_collaboration","pattern.privacy_enhancing_collaboration"],"disposition":"rename_product_and_retain_market_pattern","edition":1,"legacy_ref":"candidate.product.clean_room","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.entity_resolution"],"disposition":"retain_product_separate_from_mdm","edition":1,"legacy_ref":"candidate.product.entity_resolution","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.assurance_case_appraisal"],"disposition":"rename_product_independence_is_occurrence_evidence","edition":1,"legacy_ref":"candidate.product.independent_assurance","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.privacy_rights_retention"],"disposition":"retain_product_with_authority_boundary","edition":1,"legacy_ref":"candidate.product.privacy_rights_retention","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.controlled_data_collaboration","pattern.privacy_enhancing_collaboration"],"disposition":"split_product_promise_from_architecture","edition":1,"legacy_ref":"term.data_clean_room","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.assurance_case_appraisal","semantic.cpra.assurance.independence_conflict"],"disposition":"split_product_from_occurrence_property","edition":1,"legacy_ref":"term.independent_assurance","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["component.match_scoring_method","semantic.cpra.resolution.link_decision"],"disposition":"split_score_from_decision","edition":1,"legacy_ref":"term.match","record_kind":"legacy_crosswalk"}

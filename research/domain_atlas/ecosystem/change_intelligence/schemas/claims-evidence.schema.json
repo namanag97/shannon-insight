@@ -1,0 +1,62 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/claims-evidence.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claim_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "claim_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "confidence": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "counterevidence_required": {
+      "type": "boolean"
+    },
+    "evidence_relation": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "signal_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "statement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "valid_from": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "valid_until": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "claim_id",
+    "claim_scope",
+    "confidence",
+    "counterevidence_required",
+    "evidence_relation",
+    "signal_id",
+    "source_ids",
+    "statement",
+    "valid_from",
+    "valid_until"
+  ],
+  "title": "claims-evidence",
+  "type": "object"
+}

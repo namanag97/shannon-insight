@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "affected_surface": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "closure_evidence_required": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "gap_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "coverage_gap_candidate"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "gap_id",
+    "description",
+    "affected_surface",
+    "closure_evidence_required"
+  ],
+  "title": "Coverage gap candidate",
+  "type": "object"
+}

@@ -1,0 +1,62 @@
+{
+  "completion_claim": false,
+  "core_exclusions": [
+    "generative methods",
+    "vendor feature survey",
+    "UI application implementation"
+  ],
+  "counts": {
+    "bounded_context_candidates": 52,
+    "capabilities_operations": 208,
+    "compiler_mappings": 36,
+    "cross_domain_mappings": 26,
+    "decision_points": 52,
+    "innovations_2021_2026": 26,
+    "interaction_contracts": 26,
+    "invariants_refusals": 32,
+    "library_boundaries": 39,
+    "open_gaps": 30,
+    "presentation_contracts": 28,
+    "requirements_offer_bindings": 52,
+    "retired_library_compositions": 4,
+    "sources": 87
+  },
+  "coverage_posture": "Open-world candidate saturation; unknowns extend through typed gaps.",
+  "edition": 1,
+  "generated_at": "2026-08-25",
+  "generator": "build_corpus.py",
+  "registry_files": [
+    "capabilities.jsonl",
+    "compiler-mappings.jsonl",
+    "context-candidates.jsonl",
+    "cross-domain-mappings.jsonl",
+    "decision-points.jsonl",
+    "gaps.jsonl",
+    "innovations.jsonl",
+    "interaction-contracts.jsonl",
+    "invariants-refusals.jsonl",
+    "library-boundaries.jsonl",
+    "presentation-contracts.jsonl",
+    "requirements-offers-bindings.jsonl",
+    "retired-library-compositions.jsonl",
+    "sources.jsonl"
+  ],
+  "schema_files": [
+    "binding.schema.json",
+    "capability.schema.json",
+    "compiler-mapping.schema.json",
+    "context.schema.json",
+    "contract.schema.json",
+    "cross-map.schema.json",
+    "decision.schema.json",
+    "gap.schema.json",
+    "innovation.schema.json",
+    "invariant-refusal.schema.json",
+    "library-boundary.schema.json",
+    "retired-library-composition.schema.json",
+    "source.schema.json"
+  ],
+  "status": "candidate",
+  "universe_id": "consumption_bi_visualization",
+  "validator": "validate_corpus.py"
+}

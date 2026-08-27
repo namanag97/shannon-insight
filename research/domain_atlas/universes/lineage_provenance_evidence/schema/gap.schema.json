@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocking": {
+      "type": "boolean"
+    },
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gap_id": {
+      "pattern": "^gap\\.lpe\\.",
+      "type": "string"
+    },
+    "gap_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "prohibited_fallback": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "resolution_condition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "gap_kind",
+    "description",
+    "blocking",
+    "resolution_condition",
+    "prohibited_fallback",
+    "evidence_refs"
+  ],
+  "title": "LPE research gap candidate",
+  "type": "object"
+}

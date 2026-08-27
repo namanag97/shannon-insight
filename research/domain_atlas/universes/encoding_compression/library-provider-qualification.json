@@ -1,0 +1,80 @@
+{
+  "contract_id": "san.representation.library-provider-qualification",
+  "edition": 1,
+  "forbidden": [
+    "dispatch by crate/vendor/product name",
+    "benchmark without corpus and target identity",
+    "success boolean that erases partial/corrupt/unsupported states",
+    "implicit lossy default",
+    "fallback without receipt",
+    "unsafe decoder before size/work guards"
+  ],
+  "offer_required_fields": [
+    "offer_id",
+    "implementation_version",
+    "algorithm_profile_editions",
+    "encode_decode_modes",
+    "loss_modes",
+    "streaming",
+    "splittability",
+    "random_access",
+    "dictionary",
+    "integrity",
+    "memory_spaces",
+    "alignment",
+    "thread_safety",
+    "async",
+    "cancellation",
+    "maximum_input",
+    "maximum_output",
+    "worst_case_expansion",
+    "targets",
+    "licenses",
+    "security_advisories",
+    "evidence",
+    "expiry"
+  ],
+  "qualification_gates": [
+    "parse and reject unsupported profiles without name heuristics",
+    "golden vectors from the authoritative standard",
+    "round-trip/property tests for every supported lossless profile",
+    "loss/error oracle for every supported lossy profile and boundary",
+    "cross-implementation encode/decode matrix with at least two independent implementations where available",
+    "malformed, truncated, adversarial nesting, oversized declaration and decompression-bomb corpus",
+    "stream fragmentation, flush, concatenation, restart and cancellation tests",
+    "random-access/splittability/read-amplification proof when offered",
+    "dictionary missing/wrong/version mismatch tests",
+    "checksum/digest/protection scope and tamper tests",
+    "thread, alias, alignment, overlap, FFI lifetime and memory-space tests",
+    "finite CPU/GPU time, peak memory, output size and energy/throughput evidence on the exact target",
+    "compatibility fixtures across claimed writer/reader editions",
+    "license, patent posture, supply-chain provenance and current advisory review"
+  ],
+  "result_states": [
+    "qualified",
+    "qualified_with_scoped_limitations",
+    "not_qualified",
+    "evidence_expired",
+    "unsupported_profile",
+    "conformance_failure",
+    "resource_failure",
+    "security_blocked"
+  ],
+  "selection_law": [
+    "filter by exact semantic and fidelity requirements",
+    "filter by access and compatibility",
+    "filter by security and resource constraints",
+    "require unexpired qualification on target",
+    "optimize declared objective",
+    "retain rejected alternatives and emit binding receipt"
+  ],
+  "separation": {
+    "algorithm_library": "implements pure transformations and reference oracles",
+    "provider_adapter": "maps a foreign API to canonical typed operations",
+    "provider_offer": "versioned observed capabilities and limits for one implementation/target/configuration",
+    "runtime_mechanism": "manages bounded buffers, streams, cancellation and receipts",
+    "semantic_owner": "defines meaning, equality, loss and compatibility laws",
+    "target_backend": "implements target-specific kernels without owning semantics"
+  },
+  "status": "active_research_contract"
+}

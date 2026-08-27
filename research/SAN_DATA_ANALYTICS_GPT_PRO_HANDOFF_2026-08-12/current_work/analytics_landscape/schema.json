@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.local/schemas/analytics-knowledge-base-v1.json",
+  "title": "Analytics sector knowledge base",
+  "type": "object",
+  "required": [
+    "metadata",
+    "domains",
+    "analytics_types",
+    "companies",
+    "experts",
+    "innovations",
+    "relationships",
+    "sources",
+    "review"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["version", "created_at", "as_of", "scope", "exclusions"],
+      "properties": {
+        "version": {"type": "string"},
+        "created_at": {"type": "string", "format": "date"},
+        "as_of": {"type": "string", "format": "date"},
+        "scope": {"type": "string"},
+        "exclusions": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "domains": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/domain"}
+    },
+    "analytics_types": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/analyticsType"}
+    },
+    "companies": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/company"}
+    },
+    "experts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/expert"}
+    },
+    "innovations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/innovation"}
+    },
+    "relationships": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/relationship"}
+    },
+    "sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "review": {"type": "object"}
+  },
+  "$defs": {
+    "domain": {
+      "type": "object",
+      "required": ["id", "name", "definition", "coverage_status", "last_reviewed"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^dom_[a-z0-9_]+$"},
+        "name": {"type": "string"},
+        "definition": {"type": "string"},
+        "coverage_status": {"enum": ["seeded", "reviewing", "reviewed", "stale"]},
+        "last_reviewed": {"type": ["string", "null"], "format": "date"},
+        "known_gaps": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "analyticsType": {
+      "type": "object",
+      "required": ["id", "domain_id", "name", "definition", "aliases"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^ana_[a-z0-9_]+$"},
+        "domain_id": {"type": "string"},
+        "name": {"type": "string"},
+        "definition": {"type": "string"},
+        "aliases": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "company": {
+      "type": "object",
+      "required": [
+        "id", "name", "website", "specialist_status", "ownership_status",
+        "analytics_type_ids", "source_ids", "last_verified"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^co_[a-z0-9_]+$"},
+        "name": {"type": "string"},
+        "website": {"type": "string", "format": "uri"},
+        "specialist_status": {"enum": ["pure_play", "analytics_led", "historical_pure_play"]},
+        "ownership_status": {"enum": ["independent", "acquired", "public", "nonprofit_project"]},
+        "analytics_type_ids": {"type": "array", "items": {"type": "string"}},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "last_verified": {"type": "string", "format": "date"}
+      },
+      "additionalProperties": true
+    },
+    "expert": {
+      "type": "object",
+      "required": [
+        "id", "name", "expert_kind", "affiliation", "analytics_type_ids",
+        "selection_basis", "source_ids", "last_verified"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^exp_[a-z0-9_]+$"},
+        "name": {"type": "string"},
+        "expert_kind": {"enum": ["academic", "practitioner", "standards_author", "hybrid"]},
+        "affiliation": {"type": "string"},
+        "analytics_type_ids": {"type": "array", "items": {"type": "string"}},
+        "selection_basis": {"type": "string"},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "last_verified": {"type": "string", "format": "date"}
+      },
+      "additionalProperties": true
+    },
+    "innovation": {
+      "type": "object",
+      "required": [
+        "id", "name", "introduced_or_scaled", "innovation_kind", "description",
+        "non_ai_basis", "analytics_type_ids", "company_ids", "expert_ids",
+        "source_ids", "last_verified"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^inn_[a-z0-9_]+$"},
+        "name": {"type": "string"},
+        "introduced_or_scaled": {"type": "string"},
+        "innovation_kind": {
+          "enum": [
+            "technical_invention", "standardization", "product_architecture",
+            "workflow", "privacy_architecture", "commercial_scaling"
+          ]
+        },
+        "description": {"type": "string"},
+        "non_ai_basis": {"type": "string"},
+        "analytics_type_ids": {"type": "array", "items": {"type": "string"}},
+        "company_ids": {"type": "array", "items": {"type": "string"}},
+        "expert_ids": {"type": "array", "items": {"type": "string"}},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "last_verified": {"type": "string", "format": "date"}
+      },
+      "additionalProperties": true
+    },
+    "relationship": {
+      "type": "object",
+      "required": [
+        "company_id", "expert_id", "analytics_type_id", "relationship_type",
+        "source_id", "confidence", "last_verified"
+      ],
+      "properties": {
+        "company_id": {"type": "string"},
+        "expert_id": {"type": "string"},
+        "analytics_type_id": {"type": "string"},
+        "relationship_type": {
+          "enum": ["founder", "executive", "chief_scientist", "advisor", "technical_author", "maintainer"]
+        },
+        "source_id": {"type": "string"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "last_verified": {"type": "string", "format": "date"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["id", "title", "url", "evidence_tier", "source_type", "accessed_at"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^src_[a-z0-9_]+$"},
+        "title": {"type": "string"},
+        "url": {"type": "string", "format": "uri"},
+        "evidence_tier": {"type": "integer", "minimum": 1, "maximum": 5},
+        "source_type": {"type": "string"},
+        "accessed_at": {"type": "string", "format": "date"}
+      }
+    }
+  }
+}

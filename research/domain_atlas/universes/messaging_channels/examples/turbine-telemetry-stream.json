@@ -1,0 +1,18 @@
+{
+  "channel_contract": "msg.channel.data_stream",
+  "example_id": "msg.example.turbine_telemetry",
+  "late_data": "update condition window within allowed lateness; quarantine impossible clock regressions",
+  "message": {
+    "broker_time": "2026-08-25T09:00:04Z",
+    "business_idempotency_key": null,
+    "event_time": "2026-08-25T08:59:58Z",
+    "message_id": "sensor-22/boot-3/seq-81",
+    "partition_key": "turbine-22",
+    "processing_time": "2026-08-25T09:00:07Z"
+  },
+  "ordering": "per turbine partition only",
+  "proof_status": "at_least_once_transport_with_idempotent_window_state",
+  "retention": "14 days hot plus qualified tiered history",
+  "unrelated_to": "commerce_order_fulfillment",
+  "vertical": "industrial_turbine_condition_monitoring"
+}

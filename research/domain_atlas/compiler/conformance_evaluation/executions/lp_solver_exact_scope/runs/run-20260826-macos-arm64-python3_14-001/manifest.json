@@ -1,0 +1,21 @@
+{
+  "completion_claim": false,
+  "counts": {
+    "executed_oracle_results": 12,
+    "executed_test_receipts": 4,
+    "provider_results": 2,
+    "qualified_offers": 0
+  },
+  "file_sha256": {
+    "binding-assessment.json": "aee10762d90b0793c66b0700d1ec9706ac3ab779f1e37672831625ddac88982c",
+    "cohabitation-negative-twin.json": "7c5ec52f5efac7fc5bbccb18fe1aae02910ebc3e322bf0b26530fc8d8712bbbc",
+    "differential-verdict.json": "bd3162c26b7c13b419c13e73179b6fab007a818a4c61be86f7b5c51c9868ad7f",
+    "oracle-results.jsonl": "9a2ff88d72364c590d94ddf987ef8e5508f15f178049147ce47eb1e2b1d5856d",
+    "provider-results.jsonl": "ca796eec48a5dd7545783ce6cce5f8416415aa789722a249689676a185096571",
+    "qualification-receipts.jsonl": "47de0b194082a7d882e029c5054fcfc4d068404cb76b42bc43c6a893cb5148b2"
+  },
+  "protocol_digest": "sha256:71ef646aea4f048db78a2d9fdb7708ff300943a03aefb11db4ac93c0ee8dfa11",
+  "qualification_status": "withheld",
+  "run_id": "run-20260826-macos-arm64-python3_14-001",
+  "status": "executed_test_evidence_not_independently_appraised"
+}

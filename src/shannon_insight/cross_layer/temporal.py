@@ -1,8 +1,8 @@
 """Temporal cross-layer analysis — velocity and trend signals."""
+
 from __future__ import annotations
 
 import numpy as np
-from scipy import sparse
 
 from ..tensor.core import RelationTensor
 
@@ -21,7 +21,7 @@ def churn_velocity(
     k = tensor.n_windows
 
     if k < 2 or n == 0:
-        return {i: 0.0 for i in range(n)}
+        return dict.fromkeys(range(n), 0.0)
 
     # Build time series of row sums per node
     series = np.zeros((n, k), dtype=np.float32)

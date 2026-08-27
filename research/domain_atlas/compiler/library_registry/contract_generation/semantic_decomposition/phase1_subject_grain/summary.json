@@ -1,0 +1,13 @@
+{
+  "as_of": "2026-08-26",
+  "bounded_primary_evidence_claims": 6,
+  "canonical_exact_gaps_closed": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "grain_coordinates": 9,
+  "imported_foundations": 7,
+  "modules": 3,
+  "program_id": "program.semantic-axis.phase1.subject-identity-grain.v1",
+  "remaining_gate": "Named foundation owners accept vocabulary, coordinate sets, non-collapse laws, outcomes and imports; all 23 family matrices record applicability and exceptions.",
+  "status": "ACTIVE_PENDING_OWNER_RATIFICATION"
+}

@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "family_count": 11,
+  "files": {
+    "metadata-discovery-triangulation.jsonl": {
+      "records": 6,
+      "sha256": "eafababbc9033b27d08aa32603748f3fc9d5ff9149675cad68cdc247e01b45b0"
+    },
+    "methods.jsonl": {
+      "records": 80,
+      "sha256": "07d4194ce5d7e856d34a73b8da46777ff7e66ea1211ee9d0373e8de6bac6ab01"
+    },
+    "required-lenses.jsonl": {
+      "records": 12,
+      "sha256": "01af958f43d0175895ef5e7f9d4f50d4b2c7f15b3a9bf78b514fda33077cef55"
+    },
+    "sources.jsonl": {
+      "records": 24,
+      "sha256": "d525b2cd76b7632e360d424e765c38418944f924c12e37eb3598fd68ed3eb293"
+    }
+  },
+  "manifest_id": "boundary_method_ensemble_v0_1_0",
+  "method_count": 80,
+  "status": "researched_open_world"
+}

@@ -1,0 +1,183 @@
+{
+  "anti_cross_product_law": "Axis values classify a resolved occurrence, not a Cartesian product of model names. Unknown and multiple values are first-class; no axis value implies another.",
+  "axes": [
+    {
+      "law": "Geometry does not imply statistical meaning or uncertainty.",
+      "name": "output_geometry",
+      "values": [
+        "scalar",
+        "vector",
+        "matrix",
+        "ranked_list",
+        "set",
+        "interval",
+        "sequence",
+        "graph_indexed",
+        "distribution",
+        "survival_curve",
+        "hazard",
+        "event_intensity",
+        "time_to_event",
+        "spatial_field",
+        "structured_labels"
+      ]
+    },
+    {
+      "law": "Pretraining/label acquisition posture is separate from the downstream prediction task.",
+      "name": "learning_signal",
+      "values": [
+        "fully_supervised",
+        "weakly_supervised",
+        "semi_supervised",
+        "self_supervised_representation",
+        "positive_unlabeled",
+        "online_supervised",
+        "multitask",
+        "transfer",
+        "active_learning"
+      ]
+    },
+    {
+      "law": "IID is a proof obligation, never a default inferred from rows.",
+      "name": "data_generating_posture",
+      "values": [
+        "iid_claimed",
+        "grouped",
+        "clustered",
+        "longitudinal",
+        "panel",
+        "time_ordered",
+        "spatial",
+        "spatiotemporal",
+        "network_dependent",
+        "event_process",
+        "censored",
+        "truncated",
+        "competing_risk",
+        "missing",
+        "selected",
+        "exposure_biased",
+        "drifting",
+        "intervention_affected"
+      ]
+    },
+    {
+      "law": "Parametric status and inferential school are independent axes.",
+      "name": "epistemic_family",
+      "values": [
+        "parametric",
+        "semiparametric",
+        "nonparametric",
+        "frequentist",
+        "bayesian",
+        "mechanistic",
+        "statistical",
+        "hybrid"
+      ]
+    },
+    {
+      "law": "Training cadence, prediction cadence, horizon and label maturity are separate decisions.",
+      "name": "prediction_timing",
+      "values": [
+        "batch_retrospective",
+        "batch_prospective",
+        "rolling_origin",
+        "event_triggered",
+        "streaming_online",
+        "real_time_request",
+        "scheduled_refresh",
+        "dynamic_landmark"
+      ]
+    },
+    {
+      "law": "A score does not authorize an action.",
+      "name": "decision_proximity",
+      "values": [
+        "informational",
+        "triage",
+        "recommendation",
+        "human_review_required",
+        "decision_support",
+        "automated_low_consequence",
+        "automated_high_consequence_prohibited_without_policy"
+      ]
+    },
+    {
+      "law": "Business target and model output carrier remain distinct.",
+      "name": "target_kind",
+      "values": [
+        "continuous",
+        "binary",
+        "multiclass",
+        "multilabel",
+        "ordinal",
+        "count",
+        "rate",
+        "proportion",
+        "ranking",
+        "recommendation",
+        "time_to_event",
+        "future_series",
+        "anomaly",
+        "change",
+        "node",
+        "edge",
+        "graph",
+        "next_event",
+        "remaining_time",
+        "treatment_effect",
+        "spatial_response",
+        "structured_sequence"
+      ]
+    },
+    {
+      "law": "Uncertainty form does not imply calibrated coverage.",
+      "name": "uncertainty_form",
+      "values": [
+        "none_justified",
+        "standard_error",
+        "confidence_interval",
+        "credible_interval",
+        "prediction_interval",
+        "prediction_set",
+        "quantiles",
+        "distribution",
+        "ensemble_dispersion",
+        "posterior",
+        "conformal_risk_bound"
+      ]
+    },
+    {
+      "law": "Online inference does not imply online learning.",
+      "name": "update_posture",
+      "values": [
+        "immutable_fit",
+        "scheduled_refit",
+        "triggered_refit",
+        "incremental",
+        "continual",
+        "sliding_window",
+        "fading_memory",
+        "state_resettable"
+      ]
+    },
+    {
+      "law": "A metric value is uninterpretable without its partition and observation policy.",
+      "name": "evaluation_posture",
+      "values": [
+        "random_holdout",
+        "group_holdout",
+        "out_of_time",
+        "rolling_origin",
+        "spatial_block",
+        "external_site",
+        "nested_cv",
+        "progressive",
+        "counterfactual_policy",
+        "survival_censoring_aware"
+      ]
+    }
+  ],
+  "axis_id": "taxonomy.predictive_ml.orthogonal_axes",
+  "edition": 1
+}

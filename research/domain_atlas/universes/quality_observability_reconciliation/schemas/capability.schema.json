@@ -1,0 +1,94 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/capability.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate_note": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "capability_id": {
+      "pattern": "^qor\\.capability\\.",
+      "type": "string"
+    },
+    "definition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "input_kinds": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "output_kinds": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "quality_attributes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_refs": {
+      "items": {
+        "pattern": "^qor\\.src\\.",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "researched_candidate_not_adjudicated"
+    }
+  },
+  "required": [
+    "capability_id",
+    "edition",
+    "status",
+    "name",
+    "owner_context",
+    "definition",
+    "input_kinds",
+    "output_kinds",
+    "operation_refs",
+    "quality_attributes",
+    "source_refs",
+    "candidate_note"
+  ],
+  "title": "Quality capability candidate",
+  "type": "object"
+}

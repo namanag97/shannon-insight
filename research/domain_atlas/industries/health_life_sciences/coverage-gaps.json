@@ -1,0 +1,87 @@
+{
+  "ambiguous_terms": [
+    {
+      "resolution": "root cause analysis is represented as systems event investigation with competing hypotheses; a coded cause is not proof.",
+      "term": "RCA"
+    },
+    {
+      "resolution": "unresolved acronym across healthcare (for example continuity-of-care record, clinical-cost reconciliation or cause-contribution ranking). This pack uses the explicit phrase cause_contribution_ranking and never compiles bare CCR.",
+      "term": "CCR"
+    },
+    {
+      "resolution": "separates data quality, analytical validity, clinical quality, manufacturing quality and regulatory compliance.",
+      "term": "quality"
+    },
+    {
+      "resolution": "requires a defined event, population, horizon, competing events, action and loss; risk score alone is not an analytical case.",
+      "term": "risk"
+    }
+  ],
+  "as_of": "2026-08-25",
+  "completeness_semantics": "Open-world: each encountered use must map to a governed class or open an explicit extension gap. Enumeration is broad but does not claim every future disease, jurisdiction, instrument, vendor, protocol or method.",
+  "edition": 1,
+  "known_gaps": [
+    {
+      "closure_evidence": "Jurisdiction matrix with primary law/regulator sources and governed conflict rules.",
+      "description": "The evidence base emphasizes US, EU/EEA and WHO frameworks; country, state, tribal, indigenous-data-sovereignty and specialty-specific law/policy packs remain to be researched.",
+      "gap_id": "health.gap.jurisdictions",
+      "severity": "high"
+    },
+    {
+      "closure_evidence": "Specialty-by-decision inventory reviewed by professional bodies and practicing domain experts.",
+      "description": "Clinical cases cover representative acute, ambulatory, emergency, behavioral, post-acute, dental, diagnostic and transplant workflows but not every specialty, disease pathway, pediatric, maternal, rare-disease or rehabilitation protocol.",
+      "gap_id": "health.gap.specialties",
+      "severity": "high"
+    },
+    {
+      "closure_evidence": "Separate veterinary/One Health pack with CVM, WOAH and jurisdictional evidence.",
+      "description": "Veterinary medicines, animal health providers and One Health operational analytics are not decomposed in this pack.",
+      "gap_id": "health.gap.veterinary",
+      "severity": "medium"
+    },
+    {
+      "closure_evidence": "Versioned interface profiles, conformance fixtures and vendor-independent capability offers.",
+      "description": "Source classes are vendor-neutral; exact X12, NCPDP, NEMSIS, IEEE 11073, IHE, OMOP, SDTM/SEND/ADaM version and vendor capability matrices remain incomplete.",
+      "gap_id": "health.gap.source_interfaces",
+      "severity": "high"
+    },
+    {
+      "closure_evidence": "Per-use-case study protocol, validation, calibration, subgroup, robustness, human-factors and monitoring evidence.",
+      "description": "Cases name analytical method families but do not certify a particular algorithm, threshold, estimator, loss function or clinical utility for any deployment.",
+      "gap_id": "health.gap.method_certification",
+      "severity": "high"
+    },
+    {
+      "closure_evidence": "Terminology authority, license, edition, mapping, update and rollback registry.",
+      "description": "ICD, CPT, HCPCS, MedDRA, SNOMED CT national editions and proprietary drug/clinical knowledge-base licensing and update semantics are not fully modeled.",
+      "gap_id": "health.gap.terminology_licenses",
+      "severity": "medium"
+    },
+    {
+      "closure_evidence": "Purpose/jurisdiction/data-category policy corpus with legal review and executable refusal tests.",
+      "description": "HIPAA, Common Rule and NIH examples do not cover GDPR/EHDS, genetic privacy, substance-use, reproductive, mental-health, minor, research and cross-border restrictions worldwide.",
+      "gap_id": "health.gap.privacy_global",
+      "severity": "high"
+    },
+    {
+      "closure_evidence": "At least 25 verified primary sources per subindustry, each mapped to cases and contradictions, with independent review.",
+      "description": "This edition exceeds 25 primary sources for the healthcare/life-sciences family, not 25 independent primary sources for each of 21 subindustries. Achieving that stronger standard requires a much larger evidence programme.",
+      "gap_id": "health.gap.reference_25_per_subindustry",
+      "severity": "high"
+    },
+    {
+      "closure_evidence": "Prospective or appropriately designed quasi-experimental evaluations and post-deployment surveillance.",
+      "description": "No operational pilot yet proves that each analytical case improves its intended decision without unacceptable clinical, equity, privacy, regulatory or workflow harm.",
+      "gap_id": "health.gap.outcomes_action",
+      "severity": "high"
+    },
+    {
+      "closure_evidence": "Context-map ownership decisions and anti-corruption translations with executable conformance tests.",
+      "description": "This pack records sources but does not yet adjudicate conflicts among FHIR versions, implementation guides, regulatory standards, local definitions and source-system state semantics.",
+      "gap_id": "health.gap.conflicting_standards",
+      "severity": "medium"
+    }
+  ],
+  "pack_id": "health.life_sciences.research_pack",
+  "status": "open_research"
+}

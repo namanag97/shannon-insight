@@ -5,6 +5,7 @@ For every pair of files that share at least one author, the Jaccard index
 Only edges with Jaccard >= *min_jaccard* are stored.  The relation is
 symmetric, so both (a,b) and (b,a) are added.
 """
+
 from __future__ import annotations
 
 from collections import defaultdict

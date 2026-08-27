@@ -1,0 +1,21 @@
+{
+  "assessment_id": "binding_assessment.run-20260826-macos-arm64-python3_14-001",
+  "bindable_offer_refs": [],
+  "cohabitation_verdict": "observed_native_abi_collision_process_isolation_required",
+  "corpus_corrections": [
+    "Replace generic OR-Tools suite identity with exact solver plus API adapter offer identities.",
+    "Make runtime cohabitation/process isolation a target-binding decision.",
+    "Require a declared status-precision policy before treating GLOP/MPSolver and HiGHS as substitutes.",
+    "Retain executed-test receipts below independent appraisal and qualification gates."
+  ],
+  "exact_offer_refs": [
+    "offer.operations_research.ortools.glop.mpsolver_python.9_15_6755",
+    "offer.operations_research.highspy.highs.1_15_1"
+  ],
+  "independent_appraisal": "not_executed",
+  "portable_offer_refs": [],
+  "qualification_verdict": "withheld",
+  "record_kind": "binding_assessment",
+  "structural_generic_offer_trial_verdict": "falsified_offer_identity_too_broad",
+  "vertical_acceptance": "not_executed"
+}

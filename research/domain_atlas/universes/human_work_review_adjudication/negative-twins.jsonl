@@ -1,0 +1,42 @@
+{"negative_id":"negative.hwra.role_person","required_behavior":"Resolve external actor identity and current eligibility evidence.","status":"active","unsafe_inference":"A named role identifies an eligible person."}
+{"negative_id":"negative.hwra.potential_actual","required_behavior":"Require claim or assignment transition.","status":"active","unsafe_inference":"A potential owner is already the actual owner."}
+{"negative_id":"negative.hwra.assigned_competent","required_behavior":"Bind external competence evidence.","status":"active","unsafe_inference":"Assignment proves competence."}
+{"negative_id":"negative.hwra.manager_authority","required_behavior":"Require exact authority scope.","status":"active","unsafe_inference":"Organizational management implies review or adjudication authority."}
+{"negative_id":"negative.hwra.claim_permanent","required_behavior":"Bind finite lease and fencing semantics.","status":"active","unsafe_inference":"Claiming a task creates permanent ownership."}
+{"negative_id":"negative.hwra.expired_submit","required_behavior":"Classify it as late/stale and retain evidence.","status":"active","unsafe_inference":"A completed result from an expired lease may be accepted silently."}
+{"negative_id":"negative.hwra.delegate_transfer","required_behavior":"Constrain scope, time and permitted delegatees.","status":"active","unsafe_inference":"Delegation transfers the delegator's entire authority."}
+{"negative_id":"negative.hwra.deadline_cancel","required_behavior":"Evaluate the declared escalation/state rule.","status":"active","unsafe_inference":"A deadline automatically cancels the task."}
+{"negative_id":"negative.hwra.notification_done","required_behavior":"Reconcile observed assignment state.","status":"active","unsafe_inference":"An escalation notification proves reassignment or remediation."}
+{"negative_id":"negative.hwra.task_accept","required_behavior":"Require separate review and acceptance.","status":"active","unsafe_inference":"Task completion means outcome acceptance."}
+{"negative_id":"negative.hwra.issue_comment","required_behavior":"Require typed finding, anchor and lifecycle.","status":"active","unsafe_inference":"A comment is a review issue."}
+{"negative_id":"negative.hwra.anchor_latest","required_behavior":"Bind exact revision and reanchor explicitly.","status":"active","unsafe_inference":"An issue anchor floats to the latest artifact revision."}
+{"negative_id":"negative.hwra.fix_resolve","required_behavior":"Require verification and resolution decision.","status":"active","unsafe_inference":"A correction automatically resolves an issue."}
+{"negative_id":"negative.hwra.resolve_close","required_behavior":"Preserve closure authority and reopen rules.","status":"active","unsafe_inference":"Resolved and closed are identical."}
+{"negative_id":"negative.hwra.close_erase","required_behavior":"Retain append-only evidence and relations.","status":"active","unsafe_inference":"Closing an issue erases the challenged artifact or dissent."}
+{"negative_id":"negative.hwra.duplicate_delete","required_behavior":"Link it to the canonical issue and retain occurrence.","status":"active","unsafe_inference":"A duplicate issue may be deleted."}
+{"negative_id":"negative.hwra.percent_universal","required_behavior":"Bind scale, population, design and chance model.","status":"active","unsafe_inference":"Percent agreement is a universal reliability measure."}
+{"negative_id":"negative.hwra.kappa_any","required_behavior":"Evaluate the exact metric's applicability.","status":"active","unsafe_inference":"Kappa applies to any number of raters and any scale."}
+{"negative_id":"negative.hwra.alpha_default","required_behavior":"Bind distance, scale and units.","status":"active","unsafe_inference":"Krippendorff alpha removes the need to choose distance and unitization."}
+{"negative_id":"negative.hwra.icc_name","required_behavior":"Bind model, effects, agreement/consistency and unit.","status":"active","unsafe_inference":"ICC is one metric with one meaning."}
+{"negative_id":"negative.hwra.missing_drop","required_behavior":"Declare missingness and resulting estimand.","status":"active","unsafe_inference":"Missing judgments may always be dropped."}
+{"negative_id":"negative.hwra.reference_truth","required_behavior":"Separate reference comparison from truth acceptance.","status":"active","unsafe_inference":"Agreement with a configured reference proves accuracy."}
+{"negative_id":"negative.hwra.high_accept","required_behavior":"Require external threshold and acceptance authority.","status":"active","unsafe_inference":"High agreement passes an acceptance threshold automatically."}
+{"negative_id":"negative.hwra.low_bad","required_behavior":"Retain ambiguity, design and prevalence explanations.","status":"active","unsafe_inference":"Low agreement proves individual judgments are wrong."}
+{"negative_id":"negative.hwra.metric_compare","required_behavior":"Require a declared comparison relation.","status":"active","unsafe_inference":"Scores from different metrics or populations are directly comparable."}
+{"negative_id":"negative.hwra.majority_truth","required_behavior":"Return a scoped consensus candidate.","status":"active","unsafe_inference":"Majority vote establishes truth."}
+{"negative_id":"negative.hwra.plurality_majority","required_behavior":"Bind exact combination rule.","status":"active","unsafe_inference":"Plurality and majority are interchangeable."}
+{"negative_id":"negative.hwra.weight_hidden","required_behavior":"Bind weight source, edition and authority.","status":"active","unsafe_inference":"Worker quality scores may silently become consensus weights."}
+{"negative_id":"negative.hwra.quorum_votes","required_behavior":"Apply eligibility, independence and duplicate rules.","status":"active","unsafe_inference":"The number of submitted judgments proves quorum."}
+{"negative_id":"negative.hwra.tie_random","required_behavior":"Declare tie policy and randomness or return unresolved.","status":"active","unsafe_inference":"A tie may be broken randomly by default."}
+{"negative_id":"negative.hwra.abstain_no","required_behavior":"Preserve abstention and missingness.","status":"active","unsafe_inference":"Abstention is equivalent to a negative judgment."}
+{"negative_id":"negative.hwra.score_probability","required_behavior":"Use only the qualified method's declared semantics.","status":"active","unsafe_inference":"A consensus score is probability of correctness."}
+{"negative_id":"negative.hwra.merge_ground","required_behavior":"Require review/adjudication and edition acceptance.","status":"active","unsafe_inference":"Merged annotations are ground truth."}
+{"negative_id":"negative.hwra.model_consensus","required_behavior":"Treat it as a selectable consensus method.","status":"active","unsafe_inference":"A latent-label model adjudicates disagreement."}
+{"negative_id":"negative.hwra.consensus_adjudication","required_behavior":"Treat it as evidence input only.","status":"active","unsafe_inference":"Consensus automatically binds an adjudicator."}
+{"negative_id":"negative.hwra.reviewer_adjudicator","required_behavior":"Require independence and authority evidence.","status":"active","unsafe_inference":"A reviewer is automatically an adjudicator."}
+{"negative_id":"negative.hwra.metric_precedence","required_behavior":"Apply explicit admissibility and precedence.","status":"active","unsafe_inference":"The largest agreement or confidence score defeats dissent."}
+{"negative_id":"negative.hwra.reason_optional","required_behavior":"Require scoped reasons and evidence cut.","status":"active","unsafe_inference":"An adjudication result needs no reason when confidence is high."}
+{"negative_id":"negative.hwra.appeal_erase","required_behavior":"Create a linked challenge and later transition.","status":"active","unsafe_inference":"Appeal replaces the original judgment."}
+{"negative_id":"negative.hwra.agent_assign","required_behavior":"Emit a proposal and require authority/evidence validation.","status":"active","unsafe_inference":"An agent may assign a plausible competent worker."}
+{"negative_id":"negative.hwra.agent_adjudicate","required_behavior":"Require human/domain authority and typed judgment.","status":"active","unsafe_inference":"A model may adjudicate or accept ground truth from consensus."}
+{"negative_id":"negative.hwra.one_impl","required_behavior":"Require two independent qualified implementations.","status":"active","unsafe_inference":"One workflow implementation proves portability."}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "advance": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "compiler_consequence": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "innovation_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "limits": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "maturity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "non_llm": {
+      "const": true
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "edition",
+    "status",
+    "year",
+    "non_llm",
+    "advance",
+    "compiler_consequence",
+    "maturity",
+    "evidence_refs",
+    "limits"
+  ],
+  "title": "Recent non-generative innovation",
+  "type": "object"
+}

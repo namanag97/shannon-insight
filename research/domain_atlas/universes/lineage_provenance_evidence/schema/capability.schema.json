@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate_kind": {
+      "enum": [
+        "capability",
+        "operation",
+        "decision",
+        "law"
+      ]
+    },
+    "capability_id": {
+      "pattern": "^(capability|operation|decision|law)\\.lpe\\.",
+      "type": "string"
+    },
+    "cross_plane_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "definition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "failure_modes": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "family": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "input_types": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "output_types": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "postconditions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "preconditions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "refusal_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "capability_id",
+    "edition",
+    "status",
+    "candidate_kind",
+    "family",
+    "name",
+    "definition",
+    "owner_context_ref",
+    "input_types",
+    "output_types",
+    "preconditions",
+    "postconditions",
+    "failure_modes",
+    "refusal_law",
+    "cross_plane_refs",
+    "evidence_refs"
+  ],
+  "title": "LPE capability, operation, decision or law candidate",
+  "type": "object"
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accessed_on": {
+      "format": "date",
+      "type": "string"
+    },
+    "authority_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "publication_year": {
+      "type": "integer"
+    },
+    "publisher": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^source\\.lpe\\.",
+      "type": "string"
+    },
+    "source_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "reference"
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "topics": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "url": {
+      "format": "uri",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "edition",
+    "status",
+    "title",
+    "publisher",
+    "source_kind",
+    "url",
+    "publication_year",
+    "accessed_on",
+    "authority_scope",
+    "topics",
+    "limitations"
+  ],
+  "title": "LPE primary source",
+  "type": "object"
+}

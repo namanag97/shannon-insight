@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/persistence-boundary-candidate-v0.1.0.schema.json",
+  "title": "Library, product, suite, protocol, format, implementation or deployment boundary candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "candidate_id", "edition", "status", "record_kind", "name", "promise",
+    "owns", "requires", "excludes", "decision_refs", "capability_refs", "substitutability",
+    "adoption_and_exit", "authority", "failure_isolation", "versioning", "economics",
+    "qualification", "evidence_refs", "boundary_verdict", "gaps"
+  ],
+  "properties": {
+    "candidate_id": {"type": "string", "pattern": "^persistence\\.boundary\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["hypothesis", "candidate", "reviewed", "adjudicated", "deprecated"]},
+    "record_kind": {"enum": ["semantic_library", "algorithm_library", "policy_pure", "test_oracle", "runtime_library", "provider_adapter", "format", "protocol", "implementation", "deployment", "product", "managed_experience", "suite", "solution_pack"]},
+    "name": {"type": "string", "minLength": 1},
+    "promise": {"type": "string", "minLength": 1},
+    "owns": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "requires": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "excludes": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "decision_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "capability_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "substitutability": {"type": "string", "minLength": 1},
+    "adoption_and_exit": {"type": "string", "minLength": 1},
+    "authority": {"type": "string", "minLength": 1},
+    "failure_isolation": {"type": "string", "minLength": 1},
+    "versioning": {"type": "string", "minLength": 1},
+    "economics": {"type": "string", "minLength": 1},
+    "qualification": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "boundary_verdict": {"enum": ["keep_separate", "compose_as_product", "compose_as_managed_experience", "compose_as_suite", "provider_class_only", "not_a_product", "unresolved"]},
+    "gaps": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+  }
+}

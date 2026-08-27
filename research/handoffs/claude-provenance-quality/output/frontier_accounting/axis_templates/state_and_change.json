@@ -1,0 +1,96 @@
+{
+ "axis": "state_and_change",
+ "owned_question": "When a system's facts change over time, what distinguishes the state of the world (valid time) from what the record-keeping system knew (transaction time), and how must state machines, event logs, revisions, concurrency tokens, and replay semantics be modeled so that change is never silently rewritten into an ahistorical 'current truth'?",
+ "terms": [
+  "valid_time",
+  "transaction_time",
+  "bitemporal_record",
+  "system_versioned_table",
+  "event_sourcing",
+  "event_store_as_source_of_truth",
+  "replay",
+  "snapshot",
+  "supersede",
+  "retraction",
+  "amendment",
+  "invalidation",
+  "wasRevisionOf",
+  "optimistic_concurrency",
+  "etag",
+  "if_match",
+  "precondition_failed_412",
+  "idempotency_key",
+  "state_machine_contract",
+  "append_only_log"
+ ],
+ "non_collapse_laws": [
+  "Valid time and transaction time are orthogonal axes; collapsing them into one timestamp makes retroactive corrections indistinguishable from new knowledge.",
+  "Transaction-time history is append-only: corrections may rewrite valid-time meaning going forward but never erase or mutate transaction-time facts about what was recorded and when.",
+  "Supersession creates a successor edition linked to its predecessor without erasing it; retraction (invalidation) asserts a statement is no longer available for use; amendment revises content. These are three distinct relations and must not collapse into a single 'update'.",
+  "Optimistic concurrency (ETag/If-Match, version columns) converts lost-update races into explicit 412 Precondition Failed failures rather than silent last-writer-wins overwrites.",
+  "An idempotency key binds repeated delivery of the same intent to one effect; duplicate suppression is distinct from conflict rejection — a replayed command with a matching key returns the original outcome instead of re-executing or erroring.",
+  "Reconstruction by replay depends on events being immutable, ordered, and effect-complete; mutating a stored event retroactively breaks every derivation built on it, whereas appending a compensating or corrected event preserves both timelines.",
+  "A state machine's allowed transitions are contract-level meaning (which transitions are legal from which states); the mechanism that happens to track current state in code is implementation detail — the axis owns the transition law, not the storage."
+ ],
+ "carrier_requirements": [
+  "Bitemporal records carry independent valid-time period and transaction-time period attributes (e.g., PERIOD FOR ... and PERIOD FOR SYSTEM_TIME WITH SYSTEM VERSIONING).",
+  "Versioned entities carry a strong validator (ETag or monotonically increasing revision number) that changes whenever representation changes and supports If-Match precondition evaluation.",
+  "Event stores carry an append-only, totally ordered log keyed per aggregate stream, plus durable idempotency-key storage mapping key -> recorded outcome for exactly-once effect under at-least-once delivery.",
+  "Supersession chains carry first-class links between predecessor and successor editions (e.g., prov:wasRevisionOf) separate from existence/lifecycle status, plus invalidation provenance (prov:wasInvalidatedBy, prov:atTime)."
+ ],
+ "operations_or_relations": [
+  "query as-of valid-time T vs as-of transaction-time T (AS OF / BETWEEN clauses)",
+  "supersede(predecessor, successor) creating revision chain",
+  "retract(statement, reason, effective_time) — an assertion act, not deletion",
+  "amend(statement, delta) — content revision preserving identity",
+  "check_precondition(if_match_etag, current_representation)",
+  "record_once(idempotency_key, command, outcome)",
+  "replay(log_slice) -> reconstructed_state; snapshot() -> resumable checkpoint",
+  "validate_transition(state_machine_contract, from_state, event) -> allowed | refused"
+ ],
+ "invariants": [
+  "Appending an event never fails due to prior identical content; deduplication is decided by idempotency key, not payload equality.",
+  "Once a fact is committed at transaction-time t1, no later operation changes t1 row's transaction-time interval; only its valid-time successor/closure rows change.",
+  "A successful conditional write implies the written representation superseded exactly the entity named by the matched ETag.",
+  "Retraction removes availability, not existence: a retracted edition remains queryable at past transaction times."
+ ],
+ "refusals": [
+  "Refuse to answer 'what was true' using a table that stores only current values with no temporal dimension — that carrier cannot support the question.",
+  "Refuse to model withdrawal, deletion, and correction as one boolean flag: which of supersede/retract/amend occurred must be stated or the compilation fails closed.",
+  "Refuse optimistic-concurrency claims against a server that issues weak validators for byte-comparison preconditions (If-Match ignores W/ tags by design).",
+  "Refuse exactly-once-effect claims where only at-least-once delivery exists unless a durable idempotency-key store is present in the carrier."
+ ],
+ "counterexamples": [
+  "Soft-delete flag standing in for retraction hides withdrawal-vs-deletion-vs-correction distinction and fabricates a false transaction-time endpoint for the entity.",
+  "Single updated_at timestamp on a mutable row collapses valid and transaction time: after a retroactive correction, no query can recover what the system previously believed.",
+  "An event store whose handlers mutate already-appended events (back-editing 'typos') undermines replay; the correct pattern is a corrective appended event or reverse-and-replay per Fowler's Retroactive Events.",
+  "PUT with If-None-Match: * treated as equivalent to PUT with If-Match given weak ETags conflates create-if-absent with update-only semantics; RFC 9110 assigns these distinct precedence (13.2.2)."
+ ],
+ "authority_limit": "This axis governs temporal semantics of recorded facts, transition legality, history immutability, revision/supersession topology, and concurrency/idempotency protocols. It does not govern business rules evaluated within states (domain logic), physical storage layout, schema migration tooling choices, or access control over historical data.",
+ "sources": [
+  {
+   "cite": "Snodgrass, R.T., Developing Time-Oriented Database Applications in SQL, Morgan Kaufmann, 2000 — definitive treatment of valid time, transaction time, and bitemporality; out of print, full PDF confirmed freely referenced at cs.arizona.edu/people/rts/tdbbook.pdf (direct fetch failed TLS verification this session; corroborated via sql-info.de and Uni Bonn mirrors)",
+   "source_class": "primary"
+  },
+  {
+   "cite": "ISO/IEC 9075:2011+ SQL standard — system-versioned tables (PERIOD FOR SYSTEM_TIME / WITH SYSTEM VERSIONING), application-time period tables, bitemporal combination (verified via conformance summary; standard itself paywalled)",
+   "source_class": "primary_paywalled_verified_via_secondary"
+  },
+  {
+   "cite": "RFC 9110 HTTP Semantics — Section 13 Conditional Requests (13.1.1 If-Match, 13.2 Precedence), Section 8.8 ETag/strong vs weak validators, Section 15.5.13 412 Precondition Failed. https://www.rfc-editor.org/rfc/rfc9110.html",
+   "source_class": "primary"
+  },
+  {
+   "cite": "W3C PROV-O: PROVENANCE Ontology, REC 2013-04-30 — prov:wasRevisionOf, prov:invalidated/wasInvalidatedBy, prov:specializationOf, prov:qualifiedGeneration. https://www.w3.org/TR/prov-o/",
+   "source_class": "primary"
+  },
+  {
+   "cite": "Fowler, M., Event Sourcing (2005) — event log as source of truth, rebuild-by-replay, snapshots, Retroactive Events, bitemporal caveats. https://martinfowler.com/eaaDev/EventSourcing.html",
+   "source_class": "narrative_secondary_discovery_use_only"
+  }
+ ],
+ "evidence_vacancies_if_any": [
+  "No free primary text located for idempotency keys (Stripe API docs are de-facto canonical but commercial/narrative; IETF su Wolfgang's draft never reached RFC as of check) — treat idempotency-key semantics as industry-consensus, not treaty-grade, until an RFC-grade source is incorporated.",
+  "State-machine-as-contract lane lacks a fetched primary this pass (UML 2.5.1 state machine chapter unfetched); cite only as vacancy until verified."
+ ]
+}

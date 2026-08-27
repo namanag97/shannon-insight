@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "blocking": {
+      "type": "boolean"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "gap_id": {
+      "type": "string"
+    },
+    "gap_kind": {
+      "type": "string"
+    },
+    "prohibited_fallbacks": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "record_kind": {
+      "enum": [
+        "gap"
+      ]
+    },
+    "resolution_condition": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "gap_id",
+    "subject",
+    "gap_kind",
+    "blocking",
+    "resolution_condition",
+    "prohibited_fallbacks"
+  ],
+  "title": "Open research gap",
+  "type": "object"
+}

@@ -1,0 +1,71 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "type": "integer"
+    },
+    "effect_boundary": {
+      "type": "string"
+    },
+    "forbidden_responsibilities": {
+      "$ref": "#/$defs/strings"
+    },
+    "library_id": {
+      "$ref": "#/$defs/id"
+    },
+    "library_kind": {
+      "type": "string"
+    },
+    "owns": {
+      "type": "string"
+    },
+    "public_boundary": {
+      "$ref": "#/$defs/strings"
+    },
+    "replacement_seam": {
+      "type": "string"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate_model"
+    }
+  },
+  "required": [
+    "library_id",
+    "edition",
+    "status",
+    "library_kind",
+    "owns",
+    "forbidden_responsibilities",
+    "effect_boundary",
+    "public_boundary",
+    "replacement_seam",
+    "source_refs"
+  ],
+  "title": "Library boundary candidate",
+  "type": "object"
+}

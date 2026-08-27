@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "carrier_or_binding": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "change_semantics": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "construct_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "construct_kind": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "evidence_refs": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "identity_semantics": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "order_semantics": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "owner_context": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "security_semantics": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "time_semantics": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "topology_semantics": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    },
+    "uncertainty_semantics": {
+      "type": [
+        "string",
+        "array",
+        "object",
+        "boolean",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "construct_id",
+    "construct_kind",
+    "owner_context",
+    "carrier_or_binding",
+    "identity_semantics",
+    "time_semantics",
+    "order_semantics",
+    "topology_semantics",
+    "change_semantics",
+    "uncertainty_semantics",
+    "security_semantics",
+    "evidence_refs"
+  ],
+  "type": "object"
+}

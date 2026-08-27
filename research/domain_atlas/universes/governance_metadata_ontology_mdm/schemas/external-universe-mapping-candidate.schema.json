@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "compiler_rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "external_universe_mapping_candidate"
+    },
+    "source_contexts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    },
+    "target_candidates_or_selectors": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "target_universe": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "mapping_id",
+    "source_contexts",
+    "target_universe",
+    "target_candidates_or_selectors",
+    "compiler_rule"
+  ],
+  "title": "External universe mapping candidate",
+  "type": "object"
+}

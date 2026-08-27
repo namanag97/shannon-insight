@@ -1,0 +1,166 @@
+{
+  "$id": "https://san.example/spec/analytical_operations-adjudication-metamodel-v0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "artifact_kinds": {
+    "capability": {
+      "definition": "Typed operation offered under one semantic contract.",
+      "kind": "capability"
+    },
+    "implementation": {
+      "definition": "Observed provider or implementation; unqualified until conformance evidence exists.",
+      "kind": "implementation"
+    },
+    "neighbor": {
+      "definition": "Adjacent owner imported through a named anti-corruption layer.",
+      "kind": "neighbor"
+    },
+    "optional_extension": {
+      "definition": "Removable predictive, generative or agent proposal/method surface.",
+      "kind": "optional_extension"
+    },
+    "product": {
+      "definition": "Independently adopted, operated, supported and replaceable outcome promise.",
+      "kind": "product"
+    },
+    "semantic_contract": {
+      "definition": "Owner of exact identities, decisions, invariants and refusals.",
+      "kind": "semantic_contract"
+    },
+    "standard": {
+      "definition": "External editioned specification; neither product nor provider qualification.",
+      "kind": "standard"
+    }
+  },
+  "binding_phases": [
+    "authoring",
+    "compile_time",
+    "deployment_time",
+    "runtime",
+    "qualification_time"
+  ],
+  "contract_id": "contract.product_adjudication.analytical_operations.v0_1_0",
+  "edition": 1,
+  "non_collapse_laws": [
+    "interactive preparation != production transform build != notebook != data-quality assertion",
+    "prediction != annotation occurrence != review != consensus != adjudication != ground-truth edition",
+    "document carrier != page/content graph != extraction candidate != reviewed structured output != accepted business fact",
+    "vision method result != inspection result != quality disposition != authorized machine effect != physical receipt",
+    "signal sample != indicator != state != health assessment != diagnosis != prognosis != advisory != maintenance authorization",
+    "statistical predictive heuristic and generative methods are modalities behind typed contracts, not ambient semantic owners",
+    "tool agent proposal != accepted command != authority != executed effect != receipt != business outcome",
+    "removing every model and agent extension preserves the complete deterministic product lifecycle",
+    "automation never replaces vocabulary, invariants, state machines, algorithms, evidence, negative tests, qualification or domain acceptance",
+    "horizontal product semantics != industry taxonomy threshold workflow or authority; those bind through solution packs",
+    "official documentation != conformance != qualification != portability",
+    "source occurrence != admitted candidate != dataset member != annotation occurrence != model example",
+    "working cut != view != snapshot != sealed dataset edition != distribution != release",
+    "duplicate candidate != duplicate decision != removal authority",
+    "balance != coverage != representativeness != fitness",
+    "policy expression != legal authority != consent evidence != permitted use",
+    "dataset release != downstream use != decision != effect != outcome",
+    "image occurrence != carrier != decoded field != layer != region != object != measurement != finding != judgment != downstream decision or effect"
+  ],
+  "record_kinds": {
+    "artifact": {
+      "identity_key": "artifact_id",
+      "source_section": "artifacts"
+    },
+    "artifact_kind_definition": {
+      "identity_key": "kind",
+      "source_section": "artifact_kinds"
+    },
+    "boundary_decision": {
+      "identity_key": "decision_id",
+      "source_section": "boundary_decisions"
+    },
+    "capability_offer": {
+      "identity_key": "offer_id",
+      "source_section": "offers"
+    },
+    "capability_requirement": {
+      "identity_key": "requirement_id",
+      "source_section": "requirements"
+    },
+    "evidence_source": {
+      "identity_key": "source_id",
+      "source_section": "sources"
+    },
+    "legacy_crosswalk": {
+      "identity_key": "legacy_ref",
+      "source_section": "crosswalks"
+    },
+    "library_contract": {
+      "identity_key": "library_id",
+      "source_section": "libraries"
+    },
+    "negative_test": {
+      "identity_key": "test_id",
+      "source_section": "negative_tests"
+    },
+    "product_ddd_dossier": {
+      "identity_key": "dossier_id",
+      "source_section": "ddd_dossiers"
+    },
+    "product_library_binding_gap": {
+      "identity_key": "gap_id",
+      "source_section": "binding_gaps"
+    },
+    "product_library_binding_map": {
+      "identity_key": "binding_map_id",
+      "source_section": "binding_maps"
+    },
+    "relation": {
+      "identity_key": "relation_id",
+      "source_section": "relations"
+    },
+    "semantic_or_conformance_gap": {
+      "identity_key": "gap_id",
+      "source_section": "semantic_gaps"
+    },
+    "semantic_ownership": {
+      "identity_key": "meaning_id",
+      "source_section": "ownership"
+    }
+  },
+  "relation_predicates": [
+    "packaged_as",
+    "packages",
+    "offers",
+    "requires",
+    "governed_by",
+    "specializes",
+    "implements",
+    "realizes"
+  ],
+  "split_test_axes": [
+    "user",
+    "job",
+    "adoption",
+    "semantics",
+    "authority",
+    "lifecycle",
+    "operation",
+    "economics",
+    "interface",
+    "market_evidence"
+  ],
+  "split_test_verdicts": {
+    "defer": [
+      7,
+      12
+    ],
+    "merge_or_reclassify": [
+      0,
+      6
+    ],
+    "presumptive_product": [
+      13,
+      16
+    ],
+    "strong_product_candidate": [
+      17,
+      20
+    ]
+  },
+  "status": "evidence_backed_adjudicated_candidates_not_ratified"
+}

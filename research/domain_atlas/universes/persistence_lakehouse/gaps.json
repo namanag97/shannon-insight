@@ -1,0 +1,92 @@
+{
+  "registry_id": "san.domain-atlas.persistence-lakehouse-gaps",
+  "edition": 1,
+  "status": "open",
+  "completion_claim": false,
+  "gaps": [
+    {
+      "gap_id": "gap.persistence.open_world_saturation",
+      "blocking_for": ["completeness_claim"],
+      "evidence_needed": ["recurring search saturation by family", "independent taxonomy review", "new-record discovery-rate trend"],
+      "owner": "persistence_atlas_curator",
+      "resolution_condition": "Two independent review rounds add no undeclared top-level semantic boundary and all additions fit the extension law."
+    },
+    {
+      "gap_id": "gap.persistence.clause_pinning",
+      "blocking_for": ["normative_conformance_claim"],
+      "evidence_needed": ["exact specification edition", "clause anchors", "content digests", "supersession relation"],
+      "owner": "evidence_curator",
+      "resolution_condition": "Every normative assertion is pinned to immutable source content and reviewed."
+    },
+    {
+      "gap_id": "gap.persistence.full_ddd_truth_profiles",
+      "blocking_for": ["bounded_context_adjudication", "product_adjudication"],
+      "evidence_needed": ["complete 110-dimension truth profile per candidate", "event-storming", "aggregate/lifecycle/refusal catalogs", "owner sign-off"],
+      "owner": "bounded_context_council",
+      "resolution_condition": "Each retained context has passed strategic, tactical, semantic, authority, safety, production, ecosystem, change, Rust/build and proof review."
+    },
+    {
+      "gap_id": "gap.persistence.term_ownership",
+      "blocking_for": ["unqualified_language_compilation"],
+      "evidence_needed": ["homonym decisions", "owner assignments", "anti-corruption translations"],
+      "owner": "bounded_context_council",
+      "resolution_condition": "Every generated overlap is split, qualified or assigned exactly one semantic owner."
+    },
+    {
+      "gap_id": "gap.persistence.provider_occurrences",
+      "blocking_for": ["physical_selection", "deployment_generation"],
+      "evidence_needed": ["product/version/edition/region occurrence", "observed numerical limits", "security boundary", "price edition", "support lifecycle"],
+      "owner": "provider_registry",
+      "resolution_condition": "Concrete occurrences specialize abstract offers and are current at compiler binding time."
+    },
+    {
+      "gap_id": "gap.persistence.executable_conformance",
+      "blocking_for": ["qualified_offer", "interoperability_claim"],
+      "evidence_needed": ["format golden vectors", "protocol contract tests", "fault/retry tests", "differential readers/writers", "recovery drills"],
+      "owner": "conformance_lab",
+      "resolution_condition": "At least two independent implementations pass the exact claimed profile and retain signed receipts."
+    },
+    {
+      "gap_id": "gap.persistence.resource_models",
+      "blocking_for": ["SLO_feasibility", "cost_selection"],
+      "evidence_needed": ["bytes/request/egress model", "CPU/memory/latency envelopes", "compression/encoding benchmark matrix", "maintenance amplification", "cache/tiering behavior"],
+      "owner": "performance_economics",
+      "resolution_condition": "Workload-shaped, target-specific models have calibrated error bounds and invalidation triggers."
+    },
+    {
+      "gap_id": "gap.persistence.compression_kernel_matrix",
+      "blocking_for": ["automatic_codec_selection"],
+      "evidence_needed": ["codec/version corpus", "type/distribution applicability", "ratio/throughput/memory", "random-access unit", "hardware acceleration", "compatibility and licence"],
+      "owner": "format_kernel_group",
+      "resolution_condition": "Codec selection is driven by explicit profiles and repeatable target benchmarks, never a universal default."
+    },
+    {
+      "gap_id": "gap.persistence.index_method_matrix",
+      "blocking_for": ["automatic_index_selection"],
+      "evidence_needed": ["exact/approximate index families", "workload/update applicability", "build/rebuild/space cost", "accuracy guarantees", "privacy leakage"],
+      "owner": "index_kernel_group",
+      "resolution_condition": "Every selectable index offer states update, consistency, error and resource laws with verification."
+    },
+    {
+      "gap_id": "gap.persistence.incident_counterevidence",
+      "blocking_for": ["SOTA_claim", "production_recommendation"],
+      "evidence_needed": ["public incident reports", "corruption/restore failures", "catalog split-brain cases", "unsafe vacuum cases", "migration failures"],
+      "owner": "reliability_research",
+      "resolution_condition": "Positive feature evidence is challenged by failure evidence and reflected in hazards/tests."
+    },
+    {
+      "gap_id": "gap.persistence.cross_vertical_proof",
+      "blocking_for": ["universal_library_promotion"],
+      "evidence_needed": ["regulated mutable financial workload", "scientific array workload", "industrial time-series workload", "consumer analytical workload"],
+      "owner": "vertical_validation",
+      "resolution_condition": "Every promoted library/product boundary works in at least two unrelated verticals without name branches."
+    },
+    {
+      "gap_id": "gap.persistence.lakehouse_product_truth",
+      "blocking_for": ["final_product_catalog", "suite_pricing", "build_plan"],
+      "evidence_needed": ["110-dimension truth profile", "customer jobs and exit drills", "independent substitutability evidence", "two implementations", "operational and economic boundaries"],
+      "owner": "product_boundary_council",
+      "resolution_condition": "The analytical table, catalog, maintenance, sharing, serving, query, ingestion and control candidates are adjudicated before the managed experience and suite."
+    }
+  ]
+}

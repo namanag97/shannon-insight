@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/data-modality-gap-audit/family-expectation.schema.json",
+  "type": "object",
+  "required": ["family_id", "label", "domain_cluster", "candidate_kind", "expected_registry_layer", "description", "required_distinctions", "invalid_inferences", "evidence_refs", "status"],
+  "properties": {
+    "family_id": {"type": "string", "pattern": "^fam\\.[a-z0-9_]+$"},
+    "label": {"type": "string", "minLength": 3},
+    "domain_cluster": {"type": "string"},
+    "candidate_kind": {"const": "coverage_expectation_not_registry_entry"},
+    "expected_registry_layer": {"enum": ["semantic_meaning", "observation_record_shape", "modality", "logical_topology", "carrier", "encoding", "container_file_format", "physical_layout", "compression_protection"]},
+    "description": {"type": "string", "minLength": 20},
+    "required_distinctions": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string"}},
+    "invalid_inferences": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 15}},
+    "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "status": {"const": "candidate_audit_expectation"}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,82 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.signal-condition-semantic-slice.v1",
+  "inside": [
+    "measurand, observation, calibration and uncertainty binding",
+    "sampled-signal and time-index semantics",
+    "windows, filters, resampling, transforms and signal features",
+    "statistical summaries, baselines and cross-signal relations",
+    "anomaly scoring, thresholds and change detection",
+    "event-history, censoring, survival, hazards and competing risks",
+    "forecast/prognostic information handoff",
+    "condition assessment, diagnostic hypotheses and evidence",
+    "case review and non-authoritative action proposal"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.measurement-metrology",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.forecasting-workbench",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.predictive-analytics-semantic-slice",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.causal-inference-semantic-slice",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.data-quality-operations",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.telemetry",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.decision-effect-authority",
+      "relationship": "published_language"
+    }
+  ],
+  "outside": [
+    "sensor/device actuation and acquisition runtime ownership",
+    "generic telemetry and data-quality semantic ownership",
+    "forecasting workbench lifecycle",
+    "causal-effect identification and root-cause proof",
+    "maintenance/action authorization and physical effect",
+    "generic compute/storage/orchestration",
+    "LLM or agent authority"
+  ],
+  "published_language": [
+    "MeasurementResult",
+    "ObservationBinding",
+    "SampledSignal",
+    "InformationCut",
+    "SignalWindow",
+    "BaselineEdition",
+    "SignalFeature",
+    "AnomalyScore",
+    "ThresholdProfile",
+    "AnomalyFinding",
+    "ChangePointFinding",
+    "EventHistory",
+    "CensoringProfile",
+    "SurvivalEstimate",
+    "HazardEstimate",
+    "CompetingRiskEstimate",
+    "ForecastHandoff",
+    "PrognosticFinding",
+    "DiagnosticHypothesis",
+    "ConditionFinding",
+    "AnalysisReceipt",
+    "ActionProposalHandoff"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can calibrated observations and event histories be transformed into bounded signal, anomaly, change, prognosis and diagnostic findings without collapsing measurement into truth, correlation into cause, anomaly into fault, prognosis into certainty or a proposed action into authority?"
+}

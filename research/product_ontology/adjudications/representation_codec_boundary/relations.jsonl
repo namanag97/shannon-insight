@@ -1,0 +1,4 @@
+{"binding_phase":"deployment_time","edition":1,"from_ref":"pattern.codec_as_service","predicate":"packages","record_kind":"relation","relation_id":"relation.rcb.pattern_packages_runtime","to_ref":"component.codec_runtime"}
+{"binding_phase":"compile_time","edition":1,"from_ref":"component.codec_runtime","predicate":"requires","record_kind":"relation","relation_id":"relation.rcb.runtime_imports_layout","to_ref":"neighbor.storage_layout"}
+{"binding_phase":"compile_time","edition":1,"from_ref":"component.codec_runtime","predicate":"requires","record_kind":"relation","relation_id":"relation.rcb.runtime_imports_semantics","to_ref":"neighbor.semantic_type"}
+{"binding_phase":"runtime","edition":1,"from_ref":"component.codec_runtime","predicate":"requires","record_kind":"relation","relation_id":"relation.rcb.runtime_requires_resources","to_ref":"neighbor.runtime_resource"}

@@ -1,0 +1,50 @@
+{
+  "contract_id": "contract.product_adjudication.collaboration_privacy_resolution_assurance.v0_1_0",
+  "counts": {
+    "artifact": 136,
+    "artifact_kind_definition": 10,
+    "boundary_decision": 9,
+    "capability_offer": 9,
+    "capability_requirement": 53,
+    "evidence_source": 49,
+    "legacy_crosswalk": 8,
+    "library_contract": 53,
+    "negative_test": 54,
+    "product_ddd_dossier": 4,
+    "product_library_binding_map": 53,
+    "relation": 19,
+    "semantic_or_conformance_gap": 20,
+    "semantic_ownership": 53
+  },
+  "derived": {
+    "legacy_crosswalks": 8,
+    "portable_offers": 0,
+    "product_candidates": 4,
+    "qualified_offers": 0,
+    "unbound_requirements": 53
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "edc9443e3989afee2b3b958bcba567cd5330aa7fefbfe44e70a5a0654e15fbe1",
+    "artifacts.jsonl": "983dfd1f926635b9af4c9a361e6aaaa8be34121e2a82b25b6d594bdb40cbd9a3",
+    "boundary-decisions.jsonl": "23dcf86d38140d425e242cf942b3ae7c624d5c820f5edd7db8fe28d2b413fcee",
+    "evidence.jsonl": "13dc47f9219a2c1655f78d60d6617391d646cdbcdfa0a91402ccf053f7ffed06",
+    "legacy-crosswalks.jsonl": "662536c92e537392f54288ebdf03c511ddfc3c39a8c4e79974fd539cb36d4b15",
+    "library-contracts.jsonl": "3b026145c03abaacf8081f18a9bd8f94180e8a2fc9a58c4857ccd8828e21ef12",
+    "metamodel.json": "25949c93f2ce5bbc3df95453d3a811d78089426733a59bf6656f7040ff7dd05d",
+    "negative-tests.jsonl": "99e2b041f2acc4df523bf3539fa4649f53abbdc0837c6f72e80891d32f2368dd",
+    "offers.jsonl": "5bd2f8be580f3c8ef43732d5e81b7bdc98a5e1b14a74f036042986d1d8c42fd6",
+    "product-ddd-dossiers.jsonl": "7f79980e4c13b2477f3bebbc7d3290b92d044fbe5edcda4d9ef3dc41b7d88e47",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "da0a71d48d2365a6cca6c5ebc9a2375150c94d3fe7e6be222e9f2801bdc5c935",
+    "registry.jsonl": "f0b77b9579757c464a4654b3257c3824fd0e0d0aec4d80c2d05038277fa38cda",
+    "relations.jsonl": "3c52ead183844f02d1b8de879199809645adbea758b528bd4521c9c59e5fc9a6",
+    "requirements.jsonl": "12d11c40d49263e028bccd9f375dfdb41cc7d2d16e66a49433781d25f852a092",
+    "semantic-gaps.jsonl": "7411bdd080143fadd471c8c4616bfca405c59b7fe6ba156cc06e0a02f2bdbaa1",
+    "semantic-ownership.jsonl": "9d575246573b6313188743ea58929b800f454bc4a8c7975fd3e4e11634e93650"
+  },
+  "negative_scope": "Does not interpret law, own source/master truth, qualify providers, merge governance into one bounded context, make PETs products, or allow models/agents to decide authority or effects.",
+  "scope": "Controlled data collaboration, privacy-rights and records-disposition cases, entity resolution, and assurance-case appraisal, including deterministic compiler/library bindings and optional analytical/model/agent extensions.",
+  "source_sha256": "8796f7dd1e05a1cb76c70237bf157dd405fae377075cd3bf28bfa041542626e8",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

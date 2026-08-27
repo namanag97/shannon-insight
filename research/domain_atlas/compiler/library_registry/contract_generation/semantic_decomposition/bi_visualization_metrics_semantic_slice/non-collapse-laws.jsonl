@@ -1,0 +1,74 @@
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.term-member","statement":"A business term or ontology concept is not a dimension member.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.entity-role","statement":"An analytical entity role is not business identity authority.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.observation-fact","statement":"Observation, event, fact, record and snapshot must not collapse.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.row-grain","statement":"A storage row is not analytical grain.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.population-filter","statement":"A population definition is not an incidental query filter.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.dimension-column","statement":"A dimension is not merely a physical column.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.member-label","statement":"A dimension member is not its display label.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.hierarchy-sort","statement":"A hierarchy is not generic ordering or a convenient UI tree.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.measure-metric","statement":"Measure, metric, KPI, target, benchmark and observation remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.metric-tile","statement":"A governed metric is not a dashboard tile or chart series.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.target-value","statement":"A target or threshold is not an observed value or forecast.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.benchmark-authority","statement":"A benchmark does not authorize acceptance or action.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.expression-definition","statement":"Formula text/AST is not a formula definition, binding or evaluation.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.definition-binding","statement":"A formula definition with free references is not executable until exact binding succeeds.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.binding-evaluation","statement":"Binding success is not evaluation success or result correctness.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.provider-function","statement":"Equal function names across providers do not imply equal semantics.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.pure-effectful","statement":"Pure formula evaluation must not hide clock, registry, data, randomness, policy or network effects.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.null-zero","statement":"Null, absent, unknown, suppressed, not-applicable, empty and zero remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.empty-all-missing","statement":"Empty population and nonempty population with all values missing must not collapse.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.unit-label","statement":"A unit label is not an editioned unit identity or conversion proof.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.unit-currency","statement":"Unit conversion and currency valuation remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.currency-code-rate","statement":"A currency code does not supply rate source, time, direction or rounding.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.ratio-average","statement":"Ratio of sums, sum of ratios and average of ratios are generally distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.zero-denominator","statement":"A zero denominator must not silently become zero, infinity or missing.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.event-valid-record-query","statement":"Event, valid, recording, publication and query time remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.calendar-timezone","statement":"Calendar/fiscal period and time zone are independently editioned.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.fresh-final","statement":"Freshness, completeness, validity and finality remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.correction-rewrite","statement":"A correction/supersession must not rewrite historical observation identity.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.additive-decomposable","statement":"Additivity and decomposability remain independent properties.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.aggregate-state-result","statement":"Aggregate result and sufficient merge state are not interchangeable.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.rollup-sum","statement":"Roll-up is not universally SUM.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.summarizable-valid","statement":"Structural query validity does not prove semantic summarizability.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.relation-join","statement":"Entity relation existence does not authorize an analytical join.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.cardinality-rowcount","statement":"Join cardinality semantics are not row-count estimates.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.many-many-safe","statement":"Many-to-many joins are not fanout-safe without allocation, compatible preaggregation, valid deduplication or refusal.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.dedup-universal","statement":"Deduplication is not a universal remedy for fanout.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.semantic-query-sql","statement":"A semantic query is not SQL text.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.semantic-cache-sql","statement":"Matching SQL text is neither necessary nor sufficient for semantic cache equivalence.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.materialization-cache","statement":"Materialization identity, cache entry and metric observation remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.query-result-presentation","statement":"A query result is not presentation state or a report artifact.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.data-task-encoding","statement":"Domain question, data/task abstraction, visual encoding and rendering algorithm are distinct validation layers.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.field-channel-meaning","statement":"Mapping a field to a visual channel cannot define metric meaning.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.chart-truth","statement":"A syntactically valid chart is not evidence of truthful or effective communication.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.scale-data","statement":"Scale transform and display range do not mutate underlying semantic values.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.axis-unit","statement":"An axis label does not establish unit, grain, population or time semantics.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.color-category","statement":"Color assignment is not category identity and color alone cannot carry essential meaning.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.layout-grouping","statement":"Visual proximity or layout does not create semantic grouping.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.table-dataset","statement":"An analytical table model is not the source dataset or query result identity.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.pivot-aggregation","statement":"Pivoting is not automatically valid aggregation or summarization.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.interaction-source","statement":"Interaction state does not mutate source facts or metric definitions.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.selection-filter","statement":"Visual selection, semantic filter and source predicate remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.drill-navigation","statement":"Drill navigation does not prove hierarchy validity or authorization.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.session-result","statement":"A view session and its interaction history are not a query result.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.dashboard-report","statement":"Dashboard, report, widget, chart, table and snapshot remain distinct artifacts.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.live-snapshot","statement":"A live view and immutable report snapshot cannot share a completeness claim.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.approval-publication","statement":"Approval, publication, disclosure, export and delivery are distinct authorities/effects.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.alert-notification","statement":"Alert condition evaluation and notification delivery remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.pending-firing","statement":"Alert pending, firing, resolved, silenced and acknowledged states must not collapse.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.subscription-delivery","statement":"A subscription schedule is not a delivery attempt, acknowledgement or business outcome.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.export-share","statement":"Exported bytes do not imply governed, continuing or revocable access.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.encoding-delivery","statement":"Export encoding and delivery are separate failure/evidence boundaries.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.embedded-host","statement":"An embedded guest surface does not inherit host identity, policy or business authority implicitly.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.offline-finality","statement":"Offline cache freshness does not establish source finality or entitlement continuation.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.accessibility-style","statement":"Accessibility semantics are not styling, color theme or alternate text alone.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.wcag-task","statement":"WCAG conformance does not by itself prove equivalent analytical task performance.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.description-data","statement":"A chart description is not the underlying data, interaction model or evidence.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.localization-value","statement":"Localization and bidi formatting must not change semantic values.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.uncertainty-decoration","statement":"Uncertainty is not an optional decorative channel.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.uncertainty-risk","statement":"Measurement/statistical uncertainty, visual perception and decision risk remain distinct.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.rendering-semantics","statement":"Renderer success does not prove semantic, perceptual or accessibility conformance.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.fallback-equivalence","statement":"A fallback is acceptable only with proven semantic and task equivalence or explicit degradation receipt.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.provenance-correctness","statement":"Provenance and replay evidence do not prove metric correctness or decision fitness.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.finding-decision","statement":"An analytical finding, dashboard insight or alert is not authority to decide or act.","status":"EVIDENCE_BACKED_UNRATIFIED"}
+{"canonical_gaps_closed":0,"law_id":"law.bi.non-collapse.ai-authority","statement":"AI or agents may propose formulas/charts/narratives but cannot infer hidden grain, choose defaults, waive evidence or authorize effects.","status":"EVIDENCE_BACKED_UNRATIFIED"}

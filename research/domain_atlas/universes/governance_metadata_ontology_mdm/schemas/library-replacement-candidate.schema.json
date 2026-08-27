@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "closure_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "covered_context_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "rationale": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "library_replacement_candidate"
+    },
+    "replacement_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "replacement_library_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "retired_library_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "replacement_id",
+    "retired_library_ref",
+    "covered_context_refs",
+    "replacement_library_refs",
+    "rationale",
+    "closure_law"
+  ],
+  "title": "Library replacement candidate",
+  "type": "object"
+}

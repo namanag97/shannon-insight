@@ -1,0 +1,120 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/typed-operation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate_note": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "capability_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "determinism": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "effect_class": {
+      "enum": [
+        "pure",
+        "effectful_evidence_io"
+      ]
+    },
+    "idempotency": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "information_loss": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "laws": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_id": {
+      "pattern": "^qor\\.operation\\.",
+      "type": "string"
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "postconditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "preconditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "refusal_codes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "signature": {
+      "type": "object"
+    },
+    "source_refs": {
+      "items": {
+        "pattern": "^qor\\.src\\.",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "researched_candidate_not_adjudicated"
+    }
+  },
+  "required": [
+    "operation_id",
+    "edition",
+    "status",
+    "name",
+    "owner_context",
+    "capability_ref",
+    "signature",
+    "preconditions",
+    "postconditions",
+    "laws",
+    "effect_class",
+    "determinism",
+    "idempotency",
+    "information_loss",
+    "refusal_codes",
+    "source_refs",
+    "candidate_note"
+  ],
+  "title": "Typed quality operation candidate",
+  "type": "object"
+}

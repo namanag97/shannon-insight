@@ -1,0 +1,141 @@
+{
+  "registry_id": "san.domain-atlas.data-shapes.coverage-gaps",
+  "edition": 1,
+  "status": "active_research_gaps",
+  "completeness_claim": "Open-world metamodel candidate; enumeration saturation and independent review are not achieved.",
+  "gaps": [
+    {
+      "gap_id": "DSG-001",
+      "area": "carrier mappings",
+      "severity": "high",
+      "description": "No conformance-tested bidirectional mapping matrix yet exists across Arrow, Parquet, Avro, Protobuf, CBOR, JSON, XML, HDF5, NetCDF and Zarr.",
+      "closure_evidence": "Property/conformance tests covering range, precision, null/absence, nested values and unknown extensions."
+    },
+    {
+      "gap_id": "DSG-002",
+      "area": "semantic equality",
+      "severity": "high",
+      "description": "Locale collation, Unicode normalization, floating total order, decimal scale equality and URI/RDF canonicalization need separately versioned profiles and test vectors.",
+      "closure_evidence": "Published executable law oracles and two independent implementations per profile."
+    },
+    {
+      "gap_id": "DSG-003",
+      "area": "industry semantic extensions",
+      "severity": "high",
+      "description": "Quantity kinds, code systems, observation roles and composite shapes from all industry packs have not been mapped and deduplicated against the horizontal core.",
+      "closure_evidence": "All vertical packs map or emit typed extension gaps; two unrelated verticals exercise every extension mechanism."
+    },
+    {
+      "gap_id": "DSG-004",
+      "area": "operation laws",
+      "severity": "high",
+      "description": "The totality matrix is a first-pass owner/domain contract, not yet a full algebra of pre/postconditions, residuals, complexity and exact failure types for every overload.",
+      "closure_evidence": "Each overload links to a deep operation record, law tests and provider qualification suite."
+    },
+    {
+      "gap_id": "DSG-005",
+      "area": "graph interoperability",
+      "severity": "medium",
+      "description": "Loss-preserving mappings among RDF datasets, property multigraphs, temporal graphs and hypergraphs are incomplete.",
+      "closure_evidence": "Explicit relation-level crosswalks with loss/refusal cases and round-trip fixtures."
+    },
+    {
+      "gap_id": "DSG-006",
+      "area": "spatial and coverage evolution",
+      "severity": "medium",
+      "description": "Moving geometries, dynamic CRSs/coordinate epochs, topology-preserving precision reduction, meshes and coverages need deeper version and change laws.",
+      "closure_evidence": "Standards-backed fixtures and independent CRS/topology conformance tests."
+    },
+    {
+      "gap_id": "DSG-007",
+      "area": "media semantics",
+      "severity": "medium",
+      "description": "Codec/color/channel/time mappings cover representative standards but not the global modality and domain-format universe.",
+      "closure_evidence": "Media/domain format inventory maps each supported representation to image/signal/timed-media shapes with declared loss."
+    },
+    {
+      "gap_id": "DSG-008",
+      "area": "uncertainty and censoring",
+      "severity": "high",
+      "description": "Dependence structures, mixed/compound distributions, imprecise probability, censoring/truncation mechanisms and uncertainty propagation need deeper formal profiles.",
+      "closure_evidence": "Method-specific propagation/censoring contracts with adversarial fixtures and reference comparisons."
+    },
+    {
+      "gap_id": "DSG-009",
+      "area": "optimization and simulation artifacts",
+      "severity": "high",
+      "description": "Solver/simulator feature qualification, transformations, numerical tolerances, certificates, checkpoint portability and reproducibility guarantees are incomplete.",
+      "closure_evidence": "Provider capability records plus model/solution/checkpoint conformance corpus across two independent implementations."
+    },
+    {
+      "gap_id": "DSG-010",
+      "area": "privacy and legal qualifiers",
+      "severity": "high",
+      "description": "The horizontal model provides classification/purpose/retention hooks but intentionally does not adjudicate jurisdiction-specific law or anonymization sufficiency.",
+      "closure_evidence": "Separate governed jurisdiction/vertical packs with legal owner, effective time and evidence; core remains law-neutral."
+    },
+    {
+      "gap_id": "DSG-011",
+      "area": "scale and operations",
+      "severity": "medium",
+      "description": "Volume/velocity/latency/locality axes are declared but performance envelopes and cost models are not yet linked to provider implementations.",
+      "closure_evidence": "Parameterized benchmarks and provider offers keyed by shape/operation/workload profile."
+    },
+    {
+      "gap_id": "DSG-012",
+      "area": "saturation",
+      "severity": "critical",
+      "description": "No independent review, recurring freshness cycle or absence-of-new-category saturation study has been completed.",
+      "closure_evidence": "Independent reviewers search disjoint standards/industries, adjudicate discoveries, and two consecutive cycles add no new core constructor/context."
+    },
+    {
+      "gap_id": "DSG-013",
+      "area": "message and email fidelity",
+      "severity": "high",
+      "description": "Provider-specific mailbox identity, deduplication, threading, authentication evidence and export normalization need conformance fixtures beyond RFC/JMAP logical seeds.",
+      "closure_evidence": "Round-trip and adversarial corpora across at least two independent mail stores plus authenticated-message evidence profiles."
+    },
+    {
+      "gap_id": "DSG-014",
+      "area": "document extraction and rendering",
+      "severity": "high",
+      "description": "PDF/office/HTML/EPUB logical order, layout, formulas, revisions, embedded objects, scripts, accessibility and extraction fidelity are seeded but not saturated.",
+      "closure_evidence": "Format-profile conformance corpus compares bytes, logical structure, renderings and extracted views across independent implementations."
+    },
+    {
+      "gap_id": "DSG-015",
+      "area": "code configuration and binary semantics",
+      "severity": "high",
+      "description": "Language, ABI, build, package ecosystem, executable and configuration-consumer universes require separate governed extension packs.",
+      "closure_evidence": "Language/ABI/package packs map to the core shapes and expose typed unsupported constructs without opaque semantic continuation."
+    },
+    {
+      "gap_id": "DSG-016",
+      "area": "archive and compound-object safety",
+      "severity": "critical",
+      "description": "Path traversal, link escape, duplicate members, expansion bombs, encryption, active content and external resource policies need executable law oracles.",
+      "closure_evidence": "Adversarial safe-unpack/render fixtures and two independent bounded implementations for each supported compound profile."
+    },
+    {
+      "gap_id": "DSG-017",
+      "area": "representation crosswalk verification",
+      "severity": "high",
+      "description": "Crosswalk records are evidence-backed candidates but do not yet have round-trip fixtures for every preservation and refusal claim.",
+      "closure_evidence": "Every crosswalk links to positive, negative, boundary and lossy-round-trip conformance tests."
+    },
+    {
+      "gap_id": "DSG-018",
+      "area": "invalid inference enforcement",
+      "severity": "high",
+      "description": "The explicit invalid-inference matrix is not yet compiled into all ingestion, conversion and analytical planning refusals.",
+      "closure_evidence": "Compiler/evaluator tests demonstrate that each forbidden conclusion requires the listed additional evidence."
+    }
+  ],
+  "forbidden_shortcuts": [
+    "Do not manufacture completeness by multiplying axis values.",
+    "Do not treat vendor format names as semantic type identity.",
+    "Do not infer grain, unit, key, time role, missing reason or authority from a field name.",
+    "Do not silently map unsupported meaning to text, number, JSON or opaque and continue analytical operations.",
+    "Do not claim a type/shape verified solely because a schema validates."
+  ]
+}

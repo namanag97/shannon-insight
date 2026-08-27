@@ -1,0 +1,40 @@
+{"negative_id":"negative.aws.tenant_project","required_behavior":"Reference collaboration identity without absorbing it.","status":"active","unsafe_inference":"Tenant workspace membership defines the analytical project."}
+{"negative_id":"negative.aws.ui_project","required_behavior":"Keep layout/view state as an external reference.","status":"active","unsafe_inference":"A saved UI layout is the analytical work aggregate."}
+{"negative_id":"negative.aws.kernel_project","required_behavior":"Bind replaceable runtime-session references.","status":"active","unsafe_inference":"A live kernel or server session is the analytical project."}
+{"negative_id":"negative.aws.open_grant","required_behavior":"Require external access authorization.","status":"active","unsafe_inference":"Opening a workspace grants data access."}
+{"negative_id":"negative.aws.project_data","required_behavior":"Preserve exact external data-cut identity.","status":"active","unsafe_inference":"A workspace owns or copies source truth by reference."}
+{"negative_id":"negative.aws.project_recipe","required_behavior":"Reference governed recipe editions.","status":"active","unsafe_inference":"The workspace owns recipe step semantics."}
+{"negative_id":"negative.aws.accept_state","required_behavior":"Validate externally issued acceptance evidence.","status":"active","unsafe_inference":"Moving to accepted state issues acceptance authority."}
+{"negative_id":"negative.aws.archive_delete","required_behavior":"Treat purge as a separate authorized effect.","status":"active","unsafe_inference":"Archiving a workspace physically deletes it."}
+{"negative_id":"negative.aws.latest_ref","required_behavior":"Bind exact editions or explicit compatibility policy.","status":"active","unsafe_inference":"Workspace references silently float to latest editions."}
+{"negative_id":"negative.aws.checkpoint_truth","required_behavior":"Validate scope, version and omissions.","status":"active","unsafe_inference":"A checkpoint is a complete authoritative workspace state."}
+{"negative_id":"negative.aws.syntax_typed","required_behavior":"Bind fields and typecheck.","status":"active","unsafe_inference":"A parsed predicate is type-valid."}
+{"negative_id":"negative.aws.typed_authorized","required_behavior":"Keep access authorization external.","status":"active","unsafe_inference":"A typed predicate is authorized to query the data."}
+{"negative_id":"negative.aws.sql_universal","required_behavior":"Bind an exact predicate policy and edition.","status":"active","unsafe_inference":"All providers share one SQL null and comparison behavior."}
+{"negative_id":"negative.aws.null_false","required_behavior":"Preserve declared truth states.","status":"active","unsafe_inference":"NULL, unknown and error may be treated as false."}
+{"negative_id":"negative.aws.string_field","required_behavior":"Bind stable schema identity and path semantics.","status":"active","unsafe_inference":"A field name string uniquely resolves a field."}
+{"negative_id":"negative.aws.normal_equal","required_behavior":"Evaluate equivalence under exact semantics.","status":"active","unsafe_inference":"Matching normalized syntax proves logical equivalence."}
+{"negative_id":"negative.aws.function_safe","required_behavior":"Bind function contract, effects and budgets.","status":"active","unsafe_inference":"A registered predicate function is deterministic and safe."}
+{"negative_id":"negative.aws.predicate_mutate","required_behavior":"Require an explicit mutation command and exact selection revision.","status":"active","unsafe_inference":"A predicate authorizes mutation of matching rows."}
+{"negative_id":"negative.aws.event_action","required_behavior":"Map events through an editioned interaction policy.","status":"active","unsafe_inference":"A click or brush event is already a semantic selection action."}
+{"negative_id":"negative.aws.empty_all","required_behavior":"Declare empty-state semantics.","status":"active","unsafe_inference":"An empty selection means select all."}
+{"negative_id":"negative.aws.empty_none","required_behavior":"Declare empty-state semantics.","status":"active","unsafe_inference":"An empty selection means select none."}
+{"negative_id":"negative.aws.clear_reset","required_behavior":"Preserve initial-state and history differences.","status":"active","unsafe_inference":"Clear and reset are interchangeable."}
+{"negative_id":"negative.aws.point_interval","required_behavior":"Keep kinds and bound semantics explicit.","status":"active","unsafe_inference":"A point selection is a zero-width interval."}
+{"negative_id":"negative.aws.union_default","required_behavior":"Require global/union/intersection resolution.","status":"active","unsafe_inference":"Selections across views combine by union."}
+{"negative_id":"negative.aws.exclude_not","required_behavior":"Bind scope, unknown logic and population.","status":"active","unsafe_inference":"Exclude is always equivalent to logical NOT."}
+{"negative_id":"negative.aws.stale_keep","required_behavior":"Rebind or refuse stale fields.","status":"active","unsafe_inference":"A selection remains valid after schema replacement."}
+{"negative_id":"negative.aws.serialize_complete","required_behavior":"Bind serialization edition and loss report.","status":"active","unsafe_inference":"Serialized UI state is a complete durable selection."}
+{"negative_id":"negative.aws.facet_filter","required_behavior":"Separate definition, selection and evaluated counts.","status":"active","unsafe_inference":"A facet is merely a filter predicate."}
+{"negative_id":"negative.aws.count_global","required_behavior":"Bind current selection and self-filter policy.","status":"active","unsafe_inference":"Facet counts always use the full population."}
+{"negative_id":"negative.aws.self_ignore","required_behavior":"Expose self-filter as a decision.","status":"active","unsafe_inference":"A facet always ignores its own selection."}
+{"negative_id":"negative.aws.missing_zero","required_behavior":"Preserve missing, zero and empty groups.","status":"active","unsafe_inference":"Missing and zero-valued buckets are identical."}
+{"negative_id":"negative.aws.blank_null","required_behavior":"Declare separate grouping policy.","status":"active","unsafe_inference":"Blank, null and invalid values form one bucket."}
+{"negative_id":"negative.aws.top_complete","required_behavior":"Return truncation and coverage.","status":"active","unsafe_inference":"Top-N facet output proves no other values exist."}
+{"negative_id":"negative.aws.distinct_row","required_behavior":"Bind counted identity and weighting.","status":"active","unsafe_inference":"Distinct count always means row count."}
+{"negative_id":"negative.aws.incremental_equal","required_behavior":"Test equivalence or emit residual.","status":"active","unsafe_inference":"Incremental facet updates equal full recomputation by construction."}
+{"negative_id":"negative.aws.facet_fresh","required_behavior":"Bind digests and classify staleness.","status":"active","unsafe_inference":"A cached facet remains valid after data or selection change."}
+{"negative_id":"negative.aws.facet_visual","required_behavior":"Keep presentation outside facet meaning.","status":"active","unsafe_inference":"Bucket ordering and visual encoding define semantic order."}
+{"negative_id":"negative.aws.agent_predicate","required_behavior":"Emit an attributed proposal and refuse compilation.","status":"active","unsafe_inference":"A model may fill an omitted predicate or null policy from context."}
+{"negative_id":"negative.aws.agent_accept","required_behavior":"Require typed external authority.","status":"active","unsafe_inference":"A model may approve a workspace or authorize selection-based effects."}
+{"negative_id":"negative.aws.one_impl","required_behavior":"Require two independent qualified implementations.","status":"active","unsafe_inference":"One passing implementation proves portability."}

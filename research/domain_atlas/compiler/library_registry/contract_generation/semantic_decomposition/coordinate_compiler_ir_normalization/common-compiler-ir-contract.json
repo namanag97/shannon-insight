@@ -1,0 +1,20 @@
+{
+  "completion_claim": false,
+  "ir_contract_id": "contract.compiler.semantic-coordinate-normalization.v1",
+  "lowering_rule": "Normalization makes heterogeneous axes inspectable by one compiler. It does not decide coordinates, applicability, ownership, exact contracts, implementation selection or acceptance.",
+  "propagation_rule": "A normalized profile may propagate only when bearer coordinates, preconditions, semantic dependencies, authority, effects, resources, evidence and acceptance context match exactly.",
+  "required_roles": [
+    "AxisRef",
+    "BearerArchetypeRef",
+    "BearerCoordinate",
+    "BoundedContextRef",
+    "CoordinateProfileRef",
+    "UseSiteRef",
+    "TypedOutcomeEnumRef",
+    "RefusalSetRef",
+    "RefusalPrecedenceRef",
+    "EvidenceRequirementSetRef",
+    "ResidualRef",
+    "OwnerDecisionRef"
+  ]
+}

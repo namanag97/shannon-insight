@@ -1,0 +1,50 @@
+{"law":"A phenomenon, feature of interest, observed property, measurand, indication and measurement result are distinct.","law_id":"law.signal.non-collapse.01","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A sensor or instrument is not an observation, measurement result or traceability claim.","law_id":"law.signal.non-collapse.02","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Calibration is not adjustment, verification, validation or proof of fitness.","law_id":"law.signal.non-collapse.03","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Metrological traceability belongs to a result and declared chain, not merely to an instrument or laboratory.","law_id":"law.signal.non-collapse.04","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A measured value without unit, uncertainty, conditions and measurand is not a complete measurement result.","law_id":"law.signal.non-collapse.05","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Precision is not trueness; repeatability is not reproducibility; either is not universal accuracy.","law_id":"law.signal.non-collapse.06","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A timestamp is not event identity, clock identity, temporal uncertainty or causal order.","law_id":"law.signal.non-collapse.07","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Event time, observation time, recording time, arrival time, processing time, analysis cut and decision time are distinct.","law_id":"law.signal.non-collapse.08","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A time series is not merely an ordered vector; index, clock, support, gaps, revisions and units are semantic inputs.","law_id":"law.signal.non-collapse.09","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Missing, not observed, censored, below detection, invalid, late and zero are distinct states.","law_id":"law.signal.non-collapse.10","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Resampling is not observation and interpolation does not create measured evidence.","law_id":"law.signal.non-collapse.11","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Filtering changes signal content and phase unless preservation laws say otherwise.","law_id":"law.signal.non-collapse.12","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A DFT or FFT output is not a spectrum interpretation without sampling, normalization, window and support.","law_id":"law.signal.non-collapse.13","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Spectral leakage, resolution and amplitude bias depend on explicit window and segment choices.","law_id":"law.signal.non-collapse.14","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A peak is an algorithmic feature under declared prominence, width and boundary rules, not a physical event.","law_id":"law.signal.non-collapse.15","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A descriptive summary does not identify a population mechanism or future distribution.","law_id":"law.signal.non-collapse.16","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A baseline is an editioned reference population/regime, not timeless normality.","law_id":"law.signal.non-collapse.17","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Online baseline adaptation can absorb faults and must be a governed state transition.","law_id":"law.signal.non-collapse.18","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Correlation, cross-correlation, coherence and coincident timing do not prove causation or common mechanism.","law_id":"law.signal.non-collapse.19","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Lag maximizing correlation is not necessarily physical delay or causal direction.","law_id":"law.signal.non-collapse.20","status":"CANDIDATE_UNRATIFIED"}
+{"law":"An outlier, novelty, anomaly, change point, drift, defect, fault and incident are distinct.","law_id":"law.signal.non-collapse.21","status":"CANDIDATE_UNRATIFIED"}
+{"law":"An anomaly score has no portable direction or probability meaning without a declared contract.","law_id":"law.signal.non-collapse.22","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A threshold is a decision rule with false-alarm/miss costs and authority, not a property of the observation.","law_id":"law.signal.non-collapse.23","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A changepoint is conditional on segment model, cost, penalty or hazard and is not automatically an anomaly.","law_id":"law.signal.non-collapse.24","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Retrospective segmentation and online quickest detection target different evidence and latency trade-offs.","law_id":"law.signal.non-collapse.25","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Detection delay, point precision/recall, interval overlap and event utility are different evaluation objectives.","law_id":"law.signal.non-collapse.26","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Point-adjusted anomaly metrics can overstate performance and require explicit justification.","law_id":"law.signal.non-collapse.27","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A benchmark score does not establish production fitness or domain validity.","law_id":"law.signal.non-collapse.28","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Censoring is not event absence; truncation is not censoring; competing events are not ordinary missingness.","law_id":"law.signal.non-collapse.29","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Survival probability, hazard, cumulative hazard, cumulative incidence and subdistribution hazard are distinct estimands.","law_id":"law.signal.non-collapse.30","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A hazard ratio is not a risk ratio, survival probability, expected lifetime or causal effect.","law_id":"law.signal.non-collapse.31","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Cause-specific and subdistribution hazard models are not interchangeable.","law_id":"law.signal.non-collapse.32","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A forecast is not a prognosis; a prognosis is not a guaranteed event time.","law_id":"law.signal.non-collapse.33","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Forecast origin, information cut, horizon, target edition and evaluation window are explicit identities.","law_id":"law.signal.non-collapse.34","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Remaining useful life depends on failure definition, usage regime, censoring and model validity.","law_id":"law.signal.non-collapse.35","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Condition assessment is not diagnosis; diagnosis is not causal proof; prognosis is not authorization.","law_id":"law.signal.non-collapse.36","status":"CANDIDATE_UNRATIFIED"}
+{"law":"A diagnostic hypothesis must preserve alternatives, defeaters and evidence scope.","law_id":"law.signal.non-collapse.37","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Root-cause language in diagnostics does not substitute for a causal identification contract.","law_id":"law.signal.non-collapse.38","status":"CANDIDATE_UNRATIFIED"}
+{"law":"An analytical finding is not a business fact, policy decision or authority to act.","law_id":"law.signal.non-collapse.39","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Human judgment records an authority-scoped appraisal; it is not automatic truth.","law_id":"law.signal.non-collapse.40","status":"CANDIDATE_UNRATIFIED"}
+{"law":"An action proposal is not authorization, execution, completion or acceptance.","law_id":"law.signal.non-collapse.41","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Data-quality anomalies and physical-condition anomalies may share methods but not bounded-context meaning.","law_id":"law.signal.non-collapse.42","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Telemetry metric identity and aggregation do not imply physical quantity or calibration semantics.","law_id":"law.signal.non-collapse.43","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Provenance is not correctness, traceability, diagnosis, cause or decision authority.","law_id":"law.signal.non-collapse.44","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Provider or model identity is not semantic ownership; a facade cannot choose hidden baselines or thresholds.","law_id":"law.signal.non-collapse.45","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Runtime success does not establish analytical validity and analytical validity does not establish action fitness.","law_id":"law.signal.non-collapse.46","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Resource exhaustion must refuse explicitly rather than shorten a window or weaken guarantees silently.","law_id":"law.signal.non-collapse.47","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Late and out-of-order data must follow an explicit revision/retraction policy.","law_id":"law.signal.non-collapse.48","status":"CANDIDATE_UNRATIFIED"}
+{"law":"Model, method, calibration, sensor, baseline, threshold and study editions are digest-bound inputs.","law_id":"law.signal.non-collapse.49","status":"CANDIDATE_UNRATIFIED"}
+{"law":"No LLM or agent output is measurement, diagnostic, causal, approval or effect authority by itself.","law_id":"law.signal.non-collapse.50","status":"CANDIDATE_UNRATIFIED"}

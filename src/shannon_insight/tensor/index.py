@@ -1,11 +1,14 @@
 """Node indexing utilities."""
+
 from __future__ import annotations
+
 from dataclasses import dataclass
 
 
 @dataclass
 class NodeIndex:
     """Bidirectional mapping between file paths and integer indices."""
+
     _path_to_idx: dict[str, int]
     _idx_to_path: dict[int, str]
 

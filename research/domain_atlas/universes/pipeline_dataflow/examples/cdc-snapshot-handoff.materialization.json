@@ -1,0 +1,19 @@
+{
+  "commit_receipt_ref": "receipt.example.table_commit_42",
+  "content_identity": "sha256:example-content-digest-not-a-real-artifact",
+  "data_cut_ref": "cut.example.customer_bootstrap_2026_08_25",
+  "edition": 1,
+  "lineage_receipt_ref": "receipt.example.customer_lineage_42",
+  "materialization_id": "materialization.example.customer_table.snapshot_42",
+  "object_ref": "table.example.analytics.customer",
+  "output_port_ref": "port.example.sink.receipt",
+  "producer_node_ref": "node.example.sink",
+  "quality_receipt_refs": [
+    "receipt.example.customer_quality_42"
+  ],
+  "recorded_at": "2026-08-25T01:12:01Z",
+  "run_ref": "run.example.customer.bootstrap",
+  "status": "published",
+  "version_identity": "snapshot:42",
+  "visibility": "published"
+}

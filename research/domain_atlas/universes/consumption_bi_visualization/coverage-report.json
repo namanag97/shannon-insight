@@ -1,0 +1,61 @@
+{
+  "counts": {
+    "bounded_context_candidates": 52,
+    "capabilities_operations": 208,
+    "compiler_mappings": 36,
+    "cross_domain_mappings": 26,
+    "decision_points": 52,
+    "innovations_2021_2026": 26,
+    "interaction_contracts": 26,
+    "invariants_refusals": 32,
+    "library_boundaries": 39,
+    "open_gaps": 30,
+    "presentation_contracts": 28,
+    "requirements_offer_bindings": 52,
+    "retired_library_compositions": 4,
+    "sources": 87
+  },
+  "edition": 1,
+  "families": {
+    "composition": 11,
+    "delivery": 3,
+    "exchange": 5,
+    "governed": 4,
+    "handoff": 6,
+    "meaning": 7,
+    "notebook": 5,
+    "presentation": 4,
+    "state": 7
+  },
+  "honest_limits": [
+    "The universe is open and cannot prove enumeration completeness.",
+    "Source review does not qualify any provider implementation.",
+    "Accessibility and decision effects require human empirical evaluation.",
+    "Cross-context ownership remains candidate until atlas adjudication."
+  ],
+  "library_layers": {
+    "pure": 25,
+    "runtime": 14
+  },
+  "source_kinds": {
+    "official_docs": 8,
+    "official_implementation": 1,
+    "official_spec": 29,
+    "paper": 14,
+    "standard": 35
+  },
+  "status": "candidate",
+  "threshold_results": {
+    "capabilities_operations_decisions": true,
+    "contexts": true,
+    "innovations": true,
+    "sources": true
+  },
+  "thresholds": {
+    "capabilities_operations_decisions_min": 150,
+    "contexts_min": 35,
+    "innovations_min": 20,
+    "sources_min": 45
+  },
+  "universe_id": "consumption_bi_visualization"
+}

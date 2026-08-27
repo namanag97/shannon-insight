@@ -1,0 +1,84 @@
+{
+  "policy_id": "ecosystem.specialists.inclusion.v1",
+  "edition": 1,
+  "current_as_of": "2026-08-25",
+  "completion_claim": false,
+  "unit_of_assessment": "legal organization or separately governed specialist business unit",
+  "primary_inclusion_tests": [
+    {
+      "test_id": "principal_identity",
+      "rule": "Analytics, decision science, operations research, measurement, process analysis, semantic metrics, data reliability, experimentation, forecasting, simulation, or vertical decision analytics is central to the offering rather than incidental to a broad infrastructure portfolio."
+    },
+    {
+      "test_id": "specific_artifact_or_delivery",
+      "rule": "At least one verifiable analytical product, solver, library, module, methodology, or specialist delivery practice exists."
+    },
+    {
+      "test_id": "practice_not_marketing_label",
+      "rule": "Every practice mapping resolves to the horizontal analytical-practice registry; a vendor feature name cannot create a practice."
+    },
+    {
+      "test_id": "currentness",
+      "rule": "Operational, acquired, merged, inactive, or uncertain status is stated with dated evidence and never inferred from an undated list."
+    },
+    {
+      "test_id": "non_llm_separation",
+      "rule": "LLM, generative, conversational, and agentic claims are quarantined. Inclusion depends on independently describable non-LLM capability."
+    }
+  ],
+  "purity_tiers": {
+    "core_specialist": "The organization's principal identity and revenue proposition are specialist analytics or decision technology.",
+    "specialist_with_adjacent": "Analytics is principal, but the portfolio also contains adjacent engineering, workflow, or AI services.",
+    "specialist_unit_of_parent": "A separately identifiable analytics unit/product sits inside a broader parent; the unit, not the parent, is assessed.",
+    "quarantined_ai_heavy": "The organization is analytically relevant, but present positioning is AI-heavy; only separately evidenced non-LLM records may be used.",
+    "dependency_only": "The organization is not a primary specialist record but may provide a solver, cloud, database, standard, parent, or acquisition dependency.",
+    "excluded_generalist": "Broad conglomerate/infrastructure provider without a separately governed specialist unit."
+  },
+  "eligible_categories": [
+    "analytics_consultancy",
+    "solution_studio",
+    "analytics_product_company",
+    "or_optimization_specialist",
+    "process_mining_specialist",
+    "semantic_metrics_specialist",
+    "data_quality_observability_specialist",
+    "causal_experiment_specialist",
+    "forecasting_specialist",
+    "simulation_digital_twin_specialist",
+    "vertical_analytics_specialist",
+    "solver_library_steward",
+    "academic_nonprofit_center"
+  ],
+  "excluded_as_primary_examples": [
+    "IBM",
+    "Microsoft",
+    "Google",
+    "Amazon Web Services",
+    "Databricks",
+    "Snowflake",
+    "Oracle",
+    "SAP"
+  ],
+  "claim_states": {
+    "vendor_claim": "Supported only by the claimant's own material.",
+    "artifact_verified": "The cited maintained artifact or documentation exposes the stated interface/capability.",
+    "cross_checked": "At least two independent publishers support the bounded claim.",
+    "outcome_evidenced": "A customer-primary, regulator, peer-reviewed, or independently appraised source supports a bounded outcome.",
+    "disputed": "Sources materially conflict.",
+    "unknown": "Evidence is insufficient."
+  },
+  "confidence_scale": {
+    "high": "Primary artifact plus independent corroboration, or an authoritative standard/paper directly proves the bounded claim.",
+    "medium": "Current official documentation proves the exposed capability but effectiveness/coverage is not independently established.",
+    "low": "Marketing, stale, indirect, or incomplete evidence; retained only as a research lead."
+  },
+  "high_impact_claim_gate": "Claims about optimality, material outcomes, category leadership, global coverage, or standards conformance require cross-checking; otherwise they remain vendor_claim with an explicit limitation.",
+  "anti_rules": [
+    "Do not rank organizations by funding, headcount, popularity, web presence, or marketing superlatives.",
+    "Do not map a company to a practice merely because its page says advanced analytics or AI.",
+    "Do not turn a product name, dashboard, KPI, accelerator, or industry solution into a new analytical type.",
+    "Do not treat a founder or executive as a domain expert without an exact contribution or artifact.",
+    "Do not infer present ownership or operating status from a historical paper.",
+    "Do not admit LLM dependence into the non-LLM core through a renamed agentic or copilot feature."
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_values": {
+      "minItems": 3,
+      "type": "array"
+    },
+    "binding_phase": {
+      "enum": [
+        "intent_check",
+        "logical_planning",
+        "physical_binding",
+        "runtime_admission",
+        "post_effect_verification"
+      ]
+    },
+    "context_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "decision_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "default": {
+      "const": "refuse_material_unknown"
+    },
+    "edition": {
+      "const": 1
+    },
+    "question": {
+      "type": "string"
+    },
+    "required_evidence": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "decision_id",
+    "edition",
+    "status",
+    "context_ref",
+    "question",
+    "allowed_values",
+    "default",
+    "binding_phase",
+    "required_evidence"
+  ],
+  "type": "object"
+}

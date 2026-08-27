@@ -1,0 +1,35 @@
+{"canonical_semantics_authority":false,"change_type_id":"change_type.release","decision_effect":"behavior_not_proven","evidence_form":"release_note","name":"Versioned artifact release"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.rollout","decision_effect":"behavior_observed","evidence_form":"deployed_observation","name":"Observed deployed rollout"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.behavior_change","decision_effect":"behavior_claimed","evidence_form":"behavior_change_notice","name":"Documented behavior change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.documentation","decision_effect":"behavior_not_proven","evidence_form":"documentation_diff","name":"Documentation-only change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.deprecation","decision_effect":"migration_candidate","evidence_form":"release_note","name":"Deprecation announcement"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.removal","decision_effect":"migration_required","evidence_form":"release_note","name":"Feature or artifact removal"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.eol","decision_effect":"migration_required","evidence_form":"lifecycle_notice","name":"Support end-of-life"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.default_change","decision_effect":"requalification_required","evidence_form":"behavior_change_notice","name":"Default configuration change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.alias_retarget","decision_effect":"requalification_required","evidence_form":"release_note","name":"Mutable alias retargeting"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.dependency_floor","decision_effect":"lockfile_review_required","evidence_form":"release_note","name":"Minimum dependency version raised"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.security_advisory","decision_effect":"exploit_not_proven","evidence_form":"advisory","name":"Security advisory publication"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.exploit_evidence","decision_effect":"exploitation_supported","evidence_form":"incident_or_kev","name":"Observed exploitation evidence"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.cve_enrichment","decision_effect":"exploit_not_proven","evidence_form":"advisory","name":"CVE metadata enrichment"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.security_fix","decision_effect":"patch_candidate","evidence_form":"release_note","name":"Security remediation release"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.availability","decision_effect":"deployment_not_proven","evidence_form":"release_note","name":"Regional or service availability change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.preview","decision_effect":"not_ga","evidence_form":"release_note","name":"Preview feature announcement"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.ga","decision_effect":"ga_claimed_not_deployed","evidence_form":"release_note","name":"General availability announcement"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.region_expansion","decision_effect":"topology_review_required","evidence_form":"release_note","name":"Region or cloud expansion"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.limit_change","decision_effect":"capacity_review_required","evidence_form":"documentation_diff","name":"Quota or finite-limit change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.cost_change","decision_effect":"cost_model_review_required","evidence_form":"official_pricing","name":"Pricing or billing semantic change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.protocol_change","decision_effect":"conformance_required","evidence_form":"spec_or_release","name":"Protocol edition or subset change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.schema_change","decision_effect":"migration_required","evidence_form":"spec_or_release","name":"Schema or compatibility change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.api_change","decision_effect":"consumer_retest_required","evidence_form":"spec_or_release","name":"API contract change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.runtime_change","decision_effect":"target_requalification_required","evidence_form":"release_note","name":"Runtime or image change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.orchestration_change","decision_effect":"recovery_retest_required","evidence_form":"release_note","name":"Scheduler or trigger behavior change"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.correctness_fix","decision_effect":"historical_reconciliation_required","evidence_form":"release_note","name":"Correctness defect fix"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.performance_claim","decision_effect":"independent_confirmation_missing","evidence_form":"vendor_benchmark","name":"Vendor performance claim"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.independent_benchmark","decision_effect":"scoped_result","evidence_form":"independent_benchmark","name":"Independent reproducible performance result"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.provider_offer","decision_effect":"not_qualified_offer","evidence_form":"product_documentation","name":"Provider feature claim"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.qualification_receipt","decision_effect":"qualified_for_exact_scope","evidence_form":"test_receipt","name":"Executed qualification evidence"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.feed_failure","decision_effect":"observability_gap","evidence_form":"collector_receipt","name":"Collection endpoint failure"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.no_news","decision_effect":"bounded_negative_observation","evidence_form":"collector_receipt","name":"Successful bounded scan with no qualifying item"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.supersession","decision_effect":"prior_evidence_retained","evidence_form":"lifecycle_decision","name":"Artifact or evidence superseded"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.llm_wrapper","decision_effect":"quarantine_from_core","evidence_form":"release_note","name":"LLM or agent-specific wrapper feature"}
+{"canonical_semantics_authority":false,"change_type_id":"change_type.generic_substrate","decision_effect":"eligible_for_core_review","evidence_form":"bounded_claim","name":"Reusable sandbox, identity, package, stage, cost or orchestration substrate"}

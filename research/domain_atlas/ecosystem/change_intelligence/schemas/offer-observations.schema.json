@@ -1,0 +1,59 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/offer-observations.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "change_event_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "deployed_occurrence_id": {
+      "type": "null"
+    },
+    "feature_claim_observed": {
+      "type": "boolean"
+    },
+    "offer_observation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "provider_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "qualification_receipt_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "qualified_offer": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "change_event_id",
+    "decision",
+    "deployed_occurrence_id",
+    "feature_claim_observed",
+    "offer_observation_id",
+    "proof_obligation_ids",
+    "provider_id",
+    "qualification_receipt_ids",
+    "qualified_offer"
+  ],
+  "title": "offer-observations",
+  "type": "object"
+}

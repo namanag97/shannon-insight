@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "decision_trace_id": {
+      "$ref": "#/$defs/id"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "enumeration_law": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    },
+    "required_candidate_fields": {
+      "$ref": "#/$defs/strings"
+    },
+    "required_inputs": {
+      "$ref": "#/$defs/strings"
+    },
+    "required_outcome_fields": {
+      "$ref": "#/$defs/strings"
+    },
+    "retention_law": {
+      "type": "string"
+    },
+    "selection_law": {
+      "type": "string"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "decision_trace_id",
+    "edition",
+    "status",
+    "question",
+    "enumeration_law",
+    "selection_law",
+    "required_inputs",
+    "required_candidate_fields",
+    "required_outcome_fields",
+    "retention_law",
+    "source_refs"
+  ],
+  "title": "Decision trace contract candidate",
+  "type": "object"
+}

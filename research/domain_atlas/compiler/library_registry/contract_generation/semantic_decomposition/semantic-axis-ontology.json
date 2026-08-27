@@ -1,0 +1,1169 @@
+{
+  "as_of": "2026-08-26",
+  "axes": [
+    {
+      "axis": "semantic_object",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "value equality is declared explicitly"
+          ],
+          "discovery_patterns": [
+            "\\b(value|quantity|measure|unit|money|ratio)\\b"
+          ],
+          "facet": "value"
+        },
+        {
+          "constitutional_laws": [
+            "identity survives mutable attributes only under an explicit lifecycle"
+          ],
+          "discovery_patterns": [
+            "\\b(entity|record|occurrence|object|asset|subject)\\b"
+          ],
+          "facet": "entity_or_occurrence"
+        },
+        {
+          "constitutional_laws": [
+            "a recorded fact is not a requested command"
+          ],
+          "discovery_patterns": [
+            "\\b(event|fact|observation|signal)\\b"
+          ],
+          "facet": "event_or_fact"
+        },
+        {
+          "constitutional_laws": [
+            "snapshot identity is scoped to its cut and source"
+          ],
+          "discovery_patterns": [
+            "\\b(state|snapshot|checkpoint|view)\\b"
+          ],
+          "facet": "state_or_snapshot"
+        },
+        {
+          "constitutional_laws": [
+            "edge identity and node identity are independent decisions"
+          ],
+          "discovery_patterns": [
+            "\\b(graph|edge|relation|lineage|topology)\\b"
+          ],
+          "facet": "relation_or_graph"
+        },
+        {
+          "constitutional_laws": [
+            "policy edition and selection authority are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(policy|rule|constraint|specification)\\b"
+          ],
+          "facet": "rule_or_policy"
+        },
+        {
+          "constitutional_laws": [
+            "intent is not effect"
+          ],
+          "discovery_patterns": [
+            "\\b(plan|intent|command|request|proposal)\\b"
+          ],
+          "facet": "plan_or_intent"
+        },
+        {
+          "constitutional_laws": [
+            "integrity is not truth and evidence is scope-bound"
+          ],
+          "discovery_patterns": [
+            "\\b(claim|evidence|proof|attestation|receipt)\\b"
+          ],
+          "facet": "claim_or_evidence"
+        },
+        {
+          "constitutional_laws": [
+            "availability and entitlement are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(resource|capacity|capability|quota|budget)\\b"
+          ],
+          "facet": "resource_or_capability"
+        },
+        {
+          "constitutional_laws": [
+            "representation conformance is not domain validity"
+          ],
+          "discovery_patterns": [
+            "\\b(format|schema|document|message|file|encoding|artifact)\\b"
+          ],
+          "facet": "representation_artifact"
+        }
+      ],
+      "non_collapse": [
+        "value is not occurrence",
+        "event is not state",
+        "claim is not evidence",
+        "plan is not execution"
+      ],
+      "question": "What kind of thing does this contract mean or govern?"
+    },
+    {
+      "axis": "semantic_role",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "observations retain source and recording context"
+          ],
+          "discovery_patterns": [
+            "\\b(observe|describe|inspect|profile|measure)\\w*\\b"
+          ],
+          "facet": "describe_or_observe"
+        },
+        {
+          "constitutional_laws": [
+            "validation is relative to an exact profile"
+          ],
+          "discovery_patterns": [
+            "\\b(validate|conform|verify|check|lint)\\w*\\b"
+          ],
+          "facet": "validate_or_conform"
+        },
+        {
+          "constitutional_laws": [
+            "preservation and loss are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(derive|transform|convert|map|normalize|encode|decode|parse)\\w*\\b"
+          ],
+          "facet": "derive_or_transform"
+        },
+        {
+          "constitutional_laws": [
+            "conflict and residual remain first-class"
+          ],
+          "discovery_patterns": [
+            "\\b(compare|diff|match|reconcile|merge|resolve)\\w*\\b"
+          ],
+          "facet": "compare_or_reconcile"
+        },
+        {
+          "constitutional_laws": [
+            "feasible, optimal, unknown and refused are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(decide|evaluate|optimi[sz]|solve|rank|select)\\w*\\b"
+          ],
+          "facet": "decide_or_optimize"
+        },
+        {
+          "constitutional_laws": [
+            "a verified plan proves no execution"
+          ],
+          "discovery_patterns": [
+            "\\b(plan|compile|lower|bind)\\w*\\b"
+          ],
+          "facet": "plan_or_compile"
+        },
+        {
+          "constitutional_laws": [
+            "legal state transitions are total and editioned"
+          ],
+          "discovery_patterns": [
+            "\\b(schedule|orchestrat|lifecycle|transition|workflow|saga)\\w*\\b"
+          ],
+          "facet": "coordinate_lifecycle"
+        },
+        {
+          "constitutional_laws": [
+            "attempt, observation, receipt and accepted outcome are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(execute|write|publish|send|delete|allocate|start|cancel)\\w*\\b"
+          ],
+          "facet": "execute_effect"
+        },
+        {
+          "constitutional_laws": [
+            "storage occurrence is not semantic identity"
+          ],
+          "discovery_patterns": [
+            "\\b(store|persist|load|query|read|repository|cache)\\w*\\b"
+          ],
+          "facet": "persist_or_retrieve"
+        }
+      ],
+      "non_collapse": [
+        "observe is not decide",
+        "validate is not authorize",
+        "compile is not execute",
+        "publish is not accept"
+      ],
+      "question": "What transformation or judgment is owned?"
+    },
+    {
+      "axis": "identity_and_equality",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "opaque identifiers are compared only within their declared domain"
+          ],
+          "discovery_patterns": [
+            "\\b(id|identity|identifier|key|reference|ref)\\b"
+          ],
+          "facet": "opaque_identity"
+        },
+        {
+          "constitutional_laws": [
+            "equality relation and domain are editioned"
+          ],
+          "discovery_patterns": [
+            "\\b(equal|equality|compare|ordering)\\w*\\b"
+          ],
+          "facet": "value_equality"
+        },
+        {
+          "constitutional_laws": [
+            "canonical form is scoped to one equivalence relation"
+          ],
+          "discovery_patterns": [
+            "\\b(canonical|normal form|equivalence|digest|hash)\\w*\\b"
+          ],
+          "facet": "canonical_equivalence"
+        },
+        {
+          "constitutional_laws": [
+            "mutable reference and immutable version are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(version|edition|revision|generation)\\w*\\b"
+          ],
+          "facet": "versioned_identity"
+        },
+        {
+          "constitutional_laws": [
+            "logical subject and physical occurrence are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(occurrence|attempt|instance|run|execution)\\w*\\b"
+          ],
+          "facet": "occurrence_identity"
+        },
+        {
+          "constitutional_laws": [
+            "content identity proves bytes under an algorithm, not truth"
+          ],
+          "discovery_patterns": [
+            "\\b(content.address|digest|merkle|checksum)\\w*\\b"
+          ],
+          "facet": "content_addressed"
+        }
+      ],
+      "non_collapse": [
+        "name is not identity",
+        "byte equality is not semantic equality",
+        "version identity is not occurrence identity"
+      ],
+      "question": "What is identical, equal, equivalent or merely correlated?"
+    },
+    {
+      "axis": "grain_and_cardinality",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "single-subject scope is explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(scalar|single|one|datum)\\b"
+          ],
+          "facet": "scalar_or_single"
+        },
+        {
+          "constitutional_laws": [
+            "field and record validity are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(record|row|tuple|item|object)\\b"
+          ],
+          "facet": "record_or_tuple"
+        },
+        {
+          "constitutional_laws": [
+            "set, bag and sequence semantics are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(collection|set|batch|list|group)\\b"
+          ],
+          "facet": "collection_or_set"
+        },
+        {
+          "constitutional_laws": [
+            "partition-local order or completeness is not global"
+          ],
+          "discovery_patterns": [
+            "\\b(partition|shard|bucket|segment)\\w*\\b"
+          ],
+          "facet": "partitioned"
+        },
+        {
+          "constitutional_laws": [
+            "bounded and unbounded inputs have distinct completion laws"
+          ],
+          "discovery_patterns": [
+            "\\b(stream|continuous|unbounded|feed)\\w*\\b"
+          ],
+          "facet": "stream_or_unbounded"
+        },
+        {
+          "constitutional_laws": [
+            "graph closure and traversal scope are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(graph|network|topology|edge|node)\\w*\\b"
+          ],
+          "facet": "graph_or_network"
+        }
+      ],
+      "non_collapse": [
+        "scalar is not collection",
+        "partition is not whole",
+        "page is not result set"
+      ],
+      "question": "At what grain and cardinality does meaning hold?"
+    },
+    {
+      "axis": "state_and_change",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "change creates a new value"
+          ],
+          "discovery_patterns": [
+            "\\b(immutable|value object|pure)\\b"
+          ],
+          "facet": "immutable_value"
+        },
+        {
+          "constitutional_laws": [
+            "correction is a new fact, not mutation of history"
+          ],
+          "discovery_patterns": [
+            "\\b(append.only|event log|journal|audit log)\\b"
+          ],
+          "facet": "append_only_event"
+        },
+        {
+          "constitutional_laws": [
+            "illegal transitions refuse"
+          ],
+          "discovery_patterns": [
+            "\\b(lifecycle|state machine|transition|status)\\w*\\b"
+          ],
+          "facet": "lifecycle_transition"
+        },
+        {
+          "constitutional_laws": [
+            "expected version and race outcome are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(update|revision|optimistic|concurrency|mutable)\\w*\\b"
+          ],
+          "facet": "versioned_mutation"
+        },
+        {
+          "constitutional_laws": [
+            "base identity and applicability precede delta application"
+          ],
+          "discovery_patterns": [
+            "\\b(snapshot|delta|change data|cdc|diff)\\w*\\b"
+          ],
+          "facet": "snapshot_and_delta"
+        },
+        {
+          "constitutional_laws": [
+            "compensation is not erasure and may fail"
+          ],
+          "discovery_patterns": [
+            "\\b(compensat|rollback|reversal|recall|supersed)\\w*\\b"
+          ],
+          "facet": "compensation_or_reversal"
+        }
+      ],
+      "non_collapse": [
+        "command is not event",
+        "snapshot is not delta",
+        "supersede is not delete",
+        "retry is not replay"
+      ],
+      "question": "How can the subject change, and what history is retained?"
+    },
+    {
+      "axis": "time",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "event-time source and precision are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(event time|occurred at|occurrence time)\\b"
+          ],
+          "facet": "event_time"
+        },
+        {
+          "constitutional_laws": [
+            "recording order cannot silently replace event order"
+          ],
+          "discovery_patterns": [
+            "\\b(recording time|processing time|ingest time|observed at)\\b"
+          ],
+          "facet": "recording_or_processing_time"
+        },
+        {
+          "constitutional_laws": [
+            "validity interval boundaries are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(valid time|validity|effective|effective time)\\w*\\b"
+          ],
+          "facet": "validity_time"
+        },
+        {
+          "constitutional_laws": [
+            "valid and recording axes remain independently queryable"
+          ],
+          "discovery_patterns": [
+            "\\b(bitemporal|bi.temporal)\\b"
+          ],
+          "facet": "bitemporal"
+        },
+        {
+          "constitutional_laws": [
+            "open, closed and unbounded endpoints are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(window|interval|range|period)\\w*\\b"
+          ],
+          "facet": "interval_or_window"
+        },
+        {
+          "constitutional_laws": [
+            "clock source, deadline domain and timeout consequence are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(deadline|timeout)\\w*\\b"
+          ],
+          "facet": "deadline_or_timeout"
+        },
+        {
+          "constitutional_laws": [
+            "age origin, clock, renewal and expiry consequence are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(ttl|expiry|expiration)\\w*\\b"
+          ],
+          "facet": "ttl_or_expiry"
+        },
+        {
+          "constitutional_laws": [
+            "civil time, instant and recurrence identity remain distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(schedule|calendar|recurrence|cron)\\w*\\b"
+          ],
+          "facet": "schedule_or_calendar"
+        }
+      ],
+      "non_collapse": [
+        "event time is not recording time",
+        "validity is not availability",
+        "deadline is not event time"
+      ],
+      "question": "Which time domains, intervals and clocks affect truth?"
+    },
+    {
+      "axis": "order_and_topology",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "tie and stability laws are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(total order|sorted|sequence|offset|rank)\\w*\\b"
+          ],
+          "facet": "total_order"
+        },
+        {
+          "constitutional_laws": [
+            "incomparability is a valid outcome"
+          ],
+          "discovery_patterns": [
+            "\\b(partial order|frontier|antichain|causal|happens.before)\\w*\\b"
+          ],
+          "facet": "partial_order"
+        },
+        {
+          "constitutional_laws": [
+            "multiple parenthood and cycles are declared"
+          ],
+          "discovery_patterns": [
+            "\\b(tree|hierarch|parent|child|taxonomy)\\w*\\b"
+          ],
+          "facet": "hierarchy"
+        },
+        {
+          "constitutional_laws": [
+            "direction, multiplicity and path semantics are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(graph|edge|node|path|reachab)\\w*\\b"
+          ],
+          "facet": "graph_topology"
+        },
+        {
+          "constitutional_laws": [
+            "CRS, precision and boundary model are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(spatial|geometry|geograph|coordinate|topology)\\w*\\b"
+          ],
+          "facet": "spatial_topology"
+        },
+        {
+          "constitutional_laws": [
+            "iteration order cannot acquire meaning"
+          ],
+          "discovery_patterns": [
+            "\\b(unordered|set semantics)\\b"
+          ],
+          "facet": "unordered"
+        }
+      ],
+      "non_collapse": [
+        "arrival order is not event order",
+        "total order is not partial order",
+        "hierarchy is not arbitrary graph"
+      ],
+      "question": "What ordering, hierarchy, geometry or connectivity laws hold?"
+    },
+    {
+      "axis": "partiality_and_uncertainty",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "missing null empty zero and default remain distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(optional|missing|null|absent|empty)\\w*\\b"
+          ],
+          "facet": "optional_missing_null"
+        },
+        {
+          "constitutional_laws": [
+            "unknown is preserved through composition"
+          ],
+          "discovery_patterns": [
+            "\\b(indeterminate|three.valued|unknown|ambiguous)\\w*\\b"
+          ],
+          "facet": "three_or_multi_valued"
+        },
+        {
+          "constitutional_laws": [
+            "calibration population and uncertainty type are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(probabil|distribution|confidence|likelihood|bayes)\\w*\\b"
+          ],
+          "facet": "probabilistic"
+        },
+        {
+          "constitutional_laws": [
+            "lower upper and confidence semantics are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(bound|interval estimate|confidence interval|error bar)\\w*\\b"
+          ],
+          "facet": "interval_or_bound"
+        },
+        {
+          "constitutional_laws": [
+            "error guarantee and failure probability are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(approx|lossy|error tolerance|sketch)\\w*\\b"
+          ],
+          "facet": "approximate_or_lossy"
+        },
+        {
+          "constitutional_laws": [
+            "unknown completion reconciles before retry"
+          ],
+          "discovery_patterns": [
+            "\\b(unknown completion|ambiguous completion|reconcile before retry)\\b"
+          ],
+          "facet": "unknown_completion"
+        }
+      ],
+      "non_collapse": [
+        "unknown is not false",
+        "missing is not null",
+        "approximate is not exact",
+        "timeout is not infeasible"
+      ],
+      "question": "How are missingness, ambiguity, approximation and unknown outcomes represented?"
+    },
+    {
+      "axis": "authority_and_trust",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "authority scope and edition are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(issuer authority|source authority|system of record|authoritative source)\\w*\\b"
+          ],
+          "facet": "issuer_or_source_authority"
+        },
+        {
+          "constitutional_laws": [
+            "decision and enforcement are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(policy decision|permit|deny|authorize|authorization)\\w*\\b"
+          ],
+          "facet": "policy_decision"
+        },
+        {
+          "constitutional_laws": [
+            "delegation is bounded and revocable"
+          ],
+          "discovery_patterns": [
+            "\\b(delegat|approval|maker.checker|separation of duties)\\w*\\b"
+          ],
+          "facet": "delegation_or_approval"
+        },
+        {
+          "constitutional_laws": [
+            "provider claims require independent qualification"
+          ],
+          "discovery_patterns": [
+            "\\b(provider (claim|offer|qualification|capability)|vendor (claim|offer|qualification)|service capability claim)\\w*\\b"
+          ],
+          "facet": "provider_claim"
+        },
+        {
+          "constitutional_laws": [
+            "trust conclusion is scoped to exact evidence and defeaters"
+          ],
+          "discovery_patterns": [
+            "\\b(claim.evidence|evidence strength|trust evidence|attestation trust|credential proof|defeater)\\w*\\b"
+          ],
+          "facet": "evidence_scoped_trust"
+        }
+      ],
+      "non_collapse": [
+        "proposal is not authorization",
+        "approval is not issuance",
+        "receipt is not acceptance",
+        "proof is not authority"
+      ],
+      "question": "Who may assert, decide, approve, execute or accept?"
+    },
+    {
+      "axis": "effect_boundary",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "ambient clock randomness filesystem network environment and mutable global state are forbidden"
+          ],
+          "discovery_patterns": [],
+          "facet": "pure_no_io"
+        },
+        {
+          "constitutional_laws": [
+            "the core emits intents but performs no external effect"
+          ],
+          "discovery_patterns": [],
+          "facet": "pure_effect_intents"
+        },
+        {
+          "constitutional_laws": [
+            "attempt lifecycle cancellation partial failure and recovery are total states"
+          ],
+          "discovery_patterns": [],
+          "facet": "effectful_runtime"
+        },
+        {
+          "constitutional_laws": [
+            "layout ownership lifetime panic and callback rules are explicit"
+          ],
+          "discovery_patterns": [],
+          "facet": "ffi_boundary"
+        },
+        {
+          "constitutional_laws": [
+            "generator version inputs and digest are evidence, not semantic authority"
+          ],
+          "discovery_patterns": [],
+          "facet": "generated_boundary"
+        },
+        {
+          "constitutional_laws": [
+            "no executable surface is generated before boundary adjudication"
+          ],
+          "discovery_patterns": [],
+          "facet": "unresolved_refuse"
+        }
+      ],
+      "non_collapse": [
+        "pure decision is not effect",
+        "intent is not attempt",
+        "observation is not accepted outcome"
+      ],
+      "question": "Is the contract pure, an effect proposal, or an executor?"
+    },
+    {
+      "axis": "representation",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "semantic core imports no provider DTO"
+          ],
+          "discovery_patterns": [
+            "\\b(semantic|domain model|value object|aggregate)\\w*\\b"
+          ],
+          "facet": "semantic_native"
+        },
+        {
+          "constitutional_laws": [
+            "profile conformance is editioned and authority-scoped"
+          ],
+          "discovery_patterns": [
+            "\\b(profile|standard|published language|implementation guide)\\w*\\b"
+          ],
+          "facet": "published_language_or_profile"
+        },
+        {
+          "constitutional_laws": [
+            "logical schema cannot silently acquire business meaning"
+          ],
+          "discovery_patterns": [
+            "\\b(schema|type system|logical type|field)\\w*\\b"
+          ],
+          "facet": "logical_schema"
+        },
+        {
+          "constitutional_laws": [
+            "wire compatibility and semantic compatibility are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(protocol|wire|dto|request|response|message)\\w*\\b"
+          ],
+          "facet": "wire_protocol_or_dto"
+        },
+        {
+          "constitutional_laws": [
+            "malformed input and resource bombs refuse"
+          ],
+          "discovery_patterns": [
+            "\\b(codec|encode|decode|bytes|file format|container|compression)\\w*\\b"
+          ],
+          "facet": "encoded_bytes_or_container"
+        },
+        {
+          "constitutional_laws": [
+            "physical optimization cannot redefine logical truth"
+          ],
+          "discovery_patterns": [
+            "\\b(layout|columnar|row oriented|page|block|segment|index)\\w*\\b"
+          ],
+          "facet": "physical_layout"
+        },
+        {
+          "constitutional_laws": [
+            "provider vocabulary stays behind an anti-corruption boundary"
+          ],
+          "discovery_patterns": [
+            "\\b(provider dto|provider native|vendor api|vendor sdk|provider sdk)\\w*\\b"
+          ],
+          "facet": "provider_native"
+        }
+      ],
+      "non_collapse": [
+        "format is not semantic type",
+        "schema valid is not domain valid",
+        "DTO is not domain object",
+        "roundtrip is scoped to a preservation set"
+      ],
+      "question": "Which semantic, logical, wire, byte or physical layer is owned?"
+    },
+    {
+      "axis": "composition_algebra",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "identity zero order and conflict laws are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(union|intersection|set|lattice|meet|join|monotonic)\\w*\\b"
+          ],
+          "facet": "set_or_lattice"
+        },
+        {
+          "constitutional_laws": [
+            "bag set null and ordering semantics are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(relational|join|group by|projection|predicate)\\w*\\b"
+          ],
+          "facet": "relational"
+        },
+        {
+          "constitutional_laws": [
+            "composition preserves direction and edge semantics"
+          ],
+          "discovery_patterns": [
+            "\\b(graph|path|travers|reachab)\\w*\\b"
+          ],
+          "facet": "graph"
+        },
+        {
+          "constitutional_laws": [
+            "ordering compensation and interruption are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(sequence|workflow|pipeline|process|chain)\\w*\\b"
+          ],
+          "facet": "sequential_or_process"
+        },
+        {
+          "constitutional_laws": [
+            "race merge and consistency laws are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(parallel|distributed|concurrent|fan.out|fan.in)\\w*\\b"
+          ],
+          "facet": "parallel_or_distributed"
+        },
+        {
+          "constitutional_laws": [
+            "objective policy and feasibility evidence are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(objective|constraint|solver|optimi[sz])\\w*\\b"
+          ],
+          "facet": "objective_and_constraints"
+        },
+        {
+          "constitutional_laws": [
+            "conflicting decisions have a total adjudication outcome"
+          ],
+          "discovery_patterns": [
+            "\\b(precedence|override|deny.overrides|conflict resolution)\\w*\\b"
+          ],
+          "facet": "policy_precedence"
+        }
+      ],
+      "non_collapse": [
+        "merge is not overwrite",
+        "join is not union",
+        "workflow sequence is not commutative",
+        "optimization is not policy"
+      ],
+      "question": "How do values, decisions or behaviors compose?"
+    },
+    {
+      "axis": "compatibility_and_evolution",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "semantic compatibility relation is explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(semantic edition|meaning change|edition)\\w*\\b"
+          ],
+          "facet": "semantic_edition"
+        },
+        {
+          "constitutional_laws": [
+            "reader and writer compatibility directions are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(schema compatibility|wire compatibility|backward|forward compatible)\\w*\\b"
+          ],
+          "facet": "schema_or_wire"
+        },
+        {
+          "constitutional_laws": [
+            "new success and new refusal can both be breaking"
+          ],
+          "discovery_patterns": [
+            "\\b(behavioral compatibility|behavior edition|law compatibility|refusal precedence change)\\w*\\b"
+          ],
+          "facet": "behavioral"
+        },
+        {
+          "constitutional_laws": [
+            "capability freshness and negotiation are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(capability profile|provider edition|version skew)\\w*\\b"
+          ],
+          "facet": "provider_capability"
+        },
+        {
+          "constitutional_laws": [
+            "loss residual and historical replay are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(migration|upcast|backfill|transform|rollout)\\w*\\b"
+          ],
+          "facet": "migration_or_upcast"
+        },
+        {
+          "constitutional_laws": [
+            "old identity disposition and in-flight work are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(decommission|sunset|supplier exit|portability|removal seam)\\w*\\b"
+          ],
+          "facet": "decommission_or_exit"
+        }
+      ],
+      "non_collapse": [
+        "source compatibility is not behavioral compatibility",
+        "upcast is not historical truth",
+        "migration is not aliasing"
+      ],
+      "question": "What may change while which consumers remain valid?"
+    },
+    {
+      "axis": "resources_and_failure",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "budget exhaustion refuses rather than weakens semantics"
+          ],
+          "discovery_patterns": [
+            "\\b(resource budget|finite|limit|bounded)\\w*\\b"
+          ],
+          "facet": "finite_budget"
+        },
+        {
+          "constitutional_laws": [
+            "deadline source and timeout outcome are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(deadline|timeout)\\w*\\b"
+          ],
+          "facet": "deadline_or_timeout"
+        },
+        {
+          "constitutional_laws": [
+            "admission and execution completion are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(capacity|quota|rate limit|admission)\\w*\\b"
+          ],
+          "facet": "capacity_or_quota"
+        },
+        {
+          "constitutional_laws": [
+            "overload behavior is bounded and observable"
+          ],
+          "discovery_patterns": [
+            "\\b(backpressure|overload|load shed|queue full)\\w*\\b"
+          ],
+          "facet": "backpressure_or_overload"
+        },
+        {
+          "constitutional_laws": [
+            "requested and observed cancellation are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(cancel|cancellation|abort)\\w*\\b"
+          ],
+          "facet": "cancellation"
+        },
+        {
+          "constitutional_laws": [
+            "partial outcomes enumerate completed and residual work"
+          ],
+          "discovery_patterns": [
+            "\\b(partial failure|partition|failover|degraded)\\w*\\b"
+          ],
+          "facet": "partial_or_partition_failure"
+        },
+        {
+          "constitutional_laws": [
+            "idempotency scope key and retention window are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(retry|idempoten|dedup)\\w*\\b"
+          ],
+          "facet": "retry_and_idempotency"
+        }
+      ],
+      "non_collapse": [
+        "timeout is not cancellation",
+        "overload is not provider failure",
+        "partial failure is not success"
+      ],
+      "question": "Which finite budgets and failure states bound execution?"
+    },
+    {
+      "axis": "evidence_and_conformance",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "oracle edition and quantified domain are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(property test|law oracle|invariant oracle|algebraic propert)\\w*\\b"
+          ],
+          "facet": "law_or_property_oracle"
+        },
+        {
+          "constitutional_laws": [
+            "model abstraction and coverage limits are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(model test|state machine|model check)\\w*\\b"
+          ],
+          "facet": "model_or_state_oracle"
+        },
+        {
+          "constitutional_laws": [
+            "shared implementation ancestry cannot prove independence"
+          ],
+          "discovery_patterns": [
+            "\\b(differential|independent implementation|cross.provider)\\w*\\b"
+          ],
+          "facet": "differential_oracle"
+        },
+        {
+          "constitutional_laws": [
+            "generator and shrinking evidence are retained"
+          ],
+          "discovery_patterns": [
+            "\\b(fuzz|mutation|negative twin|adversarial|fault injection)\\w*\\b"
+          ],
+          "facet": "fuzz_or_adversarial"
+        },
+        {
+          "constitutional_laws": [
+            "observation scope and missing telemetry are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(observation|telemetry|metric|trace|log)\\w*\\b"
+          ],
+          "facet": "runtime_observation"
+        },
+        {
+          "constitutional_laws": [
+            "receipt binds exact intent occurrence and evidence scope"
+          ],
+          "discovery_patterns": [
+            "\\b(receipt|attestation|signature|proof)\\w*\\b"
+          ],
+          "facet": "receipt_or_attestation"
+        },
+        {
+          "constitutional_laws": [
+            "workload population environment and uncertainty are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(benchmark|confidence interval|sample|statistical)\\w*\\b"
+          ],
+          "facet": "benchmark_or_statistical"
+        }
+      ],
+      "non_collapse": [
+        "test pass is not product acceptance",
+        "benchmark is not universal performance",
+        "receipt is not truth"
+      ],
+      "question": "What evidence can establish which bounded claim?"
+    },
+    {
+      "axis": "privacy_security_safety",
+      "facets": [
+        {
+          "constitutional_laws": [
+            "plaintext exposure boundaries and key purpose are explicit"
+          ],
+          "discovery_patterns": [
+            "\\b(confidential|secret|encrypt|key management|token)\\w*\\b"
+          ],
+          "facet": "confidentiality_or_secret"
+        },
+        {
+          "constitutional_laws": [
+            "purpose is evaluated per use, not inherited from possession"
+          ],
+          "discovery_patterns": [
+            "\\b(purpose|consent|lawful basis|use limitation)\\w*\\b"
+          ],
+          "facet": "purpose_or_consent"
+        },
+        {
+          "constitutional_laws": [
+            "data, key, processing and control-plane locality are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(residency|locality|region|jurisdiction)\\w*\\b"
+          ],
+          "facet": "residency_or_locality"
+        },
+        {
+          "constitutional_laws": [
+            "logical deletion physical reclamation and proof are distinct"
+          ],
+          "discovery_patterns": [
+            "\\b(retention|erase|erasure|delete|right to be forgotten)\\w*\\b"
+          ],
+          "facet": "retention_or_erasure"
+        },
+        {
+          "constitutional_laws": [
+            "integrity does not prove source truth"
+          ],
+          "discovery_patterns": [
+            "\\b(integrity|provenance|signature|digest|tamper)\\w*\\b"
+          ],
+          "facet": "integrity_or_provenance"
+        },
+        {
+          "constitutional_laws": [
+            "unsafe uncertainty refuses or enters an explicit degraded state"
+          ],
+          "discovery_patterns": [
+            "\\b(hazard|safety|fail.safe|harm|risk control)\\w*\\b"
+          ],
+          "facet": "hazard_or_fail_safe"
+        },
+        {
+          "constitutional_laws": [
+            "grants are minimal revocable and purpose-bound"
+          ],
+          "discovery_patterns": [
+            "\\b(least privilege|permission|scope|credential|access control)\\w*\\b"
+          ],
+          "facet": "least_privilege"
+        }
+      ],
+      "non_collapse": [
+        "authentication is not authorization",
+        "encryption is not consent",
+        "retention is not availability",
+        "safe failure is not silent degradation"
+      ],
+      "question": "Which trust boundary, purpose, harm or secrecy constraints apply?"
+    }
+  ],
+  "edition": 1,
+  "laws": [
+    "Axes are orthogonal questions, not bounded contexts, products, packages or ownership claims.",
+    "A library may select zero, one or several facets on an axis; zero remains explicit unresolved work.",
+    "Pattern matches are discovery candidates and never establish applicability or semantic truth.",
+    "Family constitutions may ratify shared facet modules; each library records applicability and exceptions.",
+    "Only owner-published source contracts can close canonical exact-API gaps."
+  ],
+  "ontology_id": "ontology.library-semantic-axes.v1",
+  "record_kind": "semantic_decomposition_ontology",
+  "status": "CONTROLLED_FACET_VOCABULARY_NOT_DOMAIN_AUTHORITY"
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "batch_id",
+    "primary_pack",
+    "reference_domain",
+    "lane",
+    "queue_ids",
+    "queue_item_count",
+    "review_protocol",
+    "status"
+  ],
+  "title": "Canonical-reference review batch",
+  "type": "object"
+}

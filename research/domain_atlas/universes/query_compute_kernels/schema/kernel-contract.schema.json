@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "algorithm_family": {
+      "type": "string"
+    },
+    "cancellation_contract": {
+      "type": "string"
+    },
+    "complexity_contract": {
+      "type": "string"
+    },
+    "determinism_posture": {
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "error_model": {
+      "type": "string"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "exactness": {
+      "enum": [
+        "exact",
+        "bounded_approximation",
+        "empirical_approximation"
+      ]
+    },
+    "failure_modes": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fallback_law": {
+      "type": "string"
+    },
+    "gaps": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "information_loss": {
+      "type": "string"
+    },
+    "kernel_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "kernel_role": {
+      "enum": [
+        "expression",
+        "vector",
+        "relational",
+        "approximate",
+        "distributed",
+        "stream",
+        "external_memory",
+        "graph",
+        "spatial",
+        "numerical",
+        "codec",
+        "runtime_primitive"
+      ]
+    },
+    "memory_contract": {
+      "type": "string"
+    },
+    "numeric_posture": {
+      "type": "string"
+    },
+    "operation_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "ordering_behavior": {
+      "type": "string"
+    },
+    "parallelism_contract": {
+      "type": "string"
+    },
+    "side_effects": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "state_contract": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "supported_layouts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "supported_target_classes": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "supported_type_contracts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "kernel_id",
+    "edition",
+    "status",
+    "operation_refs",
+    "algorithm_family",
+    "kernel_role",
+    "supported_type_contracts",
+    "supported_layouts",
+    "state_contract",
+    "exactness",
+    "determinism_posture",
+    "numeric_posture",
+    "error_model",
+    "information_loss",
+    "ordering_behavior",
+    "memory_contract",
+    "complexity_contract",
+    "parallelism_contract",
+    "supported_target_classes",
+    "side_effects",
+    "cancellation_contract",
+    "failure_modes",
+    "fallback_law",
+    "evidence_refs",
+    "gaps"
+  ],
+  "title": "Executable kernel contract",
+  "type": "object"
+}

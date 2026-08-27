@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accessed_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "authority_scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "publication_year": {
+      "maximum": 2026,
+      "minimum": 1900,
+      "type": "integer"
+    },
+    "publisher": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "source_kind": {
+      "enum": [
+        "standard",
+        "official_spec",
+        "official_docs",
+        "official_implementation",
+        "paper"
+      ]
+    },
+    "status": {
+      "const": "candidate_evidence"
+    },
+    "supports_topics": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "url": {
+      "format": "uri",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "edition",
+    "status",
+    "title",
+    "publisher",
+    "source_kind",
+    "url",
+    "publication_year",
+    "accessed_at",
+    "supports_topics",
+    "authority_scope",
+    "limitations"
+  ],
+  "title": "Consumption evidence source",
+  "type": "object"
+}

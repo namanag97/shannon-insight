@@ -1,0 +1,160 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/compiled-plan-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "bindings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "decision_trace_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "definition_edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "definition_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "logical_graph_digest": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "physical_stages": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "exchange_refs": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "node_refs": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "operator_offer_refs": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "parallelism": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "stage_id": {
+            "pattern": "^[a-z][a-z0-9_.:-]+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage_id",
+          "node_refs",
+          "operator_offer_refs",
+          "parallelism",
+          "exchange_refs"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "plan_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "proof_results": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_refs": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "requirement_ref": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "result": {
+            "enum": [
+              "proven",
+              "refused",
+              "waived"
+            ]
+          }
+        },
+        "required": [
+          "requirement_ref",
+          "result",
+          "evidence_refs"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "resource_estimate": {
+      "type": "object"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "validated",
+        "published",
+        "invalidated"
+      ]
+    }
+  },
+  "required": [
+    "plan_id",
+    "edition",
+    "definition_ref",
+    "definition_edition",
+    "logical_graph_digest",
+    "physical_stages",
+    "bindings",
+    "decision_trace_refs",
+    "proof_results",
+    "resource_estimate",
+    "artifact_refs",
+    "status"
+  ],
+  "title": "Compiled pipeline plan",
+  "type": "object"
+}

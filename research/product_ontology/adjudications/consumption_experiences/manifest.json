@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract.product_adjudication.consumption_experiences.v0_1_0",
+  "counts": {
+    "artifact": 62,
+    "artifact_kind_definition": 13,
+    "boundary_decision": 11,
+    "capability_offer": 7,
+    "capability_requirement": 12,
+    "evidence_source": 29,
+    "legacy_crosswalk": 10,
+    "library_contract": 14,
+    "negative_test": 22,
+    "product_ddd_dossier": 3,
+    "product_library_binding_map": 14,
+    "relation": 13,
+    "semantic_ownership": 18
+  },
+  "derived": {
+    "legacy_crosswalks": 10,
+    "portable_offers": 0,
+    "product_candidates": 3,
+    "qualified_offers": 0,
+    "unbound_requirements": 12
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "ed42228be8dcfdab7b19c5a1d9efa66b1ee100aeb44b56c3f8ecbc763f295b7d",
+    "artifacts.jsonl": "06c8a3c83383bb2274245b9ef1d7288dba4c176037279de5f88d7f4fb2aac1fd",
+    "boundary-decisions.jsonl": "70c8b97fc476d9d18caea0e72c12a0560deaeb50a54c7f013630ed43fcb029ef",
+    "evidence.jsonl": "a2a3fb6ef3843445638188053a3935bb1fe08e11ac8bd396fe3a1a36e877ecf5",
+    "legacy-crosswalks.jsonl": "79b2d2753c4b055ce2ce0c0425335e04259d0d25bb4392421aac648005e70b27",
+    "library-contracts.jsonl": "a2158657eff28251f2cca22e46f950922b8ba86f7b9c885836fc13be1cf52252",
+    "metamodel.json": "24d2c020070c058bc9d70567cf5abd166fadda6f4ca88f3deff91c3bd031d77c",
+    "negative-tests.jsonl": "c7192f91a900e2619bca0db006efcda8af11c4cd017321a1381804cfc5af3139",
+    "offers.jsonl": "bc3c6c2d8d738cd13564c0713c080931ebbefd6b4c5d9c2b6b5801d166df1466",
+    "product-ddd-dossiers.jsonl": "b986f23181f325d86788d147819173acc28c9d1991227b6255fa1aae7a33aaae",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "0b5f866fa4898ee5e067966a0bd375c38c5d9598d0b33913404671ed9cfbffed",
+    "registry.jsonl": "4fa359c4cbc2cc518aa3da6e7323026edcfbd8ab042827ff1859a3752898a3f2",
+    "relations.jsonl": "f0e4bff969e26241bc370a5ac9f26429d8e8d64ea568a3679868615a5bc99b67",
+    "requirements.jsonl": "9048bc501bc70da8bd3d159427fd3936fc743ee455ea3951df5d1d12307f6045",
+    "semantic-ownership.jsonl": "643810501a927d2c837da7e2fe6197d60d379a127594adc5c392ee938bc458dc"
+  },
+  "negative_scope": "Does not ratify products, qualify renderers or BI providers, own metric/query/source truth, grant disclosure or action authority, or infer accessibility and reproducibility from provider claims.",
+  "scope": "Horizontal BI/reporting, embedded analytics, notebook, visualization, dashboard artifact, alert/subscription, export, accessibility, localization and spreadsheet-governance boundaries.",
+  "source_sha256": "cd3ce21df4a2c43a2efc5320d77f4b0b0b92ce785b748bef848830435f057765",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

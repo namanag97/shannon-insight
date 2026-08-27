@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "decision_id": {
+      "pattern": "^decision\\.lpe\\.",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "no_compatibility_alias": {
+      "const": true
+    },
+    "operation_partition": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array",
+        "uniqueItems": true
+      },
+      "minProperties": 1,
+      "type": "object"
+    },
+    "reason": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "replacement_library_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "retired_library_id": {
+      "pattern": "^library\\.lpe\\.",
+      "type": "string"
+    },
+    "status": {
+      "const": "retired_composition"
+    }
+  },
+  "required": [
+    "decision_id",
+    "retired_library_id",
+    "edition",
+    "status",
+    "reason",
+    "replacement_library_refs",
+    "operation_partition",
+    "no_compatibility_alias",
+    "evidence_refs"
+  ],
+  "title": "LPE retired composite library boundary",
+  "type": "object"
+}

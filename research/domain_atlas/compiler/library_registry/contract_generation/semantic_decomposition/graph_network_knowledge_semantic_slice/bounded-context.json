@@ -1,0 +1,47 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.graph-network-knowledge-semantic-slice.v1",
+  "inside": [
+    "graph semantic profiles, identity, projection, paths, connectivity, centrality, communities, motifs, matching and comparison",
+    "graph algorithm/algebra plans, results, benchmarks and evidence",
+    "ontology identity/imports, axiom profiles, reasoning, shapes, mappings and knowledge releases",
+    "typed ACLs to graph query/storage, prediction, specialized graphs, visualization and effects"
+  ],
+  "outside": [
+    "physical graph storage/query execution ownership",
+    "predictive graph-model training/scoring/assurance",
+    "causal, process, spatial, document, trace and vertical relationship truth",
+    "source/entity identity and business relationship authority",
+    "visualization ownership and business decisions/effects"
+  ],
+  "product_boundary_candidates": [
+    {
+      "product_ref": "product.ontology_knowledge_model",
+      "status": "RETAIN_UNRATIFIED"
+    },
+    {
+      "product_ref": "product.graph_analysis_workbench",
+      "status": "RETAIN_SEPARATE_WORKBENCH_UNRATIFIED"
+    }
+  ],
+  "published_language": [
+    "GraphSemanticProfile",
+    "GraphOccurrence",
+    "GraphSnapshot",
+    "GraphProjection",
+    "GraphAlgorithmPlan",
+    "GraphResult",
+    "GraphEvidenceReceipt",
+    "OntologyEdition",
+    "ImportClosure",
+    "EntailmentResult",
+    "ShapeValidationReport",
+    "OntologyMapping",
+    "KnowledgeAssertion",
+    "KnowledgeGraphRelease"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can exact graph structures, algorithms, ontology semantics and governed knowledge releases be composed without collapsing graph carrier, query/storage, network analysis, prediction, entailment, source truth or decision authority?"
+}

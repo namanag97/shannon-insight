@@ -1,0 +1,123 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/pipeline-run-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "data_cut_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "deployment_edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "deployment_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "ended_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "logical_time": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "materialization_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "outcome_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parameters_digest": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "plan_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "receipt_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "requested_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "run_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "started_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "enum": [
+        "requested",
+        "admitted",
+        "running",
+        "paused",
+        "cancelling",
+        "succeeded",
+        "failed",
+        "cancelled",
+        "indeterminate"
+      ]
+    },
+    "task_attempt_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "trigger_observation_ref": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "edition",
+    "deployment_ref",
+    "deployment_edition",
+    "plan_ref",
+    "data_cut_ref",
+    "trigger_observation_ref",
+    "parameters_digest",
+    "logical_time",
+    "requested_at",
+    "started_at",
+    "ended_at",
+    "state",
+    "task_attempt_refs",
+    "materialization_refs",
+    "outcome_ref",
+    "receipt_refs"
+  ],
+  "title": "Pipeline run",
+  "type": "object"
+}

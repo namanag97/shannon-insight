@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-08-27",
+  "canonical_gaps_closed": 0,
+  "compiler_bindings_permitted": 0,
+  "completion_claim": false,
+  "negative_twins": 120,
+  "negative_twins_passed": 120,
+  "owner_decisions": 0,
+  "program_id": "program.cross-axis-seam-tests.v1",
+  "seams": 20,
+  "semantic_contradiction_appraisals_executed": 0,
+  "semantic_seam_profiles_decided": 0,
+  "structural_contradiction_tests_executed": 20,
+  "structural_contradictions_detected": 0
+}

@@ -1,0 +1,100 @@
+{
+  "closed_axes": {
+    "authority_direction": [
+      "source_asserts_target_decides_use"
+    ],
+    "evidence_direction": [
+      "source_submits_target_appraises"
+    ],
+    "information_preservation": [
+      "lossless",
+      "loss_declared",
+      "evidence_weakening_declared",
+      "identity_scope_changed"
+    ],
+    "translation_totality": [
+      "total",
+      "partial",
+      "conditional"
+    ],
+    "unknown_policy": [
+      "refuse",
+      "retain_typed_residual",
+      "explicit_extension"
+    ],
+    "version_policy": [
+      "exact_edition",
+      "compatible_parallel",
+      "explicit_migration",
+      "refuse_unresolved"
+    ]
+  },
+  "completion_claim": false,
+  "edition": 1,
+  "forbidden_cycle_classes": {
+    "authority_delegation": "delegation must not return broader or equal authority to an ancestor",
+    "compiler_dependency": "lower IR stages cannot depend semantically on later physical selections",
+    "independent_appraisal": "issuer and independent appraiser cannot be the same authority for the same claim",
+    "semantic_ownership": "a context cannot own the owner of its own meaning"
+  },
+  "identity_rule": "context_id and edition form identity; names, products, providers and organizational teams do not",
+  "metamodel_id": "san.domain_atlas.context_map_contract",
+  "non_collapsible_distinctions": [
+    "bounded context != product != suite != provider != deployment occurrence",
+    "semantic owner != accountable role != steward != custodian != implementation maintainer",
+    "published language != transport protocol != carrier schema != provider API",
+    "import != export != requirement != offer != binding != runtime receipt",
+    "translation totality != structural parse success != semantic admission",
+    "identifier mapping != match candidate != authorized identity decision != merge",
+    "valid time != observation time != event time != recording time != processing time != decision time",
+    "grain change != cardinality change != representation change != information loss",
+    "authority delegation != data flow != dependency != evidence submission",
+    "claim issuer != evidence source != independent appraiser != decision authority"
+  ],
+  "open_registries": [
+    "contexts",
+    "published_languages",
+    "context_map_relations",
+    "acl_decisions",
+    "mapping_editions",
+    "sources",
+    "providers",
+    "products",
+    "deployment_occurrences",
+    "vertical_paths"
+  ],
+  "relationship_semantics": {
+    "anti_corruption_layer": "downstream translates a foreign language into its local language with explicit loss and refusal",
+    "authority_delegation": "scoped, time-bounded, revocable authority is delegated without transferring accountability",
+    "compiler_requirement": "a semantic context states a provider-neutral compiler requirement",
+    "conformist": "downstream adopts an upstream published language and records the resulting coupling",
+    "customer_supplier": "downstream needs influence an upstream contract under an explicit negotiation and change process",
+    "evidence_submission": "an issuer submits evidence; a consumer or appraiser decides relevance and sufficiency",
+    "independent_appraisal": "a party distinct from the issuer evaluates a claim against explicit criteria",
+    "open_host_service": "upstream exposes a stable protocol for multiple consumers",
+    "provider_offer": "a library or provider offers a capability without acquiring semantic ownership",
+    "published_language": "an editioned contract is intentionally available for external dependence",
+    "runtime_receipt": "an occurrence returns evidence of what happened, not a universal guarantee",
+    "separate_ways": "contexts deliberately do not integrate and preserve independent models",
+    "shared_kernel": "a deliberately small shared model has joint ownership, change authority and conformance tests",
+    "upstream_downstream": "source meaning constrains downstream use without granting implementation control"
+  },
+  "relationship_types": [
+    "upstream_downstream",
+    "customer_supplier",
+    "conformist",
+    "anti_corruption_layer",
+    "open_host_service",
+    "published_language",
+    "shared_kernel",
+    "separate_ways",
+    "independent_appraisal",
+    "authority_delegation",
+    "evidence_submission",
+    "compiler_requirement",
+    "provider_offer",
+    "runtime_receipt"
+  ],
+  "semantic_owner_rule": "an explicitly adjudicated authority role owns meaning; a consumer, product, suite, provider, catalog or deployment does not by default",
+  "status": "candidate_open_world"
+}

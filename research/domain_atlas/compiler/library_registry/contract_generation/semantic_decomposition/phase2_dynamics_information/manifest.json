@@ -1,0 +1,26 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "compiler-projection.json": {
+      "bytes": 2253,
+      "sha256": "7d690e7ada04103d0bf9d018a1c2f7383419ab832ec3ae08d01ac5e2097ae1e9"
+    },
+    "constitution.json": {
+      "bytes": 9150,
+      "sha256": "dafec5b8c91f509551298f130e8dd532a1b0bc2abb4689abd95d519e7b6b8597"
+    },
+    "evidence-claims.jsonl": {
+      "bytes": 3536,
+      "sha256": "f5434511f38016d819c63025c6b51986bd9bdeb78e156742fe7f11a1fd665d5d"
+    },
+    "sources.jsonl": {
+      "bytes": 3153,
+      "sha256": "22af1fac8fb3d7d8fa80e854a4b8b5fafc49c532d6388690e2657bbdd25baad3"
+    },
+    "summary.json": {
+      "bytes": 564,
+      "sha256": "ffae4216e845f51f3470c96354c29875a5afb3608eee52e6de787d49fee7f1ac"
+    }
+  },
+  "manifest_id": "manifest.semantic-axis.phase2.v1"
+}

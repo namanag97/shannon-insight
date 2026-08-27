@@ -1,0 +1,55 @@
+{
+  "$id": "https://san.example/spec/representation-gap-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "closure_evidence_required": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "compiler_behavior_until_closed": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "gap_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_candidate": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "severity": {
+      "enum": [
+        "blocking",
+        "major",
+        "deferred"
+      ]
+    },
+    "status": {
+      "const": "open"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "severity",
+    "status",
+    "description",
+    "owner_candidate",
+    "closure_evidence_required",
+    "compiler_behavior_until_closed"
+  ],
+  "type": "object"
+}

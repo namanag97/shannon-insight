@@ -445,7 +445,11 @@ class FusionPipeline:
             except Exception:
                 pass  # Fall through to author_distances below
 
-        if g.conway_alignment == 1.0 and self.store.author_distances.available and self.store.architecture.available:
+        if (
+            g.conway_alignment == 1.0
+            and self.store.author_distances.available
+            and self.store.architecture.available
+        ):
             author_dists = self.store.author_distances.value
             arch = self.store.architecture.value
 

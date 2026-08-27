@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "capability_id": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "owner_context_ref": {
+      "type": "string"
+    },
+    "postconditions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "preconditions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "capability"
+      ]
+    },
+    "refusals": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "capability_id",
+    "owner_context_ref",
+    "purpose",
+    "preconditions",
+    "postconditions",
+    "refusals",
+    "source_refs"
+  ],
+  "title": "Platform capability candidate",
+  "type": "object"
+}

@@ -1,10 +1,11 @@
 """Level 3: Graph algorithms — PageRank, Louvain, SCC, BFS, Spectral."""
-from .pagerank import pagerank
-from .louvain import louvain
-from .spectral import spectral_analysis
-from .scc import tarjan_scc, find_cycles
+
 from .bfs import bfs_depth, blast_radius
-from .metrics import gini, entropy
+from .louvain import louvain
+from .metrics import entropy, gini
+from .pagerank import pagerank
+from .scc import find_cycles, tarjan_scc
+from .spectral import spectral_analysis
 
 __all__ = [
     "pagerank",

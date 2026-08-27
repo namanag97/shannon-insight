@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_type": {
+      "enum": [
+        "work",
+        "edition",
+        "venue_occurrence",
+        "artifact",
+        "person",
+        "institution",
+        "contribution",
+        "source",
+        "evidence",
+        "concept",
+        "formalism",
+        "research_type",
+        "claim",
+        "method",
+        "model",
+        "estimator",
+        "algorithm",
+        "guarantee",
+        "implementation",
+        "benchmark",
+        "evaluation",
+        "supplementary_artifact",
+        "limitation_threat",
+        "replication",
+        "contradiction_supersession",
+        "compiler_mapping",
+        "conversion_rule",
+        "review_item",
+        "gap",
+        "conflict_replication_case",
+        "relation_type"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "record_type"
+  ],
+  "title": "Research artifact graph node",
+  "type": "object"
+}

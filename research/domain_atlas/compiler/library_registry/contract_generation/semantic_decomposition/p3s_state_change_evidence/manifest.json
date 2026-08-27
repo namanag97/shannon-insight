@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "evidence-candidates.jsonl": {
+      "bytes": 35993,
+      "sha256": "92e384f5ea4c567fd6c983c1c5fe140a5059701f60a182e1e1002f567a88d129"
+    },
+    "family-evidence-dockets.jsonl": {
+      "bytes": 46604,
+      "sha256": "aed835ad43fec854ad08dc44e5faab41e998c3afabe7f914d841c0da9c049334"
+    },
+    "summary.json": {
+      "bytes": 339,
+      "sha256": "8f5e39913abb91884ad2a41d61d10b2ee2006e7840fe71f8f8c025b42c19ab48"
+    }
+  },
+  "manifest_id": "manifest.p3s.state-change-evidence.v1"
+}

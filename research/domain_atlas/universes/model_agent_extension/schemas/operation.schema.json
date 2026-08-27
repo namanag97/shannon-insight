@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edition": {
+      "const": 1
+    },
+    "effect_posture": {
+      "enum": [
+        "pure",
+        "read_observation",
+        "proposal_only",
+        "core_request",
+        "evaluation",
+        "control"
+      ]
+    },
+    "failures": {
+      "minItems": 2,
+      "type": "array"
+    },
+    "input_contract": {
+      "type": "object"
+    },
+    "name": {
+      "type": "string"
+    },
+    "operation_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "output_contract": {
+      "type": "object"
+    },
+    "receipts": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "operation_id",
+    "edition",
+    "status",
+    "name",
+    "context_ref",
+    "effect_posture",
+    "input_contract",
+    "output_contract",
+    "failures",
+    "receipts"
+  ],
+  "type": "object"
+}

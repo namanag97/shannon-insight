@@ -1,0 +1,108 @@
+{
+  "completion_claim": false,
+  "coverage_metrics": [
+    "records by stage",
+    "diagnostics with negative fixture",
+    "passes with preservation test",
+    "proofs with checker or explicit gap",
+    "extensions with rejection test",
+    "migration paths exercised"
+  ],
+  "differential_oracles": [
+    "independent parser",
+    "reference JSON canonicalizer",
+    "two proof checkers when format permits",
+    "batch versus incremental result",
+    "clean versus cached compile"
+  ],
+  "edition": 1,
+  "levels": [
+    {
+      "level": "schema",
+      "tests": [
+        "all JSON and JSONL parse",
+        "each family validates against its schema subset",
+        "additional properties rejected by published schemas"
+      ]
+    },
+    {
+      "level": "identity",
+      "tests": [
+        "IDs unique globally where namespaces overlap",
+        "editions positive",
+        "all source/pass/diagnostic/gap refs resolve"
+      ]
+    },
+    {
+      "level": "determinism",
+      "tests": [
+        "generator rerun byte-identical",
+        "JSONL stable lexical identity order",
+        "canonical digests independent of locale/time/hash seed"
+      ]
+    },
+    {
+      "level": "semantic",
+      "tests": [
+        "pass pre/postconditions",
+        "meaning/default/authority refusal fixtures",
+        "stage preservation witnesses",
+        "no semantic change in optimization passes"
+      ]
+    },
+    {
+      "level": "rewrite",
+      "tests": [
+        "positive equivalence fixtures",
+        "side-condition negative twins",
+        "SMT/SAT certificates where decidable",
+        "property/metamorphic tests where not formalized"
+      ]
+    },
+    {
+      "level": "incremental",
+      "tests": [
+        "clean build equals incremental build",
+        "single-change invalidation fixtures",
+        "cache-poison and expired-evidence negative tests"
+      ]
+    },
+    {
+      "level": "extensions",
+      "tests": [
+        "unknown required extension rejects",
+        "ignorable annotation round-trips",
+        "namespace collision rejects",
+        "capability/trust/resource budgets enforced"
+      ]
+    },
+    {
+      "level": "vertical",
+      "tests": [
+        "two unrelated positive lowering traces",
+        "negative twins refuse at declared stage",
+        "no provider binding without occurrence evidence"
+      ]
+    },
+    {
+      "level": "artifact",
+      "tests": [
+        "digest/reference/signature closure",
+        "SLSA/in-toto mapping tests",
+        "historical migration and retraction replay"
+      ]
+    },
+    {
+      "level": "review",
+      "tests": [
+        "compiler expert review",
+        "formal methods review",
+        "security/privacy review",
+        "two independent vertical-domain reviews"
+      ]
+    }
+  ],
+  "plan_id": "conformance.ir.intent_to_solution.candidate",
+  "release_gate": "All structural gates pass; all declared blocking proofs pass; no unwaived blocking gap; independent review remains required for non-candidate status.",
+  "status": "candidate"
+}

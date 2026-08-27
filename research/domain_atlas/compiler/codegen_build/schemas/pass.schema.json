@@ -1,0 +1,95 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/pass_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "decision_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "determinism_inputs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "input_contract": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invalidates_on": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "output_contract": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "pass_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "receipt_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "stage": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "pass_id",
+    "edition",
+    "status",
+    "owner_context",
+    "name",
+    "stage",
+    "input_contract",
+    "output_contract",
+    "decision_refs",
+    "determinism_inputs",
+    "invalidates_on",
+    "receipt_type",
+    "source_refs"
+  ],
+  "type": "object"
+}

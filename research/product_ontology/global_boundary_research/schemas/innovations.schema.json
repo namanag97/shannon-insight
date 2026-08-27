@@ -1,0 +1,40 @@
+{
+  "$id": "https://san.example/product-boundary/non_llm_innovation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "boundary_impact": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "innovation": {},
+    "non_llm": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "non_llm_innovation"
+    },
+    "source_ids": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "year": {}
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "year",
+    "non_llm",
+    "source_ids",
+    "innovation",
+    "boundary_impact"
+  ],
+  "title": "Global boundary research: non_llm_innovation",
+  "type": "object"
+}

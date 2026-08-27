@@ -1,0 +1,34 @@
+{
+  "atlas_id": "san.domain-atlas.method-kernel.classification",
+  "edition": 1,
+  "status": "candidate",
+  "unit_law": "A record exists because it owns a distinct semantic, study, estimation, algorithmic, kernel, implementation, or qualification contract; axis values must not be multiplied to manufacture names.",
+  "axes": [
+    {"axis_id": "semantic_role", "values": ["analytical_practice", "study_design", "estimand", "formula", "model", "estimator", "method_family", "algorithm", "numerical_kernel", "data_kernel", "solver", "library_contribution", "provider_offer", "product"]},
+    {"axis_id": "analytical_purpose", "values": ["describe", "measure", "compare", "infer", "test", "explain", "identify_cause", "forecast", "detect", "diagnose", "discover_process", "check_conformance", "assess_quality", "assess_reliability", "simulate", "optimize", "rank", "search", "transform", "reconcile", "validate"]},
+    {"axis_id": "evidence_design", "values": ["census", "probability_sample", "non_probability_sample", "randomized_assignment", "quasi_experiment", "observational", "longitudinal", "panel", "event_log", "simulation_experiment", "benchmark", "formal_proof", "expert_judgment"]},
+    {"axis_id": "target_kind", "values": ["descriptive_functional", "population_parameter", "causal_estimand", "forecast_distribution", "latent_state", "anomaly_score", "process_model", "conformance_cost", "quality_assertion", "reliability_function", "graph_property", "spatial_field", "retrieval_ranking", "signal_component", "image_region", "business_measure", "decision"]},
+    {"axis_id": "data_structure", "values": ["scalar", "vector", "matrix", "tensor", "table", "panel", "time_series", "event_stream", "event_log", "graph", "geometry", "raster", "text_corpus", "inverted_index", "signal", "image", "distribution", "scenario_set", "constraint_model"]},
+    {"axis_id": "artifact_state", "values": ["stateless", "fitted_parameters", "calibrated_thresholds", "learned_structure", "index_built", "compiled_plan", "simulation_state", "incremental_state", "provider_plan"]},
+    {"axis_id": "execution_mode", "values": ["eager_batch", "lazy_batch", "incremental", "online", "streaming", "windowed_stream", "distributed", "out_of_core", "interactive", "embedded"]},
+    {"axis_id": "determinism", "values": ["mathematically_deterministic", "implementation_deterministic", "seeded_replayable", "schedule_sensitive", "nondeterministic", "provider_unspecified"]},
+    {"axis_id": "numeric_contract", "values": ["exact_discrete", "correctly_rounded", "bounded_error", "tolerance_based", "statistical_error", "empirical_quality", "provider_unspecified"]},
+    {"axis_id": "precision", "values": ["integer", "fixed_point", "decimal", "binary16", "bfloat16", "binary32", "binary64", "extended", "arbitrary_precision", "mixed_precision"]},
+    {"axis_id": "missingness", "values": ["reject", "propagate", "omit", "pairwise_omit", "impute", "model", "three_valued_logic", "domain_sentinel"]},
+    {"axis_id": "uncertainty", "values": ["none", "sampling", "measurement", "parameter", "predictive", "model", "scenario", "numerical", "combined"]},
+    {"axis_id": "resource_shape", "values": ["single_pass", "multi_pass", "iterative", "quadratic_memory_risk", "sparse", "dense", "vectorized", "parallel", "accelerator", "state_bounded", "state_unbounded_without_policy"]},
+    {"axis_id": "target", "values": ["portable_cpu", "simd_cpu", "gpu", "distributed_cpu", "distributed_accelerator", "wasm", "embedded", "database_pushdown", "search_index", "external_runtime"]},
+    {"axis_id": "assurance", "values": ["typecheck", "law_test", "property_test", "golden_fixture", "reference_comparison", "metamorphic_test", "statistical_test", "numerical_residual", "benchmark", "conformance_suite", "independent_implementation", "vertical_acceptance"]},
+    {"axis_id": "effect_boundary", "values": ["pure", "pure_with_explicit_rng", "stateful_in_memory", "effect_intent", "ffi", "device_runtime", "external_service"]},
+    {"axis_id": "ownership_boundary", "values": ["analytical_design", "method_semantics", "formula_semantics", "numerical_computing", "physical_data", "runtime_execution", "provider_adapter", "product_packaging"]},
+    {"axis_id": "lifecycle", "values": ["declared", "validated", "fitted", "evaluated", "qualified", "published", "deployed", "monitored", "invalidated", "retired"]}
+  ],
+  "forbidden_cross_product_examples": [
+    "Do not create separate methods merely for every industry x latency x provider combination.",
+    "Do not promote every parameter value or numeric dtype to an analytical type.",
+    "Do not infer a study design from the estimator or library name.",
+    "Do not classify a codec, BLAS routine, SQL function or UI button as an analytical practice.",
+    "Do not treat an implementation benchmark as proof of analytical validity."
+  ],
+  "llm_core_policy": "LLM, generative, prompt, RAG and agent-memory records are excluded from this universe."
+}

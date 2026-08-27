@@ -1,0 +1,91 @@
+{
+  "completion_claim": false,
+  "contract_id": "compiler-contract.platform-commercial-support",
+  "edition": "0.1.0",
+  "failure_refusal_precedence": [
+    "malformed_or_unsupported_edition",
+    "tenant_scope_or_non_enumeration",
+    "authority_security_privacy_or_hold",
+    "illegal_lifecycle_or_stale_edition",
+    "commercial_entitlement",
+    "technical_quota",
+    "budget_or_prepaid_reservation",
+    "physical_feasibility",
+    "provider_acceptance_or_unknown_outcome",
+    "post_commit_reconciliation"
+  ],
+  "forbidden_shortcuts": [
+    "tenant_id equals billing_account_id",
+    "entitled implies authorized",
+    "quota available implies capacity available",
+    "prepaid balance equals budget",
+    "usage event equals invoice line",
+    "plan equals contract",
+    "SLO breach equals service credit",
+    "incident equals support case or problem",
+    "maintenance window erases outage",
+    "termination implies deletion",
+    "data export completes product exit",
+    "provider API success proves domain completion"
+  ],
+  "ir_stages": [
+    {
+      "proof": "schema, digest, supported edition, exact time and currency forms",
+      "stage": "01_input_admission"
+    },
+    {
+      "proof": "tenant, account, organization, workspace, customer, billing account, and legal-entity refs are explicit and non-aliased",
+      "stage": "02_tenant_identity_scope"
+    },
+    {
+      "proof": "security/privacy decision permits the action and disclosure scope",
+      "stage": "03_authority_privacy"
+    },
+    {
+      "proof": "offer, signed term projection, amendment, plan, and concrete subscription editions are reconciled",
+      "stage": "04_catalog_contract_subscription"
+    },
+    {
+      "proof": "feature grant covers subject, scope, effective time, and consumption law",
+      "stage": "05_entitlement"
+    },
+    {
+      "proof": "command is total for current aggregate state",
+      "stage": "06_lifecycle"
+    },
+    {
+      "proof": "quota, budget/precharge, prepaid credit, and their distinct refusals are evaluated independently",
+      "stage": "07_quota_budget_credit"
+    },
+    {
+      "proof": "resource demand can be admitted against qualified physical offers; entitlement and quota do not imply capacity",
+      "stage": "08_runtime_feasibility"
+    },
+    {
+      "proof": "provider target offers exact required semantics, versions, limits, evidence, portability, and failure behavior",
+      "stage": "09_provider_binding"
+    },
+    {
+      "proof": "effect intents, idempotency, compensation, cancellation, and unknown-outcome reconciliation are explicit",
+      "stage": "10_effect_plan"
+    },
+    {
+      "proof": "append-only receipts bind tenant, authority, editions, inputs, outputs, event time, recorded time, and provider occurrence",
+      "stage": "11_receipt_and_lineage"
+    },
+    {
+      "proof": "no blocking gaps remain; upgrade, rollback, portability, decommission, and residual-obligation paths are compiled",
+      "stage": "12_release_and_exit"
+    }
+  ],
+  "release_outputs": [
+    "platform commercial IR",
+    "effect intents",
+    "provider bindings",
+    "typed refusal catalog",
+    "receipt and evidence plan",
+    "migration and exit plan",
+    "gap report"
+  ],
+  "status": "sourced_candidate"
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "binding_phase": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fallback": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "mapping_id": {
+      "pattern": "^mapping\\.lpe\\.",
+      "type": "string"
+    },
+    "match_rules": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "offer_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "receipt_fields": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "requirement_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "edition",
+    "status",
+    "requirement_ref",
+    "offer_ref",
+    "operation_ref",
+    "binding_phase",
+    "match_rules",
+    "proof_obligations",
+    "fallback",
+    "receipt_fields",
+    "evidence_refs"
+  ],
+  "title": "LPE compiler mapping candidate",
+  "type": "object"
+}

@@ -1,0 +1,245 @@
+{
+  "$id": "https://san.example/spec/lakehouse-adjudication-metamodel-v0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "artifact_kinds": {
+    "architecture_pattern": {
+      "cannot_imply": [
+        "product",
+        "suite",
+        "semantic_owner"
+      ],
+      "identity_law": "An arrangement of responsibilities and flows; it has no independent adoption, authority or service promise.",
+      "kind": "architecture_pattern"
+    },
+    "capability": {
+      "cannot_imply": [
+        "product",
+        "implementation",
+        "provider"
+      ],
+      "identity_law": "Selectable behavior offered through a typed contract; it is not an adoption boundary by itself.",
+      "kind": "capability"
+    },
+    "implementation": {
+      "cannot_imply": [
+        "semantic_authority",
+        "product",
+        "qualified_offer"
+      ],
+      "identity_law": "A versioned code artifact that may satisfy contracts after conformance evidence.",
+      "kind": "implementation"
+    },
+    "interface": {
+      "cannot_imply": [
+        "product",
+        "semantic_owner"
+      ],
+      "identity_law": "A published command, query, event or port contract owned by another artifact.",
+      "kind": "interface"
+    },
+    "library_contract": {
+      "cannot_imply": [
+        "crate",
+        "service",
+        "product",
+        "qualified_offer"
+      ],
+      "identity_law": "A composable semantic, algorithm, policy, oracle, port or runtime boundary with all decisions exposed.",
+      "kind": "library_contract"
+    },
+    "neighboring_product": {
+      "cannot_imply": [
+        "suite_membership",
+        "semantic_ownership_transfer"
+      ],
+      "identity_law": "An independently owned product outside the lakehouse suite that is imported through a contract.",
+      "kind": "neighboring_product"
+    },
+    "product": {
+      "cannot_imply": [
+        "semantic_owner_of_imports",
+        "qualified_implementation"
+      ],
+      "identity_law": "A governed independently consumable outcome promise with user, adoption, lifecycle, authority, service, evidence and exit boundaries.",
+      "kind": "product"
+    },
+    "provider_class": {
+      "cannot_imply": [
+        "concrete_offer",
+        "product",
+        "semantic_owner"
+      ],
+      "identity_law": "A family of external runtime offers selected by requirements and qualification evidence.",
+      "kind": "provider_class"
+    },
+    "resource_class": {
+      "cannot_imply": [
+        "provider",
+        "product"
+      ],
+      "identity_law": "A finite metered runtime resource with capacity, cost and failure dimensions.",
+      "kind": "resource_class"
+    },
+    "semantic_contract": {
+      "cannot_imply": [
+        "operated_product",
+        "implementation"
+      ],
+      "identity_law": "Owned vocabulary, equality, invariants, state transitions and refusals.",
+      "kind": "semantic_contract"
+    },
+    "solution_pack": {
+      "cannot_imply": [
+        "horizontal_architecture_pattern",
+        "new_horizontal_semantics"
+      ],
+      "identity_law": "Vertical vocabulary, rules, mappings, defaults and recipes over horizontal products and capabilities.",
+      "kind": "solution_pack"
+    },
+    "standard": {
+      "cannot_imply": [
+        "product",
+        "implementation",
+        "lossless_translation"
+      ],
+      "identity_law": "Published interoperability language with explicit edition and compatibility laws.",
+      "kind": "standard"
+    },
+    "suite": {
+      "cannot_imply": [
+        "product",
+        "capability",
+        "semantic_owner"
+      ],
+      "identity_law": "Commercial or internal packaging of products; containment never transfers semantic ownership.",
+      "kind": "suite"
+    }
+  },
+  "binding_phases": [
+    "authoring",
+    "compile_time",
+    "deployment_time",
+    "runtime",
+    "qualification_time"
+  ],
+  "contract_id": "adjudication.lakehouse.edition1",
+  "edition": 1,
+  "non_collapse_laws": [
+    "architecture_pattern != suite != product",
+    "product != capability != semantic_contract",
+    "semantic_contract != standard != library_contract != implementation",
+    "provider_class != resource_class != concrete qualified offer",
+    "suite containment does not transfer semantic ownership",
+    "observed implementation does not establish conformance or portability",
+    "table-format translation requires an explicit loss report",
+    "horizontal architecture pattern != vertical solution pack",
+    "optional model or agent assistance does not create semantic ownership or product identity"
+  ],
+  "record_kinds": {
+    "artifact": {
+      "identity_key": "artifact_id",
+      "source_section": "artifacts"
+    },
+    "artifact_kind_definition": {
+      "identity_key": "kind",
+      "source_section": "artifact_kinds"
+    },
+    "boundary_decision": {
+      "identity_key": "decision_id",
+      "source_section": "boundary_decisions"
+    },
+    "capability_offer": {
+      "identity_key": "offer_id",
+      "source_section": "offers"
+    },
+    "capability_requirement": {
+      "identity_key": "requirement_id",
+      "source_section": "requirements"
+    },
+    "compiler_library_binding": {
+      "identity_key": "binding_id",
+      "source_section": "compiler_library_bindings"
+    },
+    "evidence_source": {
+      "identity_key": "source_id",
+      "source_section": "sources"
+    },
+    "legacy_crosswalk": {
+      "identity_key": "legacy_ref",
+      "source_section": "crosswalks"
+    },
+    "library_contract": {
+      "identity_key": "library_id",
+      "source_section": "libraries"
+    },
+    "negative_test": {
+      "identity_key": "test_id",
+      "source_section": "negative_tests"
+    },
+    "product_ddd_delegation": {
+      "identity_key": "delegation_id",
+      "source_section": "ddd_delegations"
+    },
+    "product_ddd_dossier": {
+      "identity_key": "dossier_id",
+      "source_section": "ddd_dossiers"
+    },
+    "product_library_binding_gap": {
+      "identity_key": "gap_id",
+      "source_section": "binding_gaps"
+    },
+    "product_library_binding_map": {
+      "identity_key": "binding_map_id",
+      "source_section": "binding_maps"
+    },
+    "relation": {
+      "identity_key": "relation_id",
+      "source_section": "relations"
+    },
+    "semantic_ownership": {
+      "identity_key": "meaning_id",
+      "source_section": "ownership"
+    }
+  },
+  "relation_predicates": [
+    "packaged_as",
+    "packages",
+    "offers",
+    "requires",
+    "governed_by",
+    "specializes",
+    "implements",
+    "realizes"
+  ],
+  "split_test_axes": [
+    "user",
+    "job",
+    "adoption",
+    "semantics",
+    "authority",
+    "lifecycle",
+    "operation",
+    "economics",
+    "interface",
+    "market_evidence"
+  ],
+  "split_test_verdicts": {
+    "defer": [
+      7,
+      12
+    ],
+    "merge_or_reclassify": [
+      0,
+      6
+    ],
+    "presumptive_product": [
+      13,
+      16
+    ],
+    "strong_product_candidate": [
+      17,
+      20
+    ]
+  },
+  "status": "adjudicated_candidate"
+}

@@ -1,7 +1,5 @@
 """Tests for RuntimeResult and PhaseResult."""
 
-import pytest
-
 from shannon_insight.kernel.result import PhaseResult, RuntimeResult
 
 

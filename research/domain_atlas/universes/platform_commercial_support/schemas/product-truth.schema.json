@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "compiled_projection": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "mapping_id": {
+      "type": "string"
+    },
+    "must_not_be_derived_from": {
+      "type": "string"
+    },
+    "product_truth": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "product_truth_mapping"
+      ]
+    },
+    "refusal": {
+      "type": "string"
+    },
+    "release_evidence": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "semantic_owner_ref": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "mapping_id",
+    "product_truth",
+    "semantic_owner_ref",
+    "compiled_projection",
+    "must_not_be_derived_from",
+    "release_evidence",
+    "refusal"
+  ],
+  "title": "Product-truth mapping",
+  "type": "object"
+}

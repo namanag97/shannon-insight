@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "acceptable_witnesses": {
+      "$ref": "#/$defs/strings"
+    },
+    "assumption_contract": {
+      "$ref": "#/$defs/strings"
+    },
+    "claim": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "failure_diagnostic": {
+      "$ref": "#/$defs/id"
+    },
+    "proof_id": {
+      "$ref": "#/$defs/id"
+    },
+    "result_lattice": {
+      "$ref": "#/$defs/strings"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "stage": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "unacceptable_witnesses": {
+      "$ref": "#/$defs/strings"
+    }
+  },
+  "required": [
+    "proof_id",
+    "edition",
+    "status",
+    "stage",
+    "claim",
+    "assumption_contract",
+    "acceptable_witnesses",
+    "unacceptable_witnesses",
+    "result_lattice",
+    "failure_diagnostic",
+    "source_refs"
+  ],
+  "title": "Proof obligation candidate",
+  "type": "object"
+}

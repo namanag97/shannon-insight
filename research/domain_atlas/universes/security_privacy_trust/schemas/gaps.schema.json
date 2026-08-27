@@ -1,0 +1,135 @@
+{
+  "$id": "https://san.local/domain-atlas/security-privacy-trust/gaps.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "closure_evidence": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "compiler_behavior": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cross_platform_map": {
+      "additionalProperties": false,
+      "properties": {
+        "consumption": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "governance": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "lineage": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "persistence": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "pipelines": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "runtime": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "source_occurrences": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "types_shapes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "source_occurrences",
+        "types_shapes",
+        "pipelines",
+        "persistence",
+        "runtime",
+        "governance",
+        "lineage",
+        "consumption"
+      ],
+      "type": "object"
+    },
+    "domain": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gap_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "statement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "sourced_candidate",
+        "open_candidate_gap"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "closure_evidence",
+    "compiler_behavior",
+    "cross_platform_map",
+    "domain",
+    "edition",
+    "evidence_source_ids",
+    "gap_id",
+    "statement",
+    "status"
+  ],
+  "title": "Security Privacy Trust gaps candidate",
+  "type": "object"
+}

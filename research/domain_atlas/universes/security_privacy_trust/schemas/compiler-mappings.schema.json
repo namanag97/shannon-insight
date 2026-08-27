@@ -1,0 +1,162 @@
+{
+  "$id": "https://san.local/domain-atlas/security-privacy-trust/compiler-mappings.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "candidate_operations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "context_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cross_platform_map": {
+      "additionalProperties": false,
+      "properties": {
+        "consumption": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "governance": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "lineage": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "persistence": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "pipelines": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "runtime": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "source_occurrences": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "types_shapes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "source_occurrences",
+        "types_shapes",
+        "pipelines",
+        "persistence",
+        "runtime",
+        "governance",
+        "lineage",
+        "consumption"
+      ],
+      "type": "object"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gap_output": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "intent_inputs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "mapping_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "offer_match_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "required_capabilities": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "requirement_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "sourced_candidate",
+        "open_candidate_gap"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidate_operations",
+    "context_ref",
+    "cross_platform_map",
+    "edition",
+    "evidence_source_ids",
+    "gap_output",
+    "intent_inputs",
+    "mapping_id",
+    "offer_match_law",
+    "required_capabilities",
+    "requirement_refs",
+    "status"
+  ],
+  "title": "Security Privacy Trust compiler-mappings candidate",
+  "type": "object"
+}

@@ -1,0 +1,40 @@
+{
+  "bundle_sha256_over_jsonl": "c804af59775a81002bf651a9016e87a1c3a37aa315b12a8c7dc3ef6ca792ef9c",
+  "counts": {
+    "bounded_context_candidates": 33,
+    "canonical_adjudications": 33,
+    "compiler_requirements": 33,
+    "innovations_2021_2026": 22,
+    "invalid_inferences": 33,
+    "library_boundaries": 33,
+    "open_gaps": 20,
+    "operation_totality_cells": 99,
+    "primary_sources": 182,
+    "provider_qualification_requirements": 56,
+    "representation_crosswalks": 23,
+    "shape_type_constructs": 132
+  },
+  "forbidden_shortcuts": [
+    "unstructured is not a data type",
+    "format name is not semantic type identity",
+    "parse success is not semantic validity",
+    "provider name is not qualification",
+    "schema validity is not business or clinical validity",
+    "successful signature is not truth or authorization"
+  ],
+  "required_exact_crosswalk_terms": [
+    "GeoParquet",
+    "FITS",
+    "OpenEXR",
+    "glTF",
+    "IFC",
+    "STEP AP242",
+    "CMS",
+    "COSE",
+    "VCF",
+    "FHIR",
+    "ISO 20022",
+    "FIX"
+  ],
+  "status": "candidate_gap_closure_not_completeness_claim"
+}

@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-08-26",
+  "canonical_exact_gaps_closed": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "factored_review_units_before_exceptions": 291,
+  "family_shared_slots": 12,
+  "library_local_slots": 8,
+  "measurement_law": "Reduction counts factored review units only; it is not evidence that a shared rule applies to a library until its owner attests applicability.",
+  "naive_repeated_slot_reviews": 620,
+  "open_library_instances": 31,
+  "pilot_id": "pilot.contract-generation.lineage-provenance-evidence.v1",
+  "projected_repeated_review_reduction": 329,
+  "status": "ACTIVE_INCOMPLETE"
+}

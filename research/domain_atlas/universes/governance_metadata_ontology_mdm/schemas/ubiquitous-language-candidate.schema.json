@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "definition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "must_not_be_conflated_with": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owning_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "ubiquitous_language_candidate"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    },
+    "term": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "term_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "term_id",
+    "term",
+    "definition",
+    "owning_context",
+    "must_not_be_conflated_with"
+  ],
+  "title": "Ubiquitous language candidate",
+  "type": "object"
+}

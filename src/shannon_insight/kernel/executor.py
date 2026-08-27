@@ -36,7 +36,6 @@ if TYPE_CHECKING:
     from ..infrastructure.runtime import RuntimeContext
     from ..insights.store import AnalysisStore
     from ..session import AnalysisSession
-
     from .result import PhaseResult
 
 
@@ -63,10 +62,10 @@ class PhaseExecutor(Protocol):
 
     def execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
-    ) -> "PhaseResult":
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
+    ) -> PhaseResult:
         """Execute this phase of the analysis pipeline.
 
         Args:
@@ -106,10 +105,10 @@ class BaseExecutor:
 
     def execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
-    ) -> "PhaseResult":
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
+    ) -> PhaseResult:
         """Execute the phase with error handling.
 
         Wraps _execute() with try/except to ensure PhaseResult is returned.
@@ -123,10 +122,10 @@ class BaseExecutor:
 
     def _execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
-    ) -> "PhaseResult":
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
+    ) -> PhaseResult:
         """Override this method to implement phase logic.
 
         Args:

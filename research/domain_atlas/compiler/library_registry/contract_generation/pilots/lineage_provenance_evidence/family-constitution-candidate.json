@@ -1,0 +1,1098 @@
+{
+  "as_of": "2026-08-26",
+  "bounded_contexts": [
+    {
+      "context_ref": "context.lpe.prospective-lineage",
+      "inside": [
+        "Plans, declared dependencies, expected inputs/outputs and control structure."
+      ],
+      "name": "Prospective Lineage",
+      "outside": [
+        "Observed execution and actual values."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.retrospective-lineage",
+      "inside": [
+        "Observed run occurrences, actual inputs/outputs and run-scoped dependencies."
+      ],
+      "name": "Retrospective Lineage",
+      "outside": [
+        "Unexecuted plans and generalized possibility."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.logical-lineage",
+      "inside": [
+        "Provider-neutral semantic dependencies and derivation expressions."
+      ],
+      "name": "Logical Lineage",
+      "outside": [
+        "Files, partitions, processes and task attempts."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.physical-lineage",
+      "inside": [
+        "Physical artifact identities, locations, versions and storage cuts."
+      ],
+      "name": "Physical Lineage",
+      "outside": [
+        "Logical meaning and causal truth inferred from co-location."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.runtime-lineage",
+      "inside": [
+        "Run states, attempts, actual IO and producer facets."
+      ],
+      "name": "Runtime Lineage",
+      "outside": [
+        "Complete audit, observability or truth claims."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.source-lineage",
+      "inside": [
+        "Origin identity, acquisition method, source cut and handoff."
+      ],
+      "name": "Source and Acquisition Lineage",
+      "outside": [
+        "Source-system business semantics and connector implementation."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.pipeline-lineage",
+      "inside": [
+        "Workflow topology, task identity, attempt linkage and materialization boundaries."
+      ],
+      "name": "Pipeline and Workflow Lineage",
+      "outside": [
+        "Scheduler resource allocation and transformation semantics."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.transformation-lineage",
+      "inside": [
+        "Transform identity, version, parameters, input roles and information loss."
+      ],
+      "name": "Transformation Lineage",
+      "outside": [
+        "Opaque co-occurrence or mere temporal succession."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.field-lineage",
+      "inside": [
+        "Column, field, cell, array-region and graph-element dependency."
+      ],
+      "name": "Field and Element Lineage",
+      "outside": [
+        "Dataset-only edges treated as field proof."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.formula-lineage",
+      "inside": [
+        "Formula AST identity, metric edition, operands, filters, units and aggregation grain."
+      ],
+      "name": "Semantic Formula Lineage",
+      "outside": [
+        "Textual SQL alone and model execution."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.schema-lineage",
+      "inside": [
+        "Adds, drops, renames, type changes, mappings and compatibility evidence."
+      ],
+      "name": "Schema Evolution Lineage",
+      "outside": [
+        "Record-level value corrections."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.model-study-lineage",
+      "inside": [
+        "Study plans, cohorts, model versions, evaluation sets and outputs."
+      ],
+      "name": "Model and Study Lineage",
+      "outside": [
+        "Business approval of the result."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.decision-action-lineage",
+      "inside": [
+        "Decision occurrence, inputs considered, policy edition, authority and resulting action."
+      ],
+      "name": "Decision and Action Lineage",
+      "outside": [
+        "Decision correctness inferred from provenance."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.security-lineage",
+      "inside": [
+        "Policy/key editions, authorization decision references and security context."
+      ],
+      "name": "Security and Policy Lineage",
+      "outside": [
+        "Security telemetry automatically elevated to proof."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.governance-lineage",
+      "inside": [
+        "Governance policy and authority links over time."
+      ],
+      "name": "Governance Lineage",
+      "outside": [
+        "Execution mechanics and legal conclusions."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.quality-lineage",
+      "inside": [
+        "Quality rules, measurements, observations, scope and outcomes."
+      ],
+      "name": "Quality and Validation Lineage",
+      "outside": [
+        "Quality score as proof of correctness."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.cross-system-reconciliation",
+      "inside": [
+        "Identity crosswalks, edge reconciliation, conflicts and confidence."
+      ],
+      "name": "Cross-System Lineage Reconciliation",
+      "outside": [
+        "Silent graph union and source precedence by ingestion order."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.lineage-query",
+      "inside": [
+        "Traversal semantics, scope, cut, cycles, uncertainty and redaction."
+      ],
+      "name": "Lineage Query and Slicing",
+      "outside": [
+        "Completeness claims beyond captured coverage."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.impact-analysis",
+      "inside": [
+        "Prospective reachability, retrospective affected runs, semantic effect and uncertainty."
+      ],
+      "name": "Impact Analysis",
+      "outside": [
+        "A graph path automatically treated as business impact."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.provenance-assertion",
+      "inside": [
+        "Assertion content, asserter, basis, scope, time and qualification."
+      ],
+      "name": "Provenance Assertion",
+      "outside": [
+        "The asserted relation automatically treated as fact."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.provenance-graph",
+      "inside": [
+        "Typed nodes/edges, bundles, qualifiers, conflicts and graph cuts."
+      ],
+      "name": "Provenance Graph",
+      "outside": [
+        "Audit log, causal proof or evidence bundle by default."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.provenance-bundle",
+      "inside": [
+        "Bundle identity, membership, issuer, encoding and bundle provenance."
+      ],
+      "name": "Provenance Bundle",
+      "outside": [
+        "All evidence needed for a decision."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.derivation",
+      "inside": [
+        "Derivation kind, generation/use anchors, transform and qualification."
+      ],
+      "name": "Data Derivation",
+      "outside": [
+        "Process execution merely because two artifacts occur in one run."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.activity-execution",
+      "inside": [
+        "Occurrence identity, interval, usage, generation, association and plan."
+      ],
+      "name": "Process Activity Execution",
+      "outside": [
+        "Data derivation without entity-dependency evidence."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.agent-responsibility",
+      "inside": [
+        "Association, attribution, delegation, roles and authority scope."
+      ],
+      "name": "Agent Responsibility and Attribution",
+      "outside": [
+        "Moral, legal or causal blame inferred from a technical link."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.version-revision",
+      "inside": [
+        "Version identity, revision relation, supersession and effective interval."
+      ],
+      "name": "Version, Revision and Supersession",
+      "outside": [
+        "Correction, retraction, deletion or recall collapsed into versioning."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.plan-execution-conformance",
+      "inside": [
+        "Plan/run matching, permitted variance, violations and proof basis."
+      ],
+      "name": "Plan-to-Execution Conformance",
+      "outside": [
+        "Plan identity treated as execution evidence."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.claim",
+      "inside": [
+        "Proposition, subject, issuer, modality, scope, assertion time and validity."
+      ],
+      "name": "Claim Assertion",
+      "outside": [
+        "Supporting evidence or independent acceptance."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.claim-argument",
+      "inside": [
+        "Claims, reasoning, warrants, assumptions, counterclaims and argument links."
+      ],
+      "name": "Claim-Argument Structure",
+      "outside": [
+        "Evidence integrity or truth supplied by graph shape."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.claim-evidence",
+      "inside": [
+        "Relevance, directness, method, scope, limitations and counterevidence."
+      ],
+      "name": "Claim-Evidence Binding",
+      "outside": [
+        "Citation count as evidential strength."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.evidence-bundle",
+      "inside": [
+        "Manifest, items, claims, methods, signatures, custody, validation and redaction map."
+      ],
+      "name": "Evidence Bundle",
+      "outside": [
+        "A provenance bundle or arbitrary archive automatically treated as evidence."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.authority",
+      "inside": [
+        "Issuer identity, role, mandate, competence, scope and conflicts."
+      ],
+      "name": "Evidence Authority",
+      "outside": [
+        "Cryptographic identity treated as authority or truth."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.evidence-strength",
+      "inside": [
+        "Dimension scores, rationale, aggregation policy and residual uncertainty."
+      ],
+      "name": "Evidence Strength",
+      "outside": [
+        "One universal scalar or authority popularity."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.evidence-freshness",
+      "inside": [
+        "Observed, recorded, valid-from/until, expires, recheck triggers and source staleness."
+      ],
+      "name": "Evidence Freshness and Validity",
+      "outside": [
+        "Recording time equated with event or validity time."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.defeaters",
+      "inside": [
+        "Rebutting and undercutting defeaters, conflicts, resolution and residual risk."
+      ],
+      "name": "Defeaters and Counterevidence",
+      "outside": [
+        "Failed verification silently discarded."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.attestation",
+      "inside": [
+        "Statement, predicate type, issuer, signing context, verification material and validity."
+      ],
+      "name": "Attestation",
+      "outside": [
+        "Independent appraisal or truth of claims."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.independent-appraisal",
+      "inside": [
+        "Verifier identity, appraisal policy, evidence input, verdict, time and limitations."
+      ],
+      "name": "Independent Appraisal",
+      "outside": [
+        "Self-assertion or signature verification alone."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.runtime-receipts",
+      "inside": [
+        "Invocation identity, inputs, code/config cut, outcome, effects, resource cut and integrity."
+      ],
+      "name": "Runtime Receipts",
+      "outside": [
+        "Transient telemetry or job-success flag alone."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.compiler-receipts",
+      "inside": [
+        "Semantic input, chosen offers, proof results, degradations, refusals and artifact digest."
+      ],
+      "name": "Compiler and Binding Receipts",
+      "outside": [
+        "Runtime execution evidence."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.identity-digest",
+      "inside": [
+        "Identity scheme, canonicalization, digest algorithm, scope and collision posture."
+      ],
+      "name": "Identity, Canonicalization and Digest",
+      "outside": [
+        "Digest equality treated as semantic identity or truth."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.signature-seal",
+      "inside": [
+        "Envelope, payload type, key reference, algorithm, verification result and key status."
+      ],
+      "name": "Signature and Seal",
+      "outside": [
+        "Signer authority, claim truth or safe time inferred from a valid signature."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.transparency-registration",
+      "inside": [
+        "Registration, inclusion/consistency proof, service identity, checkpoint and gossip evidence."
+      ],
+      "name": "Transparency Registration",
+      "outside": [
+        "Truth of the registered statement."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.credential-status",
+      "inside": [
+        "Status mechanism, retrieval time, purpose, cache and fail-closed policy."
+      ],
+      "name": "Credential and Attestation Status",
+      "outside": [
+        "Absence from one status list as universal validity."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.audit-event",
+      "inside": [
+        "Typed event occurrence, actor, target, action, outcome and recording context."
+      ],
+      "name": "Audit Event",
+      "outside": [
+        "Provenance edge or legal evidence automatically."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.audit-log",
+      "inside": [
+        "Log sequence, source, collection, normalization, protection and retention."
+      ],
+      "name": "Audit Log",
+      "outside": [
+        "Complete provenance graph or admissible evidence."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.audit-trail",
+      "inside": [
+        "Prior/current value, actor, action, reason, timestamp and protected sequence."
+      ],
+      "name": "Audit Trail Reconstruction",
+      "outside": [
+        "All operational logs or causal lineage."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.custody",
+      "inside": [
+        "Custodian, transfer, seal/digest, time, purpose, condition and exception."
+      ],
+      "name": "Chain of Custody",
+      "outside": [
+        "Provenance responsibility or access log alone."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.forensic-acquisition",
+      "inside": [
+        "Authority, source state, method/tool version, write protection, image, digest and exceptions."
+      ],
+      "name": "Forensic Acquisition",
+      "outside": [
+        "Ordinary ingestion or backup."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.forensic-preservation",
+      "inside": [
+        "Preservation actions, fixity, format, media, migration, access and validation."
+      ],
+      "name": "Forensic Preservation",
+      "outside": [
+        "Availability backup alone."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.long-term-validation",
+      "inside": [
+        "Evidence records, archive timestamps, renewal chains and algorithm migration."
+      ],
+      "name": "Long-Term Evidence Validation",
+      "outside": [
+        "Perpetual truth or authorization."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.retention-legal-hold",
+      "inside": [
+        "Schedule, trigger, jurisdiction, hold, disposition review and destruction receipt."
+      ],
+      "name": "Retention and Legal Hold",
+      "outside": [
+        "Business correction, retraction or privacy erasure automatically."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.disclosure",
+      "inside": [
+        "Audience, purpose, authorization, redaction map, selective disclosure and disclosure receipt."
+      ],
+      "name": "Evidence Disclosure and Redaction",
+      "outside": [
+        "Deletion of source evidence or implication that undisclosed material is absent."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.reproducibility-package",
+      "inside": [
+        "Manifested research object, identifiers, licenses, dependencies and run instructions."
+      ],
+      "name": "Reproducibility Package",
+      "outside": [
+        "Guarantee that rerun results will be identical."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.environment-capture",
+      "inside": [
+        "Dependency graph, image/package identity, target, environment variables and service versions."
+      ],
+      "name": "Environment and Dependency Capture",
+      "outside": [
+        "Business method or data authority."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.protocol-method",
+      "inside": [
+        "Protocol, method steps, sampling, exclusions, deviations and approvals."
+      ],
+      "name": "Protocol and Method Provenance",
+      "outside": [
+        "Observed execution automatically conforms to the method."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.reproduction-appraisal",
+      "inside": [
+        "Original claim, rerun inputs, environment, equivalence rule, result and divergence analysis."
+      ],
+      "name": "Reproduction and Replication Appraisal",
+      "outside": [
+        "Same digest required for all scientifically equivalent results."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.correction",
+      "inside": [
+        "Corrected edition, affected scope, authority, reason, effective time and links to prior state."
+      ],
+      "name": "Correction",
+      "outside": [
+        "Deletion, retraction or recall."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.retraction",
+      "inside": [
+        "Retracted subject, notice, authority, reason, effective time and replacement if any."
+      ],
+      "name": "Retraction",
+      "outside": [
+        "Physical deletion or product recall."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.recall",
+      "inside": [
+        "Affected identity/range, severity, action, notification, acknowledgement and closure."
+      ],
+      "name": "Recall and Downstream Notification",
+      "outside": [
+        "Retraction of a scholarly claim or deletion."
+      ]
+    },
+    {
+      "context_ref": "context.lpe.deletion-erasure",
+      "inside": [
+        "Deletion scope, physical/logical behavior, replicas, exceptions and minimal receipt."
+      ],
+      "name": "Deletion, Erasure and Tombstoning",
+      "outside": [
+        "Correction, retraction, recall or assured physical destruction without proof."
+      ]
+    }
+  ],
+  "compatibility_dimensions": [
+    "semantic edition",
+    "identity/equality",
+    "behavior",
+    "policy",
+    "evidence validity",
+    "wire representation",
+    "ABI",
+    "target",
+    "feature graph"
+  ],
+  "defeater_model": [
+    {
+      "effect": "supports an incompatible proposition or the negation of the claim",
+      "kind": "rebutting"
+    },
+    {
+      "effect": "shows issuer mandate, competence or independence is absent/narrower",
+      "kind": "authority_undercutter"
+    },
+    {
+      "effect": "shows payload, identity, signature, digest or canonicalization is compromised/mismatched",
+      "kind": "integrity_undercutter"
+    },
+    {
+      "effect": "shows collection, derivation, measurement or appraisal method is invalid for scope",
+      "kind": "method_undercutter"
+    },
+    {
+      "effect": "shows subject, population, condition, jurisdiction or interval mismatch",
+      "kind": "relevance_undercutter"
+    },
+    {
+      "effect": "shows uncontrolled handling, missing transfer or preservation failure",
+      "kind": "custody_undercutter"
+    },
+    {
+      "effect": "shows stale status, expired validity or changed source state",
+      "kind": "freshness_undercutter"
+    },
+    {
+      "effect": "shows missing events, blind spots, sampling gaps or selective disclosure",
+      "kind": "coverage_undercutter"
+    },
+    {
+      "effect": "shows unresolved inconsistency among evidence items or appraisals",
+      "kind": "conflict"
+    }
+  ],
+  "edition": 1,
+  "evidence_program": [
+    "PROV, OpenLineage, evidence and preservation standards",
+    "claim, custody, disclosure and retention authority",
+    "tamper, retraction and incomplete-coverage twins"
+  ],
+  "evidence_refs": [
+    "source.lpe.omg.sacm",
+    "source.lpe.w3c.vc2",
+    "source.lpe.ietf.rfc9334",
+    "source.lpe.nist.ir.8354",
+    "source.lpe.w3c.vc.status"
+  ],
+  "evidence_seed_status": "DISCOVERY_ONLY_NOT_ADOPTED_AUTHORITY",
+  "evidence_strength_dimensions": [
+    {
+      "dimension": "integrity",
+      "levels": [
+        "failed",
+        "unknown",
+        "weakly_checked",
+        "verified",
+        "independently_verified"
+      ],
+      "question": "Is the exact assessed representation intact?"
+    },
+    {
+      "dimension": "identity",
+      "levels": [
+        "conflicting",
+        "unknown",
+        "partially_resolved",
+        "resolved_scoped",
+        "cross-system-confirmed"
+      ],
+      "question": "Are subject and occurrence identities unambiguous for the claim?"
+    },
+    {
+      "dimension": "directness",
+      "levels": [
+        "irrelevant",
+        "remote_inference",
+        "indirect",
+        "direct",
+        "direct_with_method_controls"
+      ],
+      "question": "How directly does the item observe or measure the proposition?"
+    },
+    {
+      "dimension": "relevance",
+      "levels": [
+        "mismatch",
+        "unknown",
+        "partial",
+        "matched",
+        "matched_with_boundary_tests"
+      ],
+      "question": "Does the evidence apply to the exact subject, interval, population and conditions?"
+    },
+    {
+      "dimension": "method_quality",
+      "levels": [
+        "invalid",
+        "unknown",
+        "documented",
+        "validated",
+        "independently_replicated"
+      ],
+      "question": "Are collection, computation and appraisal methods documented and validated?"
+    },
+    {
+      "dimension": "custody",
+      "levels": [
+        "broken",
+        "unknown",
+        "documented_with_gaps",
+        "continuous",
+        "continuous_and_independently_checked"
+      ],
+      "question": "Is handling and preservation continuity sufficient for this reliance?"
+    },
+    {
+      "dimension": "corroboration",
+      "levels": [
+        "contradicted",
+        "none",
+        "dependent_repeat",
+        "independent_agreement",
+        "multiple_independent_methods"
+      ],
+      "question": "Do genuinely independent sources/methods agree?"
+    },
+    {
+      "dimension": "reproducibility",
+      "levels": [
+        "failed",
+        "not_assessed",
+        "materials_partial",
+        "reproduced",
+        "independently_replicated"
+      ],
+      "question": "Can the generation/evaluation be rerun to a declared equivalence target?"
+    },
+    {
+      "dimension": "completeness",
+      "levels": [
+        "known_incomplete",
+        "unknown",
+        "bounded_partial",
+        "coverage_accounted",
+        "coverage_independently_checked"
+      ],
+      "question": "Does the item cover all records/events required for the claim?"
+    }
+  ],
+  "family_id": "constitution.family.lineage_provenance_evidence",
+  "finite_bounds": [
+    "explicit graph or collection cut",
+    "finite traversal or evaluation budget",
+    "bounded output and diagnostics",
+    "no ambient clock network filesystem randomness identity policy or mutable global state in pure contracts"
+  ],
+  "forbidden_inferences": [
+    "matching digest => semantic correctness",
+    "more citations => stronger evidence",
+    "no logged event => event did not occur",
+    "provenance path => confirmed causation or impact",
+    "recent recording time => current validity",
+    "successful runtime status => durable external effects",
+    "trusted issuer => authority for every claim",
+    "valid signature => claim truth"
+  ],
+  "library_local_slots": [
+    "sovereign_question",
+    "semantic_owner",
+    "inside_boundary",
+    "outside_boundary",
+    "ubiquitous_language",
+    "decisions_and_configuration",
+    "invariants",
+    "refusal_catalog"
+  ],
+  "non_authority_law": "This candidate factors repeated review obligations; every library owner must affirm applicability and publish library-specific semantics before any canonical gap closes.",
+  "open_world_law": "Enumeration is a candidate coverage position. Unknown nodes, edges, producers, authorities, evidence, semantics and affected subjects remain typed gaps.",
+  "record_kind": "family_constitution_candidate",
+  "roles_and_authority": {
+    "authority_dimensions": [
+      {
+        "dimension": "identity_resolution",
+        "levels": [
+          "unknown",
+          "self_identified",
+          "authenticated",
+          "independently_bound"
+        ],
+        "question": "Is the issuer/appraiser identity resolved under a qualified scheme at the relevant time?"
+      },
+      {
+        "dimension": "mandate",
+        "levels": [
+          "none_or_unknown",
+          "claimed",
+          "documented_scoped",
+          "externally_confirmed_scoped"
+        ],
+        "question": "Does the actor have authority for this exact subject, proposition, action, jurisdiction and interval?"
+      },
+      {
+        "dimension": "competence",
+        "levels": [
+          "unknown",
+          "claimed",
+          "evidenced",
+          "independently_qualified"
+        ],
+        "question": "Is the actor competent for the method and proposition?"
+      },
+      {
+        "dimension": "independence",
+        "levels": [
+          "self",
+          "second_party",
+          "independent_with_conflicts",
+          "independent_conflicts_controlled"
+        ],
+        "question": "What organizational, financial and method independence exists?"
+      },
+      {
+        "dimension": "method_authority",
+        "levels": [
+          "unknown",
+          "documented",
+          "validated_for_scope",
+          "independently_reviewed_for_scope"
+        ],
+        "question": "Is the evidence-generation/appraisal method governed and fit for use?"
+      },
+      {
+        "dimension": "conflict_of_interest",
+        "levels": [
+          "unknown",
+          "disclosed",
+          "mitigated",
+          "independently_reviewed"
+        ],
+        "question": "Are relevant conflicts disclosed and controlled?"
+      }
+    ],
+    "roles": [
+      {
+        "meaning": "issues an assertion",
+        "not_equivalent_to": [
+          "attester",
+          "independent_appraiser"
+        ],
+        "role": "claimant"
+      },
+      {
+        "meaning": "authenticates a typed statement",
+        "not_equivalent_to": [
+          "claim_truth_authority",
+          "independent_appraiser"
+        ],
+        "role": "attester"
+      },
+      {
+        "meaning": "produces an evidence item under a method",
+        "not_equivalent_to": [
+          "custodian",
+          "verifier"
+        ],
+        "role": "evidence_producer"
+      },
+      {
+        "meaning": "maintains custody/preservation continuity",
+        "not_equivalent_to": [
+          "claimant",
+          "appraiser"
+        ],
+        "role": "custodian"
+      },
+      {
+        "meaning": "checks integrity, syntax or cryptographic validity",
+        "not_equivalent_to": [
+          "independent_appraiser"
+        ],
+        "role": "verifier"
+      },
+      {
+        "meaning": "applies a declared appraisal policy for a relying party",
+        "not_equivalent_to": [
+          "issuer",
+          "automatic_signature_checker"
+        ],
+        "role": "independent_appraiser"
+      },
+      {
+        "meaning": "decides whether and how to rely under its policy",
+        "not_equivalent_to": [
+          "truth_oracle"
+        ],
+        "role": "relying_party"
+      }
+    ]
+  },
+  "shared_conformance_classes": [
+    "positive fixtures",
+    "negative twins",
+    "property laws",
+    "state models",
+    "fuzz and malformed inputs",
+    "resource boundaries",
+    "cross-implementation differential"
+  ],
+  "shared_dependency_direction": [
+    "representation identity and time carriers are imported from their semantic owners",
+    "propositions precede issuer assertions; assertions precede evidence binding; evidence binding precedes appraisal",
+    "authority status freshness integrity and custody are independent imported witnesses",
+    "policy evaluation may form effect intents; qualified adapters execute; observations and receipts return inward",
+    "product and provider layers package or implement these meanings but never own them"
+  ],
+  "shared_distinctions": [
+    {
+      "law": "declared possibility is not observed execution",
+      "left": "prospective_lineage",
+      "right": "retrospective_lineage"
+    },
+    {
+      "law": "semantic dependence is not byte/object movement",
+      "left": "logical_lineage",
+      "right": "physical_lineage"
+    },
+    {
+      "law": "artifact/materialization identity is not occurrence identity",
+      "left": "physical_lineage",
+      "right": "runtime_lineage"
+    },
+    {
+      "law": "entity dependency is not inferred from shared execution, nor vice versa",
+      "left": "data_derivation",
+      "right": "process_execution"
+    },
+    {
+      "law": "accountability events and derivation/responsibility assertions retain distinct schemas",
+      "left": "audit_log",
+      "right": "provenance_graph"
+    },
+    {
+      "law": "a named provenance set is not automatically sufficient evidence for a claim",
+      "left": "provenance_bundle",
+      "right": "evidence_bundle"
+    },
+    {
+      "law": "an assertion need not be authenticated",
+      "left": "assertion",
+      "right": "attestation"
+    },
+    {
+      "law": "issuer-authenticated statement is not independent evaluation",
+      "left": "attestation",
+      "right": "independent_appraisal"
+    },
+    {
+      "law": "representation identity/integrity does not prove proposition truth",
+      "left": "identity_or_digest",
+      "right": "truth"
+    },
+    {
+      "law": "capture time does not define when a proposition or credential applies",
+      "left": "recording_time",
+      "right": "validity"
+    },
+    {
+      "law": "amendment with preserved history is not removal",
+      "left": "correction",
+      "right": "deletion"
+    },
+    {
+      "law": "withdrawal of reliance is not downstream product/artifact disposition",
+      "left": "retraction",
+      "right": "recall"
+    },
+    {
+      "law": "telemetry needs explicit qualification for identity, integrity, retention, coverage and custody",
+      "left": "observability_telemetry",
+      "right": "durable_evidence"
+    }
+  ],
+  "shared_negative_twin_classes": [
+    "assertion_vs_attestation",
+    "attestation_vs_independent_appraisal",
+    "integrity_vs_truth",
+    "recording_time_vs_validity",
+    "prospective_vs_observed_lineage",
+    "logical_vs_physical_vs_runtime_lineage",
+    "audit_log_vs_provenance_graph",
+    "bundle_membership_vs_endorsement",
+    "receipt_vs_acceptance",
+    "omission_vs_absence",
+    "retraction_vs_deletion_vs_recall",
+    "reachability_vs_confirmed_impact"
+  ],
+  "shared_refusal_precedence": [
+    "identity scope and edition failures precede semantic evaluation",
+    "authority and validity failures precede policy aggregation",
+    "integrity and binding failures precede evidence sufficiency",
+    "blocking defeaters and coverage gaps precede reliance recommendations",
+    "resource exhaustion refuses rather than silently weakening evidence or guarantees"
+  ],
+  "shared_slot_coverage": [
+    "negative_mission",
+    "identity_and_equality",
+    "time_model",
+    "authority_model",
+    "refusal_precedence",
+    "finite_bounds",
+    "dependency_direction",
+    "compatibility",
+    "evidence_claims",
+    "negative_twins",
+    "conformance_oracles",
+    "removal_seam"
+  ],
+  "status": "OWNER_REVIEW_REQUIRED_NOT_CANONICAL",
+  "time_model": {
+    "axes": [
+      "event_time",
+      "observation_time",
+      "recording_time",
+      "transaction_time",
+      "signing_time",
+      "transparency_registration_time",
+      "valid_from",
+      "valid_until",
+      "retrieval_time",
+      "appraisal_time",
+      "decision_time",
+      "retention_start",
+      "disposition_time"
+    ],
+    "freshness": {
+      "recheck_triggers": [
+        "source_changed",
+        "schema_or_method_changed",
+        "credential_status_changed",
+        "key_or_algorithm_changed",
+        "new_counterevidence",
+        "custody_gap",
+        "policy_changed",
+        "retention_or_hold_changed"
+      ],
+      "rule": "Freshness is evaluated at decision_time using source volatility, status mechanism, valid interval, maximum age and recheck triggers; recording_time never substitutes for event_time or validity.",
+      "states": [
+        "fresh_for_use",
+        "stale_but_usable_by_exception",
+        "expired",
+        "status_unknown",
+        "future_not_yet_valid",
+        "temporally_conflicting"
+      ],
+      "time_fields": [
+        "event_time",
+        "observation_time",
+        "recording_time",
+        "signing_time",
+        "registration_time",
+        "valid_from",
+        "valid_until",
+        "retrieval_time",
+        "appraisal_time",
+        "decision_time"
+      ]
+    }
+  },
+  "vision_and_negative_mission": {
+    "negative_mission": [
+      "does not decide business truth",
+      "does not manufacture authority",
+      "does not equate integrity with truth",
+      "does not equate provenance reachability with causation or confirmed impact",
+      "does not execute disclosed retained corrected recalled or deleted effects"
+    ],
+    "vision": "Represent how exact data, claims, processes, evidence and effects came to be and what scoped reliance they can support."
+  }
+}

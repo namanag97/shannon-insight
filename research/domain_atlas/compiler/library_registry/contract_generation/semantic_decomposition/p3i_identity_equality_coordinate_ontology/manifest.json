@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "extension-candidates.jsonl": {
+      "bytes": 14997,
+      "sha256": "2bf5880a2ae1d6be22e7194552b76675e69270cdec6f67b307946da69934fd13"
+    },
+    "identity-bearer-archetypes.jsonl": {
+      "bytes": 9386,
+      "sha256": "cde3846ca4481c61a82d2b812dd0fac0c2e2f69723e9a5011786fc02b8c15e92"
+    },
+    "identity-equality-coordinate-ontology.json": {
+      "bytes": 5984,
+      "sha256": "6f2c48b3df2f73ca875a0316913622a710d112703f066feb1c7c8b41765e9909"
+    },
+    "identity-equality-kernels.jsonl": {
+      "bytes": 64171,
+      "sha256": "2c3459e1e4ee5d5921151fb4c900d19bd9d876d80a5b74387b03a2058052737e"
+    },
+    "member-identity-routes.jsonl": {
+      "bytes": 305931,
+      "sha256": "08dc0ba5cd1cc298afdec5be94eb52fa12508f3b73eb3711de59590d011bcedd"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 31353,
+      "sha256": "9a7a4de5f2124753808086dc6e8f140ceb16900e535aa049d7fa004e64c0a4f5"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 4934,
+      "sha256": "290ad58cd3e13a34b86b1b8bac3a7783369e39c4a8b1b3a5ec762ae2a1cfeff5"
+    },
+    "summary.json": {
+      "bytes": 665,
+      "sha256": "e1382114ee2a203f02cf849fe3cea4b15eaf4a7d15c5144b177c5a790e0e91ea"
+    }
+  },
+  "manifest_id": "manifest.p3i.identity-equality-coordinate-ontology-and-rebase.v1"
+}

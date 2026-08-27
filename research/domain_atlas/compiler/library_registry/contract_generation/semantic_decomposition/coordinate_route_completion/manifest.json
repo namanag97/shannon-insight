@@ -1,0 +1,23 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "axis-route-completion-summary.jsonl": {
+      "bytes": 2749,
+      "sha256": "7cfda0e59c387d86f0fa403b3a833e7caf5992df455f82af405551ee676f2c93"
+    },
+    "summary.json": {
+      "bytes": 625,
+      "sha256": "45f4f4efe4d77bfe13a4197586f879721a31164f1ebea89ac6625a917f7affea"
+    },
+    "supplemental-member-coordinate-routes.jsonl": {
+      "bytes": 5700892,
+      "sha256": "7483f4d76f1bf5361e9d35ef1f1f0dd1bbc71f14dc2384b9ce0fdb8062d44436"
+    },
+    "supplemental-research-clusters.jsonl": {
+      "bytes": 177645,
+      "sha256": "3e5cbe63d2bc939401ae88367c23b0576f1213c16d7b93967f1fbec7eebf398d"
+    }
+  },
+  "manifest_id": "manifest.coordinate-route-completion.v1"
+}

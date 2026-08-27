@@ -1,0 +1,104 @@
+{
+  "candidate_only": true,
+  "credential_policy": "opaque references only; never stored in corpus or receipts",
+  "edition": 1,
+  "harness_id": "harness.cp.connector_conformance",
+  "laws": [
+    "unsupported, not-authorized and inconclusive are never treated as empty success",
+    "destructive tests require separate control authority and safe target",
+    "a test receipt is scoped to artifact version, configuration, occurrence and observation time",
+    "any material version, topology, authorization or configuration change invalidates affected receipts"
+  ],
+  "live_probe_default": "forbidden",
+  "phases": [
+    {
+      "inputs": [
+        "connector class",
+        "artifact manifest",
+        "protocol profiles"
+      ],
+      "outputs": [
+        "structural findings"
+      ],
+      "phase": "static_declaration"
+    },
+    {
+      "inputs": [
+        "negative twins",
+        "fixture occurrence"
+      ],
+      "outputs": [
+        "deterministic conformance receipts"
+      ],
+      "phase": "synthetic_hostile"
+    },
+    {
+      "default": "disabled",
+      "inputs": [
+        "separately approved sandbox",
+        "credential references",
+        "finite budgets"
+      ],
+      "outputs": [
+        "scoped observations"
+      ],
+      "phase": "authorized_occurrence"
+    },
+    {
+      "inputs": [
+        "receipts",
+        "artifact/configuration fingerprint",
+        "invalidation triggers"
+      ],
+      "outputs": [
+        "qualified, rejected, or inconclusive"
+      ],
+      "phase": "qualification"
+    }
+  ],
+  "status": "candidate",
+  "test_refs": [
+    "test.cp.identity_layers",
+    "test.cp.advertised_vs_probed",
+    "test.cp.read_cursor_vs_cdc",
+    "test.cp.snapshot_cut_vs_completion",
+    "test.cp.transport_vs_acceptance",
+    "test.cp.connector_vs_end_to_end_exactly_once",
+    "test.cp.pagination_under_mutation",
+    "test.cp.cursor_expiry",
+    "test.cp.cdc_retention_gap",
+    "test.cp.snapshot_cdc_handoff",
+    "test.cp.transaction_atomicity",
+    "test.cp.write_idempotency",
+    "test.cp.cancel_disposition",
+    "test.cp.rate_scope",
+    "test.cp.quota_exhaustion",
+    "test.cp.retry_after",
+    "test.cp.authn_vs_authz",
+    "test.cp.secret_rotation",
+    "test.cp.tenant_boundary",
+    "test.cp.tls_peer",
+    "test.cp.schema_add",
+    "test.cp.schema_type_change",
+    "test.cp.timezone_dst",
+    "test.cp.ordering_gap",
+    "test.cp.finality_correction",
+    "test.cp.webhook_redelivery",
+    "test.cp.message_settlement",
+    "test.cp.partition_rebalance",
+    "test.cp.bulk_accept_complete",
+    "test.cp.partial_transfer",
+    "test.cp.legacy_blocking",
+    "test.cp.legacy_codepage",
+    "test.cp.ot_readonly",
+    "test.cp.ot_interlock",
+    "test.cp.fhir_profile",
+    "test.cp.edi_receipt",
+    "test.cp.geo_axis_order",
+    "test.cp.scientific_fill",
+    "test.cp.browser_beacon",
+    "test.cp.license_invalidation",
+    "test.cp.version_downgrade",
+    "test.cp.telemetry_partial_success"
+  ]
+}

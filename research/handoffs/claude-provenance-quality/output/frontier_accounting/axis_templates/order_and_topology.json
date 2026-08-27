@@ -1,0 +1,109 @@
+{
+ "axis": "order_and_topology",
+ "owned_question": "When a system records, compares, or schedules events and dependencies, which ordering claims are licensed by the evidence (causal order, clock order, observation order) versus merely imposed by representation — and what does a cycle check or topological schedule actually prove about the world?",
+ "terms": [
+  "happens_before",
+  "total_order",
+  "partial_order",
+  "concurrent_events",
+  "cycle",
+  "topological_rank",
+  "logical_clock",
+  "vector_clock",
+  "lineage_edge",
+  "idempotent_replay"
+ ],
+ "non_collapse_laws": [
+  "a topological rank is scheduling advice over one observed snapshot, not causal proof about future editions of the graph",
+  "absence of detected cycles differs from proof of acyclicity under incomplete observation",
+  "a happens-before relation is not implication: A before B licenses neither 'A caused B' nor 'A could have prevented B'",
+  "clock equality does not mean simultaneity; Lamport-clock comparability is established only along message edges, never between unrelated processes",
+  "flattening a partial order into a total order is a commitment to arbitrariness that must be marked as tie-broken, not derived",
+  "replay in recorded order preserves causality only if every effect was idempotent at its original position in the order"
+ ],
+ "carrier_requirements": [
+  "an explicit event record with identity, source process, and logical timestamp(s)",
+  "an edge store for dependency/lineage graphs carrying edition or epoch stamps so cycle tests can be invalidated when edges change",
+  "declared knowledge bounds: which processes/events an observer has actually seen (needed to distinguish 'no cycle found' from 'acyclic')",
+  "an idempotency key contract per replayable effect so ordering rules can distinguish safe re-execution from double-application"
+ ],
+ "operations_or_relations": [
+  "compare_order",
+  "annotate_happens_before",
+  "merge_clocks",
+  "detect_cycle",
+  "schedule_topo",
+  "tiebreak_total_order",
+  "replay_in_order",
+  "check_provenance_precedence"
+ ],
+ "invariants": [
+  "if annotate_happens_before(a,b) then compare_order(a,b) <= 0 in every totalization that respects the partial order",
+  "detect_cycle must be a pure function of a stated edge-set edition; changing editions voids prior verdicts",
+  "schedule_topo output on a DAG with no ties may vary, but must never invert any asserted precedence edge",
+  "merge_clocks monotonicity: receiving a clock message never lowers the receiver's clock",
+  "provenance event chains satisfy generation-precedes-usage; validity fails iff the precedes graph contains a strict-precedes cycle",
+  "every topological rank emitted carries the observation scope (which edges were visible) alongside the ranking"
+ ],
+ "refusals": [
+  "refuse to certify 'B was caused by A' from temporal precedence alone",
+  "refuse to declare a graph acyclic when the edge store is known incomplete or stale",
+  "refuse to compare logical clocks across disconnected components without a shared synchronization event",
+  "refuse a topological schedule when cycle detection returns positive; emit the offending cycle instead of a best-effort ordering",
+  "refuse replay guarantees for effects lacking an idempotency key, regardless of correct ordering"
+ ],
+ "counterexamples": [
+  "Lamport-clock equality across unrelated processes mistaken for simultaneity: C(a)=C(b) proves nothing without a message chain",
+  "DFS-based cycle test invalidated by stale edge editions: graph declared acyclic at epoch n, a later edition adds the back-edge, cached verdict silently wrong",
+  "lineage topology mistaken for business impact: a node deep in the DAG dominates by blast radius even though its topological rank is lowest-dependency",
+  "total-order flattening hides concurrency: two concurrent events serialized by arbitrary tiebreak are later read as if the system asserted their real sequence"
+ ],
+ "authority_limit": "This axis adjudicates orderings and graph-structural claims derivable from recorded events and declared dependencies. It cannot certify physical causation, real-time simultaneity, future acyclicity, or business importance of lineage nodes; those require carriers outside this axis.",
+ "sources": [
+  {
+   "title": "Time, Clocks, and the Ordering of Events in a Distributed System",
+   "author": "Leslie Lamport",
+   "venue": "Communications of the ACM 21(7), 1978",
+   "uri": "https://lamport.azurewebsites.net/pubs/time-clocks.pdf",
+   "verified": true
+  },
+  {
+   "title": "Time, Clocks, and the Ordering of Events in a Distributed System (ACM DL record)",
+   "uri": "https://doi.org/10.1145/359545.359563",
+   "verified": true,
+   "note": "DOI metadata confirmed via Crossref content negotiation; dl.acm.org page blocks anonymous fetch"
+  },
+  {
+   "title": "Detecting Causal Relationships in Distributed Computations: In Search of the Holy Grail",
+   "authors": "R. Schwarz, F. Mattern",
+   "venue": "Distributed Computing 7(3):149-174, 1994",
+   "uri": "https://doi.org/10.1007/BF02277859",
+   "verified": true
+  },
+  {
+   "title": "PROV-CONSTRAINTS: Constraints of the PROV Data Model (W3C Recommendation, 30 April 2013)",
+   "uri": "https://www.w3.org/TR/prov-constraints/",
+   "verified": true,
+   "note": "Section 6.2 formalizes event ordering via precedes relations; validity = acyclicity modulo strict-precedes edges"
+  },
+  {
+   "title": "PROV-DM: The PROV Data Model (W3C Recommendation, 30 April 2013)",
+   "uri": "https://www.w3.org/TR/prov-dm/",
+   "verified": true
+  },
+  {
+   "title": "RFC 9557: Date and Time on the Internet: Timestamps with Additional Information (IXDTF)",
+   "uri": "https://www.rfc-editor.org/rfc/rfc9557.html",
+   "verified": true
+  },
+  {
+   "title": "RFC 3339: Date and Time on the Internet: Timestamps",
+   "uri": "https://www.rfc-editor.org/rfc/rfc3339.html",
+   "verified": true
+  }
+ ],
+ "evidence_vacancies_if_any": [
+  "ISO/IEC 8601-1:2019 page (iso.org/standard/70907.html) returned HTTP 403 to automated verification; canonical ISO time-representation citation left out rather than included unverified",
+  "no primary source yet located within this lane covering cycle-detection policy specifically under concurrent graph mutation (read vs write epochs); candidate vacancy"
+ ]
+}

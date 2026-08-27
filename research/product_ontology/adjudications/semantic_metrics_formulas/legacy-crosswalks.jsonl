@@ -1,0 +1,10 @@
+{"canonical_refs":["pattern.metric_store_query_bundle","product.semantic_metric_formula_service"],"disposition":"reclassify_bundle","edition":1,"legacy_ref":"candidate.product.metric_store_bundle","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.semantic_metric_formula_service"],"disposition":"rename_and_expand_formula_contract","edition":1,"legacy_ref":"candidate.product.semantic_metric","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["standard.ossie"],"disposition":"standard_not_product","edition":1,"legacy_ref":"standard.apache_ossie","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["suite.semantic_layer","component.optional_model_assistance"],"disposition":"remove_ambient_ai_prefix","edition":1,"legacy_ref":"term.ai_semantic_layer","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["semantic.metric_definition","semantic.metric_observation"],"disposition":"definition_observation_split","edition":1,"legacy_ref":"term.business_metric","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["semantic.business_formula","component.formula_engine"],"disposition":"definition_engine_split","edition":1,"legacy_ref":"term.formula","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.semantic_metric_formula_service","neighbor.presentation"],"disposition":"packaging_not_new_product","edition":1,"legacy_ref":"term.headless_bi","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["semantic.kpi_target_benchmark","semantic.metric_definition"],"disposition":"role_not_synonym","edition":1,"legacy_ref":"term.kpi","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["component.semantic_registry","component.observation_ledger","component.metric_materialization"],"disposition":"split_overloaded_term","edition":1,"legacy_ref":"term.metric_store","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["suite.semantic_layer","product.semantic_metric_formula_service"],"disposition":"suite_and_product_split","edition":1,"legacy_ref":"term.semantic_layer","record_kind":"legacy_crosswalk"}

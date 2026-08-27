@@ -1,0 +1,45 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/recurring-schedules.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cadence": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "non_llm_filter": {
+      "type": "boolean"
+    },
+    "on_failure": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "on_success_no_candidates": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schedule_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "scope": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "timezone": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "cadence",
+    "non_llm_filter",
+    "on_failure",
+    "on_success_no_candidates",
+    "schedule_id",
+    "scope",
+    "timezone"
+  ],
+  "title": "recurring-schedules",
+  "type": "object"
+}

@@ -1,0 +1,188 @@
+{
+  "$id": "urn:san:conformance:qualification-receipt:1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_digest": {
+      "pattern": "^sha256:",
+      "type": "string"
+    },
+    "configuration_digest": {
+      "pattern": "^sha256:",
+      "type": "string"
+    },
+    "dependency_lock_digest": {
+      "pattern": "^sha256:",
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_objects": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "execution": {
+      "properties": {
+        "attempts": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "ended_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "environment_digest": {
+          "type": "string"
+        },
+        "runner": {
+          "type": "string"
+        },
+        "started_at": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runner",
+        "started_at",
+        "ended_at",
+        "environment_digest",
+        "attempts"
+      ],
+      "type": "object"
+    },
+    "independent_appraiser": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "invalidation_triggers": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "oracle": {
+      "properties": {
+        "authority": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "edition",
+        "authority"
+      ],
+      "type": "object"
+    },
+    "population": {
+      "properties": {
+        "coverage": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "definition": {
+          "type": "string"
+        },
+        "seed_policy": {
+          "type": "string"
+        },
+        "size": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "definition",
+        "size",
+        "coverage",
+        "seed_policy"
+      ],
+      "type": "object"
+    },
+    "receipt_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "target_occurrence": {
+      "type": "string"
+    },
+    "validity": {
+      "properties": {
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "recorded_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "revoked": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "recorded_at",
+        "expires_at",
+        "revoked"
+      ],
+      "type": "object"
+    },
+    "verdict": {
+      "enum": [
+        "pass",
+        "fail",
+        "inconclusive",
+        "invalid"
+      ]
+    },
+    "waiver_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "receipt_id",
+    "edition",
+    "subject",
+    "artifact_digest",
+    "dependency_lock_digest",
+    "configuration_digest",
+    "target_occurrence",
+    "oracle",
+    "population",
+    "execution",
+    "verdict",
+    "validity",
+    "limitations",
+    "evidence_objects",
+    "invalidation_triggers"
+  ],
+  "title": "Exact-scope qualification receipt",
+  "type": "object"
+}

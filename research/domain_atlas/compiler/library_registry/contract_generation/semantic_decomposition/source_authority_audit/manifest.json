@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "readiness-audits.jsonl": {
+      "bytes": 70325,
+      "sha256": "0908105269a133a1e54e000d6364d678dec096cc3cb1130f015ca4a9d57bf9db"
+    },
+    "source-authority-decision.schema.json": {
+      "bytes": 3282,
+      "sha256": "13df90c9dfb1539b56247c48aec5e01b43989263564b24b21ea96db3054707d1"
+    },
+    "summary.json": {
+      "bytes": 671,
+      "sha256": "2b5075351190ae75d3efb8062ff73e8cb85d3b2e6f2e07a7ba75c3481b332504"
+    },
+    "validator-receipts.jsonl": {
+      "bytes": 28600,
+      "sha256": "701cf26dfbcbacd63aa55c05b93305460d2284c30d0172af801427197a095631"
+    }
+  },
+  "manifest_id": "manifest.family-source-authority-audit.v1"
+}

@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-25",
+  "builder": "build_audit.py",
+  "files": {
+    "audit-assertions.jsonl": "0a4375144e5fdf4c125f8a6c3dc018f069d98b56d83aaaceeddcfc6fd85a1bd4",
+    "audit-summary.json": "a6859f98d01e1a65663f988b787173ec5163b5be22b43edd4ad4719b5c3d00ac",
+    "canonical-crosswalk.jsonl": "a7cf6602d221b74a083773f875aa38ddc7c66d78599039e081f3bb204a938c23",
+    "canonical-representation-audit.jsonl": "46319a6294a0cd6baa7a5b5256148c2cacd079bfa5b3ca8642b70f87727b7594",
+    "canonical-snapshot.json": "22b1d9e9850e1f032f7812fb34db097e53e5362c6ebffbf4d1d6e82570e11522",
+    "classification-axes.json": "609513ce9472751c8a1dc5d1f89cc0ba9f8d1c1a3b820dbb15b829fcad8f783b",
+    "coverage-tensor.jsonl": "82be7b20d9e4d6f6241ef33a61503aaa6524b50f015d67c08fc06a220c7b5ab8",
+    "gap-findings.jsonl": "7a29a93f1397cbdff50b687d8246ef9dc2b40eb32592aa0f137acd6c96d2f55b",
+    "innovations-2021-2026.jsonl": "b0c986d5d78e6970dba2571a0cfce0bb62c51b7325e2572559a6e0f4f4ba6d2e",
+    "modality-family-expectations.jsonl": "bd17d343f04478e9d3e7ef5b33b6c73d7606382a6e921806da82c2560b5ace32",
+    "operation-type-gaps.jsonl": "3d174560e96ce334414999c3481f92c7550b37dc557ea90e5c7bd3bc344fa4e1",
+    "representation-layer-findings.jsonl": "3bd17d97f520953eae2da1d2d6a65fa60d71b465d62537bc09457c1f37f5368a",
+    "saturation-report.json": "eac8796436433b0e23e8a6f35a1931a8cc9859b8588ea2c67acb118998a28200",
+    "schema-posture-audit.jsonl": "95f09345e481ea0f3c9c62c1c64edf2524c790f480051e4a8566969bde59de1b",
+    "standards-sources.jsonl": "e27f404c51ef449aee6cdc332a1b5ba137710af330c5b82474ab0170549222f0",
+    "vertical-case-samples.jsonl": "515cf92f5b7c715aec300d7c9f53144b8fbfd44303d131eb3fe08e29c4100644"
+  }
+}

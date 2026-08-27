@@ -1,0 +1,38 @@
+{
+  "$id": "https://san.example/product-boundary/cannot_ratify_until.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "blocking_families": {},
+    "closure_evidence": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "gap_class": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "cannot_ratify_until"
+    },
+    "statement": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "gap_class",
+    "statement",
+    "blocking_families",
+    "closure_evidence"
+  ],
+  "title": "Global boundary research: cannot_ratify_until",
+  "type": "object"
+}

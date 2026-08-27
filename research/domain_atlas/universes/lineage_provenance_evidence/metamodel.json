@@ -1,0 +1,137 @@
+{
+  "assurance_postures": [
+    "unverified_assertion",
+    "integrity_verified",
+    "issuer_authenticated",
+    "authority_scoped",
+    "method_validated",
+    "corroborated",
+    "independently_appraised",
+    "adjudicated_for_policy"
+  ],
+  "compiler_law": "A semantic requirement binds only to versioned qualified offers whose guarantees, limits, evidence, validity and failure contracts pass explicit proof obligations; otherwise compilation refuses or records an authorized typed degradation.",
+  "completion_claim": false,
+  "core_exclusion": "LLM, generative and agentic semantics are excluded as core methods. Ordinary statistical/analytical model and study provenance remains in scope.",
+  "distinction_matrix": [
+    {
+      "law": "declared possibility is not observed execution",
+      "left": "prospective_lineage",
+      "right": "retrospective_lineage"
+    },
+    {
+      "law": "semantic dependence is not byte/object movement",
+      "left": "logical_lineage",
+      "right": "physical_lineage"
+    },
+    {
+      "law": "artifact/materialization identity is not occurrence identity",
+      "left": "physical_lineage",
+      "right": "runtime_lineage"
+    },
+    {
+      "law": "entity dependency is not inferred from shared execution, nor vice versa",
+      "left": "data_derivation",
+      "right": "process_execution"
+    },
+    {
+      "law": "accountability events and derivation/responsibility assertions retain distinct schemas",
+      "left": "audit_log",
+      "right": "provenance_graph"
+    },
+    {
+      "law": "a named provenance set is not automatically sufficient evidence for a claim",
+      "left": "provenance_bundle",
+      "right": "evidence_bundle"
+    },
+    {
+      "law": "an assertion need not be authenticated",
+      "left": "assertion",
+      "right": "attestation"
+    },
+    {
+      "law": "issuer-authenticated statement is not independent evaluation",
+      "left": "attestation",
+      "right": "independent_appraisal"
+    },
+    {
+      "law": "representation identity/integrity does not prove proposition truth",
+      "left": "identity_or_digest",
+      "right": "truth"
+    },
+    {
+      "law": "capture time does not define when a proposition or credential applies",
+      "left": "recording_time",
+      "right": "validity"
+    },
+    {
+      "law": "amendment with preserved history is not removal",
+      "left": "correction",
+      "right": "deletion"
+    },
+    {
+      "law": "withdrawal of reliance is not downstream product/artifact disposition",
+      "left": "retraction",
+      "right": "recall"
+    },
+    {
+      "law": "telemetry needs explicit qualification for identity, integrity, retention, coverage and custody",
+      "left": "observability_telemetry",
+      "right": "durable_evidence"
+    }
+  ],
+  "edition": 1,
+  "forbidden_automatic_inferences": [
+    "valid signature => claim truth",
+    "matching digest => semantic correctness",
+    "trusted issuer => authority for every claim",
+    "more citations => stronger evidence",
+    "recent recording time => current validity",
+    "no logged event => event did not occur",
+    "successful runtime status => durable external effects",
+    "provenance path => confirmed causation or impact"
+  ],
+  "forbidden_core_dependencies": [
+    "llm",
+    "large_language_model",
+    "prompt",
+    "rag",
+    "agent_memory",
+    "generative_model"
+  ],
+  "horizontal_decomposition": [
+    "source and acquisition occurrence",
+    "prospective plan",
+    "runtime execution occurrence",
+    "logical dependency",
+    "physical materialization",
+    "field/formula/schema dependency",
+    "provenance assertion and bundle",
+    "claim and argument",
+    "evidence and defeaters",
+    "attestation, verification and appraisal",
+    "audit event/log/trail",
+    "custody and preservation",
+    "compiler/runtime receipts",
+    "impact and invalidation",
+    "correction/retraction/recall/deletion"
+  ],
+  "metamodel_id": "san.lineage-provenance-evidence-universe",
+  "open_world_law": "Enumeration is a candidate coverage position. Unknown nodes, edges, producers, authorities, evidence, semantics and affected subjects remain typed gaps.",
+  "scope": "Provider-neutral lineage, provenance, derivation, evidence, audit trails, claim-argument-evidence, attestations, runtime/compiler receipts, impact, disclosure, custody, reproducibility, correction, retraction, recall and forensic preservation for enterprise data and analytics.",
+  "status": "candidate",
+  "time_axes": [
+    "event_time",
+    "observation_time",
+    "recording_time",
+    "transaction_time",
+    "signing_time",
+    "transparency_registration_time",
+    "valid_from",
+    "valid_until",
+    "retrieval_time",
+    "appraisal_time",
+    "decision_time",
+    "retention_start",
+    "disposition_time"
+  ]
+}

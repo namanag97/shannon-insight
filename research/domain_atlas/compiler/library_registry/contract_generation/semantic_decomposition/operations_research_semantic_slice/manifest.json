@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "bounded-context.json": {
+      "bytes": 1942,
+      "sha256": "f39eac99bca0a2d886b51b2c35051ba0591f09dfdd701ae702f1ff49d1bd791a"
+    },
+    "expert-learning-profiles.jsonl": {
+      "bytes": 4894,
+      "sha256": "55daa9e35ccb7ee5e3d4eac5339a4c6b26670b6feb165c7852e819ac8947b5e6"
+    },
+    "innovation-records.jsonl": {
+      "bytes": 2427,
+      "sha256": "42e0614f6f803ace9f0368c50406c72193062e24899793d0d75f95e1da07d28d"
+    },
+    "library-axis-decision-candidates.jsonl": {
+      "bytes": 330380,
+      "sha256": "91f924aefed5e01eedbf2f5f1f36996db2e0b29cf11dd6849516552d5f8ff141"
+    },
+    "library-semantic-bindings.jsonl": {
+      "bytes": 22727,
+      "sha256": "d2281d1afc137fafa6124abe28319f3b0661c59abb1f0bbf4c073c69be958366"
+    },
+    "non-collapse-laws.jsonl": {
+      "bytes": 7895,
+      "sha256": "1872113a12bf040b9ce4926abd9da3df65bd3d8c2662d4a8f606ab2781bc4a63"
+    },
+    "operations-research-method-taxonomy.jsonl": {
+      "bytes": 9890,
+      "sha256": "353f3777223ddfd7091105ce93c3d287480e38c4af058cd827b2a3c589eb208a"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 9510,
+      "sha256": "4d9725c9f3a6e4096b56f03889e0b6fb156937bcc3ab4e10ec55474ea13a15c9"
+    },
+    "product-capability-boundary-findings.jsonl": {
+      "bytes": 3241,
+      "sha256": "12df0106732afae442c5ec7f515231671f0bafdd52021a7fcfaf85c7566cb161"
+    },
+    "semantic-modules.jsonl": {
+      "bytes": 9233,
+      "sha256": "27ebf798c06a5fbdd2e5470d83c60e1609bd7a58c8d4c6bd040538b39b75cb2a"
+    },
+    "summary.json": {
+      "bytes": 616,
+      "sha256": "bd26bb2dff271c571ab07b0ff594d03b394fa3e2285cbe9c09cca03917cce622"
+    }
+  },
+  "manifest_id": "manifest.operations-research-semantic-slice.v1"
+}

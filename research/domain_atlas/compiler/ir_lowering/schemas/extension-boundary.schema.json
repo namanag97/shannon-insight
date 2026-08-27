@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "admission_contract": {
+      "type": "string"
+    },
+    "allowed_surface": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "extension_id": {
+      "$ref": "#/$defs/id"
+    },
+    "extension_kind": {
+      "type": "string"
+    },
+    "namespace_law": {
+      "type": "string"
+    },
+    "semantic_limit": {
+      "type": "string"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "trust_boundary": {
+      "type": "string"
+    },
+    "unknown_handling": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "extension_id",
+    "edition",
+    "status",
+    "extension_kind",
+    "allowed_surface",
+    "admission_contract",
+    "namespace_law",
+    "trust_boundary",
+    "semantic_limit",
+    "unknown_handling",
+    "source_refs"
+  ],
+  "title": "Plugin/extension boundary candidate",
+  "type": "object"
+}

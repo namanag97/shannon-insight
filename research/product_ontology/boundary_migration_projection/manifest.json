@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "boundary-migration-work-packages.jsonl": {
+      "bytes": 15919,
+      "sha256": "1372eb1de598a3f5809f7aa38b1444e8699ecaf93b4a16e27f6901b306af42f2"
+    },
+    "capability-import-migration-dockets.jsonl": {
+      "bytes": 35736,
+      "sha256": "e5c6435c961bb58b4e6d8c5195e21e76e590a183f83042aeecf04f08cbb5c850"
+    },
+    "cross-context-crosswalk-reconciliation-dockets.jsonl": {
+      "bytes": 2429,
+      "sha256": "df1f512a05a21d61fa29c79e53b054b3fe583c53c5db6ea6f3f7aa4a3b6cda44"
+    },
+    "nonretained-product-boundary-dockets.jsonl": {
+      "bytes": 25877,
+      "sha256": "dd136bb759f3f56ff929269fa51a15fb60f1f9054d80d2c3131ae34705bc3785"
+    },
+    "solution-pack-boundary-migration-dockets.jsonl": {
+      "bytes": 914,
+      "sha256": "c7070727a2561dc2aec058927e8aafaa72a404e53ce7af2035fa84c2587a928d"
+    },
+    "summary.json": {
+      "bytes": 592,
+      "sha256": "db7fb413a4c0fe54ac362a1a1b57a81604768efa2f02f6a0124393c366b1ae2d"
+    }
+  },
+  "manifest_id": "manifest.product-boundary-migration-projection.v1"
+}

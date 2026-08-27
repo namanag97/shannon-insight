@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-08-26",
+  "bounded_primary_evidence_claims": 10,
+  "canonical_exact_gaps_closed": 0,
+  "completion_claim": false,
+  "composition_coordinates": 18,
+  "edition": 1,
+  "evidence_coordinates": 15,
+  "failure_coordinates": 15,
+  "modules": 4,
+  "oracle_classes": 11,
+  "primary_sources": 10,
+  "program_id": "program.semantic-axis.phase5.behavior-resources-proof.v1",
+  "remaining_gate": "Named semantic, algebra, runtime/resource, assurance and every affected family owner accept roles, laws, budgets, total failures, oracle sufficiency and evidence expiry; implementations remain unqualified until profile-specific conformance and acceptance pass.",
+  "resource_coordinates": 15,
+  "semantic_role_kinds": 14,
+  "status": "ACTIVE_PENDING_OWNER_RATIFICATION"
+}

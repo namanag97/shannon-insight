@@ -1,0 +1,10 @@
+{"definition":"A reusable arrangement without independent adoption or semantic ownership.","edition":1,"kind":"architecture_pattern","record_kind":"artifact_kind_definition"}
+{"definition":"Typed behavior required or offered by products and implementations.","edition":1,"kind":"capability","record_kind":"artifact_kind_definition"}
+{"definition":"A subsystem that lacks its own complete adoption/support/exit promise.","edition":1,"kind":"control_component","record_kind":"artifact_kind_definition"}
+{"definition":"A provider artifact or adapter that may offer capabilities but owns no canonical meaning.","edition":1,"kind":"implementation","record_kind":"artifact_kind_definition"}
+{"definition":"A reusable pure or explicitly effect-bounded implementation seam.","edition":1,"kind":"library_contract","record_kind":"artifact_kind_definition"}
+{"definition":"A separate bounded context imported through an explicit contract.","edition":1,"kind":"neighbor","record_kind":"artifact_kind_definition"}
+{"definition":"An independently adopted and operated outcome promise.","edition":1,"kind":"product","record_kind":"artifact_kind_definition"}
+{"definition":"Owner of a meaning, lifecycle, invariants and refusals.","edition":1,"kind":"semantic_contract","record_kind":"artifact_kind_definition"}
+{"definition":"An exact external edition specializing a contract.","edition":1,"kind":"standard","record_kind":"artifact_kind_definition"}
+{"definition":"Packaging of products and capabilities without transferred meaning.","edition":1,"kind":"suite","record_kind":"artifact_kind_definition"}

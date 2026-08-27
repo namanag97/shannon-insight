@@ -1,0 +1,23 @@
+{
+  "$id": "https://san.example/spec/context-map/context.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "context_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "context_id",
+    "edition",
+    "status",
+    "plane_id",
+    "semantic_owner",
+    "sovereign_question",
+    "published_languages",
+    "evidence_refs"
+  ],
+  "title": "SAN candidate context-map context",
+  "type": "object"
+}

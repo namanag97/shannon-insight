@@ -1,0 +1,52 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/gaps.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "coverage_plane_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "effect": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "gap_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "coverage_plane_ids",
+    "description",
+    "effect",
+    "gap_id",
+    "owner_role",
+    "proof_obligation_ids",
+    "status"
+  ],
+  "title": "gaps",
+  "type": "object"
+}

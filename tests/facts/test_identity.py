@@ -74,9 +74,7 @@ class TestRenameFile:
 
     def test_rename_chain(self, resolver: FileIdentityResolver) -> None:
         """A -> B -> C should all share the same identity."""
-        fid_a = resolver.process_change(
-            "c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED)
-        )
+        fid_a = resolver.process_change("c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED))
         fid_b = resolver.process_change(
             "c2", 2000, FileChange("c2", "b.py", ChangeType.RENAMED, old_path="a.py")
         )
@@ -90,9 +88,7 @@ class TestRenameFile:
         assert resolver.resolve("b.py") is None
 
     def test_rename_updates_current_path(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "old.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "old.py", ChangeType.ADDED))
         resolver.process_change(
             "c2", 2000, FileChange("c2", "new.py", ChangeType.RENAMED, old_path="old.py")
         )
@@ -118,12 +114,8 @@ class TestDeleteFile:
     """Deleting marks identity as dead."""
 
     def test_delete_marks_dead(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "x.py", ChangeType.ADDED)
-        )
-        fid_del = resolver.process_change(
-            "c2", 2000, FileChange("c2", "x.py", ChangeType.DELETED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "x.py", ChangeType.ADDED))
+        fid_del = resolver.process_change("c2", 2000, FileChange("c2", "x.py", ChangeType.DELETED))
 
         assert fid == fid_del
         assert resolver.resolve("x.py") is None  # no longer alive
@@ -133,18 +125,12 @@ class TestDeleteFile:
         assert identity.is_alive is False
         assert identity.current_path is None
 
-    def test_re_add_after_delete_creates_new_identity(
-        self, resolver: FileIdentityResolver
-    ) -> None:
+    def test_re_add_after_delete_creates_new_identity(self, resolver: FileIdentityResolver) -> None:
         """Re-adding a path after deletion creates a NEW identity."""
-        fid1 = resolver.process_change(
-            "c1", 1000, FileChange("c1", "x.py", ChangeType.ADDED)
-        )
+        fid1 = resolver.process_change("c1", 1000, FileChange("c1", "x.py", ChangeType.ADDED))
         resolver.process_change("c2", 2000, FileChange("c2", "x.py", ChangeType.DELETED))
 
-        fid2 = resolver.process_change(
-            "c3", 3000, FileChange("c3", "x.py", ChangeType.ADDED)
-        )
+        fid2 = resolver.process_change("c3", 3000, FileChange("c3", "x.py", ChangeType.ADDED))
 
         assert fid1 != fid2
         assert resolver.resolve("x.py") == fid2
@@ -154,20 +140,14 @@ class TestModifyFile:
     """Modifying an existing file returns its identity."""
 
     def test_modify_returns_existing_id(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "m.py", ChangeType.ADDED)
-        )
-        fid2 = resolver.process_change(
-            "c2", 2000, FileChange("c2", "m.py", ChangeType.MODIFIED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "m.py", ChangeType.ADDED))
+        fid2 = resolver.process_change("c2", 2000, FileChange("c2", "m.py", ChangeType.MODIFIED))
 
         assert fid == fid2
 
     def test_modify_without_add_creates_implicit(self, resolver: FileIdentityResolver) -> None:
         """Partial history: MODIFY without prior ADD -> implicit ADD."""
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "m.py", ChangeType.MODIFIED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "m.py", ChangeType.MODIFIED))
 
         assert fid is not None
         assert resolver.resolve("m.py") == fid
@@ -199,9 +179,7 @@ class TestPathHistory:
     """get_path_history returns chronological rename segments."""
 
     def test_no_renames(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "stable.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "stable.py", ChangeType.ADDED))
 
         history = resolver.get_path_history(fid)
         assert len(history) == 1
@@ -211,9 +189,7 @@ class TestPathHistory:
         assert valid_until is None
 
     def test_single_rename(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED))
         resolver.process_change(
             "c2", 2000, FileChange("c2", "b.py", ChangeType.RENAMED, old_path="a.py")
         )
@@ -230,9 +206,7 @@ class TestPathHistory:
         assert history[1][2] is None  # current segment
 
     def test_double_rename(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED))
         resolver.process_change(
             "c2", 2000, FileChange("c2", "b.py", ChangeType.RENAMED, old_path="a.py")
         )
@@ -252,9 +226,7 @@ class TestGetAllPaths:
     """get_all_paths returns the union of all historical paths."""
 
     def test_with_renames(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED))
         resolver.process_change(
             "c2", 2000, FileChange("c2", "b.py", ChangeType.RENAMED, old_path="a.py")
         )
@@ -267,15 +239,11 @@ class TestGetCurrentPath:
     """get_current_path returns current live path or None."""
 
     def test_alive_file(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "alive.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "alive.py", ChangeType.ADDED))
         assert resolver.get_current_path(fid) == "alive.py"
 
     def test_dead_file(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "dead.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "dead.py", ChangeType.ADDED))
         resolver.process_change("c2", 2000, FileChange("c2", "dead.py", ChangeType.DELETED))
         assert resolver.get_current_path(fid) is None
 
@@ -316,17 +284,13 @@ class TestResolveAt:
     """resolve_at does historical path lookup."""
 
     def test_resolve_at_birth_path(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED))
         resolver.commit()
 
         assert resolver.resolve_at("a.py", 1500) == fid
 
     def test_resolve_at_after_rename(self, resolver: FileIdentityResolver) -> None:
-        fid = resolver.process_change(
-            "c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED)
-        )
+        fid = resolver.process_change("c1", 1000, FileChange("c1", "a.py", ChangeType.ADDED))
         resolver.process_change(
             "c2", 2000, FileChange("c2", "b.py", ChangeType.RENAMED, old_path="a.py")
         )
@@ -349,9 +313,7 @@ class TestPersistenceReload:
         # Create resolver, add data, commit.
         r1 = FileIdentityResolver(conn)
         fid = r1.process_change("c1", 1000, FileChange("c1", "x.py", ChangeType.ADDED))
-        r1.process_change(
-            "c2", 2000, FileChange("c2", "y.py", ChangeType.RENAMED, old_path="x.py")
-        )
+        r1.process_change("c2", 2000, FileChange("c2", "y.py", ChangeType.RENAMED, old_path="x.py"))
         r1.commit()
 
         # Create a NEW resolver on the same connection -- should reload cache.
@@ -374,9 +336,7 @@ class TestCommit:
         resolver.commit()
 
         # Verify directly via SQL.
-        row = conn.execute(
-            "SELECT * FROM file_identities WHERE birth_path = 'f.py'"
-        ).fetchone()
+        row = conn.execute("SELECT * FROM file_identities WHERE birth_path = 'f.py'").fetchone()
         assert row is not None
 
 

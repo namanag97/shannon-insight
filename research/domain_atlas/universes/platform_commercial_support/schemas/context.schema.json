@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "authority_invariants": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "context_id": {
+      "pattern": "^context\\.platform-commercial-support\\.",
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "explicitly_excludes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owns": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "record_kind": {
+      "enum": [
+        "bounded_context"
+      ]
+    },
+    "source_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "sovereign_question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "tenant_isolation_invariants": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "context_id",
+    "name",
+    "sovereign_question",
+    "owns",
+    "explicitly_excludes",
+    "authority_invariants",
+    "tenant_isolation_invariants",
+    "source_refs"
+  ],
+  "title": "Platform commercial support bounded-context candidate",
+  "type": "object"
+}

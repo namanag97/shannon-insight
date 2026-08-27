@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "status", "completion_claim", "edition", "generated_files", "counts", "sha256"],
+  "properties": {
+    "id": {"const": "manifest.core-semantic-primitives.edition-1"},
+    "status": {"const": "candidate"},
+    "completion_claim": {"const": false},
+    "edition": {"const": 1},
+    "generated_files": {"type": "array", "minItems": 10, "items": {"type": "string"}},
+    "counts": {"type": "object"},
+    "sha256": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+  }
+}

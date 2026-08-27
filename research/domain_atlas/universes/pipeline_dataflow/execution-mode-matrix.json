@@ -1,0 +1,87 @@
+[
+  {
+    "input_extent": "closed before run",
+    "mode_id": "pipeline-mode.bounded_batch",
+    "progress": "end of input",
+    "recovery": "task/stage retry or checkpoint",
+    "required_decisions": [
+      "data_cut_closure",
+      "backfill_reprocessing",
+      "delivery_multiplicity"
+    ],
+    "state": "bounded by cut"
+  },
+  {
+    "input_extent": "sequence of closed small cuts",
+    "mode_id": "pipeline-mode.microbatch",
+    "progress": "batch/cut completion",
+    "recovery": "batch replay plus idempotent/transactional commit",
+    "required_decisions": [
+      "batching",
+      "checkpoint_cadence",
+      "sink_idempotency"
+    ],
+    "state": "cross-batch state optional"
+  },
+  {
+    "input_extent": "unbounded",
+    "mode_id": "pipeline-mode.continuous_stream",
+    "progress": "watermark/frontier",
+    "recovery": "checkpoint plus source replay",
+    "required_decisions": [
+      "watermark_strategy",
+      "late_data",
+      "state_bound",
+      "checkpoint_mode"
+    ],
+    "state": "must declare cleanup bound"
+  },
+  {
+    "input_extent": "transaction/change log",
+    "mode_id": "pipeline-mode.cdc",
+    "progress": "source positions and transactions",
+    "recovery": "seek durable position; handle log truncation",
+    "required_decisions": [
+      "ingestion_mode",
+      "cursor_commit_boundary",
+      "port_update_model"
+    ],
+    "state": "offsets, schema history and optional dedup"
+  },
+  {
+    "input_extent": "signed changes or changed cuts",
+    "mode_id": "pipeline-mode.incremental",
+    "progress": "change frontier or commit version",
+    "recovery": "restore or recompute from authoritative changes",
+    "required_decisions": [
+      "state_bound",
+      "state_ttl",
+      "delivery_multiplicity"
+    ],
+    "state": "arrangements/materialized intermediates"
+  },
+  {
+    "input_extent": "remote snapshot/query",
+    "mode_id": "pipeline-mode.federated",
+    "progress": "remote result/cursor",
+    "recovery": "repeat under pinned remote consistency or refuse",
+    "required_decisions": [
+      "read_consistency",
+      "target_placement",
+      "schema_compatibility"
+    ],
+    "state": "local residual optional"
+  },
+  {
+    "input_extent": "analytical materialization/audience cut",
+    "mode_id": "pipeline-mode.reverse_delivery",
+    "progress": "destination acknowledgement/receipt",
+    "recovery": "retry, reconcile or compensate effects",
+    "required_decisions": [
+      "sink_idempotency",
+      "atomicity_scope",
+      "compensation"
+    ],
+    "state": "suppression, idempotency and delivery status"
+  }
+]

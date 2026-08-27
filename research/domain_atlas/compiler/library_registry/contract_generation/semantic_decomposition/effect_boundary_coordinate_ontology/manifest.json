@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "effect-boundary-bearer-archetypes.jsonl": {
+      "bytes": 12012,
+      "sha256": "015ad4c3fc6a59ec37e08b692d7b19dde8afaee9dc6b117e98e61a9600530348"
+    },
+    "effect-boundary-coordinate-ontology.json": {
+      "bytes": 4177,
+      "sha256": "efa22f9c5866b5186df24ea699e52dcda65a68cd47f9e01ee5318f9d8f7f7dd9"
+    },
+    "effect-boundary-operation-kernels.jsonl": {
+      "bytes": 26666,
+      "sha256": "7911c009322ef884094756c4adfe8a8937a5113ebbe5d7924ed4fceeb74e72b6"
+    },
+    "extension-candidates.jsonl": {
+      "bytes": 45176,
+      "sha256": "3cbb4ec15ffddf8fc816811f4d50d19127efb9d3b43f0eb3a3b8ee41d6c0759a"
+    },
+    "member-effect-boundary-routes.jsonl": {
+      "bytes": 864459,
+      "sha256": "ab0a423927016f3eb30a26b586aeb0eca77b5c4f4dc93ef7550300dec2a2a2f2"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 73768,
+      "sha256": "f900b1031600a4dfb119d74fe2ed3fb8ce7023b0374bace6e8ac7091b7dc8844"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 6105,
+      "sha256": "faf1803e57115d734924b169136a2a6cd20398c24f7d3a8973609240d272c012"
+    },
+    "structural-family-dockets.jsonl": {
+      "bytes": 36129,
+      "sha256": "64ed2d925003c489e999266b225a454f5c1707ab716a007ce0f2ad79e8f00bd0"
+    },
+    "summary.json": {
+      "bytes": 738,
+      "sha256": "8ca336265349e209637d64291aed9173b492c13b099f9ccdd99da485359f4e19"
+    }
+  },
+  "manifest_id": "manifest.effect-boundary-coordinate-ontology-and-rebase.v1"
+}

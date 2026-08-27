@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aggregate_roots": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "capability_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "commands": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "context_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "does_not_own": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "domain_events": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "domain_vision": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "family": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "guard_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invariants": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "lifecycle_summary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "llm_dependency": {
+      "const": "none"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owns": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "published_language": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "refusals": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "relationships": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "ubiquitous_language": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "context_id",
+    "name",
+    "status",
+    "family",
+    "domain_vision",
+    "boundary",
+    "owns",
+    "does_not_own",
+    "ubiquitous_language",
+    "aggregate_roots",
+    "commands",
+    "domain_events",
+    "invariants",
+    "refusals",
+    "lifecycle_summary",
+    "published_language",
+    "relationships",
+    "capability_refs",
+    "operation_refs",
+    "decision_ref",
+    "guard_ref",
+    "source_refs",
+    "llm_dependency"
+  ],
+  "title": "Messaging bounded-context",
+  "type": "object"
+}

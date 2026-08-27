@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "failure_posture": {},
+    "law_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "law_kind": {
+      "enum": [
+        "invariant",
+        "algebra_law",
+        "proof_obligation",
+        "refusal"
+      ]
+    },
+    "statement": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "law_id",
+    "edition",
+    "status",
+    "law_kind",
+    "statement",
+    "failure_posture"
+  ],
+  "title": "Invariant, algebra law, proof obligation or refusal",
+  "type": "object"
+}

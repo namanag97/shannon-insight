@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/data-shape-classification-axes-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registry_id", "edition", "status", "non_cartesian_law", "axes"],
+  "properties": {
+    "registry_id": {"const": "san.domain-atlas.data-shapes.classification-axes"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"const": "candidate"},
+    "non_cartesian_law": {"type": "string", "minLength": 20},
+    "axes": {
+      "type": "array",
+      "minItems": 25,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["axis_id", "layer", "question", "values", "independence_rule", "status"],
+        "properties": {
+          "axis_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "layer": {"type": "string"},
+          "question": {"type": "string", "minLength": 10},
+          "values": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+          "independence_rule": {"type": "string", "minLength": 10},
+          "status": {"const": "candidate"}
+        }
+      }
+    }
+  }
+}

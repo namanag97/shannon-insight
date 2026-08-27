@@ -1,0 +1,32 @@
+{
+  "backfill_policy": "policy.example.closed_cut_backfill",
+  "cancellation_policy": "policy.example.cooperative_then_fence",
+  "checkpoint_policy": "policy.example.barrier_checkpoint",
+  "compensation_policy": "policy.example.abort_uncommitted_and_reconcile_indeterminate",
+  "decision_bindings": {
+    "decision.pipeline.cancellation": "force_after_grace",
+    "decision.pipeline.retry_budget": {
+      "attempts": 5,
+      "elapsed": "PT30M"
+    }
+  },
+  "edition": 1,
+  "failure_domains": [
+    "record",
+    "task",
+    "worker",
+    "coordinator",
+    "source",
+    "sink"
+  ],
+  "liveness": {
+    "heartbeat": "PT15S",
+    "lease": "PT60S",
+    "stall": "three missed heartbeats then reconcile before retry"
+  },
+  "orphan_policy": "fence_and_reclaim",
+  "partial_output_policy": "retain_unpublished",
+  "recovery_contract_id": "recovery.example.customer_pipeline",
+  "replay_policy": "policy.example.replay_from_last_completed_checkpoint",
+  "retry_policy": "policy.example.bounded_retry"
+}

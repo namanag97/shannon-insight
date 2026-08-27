@@ -1,0 +1,53 @@
+{
+  "acceptance_gate_classes": 8,
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "edition": 1,
+  "executed_vertical_acceptances": 0,
+  "input_snapshot": {
+    "aggregate_sha256": "355ee1f38903b53ecdc59bfee45f9a148f56016d6db5e662bc336e36487eeea5",
+    "files": [
+      {
+        "bytes": 229261,
+        "path": "research/product_ontology/qualification_program/product-qualification-programs.jsonl",
+        "record_count": 64,
+        "sha256": "60f6a303c41f4ddc5c03c05719f4568decc2a35abc84e7cfdb477cd118076f25"
+      },
+      {
+        "bytes": 72938,
+        "path": "research/product_ontology/qualification_program/product-vertical-acceptance-programs.jsonl",
+        "record_count": 64,
+        "sha256": "72a924304e822ecac888dd1cfe015b39486bde56e41b6bc809f01a7d167d13f3"
+      },
+      {
+        "bytes": 133323,
+        "path": "research/product_ontology/composition_pilots/deterministic_verticals/vertical-compositions.jsonl",
+        "record_count": 4,
+        "sha256": "12373749c32c3eb49c81a69b3d35122b465358f85db761b65843b97a156eb189"
+      },
+      {
+        "bytes": 7650,
+        "path": "research/product_ontology/composition_pilots/deterministic_verticals/vertical-acceptance-contracts.jsonl",
+        "record_count": 4,
+        "sha256": "9a9c6ea0e4f6403e6e08dd210d0f3afd22fd521c8918431bf5c45278ba4ba72e"
+      },
+      {
+        "bytes": 39891,
+        "path": "research/product_ontology/composition_pilots/deterministic_verticals/vertical-acceptance-gates.jsonl",
+        "record_count": 32,
+        "sha256": "59b667e208282235f328bb7a063c94a2a475a95c3eee436c2c402b0741aa13de"
+      }
+    ],
+    "snapshot_id": "snapshot.p8-input.355ee1f38903b53e"
+  },
+  "pilot_product_candidate_relations": 45,
+  "pilot_structural_compositions": 4,
+  "product_programs": 64,
+  "products_with_any_structural_pilot": 14,
+  "products_with_two_accepted_unrelated_verticals": 0,
+  "products_with_two_unrelated_structural_pilots": 12,
+  "program_id": "program.p8-vertical-acceptance-tensor.v1",
+  "slot_gate_obligations": 1024,
+  "unrelated_vertical_slots": 128,
+  "vertical_acceptance_intake_templates": 128
+}

@@ -1,0 +1,82 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accessed_at": {
+      "format": "date",
+      "type": "string"
+    },
+    "authority_scope": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "limitations": {
+      "$ref": "#/$defs/strings"
+    },
+    "publication_or_live_year": {
+      "minimum": 1900,
+      "type": "integer"
+    },
+    "publisher": {
+      "type": "string"
+    },
+    "source_id": {
+      "$ref": "#/$defs/id"
+    },
+    "source_kind": {
+      "type": "string"
+    },
+    "status": {
+      "const": "reviewed_candidate"
+    },
+    "supports_topics": {
+      "$ref": "#/$defs/strings"
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "format": "uri",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "edition",
+    "status",
+    "title",
+    "publisher",
+    "source_kind",
+    "url",
+    "publication_or_live_year",
+    "accessed_at",
+    "supports_topics",
+    "authority_scope",
+    "limitations"
+  ],
+  "title": "Primary source record",
+  "type": "object"
+}

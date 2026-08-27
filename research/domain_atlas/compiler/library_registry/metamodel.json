@@ -1,0 +1,77 @@
+{
+  "as_of": "2026-08-26",
+  "boundary_admission": [
+    "one named semantic owner or explicit shared-contract authority",
+    "coherent responsibilities and laws",
+    "provider-neutral typed API",
+    "effects isolated as intents and receipts",
+    "independent removal/substitution seam",
+    "finite bounds and typed refusals",
+    "testable without a product or deployed provider"
+  ],
+  "boundary_refusals": [
+    "one-library-per-term",
+    "vendor SDK or product bundle",
+    "crate/package identity as sufficient evidence",
+    "service or deployment identity",
+    "generated code as semantic owner",
+    "hidden ambient effects",
+    "single implementation claimed portable"
+  ],
+  "completion_claim": false,
+  "edition": 1,
+  "identity_chain": [
+    "library_design_context",
+    "library_family",
+    "library_contribution",
+    "implementation_artifact",
+    "package_artifact",
+    "build_artifact",
+    "deployed_service",
+    "product"
+  ],
+  "metamodel_id": "san.domain-atlas.governed-library-registry",
+  "non_collapse_laws": [
+    "a family is an owned compatibility domain, not a package namespace",
+    "a contribution is a reusable contract boundary, not one vocabulary term",
+    "an implementation realizes a contribution but does not prove its laws by existing",
+    "a crate/package is a distribution unit and may not be the semantic boundary",
+    "a build is a target-specific occurrence of inputs, recipe and toolchain",
+    "a deployed service is an operational occurrence with time-bounded offers",
+    "a product packages contributions and outcomes but does not acquire semantic ownership"
+  ],
+  "portable_offer_gate": {
+    "existing_code_is_conformance": false,
+    "independence_dimensions": [
+      "control/maintainership",
+      "implementation source",
+      "build",
+      "conformance execution"
+    ],
+    "minimum_independent_qualified_implementations": 2
+  },
+  "purpose": "Connect context-owned research contracts to replaceable Rust or multi-language implementations without collapsing semantics into artifacts or products.",
+  "record_kinds": [
+    "library_design_context",
+    "library_family",
+    "library_contribution",
+    "implementation_artifact",
+    "package_artifact",
+    "build_artifact",
+    "deployed_service",
+    "product",
+    "artifact_kind_definition",
+    "context_to_library",
+    "operation_to_library",
+    "kernel_to_library",
+    "dependency_edge",
+    "capability_requirement",
+    "capability_offer",
+    "registry_decision",
+    "evidence_source",
+    "innovation",
+    "typed_gap",
+    "review_issue",
+    "local_crosswalk"
+  ]
+}

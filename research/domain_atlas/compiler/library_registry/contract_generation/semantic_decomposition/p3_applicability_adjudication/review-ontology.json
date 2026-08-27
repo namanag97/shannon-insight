@@ -1,0 +1,18 @@
+{
+  "BLOCKED_EVIDENCE_VACANCY": {
+    "meaning": "At least one member has only generic structural context for this semantic axis.",
+    "required_challenge": "Obtain targeted bounded evidence; absence of a discovery signal cannot mean inapplicable."
+  },
+  "BLOCKED_NO_UNIQUE_MODAL": {
+    "meaning": "The mechanical quotient has no unique modal cluster.",
+    "required_challenge": "Choose a justified default, split the family, or declare that no family default exists."
+  },
+  "REVIEW_READY_MODAL_EXCEPTIONS": {
+    "meaning": "A unique evidence-bearing modal cluster exists and all non-modal clusters remain explicit exception candidates.",
+    "required_challenge": "Prove the family default and adjudicate every residual cluster and member exception separately."
+  },
+  "REVIEW_READY_UNIFORM": {
+    "meaning": "One evidence-bearing candidate cluster covers the complete family-axis matrix.",
+    "required_challenge": "Falsify uniformity with a library-local counterexample before ratifying a family default."
+  }
+}

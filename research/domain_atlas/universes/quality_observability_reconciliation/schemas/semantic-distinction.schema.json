@@ -1,0 +1,42 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/semantic-distinction.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "compiler_consequence": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "distinction_id": {
+      "pattern": "^qor\\.distinction\\.",
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "left": {
+      "type": "object"
+    },
+    "non_collapse_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "right": {
+      "type": "object"
+    },
+    "status": {
+      "const": "researched_candidate_not_adjudicated"
+    }
+  },
+  "required": [
+    "distinction_id",
+    "edition",
+    "status",
+    "left",
+    "right",
+    "non_collapse_law",
+    "compiler_consequence"
+  ],
+  "title": "Quality semantic distinction",
+  "type": "object"
+}

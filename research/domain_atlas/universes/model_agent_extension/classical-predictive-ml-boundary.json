@@ -1,0 +1,36 @@
+{
+  "boundary_id": "boundary.mae.classical_predictive_ml",
+  "edition": 1,
+  "extension_owns": [
+    "generative model invocation",
+    "prompt and context editions",
+    "structured generation",
+    "tool-call proposals",
+    "retrieval-grounding interfaces",
+    "model/agent evaluation slices",
+    "optional memory and provider adapters"
+  ],
+  "forbidden_collapses": [
+    "generation model == predictive estimator",
+    "prompt == feature vector",
+    "verbal confidence == calibrated probability",
+    "agent evaluation == predictive-model validation"
+  ],
+  "integration_law": "A classical predictive model may be exposed through a core qualified-model operation; it does not become an LLM/agent extension merely because a service API invokes it.",
+  "neighbor": "classical predictive and statistical learning",
+  "neighbor_owns": [
+    "study design",
+    "target and label semantics",
+    "features",
+    "estimands",
+    "estimators",
+    "training",
+    "fitted-model identity",
+    "calibration",
+    "predictive evaluation",
+    "drift and qualified inference kernels"
+  ],
+  "owned_here": false,
+  "owner_path": "../method_kernels/README.md",
+  "status": "candidate"
+}

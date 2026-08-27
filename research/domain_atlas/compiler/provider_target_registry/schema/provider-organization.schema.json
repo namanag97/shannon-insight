@@ -1,0 +1,56 @@
+{
+  "$id": "https://san.example/spec/provider-target/provider_organization_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "organization_kind": {
+      "type": "string"
+    },
+    "provider_class_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_.-]+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "provider_organization_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "semantic_ownership_forbidden": {
+      "const": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "provider_organization_id",
+    "edition",
+    "status",
+    "name",
+    "organization_kind",
+    "provider_class_refs",
+    "semantic_ownership_forbidden",
+    "evidence_refs"
+  ],
+  "title": "Provider organization identity",
+  "type": "object"
+}

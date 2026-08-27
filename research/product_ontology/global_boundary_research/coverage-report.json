@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "counts": {
+    "alternative-decompositions.jsonl": 21,
+    "boundary-assertions.jsonl": 20,
+    "capability-imports.jsonl": 233,
+    "evidence.jsonl": 170,
+    "gaps.jsonl": 20,
+    "incompatibilities.jsonl": 46,
+    "industry-solution-packs.jsonl": 9,
+    "innovations.jsonl": 25,
+    "lifecycle.jsonl": 77,
+    "obligations.jsonl": 158,
+    "packaged-elements.jsonl": 3055,
+    "primary_or_authoritative_sources": 170,
+    "product-archetypes.jsonl": 77,
+    "schemas": 17,
+    "service-blueprints.jsonl": 77,
+    "substitutions.jsonl": 37,
+    "truth-applicability.jsonl": 8470,
+    "truth_dimensions": 110,
+    "upstream-inventory.jsonl": 2592,
+    "user-jobs-outcomes.jsonl": 77
+  },
+  "edition": 1,
+  "laws": [
+    "No candidate record is a ratified product.",
+    "Counts describe research records, never a final product count.",
+    "Every candidate has exactly one applicability record for T001 through T110.",
+    "Industry packs compose horizontal products and do not become horizontal products.",
+    "Every product defaults to deterministic core execution; model and agent modalities are explicit per-use-site extensions, never semantic owners or hidden authority.",
+    "Removing all model and agent extensions preserves deterministic parsing, typing, planning, authorization, qualification, effects and evidence; explicitly requested assistance may fail as capability_unavailable.",
+    "Models and agents may accelerate research and propose typed artifacts, but never replace exhaustive domain work, evidence, qualification, executable laws or acceptance.",
+    "Statistical, probabilistic, predictive, heuristic, simulation and optimization methods remain first-class; their uncertainty and approximation are explicit and do not turn them into ambient AI products."
+  ],
+  "report_id": "global_product_boundary_coverage",
+  "status": "research_candidate_not_ratified"
+}

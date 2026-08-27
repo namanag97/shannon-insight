@@ -270,9 +270,7 @@ def create_schema(conn: sqlite3.Connection) -> None:
     """
     conn.executescript(_SCHEMA_SQL)
 
-    cursor = conn.execute(
-        "SELECT version FROM schema_version ORDER BY version DESC LIMIT 1"
-    )
+    cursor = conn.execute("SELECT version FROM schema_version ORDER BY version DESC LIMIT 1")
     row = cursor.fetchone()
 
     if row is None:

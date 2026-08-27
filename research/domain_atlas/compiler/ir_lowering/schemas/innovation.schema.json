@@ -1,0 +1,73 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adoption_gate": {
+      "$ref": "#/$defs/strings"
+    },
+    "compiler_relevance": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "innovation": {
+      "type": "string"
+    },
+    "innovation_id": {
+      "$ref": "#/$defs/id"
+    },
+    "limitations": {
+      "$ref": "#/$defs/strings"
+    },
+    "non_llm": {
+      "const": true
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "edition",
+    "status",
+    "year",
+    "non_llm",
+    "innovation",
+    "source_refs",
+    "compiler_relevance",
+    "adoption_gate",
+    "limitations"
+  ],
+  "title": "Non-LLM recent innovation candidate",
+  "type": "object"
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "affects_operations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "decision_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision_plane": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "default_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "options": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "question": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "tradeoffs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "decision_id",
+    "owner_context",
+    "question",
+    "decision_plane",
+    "options",
+    "default_law",
+    "tradeoffs",
+    "affects_operations",
+    "source_refs",
+    "status"
+  ],
+  "title": "Messaging decision",
+  "type": "object"
+}

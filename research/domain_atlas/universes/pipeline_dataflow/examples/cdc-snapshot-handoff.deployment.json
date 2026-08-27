@@ -1,0 +1,41 @@
+{
+  "artifact_digests": {
+    "artifact.example.pipeline_bundle": "sha256:example-artifact-digest-not-a-real-artifact"
+  },
+  "deployment_id": "deployment.example.customer_cdc.prod",
+  "edition": 1,
+  "operating_policies": [
+    "policy.example.checkpoint",
+    "policy.example.retry",
+    "policy.example.alerting"
+  ],
+  "plan_edition": 1,
+  "plan_ref": "plan.example.customer_cdc.generic_stream_v1",
+  "qualification_evidence_refs": [
+    "evidence.example.target_qualification",
+    "evidence.example.failure_injection"
+  ],
+  "rollout": "parallel_compare",
+  "secret_refs": [
+    "secret-ref.example.customer_source",
+    "secret-ref.example.table_sink"
+  ],
+  "status": "qualified",
+  "target_bindings": [
+    {
+      "provider_offer_ref": "offer.example.source_connector",
+      "stage_ref": "stage.example.ingress",
+      "target_profile_ref": "target.example.stream_cluster"
+    },
+    {
+      "provider_offer_ref": "offer.example.stateful_stream_runtime",
+      "stage_ref": "stage.example.compute",
+      "target_profile_ref": "target.example.stream_cluster"
+    },
+    {
+      "provider_offer_ref": "offer.example.transactional_table_sink",
+      "stage_ref": "stage.example.commit",
+      "target_profile_ref": "target.example.stream_cluster"
+    }
+  ]
+}

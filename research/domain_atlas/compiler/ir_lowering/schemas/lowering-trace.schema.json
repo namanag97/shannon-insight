@@ -1,0 +1,82 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "case": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "integer"
+    },
+    "expected_result": {
+      "type": "string"
+    },
+    "rejected_alternatives": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "source_intent": {
+      "type": "object"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "steps": {
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "terminal_gaps": {
+      "$ref": "#/$defs/refs"
+    },
+    "trace_id": {
+      "$ref": "#/$defs/id"
+    },
+    "vertical": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "trace_id",
+    "edition",
+    "status",
+    "case",
+    "vertical",
+    "expected_result",
+    "source_intent",
+    "steps",
+    "rejected_alternatives",
+    "terminal_gaps",
+    "source_refs"
+  ],
+  "title": "Miniature lowering trace",
+  "type": "object"
+}

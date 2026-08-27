@@ -31,6 +31,7 @@ from shannon_insight.scanning.syntax import ClassDef, FileSyntax, FunctionDef, I
 def _has_tree_sitter_python() -> bool:
     try:
         import tree_sitter_python  # noqa: F401
+
         return True
     except ImportError:
         return False

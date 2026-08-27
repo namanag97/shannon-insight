@@ -1,0 +1,35 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "boundary-dockets.jsonl": {
+      "bytes": 348231,
+      "sha256": "7f113031d264ca14aacd29d500e90c64f6f75d687429d28e9027b15a2881fedc"
+    },
+    "collision-dockets.jsonl": {
+      "bytes": 150753,
+      "sha256": "c79dfa5719cf433591f3f0c6c39244355008fcc02f8ec29b1eb889227f9bb9fb"
+    },
+    "family-constitution-dockets.jsonl": {
+      "bytes": 100367,
+      "sha256": "fb4d90a1005c5f03215f10ee78e97a768cbb9ca4cf569b2180cb32682a3f383d"
+    },
+    "ratification-packet-templates.jsonl": {
+      "bytes": 1101754,
+      "sha256": "64e534e89add6e378f3498ef2d82b225ba41309da0256a5e69e169cf7c45d641"
+    },
+    "source-authority-dockets.jsonl": {
+      "bytes": 46896,
+      "sha256": "11e953714e57c118692e37cfaa769760622d8b11d30efe3e70e2269ff7653b26"
+    },
+    "summary.json": {
+      "bytes": 2538,
+      "sha256": "de71fe37f1c42a6beedf79414a64cff1af738fdf1ab08b46e3be0943f7b4636f"
+    },
+    "template-contracts.json": {
+      "bytes": 2662,
+      "sha256": "d88ad5249b16ee37004efa9f5a657899b11e56af9296e6fdff2315109998eec2"
+    }
+  },
+  "manifest_id": "manifest.p1b-foundation-authority-adjudication.v1"
+}

@@ -1,0 +1,41 @@
+{
+  "model_version":"1.0.0","kind":"domain_pack","id":"domain.sports","name":"Sports performance and operations","version":"0.1.0",
+  "canonical_role_bindings":{"asset":["team","player","venue"],"event":["match_event","training_event","injury_event"],"quantity":["score","duration","distance","load","currency"],"location":["venue","field_zone"],"interval":["season","match","period","possession","training_session"]},
+  "vocabulary":{"entities":["competition","season","team","player","staff_member","venue","fixture"],"events":["match_started","possession_started","action_recorded","score_recorded","substitution","injury_recorded","training_load_recorded"],"states":["scheduled","active","suspended","completed","unavailable"],"relationships":["member_of","competes_in","played_at","opposed_by","occurred_in_zone"]},
+  "data_contracts":[
+    {"id":"contract.sports.event","grain":"one observed event","keys":["competition_id","fixture_id","event_id"],"required":["event_type","occurred_at","source_id"],"quality_rules":["event_id unique within fixture","occurred_at inside fixture tolerance"]},
+    {"id":"contract.sports.roster_interval","grain":"one player-team eligibility interval","keys":["player_id","team_id","valid_from"],"required":["valid_to","eligibility_status"],"quality_rules":["no contradictory overlapping eligibility"]},
+    {"id":"contract.sports.cost","grain":"one cost item per accounting interval","keys":["cost_item_id"],"required":["amount","currency","valid_from"],"quality_rules":["currency registered"]}
+  ],
+  "assets":{
+    "unit_systems":[{"id":"units.sports.si","canonical":{"distance":"metre","duration":"second","load":"newton","currency":"deployment_currency"}}],
+    "calendars":[{"id":"calendar.sports.competition","intervals":["season","round","fixture","period","possession"]}],
+    "identity_rules":[{"id":"identity.sports.participant","priority":["governing_body_id","club_registration_id","source_scoped_id"],"manual_review_on_conflict":true}],
+    "metrics":[
+      {"id":"metric.sports.points_rate","expression":"sum(points) / matches_played","grain":"team,season","additivity":"non_additive"},
+      {"id":"metric.sports.possession_share","expression":"possession_duration / match_duration","grain":"team,fixture","additivity":"weighted"},
+      {"id":"metric.sports.player_availability","expression":"available_days / contracted_days","grain":"player,season","additivity":"weighted"},
+      {"id":"metric.sports.cost_per_point","expression":"allocated_team_cost / points","grain":"team,season","additivity":"non_additive"}
+    ],
+    "rules":[{"id":"rules.sports.eligibility","purpose":"governing-body and competition eligibility"},{"id":"rules.sports.alerts","purpose":"load, availability and event thresholds"}],
+    "process_models":[{"id":"process.sports.player_return","stages":["injury","assessment","rehabilitation","training","clearance","selection"]}],
+    "cost_models":[{"id":"cost.sports.operations","components":["compensation","travel","venue","equipment","medical","analytics_platform"]}],
+    "objectives":[{"id":"objective.sports.schedule","terms":["travel_cost","recovery_time","venue_feasibility","competitive_balance"]}],
+    "constraints":[{"id":"constraints.sports.schedule","rules":["fixture_windows","venue_capacity","minimum_recovery","broadcast_windows"]}],
+    "presentation":[{"id":"presentation.sports.default","labels":{"asset":"participant or venue","interval":"competition interval","output":"performance finding"}}],
+    "test_fixtures":[{"id":"fixture.sports.minimum","covers":["late match event","player transfer interval","zero-match denominator","currency conversion"]}]
+  },
+  "machine_bindings":[
+    {"machine_id":"machine.contract_validate","config":{"contract_ref":"contract.sports.event"}},
+    {"machine_id":"machine.unit_normalize","config":{"unit_system_ref":"units.sports.si"}},
+    {"machine_id":"machine.identity_resolve","config":{"identity_rules_ref":"identity.sports.participant"}},
+    {"machine_id":"machine.window","config":{"calendar_ref":"calendar.sports.competition"}},
+    {"machine_id":"machine.metric_compute","config":{"metric_definitions_ref":"metric.sports.*"}},
+    {"machine_id":"machine.process_conformance","config":{"process_model_ref":"process.sports.player_return","cost_model_ref":"cost.sports.operations"}},
+    {"machine_id":"machine.optimize","config":{"objective_ref":"objective.sports.schedule","constraints_ref":"constraints.sports.schedule","cost_model_ref":"cost.sports.operations"}},
+    {"machine_id":"machine.publish","config":{"presentation_ref":"presentation.sports.default"}}
+  ],
+  "required_auxiliary_services":["governing-body reference data","competition calendar feed","venue geocoding","currency price book","manual identity review"],
+  "exclusions":["computer-vision player tracking","AI injury prediction","LLM-generated commentary"],
+  "coverage":{"status":"example","known_gaps":["sport-specific rule extensions","betting integrity","media rights","fan commercial analytics"]}
+}

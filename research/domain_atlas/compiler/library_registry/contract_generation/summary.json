@@ -1,0 +1,44 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "counts": {
+    "archetypes": 19,
+    "clusters": 460,
+    "constitutions": 23,
+    "cross_owner_collisions": 146,
+    "execution_waves": 7,
+    "proposals": 674,
+    "work_packages": 57
+  },
+  "edition": 1,
+  "laws": [
+    "Every open exact-API gap has exactly one non-authoritative library-instance proposal.",
+    "Every proposal belongs to exactly one family constitution and one family-lane work package.",
+    "Archetypes generate structural obligations only and never domain truth.",
+    "Boundary adjudication precedes API generation.",
+    "Only owner-published source projections can remove canonical exact-API gaps."
+  ],
+  "program_id": "program.bulk-contract-generation.v1",
+  "proposal_counts_by_confidence": {
+    "HEURISTIC_REVIEW_REQUIRED": 150,
+    "MECHANICAL_HIGH": 524
+  },
+  "proposal_counts_by_primary_archetype": {
+    "archetype.contract.canonicalizer_normalizer": 6,
+    "archetype.contract.conformance_oracle": 34,
+    "archetype.contract.effect_port": 27,
+    "archetype.contract.encoder_serializer": 4,
+    "archetype.contract.evidence_receipt_protocol": 6,
+    "archetype.contract.lifecycle_reducer": 8,
+    "archetype.contract.optimizer_solver": 4,
+    "archetype.contract.parser_decoder": 2,
+    "archetype.contract.planner_compiler_pass": 12,
+    "archetype.contract.policy_evaluator": 56,
+    "archetype.contract.provider_adapter": 43,
+    "archetype.contract.registry_resolver": 7,
+    "archetype.contract.runtime_mechanism": 81,
+    "archetype.contract.semantic_algebra": 380,
+    "archetype.contract.target_backend": 4
+  },
+  "status": "ACTIVE_INCOMPLETE"
+}

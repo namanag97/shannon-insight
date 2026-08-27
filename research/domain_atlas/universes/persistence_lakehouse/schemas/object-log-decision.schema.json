@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/persistence-object-log-decision-v0.1.0.schema.json",
+  "title": "Object-log architecture compiler decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_kind", "decision_id", "edition", "status", "owner_scope_ref", "question", "value_type", "allowed_values", "default_law", "default_value", "binding_phase", "evidence_refs", "compiler_law"],
+  "properties": {
+    "record_kind": {"const": "durability_architecture_decision"},
+    "decision_id": {"type": "string", "pattern": "^decision\\.persistence\\.object_log\\.[a-z0-9_.-]+$"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["candidate", "reviewed", "adjudicated", "superseded"]},
+    "owner_scope_ref": {"const": "scope.persistence.object_log_architecture"},
+    "question": {"type": "string", "minLength": 1},
+    "value_type": {"type": "string", "pattern": "^[A-Z][A-Za-z0-9]*$"},
+    "allowed_values": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "minItems": 2, "uniqueItems": true},
+    "default_law": {"const": "forbidden"},
+    "default_value": {"type": "null"},
+    "binding_phase": {"enum": ["logical_planning", "physical_binding", "deployment_binding", "runtime_reconciliation", "evidence_verification"]},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "compiler_law": {"type": "string", "minLength": 1}
+  }
+}

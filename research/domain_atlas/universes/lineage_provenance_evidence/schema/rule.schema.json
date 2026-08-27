@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "disposition": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "family": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "rule_id": {
+      "pattern": "^(law|refusal)\\.lpe\\.",
+      "type": "string"
+    },
+    "rule_kind": {
+      "enum": [
+        "invariant",
+        "refusal"
+      ]
+    },
+    "statement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "rule_id",
+    "edition",
+    "status",
+    "rule_kind",
+    "name",
+    "statement",
+    "disposition",
+    "family",
+    "evidence_refs"
+  ],
+  "title": "LPE invariant or refusal candidate",
+  "type": "object"
+}

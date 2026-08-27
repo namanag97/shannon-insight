@@ -41,9 +41,9 @@ class FusionExecutor(BaseExecutor):
 
     def _execute(
         self,
-        ctx: "RuntimeContext",
-        store: "AnalysisStore",
-        session: "AnalysisSession",
+        ctx: RuntimeContext,
+        store: AnalysisStore,
+        session: AnalysisSession,
     ) -> PhaseResult:
         """Run signal fusion."""
         from ...insights.analyzers import get_wave2_analyzers

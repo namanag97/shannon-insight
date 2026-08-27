@@ -1,0 +1,71 @@
+{
+  "analytics_type_universe": {
+    "claim_300_supported": false,
+    "classified": 60,
+    "expanded_candidate_completion_claim": false,
+    "expanded_candidate_families": 35,
+    "expanded_hypothesis_candidates": 908,
+    "inherited_adjudication_records": 60,
+    "machine_mapped": 60,
+    "mapping_status": {
+      "covered": 37,
+      "gap": 3,
+      "partial": 20
+    },
+    "referentially_closed": true,
+    "standing": "seeded_incomplete"
+  },
+  "as_of": "2026-08-25",
+  "audit_id": "san.domain-atlas.universe-baseline",
+  "blocking_gaps": [
+    "inherited analytics registry contains 60 records rather than the previously claimed 300",
+    "expanded analytical-practice records are hypotheses and require split/merge, evidence and compiler adjudication",
+    "source-system universe is an open-world researched candidate and still lacks independent review and recurring saturation evidence",
+    "data-type ontology lacks an operation-by-type totality matrix",
+    "normalized operation records are hypotheses; most lack typed signatures, laws, evidence and lowering",
+    "machine mappings are partial or gaps for 23 of 60 inherited analytics types",
+    "559 distinct context candidates remain unadjudicated",
+    "no universe has independent completeness evidence"
+  ],
+  "bounded_context_universe": {
+    "candidate_occurrences": 567,
+    "standing": "enumerated_not_adjudicated"
+  },
+  "completion_claim": false,
+  "data_type_universe": {
+    "classification_axes": 16,
+    "layers": {
+      "analytical_structure": 25,
+      "carrier": 15,
+      "composite": 12,
+      "observation": 14,
+      "semantic_value": 30
+    },
+    "standing": "layered_seed_incomplete",
+    "total_records": 96
+  },
+  "edition": 1,
+  "llm_quarantine": {
+    "forbidden_core_analytics_records": [],
+    "passes": true
+  },
+  "operation_universe": {
+    "completion_claim": false,
+    "deep_specification_overlays": 10,
+    "horizontal_library_records": 16,
+    "horizontal_machine_records": 53,
+    "normalized_operation_hypotheses": 1062,
+    "operation_families": 35,
+    "standing": "enumerated_hypotheses_with_initial_deep_specs"
+  },
+  "source_system_universe": {
+    "axis_values": 258,
+    "classification_axes": 19,
+    "completion_claim": false,
+    "inherited_seed_class_records": 56,
+    "primary_evidence_records": 54,
+    "researched_candidate_class_records": 171,
+    "standing": "researched_open_world_candidate_universe"
+  },
+  "status": "incomplete_baseline"
+}

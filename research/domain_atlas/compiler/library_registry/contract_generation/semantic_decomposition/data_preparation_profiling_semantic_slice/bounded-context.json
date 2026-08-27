@@ -1,0 +1,34 @@
+{
+  "completion_claim": false,
+  "imported_owners": [
+    "source connectivity and mutation",
+    "carrier codecs and generic parsing",
+    "relational/query execution",
+    "statistical profiling kernels",
+    "quality requirements/defects/certification",
+    "entity/master/reference authority",
+    "storage/materialization runtime",
+    "scheduled transform deployment",
+    "downstream analytics and business effects"
+  ],
+  "inside": [
+    "immutable data-cut admission",
+    "interactive project and view state",
+    "profiling intake and interpretation for authoring",
+    "typed recipe authoring and history",
+    "preview, replay and diff",
+    "repair proposal/acceptance",
+    "prepared-output edition and publication handoff"
+  ],
+  "non_collapse_summary": "carrier != schema; inference != declaration; profile != quality; facet/view != transform; preview != full run; suggestion != accepted repair; recipe != history/run/output; output != certification/deployment",
+  "product_boundary_candidates": [
+    {
+      "product_ref": "product.self_service_data_preparation",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    }
+  ],
+  "profiling_disposition": "REUSABLE_CAPABILITY_NOT_INDEPENDENT_PRODUCT_UNRATIFIED",
+  "retained_product": "product.self_service_data_preparation",
+  "slice_id": "slice.data-preparation-profiling.v1",
+  "status": "CANDIDATE_UNRATIFIED"
+}

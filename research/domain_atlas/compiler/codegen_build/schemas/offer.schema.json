@@ -1,0 +1,80 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/offer_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "implementation_slot": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "must_declare": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "non_claim": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "offer_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "offered_capabilities": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unbound_until": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "offer_id",
+    "edition",
+    "status",
+    "owner_context",
+    "offered_capabilities",
+    "implementation_slot",
+    "must_declare",
+    "unbound_until",
+    "non_claim",
+    "source_refs"
+  ],
+  "type": "object"
+}

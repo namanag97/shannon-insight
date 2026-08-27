@@ -1,0 +1,340 @@
+{
+  "atlas_id": "san.encoding-compression.axes",
+  "axes": [
+    {
+      "axis_id": "representation_layer",
+      "values": [
+        "semantic_type",
+        "carrier",
+        "scalar_encoding",
+        "character_encoding",
+        "schema_serialization",
+        "framing",
+        "physical_layout",
+        "container_file_format",
+        "column_encoding",
+        "compression_algorithm",
+        "domain_codec",
+        "canonicalization_profile",
+        "integrity_algorithm",
+        "cryptographic_envelope",
+        "chunking_scheme",
+        "implementation_offer",
+        "execution_target"
+      ]
+    },
+    {
+      "axis_id": "reversibility",
+      "values": [
+        "bitwise_lossless",
+        "semantic_lossless",
+        "conditionally_lossless",
+        "error_bounded_lossy",
+        "rate_bounded_lossy",
+        "precision_bounded_lossy",
+        "perceptual_lossy",
+        "unknown_forbidden"
+      ]
+    },
+    {
+      "axis_id": "identity_scope",
+      "values": [
+        "source_semantic_value",
+        "canonical_semantic_value",
+        "encoded_bytes",
+        "compressed_bytes",
+        "container_member",
+        "whole_container",
+        "selected_representation",
+        "transmitted_content"
+      ]
+    },
+    {
+      "axis_id": "access",
+      "values": [
+        "sequential_only",
+        "restartable",
+        "splittable",
+        "block_random_access",
+        "page_random_access",
+        "row_random_access",
+        "coordinate_random_access",
+        "progressive",
+        "range_readable"
+      ]
+    },
+    {
+      "axis_id": "execution_mode",
+      "values": [
+        "whole_buffer",
+        "incremental",
+        "streaming",
+        "microbatch",
+        "block_parallel",
+        "column_parallel",
+        "pipeline_parallel",
+        "device_resident"
+      ]
+    },
+    {
+      "axis_id": "state_dependency",
+      "values": [
+        "stateless",
+        "previous_symbol",
+        "previous_value",
+        "previous_block",
+        "sliding_window",
+        "external_dictionary",
+        "schema_registry",
+        "reference_data",
+        "model_parameters"
+      ]
+    },
+    {
+      "axis_id": "physical_grain",
+      "values": [
+        "bit",
+        "byte",
+        "code_unit",
+        "scalar",
+        "value",
+        "record",
+        "frame",
+        "page",
+        "column_chunk",
+        "row_group",
+        "stripe",
+        "tile",
+        "multidimensional_chunk",
+        "shard",
+        "file",
+        "object"
+      ]
+    },
+    {
+      "axis_id": "byte_bit_order",
+      "values": [
+        "little_endian",
+        "big_endian",
+        "network_order",
+        "mixed_declared",
+        "byte_invariant",
+        "lsb_first",
+        "msb_first",
+        "native_only_non_interchange"
+      ]
+    },
+    {
+      "axis_id": "shape",
+      "values": [
+        "scalar",
+        "sequence",
+        "record",
+        "table",
+        "nested_table",
+        "sparse",
+        "graph",
+        "timeseries",
+        "nd_array",
+        "raster",
+        "vector_geometry",
+        "point_cloud",
+        "audio",
+        "image",
+        "video",
+        "genomics"
+      ]
+    },
+    {
+      "axis_id": "compression_mechanism",
+      "values": [
+        "dictionary",
+        "run_length",
+        "delta",
+        "frame_of_reference",
+        "bit_packing",
+        "prefix",
+        "prediction_residual",
+        "transform",
+        "entropy",
+        "lz_matching",
+        "quantization",
+        "decorrelation",
+        "cascaded",
+        "adaptive_selection"
+      ]
+    },
+    {
+      "axis_id": "error_model",
+      "values": [
+        "none_exact",
+        "absolute",
+        "relative",
+        "pointwise_relative",
+        "significant_digits",
+        "fixed_precision",
+        "fixed_rate",
+        "psnr",
+        "perceptual_metric",
+        "application_observable",
+        "unbounded_forbidden"
+      ]
+    },
+    {
+      "axis_id": "integrity_scope",
+      "values": [
+        "none",
+        "header",
+        "block",
+        "frame",
+        "page",
+        "column",
+        "chunk",
+        "member",
+        "file",
+        "representation",
+        "content",
+        "merkle_node"
+      ]
+    },
+    {
+      "axis_id": "security_property",
+      "values": [
+        "none",
+        "error_detection",
+        "collision_resistant_identity",
+        "authenticity",
+        "confidentiality",
+        "integrity_authentication",
+        "non_repudiation_not_implied"
+      ]
+    },
+    {
+      "axis_id": "metadata_placement",
+      "values": [
+        "inline_per_value",
+        "block_header",
+        "page_header",
+        "footer",
+        "sidecar",
+        "external_registry",
+        "manifest",
+        "implicit_forbidden"
+      ]
+    },
+    {
+      "axis_id": "schema_binding",
+      "values": [
+        "self_describing",
+        "schema_embedded",
+        "schema_fingerprint",
+        "schema_external",
+        "schema_less_syntax",
+        "fixed_profile",
+        "unknown_forbidden"
+      ]
+    },
+    {
+      "axis_id": "null_nesting",
+      "values": [
+        "not_applicable",
+        "sentinel",
+        "validity_bitmap",
+        "tagged_union",
+        "offsets",
+        "definition_levels",
+        "repetition_levels",
+        "sparse_presence",
+        "application_specific"
+      ]
+    },
+    {
+      "axis_id": "statistics",
+      "values": [
+        "none",
+        "count",
+        "null_count",
+        "min_max",
+        "sum",
+        "distinct_estimate",
+        "dictionary_membership",
+        "bloom_filter",
+        "page_offsets",
+        "zone_map",
+        "domain_summary"
+      ]
+    },
+    {
+      "axis_id": "target",
+      "values": [
+        "portable_scalar_cpu",
+        "simd_cpu",
+        "multicore_cpu",
+        "gpu",
+        "dedicated_accelerator",
+        "browser_wasm",
+        "embedded_bounded_memory",
+        "object_store_range",
+        "memory_mapped",
+        "network_stream"
+      ]
+    },
+    {
+      "axis_id": "resource",
+      "values": [
+        "encoded_size",
+        "peak_memory",
+        "working_set",
+        "dictionary_size",
+        "window_size",
+        "encode_throughput",
+        "decode_throughput",
+        "latency",
+        "parallelism",
+        "energy",
+        "io_amplification",
+        "compute_amplification"
+      ]
+    },
+    {
+      "axis_id": "compatibility",
+      "values": [
+        "exact_edition",
+        "backward_read",
+        "forward_skip",
+        "profile_subset",
+        "extension_registry",
+        "transcode_required",
+        "reference_required",
+        "decoder_capability_required"
+      ]
+    },
+    {
+      "axis_id": "corruption_behavior",
+      "values": [
+        "detect_and_stop",
+        "detect_and_skip_block",
+        "resynchronize",
+        "recover_from_redundancy",
+        "conceal_media_error",
+        "best_effort_forbidden_without_policy"
+      ]
+    },
+    {
+      "axis_id": "decision_phase",
+      "values": [
+        "semantic_closure",
+        "logical_planning",
+        "physical_binding",
+        "write_time",
+        "read_time",
+        "runtime_adaptive",
+        "migration",
+        "recovery"
+      ]
+    }
+  ],
+  "distinction_law": "A semantic type, carrier, encoding, framing, layout, container, codec, compression algorithm, protection envelope, implementation, and execution target are distinct nodes even when a product bundles them.",
+  "edition": 1,
+  "status": "candidate_open_world"
+}

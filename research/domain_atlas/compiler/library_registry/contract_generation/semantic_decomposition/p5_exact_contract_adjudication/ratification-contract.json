@@ -1,0 +1,40 @@
+{
+  "contract_id": "contract.p5.exact-library-contract-ratification.v1",
+  "edition": 1,
+  "non_claims": [
+    "An archetype supplies structural obligations, never domain semantics.",
+    "A family kernel supplies reusable decisions, never library-local exceptions.",
+    "A ratified exact contract is not an implementation, qualification, portability or product-acceptance receipt.",
+    "This stage emits lowering candidates and never mutates the canonical registry."
+  ],
+  "refusal_conditions": [
+    "boundary, source authority or family constitution is unratified",
+    "any of the sixteen semantic-axis decisions is absent or unresolved",
+    "a repeated public symbol lacks a ratified owner and exact occurrence relation",
+    "a cross-owner collision is unadjudicated",
+    "owner-authored contract dimensions are missing or inherited from an archetype",
+    "types, traits, operations, refusals, effects, bounds or oracles are partial",
+    "payload is not bound to the exact input snapshot and authority attestation"
+  ],
+  "required_receipt_fields": [
+    "receipt_id",
+    "input_snapshot_ref",
+    "input_snapshot_sha256",
+    "exact_contract_docket_ref",
+    "library_ref",
+    "boundary_disposition_receipt_ref",
+    "source_authority_receipt_ref",
+    "family_constitution_edition_ref",
+    "family_axis_applicability_receipt_refs",
+    "shared_symbol_owner_receipt_refs",
+    "exact_contract_payload",
+    "exact_contract_payload_digest",
+    "contract_dimension_completion_map",
+    "collision_adjudication_receipt_refs",
+    "negative_twin_and_conformance_digest",
+    "migration_plan_digest",
+    "authority_refs",
+    "attestation_ref",
+    "effective_edition"
+  ]
+}

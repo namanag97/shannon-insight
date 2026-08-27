@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 11,
+      "sha256": "4341d3508760f4c41d2111c8feccff81ece12208085b3e57465d51c8904307d1"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 33,
+      "sha256": "bf60f698f160b5fb6ff40c1ecdff31683c24689968690589da4431985e54cd82"
+    },
+    "decision-points.jsonl": {
+      "records": 55,
+      "sha256": "55819ce0101bde51215031bf09a02b7427fff9f779fd598908b7e3bed8d39208"
+    },
+    "library-contracts.jsonl": {
+      "records": 11,
+      "sha256": "9792c3890afec977fb4610218989a45ba406fd05937f6d226ec7d3bf23b5e4db"
+    },
+    "negative-twins.jsonl": {
+      "records": 16,
+      "sha256": "ae9ff818dde1f268b9fb64810ed1989ea6324d7285a734a6511610b9ac80d3c7"
+    },
+    "sources.jsonl": {
+      "records": 17,
+      "sha256": "fc77e00fb8ec7437fc6bce3c41ad7b9487abcaffc7c2233850ab282e1d335dd0"
+    }
+  },
+  "manifest_id": "semantic_vocabulary_ontology_governance_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

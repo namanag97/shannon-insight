@@ -111,7 +111,7 @@ class ReportingExecutor(BaseExecutor):
             return False
 
     def _run_persistence_finders(
-        self, store: "AnalysisStore", findings: list, current_findings: list
+        self, store: AnalysisStore, findings: list, current_findings: list
     ) -> None:
         """Run persistence-based finders with DB connection."""
         from ...insights.finders import get_persistence_finders
@@ -135,7 +135,7 @@ class ReportingExecutor(BaseExecutor):
         except Exception as e:
             logger.debug(f"No history DB available: {e}")
 
-    def _summarize(self, store: "AnalysisStore") -> "StoreSummary":
+    def _summarize(self, store: AnalysisStore) -> StoreSummary:
         """Build summary from store state."""
         from ...insights.models import StoreSummary
 

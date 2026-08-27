@@ -1,0 +1,581 @@
+{
+  "schema": {
+    "identity": "san.sem-implementation-posture",
+    "edition": 1
+  },
+  "coordinate": "SEM-014",
+  "family_id": "context.foundation.identifier",
+  "semantic_edition": 6,
+  "status": "REVIEW_CANDIDATE",
+  "certification": "NONE",
+  "source_context_digest": {
+    "algorithm": "sha256",
+    "subject": "foundation.identifier.context-source.occurrence",
+    "value": "48b7898bddb9a843344070e327dfd181730e9e79d89efce3deb6a3b6c883cc58"
+  },
+  "claim": "Public-success reachability of the current Rust entrances; symbol presence and private fixtures are not authority or certification.",
+  "counts": {
+    "operations": 25,
+    "independent": 1,
+    "admitted_inputs": 11,
+    "external_authority": 13,
+    "decisions": 24,
+    "decisions_realized": 9,
+    "decisions_partial": 15,
+    "decisions_missing": 0,
+    "source_native_types": 76,
+    "reported_realized_native_types": 74,
+    "unrealized_native_types": 2
+  },
+  "operations": [
+    {
+      "source_id": "ID-OP-01",
+      "symbol": "admit_spec",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "IdentifierAdmissionVerifier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-02",
+      "symbol": "admit_profile",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "IdentifierAdmissionVerifier",
+        "NamespaceBindingRequirementVerifier",
+        "NamespaceDefinitionPassportVerifier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-03",
+      "symbol": "construct_static",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "NamespaceMintAuthorityVerifier",
+        "IdentifierProjectionSupplier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-04",
+      "symbol": "construct_dynamic",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "NamespaceMintAuthorityVerifier",
+        "IdentifierProjectionSupplier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-05",
+      "symbol": "parse_canonical_text_static",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "IdentifierAdmissionVerifier",
+        "IdentifierProjectionSupplier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-06",
+      "symbol": "parse_canonical_text_dynamic",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "IdentifierAdmissionVerifier",
+        "IdentifierProjectionSupplier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-07",
+      "symbol": "admit_accepted_text",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "IdentifierAdmissionVerifier",
+        "IdentifierProjectionSupplier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-08",
+      "symbol": "parse_canonical_octets",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "IdentifierAdmissionVerifier",
+        "IdentifierProjectionSupplier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-09",
+      "symbol": "canonical_text",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-10",
+      "symbol": "canonical_octets",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-11",
+      "symbol": "display_form",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-12",
+      "symbol": "equivalent",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-13",
+      "symbol": "compare_declared",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-14",
+      "symbol": "erase",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-15",
+      "symbol": "refine",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-16",
+      "symbol": "observe_lifetime",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-17",
+      "symbol": "collision_budget",
+      "reachability": "INDEPENDENT",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-18",
+      "symbol": "profile_fits_region",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-19",
+      "symbol": "series_decide",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "SeriesProjectionVerifier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-20",
+      "symbol": "series_evolve",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-21",
+      "symbol": "series_observe",
+      "reachability": "ADMITTED_INPUTS",
+      "direct_authorities": []
+    },
+    {
+      "source_id": "ID-OP-22",
+      "symbol": "admit_series_definition",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "SeriesProjectionVerifier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-23",
+      "symbol": "series_genesis",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "SeriesProjectionVerifier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-24",
+      "symbol": "upcast_series_event",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "SeriesUpcastVerifier"
+      ]
+    },
+    {
+      "source_id": "ID-OP-25",
+      "symbol": "series_kernel_contribution",
+      "reachability": "EXTERNAL_AUTHORITY",
+      "direct_authorities": [
+        "SeriesKernelVerifier"
+      ]
+    }
+  ],
+  "decision_realization": [
+    {
+      "source_id": "ID-D01",
+      "status": "REALIZED",
+      "rust_loci": [
+        "IdentifierCarrierSpec.kind",
+        "IdentifierCarrierSpec.role"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D02",
+      "status": "REALIZED",
+      "rust_loci": [
+        "IdentifierCarrierSpec.equality"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D03",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "IdentifierProfileCarrier.construction_modes"
+      ],
+      "missing_semantics": [
+        "selected-mode-and-selection-provenance"
+      ],
+      "external_proof_gaps": [
+        "G-ID-01",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D04",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "IdentifierProfileCarrier.profile",
+        "IdentifierProfileCarrier.generation",
+        "IdentifierProfileCarrier.representation_authority",
+        "IdentifierProfileCarrier.format",
+        "IdentifierProfileCarrier.implementation",
+        "IdentifierProfileCarrier.certificate"
+      ],
+      "missing_semantics": [
+        "reserved-values",
+        "kind-prefix-binding",
+        "generation-marker",
+        "protocol-projections"
+      ],
+      "external_proof_gaps": [
+        "G-ID-05",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D05",
+      "status": "REALIZED",
+      "rust_loci": [
+        "IdentifierCarrierSpec.uniqueness_scope",
+        "IdentifierSpec.uniqueness_scope",
+        "UniquenessScopeRef"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-06",
+        "G-ID-07"
+      ]
+    },
+    {
+      "source_id": "ID-D06",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "CollisionBudgetInput",
+        "collision_budget"
+      ],
+      "missing_semantics": [
+        "uniqueness-basis",
+        "collision-observation-fate",
+        "guess-resistance",
+        "profile-binding"
+      ],
+      "external_proof_gaps": [
+        "G-ID-05",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D07",
+      "status": "REALIZED",
+      "rust_loci": [
+        "IdentifierProfileCarrier.namespace_binding",
+        "NamespaceDefinitionPassportVerifier",
+        "NamespaceMintAuthorityVerifier",
+        "IdentifierIssuanceWitness"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-02"
+      ]
+    },
+    {
+      "source_id": "ID-D08",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "IdentifierCarrierSpec.lifetime",
+        "IdentifierCarrierSpec.reuse"
+      ],
+      "missing_semantics": [
+        "issuer-epoch-validity-quarantine-qualification"
+      ],
+      "external_proof_gaps": [
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D09",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "IdentifierProfileCarrier.ordering"
+      ],
+      "missing_semantics": [
+        "clock-regression-fate",
+        "same-tick-sequencing",
+        "monotonic-material-requirement"
+      ],
+      "external_proof_gaps": [
+        "G-ID-05",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D10",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "IdentifierProfileCarrier.accepted_form_rules"
+      ],
+      "missing_semantics": [
+        "admitted-generations",
+        "typed-alias-set"
+      ],
+      "external_proof_gaps": [
+        "G-ID-05",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D11",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "IdentifierProfileCarrier.interaction"
+      ],
+      "missing_semantics": [
+        "display-grouping",
+        "spoken-alphabet"
+      ],
+      "external_proof_gaps": [
+        "G-ID-05",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D12",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "DisclosureContext",
+        "IdentifierDisclosureVerifier"
+      ],
+      "missing_semantics": [
+        "closure-disclosure-ceiling",
+        "enumeration-and-adjacency-posture",
+        "tenant-issuer-volume-and-content-disclosure"
+      ],
+      "external_proof_gaps": [
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D13",
+      "status": "REALIZED",
+      "rust_loci": [
+        "IdentifierProfileCarrier.text_safety",
+        "IdentifierProfileDefinition.text_safety",
+        "TextSafetyContract"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-02",
+        "G-ID-05",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D14",
+      "status": "REALIZED",
+      "rust_loci": [
+        "IdentifierProfileCarrier.error_model",
+        "IdentifierProfileDefinition.error_model",
+        "ErrorModel"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-05",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D15",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "DefinitionBounds",
+        "CallerBudget"
+      ],
+      "missing_semantics": [
+        "required-caller-budget-shape",
+        "batch-requirement"
+      ],
+      "external_proof_gaps": [
+        "G-ID-04",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D16",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "SeriesDefinitionCarrier.progression",
+        "SeriesDefinitionCarrier.external_assignment_requirement"
+      ],
+      "missing_semantics": [
+        "explicit-series-scope"
+      ],
+      "external_proof_gaps": [
+        "G-ID-03",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D17",
+      "status": "REALIZED",
+      "rust_loci": [
+        "ReservationSemanticsCarrier"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-03",
+        "G-ID-05"
+      ]
+    },
+    {
+      "source_id": "ID-D18",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "ReservationSemanticsCarrier"
+      ],
+      "missing_semantics": [
+        "explicit-gap-semantics"
+      ],
+      "external_proof_gaps": [
+        "G-ID-03",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D19",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "SeriesDefinitionCarrier.period_contract",
+        "SeriesDefinitionCarrier.period_capacity",
+        "SeriesDefinitionCarrier.predecessor"
+      ],
+      "missing_semantics": [
+        "exhaustion-posture",
+        "series-recycling-posture",
+        "explicit-successor"
+      ],
+      "external_proof_gaps": [
+        "G-ID-03",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D20",
+      "status": "REALIZED",
+      "rust_loci": [
+        "IdentifierSelectionCard.read_write_generations",
+        "IdentifierSelectionProjection.write_generation",
+        "IdentifierSelectionProjection.read_generations",
+        "lower_selection_card"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-01",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D21",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "ProfileDisposition",
+        "SeriesUpcastContext"
+      ],
+      "missing_semantics": [
+        "coexistence-policy",
+        "retirement-condition",
+        "algorithm-agility"
+      ],
+      "external_proof_gaps": [
+        "G-ID-01",
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D22",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "IdentifierCarrierSpec.obligations",
+        "SeriesDefinitionCarrier.evidence"
+      ],
+      "missing_semantics": [
+        "retention-bounds",
+        "evidence-disclosure-policy"
+      ],
+      "external_proof_gaps": [
+        "G-ID-06"
+      ]
+    },
+    {
+      "source_id": "ID-D23",
+      "status": "REALIZED",
+      "rust_loci": [
+        "SeriesResourceRequirement"
+      ],
+      "missing_semantics": [],
+      "external_proof_gaps": [
+        "G-ID-04"
+      ]
+    },
+    {
+      "source_id": "ID-D24",
+      "status": "PARTIAL",
+      "rust_loci": [
+        "DisclosureContext",
+        "OperationFailure"
+      ],
+      "missing_semantics": [
+        "authorized-report-field-set",
+        "separate-report-budget"
+      ],
+      "external_proof_gaps": [
+        "G-ID-06"
+      ]
+    }
+  ],
+  "unrealized_native_types": [
+    "contract_mismatch",
+    "deployment_contract_mismatch"
+  ],
+  "type_realization_claim": "Compiled missing-set evidence; complete bidirectional Rust type-shape verification remains G-ID-06."
+}

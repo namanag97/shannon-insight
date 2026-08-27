@@ -1,0 +1,71 @@
+{
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "artifact-result-contracts.jsonl": {
+      "bytes": 26395,
+      "sha256": "8d1952363c83806b49709f9024d47937db2714b468564eb5825e8e474e600e44"
+    },
+    "classification-axes.json": {
+      "bytes": 4967,
+      "sha256": "2b5f230455a20e5761863ba08c9e1b2f4583d00a9cb8bab23d5a7288aa138af7"
+    },
+    "compiler-requirements-offers.jsonl": {
+      "bytes": 211374,
+      "sha256": "4b56a73bef912916fabb15af99e3a3bd6e238ed87899c84219246eeb5a983a90"
+    },
+    "decision-points.jsonl": {
+      "bytes": 65505,
+      "sha256": "3e8d26f45af945b6ab7e1c8eaefe5c93cf403a11cf520e243ec008a5be056454"
+    },
+    "gaps.json": {
+      "bytes": 4989,
+      "sha256": "ff59a057b5b068bcbd12af7256a84d89193afc46ec728faa4b58555054aa6d44"
+    },
+    "implementation-records.jsonl": {
+      "bytes": 226841,
+      "sha256": "c455a42aa155da8bc45ed2d035772d2a1cab1547e528d13822b159a77acb31ed"
+    },
+    "innovations.jsonl": {
+      "bytes": 13304,
+      "sha256": "446280ac648ab1cac43c523cd66379c60913989b3ee46047631166f7246b149f"
+    },
+    "library-boundaries.jsonl": {
+      "bytes": 191460,
+      "sha256": "16c0750409b3f088e3e4a2360754c834620de3d532b52dd6fffd69a67c73ae7a"
+    },
+    "method-families.jsonl": {
+      "bytes": 381505,
+      "sha256": "69edf99bd7a55579b82f154a5556c4c2619017e4a8ced1e954e55f2a28a972af"
+    },
+    "qualification-receipts.jsonl": {
+      "bytes": 77401,
+      "sha256": "363fac8b9258d14b22ae4c69f936e5afd7a1b86428e3293c5841a18d0e694ec4"
+    },
+    "schema/artifact-result.schema.json": {
+      "bytes": 3143,
+      "sha256": "cd0a917d74a22501e2143d593778775db1bb74b7d1464c3faa54472bcc9ecdda"
+    },
+    "schema/implementation-record.schema.json": {
+      "bytes": 3254,
+      "sha256": "635e108ecb2e40b37cd2408d949d8cd1897b99e29f0ab72f3bcb296b62f27bc7"
+    },
+    "schema/method-family.schema.json": {
+      "bytes": 3642,
+      "sha256": "878f53e190178a88b2b1424a1ca8bc563fb726040934d9bb80f3412a564c1ac0"
+    },
+    "schema/qualification-receipt.schema.json": {
+      "bytes": 2351,
+      "sha256": "3eed4578b6be1e546d0deea126cb9b4c1e093fe5727048f1c57c8510a65fb261"
+    },
+    "schema/source.schema.json": {
+      "bytes": 1125,
+      "sha256": "784ce7afa956032fd3289c0c11b796649e3263e27c707b081c0a3596f9ae0ba5"
+    },
+    "sources.jsonl": {
+      "bytes": 58904,
+      "sha256": "719a3ab723844d1bd2127b7482fafb777c46d2458005eb0bced16273075891d0"
+    }
+  },
+  "manifest_id": "manifest.method-kernels.v1"
+}

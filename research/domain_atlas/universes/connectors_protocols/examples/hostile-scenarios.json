@@ -1,0 +1,32 @@
+{
+  "candidate_only": true,
+  "negative_twin_refs": [
+    "negative.cp.source_vs_connector_class",
+    "negative.cp.class_vs_artifact",
+    "negative.cp.artifact_vs_occurrence",
+    "negative.cp.protocol_vs_data_model",
+    "negative.cp.documented_vs_probed",
+    "negative.cp.read_cursor_vs_cdc_token",
+    "negative.cp.transport_vs_acceptance",
+    "negative.cp.cut_vs_completion",
+    "negative.cp.connector_vs_end_to_end",
+    "negative.cp.authn_vs_authz",
+    "negative.cp.retryable_vs_safe",
+    "negative.cp.cancelled_vs_stopped",
+    "negative.cp.ordered_vs_final",
+    "negative.cp.encrypted_vs_authenticated",
+    "negative.cp.fixture_vs_live_probe"
+  ],
+  "no_credentials": true,
+  "no_live_probes": true,
+  "occurrence_refs": [
+    "occurrence.cp.hostile_http_202",
+    "occurrence.cp.hostile_expired_cdc",
+    "occurrence.cp.hostile_partial_bulk",
+    "occurrence.cp.legacy_ebcdic_blocked",
+    "occurrence.cp.hostile_webhook_duplicate",
+    "occurrence.cp.hostile_ot_command",
+    "occurrence.cp.browser_unload_drop"
+  ],
+  "status": "test_fixture"
+}

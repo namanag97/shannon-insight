@@ -25,11 +25,10 @@ from __future__ import annotations
 import json
 import logging
 import sqlite3
-from collections.abc import Generator
+from collections.abc import Generator, Iterator
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterator
 
 from .git_models import (
     ChangeType,
@@ -155,8 +154,7 @@ class GitFactDatabase:
                 )
             elif row[0] < SCHEMA_VERSION:
                 logger.warning(
-                    f"Git database schema version {row[0]} < {SCHEMA_VERSION}, "
-                    "migrations needed"
+                    f"Git database schema version {row[0]} < {SCHEMA_VERSION}, migrations needed"
                 )
 
     @contextmanager
@@ -257,9 +255,7 @@ class GitFactDatabase:
             repo_path=row["repo_path"],
             started_at=datetime.fromisoformat(row["started_at"]),
             completed_at=(
-                datetime.fromisoformat(row["completed_at"])
-                if row["completed_at"]
-                else None
+                datetime.fromisoformat(row["completed_at"]) if row["completed_at"] else None
             ),
             head_sha=row["head_sha"],
             oldest_sha=row["oldest_sha"],
@@ -271,9 +267,7 @@ class GitFactDatabase:
 
     # ── Batch Storage (FAST) ───────────────────────────────────────────
 
-    def store_commits_batch(
-        self, commits: list[GitCommit], session_id: str
-    ) -> int:
+    def store_commits_batch(self, commits: list[GitCommit], session_id: str) -> int:
         """Store commits in batch using executemany.
 
         Returns number of commits stored.
@@ -527,9 +521,7 @@ class GitFactDatabase:
                 )
             return [(r["file_a"], r["file_b"], r["cochanges"]) for r in cursor]
 
-    def get_file_age_and_recency(
-        self, file_paths: set[str]
-    ) -> dict[str, tuple[int, int, int]]:
+    def get_file_age_and_recency(self, file_paths: set[str]) -> dict[str, tuple[int, int, int]]:
         """Get age/recency stats for files.
 
         Returns:
@@ -592,9 +584,7 @@ class GitFactDatabase:
                 )
             return [self._row_to_commit(r) for r in cursor]
 
-    def get_all_file_changes(
-        self, since_timestamp: int | None = None
-    ) -> Iterator[GitFileChange]:
+    def get_all_file_changes(self, since_timestamp: int | None = None) -> Iterator[GitFileChange]:
         """Stream all file changes for bulk processing.
 
         Memory-efficient iterator for building churn series.
@@ -623,9 +613,7 @@ class GitFactDatabase:
             for row in cursor:
                 yield self._row_to_file_change(row)
 
-    def get_renames(
-        self, since_timestamp: int | None = None
-    ) -> list[tuple[str, str, int]]:
+    def get_renames(self, since_timestamp: int | None = None) -> list[tuple[str, str, int]]:
         """Get all rename operations.
 
         Returns:
@@ -693,9 +681,7 @@ class GitFactDatabase:
             cursor = conn.execute("SELECT COUNT(*) FROM git_file_changes")
             stats["file_change_count"] = cursor.fetchone()[0]
 
-            cursor = conn.execute(
-                "SELECT COUNT(DISTINCT file_path) FROM git_file_changes"
-            )
+            cursor = conn.execute("SELECT COUNT(DISTINCT file_path) FROM git_file_changes")
             stats["unique_files"] = cursor.fetchone()[0]
 
             cursor = conn.execute(
@@ -708,9 +694,7 @@ class GitFactDatabase:
     def get_timestamp_range(self) -> tuple[int, int] | None:
         """Get (oldest_timestamp, newest_timestamp) from commits."""
         with self._connect() as conn:
-            cursor = conn.execute(
-                "SELECT MIN(timestamp), MAX(timestamp) FROM git_commits"
-            )
+            cursor = conn.execute("SELECT MIN(timestamp), MAX(timestamp) FROM git_commits")
             row = cursor.fetchone()
             if row[0] is None:
                 return None

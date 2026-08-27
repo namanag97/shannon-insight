@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/runtime-resource-context-v0.1.0.schema.json",
+  "title": "Runtime/compute/resource bounded-context research candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_kind", "context_id", "edition", "status", "name", "domain_vision", "subdomain_classification", "owns", "explicitly_excludes", "neighbor_context_refs", "core_invariants", "published_language", "evidence_refs", "gaps"],
+  "properties": {
+    "record_kind": {"const": "bounded_context"},
+    "context_id": {"type": "string", "pattern": "^context\\.runtime-resource\\.[a-z0-9-]+$"},
+    "edition": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "status": {"enum": ["research_candidate", "reviewed", "adjudicated", "deprecated"]},
+    "name": {"type": "string", "minLength": 1},
+    "domain_vision": {"type": "string", "minLength": 1},
+    "subdomain_classification": {"enum": ["core", "supporting", "generic"]},
+    "owns": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "explicitly_excludes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "neighbor_context_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "core_invariants": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "published_language": {"type": "string", "minLength": 1},
+    "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^evidence\\."}},
+    "gaps": {"type": "array", "items": {"type": "string"}}
+  }
+}

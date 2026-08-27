@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "criticality": {
+      "enum": [
+        "blocking",
+        "degradable",
+        "optional"
+      ]
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_gates": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fallback_law": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "required_guarantees": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "requirement_id": {
+      "pattern": "^requirement\\.lpe\\.",
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "subject_context_ref": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "requirement_id",
+    "edition",
+    "status",
+    "subject_context_ref",
+    "operation_ref",
+    "required_guarantees",
+    "criticality",
+    "evidence_gates",
+    "fallback_law",
+    "evidence_refs"
+  ],
+  "title": "LPE capability requirement candidate",
+  "type": "object"
+}

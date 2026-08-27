@@ -1,0 +1,3 @@
+{"id": "institution.oced_working_group", "identity_status": "candidate_collective", "name": "IEEE Task Force on Process Mining OCED working group", "record_type": "institution", "source": "https://arxiv.org/abs/2410.14495"}
+{"id": "institution.rwth_pads", "identity_status": "verified_primary_standard", "name": "RWTH Aachen Process and Data Science", "record_type": "institution", "source": "https://www.ocel-standard.org/2.0/ocel20_specification.pdf"}
+{"id": "institution.tue", "identity_status": "verified_primary_profile", "name": "Eindhoven University of Technology", "record_type": "institution", "source": "https://research.tue.nl/"}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "contribution": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "innovation_id": {
+      "pattern": "^innovation\\.lpe\\.",
+      "type": "string"
+    },
+    "limit": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "non_llm": {
+      "const": true
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "innovation_id",
+    "edition",
+    "status",
+    "year",
+    "name",
+    "contribution",
+    "limit",
+    "non_llm",
+    "evidence_refs"
+  ],
+  "title": "LPE 2021-2026 innovation candidate",
+  "type": "object"
+}

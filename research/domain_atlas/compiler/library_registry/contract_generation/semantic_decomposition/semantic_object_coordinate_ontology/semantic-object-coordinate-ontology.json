@@ -1,0 +1,61 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "semantic_object",
+  "compiler_refusals": [
+    "REFUSE_UNBOUND_SUBJECT_KIND",
+    "REFUSE_CONTEXT_OR_METALEVEL_PUNNING",
+    "REFUSE_REFERENT_REPRESENTATION_COLLAPSE",
+    "REFUSE_COMMAND_EVENT_EFFECT_COLLAPSE",
+    "REFUSE_CLAIM_EVIDENCE_TRUTH_COLLAPSE",
+    "REFUSE_RESOURCE_CAPABILITY_AUTHORITY_COLLAPSE",
+    "REFUSE_MISSING_OWNER_EVIDENCE_OR_CONFORMANCE"
+  ],
+  "completion_claim": false,
+  "coordinate_key": [
+    "bounded_context_ref",
+    "semantic_owner_ref",
+    "subject_ref",
+    "subject_kind_ref",
+    "metalevel_ref",
+    "edition_ref",
+    "use_site_ref"
+  ],
+  "domain_question": "What exact kind of thing is governed at this position, in which bounded context and metalevel, with what identity, lifecycle, assertion, authority, representation and effect semantics?",
+  "edition": 1,
+  "non_collapse_laws": [
+    "referent_is_not_identifier_or_representation",
+    "type_is_not_instance_and_instance_is_not_occurrence",
+    "entity_is_not_record_row_document_or_snapshot",
+    "event_is_not_command_observation_or_state",
+    "fact_is_not_claim_and_claim_is_not_evidence_or_truth",
+    "intent_is_not_plan_attempt_effect_or_accepted_outcome",
+    "rule_is_not_policy_decision_or_enforcement",
+    "state_is_not_history_snapshot_or_status_carrier",
+    "resource_is_not_capability_entitlement_allocation_or_usage",
+    "schema_conformance_is_not_domain_truth",
+    "proof_or_signature_is_not_identity_authority_truth_or_fitness",
+    "one_subject_may_have_multiple_explicit_roles_without_global_punning"
+  ],
+  "ontology_id": "ontology.semantic-axis.semantic-object-coordinate.v1",
+  "required_coordinate_fields": [
+    "referent_domain_and_boundary",
+    "intrinsic_kind_versus_contextual_role",
+    "type_instance_occurrence_and_metalevel",
+    "identity_equality_and_reference_profile",
+    "lifecycle_mutability_and_continuity",
+    "asserted_observed_requested_derived_or_represented_mode",
+    "authority_responsibility_and_provenance",
+    "time_state_and_history_profile",
+    "grain_cardinality_and_container_laws",
+    "relation_endpoints_direction_and_qualification",
+    "representation_schema_carrier_and_loss",
+    "open_closed_world_and_existence_assumptions",
+    "partiality_dispute_and_unknown_kind",
+    "command_execution_effect_and_acceptance_seams",
+    "policy_privacy_security_and_safety_scope",
+    "composition_split_merge_and_precedence",
+    "compatibility_migration_and_versioning",
+    "evidence_invalidators_and_conformance_oracles"
+  ],
+  "status": "STRUCTURAL_COORDINATE_ONTOLOGY_DECISIONS_OPEN"
+}

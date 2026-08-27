@@ -1,0 +1,39 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/gap_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocks_completion_claim": {
+      "const": true
+    },
+    "closure_evidence_required": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "gap_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "description",
+    "closure_evidence_required",
+    "blocks_completion_claim"
+  ],
+  "type": "object"
+}

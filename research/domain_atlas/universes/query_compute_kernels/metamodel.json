@@ -1,0 +1,139 @@
+{
+  "completion_claim": false,
+  "constitutional_laws": [
+    "logical meaning is fixed before physical selection",
+    "rewrite requires proof, a scoped conformance oracle, or an explicit unproven gap",
+    "provider names never determine semantic dispatch",
+    "approximation and information loss require declared authorization and receipts",
+    "null, missing, NaN, collation, timezone and ordering semantics are never inferred from a target",
+    "resource use is finite or compilation refuses",
+    "cancellation and partial effects are explicit contracts",
+    "adaptive replanning preserves the declared semantics and guarantee posture",
+    "UDF volatility, effects, determinism, parallel safety and sandbox are mandatory",
+    "compression is an encoding, kernel and physical-policy concern, not a vendor feature flag",
+    "unknown provider or target behavior fails closed"
+  ],
+  "edition": 1,
+  "fallback_classes": [
+    "equivalent_alternative",
+    "declared_typed_degradation",
+    "human_authorized_change",
+    "refuse"
+  ],
+  "forbidden_core_dependencies": [
+    "llm",
+    "large_language_model",
+    "prompt",
+    "rag",
+    "agent_memory",
+    "generative_model"
+  ],
+  "guarantee_lattice": {
+    "exactness": [
+      "exact",
+      "bounded_approximation",
+      "empirical_approximation",
+      "unspecified"
+    ],
+    "reproducibility": [
+      "cross_target_bitwise",
+      "qualified_target_bitwise",
+      "run_deterministic",
+      "tolerance_reproducible",
+      "nondeterministic_declared"
+    ],
+    "result_completeness": [
+      "complete",
+      "watermark_complete",
+      "bounded_partial",
+      "best_effort_partial",
+      "unknown"
+    ]
+  },
+  "identity_layers": [
+    {
+      "cannot_own": [
+        "algorithm",
+        "provider",
+        "target"
+      ],
+      "kind": "semantic_operation",
+      "owns": [
+        "meaning",
+        "types",
+        "null_missing_nan",
+        "ordering",
+        "time",
+        "exactness"
+      ]
+    },
+    {
+      "cannot_own": [
+        "query_language_meaning",
+        "provider_identity"
+      ],
+      "kind": "algorithm",
+      "owns": [
+        "method_family",
+        "complexity",
+        "preconditions"
+      ]
+    },
+    {
+      "cannot_own": [
+        "business_or_query_semantics"
+      ],
+      "kind": "kernel",
+      "owns": [
+        "executable_contract",
+        "layout",
+        "target_requirements",
+        "resource_behavior"
+      ]
+    },
+    {
+      "cannot_own": [
+        "canonical_semantics"
+      ],
+      "kind": "provider",
+      "owns": [
+        "offers",
+        "limits",
+        "evidence_scope",
+        "versions"
+      ]
+    },
+    {
+      "cannot_own": [
+        "selection_policy"
+      ],
+      "kind": "target",
+      "owns": [
+        "isa",
+        "device",
+        "runtime",
+        "memory_and_resource_constraints"
+      ]
+    }
+  ],
+  "metamodel_id": "san.query-compute-kernel-universe",
+  "planning_stages": [
+    "parse",
+    "bind_names",
+    "infer_types",
+    "resolve_functions",
+    "normalize_semantics",
+    "build_logical_plan",
+    "rewrite_with_equivalence_proof",
+    "derive_statistics",
+    "estimate_cardinality_and_cost",
+    "enumerate_physical_alternatives",
+    "bind_provider_and_target",
+    "lower_to_kernels",
+    "insert_resource_and_assurance_controls",
+    "execute",
+    "emit_receipts"
+  ],
+  "scope": "Provider-neutral query and compute semantics from language binding to execution receipts; no LLM, generative or agentic semantics.",
+  "status": "active_research_contract"
+}

@@ -1,0 +1,2 @@
+{"canonical_refs":["pattern.codec_as_service","component.codec_runtime"],"disposition":"reclassify_as_library_runtime_component","edition":1,"legacy_ref":"candidate.product.codec_service","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["semantic.rcb.codec_kernel","semantic.rcb.compression_contract","semantic.rcb.loss_contract"],"disposition":"split_codec_compression_and_loss","edition":1,"legacy_ref":"term.codec","record_kind":"legacy_crosswalk"}

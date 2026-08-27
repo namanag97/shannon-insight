@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection_semantics": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "determinism": {
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "exactness": {
+      "enum": [
+        "exact",
+        "bounded_approximation",
+        "empirical_approximation"
+      ]
+    },
+    "failure_modes": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "family": {
+      "enum": [
+        "relational",
+        "stream",
+        "graph",
+        "spatial",
+        "numerical",
+        "approximate",
+        "encoding",
+        "control"
+      ]
+    },
+    "gaps": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "information_loss": {
+      "type": "string"
+    },
+    "input_roles": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "laws": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "legal_decompositions": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "null_missing_nan_semantics": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "operator_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "output_contract": {
+      "type": "string"
+    },
+    "parameter_contracts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "semantic_owner_ref": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "semantics": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "time_semantics": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "operator_id",
+    "edition",
+    "status",
+    "family",
+    "name",
+    "semantic_owner_ref",
+    "semantics",
+    "input_roles",
+    "output_contract",
+    "parameter_contracts",
+    "collection_semantics",
+    "null_missing_nan_semantics",
+    "time_semantics",
+    "exactness",
+    "determinism",
+    "information_loss",
+    "laws",
+    "failure_modes",
+    "legal_decompositions",
+    "evidence_refs",
+    "gaps"
+  ],
+  "title": "Provider-neutral logical operator",
+  "type": "object"
+}

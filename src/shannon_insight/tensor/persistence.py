@@ -1,11 +1,11 @@
 """Tensor persistence — save/load RelationTensor to disk."""
+
 from __future__ import annotations
 
 import json
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-import numpy as np
 from scipy import sparse
 
 if TYPE_CHECKING:

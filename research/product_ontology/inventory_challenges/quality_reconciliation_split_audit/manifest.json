@@ -1,0 +1,27 @@
+{
+  "audit_id": "audit.product_boundary.quality_reconciliation_split.edition1",
+  "edition": 1,
+  "files": {
+    "library-assignments.jsonl": {
+      "bytes": 6014,
+      "sha256": "231aaa75522379fde672d7c4c30046a34b7e296a8f6f4a6666fd0ec9e4b108fd"
+    },
+    "negative-tests.jsonl": {
+      "bytes": 2019,
+      "sha256": "f35e824545b1482f25c4f6abfe58aed4a582779a376576e6a9a7d731fbf4d50b"
+    },
+    "replacement-hypotheses.jsonl": {
+      "bytes": 2605,
+      "sha256": "936cf8812b36693b2dd91c8fd86d91756c570840090a54c82b1631810f8ecbed"
+    },
+    "summary.json": {
+      "bytes": 1120,
+      "sha256": "00b3b5282e693596cab60af0197d7b5c2f86f430d2887033a7c54e580f1d5cdf"
+    },
+    "vertical-remap-proposals.jsonl": {
+      "bytes": 1632,
+      "sha256": "fdec33406e4ee3c8e4a41fe4921900ea1e2858620eaeceb668a3635757da32f8"
+    }
+  },
+  "source_sha256": "39267346e2d0499354925edb6084429894e7d43d4637fefa768f2e627f44b545"
+}

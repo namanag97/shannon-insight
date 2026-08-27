@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "affected_context_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "blocking_for_universal_compilation": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "string"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_refs": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "gap_id": {
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$",
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "prohibited_fallbacks": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "resolution_condition": {
+      "type": "string"
+    },
+    "status": {
+      "const": "open"
+    }
+  },
+  "required": [
+    "gap_id",
+    "edition",
+    "status",
+    "description",
+    "blocking_for_universal_compilation",
+    "affected_context_refs",
+    "evidence_refs",
+    "resolution_condition",
+    "prohibited_fallbacks",
+    "owner"
+  ],
+  "title": "Query/compute/kernel research gap",
+  "type": "object"
+}

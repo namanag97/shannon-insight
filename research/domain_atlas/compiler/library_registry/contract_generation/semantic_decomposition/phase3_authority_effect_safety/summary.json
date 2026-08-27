@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-08-26",
+  "authority_coordinates": 16,
+  "bounded_primary_evidence_claims": 8,
+  "canonical_exact_gaps_closed": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "effect_coordinates": 16,
+  "modules": 3,
+  "primary_sources": 8,
+  "privacy_security_safety_coordinates": 34,
+  "program_id": "program.semantic-axis.phase3.authority-effect-safety.v1",
+  "remaining_gate": "Named authority, privacy, security, safety, evidence and runtime owners accept coordinates, outcomes, non-collapse laws and imports; all family matrices bind explicit applicability and exceptions.",
+  "status": "ACTIVE_PENDING_OWNER_RATIFICATION"
+}

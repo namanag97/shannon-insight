@@ -1,0 +1,58 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/law_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "compiler_obligation": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "failure_code": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "law_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "law_type": {
+      "enum": [
+        "non_collapse",
+        "compatibility",
+        "invalidation"
+      ]
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "statement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "law_id",
+    "edition",
+    "status",
+    "law_type",
+    "statement",
+    "compiler_obligation",
+    "failure_code",
+    "source_refs"
+  ],
+  "type": "object"
+}

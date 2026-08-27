@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/data-modality-gap-audit/vertical-case.schema.json",
+  "type": "object",
+  "required": ["sample_id", "vertical", "case", "family_ids", "coverage_law", "evidence_refs", "status"],
+  "properties": {
+    "sample_id": {"type": "string", "pattern": "^VERT-"},
+    "vertical": {"type": "string"},
+    "case": {"type": "string", "minLength": 5},
+    "family_ids": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "pattern": "^fam\\."}},
+    "coverage_law": {"type": "string", "minLength": 15},
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "status": {"const": "sample_not_universal_proof"}
+  },
+  "additionalProperties": false
+}

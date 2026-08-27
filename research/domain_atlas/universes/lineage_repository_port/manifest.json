@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 1,
+      "sha256": "81e1eb6fb018f78a5bbbb0f3387a7adeb658d74a3807d763060f469f53d0deb8"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 3,
+      "sha256": "9a7c244646149473eb3d5b80e0ad0724b7c025ea7772a5fff380c8dd6c216a59"
+    },
+    "decision-points.jsonl": {
+      "records": 16,
+      "sha256": "53aaf4e1cf3c8c0d8b5575c29b441eb55391302adebb17e1e63a2b0909ec3c7a"
+    },
+    "library-contracts.jsonl": {
+      "records": 1,
+      "sha256": "b8f08042c44c9efef01849a0b17ea1e991fc9f98f7c06eef30369f6ed2b73f24"
+    },
+    "negative-twins.jsonl": {
+      "records": 20,
+      "sha256": "3351b902be40d7cecadec4dd5432ec805863ca9ee19600a7a2fc4b44f239d034"
+    },
+    "sources.jsonl": {
+      "records": 17,
+      "sha256": "8277b953cb5e944c89c401ed54b5c85ddf1f92a47a89c7f80dced03b9b40d1ea"
+    }
+  },
+  "manifest_id": "lineage_repository_port_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

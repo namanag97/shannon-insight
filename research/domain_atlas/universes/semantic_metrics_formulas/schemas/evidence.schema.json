@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "assertion": {},
+    "claim_scope": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_strength": {},
+    "source_ref": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "edition",
+    "status",
+    "source_ref",
+    "claim_scope",
+    "assertion",
+    "evidence_strength"
+  ],
+  "title": "Evidence assertion",
+  "type": "object"
+}

@@ -1,0 +1,26 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "cross-family-type-collisions.jsonl": {
+      "bytes": 43773,
+      "sha256": "95ba95fbb47ce4eb67f130dacbb86af197360095291dda545fcff51a99d941f9"
+    },
+    "family-axis-packets.jsonl": {
+      "bytes": 195284,
+      "sha256": "2db361763f597bbca6bcbd68c9846614438678677ce3bdd1eb50092804ec5582"
+    },
+    "global-symbol-collisions.jsonl": {
+      "bytes": 382096,
+      "sha256": "ce8162b572ad9330f11002938a5114e7da8d0644b7c3859e8a98926123c89b7d"
+    },
+    "summary.json": {
+      "bytes": 906,
+      "sha256": "de8bc2919c0d988c011915049ecca38a2695985a1e259609c9715b2490b03677"
+    },
+    "type-operation-candidates.jsonl": {
+      "bytes": 516614,
+      "sha256": "45a9044b2b75f66d6da95e77fa1aac356272ff947a712c54c6b4f7ee8de107d2"
+    }
+  },
+  "manifest_id": "manifest.semantic-axis.p0-identity-grain.v1"
+}

@@ -1,0 +1,200 @@
+{
+  "$id": "https://san.example/spec/governance_semantics-adjudication-metamodel-v0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "artifact_kinds": {
+    "architecture_pattern": {
+      "definition": "A reusable arrangement with no adoption, operation or semantic-owner identity.",
+      "kind": "architecture_pattern"
+    },
+    "capability": {
+      "definition": "Typed behavior required or offered by products and implementations.",
+      "kind": "capability"
+    },
+    "implementation": {
+      "definition": "A concrete project or component requiring qualification.",
+      "kind": "implementation"
+    },
+    "interface": {
+      "definition": "A versioned interaction contract without an operated promise.",
+      "kind": "interface"
+    },
+    "library_contract": {
+      "definition": "A pure or effect-bounded reusable implementation boundary.",
+      "kind": "library_contract"
+    },
+    "neighboring_product": {
+      "definition": "A product outside this slice whose authority is imported rather than re-owned.",
+      "kind": "neighboring_product"
+    },
+    "product": {
+      "definition": "An independently adopted and operated outcome promise that remains a candidate until ratified.",
+      "kind": "product"
+    },
+    "provider_class": {
+      "definition": "A class of operated offers, not a qualified occurrence.",
+      "kind": "provider_class"
+    },
+    "resource_class": {
+      "definition": "A finite runtime or persistence resource requirement.",
+      "kind": "resource_class"
+    },
+    "semantic_contract": {
+      "definition": "Owner of meanings, states, invariants and refusals.",
+      "kind": "semantic_contract"
+    },
+    "solution_pack": {
+      "definition": "A vertical composition carrying industry language, rules, sources and defaults.",
+      "kind": "solution_pack"
+    },
+    "standard": {
+      "definition": "An exact external edition that specializes an interface or semantic contract.",
+      "kind": "standard"
+    },
+    "suite": {
+      "definition": "Commercial or operational packaging of independently governed products.",
+      "kind": "suite"
+    }
+  },
+  "binding_phases": [
+    "authoring",
+    "compile_time",
+    "deployment_time",
+    "runtime",
+    "qualification_time"
+  ],
+  "contract_id": "contract.product_adjudication.governance_semantics.v0_1_0",
+  "edition": 1,
+  "non_collapse_laws": [
+    "validity != quality measurement != fitness-for-use verdict",
+    "conformance != observability != reconciliation",
+    "quality signal != defect adjudication != correction authority",
+    "reconciliation definition != run != break != disposition != correction",
+    "source truth != accounting truth != control truth",
+    "exact equality != tolerant match",
+    "balanced aggregate != row-level equality",
+    "break != defect != incident != waiver",
+    "proposal != approved correction != executed effect != receipt",
+    "horizontal reconciliation contract != accounting or counterparty vertical vocabulary",
+    "models and agents are removable non-authoritative proposal mechanisms",
+    "provider documentation and structural compiler maps do not establish qualification or portability",
+    "prospective lineage != observed runtime lineage",
+    "logical lineage != physical lineage != runtime lineage != field lineage != formula lineage",
+    "derivation or graph path != causation",
+    "audit event/log/trail != provenance graph != evidence bundle",
+    "identity or digest or signature != truth or authority",
+    "possible impact != confirmed impact != executed response",
+    "correction != retraction != recall != deletion",
+    "model or agent proposal != accepted assertion",
+    "concept != term != label != definition != taxonomy placement != ontology axiom",
+    "contract declaration != observed attainment != breach decision != remedy effect",
+    "data-product readiness != publication != marketplace listing != eligibility != access != consumption",
+    "metadata assertion != asset != source fact != discovery projection != listing != certification",
+    "ontology consistency != shape conformance != real-world truth",
+    "policy statement != decision != obligation fulfillment != enforcement != effect",
+    "schema validity != compatibility != contract acceptance != business substitutability",
+    "source record != master identity != golden projection != reference value != code",
+    "master data governance != reference data governance",
+    "master entity != reference value != code != designation",
+    "resolution assertion != master identity issuance != master projection",
+    "reference mapping != equivalence and forward mapping != reverse mapping"
+  ],
+  "record_kinds": {
+    "artifact": {
+      "identity_key": "artifact_id",
+      "source_section": "artifacts"
+    },
+    "artifact_kind_definition": {
+      "identity_key": "kind",
+      "source_section": "artifact_kinds"
+    },
+    "boundary_decision": {
+      "identity_key": "decision_id",
+      "source_section": "boundary_decisions"
+    },
+    "capability_offer": {
+      "identity_key": "offer_id",
+      "source_section": "offers"
+    },
+    "capability_requirement": {
+      "identity_key": "requirement_id",
+      "source_section": "requirements"
+    },
+    "evidence_source": {
+      "identity_key": "source_id",
+      "source_section": "sources"
+    },
+    "legacy_crosswalk": {
+      "identity_key": "legacy_ref",
+      "source_section": "crosswalks"
+    },
+    "library_contract": {
+      "identity_key": "library_id",
+      "source_section": "libraries"
+    },
+    "negative_test": {
+      "identity_key": "test_id",
+      "source_section": "negative_tests"
+    },
+    "product_ddd_dossier": {
+      "identity_key": "dossier_id",
+      "source_section": "ddd_dossiers"
+    },
+    "product_library_binding_gap": {
+      "identity_key": "gap_id",
+      "source_section": "binding_gaps"
+    },
+    "product_library_binding_map": {
+      "identity_key": "binding_map_id",
+      "source_section": "binding_maps"
+    },
+    "relation": {
+      "identity_key": "relation_id",
+      "source_section": "relations"
+    },
+    "semantic_ownership": {
+      "identity_key": "meaning_id",
+      "source_section": "ownership"
+    }
+  },
+  "relation_predicates": [
+    "packaged_as",
+    "packages",
+    "offers",
+    "requires",
+    "governed_by",
+    "specializes",
+    "implements",
+    "realizes"
+  ],
+  "split_test_axes": [
+    "user",
+    "job",
+    "adoption",
+    "semantics",
+    "authority",
+    "lifecycle",
+    "operation",
+    "economics",
+    "interface",
+    "market_evidence"
+  ],
+  "split_test_verdicts": {
+    "defer": [
+      7,
+      12
+    ],
+    "merge_or_reclassify": [
+      0,
+      6
+    ],
+    "presumptive_product": [
+      13,
+      16
+    ],
+    "strong_product_candidate": [
+      17,
+      20
+    ]
+  },
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

@@ -1,0 +1,14 @@
+{
+  "as_of": "2026-08-26",
+  "bounded_primary_evidence_claims": 7,
+  "canonical_exact_gaps_closed": 0,
+  "completion_claim": false,
+  "edition": 1,
+  "information_states": 13,
+  "modules": 4,
+  "primary_sources": 7,
+  "program_id": "program.semantic-axis.phase2.dynamics-information.v1",
+  "remaining_gate": "Named foundation owners accept coordinates, information states, outcomes, non-collapse laws and imports; all family matrices record applicability, profiles and exceptions.",
+  "status": "ACTIVE_PENDING_OWNER_RATIFICATION",
+  "time_role_coordinates": 11
+}

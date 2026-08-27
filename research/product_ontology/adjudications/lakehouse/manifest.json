@@ -1,0 +1,62 @@
+{
+  "contract_id": "adjudication.lakehouse.edition1",
+  "counts": {
+    "artifact": 61,
+    "artifact_kind_definition": 13,
+    "boundary_decision": 12,
+    "capability_offer": 8,
+    "capability_requirement": 21,
+    "compiler_library_binding": 14,
+    "evidence_source": 16,
+    "legacy_crosswalk": 14,
+    "library_contract": 14,
+    "negative_test": 14,
+    "product_ddd_delegation": 2,
+    "product_ddd_dossier": 4,
+    "product_library_binding_map": 14,
+    "relation": 61,
+    "semantic_ownership": 21
+  },
+  "derived": {
+    "compiler_library_bindings": 14,
+    "full_product_ddd_dossiers": 4,
+    "imported_product_ddd_delegations": 2,
+    "legacy_crosswalks": 14,
+    "portable_offers": 0,
+    "product_candidates": 6,
+    "product_library_binding_gaps": 0,
+    "product_library_binding_maps": 14,
+    "qualified_offers": 0,
+    "unbound_requirements": 21
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "7787c8eba48776eea11a184c9e5ca4abd6526f92179846ce9ddece26ce82b782",
+    "artifacts.jsonl": "d96255960dc03366ccbc21ce0a8e3d9a48bc880979e0caa8f50e370f59607c80",
+    "boundary-decisions.jsonl": "4cc8ba87820884ed24a09dea51576120ccf9a5cc2e09773b9b4aa7e9ba8941b5",
+    "compiler-library-bindings.jsonl": "4db85efcfa4e15b2d2cbbcf66c85a5b7a487687627195f80b0e6ae0080ef09f4",
+    "evidence.jsonl": "4ec5481f6afdf4fd40e759186a3408e1aaa7e6a7f12c5b4a16c4ee7d26addad0",
+    "legacy-crosswalks.jsonl": "a35ae9b82d5d521d80cfa2c8fc99d55b5e999ba7819da7d4af26299b3a849fd4",
+    "library-contracts.jsonl": "3419319a0913bfe0f0c8777bd600473bcc0b33a814a1aea3da9aec7e7e365737",
+    "metamodel.json": "31aa7abe63b36862622d7cda5170980092d4a4b8488de3138d0acab473999e29",
+    "negative-tests.jsonl": "7ed4ac08ef4fa5d3f7a18223a0140884ec38cf8632302c8732f9db5bd4bbe2da",
+    "offers.jsonl": "389bec476c874eb7d45f6c04df43fce3cdcc80249153db77bced7b14fe28cf3b",
+    "product-ddd-delegations.jsonl": "e4d3fbd21d13bcd1098ce8ddba751f31f8440ae01367219a978409e91987fba9",
+    "product-ddd-dossiers.jsonl": "1f27961b9ab59779e5ebb7201da4ee0cbe9f159bc14be455ec4dfd50ebfd7f90",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "61bf065de41947814a88345e393fbca4012de2864eab49832a4a437fa12b8b9d",
+    "registry.jsonl": "bf1cd41ea52b15165cd93df3e4285cc69843d1789a6d209c4fd5b8495a319a88",
+    "relations.jsonl": "ebc620fc535884a1944193e963a94674117badfdc9785f2802684c958fa2f171",
+    "requirements.jsonl": "1d7d75848d4d7533bb5caa34c9d1b86667c6127eff338004136bbad631db0e51",
+    "semantic-ownership.jsonl": "cf70e1ddd75b5de4653b94cde5d8a8f42b2d2faee177170bb0f029e4ebcf5a19"
+  },
+  "negative_scope": [
+    "No provider is qualified by this corpus.",
+    "No candidate product is ratified by this corpus.",
+    "No open-source project or market SKU is promoted to semantic authority by observation alone.",
+    "No industry solution pack is derived from the horizontal lakehouse pattern."
+  ],
+  "scope": "Provider-neutral lakehouse architecture, product, capability, semantic-contract, standard, library, implementation, provider-resource and neighboring-product boundaries.",
+  "source_sha256": "0228cef932ef12dcc87ee1463fa609a361394b746a18531e0d0e2c3452116509",
+  "status": "adjudicated_candidate"
+}

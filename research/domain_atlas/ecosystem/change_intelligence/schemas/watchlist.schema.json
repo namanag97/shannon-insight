@@ -1,0 +1,41 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/watchlist.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "exit_criteria": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "missing_evidence": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "next_review_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "priority": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "signal_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "watch_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "exit_criteria",
+    "missing_evidence",
+    "next_review_at",
+    "priority",
+    "signal_id",
+    "watch_id"
+  ],
+  "title": "watchlist",
+  "type": "object"
+}

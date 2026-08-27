@@ -1,0 +1,40 @@
+{
+  "$id": "https://san.example/product-boundary/boundary_assertion.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "acceptance_criterion": {},
+    "definition": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_ids": {},
+    "falsifier": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "boundary_assertion"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject_kind": {}
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "subject_kind",
+    "definition",
+    "acceptance_criterion",
+    "falsifier",
+    "evidence_ids"
+  ],
+  "title": "Global boundary research: boundary_assertion",
+  "type": "object"
+}

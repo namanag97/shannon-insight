@@ -1,0 +1,128 @@
+{
+  "as_of": "2026-08-27",
+  "axis": "order_and_topology",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "coordinate_key": [
+    "bounded_context_ref",
+    "endpoint_domain_ref",
+    "relation_ref",
+    "relation_edition_ref",
+    "scope_ref",
+    "use_site_ref"
+  ],
+  "dependency_axis_refs": [
+    "semantic_object",
+    "identity_and_equality",
+    "grain_and_cardinality",
+    "state_and_change",
+    "time",
+    "partiality_and_uncertainty",
+    "composition_algebra",
+    "representation",
+    "evidence_and_conformance"
+  ],
+  "discovery_projection_compatibility": {
+    "existing_facets": [
+      "total_order",
+      "partial_order",
+      "hierarchy",
+      "graph_topology",
+      "spatial_topology"
+    ],
+    "prohibition": "A facet cannot select endpoint types, relation edition, algebraic laws, scope, path semantics, causality, member applicability or exact contract.",
+    "status": "LOSSY_LEXICAL_DISCOVERY_PROJECTION_ONLY"
+  },
+  "domain_question": "Over which identified endpoint domain does which relation hold, with what algebraic properties, scope, witnesses, path semantics and representation boundary?",
+  "edition": 1,
+  "member_applicability_decisions": 0,
+  "non_collapse_laws": [
+    "serialization order is not semantic order",
+    "arrival order is not source event time processing or causal order",
+    "partition-local total order is not global order",
+    "total order is not partial order and incomparability is a valid result",
+    "a deterministic linear extension does not manufacture causality",
+    "dependency is not causality and influence is not causal effect",
+    "reachability is not adjacency",
+    "hierarchy is not necessarily a tree",
+    "taxonomy is not partonomy containment or ownership",
+    "graph node edge path and connected component are distinct grains",
+    "graph isomorphism is not subject identity or semantic equivalence",
+    "sort key order is not field order row order render order or rank",
+    "spatial topology is not coordinate order or network connectivity",
+    "z-index is not accessibility reading order or business priority"
+  ],
+  "ontology_id": "ontology.semantic-axis.order-topology-coordinate.v1",
+  "owner_decision": "UNRESOLVED",
+  "path_contract": {
+    "required_fields": [
+      "start_and_end_domain_refs",
+      "allowed_edge_relation_refs",
+      "direction",
+      "path_identity_and_equivalence",
+      "simple_or_repeating_path",
+      "cycle_policy",
+      "cost_or_weight_algebra_ref",
+      "closure_materialization_status",
+      "witness_and_provenance"
+    ]
+  },
+  "primary_source_refs": [
+    "source.order.rdf-concepts",
+    "source.order.prov-constraints",
+    "source.order.onnx-ir",
+    "source.order.substrait-relations",
+    "source.order.beam-model",
+    "source.order.skos-primer",
+    "source.order.geosparql"
+  ],
+  "relation_coordinate": {
+    "algebraic_properties": [
+      "reflexive_or_irreflexive",
+      "symmetric_asymmetric_or_antisymmetric",
+      "transitive_or_nontransitive",
+      "total_connected_or_partial",
+      "acyclic_or_cycles_allowed",
+      "well_founded_or_unbounded_descent_allowed",
+      "stable_or_unstable_under_equal_keys",
+      "single_edge_multiedge_or_hyperedge"
+    ],
+    "comparability_outcomes": [
+      "before",
+      "after",
+      "equal_under_relation",
+      "equivalent_not_identical",
+      "concurrent",
+      "incomparable",
+      "disconnected",
+      "cycle_detected",
+      "relation_unbound",
+      "indeterminate",
+      "refused"
+    ],
+    "required_fields": [
+      "endpoint_identity_and_type_refs",
+      "relation_archetype_ref",
+      "arity_direction_and_multiplicity",
+      "algebraic_property_profile",
+      "comparability_outcomes",
+      "scope_and_partition_boundary",
+      "tie_stability_and_null_policy",
+      "path_and_cycle_policy",
+      "witness_or_derivation_ref",
+      "representation_versus_semantic_status",
+      "authority_and_evidence_refs"
+    ],
+    "scope_kinds": [
+      "global_claimed_with_proof",
+      "partition_local",
+      "window_local",
+      "transaction_local",
+      "case_or_object_local",
+      "graph_component_local",
+      "representation_local",
+      "presentation_local",
+      "unknown"
+    ]
+  }
+}

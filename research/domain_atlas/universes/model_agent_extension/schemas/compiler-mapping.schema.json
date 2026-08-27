@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "binding_phase": {
+      "type": "string"
+    },
+    "context_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "core_valid_without_extension": {
+      "const": true
+    },
+    "edition": {
+      "const": 1
+    },
+    "fallback": {
+      "const": "refuse_or_explicit_non_model_path"
+    },
+    "mapping_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "offer_shape": {
+      "type": "object"
+    },
+    "proof_refs": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "requirement": {
+      "type": "object"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "edition",
+    "status",
+    "context_ref",
+    "requirement",
+    "offer_shape",
+    "binding_phase",
+    "proof_refs",
+    "fallback",
+    "core_valid_without_extension"
+  ],
+  "type": "object"
+}

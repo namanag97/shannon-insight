@@ -1,0 +1,80 @@
+{
+  "as_of": "2026-08-27",
+  "build_ready_products": 0,
+  "completion_claim": false,
+  "concrete_reference_resolutions": 635,
+  "edition": 1,
+  "evidence_vacancy_packages": 15,
+  "gate_execution_kernels": 16,
+  "implementation_slots": 1010,
+  "input_snapshot": {
+    "aggregate_sha256": "3891469f1377aea474ff7b41248c1dbfe89f8bf83937432770e2d2ce645211ec",
+    "files": [
+      {
+        "bytes": 1336940,
+        "path": "research/product_ontology/qualification_program/library-qualification-subjects.jsonl",
+        "record_count": 518,
+        "sha256": "b7136e9e2e3fae0c73d9ab8510419d6be1028d06b76efe65e35c8bb37fb27728"
+      },
+      {
+        "bytes": 9694,
+        "path": "research/product_ontology/qualification_program/gate-definitions.jsonl",
+        "record_count": 16,
+        "sha256": "e63fd763bad5f69e1a5e529bc48f8f92dc28c965c23e9098a500fcb6420dec20"
+      },
+      {
+        "bytes": 3991,
+        "path": "research/product_ontology/qualification_program/gate-dependencies.jsonl",
+        "record_count": 17,
+        "sha256": "55d5f396445606a9a6ef445f38c3b17267e99afb7f3324fc1a98b5935e4b1e1c"
+      },
+      {
+        "bytes": 229261,
+        "path": "research/product_ontology/qualification_program/product-qualification-programs.jsonl",
+        "record_count": 64,
+        "sha256": "60f6a303c41f4ddc5c03c05719f4568decc2a35abc84e7cfdb477cd118076f25"
+      },
+      {
+        "bytes": 72938,
+        "path": "research/product_ontology/qualification_program/product-vertical-acceptance-programs.jsonl",
+        "record_count": 64,
+        "sha256": "72a924304e822ecac888dd1cfe015b39486bde56e41b6bc809f01a7d167d13f3"
+      },
+      {
+        "bytes": 841653,
+        "path": "research/product_ontology/qualification_program/evidence-vacancies.jsonl",
+        "record_count": 888,
+        "sha256": "08d8c15c21cb729ea037b91c809c26a8ae0ef6fdb842bfe752540f7cf680f134"
+      },
+      {
+        "bytes": 9316073,
+        "path": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl",
+        "record_count": 846,
+        "sha256": "09ebd808199d698c7da09d1910fc804fe3a5a181ba5505357e76f06f34e2b7f1"
+      },
+      {
+        "bytes": 2669376,
+        "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p5_exact_contract_adjudication/exact-contract-ratification-packet-templates.jsonl",
+        "record_count": 674,
+        "sha256": "8c4619d3875fa5e0a651d86196cb422a9d7fda1a18cbea6cbffc3b179e92babc"
+      }
+    ],
+    "snapshot_id": "snapshot.p6-input.3891469f1377aea4"
+  },
+  "portable_offers": 0,
+  "product_qualification_dockets": 64,
+  "program_id": "program.p6-implementation-qualification.v1",
+  "qualification_scope_kernels": 505,
+  "qualified_implementations": 0,
+  "represented_evidence_vacancies": 888,
+  "resolution_counts": {
+    "P5_OPEN_EXACT_CONTRACT": 352,
+    "REGISTERED_CANDIDATE_UNADJUDICATED": 31,
+    "REGISTERED_SPECIFIED_UNIMPLEMENTED": 105,
+    "UNREGISTERED_CONCRETE_REFERENCE": 147
+  },
+  "selected_implementation_offers": 0,
+  "selection_gates": 518,
+  "shared_qualification_scope_kernels": 13,
+  "subject_dockets": 518
+}

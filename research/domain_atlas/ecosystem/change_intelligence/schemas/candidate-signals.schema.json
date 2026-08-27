@@ -1,0 +1,97 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/candidate-signals.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "admission_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "benchmark_posture": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "canonical_semantics_authority": {
+      "type": "boolean"
+    },
+    "change_type_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "coverage_plane_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "documentation_vs_behavior": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "llm_posture": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "maturity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "observed_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "release_vs_rollout": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "security_evidence_posture": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "signal_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "admission_status",
+    "benchmark_posture",
+    "canonical_semantics_authority",
+    "change_type_ids",
+    "coverage_plane_ids",
+    "documentation_vs_behavior",
+    "llm_posture",
+    "maturity",
+    "observed_at",
+    "proof_obligation_ids",
+    "release_vs_rollout",
+    "security_evidence_posture",
+    "signal_id",
+    "source_ids",
+    "title"
+  ],
+  "title": "candidate-signals",
+  "type": "object"
+}

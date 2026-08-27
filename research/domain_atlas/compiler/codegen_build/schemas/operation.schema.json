@@ -1,0 +1,108 @@
+{
+  "$id": "https://shannon-insight.local/schemas/codegen-build/operation_id.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capability_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edition": {
+      "const": 1,
+      "type": "integer"
+    },
+    "effect_class": {
+      "enum": [
+        "pure",
+        "effectful"
+      ]
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_id": {
+      "pattern": "^cgb\\.",
+      "type": "string"
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "postconditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "preconditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "signature": {
+      "additionalProperties": false,
+      "properties": {
+        "errors": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "inputs": {
+          "items": {
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "output": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs",
+        "output",
+        "errors"
+      ],
+      "type": "object"
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "operation_id",
+    "edition",
+    "status",
+    "owner_context",
+    "capability_ref",
+    "name",
+    "effect_class",
+    "signature",
+    "preconditions",
+    "postconditions",
+    "source_refs"
+  ],
+  "type": "object"
+}

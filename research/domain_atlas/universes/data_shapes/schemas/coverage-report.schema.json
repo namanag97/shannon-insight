@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.local/schemas/data-shape-coverage-report-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registry_id", "edition", "status", "counting_law", "counts", "shape_counts_by_family", "shape_counts_by_modality", "source_counts_by_publisher", "remaining_gap_ids"],
+  "properties": {
+    "registry_id": {"const": "san.domain-atlas.data-shapes.coverage-report"},
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["candidate_counts_not_completeness_claims"]},
+    "counting_law": {"type": "string", "minLength": 30},
+    "counts": {"type": "object", "minProperties": 10, "additionalProperties": {"type": "integer", "minimum": 0}},
+    "shape_counts_by_family": {"type": "object", "minProperties": 20, "additionalProperties": {"type": "integer", "minimum": 1}},
+    "shape_counts_by_modality": {"type": "object", "minProperties": 20, "additionalProperties": {"type": "integer", "minimum": 1}},
+    "source_counts_by_publisher": {"type": "object", "minProperties": 20, "additionalProperties": {"type": "integer", "minimum": 1}},
+    "remaining_gap_ids": {"type": "array", "minItems": 10, "uniqueItems": true, "items": {"type": "string", "pattern": "^DSG-[0-9]{3}$"}}
+  }
+}

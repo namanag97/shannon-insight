@@ -1,0 +1,43 @@
+{
+  "completion_claim": false,
+  "imported_owners": [
+    "device/transport",
+    "measurement/calibration",
+    "generic image kernels",
+    "predictive model lifecycle",
+    "annotation/ground truth",
+    "vertical defect vocabulary",
+    "quality authority",
+    "machine control/effects"
+  ],
+  "inside_image_analysis_workbench_candidate": [
+    "image carrier/profile",
+    "analysis workspace",
+    "method plan/run",
+    "result comparison",
+    "evidence publication"
+  ],
+  "inside_visual_inspection_operations": [
+    "inspection plan",
+    "qualified recipe",
+    "item-bound run",
+    "inspection result",
+    "review/disposition",
+    "effect proposal"
+  ],
+  "non_collapse_summary": "carrier != sample field != observation; feature/score/region != defect; method result != inspection result != judgment/disposition != authorized physical effect",
+  "product_boundary_candidates": [
+    {
+      "product_ref": "product.visual_inspection_operations",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    },
+    {
+      "product_ref": "product.image_analysis_workbench",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    }
+  ],
+  "retained_image_analysis_product": "product.image_analysis_workbench",
+  "retained_product": "product.visual_inspection_operations",
+  "slice_id": "slice.visual-image-inspection.v1",
+  "status": "CANDIDATE_UNRATIFIED"
+}

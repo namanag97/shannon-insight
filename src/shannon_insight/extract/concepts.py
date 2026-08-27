@@ -1,4 +1,5 @@
 """Concept extraction using TF-IDF."""
+
 from __future__ import annotations
 
 import math
@@ -11,7 +12,7 @@ def tokenize_identifiers(identifiers: frozenset[str]) -> list[str]:
     tokens = []
     for ident in identifiers:
         # Split camelCase
-        parts = re.sub(r'([a-z])([A-Z])', r'\1_\2', ident)
+        parts = re.sub(r"([a-z])([A-Z])", r"\1_\2", ident)
         # Split on underscores
         for part in parts.split("_"):
             if part and len(part) > 1:
@@ -20,7 +21,7 @@ def tokenize_identifiers(identifiers: frozenset[str]) -> list[str]:
 
 
 def compute_tfidf(
-    documents: dict[str, frozenset[str]]
+    documents: dict[str, frozenset[str]],
 ) -> tuple[dict[str, dict[str, float]], dict[str, list[tuple[str, float]]]]:
     """
     Compute TF-IDF vectors for documents.

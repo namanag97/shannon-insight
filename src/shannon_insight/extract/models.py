@@ -1,7 +1,8 @@
 """Extraction data models."""
+
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Literal
 
 
@@ -74,7 +75,8 @@ class FileSyntax:
         total = sum(sizes)
         if total == 0:
             return 0.0
-        return (2 * sum(i * s for i, s in enumerate(sizes, 1))) / (n * total) - (n + 1) / n
+        gini_value = (2 * sum(i * s for i, s in enumerate(sizes, 1))) / (n * total) - (n + 1) / n
+        return max(0.0, min(1.0, gini_value))
 
 
 @dataclass(frozen=True)

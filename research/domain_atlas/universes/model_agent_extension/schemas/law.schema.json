@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "compiler_response": {
+      "const": "refuse_or_emit_typed_gap"
+    },
+    "context_ref": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "edition": {
+      "const": 1
+    },
+    "expression": {
+      "type": "string"
+    },
+    "law_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "test_oracle": {
+      "type": "string"
+    },
+    "violation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "law_id",
+    "edition",
+    "status",
+    "context_ref",
+    "expression",
+    "violation",
+    "compiler_response",
+    "test_oracle"
+  ],
+  "type": "object"
+}

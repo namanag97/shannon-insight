@@ -1,0 +1,28 @@
+{
+  "as_of": "2026-08-25",
+  "classical_predictive_ml_owned_here": false,
+  "core_valid_without_extension": true,
+  "counts": {
+    "compiler_mappings": 71,
+    "compiler_requirements_offers": 36,
+    "contexts": 71,
+    "core_imports": 12,
+    "decisions": 71,
+    "gaps": 25,
+    "innovations_2021_2026": 22,
+    "laws": 71,
+    "library_boundaries": 30,
+    "negative_twins": 6,
+    "operations": 142,
+    "operations_decisions_laws": 284,
+    "primary_sources": 104,
+    "proof_contracts": 71,
+    "qualification_profiles": 30,
+    "source_coverage_mappings": 104,
+    "useful_examples": 2
+  },
+  "dependency_law": "extension_to_deterministic_core_only",
+  "edition": 1,
+  "package_id": "san.domain-atlas.model-agent-extension",
+  "status": "researched_candidate_optional_extension"
+}

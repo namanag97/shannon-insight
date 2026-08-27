@@ -1,0 +1,55 @@
+{
+  "model_id": "san.domain-atlas.ownership-ambiguities",
+  "edition": 1,
+  "status": "unresolved",
+  "ambiguities": [
+    {
+      "term": "aggregation",
+      "occurs_in": ["binding-mapping-and-transformation", "analytical-semantics-and-formulas"],
+      "question": "Is this row/group transformation, metric aggregation semantics, statistical estimation, or an imported generic fold algebra?",
+      "disposition": "adjudicate"
+    },
+    {
+      "term": "cost-model",
+      "occurs_in": ["query-planning-and-compute", "platform-runtime-control-and-economics"],
+      "question": "Separate optimizer-relative plan cost from measured resource/economic cost and define their translation.",
+      "disposition": "presumptive_split"
+    },
+    {
+      "term": "data-owner",
+      "occurs_in": ["data-product-asset-and-publication", "governance-ownership-and-authority"],
+      "question": "Does governance own the role while the data-product context only imports an owner reference?",
+      "disposition": "presumptive_single_owner"
+    },
+    {
+      "term": "recall",
+      "occurs_in": ["data-product-asset-and-publication", "governance-ownership-and-authority"],
+      "question": "Separate generic recall obligations and authority from the recalled asset's local lifecycle reaction.",
+      "disposition": "presumptive_authority_plus_reaction"
+    },
+    {
+      "term": "rollback",
+      "occurs_in": ["platform-runtime-control-and-economics", "evolution-migration-and-assurance"],
+      "question": "Separate deployment-state rollback from semantic/data reversal, which may be impossible.",
+      "disposition": "presumptive_split"
+    },
+    {
+      "term": "sampling-design",
+      "occurs_in": ["observation-measurement-and-sampling", "analytical-study-and-method"],
+      "question": "Determine whether one sampling semantic owner serves both observation collection and inferential study design.",
+      "disposition": "adjudicate"
+    },
+    {
+      "term": "subscription",
+      "occurs_in": ["data-product-asset-and-publication", "client-consumption-and-collaboration"],
+      "question": "Separate entitlement to a versioned data publication from a notification/delivery preference.",
+      "disposition": "presumptive_split"
+    },
+    {
+      "term": "trigger",
+      "occurs_in": ["change-stream-time-and-finality", "workflow-orchestration-and-build"],
+      "question": "Separate event-time window firing semantics from workflow-run initiation semantics.",
+      "disposition": "presumptive_split"
+    }
+  ]
+}

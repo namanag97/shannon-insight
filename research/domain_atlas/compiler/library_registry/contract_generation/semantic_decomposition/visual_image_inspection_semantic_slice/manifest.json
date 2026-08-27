@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "bounded-context.json": {
+      "bytes": 1360,
+      "sha256": "47d35ce01c672a96d2c389192211fdf0d29247bab39a970ce8cbb6eabf4998c7"
+    },
+    "expert-learning-profiles.jsonl": {
+      "bytes": 10809,
+      "sha256": "2f2a459a03c96558ede2b483db4523019676a6bcb3f15753869c5bc0d37221ca"
+    },
+    "innovation-records.jsonl": {
+      "bytes": 5135,
+      "sha256": "2519569affe1f0adb622e609a1b112cc82e455de5c600ac5dcf01833daa7e946"
+    },
+    "library-axis-decision-candidates.jsonl": {
+      "bytes": 761552,
+      "sha256": "b556df5a731819bdef230c3683df48e03e64c096f78f4eca74ac2a6af09e50cd"
+    },
+    "library-semantic-bindings.jsonl": {
+      "bytes": 64402,
+      "sha256": "698859308f72a05d46342c7b393794352a440e0132a664ed56c62944746edc4e"
+    },
+    "non-collapse-laws.jsonl": {
+      "bytes": 9614,
+      "sha256": "94d2d5fb21dff98f596d3ec87cedc90c701483d53e1f1800912dd438b06259a0"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 20400,
+      "sha256": "efb80b879927f222d57d6a7e16db0c85153d897772aaa35d67ff37c226a801fe"
+    },
+    "product-capability-boundary-findings.jsonl": {
+      "bytes": 12405,
+      "sha256": "65878387fcc9f86894653ea13884012163073348100282b278163b6467d45c4e"
+    },
+    "semantic-modules.jsonl": {
+      "bytes": 27936,
+      "sha256": "746183ddb17fbaf8f337e12132cab7385457ead7d4de2b4210e4fa18bee84a55"
+    },
+    "summary.json": {
+      "bytes": 644,
+      "sha256": "45e4e3c786e358cada26239ed5f18e6a99f1101ae63b45349a841ee8039dc35c"
+    },
+    "visual-image-method-taxonomy.jsonl": {
+      "bytes": 64781,
+      "sha256": "9cf98d601a3fd1789f9d1ce247323e2d426fc9eaf79ef81b6be47f64bb26e623"
+    }
+  },
+  "manifest_id": "manifest.visual-image-inspection-semantic-slice.v1"
+}

@@ -1,0 +1,430 @@
+Use one universal contract for every sovereign specification, then apply a registry-specific profile. Do not create unrelated checklists for SEM, ONT, DAT, CMP, etc.; they would drift.
+Call it the:
+SAN Sovereign Specification Contract
+SSPEC
+Every specification must satisfy SSPEC. Registry profiles add stricter rules but cannot weaken it.
+1. Universal SSPEC checklist
+Every section is mandatory. If genuinely irrelevant, publish a typed INAPPLICABLE ruling with a reason and proof—never silently omit it.
+SOVEREIGN SPECIFICATION
+│
+├── 01 Identity
+│   ├── stable suffix-free ID
+│   ├── separate positive edition
+│   ├── title and registry
+│   ├── status
+│   ├── certification
+│   ├── source occurrence and digest
+│   └── semantic owner
+│
+├── 02 Sovereign question
+│   ├── exact question this owner answers
+│   ├── why the domain exists
+│   ├── owned meanings
+│   ├── explicitly excluded meanings
+│   └── negative charter
+│
+├── 03 Research basis
+│   ├── primary standards
+│   ├── formal/academic sources
+│   ├── production implementations
+│   ├── incidents and failure cases
+│   ├── practice contexts
+│   ├── competing models
+│   └── research gaps
+│
+├── 04 Ubiquitous language
+│   ├── terms and exact definitions
+│   ├── synonyms
+│   ├── prohibited ambiguous terms
+│   ├── false twins
+│   ├── imported terms and owners
+│   └── translation/anti-corruption rules
+│
+├── 05 Domain decomposition
+│   ├── core subdomains
+│   ├── supporting subdomains
+│   ├── generic/imported subdomains
+│   ├── bounded contexts
+│   ├── context map
+│   └── ownership matrix
+│
+├── 06 Ontology and types
+│   ├── values
+│   ├── identities
+│   ├── occurrences
+│   ├── entities
+│   ├── roles
+│   ├── aggregates
+│   ├── claims versus facts
+│   ├── observations
+│   ├── policies
+│   ├── rules
+│   ├── obligations
+│   ├── evidence/proofs
+│   └── closed taxonomies
+│
+├── 07 Time and state
+│   ├── states
+│   ├── initial states
+│   ├── transitions
+│   ├── terminal states
+│   ├── correction/reversal
+│   ├── valid time
+│   ├── recording time
+│   ├── occurrence ordering
+│   └── completeness/unknown semantics
+│
+├── 08 Behavior
+│   ├── operations
+│   ├── commands
+│   ├── queries
+│   ├── decisions
+│   ├── events
+│   ├── policies/reactions
+│   ├── workflows/processes/cases
+│   ├── projections
+│   └── external-effect intents
+│
+├── 09 Laws
+│   ├── invariants
+│   ├── preconditions
+│   ├── postconditions
+│   ├── algebraic laws
+│   ├── ordering/equality laws
+│   ├── determinism
+│   ├── idempotency
+│   ├── concurrency laws
+│   ├── batch atomicity
+│   └── negative controls
+│
+├── 10 Decisions
+│   ├── stable decision ID
+│   ├── owner
+│   ├── value type
+│   ├── binding phase
+│   ├── absence semantics
+│   ├── merge algebra
+│   ├── validation
+│   ├── provenance
+│   ├── compatibility impact
+│   └── evidence requirement
+│
+├── 11 Authority and governance
+│   ├── capabilities
+│   ├── authority source
+│   ├── scope
+│   ├── delegation
+│   ├── tenancy
+│   ├── jurisdiction
+│   ├── classification
+│   ├── disclosure
+│   ├── consent/purpose
+│   ├── recall
+│   └── fail-closed rules
+│
+├── 12 Contracts and composition
+│   ├── contract headers
+│   ├── requirements
+│   ├── contributions
+│   ├── offers
+│   ├── requirement join
+│   ├── contribution merge
+│   ├── offer satisfaction
+│   ├── cardinality
+│   ├── provider selection
+│   └── retained satisfaction proof
+│
+├── 13 Data and evidence
+│   ├── hostile carriers
+│   ├── admitted values
+│   ├── canonical projection
+│   ├── provenance
+│   ├── lineage
+│   ├── source cut/snapshot
+│   ├── freshness
+│   ├── completeness
+│   ├── conflict
+│   └── disclosure-safe projection
+│
+├── 14 Failure model
+│   ├── exact refusal families
+│   ├── exact refusal coordinates
+│   ├── unavailable authority
+│   ├── invalid input
+│   ├── conflict
+│   ├── unknown/incomplete
+│   ├── exhausted capacity
+│   ├── provider failure
+│   ├── recalled use
+│   └── precedence/order of validation
+│
+├── 15 Resource model
+│   ├── bytes
+│   ├── items
+│   ├── work units
+│   ├── allocation
+│   ├── traversal depth
+│   ├── graph/path expansion
+│   ├── output size
+│   ├── overflow rules
+│   └── aggregate batch charging
+│
+├── 16 Evolution
+│   ├── equality
+│   ├── compatibility relations
+│   ├── semantic delta
+│   ├── coexistence
+│   ├── correction
+│   ├── migration
+│   ├── rebuild/replay
+│   ├── supersession
+│   ├── retirement
+│   └── recall/historical interpretation
+│
+├── 17 Compiler surface
+│   ├── compiler queries
+│   ├── declarations/cards
+│   ├── source admission
+│   ├── semantic closure
+│   ├── dependency requirements
+│   ├── application-linker inputs
+│   ├── closure outputs
+│   └── explanation queries
+│
+├── 18 IR and lowering
+│   ├── native representation
+│   ├── portable IR representation
+│   ├── validation
+│   ├── normalization
+│   ├── lowering rules
+│   ├── target requirements
+│   ├── unsupported-feature refusals
+│   └── source↔IR↔native parity
+│
+├── 19 Runtime obligations
+│   ├── runtime state
+│   ├── required providers
+│   ├── effect intents
+│   ├── mutation path
+│   ├── retries/deadlines
+│   ├── receipts
+│   ├── audit/metrics/traces
+│   ├── recovery
+│   └── production eligibility
+│
+├── 20 Diagnostics
+│   ├── stable diagnostic codes
+│   ├── source locus
+│   ├── violated law
+│   ├── responsible owner
+│   ├── remediation
+│   ├── evidence
+│   ├── disclosure rules
+│   └── deterministic explanation
+│
+├── 21 Dependency DAG
+│   ├── exact imported contracts
+│   ├── exact consumers
+│   ├── required editions
+│   ├── authority direction
+│   ├── no unknown dependency
+│   ├── no ownership cycle
+│   └── no duplicate semantic owner
+│
+└── 22 Proof and completion
+    ├── operation census
+    ├── laws
+    ├── proof obligations
+    ├── gaps
+    ├── positive witnesses
+    ├── negative twins
+    ├── mutation tests
+    ├── conformance corpus
+    ├── executable verticals
+    ├── independent review
+    ├── ratification evidence
+    └── certification evidence
+2. Registry-specific profiles
+SEM — reusable semantic family
+Must additionally prove:
+* Pure Rust owner library.
+* No I/O, ambient time, randomness, environment or runtime loop.
+* Native Rust API.
+* Declarable decisions.
+* Evolution and proof surfaces.
+* Provider-neutral composition contracts.
+* Direct construction and declaration construction converge on the same admitted semantic value.
+* Cards, compiler pass, target IR and runtime parts exist only when semantically necessary.
+* No duplicated ownership of another SEM concept.
+ONT — business ontology
+Must additionally prove:
+* Business purpose and stakeholder language.
+* Core/supporting/generic subdomain classification.
+* Bounded contexts and context map.
+* Entities, aggregates, roles and business policies.
+* Business commands, decisions, events, workflows and invariants.
+* Mapping from every generic concept to an existing SEM owner.
+* No transport, database, framework or deployment semantics.
+* No universal concept is re-owned locally.
+ONT owns: “what this enterprise means”
+SEM owns: “what reusable meaning means”
+DAT — data and analytics domain
+Must additionally prove:
+* Data-product identity and owner.
+* Input fact contracts and exact journal cuts.
+* Event time versus recording time.
+* Lineage and reproducibility.
+* Quality rules and quarantine.
+* Batch/streaming equivalence.
+* Late, duplicate and out-of-order input behavior.
+* Transformation DAG and incremental semantics.
+* Metric/feature/model definitions.
+* Serving and disclosure contracts.
+* Backfill, correction, deletion and rebuild.
+* Analytical outputs remain observations/proposals—not application facts.
+* Mutations return through Chassis → Kernel.
+CON — constitutional metamodel
+Must additionally prove:
+* Closed metamodel vocabulary.
+* Nonforgeable authority and proof values.
+* Requirement/contribution/offer algebra.
+* Ownership, edition, compatibility and recall laws.
+* Exact refusal and gap lifecycle.
+* No package-selected authority can bootstrap itself.
+* Independent Stage-0 authority boundary.
+CMP — compiler/composition phase
+Must additionally prove:
+* Input/output artifact types.
+* Ordered compilation stages.
+* Checkpoints and resumability.
+* Deterministic whole-input fingerprints.
+* Decision closure.
+* Provider/candidate selection.
+* Obligation fixed-point closure.
+* Gap and graph closure.
+* Evidence and explanation retention.
+* ApplicationClosure issuance criteria.
+* Refused versus exhausted versus awaiting-selection outcomes.
+TGT — target IR and lowering
+Must additionally prove:
+* Closed portable IR vocabulary.
+* Validity rules.
+* Semantic-preservation proof.
+* Capability requirements.
+* Target feature negotiation.
+* Deterministic lowering.
+* Unsupported lowering refusals.
+* Source map and diagnostics.
+* Backend equivalence and conformance vectors.
+PRV — provider/adapter
+Must additionally prove:
+* Implemented port/contract.
+* Provider capabilities and limits.
+* Strict configuration schema.
+* Health and readiness.
+* Error normalization.
+* Retry/idempotency behavior.
+* Security and secret boundaries.
+* Production eligibility.
+* Conformance certificate.
+* No provider-specific meaning leaks into SEM/ONT/DAT.
+RUN — runtime
+Must additionally prove:
+* Boot state machine.
+* Dependency wiring.
+* Admission/authority/execution/egress phases.
+* Single mutation path.
+* Transaction/OCC/idempotency.
+* Ledger/outbox/receipt.
+* Effect execution after commit.
+* Recovery and replay.
+* Observability and cost.
+* Production boot rejects unsafe defaults.
+CTL — control plane
+Must additionally prove:
+* Desired versus observed state.
+* Reconciliation state machine.
+* Drift detection.
+* Rollout/rollback.
+* Health gates.
+* Quotas and placement.
+* Policy and authorization.
+* Failure domains and backoff.
+* Audit and operator explanation.
+* No direct business mutation.
+3. Required machine-readable package
+Every specification ZIP should contain:
+SPEC.json
+SPEC.schema.json
+CONTEXT-SPEC.json
+CONTEXT-SPEC.schema.json
+ONTOLOGY.json
+VOCABULARY.json
+OPERATIONS.json
+DECISIONS.json
+CONTRACTS.json
+LAWS.json
+REFUSALS.json
+BUDGETS.json
+EVOLUTION.json
+COMPILER-QUERIES.json
+IR.json
+LOWERING.json
+RUNTIME-OBLIGATIONS.json
+DEPENDENCY-DAG.json
+PROOF-OBLIGATIONS.json
+GAPS.json
+CONFORMANCE-MATRIX.json
+RESEARCH-SOURCES.json
+STATUS.json
+MANIFEST.json
+VERIFY/*
+README.md
+Files with no applicable content must contain an explicit ruling, for example:
+{
+  "disposition": "INAPPLICABLE",
+  "reason": "This pure value algebra owns no runtime state or effects.",
+  "law": "SSPEC-RUNTIME-01"
+}
+4. Mandatory verification gates
+The verifier must reject:
+duplicate stable identities
+edition embedded in identity
+unknown registry or dependency
+dependency/ownership cycle
+multiple semantic owners
+undefined vocabulary terms
+type without an owner
+operation without exact signature
+behavior without laws
+decision without absence semantics
+transition without refusal
+authority-bearing value with public/raw constructor
+unbounded work or allocation
+batch work charged only per item
+effect without a provider port
+runtime mutation outside Kernel
+analytical output presented as business fact
+missing provenance/tenant/time/cut
+unversioned schema
+IR without validation
+lowering without semantic-preservation evidence
+certification without independent evidence
+source/code operation-census mismatch
+test-only authority presented as public conformance
+5. Honest completion axes
+Never use one complete Boolean. Publish these independently:
+{
+  "research_complete": false,
+  "machine_source_complete": false,
+  "source_verified": false,
+  "operation_surface_complete": false,
+  "semantic_execution_verified": false,
+  "compiler_integration_verified": false,
+  "lowering_verified": false,
+  "runtime_vertical_verified": false,
+  "independently_verified": false,
+  "status": "REVIEW_CANDIDATE",
+  "certification": "NONE"
+}
+This universal SSPEC plus registry profiles gives us one consistent method without pretending that a semantic algebra, business ontology, compiler phase and runtime adapter are the same kind of thing.

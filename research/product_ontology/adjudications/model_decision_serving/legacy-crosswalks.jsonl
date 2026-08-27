@@ -1,0 +1,10 @@
+{"canonical_refs":["component.batch_scoring","neighbor.dataflow"],"disposition":"reclassify_composition","edition":1,"legacy_ref":"candidate.product.batch_inference","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.decision_automation"],"disposition":"add_missing_product","edition":1,"legacy_ref":"candidate.product.decision_automation","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.feature_platform"],"disposition":"add_missing_product","edition":1,"legacy_ref":"candidate.product.feature_platform","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.model_assurance"],"disposition":"add_missing_product","edition":1,"legacy_ref":"candidate.product.model_assurance","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.model_lifecycle"],"disposition":"replace_refined_boundary","edition":1,"legacy_ref":"candidate.product.model_lifecycle","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["component.model_registry","product.model_lifecycle"],"disposition":"reclassify_component","edition":1,"legacy_ref":"candidate.product.model_registry","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.online_inference"],"disposition":"replace_exact","edition":1,"legacy_ref":"candidate.product.online_inference","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.optional_model_extension"],"disposition":"add_optional_product","edition":1,"legacy_ref":"candidate.product.optional_model_extension","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["component.training_runtime","product.model_lifecycle","neighbor.runtime_resource"],"disposition":"split_product_from_provider","edition":1,"legacy_ref":"candidate.product.training_platform","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["product.feature_platform","component.vector_index","neighbor.search_index"],"disposition":"split","edition":1,"legacy_ref":"candidate.product.vector_feature_serving","record_kind":"legacy_crosswalk"}

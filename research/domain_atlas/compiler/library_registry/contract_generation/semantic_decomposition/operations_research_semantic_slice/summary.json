@@ -1,0 +1,20 @@
+{
+  "as_of": "2026-08-27",
+  "bound_libraries": 22,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "downstream_products": 2,
+  "exact_contracts_selected": 0,
+  "expert_learning_profiles": 12,
+  "libraries_without_declared_product_consumer": 7,
+  "library_axis_decision_candidates": 352,
+  "method_types": 35,
+  "non_collapse_laws": 26,
+  "owner_decisions": 0,
+  "primary_or_official_sources": 17,
+  "product_capability_boundary_findings": 5,
+  "program_id": "program.operations-research-semantic-slice.v1",
+  "qualified_implementations": 0,
+  "recent_non_ai_innovations": 7,
+  "semantic_modules": 24
+}

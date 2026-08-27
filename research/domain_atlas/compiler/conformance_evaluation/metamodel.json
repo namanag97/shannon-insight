@@ -1,0 +1,54 @@
+{
+  "completion_claim": false,
+  "constitutional_laws": [
+    "Schema validity is not compilation; compilation is not semantic proof; semantic proof is not executed evidence.",
+    "Executed test is not benchmark; benchmark is not deployed observation; observation is not independent appraisal.",
+    "Every pass is scoped to exact subject artifact, dependencies, configuration, target occurrence, oracle edition, population and time.",
+    "Absence of a failure is never evidence of a pass.",
+    "Flaky, timed-out, underpowered, stale, mismatched or uncheckable evidence is inconclusive or invalid, never pass.",
+    "A waiver is an expiring authority decision, not qualification evidence.",
+    "A counterexample invalidates the matching universal claim until resolved, narrowed or explicitly waived.",
+    "Two implementations count as independent only after code, dependency, owner, oracle and test-lineage appraisal.",
+    "Component qualification composes only under proven assumptions, interfaces, interference budgets and integration laws.",
+    "LLM or agent judgment may propose tests but cannot replace deterministic checks or accountable domain authority.",
+    "Passing this corpus validator never qualifies a provider, target, library or analytical method."
+  ],
+  "edition": 1,
+  "evidence_layers": [
+    "declaration",
+    "schema_validation",
+    "compile_type_check",
+    "semantic_law_proof",
+    "executed_test",
+    "benchmark",
+    "deployed_observation",
+    "independent_appraisal"
+  ],
+  "id": "san.conformance-evaluation-qualification-system",
+  "qualification_states": [
+    "candidate",
+    "structurally_valid",
+    "semantically_specified",
+    "executed",
+    "appraised",
+    "qualified_for_exact_scope",
+    "waived_for_exact_scope",
+    "expired",
+    "revoked",
+    "invalid"
+  ],
+  "scope": "Executable laws, tests, appraisals and evidence receipts for promotion from candidate offer to scoped bindability.",
+  "status": "candidate_research_contract",
+  "upstream_alignment": [
+    "research/domain_atlas/compiler/compiler-metamodel.json",
+    "research/domain_atlas/compiler/proof-obligations.json",
+    "research/domain_atlas/compiler/provider_target_registry/metamodel.json",
+    "research/domain_atlas/compiler/binder_solver/metamodel.json"
+  ],
+  "verdicts": [
+    "pass",
+    "fail",
+    "inconclusive",
+    "invalid"
+  ]
+}

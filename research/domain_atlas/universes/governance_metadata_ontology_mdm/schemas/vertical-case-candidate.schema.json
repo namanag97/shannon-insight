@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "case_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "distinction_test": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "vertical_case_candidate"
+    },
+    "required_contexts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_system_candidates": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    },
+    "vertical": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "case_id",
+    "name",
+    "vertical",
+    "required_contexts",
+    "source_system_candidates",
+    "distinction_test"
+  ],
+  "title": "Vertical case candidate",
+  "type": "object"
+}

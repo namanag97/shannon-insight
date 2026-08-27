@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "entity_type_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "non_inference": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "plane_id": {
+      "enum": [
+        "sources",
+        "pipelines",
+        "transformations",
+        "semantic_formulas",
+        "models_studies",
+        "decisions_actions",
+        "security",
+        "governance",
+        "quality",
+        "runtime",
+        "compiler"
+      ]
+    },
+    "relation_type_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "required_receipt": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    }
+  },
+  "required": [
+    "plane_id",
+    "edition",
+    "status",
+    "name",
+    "context_refs",
+    "entity_type_refs",
+    "relation_type_refs",
+    "operation_refs",
+    "required_receipt",
+    "non_inference"
+  ],
+  "title": "LPE cross-plane mapping candidate",
+  "type": "object"
+}

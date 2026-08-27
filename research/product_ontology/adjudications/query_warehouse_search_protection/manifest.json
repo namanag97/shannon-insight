@@ -1,0 +1,48 @@
+{
+  "contract_id": "contract.product_adjudication.query_warehouse_search_protection.v0_1_0",
+  "counts": {
+    "artifact": 155,
+    "artifact_kind_definition": 10,
+    "boundary_decision": 15,
+    "capability_offer": 8,
+    "capability_requirement": 60,
+    "evidence_source": 57,
+    "legacy_crosswalk": 12,
+    "library_contract": 60,
+    "negative_test": 49,
+    "product_ddd_dossier": 6,
+    "product_library_binding_map": 60,
+    "relation": 8,
+    "semantic_ownership": 60
+  },
+  "derived": {
+    "legacy_crosswalks": 12,
+    "portable_offers": 0,
+    "product_candidates": 6,
+    "qualified_offers": 0,
+    "unbound_requirements": 60
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "65efa66bbe0c0041588a642f7c8f733b13c46a1a4fd2dfe8f750b6204259fb45",
+    "artifacts.jsonl": "5c44f082a313e589723438000997ea7dabd2f0b30e781aa6b8250d4954b55820",
+    "boundary-decisions.jsonl": "6b2a21ccf4557bdc6a9e60e7701429f7ab0e51d2cfa3f81bc70babf9b082daac",
+    "evidence.jsonl": "2e545b53ca1a93bfb5a9e5685020c9bd2da26aaee568b20c70b87b1a6c8843a9",
+    "legacy-crosswalks.jsonl": "bed671e9023c87048f9b565baa562375a8e75b182031103bc51770118bd38e86",
+    "library-contracts.jsonl": "1a6c7ac564a1975fb4e760758438889f2c5dd98d8ff84a547181c7cb7f661a5e",
+    "metamodel.json": "5a721e7b1840c20b5d21c307984d973f8624914812ba4edfedcd559cc9a913e8",
+    "negative-tests.jsonl": "014198a7c05ae30ace50c149293c5cb6d3fd7aeca7dc6eee8084cec382fb863b",
+    "offers.jsonl": "8a9d0593979929ec72030164d97b4060d01c5020c8947ffd2e20432fd009d9dc",
+    "product-ddd-dossiers.jsonl": "522711210cb51079f805d94cb218c23fb3e4559abea86d260bd1e06b09c2a98e",
+    "product-library-binding-gaps.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "product-library-binding-maps.jsonl": "94cae7e197f57c3e09d4910bb7f38ac4ef2f62b30c39d9a78bb05fca7b3b56fc",
+    "registry.jsonl": "86fe1f9b150df007165bc8b3fd8698ab0b28da1991cdb4c6e5482be2b22fd67a",
+    "relations.jsonl": "64bc700b6b9eb59716f83b6d678cdfc94c3e93d8e21a6a521814e8b5a1d74031",
+    "requirements.jsonl": "ca271640f1c99032ce8d271d39715c9c4723e3cfe658df5c452584f3905f23ac",
+    "semantic-ownership.jsonl": "21886b07291c84817985050f090b0acfd8816b9e63f7fbc9ffd09b971e484e6f"
+  },
+  "negative_scope": "Does not own source business facts, catalog truth, identity policy, records authority, runtime providers, predictive model lifecycle, or any ambient model/agent authority.",
+  "scope": "Analytical query execution, managed warehouse experience, virtual data access, search/index serving, cache semantics, operational profiles, data protection/recovery and digital preservation archive.",
+  "source_sha256": "2d84b5af506ab7ef9805e0847bf9bae36e68b2779a979446e1d0c7e743ed8c6d",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

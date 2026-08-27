@@ -1,0 +1,49 @@
+{
+  "contract_id": "contract.product_adjudication.analytical_methods.v0_1_0",
+  "counts": {
+    "artifact": 147,
+    "artifact_kind_definition": 13,
+    "boundary_decision": 15,
+    "capability_offer": 11,
+    "capability_requirement": 80,
+    "evidence_source": 182,
+    "legacy_crosswalk": 14,
+    "library_contract": 78,
+    "negative_test": 99,
+    "product_ddd_dossier": 8,
+    "product_library_binding_gap": 18,
+    "product_library_binding_map": 78,
+    "relation": 25,
+    "semantic_ownership": 15
+  },
+  "derived": {
+    "legacy_crosswalks": 14,
+    "portable_offers": 0,
+    "product_candidates": 8,
+    "qualified_offers": 0,
+    "unbound_requirements": 80
+  },
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kinds.jsonl": "e330d34d7d1d1158a0a2fb04db44a3b1de8394f729995c73ec2a8dc38962d457",
+    "artifacts.jsonl": "979453d40431cc9b91b0999ae62363739714995dea94f2a16c2b08b41a38ae8b",
+    "boundary-decisions.jsonl": "2a6ec59cbd783b48be2b0973818e243b4dd2962bfabafe3905ea7b38a3142d42",
+    "evidence.jsonl": "1118fda5a6f37008f1d3342c83331685efa6c90584e4df2d1939a2825be616f4",
+    "legacy-crosswalks.jsonl": "3f96e8436bc1ca41c274e5aabc9fe667a2cafeea5daf1e7d62c6ed8f0cd94c29",
+    "library-contracts.jsonl": "73284e0868ab176caeb964ee0e43da520a82f9ad39db78e8de6313cfc1cee774",
+    "metamodel.json": "ad68cb4c4fe43488717fd48aec8b752cffb7b3cd13fca072edd967a1d3aaaae9",
+    "negative-tests.jsonl": "5d7e4f725df99b13a3e11b989e28e5b36b04dfbe7b5d4f6d18ff2bac2baa53dd",
+    "offers.jsonl": "916ca17d373ea21bf6377ec2cc1aae43cd273d3aa636caac91b12781c7e6b6e4",
+    "product-ddd-dossiers.jsonl": "c188ecf507c4f76cc6036dab1d94b9aac7490f156ea7b193e9f6a657b4046805",
+    "product-library-binding-gaps.jsonl": "725905f521e014d378fad40e8f46aabe663c98b5d10481852c015d47d9229205",
+    "product-library-binding-maps.jsonl": "5f5186e94e0c4844681f64ad99847eff2206f83f26afde695a0257ba9d0d21eb",
+    "registry.jsonl": "626dced0f2b757a25ae9a33306ddf570e1f485c9b73b3ebe82de83bafa422e23",
+    "relations.jsonl": "2db04b1513032ba49aa6f51c6164752fb508ff003d6368fd2fe4a680aaa027e4",
+    "requirements.jsonl": "b1aba7603fbc1cdaa6478de7c04da4b06f6799d52aafcfab205ed0e030f253b3",
+    "semantic-ownership.jsonl": "8976e8cacfdf608a56368063198d25a60dbe6f1e3db2267db43f3968237333ec"
+  },
+  "negative_scope": "Does not ratify products, qualify implementations, enumerate every algorithm or vertical use case, promote a method name into a product, authorize business action, or require models, LLMs or agents where a deterministic implementation satisfies the declared intent.",
+  "scope": "Horizontal analytical-practice, formal-method, algorithm, library, execution-environment and independently adoptable product boundaries for statistics, experiments and causal inference, forecasting, optimization, anomaly and change detection, process mining, graph, geospatial, text, media and signal, simulation, and predictive-model neighbors.",
+  "source_sha256": "634f7fa2706a29bac52583956154f9b1e9b3d8b471bf45f1eed3aa31c47cf744",
+  "status": "evidence_backed_adjudicated_candidate_not_ratified"
+}

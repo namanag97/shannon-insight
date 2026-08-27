@@ -1,0 +1,54 @@
+{
+  "$id": "https://shannon.invalid/domain-atlas/change-intelligence/collection-runs.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection_run_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "dns_failures": {
+      "type": "integer"
+    },
+    "feed_attempts": {
+      "type": "integer"
+    },
+    "feed_candidates_reviewed": {
+      "type": "integer"
+    },
+    "feed_successes": {
+      "type": "integer"
+    },
+    "manual_pages_opened": {
+      "type": "integer"
+    },
+    "no_news_claim": {
+      "type": "boolean"
+    },
+    "result_posture": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "scope_beats": {
+      "type": "integer"
+    },
+    "started_at": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "collection_run_id",
+    "dns_failures",
+    "feed_attempts",
+    "feed_candidates_reviewed",
+    "feed_successes",
+    "manual_pages_opened",
+    "no_news_claim",
+    "result_posture",
+    "scope_beats",
+    "started_at"
+  ],
+  "title": "collection-runs",
+  "type": "object"
+}

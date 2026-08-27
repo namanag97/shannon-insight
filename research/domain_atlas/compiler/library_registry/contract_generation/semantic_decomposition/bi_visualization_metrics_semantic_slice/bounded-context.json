@@ -1,0 +1,69 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.bi-visualization-metrics-semantic-slice.v1",
+  "inside": [
+    "analytical fact/observation/population/grain/dimension/measure/metric semantics",
+    "formula AST, definition, binding, evaluation, types, units, time, missingness and uncertainty",
+    "aggregation, decomposability, summarizability, analytical joins and fanout proofs",
+    "semantic model/query, lowering ACL, cache/materialization and observation evidence",
+    "presentation artifacts/IR, visual encoding, scale, layout, table/pivot and interaction state",
+    "dashboard/report/snapshot/alert/subscription/export/embedded/offline lifecycles",
+    "accessibility, localization and uncertainty communication"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.business-glossary",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.query-olap-warehouse-semantic-slice",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.statistical-inference-semantic-slice",
+      "relationship": "conditional_customer_supplier"
+    },
+    {
+      "context_ref": "context.data-use-policy",
+      "relationship": "conformist_at_authority_gate"
+    },
+    {
+      "context_ref": "context.notification-delivery",
+      "relationship": "open_host_service"
+    },
+    {
+      "context_ref": "context.decision-effect-authority",
+      "relationship": "anti_corruption_layer"
+    }
+  ],
+  "outside": [
+    "business glossary/ontology approval",
+    "source fact correction and master identity",
+    "physical query planning/execution",
+    "data-use policy authorship and identity authority",
+    "notification channel delivery implementation",
+    "vertical target/threshold ownership",
+    "business judgment, decision and action",
+    "LLM or agent authority"
+  ],
+  "published_language": [
+    "MetricDefinitionEdition",
+    "BoundFormula",
+    "SemanticQuery",
+    "MetricObservation",
+    "MetricEvaluationReceipt",
+    "PresentationDefinitionEdition",
+    "PresentationIr",
+    "ViewSession",
+    "ReportSnapshot",
+    "AlertOccurrence",
+    "Subscription",
+    "ExportIntent",
+    "EmbeddedContext",
+    "AccessibilityEvidence"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can governed measures, metrics and formulas be evaluated into evidence-bound observations and composed into accessible interactive reports, dashboards and embedded surfaces without collapsing semantic meaning into SQL, visual encoding, provider behavior, publication, notification or business decision authority?"
+}

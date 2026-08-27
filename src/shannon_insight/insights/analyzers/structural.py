@@ -106,10 +106,22 @@ class StructuralAnalyzer:
                         "internal_edge_count": cycle.internal_edge_count,
                     }
                     fs.add_relation(
-                        Relation(type=RelationType.CYCLE_WITH, source=a_id, target=b_id, weight=1.0, metadata=metadata)
+                        Relation(
+                            type=RelationType.CYCLE_WITH,
+                            source=a_id,
+                            target=b_id,
+                            weight=1.0,
+                            metadata=metadata,
+                        )
                     )
                     fs.add_relation(
-                        Relation(type=RelationType.CYCLE_WITH, source=b_id, target=a_id, weight=1.0, metadata=metadata)
+                        Relation(
+                            type=RelationType.CYCLE_WITH,
+                            source=b_id,
+                            target=a_id,
+                            weight=1.0,
+                            metadata=metadata,
+                        )
                     )
 
         # Global signals

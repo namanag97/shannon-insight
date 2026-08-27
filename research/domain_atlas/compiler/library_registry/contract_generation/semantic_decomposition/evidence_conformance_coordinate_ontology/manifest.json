@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "evidence-conformance-bearer-archetypes.jsonl": {
+      "bytes": 13682,
+      "sha256": "b9d7c3d6cdb6de22e10a93dea1bad540fb39075f3aa29ff5a29f1600104936c7"
+    },
+    "evidence-conformance-coordinate-ontology.json": {
+      "bytes": 4062,
+      "sha256": "ef9dc47adf693003c030cf31a338576e87a26760ba8a96263218d7fb48d50675"
+    },
+    "evidence-conformance-operation-kernels.jsonl": {
+      "bytes": 28372,
+      "sha256": "28c2bfba3505f412f2b4dfbbaede06355976b875d58d2e3d6a04bba3e6188043"
+    },
+    "extension-candidates.jsonl": {
+      "bytes": 46027,
+      "sha256": "b38bb361918f20abbbfd1162e771445f03cebd9647224067fc0cc27d46729f9e"
+    },
+    "member-evidence-conformance-routes.jsonl": {
+      "bytes": 874433,
+      "sha256": "902bf5fd73ddd974841316f5ec24824373faa346b94dab9cc5e5d843a76ea04f"
+    },
+    "member-research-clusters.jsonl": {
+      "bytes": 89171,
+      "sha256": "3ec5173da2517cde0300a15dbf1f0da8fc735262910709d9b3943864e3a393cb"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 5759,
+      "sha256": "464614ee494ec80c9568f2f4aaabb8da1cf724eb90f84fdd7bcd1a6878cda8cb"
+    },
+    "structural-family-dockets.jsonl": {
+      "bytes": 36359,
+      "sha256": "8ce8f391f0fe3f0c4bd40de09a72dbe4d1d49a9c9180bfb68ee723e5a95e281f"
+    },
+    "summary.json": {
+      "bytes": 770,
+      "sha256": "5ca7963ff49f3a7dbe79b8e3a437910d594bbb7afd93809fb9ff53d74269f4cd"
+    }
+  },
+  "manifest_id": "manifest.evidence-conformance-coordinate-ontology-and-rebase.v1"
+}

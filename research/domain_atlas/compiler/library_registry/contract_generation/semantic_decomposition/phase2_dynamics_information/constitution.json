@@ -1,0 +1,230 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "constitution_id": "constitution.semantic-axis.phase2.dynamics-information.v1",
+  "cross_module_laws": [
+    "Every event and state observation binds subject identity, grain, time role and order domain independently.",
+    "A state transition may consume time/order/information witnesses but cannot invent them.",
+    "Finality is a policy conclusion over progress, completeness and authority evidence; no watermark timestamp or closed file proves business finality alone.",
+    "Corrections preserve prior recording history unless an explicit retention/erasure authority says otherwise.",
+    "Uncertainty and partiality propagate through transformations according to declared laws or remain residuals."
+  ],
+  "edition": 1,
+  "imported_foundation_refs": [
+    "library.csp.time.instant-core",
+    "library.csp.time.interval-algebra",
+    "library.csp.time.duration-core",
+    "library.csp.time.calendar-period",
+    "library.csp.time.recurrence",
+    "library.csp.time.business-calendar",
+    "library.csp.time.bitemporal-ledger",
+    "library.csp.time.causal-clock",
+    "library.csp.quantity.partial-information",
+    "library.csp.quantity.probability-core",
+    "library.csp.quantity.uncertainty-propagation",
+    "library.csp.decision.compensation",
+    "library.runtime-resource.attempt-state",
+    "library.runtime-resource.deadline-cancellation"
+  ],
+  "modules": [
+    {
+      "axis": "state_and_change",
+      "coordinates": [
+        "subject and aggregate identity",
+        "state-machine edition",
+        "current revision",
+        "command identity and authority",
+        "event/fact identity",
+        "transition precondition",
+        "next state and emitted facts",
+        "history cut and completeness",
+        "concurrency relation",
+        "snapshot identity",
+        "delta base and applicability",
+        "irreversibility and compensation"
+      ],
+      "module_id": "module.semantic-axis.state-change.v1",
+      "non_collapse_laws": [
+        "command request is not event fact",
+        "event history is not current state",
+        "state is not snapshot representation",
+        "snapshot is not checkpoint or durable commit",
+        "delta is meaningless without exact base and applicability",
+        "retry is not replay and replay is not re-execution of effects",
+        "supersession recall reversal rollback and compensation are distinct",
+        "illegal transition stale revision duplicate command and incomplete history are distinct refusals",
+        "external side effects are observations consumed by a reducer, not hidden transition behavior"
+      ],
+      "required_outcomes": [
+        "transitioned",
+        "no_op_by_law",
+        "duplicate",
+        "stale",
+        "illegal",
+        "indeterminate_history",
+        "effect_reconciliation_required",
+        "refused"
+      ]
+    },
+    {
+      "axis": "time",
+      "carrier_coordinates": [
+        "temporal reference system",
+        "clock or calendar authority",
+        "instant/local/offset/zoned carrier",
+        "interval endpoint and inclusivity",
+        "elapsed duration versus calendar period",
+        "precision resolution and uncertainty",
+        "zone-rules edition",
+        "leap/fold/gap policy"
+      ],
+      "module_id": "module.semantic-axis.time.v1",
+      "non_collapse_laws": [
+        "instant is not local date-time or textual timestamp",
+        "offset is not time zone and zone rules are editioned",
+        "elapsed duration is not calendar period",
+        "occurrence observation validity recording transaction processing decision and correction times are separate roles",
+        "deadline is not occurrence time and TTL requires an age origin",
+        "wall-clock reading does not prove causal order",
+        "window membership lateness trigger firing and business finality are distinct",
+        "bitemporality requires independently queryable validity and recording axes",
+        "precision uncertainty and unknown time are not zero duration"
+      ],
+      "required_outcomes": [
+        "exact",
+        "interval_bounded",
+        "uncertain",
+        "ambiguous_fold",
+        "nonexistent_gap",
+        "role_unbound",
+        "clock_untrusted",
+        "out_of_range",
+        "refused"
+      ],
+      "role_coordinates": [
+        "occurrence time",
+        "observation time",
+        "valid time",
+        "recording time",
+        "transaction time",
+        "processing time",
+        "decision time",
+        "correction time",
+        "deadline",
+        "TTL age origin",
+        "schedule/calendar applicability"
+      ]
+    },
+    {
+      "axis": "order_and_topology",
+      "module_id": "module.semantic-axis.order-topology.v1",
+      "non_collapse_laws": [
+        "arrival order is not source order event order or causal order",
+        "total order is not partial order and incomparable is a valid result",
+        "a deterministic tie-break extension does not manufacture causality",
+        "partition-local order is not global order",
+        "hierarchy DAG multigraph hypergraph and spatial topology are distinct models",
+        "reachability is not causality and correlation is not causal effect",
+        "graph isomorphism is not subject identity or semantic equivalence",
+        "coordinate equality without CRS precision and boundary policy does not prove spatial equality"
+      ],
+      "order_coordinates": [
+        "ordered subject domain",
+        "relation edition",
+        "total partial preorder or sequence",
+        "tie and stability policy",
+        "partition scope",
+        "causal witness",
+        "arrival/source/event/processing order role"
+      ],
+      "required_outcomes": [
+        "before",
+        "after",
+        "equal_under_relation",
+        "concurrent",
+        "incomparable",
+        "cycle_detected",
+        "topology_invalid",
+        "relation_unbound",
+        "refused"
+      ],
+      "topology_coordinates": [
+        "node and edge identity",
+        "direction",
+        "multiplicity",
+        "hierarchy versus general graph",
+        "cycle policy",
+        "path semantics",
+        "spatial reference and precision",
+        "boundary/interior model"
+      ]
+    },
+    {
+      "axis": "partiality_and_uncertainty",
+      "information_states": [
+        "present",
+        "missing_with_reason",
+        "unknown",
+        "not_applicable",
+        "withheld_by_authority",
+        "invalid",
+        "censored_with_bound",
+        "truncated",
+        "not_yet_observed",
+        "deleted_or_expired",
+        "partial_result",
+        "indeterminate",
+        "unknown_completion"
+      ],
+      "module_id": "module.semantic-axis.partiality-uncertainty.v1",
+      "non_collapse_laws": [
+        "missing null empty zero false and default are distinct",
+        "unknown is not false deny or not-applicable",
+        "withheld is not absent and carries authority scope",
+        "censored is not missing because it carries an observation mechanism or bound",
+        "invalid is not missing and may require quarantine or refusal",
+        "partial result is not complete result and carries coverage residual",
+        "probability confidence score likelihood and uncertainty are distinct",
+        "approximate is not exact and error/failure guarantees are explicit",
+        "timeout unknown completion infeasible and unbounded are distinct",
+        "imputation is a derived value with method/version evidence, not recovery of an observed fact"
+      ],
+      "required_outcomes": [
+        "present",
+        "partial",
+        "missing",
+        "censored",
+        "withheld",
+        "not_applicable",
+        "invalid",
+        "indeterminate",
+        "unknown_completion",
+        "refused"
+      ],
+      "uncertainty_coordinates": [
+        "uncertainty kind",
+        "population or sample space",
+        "distribution or bound semantics",
+        "confidence/coverage/credibility interpretation",
+        "calibration evidence",
+        "numerical approximation and tolerance",
+        "propagation rule",
+        "correlation assumptions",
+        "decision threshold and residual owner"
+      ]
+    }
+  ],
+  "negative_mission": "Do not infer lifecycle from status strings, time role from timestamps, causality from clock order, completeness from bounded storage, or missingness and uncertainty from null markers.",
+  "prohibited_new_facades": [
+    "universal_state",
+    "universal_event",
+    "universal_timestamp",
+    "universal_order",
+    "universal_null",
+    "universal_uncertainty"
+  ],
+  "ratification_gate": "Named foundation owners accept coordinates, information states, outcomes, non-collapse laws and imports; all family matrices record applicability, profiles and exceptions.",
+  "record_kind": "semantic_axis_phase_constitution_candidate",
+  "sovereign_question": "How does an exact subject change, when does each fact apply or become known, what order/topology is proved, and what information remains absent, uncertain, partial or unresolved?",
+  "status": "EVIDENCE_BACKED_CANDIDATE_PENDING_OWNER_RATIFICATION"
+}

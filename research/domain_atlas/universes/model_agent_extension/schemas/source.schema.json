@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority": {
+      "const": "primary"
+    },
+    "edition": {
+      "const": 1
+    },
+    "issuer": {
+      "type": "string"
+    },
+    "retrieved_on": {
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "source_kind": {
+      "type": "string"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "pattern": "^https://",
+      "type": "string"
+    },
+    "use_limit": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "edition",
+    "status",
+    "issuer",
+    "title",
+    "url",
+    "authority",
+    "source_kind",
+    "retrieved_on",
+    "use_limit"
+  ],
+  "type": "object"
+}

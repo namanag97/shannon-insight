@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/data-modality-gap-audit/operation-gap.schema.json",
+  "type": "object",
+  "required": ["operation_gap_id", "family_id", "operation", "expected_validity", "canonical_operation_id", "canonical_operation_exists", "gap_kind", "invalid_inference", "comparison_method", "evidence_refs"],
+  "properties": {
+    "operation_gap_id": {"type": "string", "pattern": "^OPG-"},
+    "family_id": {"type": "string", "pattern": "^fam\\."},
+    "operation": {"type": "string"},
+    "expected_validity": {"enum": ["valid", "partial", "lossy_or_partial", "invalid", "invalid_without_profile", "invalid_without_external_evidence"]},
+    "canonical_operation_id": {"type": ["string", "null"]},
+    "canonical_operation_exists": {"type": "boolean"},
+    "gap_kind": {"enum": ["missing_operation", "precondition_profile_required", "mapped_review_required"]},
+    "invalid_inference": {"type": ["string", "null"]},
+    "comparison_method": {"const": "explicit declared mapping; no name-based equivalence"},
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

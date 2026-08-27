@@ -1,0 +1,50 @@
+{
+  "completion_claim": false,
+  "corpus_id": "san.domain-atlas.pipeline-dataflow",
+  "counts": {
+    "artifact_kinds": 8,
+    "bounded_context_candidates": 39,
+    "central_operation_mappings": 164,
+    "compiler_requirements": 23,
+    "decision_points": 71,
+    "failures_and_refusals": 43,
+    "innovations_2021_2026": 13,
+    "known_gaps": 14,
+    "library_boundaries": 30,
+    "lifecycles": 15,
+    "offer_templates": 15,
+    "primary_sources": 84,
+    "schemas": 13
+  },
+  "coverage": [
+    "ingestion",
+    "transport",
+    "transformation",
+    "orchestration",
+    "bounded batch",
+    "microbatch",
+    "continuous streaming",
+    "CDC",
+    "incremental computation",
+    "federation",
+    "reverse delivery",
+    "DAG",
+    "cyclic/iterative dataflow",
+    "ports/channels/partitions",
+    "barriers/watermarks/windows/triggers",
+    "state/checkpoints",
+    "delivery/retry/replay/backfill",
+    "compensation/cancellation",
+    "scheduling/maintenance/deployment",
+    "lineage/receipts"
+  ],
+  "edition": 1,
+  "exclusions": [
+    "LLM, generative or agentic semantics",
+    "vendor product selection",
+    "business-domain transformation meaning",
+    "storage engine implementation internals"
+  ],
+  "generated_by": "build_corpus.py",
+  "status": "active_research_candidate"
+}

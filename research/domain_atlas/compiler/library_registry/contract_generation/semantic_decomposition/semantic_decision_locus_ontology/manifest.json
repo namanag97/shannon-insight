@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "axis-locus-profiles.jsonl": {
+      "bytes": 19183,
+      "sha256": "a4872c6dc2fb1d94a1f1a5076e6d9908168fb567212b4e9e518a2dab82e68aad"
+    },
+    "bearer-archetypes.jsonl": {
+      "bytes": 6562,
+      "sha256": "b740e3c98baf2e9eac6b8c54faebc1d2a07417882da1821fab395724188c936a"
+    },
+    "decision-locus-ontology.json": {
+      "bytes": 1997,
+      "sha256": "aa9e89a116030dc92458eb4e094e0e1af661aed615f71cb8fcb6e198a92b354a"
+    },
+    "family-axis-factorizations.jsonl": {
+      "bytes": 1152957,
+      "sha256": "b1a1916bef2f66abacf9ef76bdf718d3c41483438572fff57bbf2eb28cfb7dad"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 1783,
+      "sha256": "5497c4a7d0c25d3687276331d816dbd8d1196a7e1d10f448f6e9016c386c4db4"
+    },
+    "summary.json": {
+      "bytes": 590,
+      "sha256": "d3f3a168897e4ab19dcb1c304c6c0638878a52131e7106a20e32f15877beaba3"
+    }
+  },
+  "manifest_id": "manifest.semantic-decision-locus-factorization.v1"
+}

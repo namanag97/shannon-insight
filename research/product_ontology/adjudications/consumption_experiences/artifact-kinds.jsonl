@@ -1,0 +1,13 @@
+{"definition":"A reusable arrangement without adoption or semantic-owner identity.","edition":1,"kind":"architecture_pattern","record_kind":"artifact_kind_definition"}
+{"definition":"Typed behavior required or offered by products and implementations.","edition":1,"kind":"capability","record_kind":"artifact_kind_definition"}
+{"definition":"A concrete unqualified project or provider component.","edition":1,"kind":"implementation","record_kind":"artifact_kind_definition"}
+{"definition":"A versioned interaction contract without an operated promise.","edition":1,"kind":"interface","record_kind":"artifact_kind_definition"}
+{"definition":"A pure or effect-bounded reusable implementation boundary.","edition":1,"kind":"library_contract","record_kind":"artifact_kind_definition"}
+{"definition":"A product outside this slice whose authority is imported.","edition":1,"kind":"neighboring_product","record_kind":"artifact_kind_definition"}
+{"definition":"A versioned report, dashboard, widget, notebook or snapshot; not automatically a product.","edition":1,"kind":"presentation_artifact","record_kind":"artifact_kind_definition"}
+{"definition":"An independently adopted and operated outcome promise.","edition":1,"kind":"product","record_kind":"artifact_kind_definition"}
+{"definition":"A class of operated offers, never a qualified occurrence.","edition":1,"kind":"provider_class","record_kind":"artifact_kind_definition"}
+{"definition":"Owner of meaning, identity, state, invariants and refusals.","edition":1,"kind":"semantic_contract","record_kind":"artifact_kind_definition"}
+{"definition":"A vertical composition carrying industry language, rules and defaults.","edition":1,"kind":"solution_pack","record_kind":"artifact_kind_definition"}
+{"definition":"An exact external edition specializing a contract.","edition":1,"kind":"standard","record_kind":"artifact_kind_definition"}
+{"definition":"Packaging of independently governed products and capabilities.","edition":1,"kind":"suite","record_kind":"artifact_kind_definition"}

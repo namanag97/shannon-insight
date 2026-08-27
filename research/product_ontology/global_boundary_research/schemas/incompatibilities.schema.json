@@ -1,0 +1,40 @@
+{
+  "$id": "https://san.example/product-boundary/incompatibility.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "detection": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "incompatibility": {},
+    "left_candidate_id": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "incompatibility"
+    },
+    "resolution": {},
+    "right_candidate_id": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "left_candidate_id",
+    "right_candidate_id",
+    "incompatibility",
+    "detection",
+    "resolution"
+  ],
+  "title": "Global boundary research: incompatibility",
+  "type": "object"
+}

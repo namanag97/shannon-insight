@@ -1,0 +1,166 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/pipeline-definition-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "decision_bindings": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "definition_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "delivery_contract_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "edge_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "entry_port_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "execution_mode": {
+      "enum": [
+        "bounded_batch",
+        "microbatch",
+        "continuous_stream",
+        "incremental_triggered",
+        "interactive"
+      ]
+    },
+    "exit_port_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "llm_dependency": {
+      "const": "none"
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "node_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "parameter_schema_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "policy_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "recovery_contract_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "state_contract_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "validated",
+        "published",
+        "superseded",
+        "retired"
+      ]
+    },
+    "topology_kind": {
+      "enum": [
+        "dag",
+        "feedback_cycle",
+        "dynamic_graph",
+        "nested_graph"
+      ]
+    },
+    "trigger": {
+      "additionalProperties": false,
+      "properties": {
+        "definition": {
+          "type": "object"
+        },
+        "kind": {
+          "enum": [
+            "manual",
+            "recurrence",
+            "event",
+            "materialization",
+            "condition",
+            "continuous"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "definition"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "definition_id",
+    "edition",
+    "status",
+    "name",
+    "execution_mode",
+    "topology_kind",
+    "parameter_schema_ref",
+    "node_refs",
+    "edge_refs",
+    "entry_port_refs",
+    "exit_port_refs",
+    "state_contract_refs",
+    "delivery_contract_ref",
+    "recovery_contract_ref",
+    "trigger",
+    "policy_refs",
+    "decision_bindings",
+    "evidence_refs",
+    "llm_dependency"
+  ],
+  "title": "Pipeline definition",
+  "type": "object"
+}

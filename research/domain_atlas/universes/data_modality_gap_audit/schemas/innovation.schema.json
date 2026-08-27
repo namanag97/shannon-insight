@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/data-modality-gap-audit/innovation.schema.json",
+  "type": "object",
+  "required": ["innovation_id", "year", "innovation", "evidence_refs", "family_ids", "non_llm", "audit_significance"],
+  "properties": {
+    "innovation_id": {"type": "string", "pattern": "^INNOV-[0-9]{3}$"},
+    "year": {"type": "integer", "minimum": 2021, "maximum": 2026},
+    "innovation": {"type": "string", "minLength": 15},
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "family_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^fam\\."}},
+    "non_llm": {"const": true},
+    "audit_significance": {"type": "string", "minLength": 15}
+  },
+  "additionalProperties": false
+}

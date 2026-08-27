@@ -1,0 +1,32 @@
+{
+  "as_of": "2026-08-26",
+  "build_ready_product_count": 0,
+  "ddd_status_counts": {
+    "COMPLETE_CANDIDATE_DOSSIER": 64
+  },
+  "executed_vertical_acceptance_product_count": 0,
+  "explicit_product_compiler_map_count": 64,
+  "explicit_product_library_attribution_count": 64,
+  "full_product_specific_ddd_count": 64,
+  "laws": [
+    "A boundary verdict is not a DDD dossier.",
+    "A bundle-level library list is not an exact product decomposition.",
+    "A compiler map is not provider qualification.",
+    "Structural vertical composition is not executed domain acceptance.",
+    "No model or agent may satisfy missing research, semantics, authority, qualification or acceptance evidence."
+  ],
+  "mapping_status_counts": {
+    "BLOCKED": 4,
+    "STRUCTURALLY_MAPPED_UNQUALIFIED": 60
+  },
+  "missing_or_incomplete_ddd_count": 0,
+  "open_work_item_count": 184,
+  "portable_provider_product_count": 0,
+  "product_count_with_uncovered_required_capabilities": 0,
+  "qualified_provider_product_count": 0,
+  "report_id": "retained_product_dossier_and_compiler_readiness",
+  "retained_product_count": 64,
+  "scope": "Every strong or presumptive product in the current finite global corpus.",
+  "status": "CANDIDATE_GAP_MATRIX",
+  "two_vertical_structural_product_count": 12
+}

@@ -1,0 +1,58 @@
+{
+  "artifacts": [
+    {
+      "digest": "sha256:generated-source-example",
+      "kind": "generated-source"
+    },
+    {
+      "digest": "sha256:linked-binary-example",
+      "kind": "linked-binary"
+    },
+    {
+      "digest": "sha256:oci-image-example",
+      "kind": "oci-image"
+    },
+    {
+      "digest": "sha256:k8s-manifest-example",
+      "kind": "deployment-manifest"
+    }
+  ],
+  "description": "Rust service compiled for x86_64 Linux musl, packaged as an OCI image and deployed by immutable digest.",
+  "edition": 1,
+  "evidence": [
+    "cgb.receipt_contract.backend-semantic",
+    "cgb.receipt_contract.abi-conformant",
+    "cgb.receipt_contract.hermetic",
+    "cgb.receipt_contract.reproducible",
+    "cgb.receipt_contract.provenance-subject",
+    "cgb.receipt_contract.release-authorized"
+  ],
+  "example_id": "cgb.example.native-rust-service",
+  "explicit_non_equivalences": [
+    "OCI image is not the Deployment manifest",
+    "Deployment manifest is not a running Pod",
+    "reproducible image bytes are not semantic conformance"
+  ],
+  "selected_passes": [
+    "cgb.pass.backend_selection.primary",
+    "cgb.pass.native_codegen.primary",
+    "cgb.pass.linking.primary",
+    "cgb.pass.package_assembly.primary",
+    "cgb.pass.deployment_manifest.primary"
+  ],
+  "status": "researched_candidate_not_adjudicated",
+  "target_contract": {
+    "cpu": "x86-64-v2",
+    "crt": "static",
+    "features": [
+      "+sse2"
+    ],
+    "panic": "abort",
+    "triple": "x86_64-unknown-linux-musl"
+  },
+  "typed_ir_input": {
+    "digest": "sha256:typed-ir-example",
+    "id": "ir:payments-api:v7",
+    "note": "Already lowered; business semantics are not chosen by the codegen stages."
+  }
+}

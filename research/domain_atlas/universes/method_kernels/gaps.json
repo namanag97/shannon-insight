@@ -1,0 +1,97 @@
+{
+  "atlas_id": "san.domain-atlas.method-kernel.gaps",
+  "completion_claim": false,
+  "edition": 1,
+  "open_gaps": [
+    {
+      "description": "The finite family list is a saturation checkpoint, not proof that every analytical method exists here.",
+      "gap_id": "enumeration_open_world",
+      "resolution": "Recurring literature/standard/vertical audits add governed records or explicit extension gaps.",
+      "severity": "structural"
+    },
+    {
+      "description": "Most candidate methods still need theorem-level applicability and counterexample records.",
+      "gap_id": "theorem_preconditions",
+      "resolution": "Attach machine-readable preconditions, guarantees and falsification fixtures per adjudicated method.",
+      "severity": "blocking_for_claims"
+    },
+    {
+      "description": "Provider seeds cite maintained docs but do not pin exact versions, features, builds and transitive dependencies.",
+      "gap_id": "exact_provider_versions",
+      "resolution": "Ingest signed provider manifests and generate exact offers.",
+      "severity": "blocking_for_binding"
+    },
+    {
+      "description": "Qualification records are deliberately unexecuted templates.",
+      "gap_id": "executed_receipts",
+      "resolution": "Execute profiles on exact targets and persist immutable evidence receipts.",
+      "severity": "blocking_for_binding"
+    },
+    {
+      "description": "Floating-point tolerance, order, mixed precision and parallel nondeterminism are not normalized across providers.",
+      "gap_id": "cross_provider_numerics",
+      "resolution": "Define operation-specific numeric equivalence relations and qualify multiple implementations.",
+      "severity": "high"
+    },
+    {
+      "description": "No universal fitted-model/index/plan artifact format covers all method families.",
+      "gap_id": "artifact_interchange",
+      "resolution": "Keep artifacts provider-bound unless an explicit portable semantic/serialization contract is proved.",
+      "severity": "high"
+    },
+    {
+      "description": "Rust-native coverage is strong for arrays/algebra/search but incomplete for broad statistics, causal, process, spatial and image methods.",
+      "gap_id": "rust_coverage",
+      "resolution": "Use pure Rust contributions where qualified and narrow removable adapters to external runtimes elsewhere.",
+      "severity": "high"
+    },
+    {
+      "description": "ABI, allocator, panic, thread, license and supply-chain implications of native/provider libraries require separate qualification.",
+      "gap_id": "ffi_license_supply_chain",
+      "resolution": "Bind feature/dependency/license manifests and run FFI safety profiles.",
+      "severity": "high"
+    },
+    {
+      "description": "GPU/accelerator coverage, device transfer, cancellation and reproducibility are sparsely evidenced.",
+      "gap_id": "accelerator_targets",
+      "resolution": "Add target-specific offers and receipts without changing semantic method records.",
+      "severity": "high"
+    },
+    {
+      "description": "Compression ratios and speed are data-dependent; corrupt input and decompression expansion create hazards.",
+      "gap_id": "codec_adversarial",
+      "resolution": "Qualify codecs on representative and adversarial corpora with hard output/memory/work limits.",
+      "severity": "high"
+    },
+    {
+      "description": "OR is referenced, not copied; cross-references must be checked against every edition of the dedicated OR corpus.",
+      "gap_id": "or_crosswalk",
+      "resolution": "Add an edition-aware cross-universe relation graph and validator.",
+      "severity": "medium"
+    },
+    {
+      "description": "Specialized econometric, epidemiological, psychometric, actuarial, chemometric, bioinformatic and engineering methods need vertical packs.",
+      "gap_id": "vertical_method_packs",
+      "resolution": "Extend through the closed metamodel; promote a method horizontally only after unrelated-domain evidence.",
+      "severity": "high"
+    },
+    {
+      "description": "The compiler lacks an executable rule system that derives admissible methods from study/estimand/assumption contracts.",
+      "gap_id": "study_to_method_selection",
+      "resolution": "Encode admissibility as requirements, proofs and explicit ambiguity gaps\u2014never a heuristic name lookup.",
+      "severity": "blocking_for_compiler"
+    },
+    {
+      "description": "Method algorithms and kernels are not yet fully cross-referenced to the global typed-operation universe.",
+      "gap_id": "operation_crosswalk",
+      "resolution": "Adjudicate ownership and add exact operation/type/shape references.",
+      "severity": "blocking_for_compiler"
+    },
+    {
+      "description": "No method/library boundary here has yet passed two unrelated vertical applications.",
+      "gap_id": "two_verticals",
+      "resolution": "Bind and validate against unrelated cases before productization.",
+      "severity": "blocking_for_product_boundary"
+    }
+  ]
+}

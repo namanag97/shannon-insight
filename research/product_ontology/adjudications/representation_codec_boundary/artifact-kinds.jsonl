@@ -1,0 +1,7 @@
+{"definition":"Recurring packaging or deployment shape; not a product or semantic owner.","edition":1,"kind":"architecture_pattern","record_kind":"artifact_kind_definition"}
+{"definition":"Typed operation provided under a semantic contract.","edition":1,"kind":"capability","record_kind":"artifact_kind_definition"}
+{"definition":"Runtime or policy component inside a consuming product.","edition":1,"kind":"control_component","record_kind":"artifact_kind_definition"}
+{"definition":"Observed unqualified implementation or provider.","edition":1,"kind":"implementation","record_kind":"artifact_kind_definition"}
+{"definition":"Adjacent owner imported through a typed boundary.","edition":1,"kind":"neighbor","record_kind":"artifact_kind_definition"}
+{"definition":"Owner of representation identity, laws, decisions and refusals.","edition":1,"kind":"semantic_contract","record_kind":"artifact_kind_definition"}
+{"definition":"Editioned external representation specification.","edition":1,"kind":"standard","record_kind":"artifact_kind_definition"}

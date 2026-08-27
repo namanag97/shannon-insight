@@ -1,0 +1,14 @@
+{
+  "company_source_files": 2,
+  "company_source_records": 95,
+  "completeness_claim": false,
+  "expert_source_files": 25,
+  "expert_source_records": 1183,
+  "outputs": {
+    "all-experts-registry.jsonl": "7ace495d2b5047cabdab2bfce394249f7bdee3780079ab0bfa9d009fb920540f",
+    "all-specialist-companies-registry.jsonl": "dc0560bf2b70cda718d4a03c3e4b05245d6a32f555501b1fc42a578c29de5d11"
+  },
+  "status": "RESEARCH_NAVIGATION_INDEX_NOT_EXHAUSTIVE_CENSUS",
+  "unique_named_experts": 1037,
+  "unique_specialist_company_records": 83
+}

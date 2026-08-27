@@ -1,0 +1,45 @@
+{
+  "assurance_appraisal_inside": [
+    "claim and argument graph",
+    "criteria binding and appraisal plan",
+    "appraiser occurrence qualification",
+    "evidence admission and quality",
+    "findings, defeaters and challenge",
+    "bounded verdict lifecycle"
+  ],
+  "candidate_new_products": [],
+  "completion_claim": false,
+  "decision_automation_inside": [
+    "decision requirements and expressions",
+    "tables/rules/hit policies",
+    "static analysis and testing",
+    "editioned compilation and invocation",
+    "total result and trace",
+    "non-authoritative action proposal"
+  ],
+  "imported_owners": [
+    "vertical facts and criteria",
+    "identity/accreditation/mandate authority",
+    "generic custody/signature/disclosure/records/provenance",
+    "authorization and effect execution",
+    "test/runtime implementations",
+    "relying-party acceptance and business action"
+  ],
+  "non_collapse_summary": "result != proposal != authorization != effect != outcome; claim != evidence != finding != verdict != reliance; signature/custody/transparency != truth; attestation != appraisal; policy homonyms remain typed",
+  "product_boundary_candidates": [
+    {
+      "product_ref": "product.assurance_case_appraisal",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    },
+    {
+      "product_ref": "product.decision_automation",
+      "status": "RETAIN_BUT_NARROW_UNRATIFIED"
+    }
+  ],
+  "retained_products": [
+    "product.assurance_case_appraisal",
+    "product.decision_automation"
+  ],
+  "slice_id": "slice.decision-automation-assurance.v1",
+  "status": "CANDIDATE_UNRATIFIED"
+}

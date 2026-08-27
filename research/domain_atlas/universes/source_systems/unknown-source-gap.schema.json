@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/domain-atlas/unknown-source-gap.schema.json",
+  "title": "Typed source-classification gap",
+  "description": "Fail-closed output when an occurrence cannot be classified without guessing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["gap_id", "occurrence_ref", "unmatched_surfaces", "closest_classes", "compiler_effect", "evidence_refs", "owner", "status"],
+  "properties": {
+    "gap_id": {"type": "string", "pattern": "^source-gap\\."},
+    "occurrence_ref": {"type": "string"},
+    "unmatched_surfaces": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["authority", "objects", "payload", "discovery", "read", "write", "change", "schema", "time", "ordering", "finality", "transactions", "security", "limits", "hazards", "verification"]}},
+    "closest_classes": {"type": "array", "items": {"type": "string", "pattern": "^source\\."}},
+    "compiler_effect": {"const": "refuse_adapter_selection_and_emit_extension_review"},
+    "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "owner": {"type": "string", "minLength": 1},
+    "status": {"enum": ["open", "adjudicating", "resolved_new_class", "resolved_existing_class", "rejected_not_a_source"]}
+  }
+}

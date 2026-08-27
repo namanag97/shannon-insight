@@ -1,0 +1,23 @@
+{
+  "as_of": "2026-08-27",
+  "bound_libraries": 22,
+  "candidate_new_library_vacancies": 8,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "declared_product_libraries": 1,
+  "exact_contracts_selected": 0,
+  "expert_learning_profiles": 16,
+  "formalism_neighbor_libraries": 21,
+  "libraries_without_declared_product_consumer": 12,
+  "library_axis_decision_candidates": 352,
+  "method_types": 78,
+  "missing_downstream_contract_routes": 3,
+  "non_collapse_laws": 46,
+  "owner_decisions": 0,
+  "primary_or_official_sources": 30,
+  "product_capability_boundary_findings": 15,
+  "program_id": "program.statistical-inference-semantic-slice.v1",
+  "qualified_implementations": 0,
+  "recent_non_llm_innovations": 10,
+  "semantic_modules": 41
+}

@@ -4,9 +4,11 @@ NOTE: The recursive implementation will hit Python's default recursion limit
 (sys.setrecursionlimit default ~1000) for large dense graphs. For graphs with
 >1000 nodes, consider using scipy.sparse.csgraph.connected_components instead.
 """
+
 from __future__ import annotations
 
 import sys
+
 from scipy import sparse
 
 

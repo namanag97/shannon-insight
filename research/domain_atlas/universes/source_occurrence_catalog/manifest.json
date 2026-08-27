@@ -1,0 +1,114 @@
+{
+  "as_of": "2026-08-26",
+  "combined_provider_product_artifact_records": 551,
+  "completion_claim": false,
+  "content_digest": "953d26f8a8841184c16c8025f961039f6574f7b737e7b7b8a6cb3f70562a5d37",
+  "counts": {
+    "adapter-library-boundaries.jsonl": 54,
+    "compiler-requirements.jsonl": 171,
+    "documented-offers.jsonl": 149,
+    "gaps.jsonl": 32,
+    "implementation-artifacts.jsonl": 298,
+    "innovations-2021-2026.jsonl": 32,
+    "library-semantic-contracts.jsonl": 1,
+    "negative-twins.jsonl": 30,
+    "occurrence-templates.jsonl": 171,
+    "official-sources.jsonl": 300,
+    "product-source-surfaces.jsonl": 171,
+    "products.jsonl": 149,
+    "protocol-class-crosswalks.jsonl": 107,
+    "providers.jsonl": 104,
+    "qualification-probes.jsonl": 44,
+    "requirement-offer-mappings.jsonl": 171
+  },
+  "credentials_collected": 0,
+  "distinct_official_urls": 299,
+  "edition": 1,
+  "files": {
+    "adapter-library-boundaries.jsonl": {
+      "records": 54,
+      "sha256": "599a38d9da59f9316dbfd8f866a0fc665bafba80d56a5796647cd622065b7efb"
+    },
+    "compiler-requirements.jsonl": {
+      "records": 171,
+      "sha256": "53e97ef4c448aec2a95d04259a9dede502769030e6b775c667181e5d957addf5"
+    },
+    "documented-offers.jsonl": {
+      "records": 149,
+      "sha256": "0b898b701bada5bd664e00e344de37392c832a3cd2f9963fd19075c883dbcc15"
+    },
+    "gaps.jsonl": {
+      "records": 32,
+      "sha256": "bf52269a8c7b5edf935194cc7f6cb678e88b525e16c5fb4942f4cc4c1d9925f5"
+    },
+    "implementation-artifacts.jsonl": {
+      "records": 298,
+      "sha256": "3c7bd079ec2b00018c81a3518b51174cae589ffb6c5eeba7879b823d1802198b"
+    },
+    "innovations-2021-2026.jsonl": {
+      "records": 32,
+      "sha256": "7b40638a3063cea761c76dbef7d9e0d055f6b9ad32f16797d19de4e73a0e48df"
+    },
+    "library-semantic-contracts.jsonl": {
+      "records": 1,
+      "sha256": "3506291322cb012ea8757ea819968bfc5933bfb63ef7555022199f1c76de5c6e"
+    },
+    "negative-twins.jsonl": {
+      "records": 30,
+      "sha256": "6a29ec87dd6c90940eba1ad448c975b1dc4eeb92f512022056bc0884e68f548b"
+    },
+    "occurrence-templates.jsonl": {
+      "records": 171,
+      "sha256": "d6a4fb34964b70ad1acb7511e52fe4e1c36fa7f7a7d5691318280abe0e7256ae"
+    },
+    "official-sources.jsonl": {
+      "records": 300,
+      "sha256": "3fa7682490bd66f961e96cb594b2c1c14311f4265708bcacb80553a0cb41218f"
+    },
+    "product-source-surfaces.jsonl": {
+      "records": 171,
+      "sha256": "727cb306ddf193a9a8beeedce1c142aa874efe88d184dcd8ee135c85df7f6f8d"
+    },
+    "products.jsonl": {
+      "records": 149,
+      "sha256": "d7e1ac7bb6bf02af49830dbaa2ba023213df6bd6f1e1be400b3c063858b99a8f"
+    },
+    "protocol-class-crosswalks.jsonl": {
+      "records": 107,
+      "sha256": "061e64d9e56f5c692b2f4ef2cb272851a8b4e449292d423715aaa8dc11f90dbf"
+    },
+    "providers.jsonl": {
+      "records": 104,
+      "sha256": "6f2e4f23af4f99482ef95b9df665d10ad28ab7966ea84fb9ad61595df6257a52"
+    },
+    "qualification-probes.jsonl": {
+      "records": 44,
+      "sha256": "a052debb2de6aa3d361e572f1f2266ac93cb76b8453d69eac81f7e80d34a06f4"
+    },
+    "requirement-offer-mappings.jsonl": {
+      "records": 171,
+      "sha256": "a9345b8694c35da056f167a6016815e8a93bc77f0bb1f4c0c31323f6c5c2e212"
+    }
+  },
+  "laws": [
+    "source capability class != provider organization != product != implementation artifact != documented offer != deployment occurrence != connector",
+    "official documentation != conformance receipt != observed behavior",
+    "rolling current != exact reproducible version",
+    "protocol != data model != business authority",
+    "material unknowns refuse binding",
+    "write and industrial command surfaces default disabled",
+    "no vendor-name branches in compiler semantics"
+  ],
+  "name": "Source occurrence catalog",
+  "official_primary_source_records": 300,
+  "open_world": true,
+  "product_protocol_profiles_used": 67,
+  "protocol_profiles_crosswalked": 107,
+  "protocol_profiles_total": 107,
+  "real_live_probes": 0,
+  "record_id": "manifest.occurrence.catalog.v0_1_0",
+  "record_kind": "manifest",
+  "source_classes_covered": 171,
+  "source_classes_total": 171,
+  "status": "researched_candidate_not_complete"
+}

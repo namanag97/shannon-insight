@@ -1,0 +1,44 @@
+{
+  "$id": "https://san.example/product-boundary/service_blueprint.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "backstage": {},
+    "candidate_id": {},
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "evidence_at_handoffs": {},
+    "failures": {},
+    "frontstage": {},
+    "journey_stages": {},
+    "record_id": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "service_blueprint"
+    },
+    "recovery": {},
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_id",
+    "record_kind",
+    "edition",
+    "status",
+    "candidate_id",
+    "journey_stages",
+    "frontstage",
+    "backstage",
+    "evidence_at_handoffs",
+    "failures",
+    "recovery"
+  ],
+  "title": "Global boundary research: service_blueprint",
+  "type": "object"
+}

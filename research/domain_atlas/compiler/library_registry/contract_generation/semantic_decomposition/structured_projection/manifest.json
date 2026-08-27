@@ -1,0 +1,38 @@
+{
+  "as_of": "2026-08-26",
+  "files": {
+    "exact-contract-input-candidates.jsonl": {
+      "bytes": 6855357,
+      "sha256": "8664984007f6da20bcf8282b982ddc575324eb654eb4ab7b256ae86e95b6d34e"
+    },
+    "execution-dag.json": {
+      "bytes": 11989,
+      "sha256": "d7fe7863a084fddfd4d1d4ded129ec3bcab523cf1a7f6eecb38c7906a0d737b8"
+    },
+    "family-readiness.jsonl": {
+      "bytes": 14038,
+      "sha256": "7d432312480f4dfc6ba3bcf8e0c4131a7541bbdd4998ee1fccc32d19ea867d1c"
+    },
+    "projection-profiles.json": {
+      "bytes": 6970,
+      "sha256": "d182576d6b871b978f7d6ce836248e14bf5195bbb80c07ae302a6ed9bcde43e3"
+    },
+    "source-authority-work-packages.jsonl": {
+      "bytes": 50736,
+      "sha256": "be4e1f7f82c83ce6fc28b323b1961bb26848da047e2874c36a30e4370a0b3832"
+    },
+    "structured-axis-evidence.jsonl": {
+      "bytes": 21215798,
+      "sha256": "e893db8e5c4667e3e32bf736a4c7ce10496353c601bf0793ff1ce414e80ab6c3"
+    },
+    "summary.json": {
+      "bytes": 1196,
+      "sha256": "b230c3b36c5b21dba7c07b9f6c0ca36171c1949b760e8417f76fedfe74f32923"
+    },
+    "targeted-evidence-work-packages.jsonl": {
+      "bytes": 264244,
+      "sha256": "8a19db0c185d90e75ccb5440d6ac311ba83f7dad9f88d1d0ffb4773e9cbdf3a4"
+    }
+  },
+  "manifest_id": "manifest.semantic-axis.global-structured-projection.v1"
+}

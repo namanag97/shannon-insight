@@ -1,0 +1,58 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "edition": 1,
+  "non_collapse_laws": [
+    "bounded research is not owner ratification",
+    "a shared carrier is not a shared bounded-context meaning",
+    "equal spelling or definition digest is not semantic equality",
+    "candidate owner is not canonical owner",
+    "family default is not occurrence applicability",
+    "qualified homonym is not an import",
+    "import with profile is not exact import",
+    "owner decision is not exact schema or implementation",
+    "a ratification receipt authorizes only its exact input digest and edition",
+    "canonical mutation is forbidden until every affected occurrence has a disposition"
+  ],
+  "occurrence_relations": [
+    "OWNER_DECLARATION",
+    "IMPORT_EXACT",
+    "IMPORT_WITH_PROFILE",
+    "QUALIFIED_LOCAL_HOMONYM",
+    "RENAME_AND_MIGRATE",
+    "RETIRE_DUPLICATE",
+    "REJECT_OCCURRENCE",
+    "UNRESOLVED"
+  ],
+  "ontology_id": "ontology.p2-public-symbol-owner-disposition.v1",
+  "question": "Who owns each repeated public symbol meaning, and how does every exact occurrence relate to that owner without losing local semantics?",
+  "ratification_receipt_required_fields": [
+    "decision_id",
+    "decision_authority_ref",
+    "authority_scope",
+    "input_snapshot_digest",
+    "symbol_packet_ref",
+    "selected_symbol_disposition",
+    "semantic_owner_ref_or_local_owner_map",
+    "definition_and_equality_contract_ref",
+    "occurrence_disposition_refs",
+    "migration_plan_ref",
+    "effective_edition",
+    "approved_at",
+    "signature_or_attestation_ref"
+  ],
+  "required_decision_authorities": [
+    "SEMANTIC_OWNER",
+    "FAMILY_OWNER",
+    "LIBRARY_OWNER"
+  ],
+  "symbol_dispositions": [
+    "CANONICAL_SHARED_OWNER_AND_IMPORTS",
+    "FAMILY_SHARED_OWNER_AND_IMPORTS",
+    "QUALIFY_LOCAL_SYMBOL_IDS",
+    "HOMONYM_RENAME",
+    "MERGE_DUPLICATE_LIBRARIES",
+    "REJECT_DUPLICATE_DEFINITION",
+    "UNRESOLVED"
+  ]
+}

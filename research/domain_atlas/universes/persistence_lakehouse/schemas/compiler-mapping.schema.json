@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/persistence-compiler-mapping-v0.1.0.schema.json",
+  "title": "Persistence requirement, offer, binding rule or typed gap",
+  "oneOf": [
+    {"$ref": "#/$defs/requirement"},
+    {"$ref": "#/$defs/offer"},
+    {"$ref": "#/$defs/bindingRule"},
+    {"$ref": "#/$defs/gap"}
+  ],
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "requirement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "requirement_id", "edition", "status", "subject_ref", "capability_ref", "required_guarantees", "decision_refs", "criticality", "binding_phase", "evidence_gates", "fallback_law", "gaps"],
+      "properties": {
+        "record_kind": {"const": "capability_requirement"}, "requirement_id": {"type": "string"}, "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["candidate", "declared", "reviewed"]}, "subject_ref": {"type": "string"}, "capability_ref": {"type": "string"},
+        "required_guarantees": {"$ref": "#/$defs/strings"}, "decision_refs": {"$ref": "#/$defs/refs"}, "criticality": {"enum": ["blocking", "degradable", "optional"]},
+        "binding_phase": {"enum": ["logical_planning", "physical_binding", "deployment_binding", "runtime_reconciliation", "evidence_verification", "product_packaging"]},
+        "evidence_gates": {"$ref": "#/$defs/strings"}, "fallback_law": {"enum": ["refuse", "typed_degradation", "omit_optional"]}, "gaps": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "offer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "offer_id", "edition", "status", "provider_class_ref", "capability_ref", "guarantee_claims", "decision_refs", "limits_to_probe", "qualification_probes", "exclusions", "evidence_refs", "gaps"],
+      "properties": {
+        "record_kind": {"const": "capability_offer"}, "offer_id": {"type": "string"}, "edition": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["candidate", "declared", "qualified"]}, "provider_class_ref": {"type": "string"}, "capability_ref": {"type": "string"},
+        "guarantee_claims": {"$ref": "#/$defs/strings"}, "decision_refs": {"$ref": "#/$defs/refs"}, "limits_to_probe": {"$ref": "#/$defs/strings"},
+        "qualification_probes": {"$ref": "#/$defs/strings"}, "exclusions": {"$ref": "#/$defs/strings"}, "evidence_refs": {"$ref": "#/$defs/refs"}, "gaps": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "bindingRule": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "binding_rule_id", "edition", "status", "requirement_refs", "eligible_offer_refs", "compatibility_clauses", "rejection_clauses", "selection_law", "receipts", "invalidation_triggers", "residual_gap_law"],
+      "properties": {
+        "record_kind": {"const": "binding_rule"}, "binding_rule_id": {"type": "string"}, "edition": {"type": "integer", "minimum": 1}, "status": {"enum": ["candidate", "declared", "reviewed"]},
+        "requirement_refs": {"$ref": "#/$defs/refs"}, "eligible_offer_refs": {"$ref": "#/$defs/refs"}, "compatibility_clauses": {"$ref": "#/$defs/strings"},
+        "rejection_clauses": {"$ref": "#/$defs/strings"}, "selection_law": {"type": "string"}, "receipts": {"$ref": "#/$defs/strings"},
+        "invalidation_triggers": {"$ref": "#/$defs/strings"}, "residual_gap_law": {"type": "string"}
+      }
+    },
+    "gap": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_kind", "gap_id", "edition", "status", "subject_ref", "blocking", "missing_contracts", "resolution_condition", "prohibited_fallbacks"],
+      "properties": {
+        "record_kind": {"const": "compiler_gap"}, "gap_id": {"type": "string"}, "edition": {"type": "integer", "minimum": 1}, "status": {"enum": ["open", "waived", "resolved"]},
+        "subject_ref": {"type": "string"}, "blocking": {"type": "boolean"}, "missing_contracts": {"$ref": "#/$defs/refs"}, "resolution_condition": {"type": "string"}, "prohibited_fallbacks": {"$ref": "#/$defs/strings"}
+      }
+    }
+  }
+}

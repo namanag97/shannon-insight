@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {},
+  "required": [
+    "record_kind",
+    "proposal_id",
+    "queue_id",
+    "reference_domain",
+    "raw_ref",
+    "proposed_relation",
+    "status",
+    "adjudicated"
+  ],
+  "title": "Missing canonical concept proposal",
+  "type": "object"
+}

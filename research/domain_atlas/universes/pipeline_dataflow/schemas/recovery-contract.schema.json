@@ -1,0 +1,118 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/recovery-contract-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "backfill_policy": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cancellation_policy": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "checkpoint_policy": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "compensation_policy": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decision_bindings": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "failure_domains": {
+      "items": {
+        "enum": [
+          "record",
+          "operator",
+          "task",
+          "worker",
+          "stage",
+          "run",
+          "coordinator",
+          "zone",
+          "region",
+          "source",
+          "sink"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "liveness": {
+      "additionalProperties": false,
+      "properties": {
+        "heartbeat": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "lease": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "stall": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "heartbeat",
+        "lease",
+        "stall"
+      ],
+      "type": "object"
+    },
+    "orphan_policy": {
+      "enum": [
+        "fence_and_reclaim",
+        "wait",
+        "human_reconcile"
+      ]
+    },
+    "partial_output_policy": {
+      "enum": [
+        "discard",
+        "quarantine",
+        "retain_unpublished",
+        "compensate",
+        "provider_transaction"
+      ]
+    },
+    "recovery_contract_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "replay_policy": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "retry_policy": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "recovery_contract_id",
+    "edition",
+    "failure_domains",
+    "checkpoint_policy",
+    "retry_policy",
+    "replay_policy",
+    "backfill_policy",
+    "compensation_policy",
+    "cancellation_policy",
+    "partial_output_policy",
+    "orphan_policy",
+    "liveness",
+    "decision_bindings"
+  ],
+  "title": "Pipeline recovery contract",
+  "type": "object"
+}

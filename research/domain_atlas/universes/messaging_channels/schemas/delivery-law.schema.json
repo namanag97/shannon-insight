@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "counterexample_required": {
+      "type": "boolean"
+    },
+    "law_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_obligations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "source_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "statement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "law_id",
+    "statement",
+    "proof_obligations",
+    "counterexample_required",
+    "source_refs",
+    "status"
+  ],
+  "title": "Messaging delivery-law",
+  "type": "object"
+}

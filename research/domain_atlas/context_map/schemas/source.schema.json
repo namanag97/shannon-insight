@@ -1,0 +1,21 @@
+{
+  "$id": "https://san.example/spec/context-map/source.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "title",
+    "publisher",
+    "url",
+    "authority_scope",
+    "limitations"
+  ],
+  "title": "SAN candidate context-map source",
+  "type": "object"
+}

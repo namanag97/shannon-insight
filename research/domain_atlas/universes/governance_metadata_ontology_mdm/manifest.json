@@ -1,0 +1,123 @@
+{
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-context-candidates.jsonl": {
+      "bytes": 31381,
+      "sha256": "630120d2a30c2e21526a50045dea38df6614b67ad50e286cbdfd2f377b2045ad"
+    },
+    "capability-operation-candidates.jsonl": {
+      "bytes": 245048,
+      "sha256": "52118df199af1c71803190e161d5f68d91935172c46d82236b33bbbdd5c76c14"
+    },
+    "compiler-mappings.jsonl": {
+      "bytes": 67491,
+      "sha256": "a3d0cdac17e038668c45938bbe2d31c7ac4e6d3a8b4ceefbaf10a60ff6359522"
+    },
+    "context-relations-acls.jsonl": {
+      "bytes": 20911,
+      "sha256": "af2bb70131060f0f9750ec266ffeb6b9824f69e423814c87114ae1a69cb6ed43"
+    },
+    "coverage-gaps.jsonl": {
+      "bytes": 7665,
+      "sha256": "936818999961d73a3c119bcac7f8ae592df4a42b614027018c30182b9becfa73"
+    },
+    "coverage-report.json": {
+      "bytes": 2796,
+      "sha256": "4a39ad3113ebe325555eb21176cd0fe123b2377c093bb8ee1799691daa496cb1"
+    },
+    "decision-point-candidates.jsonl": {
+      "bytes": 21677,
+      "sha256": "86b4ce4578a8e3eaa8cff901b64b2d74d8d1ba587de89d49b05ad2de613c4d94"
+    },
+    "evidence-sources.jsonl": {
+      "bytes": 44697,
+      "sha256": "6b2d0132fcbb6728d62a28de3351605ec94beed47aee617fdb74360d8dfd05c4"
+    },
+    "external-universe-mappings.jsonl": {
+      "bytes": 18364,
+      "sha256": "f163beb38f013f03208e152bedc6f4290dd7bafe6176c68c84bc65f8b3e7ae54"
+    },
+    "innovations-2021-2026.jsonl": {
+      "bytes": 10941,
+      "sha256": "ea8dc399cdcc4a832900582218463c35969a1259cf7fa652a9dcfcdc0e175552"
+    },
+    "invariants-refusals.jsonl": {
+      "bytes": 14112,
+      "sha256": "754f61a268d2e2cafa7c2ef04ba7db3b2e4f35006624bf3b13ab78c0c03be571"
+    },
+    "library-boundaries.jsonl": {
+      "bytes": 46701,
+      "sha256": "7293373529e77549d29b6e2fab9ac9d3b094fc7dab94f9305da86f720127ece4"
+    },
+    "retired-compositions.jsonl": {
+      "bytes": 9992,
+      "sha256": "0814da2a40a620d27b44d27812ed8acc4d58b4403543080ac848e67179a7fac8"
+    },
+    "schemas/bounded-context-candidate.schema.json": {
+      "bytes": 1223,
+      "sha256": "f6ebd37580be49f6d7f0d703644b1b89131c171915710a0a91543b585d2df9eb"
+    },
+    "schemas/capability-operation-candidate.schema.json": {
+      "bytes": 969,
+      "sha256": "2c07409ef01929fce6e5142c971bc304b0f894e5536b95f3fb6a4a835ef9a838"
+    },
+    "schemas/compiler-mapping-candidate.schema.json": {
+      "bytes": 1024,
+      "sha256": "8dbea5a1b991c7c646c48dae8b18e3c0427d6b36c70ddc4a5f1244d679dae878"
+    },
+    "schemas/context-relation-acl-candidate.schema.json": {
+      "bytes": 959,
+      "sha256": "77fca777bb32143c2739a159ea1da4fa016e7c5898d54d287366caecb4f97e6e"
+    },
+    "schemas/coverage-gap-candidate.schema.json": {
+      "bytes": 757,
+      "sha256": "d5caf7be64a9cbbbfbb347359a61a8487cf06d7bb0fc306621e21c297d93b67f"
+    },
+    "schemas/decision-point-candidate.schema.json": {
+      "bytes": 833,
+      "sha256": "5ac563ebec4785b5ffa767f1d4b0be1c0e9b8f9d32f2475f2281557042ab1e65"
+    },
+    "schemas/evidence-source.schema.json": {
+      "bytes": 870,
+      "sha256": "83286c38b59b0625d5be0f55895508358646430db39395c09ed9edabb0cb6e32"
+    },
+    "schemas/external-universe-mapping-candidate.schema.json": {
+      "bytes": 1103,
+      "sha256": "fb9ee1956b8bdd4c8d8d87c449cea3ac9fbce5ce749d8b97dbfa3932d885faee"
+    },
+    "schemas/innovation-candidate.schema.json": {
+      "bytes": 850,
+      "sha256": "d5509fdc0f1c10e320dbdc4878343cdc2f0f09eb694ede923834734cce457c23"
+    },
+    "schemas/invariant-refusal-candidate.schema.json": {
+      "bytes": 755,
+      "sha256": "f16baf0f7f6e74afe32698a19e942e84c729b674ad9d84d92337a3aa3f7745ef"
+    },
+    "schemas/library-boundary-candidate.schema.json": {
+      "bytes": 1238,
+      "sha256": "ceedbce8183c28df4c2cd3f9bf717d353b6b85f4ce0d807f3a41d9644cf9e558"
+    },
+    "schemas/library-replacement-candidate.schema.json": {
+      "bytes": 1189,
+      "sha256": "56ce1b70992024f42100a13ade202aaac87edc95eec49bd2fc0c3c4cc5c2d74c"
+    },
+    "schemas/ubiquitous-language-candidate.schema.json": {
+      "bytes": 947,
+      "sha256": "1bdf24f67c8c401a4ecb5da8f94d0966bce7b1456a3b06e4a3039e318da29aa6"
+    },
+    "schemas/vertical-case-candidate.schema.json": {
+      "bytes": 1135,
+      "sha256": "2959cbd1927d1df4f528a42a35bcb56590e549085209bfa1b9a3dee7f86ea46c"
+    },
+    "ubiquitous-language-candidates.jsonl": {
+      "bytes": 33518,
+      "sha256": "79e58f469d7b0d665694d68dd3cb192d75626465ed12a45bd4a2e21360e8e757"
+    },
+    "vertical-cases.jsonl": {
+      "bytes": 9314,
+      "sha256": "48323c9d5416f06775027fb078d1435258d07280d9b9432c47f188b07dba07b9"
+    }
+  },
+  "manifest_id": "manifest.governance-metadata-ontology-mdm.v1"
+}

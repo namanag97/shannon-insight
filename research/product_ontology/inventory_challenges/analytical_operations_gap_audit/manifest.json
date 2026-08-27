@@ -1,0 +1,37 @@
+{
+  "as_of": "2026-08-26",
+  "contract_id": "contract.product_inventory_challenge.analytical_operations_gap_audit.v0_1_0",
+  "counts": {
+    "blocking_gaps": 19,
+    "collision_tests": 5,
+    "deferred_hypotheses": 7,
+    "hypotheses": 5,
+    "library_hypotheses": 60,
+    "negative_tests": 10,
+    "sources": 38
+  },
+  "derived": {
+    "promotion_hypotheses": 5,
+    "qualified_providers": 0,
+    "ratified_products": 0,
+    "source_families": [
+      "annotation_operations",
+      "document_processing_review",
+      "self_service_data_preparation",
+      "signal_condition_diagnostics",
+      "visual_inspection_operations"
+    ]
+  },
+  "edition": 1,
+  "file_sha256": {
+    "blocking-gaps.jsonl": "778ec5682289ac0b59078cd24331f14758689455954252395552e74273b7e7b1",
+    "boundary-collision-tests.jsonl": "bd871e2a8bbce281fbe07c1987c1c0dbeec80236e775519841092ce595312995",
+    "deferred-hypotheses.jsonl": "41c956a8f07982574342be4a95bfc7f37c8cfa92d2fc625b6b187c7b9653e211",
+    "evidence.jsonl": "ca843d529cadd773bcea2c8c0cd1bb3d2aa38d01ae8eb2dd4cea1edecd798618",
+    "library-hypotheses.jsonl": "097a4fc0e611edafe9ffde7d7d18e23d28410dc01f489c6c5aecce7cc8fa8237",
+    "negative-tests.jsonl": "bc329bd7f1dbe7c5efe85b16391aef4f4f615980d20a3970e66bcfbff5a60e65",
+    "product-hypotheses.jsonl": "cde24025c7d03a2b10752fbc94c35995a60666de468e0ec54a95d44582677e9a",
+    "source.json": "becc323f1be3219efb86d11a6cc0cc47a6a9d2e926cd169b3a5f9cf6138b4270"
+  },
+  "status": "evidence_backed_inventory_challenge_not_adjudicated_or_ratified"
+}

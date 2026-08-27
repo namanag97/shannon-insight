@@ -1,9 +1,9 @@
 """Syntax extraction from source files."""
+
 from __future__ import annotations
 
 import hashlib
 import re
-import sys
 from pathlib import Path
 
 from .models import FileSyntax, Function, Import
@@ -69,15 +69,17 @@ def _extract_python(path: str, text: str, content_hash: str, lines: int) -> File
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             body_tokens = sum(1 for _ in ast.walk(node)) - 1
             sig_tokens = len(node.args.args) + len(node.args.kwonlyargs)
-            functions.append(Function(
-                name=node.name,
-                params=len(node.args.args),
-                body_tokens=body_tokens,
-                signature_tokens=sig_tokens,
-                nesting_depth=0,  # Simplified
-                start_line=node.lineno,
-                end_line=node.end_lineno or node.lineno,
-            ))
+            functions.append(
+                Function(
+                    name=node.name,
+                    params=len(node.args.args),
+                    body_tokens=body_tokens,
+                    signature_tokens=sig_tokens,
+                    nesting_depth=0,  # Simplified
+                    start_line=node.lineno,
+                    end_line=node.end_lineno or node.lineno,
+                )
+            )
             identifiers.add(node.name)
 
         # Classes
@@ -88,19 +90,23 @@ def _extract_python(path: str, text: str, content_hash: str, lines: int) -> File
         # Imports
         elif isinstance(node, ast.Import):
             for alias in node.names:
-                imports.append(Import(
-                    module=alias.name,
-                    names=(),
-                    level=0,
-                    line=node.lineno,
-                ))
+                imports.append(
+                    Import(
+                        module=alias.name,
+                        names=(),
+                        level=0,
+                        line=node.lineno,
+                    )
+                )
         elif isinstance(node, ast.ImportFrom):
-            imports.append(Import(
-                module=node.module or "",
-                names=tuple(a.name for a in node.names),
-                level=node.level,
-                line=node.lineno,
-            ))
+            imports.append(
+                Import(
+                    module=node.module or "",
+                    names=tuple(a.name for a in node.names),
+                    level=node.level,
+                    line=node.lineno,
+                )
+            )
 
         # Complexity
         elif isinstance(node, (ast.If, ast.For, ast.While, ast.Try, ast.ExceptHandler)):
@@ -139,24 +145,32 @@ def _extract_python(path: str, text: str, content_hash: str, lines: int) -> File
     )
 
 
-def _extract_generic(path: str, text: str, content_hash: str, lines: int, language: str) -> FileSyntax:
+def _extract_generic(
+    path: str, text: str, content_hash: str, lines: int, language: str
+) -> FileSyntax:
     """Fallback regex-based extraction."""
     # Simple patterns
-    func_pattern = re.compile(r'\b(?:def|func|function|fn)\s+(\w+)')
-    class_pattern = re.compile(r'\bclass\s+(\w+)')
+    func_pattern = re.compile(r"\b(?:def|func|function|fn)\s+(\w+)")
+    class_pattern = re.compile(r"\bclass\s+(\w+)")
     import_pattern = re.compile(r'(?:import|from|require|use)\s+["\']?(\w+)')
 
     functions = [
-        Function(name=m.group(1), params=0, body_tokens=10, signature_tokens=2,
-                 nesting_depth=0, start_line=0, end_line=0)
+        Function(
+            name=m.group(1),
+            params=0,
+            body_tokens=10,
+            signature_tokens=2,
+            nesting_depth=0,
+            start_line=0,
+            end_line=0,
+        )
         for m in func_pattern.finditer(text)
     ]
     classes = [m.group(1) for m in class_pattern.finditer(text)]
     imports = [
-        Import(module=m.group(1), names=(), level=0, line=0)
-        for m in import_pattern.finditer(text)
+        Import(module=m.group(1), names=(), level=0, line=0) for m in import_pattern.finditer(text)
     ]
-    identifiers = frozenset(re.findall(r'\b[a-zA-Z_]\w*\b', text))
+    identifiers = frozenset(re.findall(r"\b[a-zA-Z_]\w*\b", text))
 
     return FileSyntax(
         path=path,

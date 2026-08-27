@@ -98,12 +98,7 @@ def _compute_risk_score(fs: FileSignals) -> float:
     instability_factor = min(fs.churn_cv / 2.0, 1.0) if fs.churn_cv > 0 else 0.0
     bf_term = max(0.0, 1.0 - fs.bus_factor / _SAFE_BUS_FACTOR)
 
-    risk = (
-        0.35 * graph_impact
-        + 0.25 * pctl_cog
-        + 0.25 * instability_factor
-        + 0.15 * bf_term
-    )
+    risk = 0.35 * graph_impact + 0.25 * pctl_cog + 0.25 * instability_factor + 0.15 * bf_term
 
     return max(0.0, min(1.0, risk))
 

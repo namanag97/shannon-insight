@@ -32,6 +32,19 @@ from shannon_insight.infrastructure.relations import (
     RelationGraph,
     RelationType,
 )
+from shannon_insight.infrastructure.runtime import (
+    CancellationError,
+    CircuitBreaker,
+    Phase,
+    PhaseError,
+    PhaseMetrics,
+    ProgressCallback,
+    ResourceExhaustedError,
+    RuntimeContext,
+    RuntimeMetrics,
+    TimeoutError,
+    with_timeout,
+)
 from shannon_insight.infrastructure.session_log import (
     SessionLogManager,
 )
@@ -49,19 +62,6 @@ from shannon_insight.infrastructure.thresholds import (
     ThresholdCheck,
     compute_hotspot_median,
     is_hotspot,
-)
-from shannon_insight.infrastructure.runtime import (
-    CancellationError,
-    CircuitBreaker,
-    Phase,
-    PhaseError,
-    PhaseMetrics,
-    ProgressCallback,
-    ResourceExhaustedError,
-    RuntimeContext,
-    RuntimeMetrics,
-    TimeoutError,
-    with_timeout,
 )
 from shannon_insight.infrastructure.validation import (
     PhaseValidationError,

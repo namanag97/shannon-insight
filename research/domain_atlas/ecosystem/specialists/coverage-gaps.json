@@ -1,0 +1,87 @@
+{
+  "record_id": "ecosystem.specialists.coverage_gaps.v1",
+  "edition": 1,
+  "current_as_of": "2026-08-25",
+  "completion_claim": false,
+  "status": "open_research_queue",
+  "scope_warning": "The graph is a deliberately broad seed, not all companies, experts, products, innovations, countries, subindustries, or practices.",
+  "gaps": [
+    {
+      "gap_id": "gap.independent_company_outcomes",
+      "severity": "high",
+      "description": "Most company capability surfaces are verified only from official documentation; comparative effectiveness, failed deployments, total cost, exitability, and outcome magnitude are not independently established.",
+      "next_evidence": ["customer-primary architecture and postmortems", "regulatory or procurement evaluations", "independent implementation benchmarks", "documented failed/abandoned deployments"]
+    },
+    {
+      "gap_id": "gap.current_ownership_status",
+      "severity": "high",
+      "description": "Acquisitions, product retirements, parent ownership, and brand continuity can change rapidly; every company needs a periodic legal/currentness pass.",
+      "next_evidence": ["official corporate registry or investor filing", "dated acquisition/closure announcement", "current product support policy"]
+    },
+    {
+      "gap_id": "gap.company_pricing_and_exit",
+      "severity": "high",
+      "description": "Pricing units, minimum commitments, data egress, model export, contract termination, and supplier-exit behavior are rarely public and remain unmodeled for most companies.",
+      "next_evidence": ["public price sheets", "contract schedules", "export format documentation", "supplier exit case evidence"]
+    },
+    {
+      "gap_id": "gap.choice_and_missing_data_practices",
+      "severity": "high",
+      "description": "The upstream analytical-practice registry lacks explicit discrete-choice modeling and multiple-imputation practice records, so expert mappings cannot yet resolve to correct horizontal practice IDs.",
+      "next_evidence": ["add bounded choice-modeling family/contracts", "add missingness-mechanism and imputation family/contracts", "adjudicate overlap with causal and uncertainty contexts"]
+    },
+    {
+      "gap_id": "gap.semantic_quality_experts",
+      "severity": "medium",
+      "description": "The corpus now includes artifact-attributed contributors for MetricFlow, OpenLineage, Great Expectations/GX Core, and SodaCL, but data-contract standards, observability detection/incident methods, and additional semantic-layer implementations still need contributor-level research that separates authorship from company leadership.",
+      "next_evidence": ["maintainer histories for data-contract and observability artifacts", "standards authorship", "design documents and accepted proposals", "independent technical talks tied to shipped artifacts"]
+    },
+    {
+      "gap_id": "gap.regional_specialists",
+      "severity": "medium",
+      "description": "The seed is biased toward English-language and globally visible vendors; specialists in Latin America, Africa, Middle East, Central/Eastern Europe, East/Southeast Asia, and local regulated markets are underrepresented.",
+      "next_evidence": ["regional OR societies", "local procurement records", "national statistical/professional bodies", "non-English product documentation"]
+    },
+    {
+      "gap_id": "gap.vertical_specialists",
+      "severity": "high",
+      "description": "Healthcare, finance, energy, telecom, industrial, retail, and supply-chain seeds are present, but agriculture, mining-specific geology, aviation revenue/operations, maritime, defense, public finance, education, water, climate, construction, and many subindustries remain incomplete.",
+      "next_evidence": ["cross-link every industry analytical case to candidate specialist providers", "require at least two provider alternatives plus build/open-source option", "record jurisdiction and data-shape constraints"]
+    },
+    {
+      "gap_id": "gap.innovation_window",
+      "severity": "medium",
+      "description": "The dated innovation list covers selected foundational interfaces/standards/engines, not every algorithmic, product, or domain innovation from 2021-08-25 through 2026-08-25.",
+      "next_evidence": ["systematic release-note pass per analytical family", "professional-society award and journal review", "standards change logs", "independent novelty adjudication"]
+    },
+    {
+      "gap_id": "gap.solver_benchmarks",
+      "severity": "high",
+      "description": "No universal solver-performance claim is admitted. Problem classes, formulation, hardware, tolerances, version, time budget, and benchmark selection can reverse comparisons.",
+      "next_evidence": ["MIPLIB/benchmark result records", "reproducible run manifests", "primal/dual feasibility verification", "performance profiles with censored timeout handling"]
+    },
+    {
+      "gap_id": "gap.company_product_boundaries",
+      "severity": "high",
+      "description": "Named products/modules are evidence leads; most still require decomposition into bounded contexts, ports, policy decisions, state machines, provider requirements, and compiler-bindable capabilities.",
+      "next_evidence": ["product documentation deep dives", "public APIs and schemas", "deployment and lifecycle evidence", "cross-company split/merge adjudication"]
+    },
+    {
+      "gap_id": "gap.llm_quarantine_audit",
+      "severity": "high",
+      "description": "AI-heavy companies frequently blend deterministic analytics with LLM/agent interfaces in the same product page. The current separation is cautious but needs feature-level dependency tracing.",
+      "next_evidence": ["feature-level architecture", "offline/non-LLM operation tests", "model-provider dependency manifests", "license and telemetry behavior"]
+    },
+    {
+      "gap_id": "gap.expert_completeness",
+      "severity": "high",
+      "description": "No finite list can be 'all experts.' Records are selected because a cited artifact or exact contribution is reusable by the corpus; many researchers, maintainers, practitioners, and critics remain absent.",
+      "next_evidence": ["artifact contributor graphs", "citation and standards networks used only for discovery", "independent reviewer nominations", "regional and practitioner evidence"]
+    }
+  ],
+  "adjudication_queues": {
+    "company_purity": ["analytics consultancies whose current identity is predominantly AI services", "specialist units inside broad parents", "data-platform vendors adjacent to analytics", "open-source projects with commercial stewards"],
+    "duplicate_or_overlap": ["forecasting product versus supply-chain planning suite", "process mining versus workflow automation", "semantic layer versus BI product", "data quality versus observability", "simulation platform versus digital-twin runtime"],
+    "evidence_conflicts": ["vendor superlatives", "market leadership claims", "claimed global coverage", "outcome percentages without denominator or counterfactual", "optimal/real-time claims without benchmark contract"]
+  }
+}

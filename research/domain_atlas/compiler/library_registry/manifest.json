@@ -1,0 +1,504 @@
+{
+  "as_of": "2026-08-26",
+  "compiler_input_inventory": [
+    {
+      "artifact_role": "legacy_compiler_schema_noncanonical",
+      "path": "research/domain_atlas/compiler/library-contribution.schema.json",
+      "sha256": "69a8d159f2120e05418460fe5c9b1ff02dd8e31b443dfc85ea6c115cb6d6498f",
+      "source_schema_is_canonical": false
+    }
+  ],
+  "completion_claim": false,
+  "counts": {
+    "artifact_kind_definition": 5,
+    "capability_offer": 846,
+    "capability_requirement": 846,
+    "context_to_library": 963,
+    "dependency_edge": 196,
+    "evidence_source": 84,
+    "innovation": 25,
+    "kernel_to_library": 297,
+    "library_contribution": 846,
+    "library_design_context": 653,
+    "library_family": 596,
+    "local_crosswalk": 846,
+    "operation_to_library": 2417,
+    "registry_decision": 32,
+    "review_issue": 89,
+    "typed_gap": 12
+  },
+  "deterministic": true,
+  "edition": 1,
+  "file_sha256": {
+    "artifact-kind-definitions.jsonl": "7189d1bf01194e33b2945a498147b0d6342ebcd153906a8b3783009a398a1916",
+    "capability-offers.jsonl": "ea4a2340224699f4c21fbc947828638f88d52262467eaa1865926f8fcc488243",
+    "capability-requirements.jsonl": "9e11534e34bc44faad9117c0964b98bb4b2f4581c8a2c0d7940249de221a5636",
+    "context-to-library.jsonl": "395dca8251655bb96e8eb88f51052513a9de9495b18fa9ddf72f158eb71d22ee",
+    "decisions.jsonl": "8f223dbfeac2bb9e0a58f6159878feb7b165311257f94c76137174eb24997dfc",
+    "dependency-edges.jsonl": "884a17354c9904f73c53d6ca9d1783d5edd59713c11c68422ae6c52cd016d3bd",
+    "evidence-sources.jsonl": "3d76eec562794fec568c7b0158dd45ccda581efa828add7a4fb6a4a6bec43d7b",
+    "innovations-2021-2026.jsonl": "c524e6b3193935e16d3e9358181e0f4deee5d17d75f6ca2732656f85237a3e56",
+    "kernel-to-library.jsonl": "0e945f070902867f2549dc8434aebbada719cac60de05a9dc483a49e61df9a1a",
+    "library-contributions.jsonl": "09ebd808199d698c7da09d1910fc804fe3a5a181ba5505357e76f06f34e2b7f1",
+    "library-design-contexts.jsonl": "dacab7aef469f2b80f6b636789b41dabe0f921c6364bff551d482c4b12b9b267",
+    "library-families.jsonl": "29885815f88cc9f03eafd5bdc5cbb3e90d4661e7ea5235dd96d11e2d287f579a",
+    "library-registry.schema.json": "aa32677ae91d6c4f53f28d6d437e87727389c730c5e70644f0c6305fd8174b9c",
+    "local-crosswalk.jsonl": "38d8287e6da7d17b6a73413523d30d4fae714cf517e52f6ae308b0a46d5054a6",
+    "metamodel.json": "39e04b931d2e6d80fb888f850b68a4fb0cc55cd14a73661a23c39f60dec1b809",
+    "operation-to-library.jsonl": "02d0d87a69b7de1f16d64f42472c9d8009369f897db4dd506682a7f45c068c34",
+    "registry.jsonl": "a4adaf3539f1d194cdc56f8374e70da711c582a519394204a3139615bf635dc6",
+    "review-queue.jsonl": "c000b7a05dcd78fb7fcf6104a7ea78e0a2ee7724b9243e7b1bd0651a080439a8",
+    "typed-gaps.jsonl": "f9c5de9bfe4905ffc4d3ba0bea32b2122aed5720eb2f4186341b4ef8ae102b8a"
+  },
+  "quality_gates": {
+    "authoritative_primary_or_official_sources_minimum": 50,
+    "library_design_contexts_minimum": 30,
+    "non_llm_innovations_2021_2026_minimum": 20,
+    "normalized_contributions_or_typed_gaps_minimum": 180,
+    "portable_offer_requires_independent_implementations": 2,
+    "registry_decisions_minimum": 25
+  },
+  "registry_id": "san.domain-atlas.governed-library-registry",
+  "source_inventory": [
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 4,
+      "path": "research/domain_atlas/universes/addressable_content_rendition/library-contracts.jsonl",
+      "records": 4,
+      "sha256": "b0f7c429205a9548eb1be513c16013c6322f7ccde8205e0ccb3a2855ac0e85ac",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 5,
+      "path": "research/domain_atlas/universes/analytical_workspace_selection/library-contracts.jsonl",
+      "records": 5,
+      "sha256": "469f3432e3955545c5774328c02aadc727d3920d4f9b5e7b6f5b22f8a0ec33eb",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 7,
+      "path": "research/domain_atlas/universes/connectors_protocols/library-boundaries.jsonl",
+      "records": 7,
+      "sha256": "c3045e30ccb6e1c1233f57101e1510a530af6e1978d093c70631d13ac5ffdc97",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/connectors_protocols/schemas/library-boundary.schema.json",
+      "records": 1,
+      "sha256": "5a848f3ebe25bed11a9103ff88f12f32751ef7455a18a0e6e1c13f94d1927e19",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 39,
+      "path": "research/domain_atlas/universes/consumption_bi_visualization/library-boundaries.jsonl",
+      "records": 39,
+      "sha256": "520ab297eef93408795c584cc82c925b98aeca41d5cbd465d6dfd87761b5e124",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/consumption_bi_visualization/schema/library-boundary.schema.json",
+      "records": 1,
+      "sha256": "1e7f02a294415e153050e567c98928d75c627bba35efa9937f9a28618eedc438",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 60,
+      "path": "research/domain_atlas/universes/core_semantic_primitives/library-boundaries.jsonl",
+      "records": 60,
+      "sha256": "22f58a403b41071dd70e2d578f7f04cfc925f96e64efc70288677a5d03513fe9",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 6,
+      "path": "research/domain_atlas/universes/data_marketplace_governance/library-contracts.jsonl",
+      "records": 6,
+      "sha256": "934c8308fe20ebcc3137688176ac99c18e93554deb502aa39564031ab312562a",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 7,
+      "path": "research/domain_atlas/universes/data_product_publication_governance/library-contracts.jsonl",
+      "records": 7,
+      "sha256": "cc7f11c0533180c1ebd406472879f60ee0f834192bb6d863ce0830fb24461769",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 33,
+      "path": "research/domain_atlas/universes/data_shapes_gap_closure/library-boundaries.jsonl",
+      "records": 33,
+      "sha256": "db2fa5d24b13cfc40819e9f3700ff8641005631275de51747f4cd877fb4da7af",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 6,
+      "path": "research/domain_atlas/universes/data_use_policy_governance/library-contracts.jsonl",
+      "records": 6,
+      "sha256": "d645023ae78496a58167a3676014cf1da30376db025830f4775d0d8a142ca56f",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 3,
+      "path": "research/domain_atlas/universes/declaration_reference_closure/library-contracts.jsonl",
+      "records": 3,
+      "sha256": "d5832f89bb45a626842c864c00cee3a0104a7a6623ef6b5fd3f7c9967229b398",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 27,
+      "path": "research/domain_atlas/universes/encoding_compression/library-candidates.jsonl",
+      "records": 27,
+      "sha256": "bcf4ae4c385b6ce70d1c0819f3125defba5942c8c6f30fcee2599996addcf323",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "provider_qualification_contract",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/encoding_compression/library-provider-qualification.json",
+      "records": 1,
+      "sha256": "734b0cc00e3c1fc8cb719d5d171e8a4c837b9e5572ac33cc9b1c195e956e393a",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 6,
+      "path": "research/domain_atlas/universes/experiment_integrity_analysis_conclusion/library-contracts.jsonl",
+      "records": 6,
+      "sha256": "7d12706222d82da54b1963d9c8f2e40a32d8d42cc0fef155fe7f84d253baecbc",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 7,
+      "path": "research/domain_atlas/universes/feature_inference_serving_semantics/library-contracts.jsonl",
+      "records": 7,
+      "sha256": "ea641d79a28b5921195f449669b3424865033202a32c2c8bae52f6ca9328bbc0",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 8,
+      "path": "research/domain_atlas/universes/forecast_governance_lifecycle/library-contracts.jsonl",
+      "records": 8,
+      "sha256": "17bff9321f5472a98df5b9cc83f0f68e001505f7db2578565cfb4ca5e24051d4",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 18,
+      "path": "research/domain_atlas/universes/geospatial_specialized_workbench/library-contracts.jsonl",
+      "records": 18,
+      "sha256": "3532a93d65d4ccd8b6be358f73c6b52cb425b91a449fccd25e956912830e5b1c",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 25,
+      "path": "research/domain_atlas/universes/governance_metadata_ontology_mdm/library-boundaries.jsonl",
+      "records": 25,
+      "sha256": "7293373529e77549d29b6e2fab9ac9d3b094fc7dab94f9305da86f720127ece4",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/governance_metadata_ontology_mdm/schemas/library-boundary-candidate.schema.json",
+      "records": 1,
+      "sha256": "ceedbce8183c28df4c2cd3f9bf717d353b6b85f4ce0d807f3a41d9644cf9e558",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/governance_metadata_ontology_mdm/schemas/library-replacement-candidate.schema.json",
+      "records": 1,
+      "sha256": "56ce1b70992024f42100a13ade202aaac87edc95eec49bd2fc0c3c4cc5c2d74c",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 6,
+      "path": "research/domain_atlas/universes/governed_executable_recipe/library-contracts.jsonl",
+      "records": 6,
+      "sha256": "9582bcba0e16d9acae4dcd194fb60e6564ef29175ceec556e5f4b8bc2e45cbe4",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 7,
+      "path": "research/domain_atlas/universes/human_work_review_adjudication/library-contracts.jsonl",
+      "records": 7,
+      "sha256": "5c55e555d8ffb90f9f617a7b55524c20a48bbf27c8a2fbbc1c015886ef52d3b2",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 37,
+      "path": "research/domain_atlas/universes/lineage_provenance_evidence/library-boundaries.jsonl",
+      "records": 37,
+      "sha256": "2da058ab6ab8bb4e16c92240acbc89b2b50602134d325ace6316b18224ccc2fa",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 1,
+      "path": "research/domain_atlas/universes/lineage_repository_port/library-contracts.jsonl",
+      "records": 1,
+      "sha256": "b8f08042c44c9efef01849a0b17ea1e991fc9f98f7c06eef30369f6ed2b73f24",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 7,
+      "path": "research/domain_atlas/universes/master_reference_data_governance/library-contracts.jsonl",
+      "records": 7,
+      "sha256": "eabdb518d7516b991f61a9224c2df64d92ba12382e9743503b8b57be153eabce",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 5,
+      "path": "research/domain_atlas/universes/measurement_acquisition_calibration/library-contracts.jsonl",
+      "records": 5,
+      "sha256": "0d49723195f055e12e0c6bd44e056e9358d8f277e7683d9164bb947d9f6e0f3a",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 24,
+      "path": "research/domain_atlas/universes/messaging_channels/library-adapter-boundaries.jsonl",
+      "records": 24,
+      "sha256": "7eebb57021d8e706f8fdf42d6bc639128a6cac86fcc883dadd1a92379d07518c",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/messaging_channels/schemas/library-boundary.schema.json",
+      "records": 1,
+      "sha256": "42bb856298bbf42fac5092409c08986621e5dfc9bea3cd29cddeaba037df11f6",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 6,
+      "path": "research/domain_atlas/universes/metadata_discovery_governance/library-contracts.jsonl",
+      "records": 6,
+      "sha256": "a96d80ab2e774d455004cdcc3df7119b225fde3e642e206b75091f7e8c5ed09d",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 72,
+      "path": "research/domain_atlas/universes/method_kernels/library-boundaries.jsonl",
+      "records": 72,
+      "sha256": "16c0750409b3f088e3e4a2360754c834620de3d532b52dd6fffd69a67c73ae7a",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 30,
+      "path": "research/domain_atlas/universes/model_agent_extension/library-boundaries.jsonl",
+      "records": 30,
+      "sha256": "57aa8c0f6aaa3bfc42ffb83c0e058b594b58d53b0f7d58a9f3b969c06c784abb",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 3,
+      "path": "research/domain_atlas/universes/operational_activation_mapping/library-contracts.jsonl",
+      "records": 3,
+      "sha256": "b3a79800c63730eb6d2a9b9dee8ab4868501a2c49eac098a1f7573c012142181",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 21,
+      "path": "research/domain_atlas/universes/operations_research/library-boundaries.jsonl",
+      "records": 21,
+      "sha256": "9c647c1e950f77a54d4b091d235c4266e0b4c5fbd69b35eaf05a984154498db6",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 38,
+      "path": "research/domain_atlas/universes/persistence_lakehouse/library-boundaries.jsonl",
+      "records": 38,
+      "sha256": "07b10e487b1ebdd07bbe160a3cda7d60cf0ad910dcf9d2e2b36d8148c7bc31b6",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 30,
+      "path": "research/domain_atlas/universes/pipeline_dataflow/library-boundary-candidates.jsonl",
+      "records": 30,
+      "sha256": "2d49c7c8203ef480733e841958edda449cd7b8d27c812fc3d97155eb59bc59a3",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 43,
+      "path": "research/domain_atlas/universes/platform_commercial_support/library-boundaries.jsonl",
+      "records": 43,
+      "sha256": "41d6f20a2f359d68a82f46fb7d043171f92cc8b9e75e3abc4acd53a1938953f8",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/platform_commercial_support/schemas/library-boundary.schema.json",
+      "records": 1,
+      "sha256": "93933af2e1ed5b598b01575b75ac8eddeec9dccaee0b7270a027ea2c368f3455",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/platform_commercial_support/schemas/library-replacement.schema.json",
+      "records": 1,
+      "sha256": "dcfc6a119510dcad0ade9495cd9006a73e8355892c34bebad8af1fac4da9e7df",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 60,
+      "path": "research/domain_atlas/universes/predictive_ml_models/library-boundaries.jsonl",
+      "records": 60,
+      "sha256": "effe815132997c391e94ede0c5ab58239928db6c9c24bb7d2375e1f338aa9461",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 1,
+      "path": "research/domain_atlas/universes/product_composition_lifecycle/library-contracts.jsonl",
+      "records": 1,
+      "sha256": "f710cd5b7d00b56e1ff4b26907adfef324e494fef5b096d196f96c54045a1a1b",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 37,
+      "path": "research/domain_atlas/universes/quality_observability_reconciliation/library-boundary-candidates.jsonl",
+      "records": 37,
+      "sha256": "8c443aeed64c3fdad57392339f28219654def519a72ed8dab380a23660ef5af4",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/quality_observability_reconciliation/schemas/library-boundary.schema.json",
+      "records": 1,
+      "sha256": "60b989ea9c19516e90adad45df554d6f151df85af11e7d1c1e9ffe34c7b18499",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 32,
+      "path": "research/domain_atlas/universes/query_compute_kernels/library-boundaries.jsonl",
+      "records": 32,
+      "sha256": "8d6a5a913d913b2ab30cb50bc1d83ef0b333feec071fa74288079c7e32e2cf6d",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 33,
+      "path": "research/domain_atlas/universes/runtime_compute_resource/libraries.jsonl",
+      "records": 33,
+      "sha256": "acbb8771cb01a420de2ac0bad551abf33086b4abff78e1773c11c53833410a5f",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 13,
+      "path": "research/domain_atlas/universes/schema_data_contract_governance/library-contracts.jsonl",
+      "records": 13,
+      "sha256": "2ce697f78e82c39d4ceb975f6e7f447e5b65cea1deffa906933c8baca250c686",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 2,
+      "path": "research/domain_atlas/universes/schema_mapping_translation/library-contracts.jsonl",
+      "records": 2,
+      "sha256": "8a62afae65a1bc0779de9280f82ca5920e4e0f0184a3f51c8b07671614799ce2",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 26,
+      "path": "research/domain_atlas/universes/security_privacy_trust/library-boundaries.jsonl",
+      "records": 26,
+      "sha256": "e5f759023ab1ba57925b0866be2e090508c5e4f174058eff69e23ca00bfa09fd",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/security_privacy_trust/schemas/library-boundaries.schema.json",
+      "records": 1,
+      "sha256": "58667240d0d4e013319373d10b01dc623333a6e2a8750bba3b81f5475ed20750",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 24,
+      "path": "research/domain_atlas/universes/semantic_metrics_formulas/library-boundaries.jsonl",
+      "records": 24,
+      "sha256": "333dfc4c7df09efb51ddf722fd8107aaed9668f2cced9825483dcfddda44bc21",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "source_schema_noncanonical",
+      "candidate_records": 0,
+      "path": "research/domain_atlas/universes/semantic_metrics_formulas/schemas/library-boundary.schema.json",
+      "records": 1,
+      "sha256": "32fe8ab58219a03c76c1383715714838ec9a40c8d499b17f70fe1c690174af6c",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 11,
+      "path": "research/domain_atlas/universes/semantic_vocabulary_ontology_governance/library-contracts.jsonl",
+      "records": 11,
+      "sha256": "9792c3890afec977fb4610218989a45ba406fd05937f6d226ec7d3bf23b5e4db",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 1,
+      "path": "research/domain_atlas/universes/source_occurrence_catalog/library-semantic-contracts.jsonl",
+      "records": 1,
+      "sha256": "3506291322cb012ea8757ea819968bfc5933bfb63ef7555022199f1c76de5c6e",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 10,
+      "path": "research/domain_atlas/universes/telemetry_signals/library-contracts.jsonl",
+      "records": 10,
+      "sha256": "19bca036bed8d811da84d5d5a830ff57410f7fdf3249506a22d1e0f6cf8dcaef",
+      "source_schema_is_canonical": false
+    },
+    {
+      "artifact_role": "candidate_registry",
+      "candidate_records": 5,
+      "path": "research/domain_atlas/universes/transformation_build_semantics/library-contracts.jsonl",
+      "records": 5,
+      "sha256": "f134729b4b0ade732ab9a687ddd1354bd90bcb0bebe064fb9863190e95169b70",
+      "source_schema_is_canonical": false
+    }
+  ]
+}

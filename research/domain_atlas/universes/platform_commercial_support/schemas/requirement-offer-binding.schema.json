@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "properties": {
+        "record_kind": {
+          "const": "capability_requirement"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "requester_context_refs",
+        "required_semantics",
+        "required_evidence"
+      ]
+    },
+    {
+      "properties": {
+        "record_kind": {
+          "const": "capability_offer"
+        }
+      },
+      "required": [
+        "offer_id",
+        "library_ref",
+        "offered_semantics",
+        "limitations"
+      ]
+    },
+    {
+      "properties": {
+        "record_kind": {
+          "const": "capability_binding"
+        }
+      },
+      "required": [
+        "binding_id",
+        "requirement_ref",
+        "offer_refs",
+        "proof_obligations",
+        "residual_gap_refs"
+      ]
+    }
+  ],
+  "properties": {
+    "edition": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "capability_requirement",
+        "capability_offer",
+        "capability_binding"
+      ]
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status"
+  ],
+  "title": "Requirement, offer, or candidate binding",
+  "type": "object"
+}

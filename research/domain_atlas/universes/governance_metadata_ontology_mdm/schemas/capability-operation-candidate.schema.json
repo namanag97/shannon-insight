@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "candidate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "candidate_kind": {
+      "enum": [
+        "capability",
+        "typed_operation"
+      ]
+    },
+    "evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_context": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_kind": {
+      "const": "capability_operation_candidate"
+    },
+    "status": {
+      "const": "candidate_pending_review"
+    }
+  },
+  "required": [
+    "record_kind",
+    "status",
+    "candidate_kind",
+    "candidate_id",
+    "name",
+    "owner_context",
+    "evidence_refs"
+  ],
+  "title": "Capability or operation candidate",
+  "type": "object"
+}

@@ -1,0 +1,2445 @@
+{
+  "as_of": "2026-08-26",
+  "blocking_gaps": [
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.self_service_data_preparation.1",
+      "hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "multi-user concurrency and review semantics"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.self_service_data_preparation.2",
+      "hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "large-data execution split"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.self_service_data_preparation.3",
+      "hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "two independent portable recipe implementations"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.annotation_operations.1",
+      "hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "portable multimodal selector contract"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.annotation_operations.2",
+      "hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "adjudication precedence laws"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.annotation_operations.3",
+      "hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "ground-truth recall propagation"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.annotation_operations.4",
+      "hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "two independent conformance implementations"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.document_processing_review.1",
+      "hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "portable document content graph"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.document_processing_review.2",
+      "hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "encrypted/signed document admission"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.document_processing_review.3",
+      "hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "review sampling and precedence"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.document_processing_review.4",
+      "hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "semantic-loss receipts across reprocessing"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.visual_inspection_operations.1",
+      "hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "cross-provider recipe interchange"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.visual_inspection_operations.2",
+      "hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "inspection uncertainty and abstention"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.visual_inspection_operations.3",
+      "hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "traceable item-result-effect separation"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.visual_inspection_operations.4",
+      "hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "two independent runtime conformance suites"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.signal_condition_diagnostics.1",
+      "hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "current portable state/health/diagnostic/prognostic contracts"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.signal_condition_diagnostics.2",
+      "hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "sensor and context quality laws"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.signal_condition_diagnostics.3",
+      "hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "diagnosis defeaters"
+    },
+    {
+      "blocking_for_ratification": true,
+      "closure_evidence": "Exact semantic contract, executable negative and positive law oracles, and two independent qualified implementations or bounded exception evidence.",
+      "gap_id": "gap.aoga.signal_condition_diagnostics.4",
+      "hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "blocking_evidence_gap",
+      "statement": "advisory-to-maintenance authority boundary"
+    }
+  ],
+  "collision_tests": [
+    {
+      "collision_test_id": "collision.aoga.self_service_data_preparation",
+      "hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "neighbor_refs": [
+        "candidate.product.batch_transform_build",
+        "candidate.product.analytical_notebook",
+        "candidate.product.data_quality_operations"
+      ],
+      "record_kind": "boundary_collision_test",
+      "ruling": "The workbench owns an interactive project and reversible recipe-authoring lifecycle; batch transform owns a deployed build contract, notebook owns a general computational document, and quality owns requirements, validation and defect evidence rather than manual reshaping.",
+      "status": "preliminary_pass_requires_full_adjudication"
+    },
+    {
+      "collision_test_id": "collision.aoga.annotation_operations",
+      "hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "neighbor_refs": [
+        "candidate.product.model_lifecycle",
+        "candidate.product.data_quality_operations",
+        "candidate.product.data_product_publication"
+      ],
+      "record_kind": "boundary_collision_test",
+      "ruling": "Annotation operations own human/task/ground-truth lifecycle; model lifecycle consumes released datasets, quality imports comparison kernels, and publication distributes an accepted edition without owning its annotation judgments.",
+      "status": "preliminary_pass_requires_full_adjudication"
+    },
+    {
+      "collision_test_id": "collision.aoga.document_processing_review",
+      "hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "neighbor_refs": [
+        "candidate.product.ingestion_delivery",
+        "candidate.product.search_index_serving",
+        "candidate.product.annotation_operations",
+        "candidate.product.model_lifecycle"
+      ],
+      "record_kind": "boundary_collision_test",
+      "ruling": "Ingestion delivers bytes, search indexes admitted content, annotation creates labels, and model lifecycle trains methods; this product owns the per-document processing/review occurrence and its structured-output evidence.",
+      "status": "preliminary_pass_requires_full_adjudication"
+    },
+    {
+      "collision_test_id": "collision.aoga.visual_inspection_operations",
+      "hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "neighbor_refs": [
+        "candidate.product.analytical_notebook",
+        "candidate.product.online_inference",
+        "candidate.product.decision_automation",
+        "candidate.product.model_lifecycle"
+      ],
+      "record_kind": "boundary_collision_test",
+      "ruling": "The product owns the inspection application/recipe and occurrence lifecycle; vision kernels and predictive models are replaceable methods, deterministic decisioning may interpret accepted results, and machine control owns physical effects.",
+      "status": "preliminary_pass_requires_full_adjudication"
+    },
+    {
+      "collision_test_id": "collision.aoga.signal_condition_diagnostics",
+      "hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "neighbor_refs": [
+        "candidate.product.platform_operations",
+        "candidate.product.forecasting_workbench",
+        "candidate.product.online_inference",
+        "candidate.product.decision_automation"
+      ],
+      "record_kind": "boundary_collision_test",
+      "ruling": "Platform operations owns digital-service health, forecasting owns a forecasting study, inference serves a model, and decisioning interprets accepted claims; this product owns the monitoring programme plus state/health/diagnostic/prognostic case lifecycle.",
+      "status": "preliminary_pass_requires_full_adjudication"
+    }
+  ],
+  "contract_id": "contract.product_inventory_challenge.analytical_operations_gap_audit.v0_1_0",
+  "deferred_hypotheses": [
+    {
+      "deferred_id": "deferred.aoga.statistical_study_workbench",
+      "disposition": "research_before_promotion",
+      "name": "Statistical Study Workbench",
+      "nearest_existing_candidates": [
+        "candidate.product.analytical_notebook",
+        "candidate.product.experimentation_platform"
+      ],
+      "reason": "Need evidence for a distinct governed study/protocol/assumption/diagnostic/report lifecycle beyond notebooks and experimentation.",
+      "record_kind": "deferred_inventory_hypothesis",
+      "status": "unresolved"
+    },
+    {
+      "deferred_id": "deferred.aoga.graph_analytics_workbench",
+      "disposition": "research_before_promotion",
+      "name": "Graph Analytics Workbench",
+      "nearest_existing_candidates": [
+        "candidate.product.analytical_notebook",
+        "candidate.product.distributed_query"
+      ],
+      "reason": "Graph representation and algorithms are proven library families; an independent workbench product lifecycle remains unproved.",
+      "record_kind": "deferred_inventory_hypothesis",
+      "status": "unresolved"
+    },
+    {
+      "deferred_id": "deferred.aoga.data_access_request_provisioning",
+      "disposition": "research_before_promotion",
+      "name": "Data Access Request and Provisioning",
+      "nearest_existing_candidates": [
+        "candidate.product.data_use_policy",
+        "candidate.product.data_marketplace"
+      ],
+      "reason": "Need to separate request-case authority, entitlement provisioning, approval, revocation and marketplace fulfillment.",
+      "record_kind": "deferred_inventory_hypothesis",
+      "status": "unresolved"
+    },
+    {
+      "deferred_id": "deferred.aoga.data_observability_incident_operations",
+      "disposition": "research_before_promotion",
+      "name": "Data Observability and Incident Operations",
+      "nearest_existing_candidates": [
+        "candidate.product.data_quality_operations",
+        "candidate.product.platform_operations"
+      ],
+      "reason": "Need to determine whether data incidents have independent adoption, ownership and support or compose existing quality and operations products.",
+      "record_kind": "deferred_inventory_hypothesis",
+      "status": "unresolved"
+    },
+    {
+      "deferred_id": "deferred.aoga.sensitive_data_discovery",
+      "disposition": "research_before_promotion",
+      "name": "Sensitive-Data Discovery and Classification",
+      "nearest_existing_candidates": [
+        "candidate.product.metadata_discovery",
+        "candidate.product.data_use_policy"
+      ],
+      "reason": "Likely a classification capability plus review workflow; product independence and authority remain unproved.",
+      "record_kind": "deferred_inventory_hypothesis",
+      "status": "unresolved"
+    },
+    {
+      "deferred_id": "deferred.aoga.data_migration_control",
+      "disposition": "research_before_promotion",
+      "name": "Data Migration and Modernization Control",
+      "nearest_existing_candidates": [
+        "candidate.product.pipeline_orchestration",
+        "candidate.product.data_quality_operations",
+        "candidate.product.reconciliation_control_operations",
+        "candidate.product.data_protection_recovery"
+      ],
+      "reason": "A migration programme may be a temporary solution composition rather than a durable horizontal product.",
+      "record_kind": "deferred_inventory_hypothesis",
+      "status": "unresolved"
+    },
+    {
+      "deferred_id": "deferred.aoga.operational_data_api_serving",
+      "disposition": "research_before_promotion",
+      "name": "Operational Data Application and API Serving",
+      "nearest_existing_candidates": [
+        "candidate.product.virtual_data_access",
+        "candidate.product.data_product_publication"
+      ],
+      "reason": "This may belong to the application/runtime sovereign domain rather than the analytical-data product portfolio; cross-domain ownership must be adjudicated.",
+      "record_kind": "deferred_inventory_hypothesis",
+      "status": "unresolved"
+    }
+  ],
+  "edition": 1,
+  "hypotheses": [
+    {
+      "automation_modality": {
+        "allowed": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation does not replace vocabulary enumeration, semantic adjudication, invariants, state machines, algorithms, evidence, negative tests, qualification or domain acceptance.",
+        "proposal_law": "Model or agent output is a typed proposal, never semantic ownership, ground truth, authority, executed effect or acceptance evidence by itself.",
+        "removal_law": "Removing model and agent extensions preserves the deterministic product lifecycle; an explicitly requested stochastic capability may instead fail capability_unavailable."
+      },
+      "collision_ruling": "The workbench owns an interactive project and reversible recipe-authoring lifecycle; batch transform owns a deployed build contract, notebook owns a general computational document, and quality owns requirements, validation and defect evidence rather than manual reshaping.",
+      "deterministic_core": [
+        "carrier_and_schema_admission",
+        "profiling",
+        "faceting",
+        "typed_transform_execution",
+        "ordered_history",
+        "replay",
+        "diff",
+        "export_and_provenance_receipt"
+      ],
+      "evidence_refs": [
+        "evidence.aoga.openrefine_start",
+        "evidence.aoga.openrefine_history",
+        "evidence.aoga.openrefine_facets",
+        "evidence.aoga.openrefine_transform",
+        "evidence.aoga.openrefine_export",
+        "evidence.aoga.openrefine_architecture"
+      ],
+      "excluded_meanings": [
+        "source_system_fact",
+        "scheduled_pipeline_operation",
+        "production_transform_deployment",
+        "master_identity_authority",
+        "business_metric_definition"
+      ],
+      "falsifiers": [
+        "Users cannot adopt it independently from a notebook or transform system.",
+        "The reversible preparation project has no distinct lifecycle or exit artifact.",
+        "All meaningful use is already governed by the deployed transform-build product."
+      ],
+      "hypothesis_id": "hypothesis.aoga.self_service_data_preparation",
+      "lifecycle_states": [
+        "draft",
+        "data_admitted",
+        "profiling",
+        "recipe_editing",
+        "review_ready",
+        "accepted",
+        "published",
+        "superseded",
+        "withdrawn"
+      ],
+      "missing_evidence": [
+        "multi-user concurrency and review semantics",
+        "large-data execution split",
+        "two independent portable recipe implementations"
+      ],
+      "name": "Self-Service Data Preparation Workbench",
+      "nearest_existing_candidates": [
+        "candidate.product.batch_transform_build",
+        "candidate.product.analytical_notebook",
+        "candidate.product.data_quality_operations"
+      ],
+      "optional_method_bindings": [
+        "heuristic_clustering",
+        "probabilistic_type_inference",
+        "model_suggested_repairs"
+      ],
+      "owned_job": "interactive profiling, repair, transformation-recipe authoring, replay, diff and prepared-output publication",
+      "owned_meanings": [
+        "preparation_project",
+        "admitted_data_cut",
+        "profile_view",
+        "facet_selection",
+        "transformation_recipe",
+        "recipe_history",
+        "prepared_output_edition"
+      ],
+      "preliminary_disposition": "promote_for_full_adjudication",
+      "primary_users": [
+        "data_practitioner",
+        "analyst",
+        "data_steward"
+      ],
+      "proposed_product_id": "candidate.product.self_service_data_preparation",
+      "record_kind": "product_inventory_hypothesis",
+      "score_total": 17,
+      "sovereign_question": "How can a data practitioner inspect, repair and reshape one admitted data cut through a reviewable recipe without mutating its source?",
+      "split_scores": {
+        "adoption": 2,
+        "authority": 1,
+        "economics": 1,
+        "interface": 2,
+        "job": 2,
+        "lifecycle": 2,
+        "market_evidence": 2,
+        "operation": 1,
+        "semantics": 2,
+        "user": 2
+      },
+      "status": "candidate_not_ratified"
+    },
+    {
+      "automation_modality": {
+        "allowed": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation does not replace vocabulary enumeration, semantic adjudication, invariants, state machines, algorithms, evidence, negative tests, qualification or domain acceptance.",
+        "proposal_law": "Model or agent output is a typed proposal, never semantic ownership, ground truth, authority, executed effect or acceptance evidence by itself.",
+        "removal_law": "Removing model and agent extensions preserves the deterministic product lifecycle; an explicitly requested stochastic capability may instead fail capability_unavailable."
+      },
+      "collision_ruling": "Annotation operations own human/task/ground-truth lifecycle; model lifecycle consumes released datasets, quality imports comparison kernels, and publication distributes an accepted edition without owning its annotation judgments.",
+      "deterministic_core": [
+        "target_and_selector_binding",
+        "schema_validation",
+        "assignment_and_role_control",
+        "manual_annotation",
+        "review_issue_lifecycle",
+        "consensus_and_adjudication_rules",
+        "quality_sampling",
+        "versioned_export"
+      ],
+      "evidence_refs": [
+        "evidence.aoga.cvat_qa",
+        "evidence.aoga.cvat_manual_review",
+        "evidence.aoga.cvat_auto_qa",
+        "evidence.aoga.cvat_analytics",
+        "evidence.aoga.labelstudio_project",
+        "evidence.aoga.labelstudio_label",
+        "evidence.aoga.labelstudio_consensus",
+        "evidence.aoga.w3c_annotation"
+      ],
+      "excluded_meanings": [
+        "model_training",
+        "model_prediction",
+        "source_content_identity",
+        "business_factual_truth",
+        "downstream_decision_authority"
+      ],
+      "falsifiers": [
+        "Annotation tasks are only an incidental screen inside model training.",
+        "Ground-truth and review authority cannot be separated from the consuming model or application.",
+        "No independent export, recall or workforce lifecycle exists."
+      ],
+      "hypothesis_id": "hypothesis.aoga.annotation_operations",
+      "lifecycle_states": [
+        "draft",
+        "configured",
+        "sampling",
+        "assigned",
+        "annotating",
+        "reviewing",
+        "correcting",
+        "adjudicating",
+        "accepted",
+        "released",
+        "superseded",
+        "recalled"
+      ],
+      "missing_evidence": [
+        "portable multimodal selector contract",
+        "adjudication precedence laws",
+        "ground-truth recall propagation",
+        "two independent conformance implementations"
+      ],
+      "name": "Annotation and Ground-Truth Operations",
+      "nearest_existing_candidates": [
+        "candidate.product.model_lifecycle",
+        "candidate.product.data_quality_operations",
+        "candidate.product.data_product_publication"
+      ],
+      "optional_method_bindings": [
+        "classical_prelabeling",
+        "predictive_active_sampling",
+        "generative_preannotation"
+      ],
+      "owned_job": "schema binding, task allocation, annotation, review, correction, consensus, adjudication, quality sampling and ground-truth release",
+      "owned_meanings": [
+        "annotation_project",
+        "label_schema_binding",
+        "annotation_task",
+        "assignment",
+        "annotation_occurrence",
+        "review_issue",
+        "consensus_result",
+        "adjudication_decision",
+        "ground_truth_edition"
+      ],
+      "preliminary_disposition": "promote_for_full_adjudication",
+      "primary_users": [
+        "annotation_owner",
+        "annotator",
+        "reviewer",
+        "dataset_steward"
+      ],
+      "proposed_product_id": "candidate.product.annotation_operations",
+      "record_kind": "product_inventory_hypothesis",
+      "score_total": 20,
+      "sovereign_question": "How can an annotation owner turn selected source occurrences into a versioned, reviewed and quality-evidenced annotation dataset?",
+      "split_scores": {
+        "adoption": 2,
+        "authority": 2,
+        "economics": 2,
+        "interface": 2,
+        "job": 2,
+        "lifecycle": 2,
+        "market_evidence": 2,
+        "operation": 2,
+        "semantics": 2,
+        "user": 2
+      },
+      "status": "candidate_not_ratified"
+    },
+    {
+      "automation_modality": {
+        "allowed": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation does not replace vocabulary enumeration, semantic adjudication, invariants, state machines, algorithms, evidence, negative tests, qualification or domain acceptance.",
+        "proposal_law": "Model or agent output is a typed proposal, never semantic ownership, ground truth, authority, executed effect or acceptance evidence by itself.",
+        "removal_law": "Removing model and agent extensions preserves the deterministic product lifecycle; an explicitly requested stochastic capability may instead fail capability_unavailable."
+      },
+      "collision_ruling": "Ingestion delivers bytes, search indexes admitted content, annotation creates labels, and model lifecycle trains methods; this product owns the per-document processing/review occurrence and its structured-output evidence.",
+      "deterministic_core": [
+        "carrier_admission",
+        "bounded_parser_dispatch",
+        "page_and_revision_identity",
+        "content_graph",
+        "schema_validation",
+        "exception_routing",
+        "review_state_machine",
+        "provenance_and_release_receipt"
+      ],
+      "evidence_refs": [
+        "evidence.aoga.tika_home",
+        "evidence.aoga.tika_detector",
+        "evidence.aoga.unstructured_partition",
+        "evidence.aoga.unstructured_chunk",
+        "evidence.aoga.google_docai_overview",
+        "evidence.aoga.google_docai_api",
+        "evidence.aoga.google_document",
+        "evidence.aoga.aws_textract_review"
+      ],
+      "excluded_meanings": [
+        "generic_byte_ingestion",
+        "records_retention_authority",
+        "business_fact_acceptance",
+        "search_index",
+        "downstream_case_decision"
+      ],
+      "falsifiers": [
+        "The only independent job is generic file conversion without review or exception lifecycle.",
+        "Structured output cannot exit independently of one provider processor.",
+        "The boundary duplicates source ingestion or downstream business case processing."
+      ],
+      "hypothesis_id": "hypothesis.aoga.document_processing_review",
+      "lifecycle_states": [
+        "received",
+        "admitted",
+        "partitioning",
+        "extracting",
+        "validation_pending",
+        "exception",
+        "human_review",
+        "accepted",
+        "rejected",
+        "released",
+        "reprocessed",
+        "recalled"
+      ],
+      "missing_evidence": [
+        "portable document content graph",
+        "encrypted/signed document admission",
+        "review sampling and precedence",
+        "semantic-loss receipts across reprocessing"
+      ],
+      "name": "Document Processing and Review Operations",
+      "nearest_existing_candidates": [
+        "candidate.product.ingestion_delivery",
+        "candidate.product.search_index_serving",
+        "candidate.product.annotation_operations",
+        "candidate.product.model_lifecycle"
+      ],
+      "optional_method_bindings": [
+        "ocr",
+        "layout_model",
+        "document_classifier",
+        "extractive_model",
+        "generative_extraction_proposal"
+      ],
+      "owned_job": "document admission, carrier detection, rendering, content-graph creation, extraction, validation, exception handling, human review and structured-output release",
+      "owned_meanings": [
+        "document_occurrence",
+        "page_occurrence",
+        "document_revision",
+        "content_element",
+        "extraction_schema_binding",
+        "extraction_candidate",
+        "validation_issue",
+        "document_review_case",
+        "structured_output_edition"
+      ],
+      "preliminary_disposition": "promote_for_full_adjudication",
+      "primary_users": [
+        "document_operator",
+        "reviewer",
+        "integration_owner",
+        "records_steward"
+      ],
+      "proposed_product_id": "candidate.product.document_processing_review",
+      "record_kind": "product_inventory_hypothesis",
+      "score_total": 19,
+      "sovereign_question": "How can a document operator convert one admitted document occurrence into typed, provenance-linked structured output with exceptions and review?",
+      "split_scores": {
+        "adoption": 2,
+        "authority": 1,
+        "economics": 2,
+        "interface": 2,
+        "job": 2,
+        "lifecycle": 2,
+        "market_evidence": 2,
+        "operation": 2,
+        "semantics": 2,
+        "user": 2
+      },
+      "status": "candidate_not_ratified"
+    },
+    {
+      "automation_modality": {
+        "allowed": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation does not replace vocabulary enumeration, semantic adjudication, invariants, state machines, algorithms, evidence, negative tests, qualification or domain acceptance.",
+        "proposal_law": "Model or agent output is a typed proposal, never semantic ownership, ground truth, authority, executed effect or acceptance evidence by itself.",
+        "removal_law": "Removing model and agent extensions preserves the deterministic product lifecycle; an explicitly requested stochastic capability may instead fail capability_unavailable."
+      },
+      "collision_ruling": "The product owns the inspection application/recipe and occurrence lifecycle; vision kernels and predictive models are replaceable methods, deterministic decisioning may interpret accepted results, and machine control owns physical effects.",
+      "deterministic_core": [
+        "item_and_image_identity",
+        "acquisition_and_calibration_binding",
+        "typed_tool_flow",
+        "recipe_versioning",
+        "threshold_and_tolerance_evaluation",
+        "execution_state_machine",
+        "result_evidence",
+        "review_and_publication"
+      ],
+      "evidence_refs": [
+        "evidence.aoga.merlic_getting_started",
+        "evidence.aoga.merlic_tools",
+        "evidence.aoga.merlic_evaluation",
+        "evidence.aoga.merlic_checking",
+        "evidence.aoga.merlic_process",
+        "evidence.aoga.merlic_results",
+        "evidence.aoga.iso_visual",
+        "evidence.aoga.genicam"
+      ],
+      "excluded_meanings": [
+        "camera_driver",
+        "generic_image_algorithm",
+        "plant_quality_policy",
+        "PLC_command_authority",
+        "physical_reject_effect"
+      ],
+      "falsifiers": [
+        "Every inspection necessarily changes vertical business semantics in the horizontal core.",
+        "The inspection recipe has no adoption or exit boundary apart from a machine controller.",
+        "A generic notebook plus image library owns the complete support and occurrence lifecycle."
+      ],
+      "hypothesis_id": "hypothesis.aoga.visual_inspection_operations",
+      "lifecycle_states": [
+        "draft",
+        "calibrating",
+        "recipe_testing",
+        "qualified",
+        "released",
+        "ready",
+        "executing",
+        "result_ready",
+        "review_pending",
+        "accepted",
+        "rejected",
+        "halted",
+        "superseded"
+      ],
+      "missing_evidence": [
+        "cross-provider recipe interchange",
+        "inspection uncertainty and abstention",
+        "traceable item-result-effect separation",
+        "two independent runtime conformance suites"
+      ],
+      "name": "Visual Inspection Operations",
+      "nearest_existing_candidates": [
+        "candidate.product.analytical_notebook",
+        "candidate.product.online_inference",
+        "candidate.product.decision_automation",
+        "candidate.product.model_lifecycle"
+      ],
+      "optional_method_bindings": [
+        "classical_machine_vision",
+        "predictive_defect_model",
+        "anomaly_model",
+        "generative_explanation"
+      ],
+      "owned_job": "inspection-plan authoring, acquisition binding, calibration, method composition, recipe release, occurrence execution, evidence review and inspection-result publication",
+      "owned_meanings": [
+        "inspection_plan",
+        "acquisition_profile",
+        "calibration_edition",
+        "inspection_recipe",
+        "inspected_item_occurrence",
+        "image_evidence",
+        "method_result",
+        "inspection_result",
+        "review_disposition"
+      ],
+      "preliminary_disposition": "promote_for_full_adjudication",
+      "primary_users": [
+        "inspection_engineer",
+        "quality_operator",
+        "reviewer",
+        "line_integration_owner"
+      ],
+      "proposed_product_id": "candidate.product.visual_inspection_operations",
+      "record_kind": "product_inventory_hypothesis",
+      "score_total": 20,
+      "sovereign_question": "How can an inspection owner configure, execute and review repeatable image-based inspections while preserving each item, recipe, result and disposition boundary?",
+      "split_scores": {
+        "adoption": 2,
+        "authority": 2,
+        "economics": 2,
+        "interface": 2,
+        "job": 2,
+        "lifecycle": 2,
+        "market_evidence": 2,
+        "operation": 2,
+        "semantics": 2,
+        "user": 2
+      },
+      "status": "candidate_not_ratified"
+    },
+    {
+      "automation_modality": {
+        "allowed": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation does not replace vocabulary enumeration, semantic adjudication, invariants, state machines, algorithms, evidence, negative tests, qualification or domain acceptance.",
+        "proposal_law": "Model or agent output is a typed proposal, never semantic ownership, ground truth, authority, executed effect or acceptance evidence by itself.",
+        "removal_law": "Removing model and agent extensions preserves the deterministic product lifecycle; an explicitly requested stochastic capability may instead fail capability_unavailable."
+      },
+      "collision_ruling": "Platform operations owns digital-service health, forecasting owns a forecasting study, inference serves a model, and decisioning interprets accepted claims; this product owns the monitoring programme plus state/health/diagnostic/prognostic case lifecycle.",
+      "deterministic_core": [
+        "asset_channel_and_unit_binding",
+        "sampling_and_calibration_validation",
+        "windowing_and_preprocessing",
+        "method_plan",
+        "state_thresholding",
+        "case_state_machine",
+        "confidence_and_uncertainty",
+        "expert_review_and_evidence"
+      ],
+      "evidence_refs": [
+        "evidence.aoga.iso_17359",
+        "evidence.aoga.iso_13374",
+        "evidence.aoga.iso_13379",
+        "evidence.aoga.iso_13381",
+        "evidence.aoga.mimosa_osacbm",
+        "evidence.aoga.mimosa_osaeai",
+        "evidence.aoga.ni_condition",
+        "evidence.aoga.scipy_signal"
+      ],
+      "excluded_meanings": [
+        "generic_telemetry_storage",
+        "service_incident",
+        "maintenance_work_order",
+        "asset_master_identity",
+        "protective_control_effect"
+      ],
+      "falsifiers": [
+        "The domain is only a set of signal algorithms without a monitoring-program or case lifecycle.",
+        "Asset condition meanings cannot be separated from one maintenance application.",
+        "No independent adoption, operation, support or export boundary exists."
+      ],
+      "hypothesis_id": "hypothesis.aoga.signal_condition_diagnostics",
+      "lifecycle_states": [
+        "programme_draft",
+        "instrumenting",
+        "baselining",
+        "active",
+        "state_detected",
+        "assessment_pending",
+        "diagnosing",
+        "prognosing",
+        "review_pending",
+        "advisory_issued",
+        "closed",
+        "reopened",
+        "superseded"
+      ],
+      "missing_evidence": [
+        "current portable state/health/diagnostic/prognostic contracts",
+        "sensor and context quality laws",
+        "diagnosis defeaters",
+        "advisory-to-maintenance authority boundary"
+      ],
+      "name": "Signal Condition Monitoring and Diagnostics",
+      "nearest_existing_candidates": [
+        "candidate.product.platform_operations",
+        "candidate.product.forecasting_workbench",
+        "candidate.product.online_inference",
+        "candidate.product.decision_automation"
+      ],
+      "optional_method_bindings": [
+        "spectral_and_statistical_methods",
+        "rules_and_expert_systems",
+        "predictive_diagnostics",
+        "remaining_useful_life_models",
+        "generative_explanation"
+      ],
+      "owned_job": "monitoring-program design, channel binding, signal preparation, state detection, health assessment, diagnosis, prognosis, advisory evidence and expert review",
+      "owned_meanings": [
+        "monitoring_program",
+        "asset_channel_binding",
+        "sampling_profile",
+        "signal_window",
+        "condition_indicator",
+        "detected_state",
+        "health_assessment",
+        "diagnostic_case",
+        "prognostic_case",
+        "advisory"
+      ],
+      "preliminary_disposition": "promote_for_full_adjudication",
+      "primary_users": [
+        "reliability_engineer",
+        "condition_monitoring_specialist",
+        "maintenance_planner",
+        "operations_reviewer"
+      ],
+      "proposed_product_id": "candidate.product.signal_condition_diagnostics",
+      "record_kind": "product_inventory_hypothesis",
+      "score_total": 20,
+      "sovereign_question": "How can an asset or process owner operate an editioned monitoring programme that turns admitted signals into state, health, diagnosis and prognosis evidence?",
+      "split_scores": {
+        "adoption": 2,
+        "authority": 2,
+        "economics": 2,
+        "interface": 2,
+        "job": 2,
+        "lifecycle": 2,
+        "market_evidence": 2,
+        "operation": 2,
+        "semantics": 2,
+        "user": 2
+      },
+      "status": "candidate_not_ratified"
+    }
+  ],
+  "library_hypotheses": [
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.preparation_project",
+      "name": "preparation_project",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.data_cut_admission",
+      "name": "data_cut_admission",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.column_profile",
+      "name": "column_profile",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.facet_and_filter",
+      "name": "facet_and_filter",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.typed_transform_recipe",
+      "name": "typed_transform_recipe",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.reversible_history",
+      "name": "reversible_history",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.recipe_replay",
+      "name": "recipe_replay",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.data_diff",
+      "name": "data_diff",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.self_service_data_preparation.prepared_output_publication",
+      "name": "prepared_output_publication",
+      "product_hypothesis_ref": "hypothesis.aoga.self_service_data_preparation",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.annotation_schema",
+      "name": "annotation_schema",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.target_selector",
+      "name": "target_selector",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.task_sampling",
+      "name": "task_sampling",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.work_assignment",
+      "name": "work_assignment",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.annotation_occurrence",
+      "name": "annotation_occurrence",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.review_issue",
+      "name": "review_issue",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.correction",
+      "name": "correction",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.agreement_metric",
+      "name": "agreement_metric",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.consensus",
+      "name": "consensus",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.adjudication",
+      "name": "adjudication",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.ground_truth_edition",
+      "name": "ground_truth_edition",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.annotation_operations.annotation_export",
+      "name": "annotation_export",
+      "product_hypothesis_ref": "hypothesis.aoga.annotation_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.document_admission",
+      "name": "document_admission",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.carrier_detection",
+      "name": "carrier_detection",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.bounded_rendering",
+      "name": "bounded_rendering",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.page_revision_identity",
+      "name": "page_revision_identity",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.content_graph",
+      "name": "content_graph",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.partitioning",
+      "name": "partitioning",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.ocr_method",
+      "name": "ocr_method",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.layout_method",
+      "name": "layout_method",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.table_and_form_extraction",
+      "name": "table_and_form_extraction",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.schema_extraction",
+      "name": "schema_extraction",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.validation",
+      "name": "validation",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.exception_case",
+      "name": "exception_case",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.human_review",
+      "name": "human_review",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.document_processing_review.structured_output_release",
+      "name": "structured_output_release",
+      "product_hypothesis_ref": "hypothesis.aoga.document_processing_review",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.inspection_plan",
+      "name": "inspection_plan",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.acquisition_profile",
+      "name": "acquisition_profile",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.calibration",
+      "name": "calibration",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.region_of_interest",
+      "name": "region_of_interest",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.tool_flow",
+      "name": "tool_flow",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.recipe",
+      "name": "recipe",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.inspection_execution",
+      "name": "inspection_execution",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.method_result",
+      "name": "method_result",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.tolerance_evaluation",
+      "name": "tolerance_evaluation",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.inspection_result",
+      "name": "inspection_result",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.review_disposition",
+      "name": "review_disposition",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.visual_inspection_operations.machine_integration_port",
+      "name": "machine_integration_port",
+      "product_hypothesis_ref": "hypothesis.aoga.visual_inspection_operations",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.monitoring_program",
+      "name": "monitoring_program",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.asset_channel_binding",
+      "name": "asset_channel_binding",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.sampling_profile",
+      "name": "sampling_profile",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.calibration",
+      "name": "calibration",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.signal_windowing",
+      "name": "signal_windowing",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.filter_and_spectral_kernels",
+      "name": "filter_and_spectral_kernels",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.state_detection",
+      "name": "state_detection",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.health_assessment",
+      "name": "health_assessment",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.diagnostic_case",
+      "name": "diagnostic_case",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.prognostic_case",
+      "name": "prognostic_case",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.advisory",
+      "name": "advisory",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.expert_review",
+      "name": "expert_review",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    },
+    {
+      "library_hypothesis_id": "library_hypothesis.aoga.signal_condition_diagnostics.condition_evidence",
+      "name": "condition_evidence",
+      "product_hypothesis_ref": "hypothesis.aoga.signal_condition_diagnostics",
+      "record_kind": "library_boundary_hypothesis",
+      "required_surface": [
+        "types",
+        "operations",
+        "decisions",
+        "invariants",
+        "refusals",
+        "effect_boundary",
+        "qualification_profile",
+        "law_oracle"
+      ],
+      "status": "requires_full_adjudication"
+    }
+  ],
+  "negative_scope": "Does not ratify products, qualify providers, create AI-prefixed duplicates, define industry-specific defect/failure taxonomies, or claim open-world completeness.",
+  "negative_tests": [
+    {
+      "expected_result": "Refuse: modality is orthogonal to the sovereign job and product boundary.",
+      "negative_test_id": "negative.aoga.ai_prefix",
+      "prohibited_claim": "Create AI data-prep, AI annotation, AI document, AI inspection and AI diagnostics as parallel product families.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: proposal must enter the ordinary typed review and acceptance path.",
+      "negative_test_id": "negative.aoga.agent_research_substitute",
+      "prohibited_claim": "Accept an agent-generated vocabulary or invariant set without evidence and deterministic validation.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: prediction, annotation, consensus, adjudication and accepted ground truth remain distinct.",
+      "negative_test_id": "negative.aoga.prelabel_ground_truth",
+      "prohibited_claim": "A model or LLM prelabel is ground truth.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: extraction candidate, validated output and downstream factual acceptance are distinct.",
+      "negative_test_id": "negative.aoga.extraction_fact",
+      "prohibited_claim": "An extracted document field is an accepted business fact.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: method result, inspection result, authorized effect intent and machine receipt are distinct.",
+      "negative_test_id": "negative.aoga.vision_effect",
+      "prohibited_claim": "A vision good/bad result directly commands physical rejection.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: advisory, relying decision, work authorization and maintenance occurrence are distinct.",
+      "negative_test_id": "negative.aoga.diagnosis_work_order",
+      "prohibited_claim": "A diagnostic or prognostic result automatically creates an authorized maintenance effect.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: it is a method/library/provider until the user job and lifecycle split tests pass.",
+      "negative_test_id": "negative.aoga.kernel_product",
+      "prohibited_claim": "A parser, OCR engine, image algorithm or signal kernel is the complete product.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: horizontal types and extension ports are stable; industry solution packs own vocabulary and thresholds.",
+      "negative_test_id": "negative.aoga.industry_in_core",
+      "prohibited_claim": "Put every industry defect, document and failure taxonomy in the horizontal library.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: typed stochastic methods are valid when intent selects them and qualification exposes uncertainty and limits.",
+      "negative_test_id": "negative.aoga.deterministic_means_closed_form",
+      "prohibited_claim": "Ban probabilistic, predictive, heuristic, simulation or approximate methods from the deterministic architecture.",
+      "record_kind": "negative_inventory_test"
+    },
+    {
+      "expected_result": "Refuse: role, competence, scope, edition, evidence cut and command preconditions must be proven.",
+      "negative_test_id": "negative.aoga.human_means_authority",
+      "prohibited_claim": "Any human click is authoritative acceptance.",
+      "record_kind": "negative_inventory_test"
+    }
+  ],
+  "non_collapse_laws": [
+    "interactive data preparation != deployed transformation build != notebook computation != quality assertion",
+    "annotation proposal != annotation occurrence != review != consensus != adjudication != accepted ground-truth edition",
+    "document carrier != rendered page != content element != extraction candidate != validated structured output != accepted business fact",
+    "vision method result != inspection result != review disposition != authorized machine effect != physical effect receipt",
+    "signal sample != condition indicator != detected state != health assessment != diagnosis != prognosis != advisory != maintenance authorization",
+    "predictive or generative method != agent; modeled simulation agent != LLM tool agent",
+    "optional automation != omitted deterministic research, domain modeling, qualification or acceptance work"
+  ],
+  "scope": "Challenge the finite 66-candidate portfolio for omitted analytical-operation products whose user job, lifecycle and semantic authority are not reducible to existing method, pipeline, notebook, model or governance products.",
+  "sources": [
+    {
+      "claim": "A preparation project imports a copy, retains edits and exports a result without mutating the source.",
+      "family": "self_service_data_preparation",
+      "publisher": "OpenRefine",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "One implementation does not prove every collaborative, scale or deployment requirement.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.openrefine_start",
+      "title": "Starting a project",
+      "uri": "https://openrefine.org/docs/manual/starting"
+    },
+    {
+      "claim": "Data-changing operations form ordered undo/redo history and extractable JSON recipes.",
+      "family": "self_service_data_preparation",
+      "publisher": "OpenRefine",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Some view state and cell edits are not reusable operations.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.openrefine_history",
+      "title": "Running OpenRefine: History",
+      "uri": "https://openrefine.org/docs/manual/running/"
+    },
+    {
+      "claim": "Facets expose data variance and select subsets for inspection and correction.",
+      "family": "self_service_data_preparation",
+      "publisher": "OpenRefine",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Facets are exploratory views and do not themselves prove governed publication.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.openrefine_facets",
+      "title": "Exploring facets",
+      "uri": "https://openrefine.org/docs/manual/facets"
+    },
+    {
+      "claim": "The workbench supports explicit cleaning, correction, restructuring, clustering and enrichment operations.",
+      "family": "self_service_data_preparation",
+      "publisher": "OpenRefine",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Supported operations and data sizes are implementation-specific.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.openrefine_transform",
+      "title": "Transforming data",
+      "uri": "https://openrefine.org/docs/manual/transforming/"
+    },
+    {
+      "claim": "Projects, histories and reusable operations can be exported; archives can expose prior confidential states.",
+      "family": "self_service_data_preparation",
+      "publisher": "OpenRefine",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Export is not equivalent to downstream data-product acceptance.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.openrefine_export",
+      "title": "Exporting your work",
+      "uri": "https://openrefine.org/docs/manual/exporting"
+    },
+    {
+      "claim": "Operations, processes, changes and history entries are distinct runtime identities with ordered apply/revert semantics.",
+      "family": "self_service_data_preparation",
+      "publisher": "OpenRefine",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "This documents one architecture edition and not a universal implementation design.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.openrefine_architecture",
+      "title": "OpenRefine architecture before version 4",
+      "uri": "https://openrefine.org/docs/technical-reference/architecture-before-4"
+    },
+    {
+      "claim": "Annotation work has explicit ground-truth, review, consensus, issue and quality-control concerns.",
+      "family": "annotation_operations",
+      "publisher": "CVAT",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Feature availability differs by edition and data shape.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.cvat_qa",
+      "title": "QA and Analytics",
+      "uri": "https://docs.cvat.ai/docs/qa-analytics/"
+    },
+    {
+      "claim": "Review has assignable roles, validation stage, issues, correction, comments, resolution and completion.",
+      "family": "annotation_operations",
+      "publisher": "CVAT",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The described review mode excludes some 3D work.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.cvat_manual_review",
+      "title": "Manual QA and Review",
+      "uri": "https://docs.cvat.ai/docs/qa-analytics/manual-qa/"
+    },
+    {
+      "claim": "Ground-truth jobs, validation sampling, seeds, acceptance state, quality reports and conflicts have separate identities.",
+      "family": "annotation_operations",
+      "publisher": "CVAT",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The documented modes have task- and annotation-type limitations.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.cvat_auto_qa",
+      "title": "Automated QA, Review and Honeypots",
+      "uri": "https://docs.cvat.ai/docs/manual/advanced/analytics-and-monitoring/auto-qa/"
+    },
+    {
+      "claim": "Projects, tasks and jobs expose stage, state, assignee, throughput and ground-truth occurrence data.",
+      "family": "annotation_operations",
+      "publisher": "CVAT",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Operational metrics do not prove annotation correctness or ground-truth authority.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.cvat_analytics",
+      "title": "Analytics",
+      "uri": "https://docs.cvat.ai/docs/qa-analytics/analytics/"
+    },
+    {
+      "claim": "Labeling occurs inside projects with imported data, interfaces, instructions, task sampling and roles.",
+      "family": "annotation_operations",
+      "publisher": "Label Studio",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Product documentation does not define a portable annotation contract.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.labelstudio_project",
+      "title": "Create and configure projects",
+      "uri": "https://labelstud.io/guide/setup_project.html"
+    },
+    {
+      "claim": "Manual annotations and optional model suggestions are separate; suggestions can be accepted, rejected or refined.",
+      "family": "annotation_operations",
+      "publisher": "Label Studio",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Some predicted text regions have product-specific acceptance behavior.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.labelstudio_label",
+      "title": "Label and annotate data",
+      "uri": "https://labelstud.io/guide/labeling"
+    },
+    {
+      "claim": "Agreement, consensus, ground truth, re-annotation and model comparison are distinct operations and outputs.",
+      "family": "annotation_operations",
+      "publisher": "Label Studio",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A tutorial is implementation evidence, not a universal adjudication law.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.labelstudio_consensus",
+      "title": "Inter-annotator agreement and human consensus",
+      "uri": "https://labelstud.io/tutorials/how_to_measure_inter_annotator_agreement_and_build_human_consensus.html"
+    },
+    {
+      "claim": "Annotation body, target, selector, motivation, creator and lifecycle metadata are separable semantic identities.",
+      "family": "annotation_operations",
+      "publisher": "W3C",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The web model does not define workforce assignment or ground-truth authority.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.w3c_annotation",
+      "title": "Web Annotation Data Model",
+      "uri": "https://www.w3.org/TR/annotation-model/"
+    },
+    {
+      "claim": "Detection, metadata extraction and text extraction span many document carrier types behind common interfaces.",
+      "family": "document_processing_review",
+      "publisher": "Apache Software Foundation",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Tika is a toolkit, not a document-case product or human-review workflow.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.tika_home",
+      "title": "Apache Tika",
+      "uri": "https://tika.apache.org/"
+    },
+    {
+      "claim": "Content detection may use stream bytes and metadata and may return an unknown octet-stream type.",
+      "family": "document_processing_review",
+      "publisher": "Apache Software Foundation",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A detector result is evidence, not unquestionable carrier truth.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.tika_detector",
+      "title": "Apache Tika Detector interface",
+      "uri": "https://tika.apache.org/3.3.1/api/org/apache/tika/detect/Detector.html"
+    },
+    {
+      "claim": "Raw documents are detected and partitioned into typed document elements using format- and strategy-specific paths.",
+      "family": "document_processing_review",
+      "publisher": "Unstructured",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Element typing and method quality vary by carrier and strategy.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.unstructured_partition",
+      "title": "Partitioning",
+      "uri": "https://docs.unstructured.io/open-source/core-functionality/partitioning"
+    },
+    {
+      "claim": "Chunking is a post-partition transformation with explicit size, overlap and boundary decisions.",
+      "family": "document_processing_review",
+      "publisher": "Unstructured",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Chunking is one downstream representation operation and not the document product itself.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.unstructured_chunk",
+      "title": "Chunking",
+      "uri": "https://docs.unstructured.io/open-source/core-functionality/chunking"
+    },
+    {
+      "claim": "Document processing separates digitization, extraction, classification, splitting, processor selection, training, evaluation and structured output.",
+      "family": "document_processing_review",
+      "publisher": "Google Cloud",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "This implementation includes model methods but does not make models authoritative over review or downstream effects.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.google_docai_overview",
+      "title": "Document AI overview",
+      "uri": "https://docs.cloud.google.com/document-ai/docs/overview"
+    },
+    {
+      "claim": "Processors and versions have create, enable, deploy, train, evaluate, process and batch-process lifecycles.",
+      "family": "document_processing_review",
+      "publisher": "Google Cloud",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "API surface is provider-specific and human-review support includes deprecated paths.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.google_docai_api",
+      "title": "Cloud Document AI API",
+      "uri": "https://docs.cloud.google.com/document-ai/docs/reference/rest"
+    },
+    {
+      "claim": "A processed document includes pages, revisions, provenance and human-review status with requested, succeeded and rejected states.",
+      "family": "document_processing_review",
+      "publisher": "Google Cloud",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The resource model does not by itself authorize business decisions based on extracted fields.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.google_document",
+      "title": "Document resource",
+      "uri": "https://docs.cloud.google.com/document-ai/docs/reference/rest/v1/Document"
+    },
+    {
+      "claim": "Document extraction can route qualifying occurrences into a named human-review workflow.",
+      "family": "document_processing_review",
+      "publisher": "Amazon Web Services",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Amazon A2I entered maintenance mode in 2026; this is lifecycle evidence and a provider-exit warning, not a recommended dependency.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.aws_textract_review",
+      "title": "HumanLoopConfig",
+      "uri": "https://docs.aws.amazon.com/textract/latest/APIReference/API_HumanLoopConfig.html"
+    },
+    {
+      "claim": "A vision application separates acquisition, processing steps, configuration, UI, recipes and runtime integration.",
+      "family": "visual_inspection_operations",
+      "publisher": "MVTec",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "One vendor bundle may package several boundaries together.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.merlic_getting_started",
+      "title": "Getting Started with MERLIC",
+      "uri": "https://www.mvtec.com/doc/merlic/26.03/manual/en-us/Content/Getting_started/getting_started.html"
+    },
+    {
+      "claim": "Acquisition, calibration, alignment, preprocessing, processing, evaluation, file access and system tools are distinct method stages.",
+      "family": "visual_inspection_operations",
+      "publisher": "MVTec",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Tool categories do not define business defect taxonomies or acceptance authority.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.merlic_tools",
+      "title": "MERLIC Tool Reference",
+      "uri": "https://www.mvtec.com/doc/merlic/26.03/manual/en-us/Content/Tool_reference/tool_reference.html"
+    },
+    {
+      "claim": "Regions, contours, expressions and conditional execution are evaluated after detection methods.",
+      "family": "visual_inspection_operations",
+      "publisher": "MVTec",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "An evaluation result is not automatically a disposition of the inspected item.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.merlic_evaluation",
+      "title": "Image Evaluation",
+      "uri": "https://www.mvtec.com/doc/merlic/5.8/manual/en-us/Content/Tool_reference/Evaluation/evaluation.html"
+    },
+    {
+      "claim": "Inspection may use trained or rule-based presence, color and tolerance checks to produce good/bad judgments.",
+      "family": "visual_inspection_operations",
+      "publisher": "MVTec",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "A good/bad method result is not a universal quality decision or effect authorization.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.merlic_checking",
+      "title": "Image Checking",
+      "uri": "https://www.mvtec.com/doc/merlic/5.7/manual/en-us/Content/Tool_reference/Processing/Checking/checking.html"
+    },
+    {
+      "claim": "Recipes bind application and parameters; machine controllers control execution, observe state and query results through separate integration paths.",
+      "family": "visual_inspection_operations",
+      "publisher": "MVTec",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "PLC authority and machine effects remain external to the analytical inspection product.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.merlic_process",
+      "title": "MERLIC Process Integration",
+      "uri": "https://www.mvtec.com/doc/merlic/5.6/manual/en-us/Content/Process_integration/merlic_process_integration.html"
+    },
+    {
+      "claim": "Inspection results have recipe, result, job and timestamp identities and bounded retention.",
+      "family": "visual_inspection_operations",
+      "publisher": "MVTec",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Session-buffered results are insufficient audit or preservation evidence.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.merlic_results",
+      "title": "Inspecting results",
+      "uri": "https://www.mvtec.com/doc/merlic/5.7/manual/en-us/Content/RTE_plugins/Standard_plugins/REST/Built_in_web_app/web_app_results.html"
+    },
+    {
+      "claim": "Machine-vision inspection setup has fidelity, repeatability and reproducibility concerns relative to an inspector-based grading method.",
+      "family": "visual_inspection_operations",
+      "publisher": "ISO",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The technical report is scoped to optical surface imperfections, not all inspection domains.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.iso_visual",
+      "title": "ISO/TR 14997-2:2022",
+      "uri": "https://www.iso.org/standard/75056.html"
+    },
+    {
+      "claim": "Camera description and acquisition interoperability are separable from inspection semantics.",
+      "family": "visual_inspection_operations",
+      "publisher": "European Machine Vision Association",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Camera interface conformance does not qualify an inspection recipe or result.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.genicam",
+      "title": "GenICam Standard",
+      "uri": "https://www.emva.org/wp-content/uploads/GenICam_Standard_v2_0.pdf"
+    },
+    {
+      "claim": "Condition monitoring begins with a governed monitoring programme applicable across machine types.",
+      "family": "signal_condition_diagnostics",
+      "publisher": "ISO",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The abstract does not expose every procedure or domain-specific threshold.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.iso_17359",
+      "title": "ISO 17359:2018",
+      "uri": "https://www.iso.org/standard/71194.html"
+    },
+    {
+      "claim": "Condition monitoring software separates data processing, communication and presentation concerns.",
+      "family": "signal_condition_diagnostics",
+      "publisher": "ISO",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Part 1 is general guidance and not an implementation qualification.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.iso_13374",
+      "title": "ISO 13374-1:2003",
+      "uri": "https://www.iso.org/cms/%20render/live/en/sites/isoorg/contents/data/standard/02/18/21832.html"
+    },
+    {
+      "claim": "Diagnostics has common concepts, technical characteristics, system-development guidance and application-specific method selection.",
+      "family": "signal_condition_diagnostics",
+      "publisher": "ISO",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The diagnostic approach and evidence remain occurrence- and application-specific.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.iso_13379",
+      "title": "ISO 13379-1:2025",
+      "uri": "https://www.iso.org/standard/88027.html"
+    },
+    {
+      "claim": "Prognostics has distinct data, process, behavior and method concerns including trending and remaining-life approaches.",
+      "family": "signal_condition_diagnostics",
+      "publisher": "ISO",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The URI also exposes prior-edition lifecycle; exact current-edition content requires edition control.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.iso_13381",
+      "title": "ISO 13381-1:2025",
+      "uri": "https://www.iso.org/standard/51436.html"
+    },
+    {
+      "claim": "A condition-based-maintenance architecture separates acquisition, manipulation, state detection, health assessment, prognosis and advisory information.",
+      "family": "signal_condition_diagnostics",
+      "publisher": "MIMOSA",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "The latest listed OSA-CBM release is old and must not be treated as sufficient current conformance evidence.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.mimosa_osacbm",
+      "title": "MIMOSA OSA-CBM",
+      "uri": "https://www.mimosa.org/mimosa-osa-cbm/"
+    },
+    {
+      "claim": "Asset registry, condition, reliability and maintenance information can be exchanged through layered, independently usable components.",
+      "family": "signal_condition_diagnostics",
+      "publisher": "MIMOSA",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Legacy transports and schemas need current security and interoperability qualification.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.mimosa_osaeai",
+      "title": "MIMOSA OSA-EAI",
+      "uri": "https://www.mimosa.org/mimosa-osa-eai/"
+    },
+    {
+      "claim": "Condition monitoring spans vibration, thermal, acoustic and other signals, with analysis, human review and sometimes protective response.",
+      "family": "signal_condition_diagnostics",
+      "publisher": "NI",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Vendor solution guidance does not establish universal diagnostic accuracy or effect authority.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.ni_condition",
+      "title": "What Is Condition Monitoring?",
+      "uri": "https://www.ni.com/en/solutions/condition-monitoring/what-is-condition-monitoring.html"
+    },
+    {
+      "claim": "Filtering, convolution, resampling, spectral estimation and related kernels are method libraries distinct from the monitoring programme and diagnosis lifecycle.",
+      "family": "signal_condition_diagnostics",
+      "publisher": "SciPy",
+      "record_kind": "primary_source_evidence",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Kernel availability does not select parameters or prove diagnostic fitness.",
+      "source_class": "official_standard_or_documentation",
+      "source_id": "evidence.aoga.scipy_signal",
+      "title": "Signal processing reference",
+      "uri": "https://docs.scipy.org/doc/scipy/reference/signal.html"
+    }
+  ],
+  "status": "evidence_backed_inventory_challenge_not_adjudicated_or_ratified"
+}

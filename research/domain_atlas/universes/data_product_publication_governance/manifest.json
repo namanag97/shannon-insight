@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-26",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "bounded-contexts.jsonl": {
+      "records": 3,
+      "sha256": "36d1204c968cedf99a00515e905942844b63ca136706473c83c6cc470354c6f4"
+    },
+    "compiler-contracts.jsonl": {
+      "records": 21,
+      "sha256": "4d681dcbbcffb7de373a13a6aa6722d70dd85fb729c9a3b9cc7be44f8c4672f9"
+    },
+    "decision-points.jsonl": {
+      "records": 42,
+      "sha256": "d26bdc5b964ff359fd64f09bbe5eb1c324320936b3f5f1102c437107e093c5fe"
+    },
+    "library-contracts.jsonl": {
+      "records": 7,
+      "sha256": "cc7f11c0533180c1ebd406472879f60ee0f834192bb6d863ce0830fb24461769"
+    },
+    "negative-twins.jsonl": {
+      "records": 20,
+      "sha256": "37d2547a6f237b6fc4de4152ea9c46bcd55d7c3426b395ebf4391fb740b50940"
+    },
+    "sources.jsonl": {
+      "records": 19,
+      "sha256": "b2efbc38df8da79af8e9722b1c584e333c4b0cf1040121e681fdbb00340d416b"
+    }
+  },
+  "manifest_id": "data_product_publication_governance_v0_1_0",
+  "qualified_implementation_count": 0,
+  "status": "specified_unimplemented_open_world"
+}

@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9_:-]+)+$",
+      "type": "string"
+    },
+    "refs": {
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "strings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "type": "integer"
+    },
+    "equivalence_theory": {
+      "type": "string"
+    },
+    "on_unknown": {
+      "type": "string"
+    },
+    "pattern": {
+      "type": "string"
+    },
+    "replacement": {
+      "type": "string"
+    },
+    "rewrite_id": {
+      "$ref": "#/$defs/id"
+    },
+    "side_conditions": {
+      "$ref": "#/$defs/strings"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/refs"
+    },
+    "status": {
+      "const": "candidate"
+    },
+    "termination_posture": {
+      "type": "string"
+    },
+    "witness_contract": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rewrite_id",
+    "edition",
+    "status",
+    "pattern",
+    "replacement",
+    "equivalence_theory",
+    "side_conditions",
+    "witness_contract",
+    "termination_posture",
+    "on_unknown",
+    "source_refs"
+  ],
+  "title": "Rewrite equivalence candidate",
+  "type": "object"
+}

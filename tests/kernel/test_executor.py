@@ -1,7 +1,5 @@
 """Tests for PhaseExecutor protocol and BaseExecutor."""
 
-import pytest
-
 from shannon_insight.infrastructure.runtime import Phase
 from shannon_insight.kernel.executor import BaseExecutor, PhaseExecutor
 from shannon_insight.kernel.result import PhaseResult

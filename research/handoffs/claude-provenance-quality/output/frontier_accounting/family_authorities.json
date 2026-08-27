@@ -1,0 +1,493 @@
+[
+ {
+  "family_slug": "candidate_data_shapes",
+  "authorities": [
+   {
+    "title": "Shapes Constraint Language (SHACL)",
+    "uri": "https://www.w3.org/TR/shacl/",
+    "issuer": "W3C",
+    "edition_or_date": "W3C Recommendation, 20 July 2017",
+    "why_relevant": "Official W3C standard defining constraint language for validating data against shapes.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "JSON Schema Specification (2020-12)",
+    "uri": "https://json-schema.org/specification",
+    "issuer": "JSON Schema org / OpenJS Foundation",
+    "edition_or_date": "2020-12 (current)",
+    "why_relevant": "Canonical spec governing JSON record schema validation used across candidate contract schemas.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": []
+ },
+ {
+  "family_slug": "connector_protocol",
+  "authorities": [
+   {
+    "title": "Arrow Flight SQL protocol specification",
+    "uri": "https://arrow.apache.org/docs/format/FlightSql.html",
+    "issuer": "Apache Arrow project (ASF)",
+    "edition_or_date": "Stable format spec, Arrow docs v25.0.1",
+    "why_relevant": "Official open specification for SQL database interaction over Arrow Flight RPC; fits connector/protocol universe.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": [
+   "ISO 9075-3 (SQL/cli) page at iso.org returns HTTP 403 to automated fetch; omitted pending manual verification of ISO/IEC 9075-3 edition.",
+   "No verified ODBC authority: normative ODBC spec lives in vendor documentation, excluded by no-vendor-marketing rule."
+  ]
+ },
+ {
+  "family_slug": "consumption_bi_visualization",
+  "authorities": [],
+  "discovery_vacancies": [
+   "No official standards body or verifiably fetchable peer-reviewed seminal paper found governing BI visualization consumption semantics; Wilkinson Grammar-of-Graphics DOI lookup failed.",
+   "Vacancy: adjudication must either elect a peer-reviewed anchor after manual verification or treat this family as having no upstream authority."
+  ]
+ },
+ {
+  "family_slug": "experimentation_lifecycle",
+  "authorities": [
+   {
+    "title": "Online controlled experiments at large scale (KDD 2013)",
+    "uri": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1145/2487575.2488217",
+    "issuer": "ACM KDD (peer-reviewed); Kohavi, Deng, Frasca, Walker, Xu, Pohlmann",
+    "edition_or_date": "2013",
+    "why_relevant": "Seminal peer-reviewed paper defining large-scale A/B experiment lifecycle and trustworthiness criteria.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": [
+   "Cambridge 'Trustworthy Online Controlled Experiments' book DOI/page fetch failed (404/redirect); not cited pending manual verification."
+  ]
+ },
+ {
+  "family_slug": "forecasting_lifecycle",
+  "authorities": [
+   {
+    "title": "The M4 Competition: 100,000 time series and 61 forecasting methods",
+    "uri": "https://doi.org/10.1016/j.ijforecast.2019.04.014",
+    "issuer": "International Journal of Forecasting (Elsevier); Makridakis, Spiliotis, Assimakopoulos",
+    "edition_or_date": "2020",
+    "why_relevant": "Peer-reviewed M-competition benchmark defining forecast evaluation and method-comparison standards.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Forecasting: Principles and Practice (3rd edition)",
+    "uri": "https://otexts.com/fpp3/",
+    "issuer": "Hyndman & Athanasopoulos, Monash University (OTexts)",
+    "edition_or_date": "3rd edition, May 2021 (online, last updated July 2026)",
+    "why_relevant": "Authoritative academic textbook covering ARIMA/ETS methodology and forecasting workflow governance.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": []
+ },
+ {
+  "family_slug": "governance_metadata_ontology",
+  "authorities": [
+   {
+    "title": "Data Catalog Vocabulary (DCAT) Version 3",
+    "uri": "https://www.w3.org/TR/vocab-dcat-3/",
+    "issuer": "W3C",
+    "edition_or_date": "W3C Recommendation, 2024",
+    "why_relevant": "Canonical W3C vocabulary for catalog/dataset governance metadata matching the family's subject matter.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "PROV-O: The PROV Ontology",
+    "uri": "https://www.w3.org/TR/prov-o/",
+    "issuer": "W3C",
+    "edition_or_date": "W3C Recommendation, 2013",
+    "why_relevant": "Standard ontology for provenance, attribution, and derivation of governed records.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "DCMI Metadata Terms",
+    "uri": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/",
+    "issuer": "DCMI (Dublin Core Metadata Initiative)",
+    "edition_or_date": "DCMI Specification, current edition",
+    "why_relevant": "Seminal descriptive-metadata term set underpinning governance metadata fields.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": []
+ },
+ {
+  "family_slug": "messaging_coordination",
+  "authorities": [
+   {
+    "title": "OASIS Advanced Message Queuing Protocol (AMQP) Version 1.0",
+    "uri": "https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html",
+    "issuer": "OASIS",
+    "edition_or_date": "OASIS Standard, 2012",
+    "why_relevant": "Vendor-neutral OASIS standard for messaging delivery, transfer states, and coordination semantics.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "MQTT Version 5.0",
+    "uri": "https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html",
+    "issuer": "OASIS",
+    "edition_or_date": "OASIS Standard, 2019",
+    "why_relevant": "OASIS standard covering QoS levels, retained messages, and broker/channel contracts in scope.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "AsyncAPI Specification 3.0.0",
+    "uri": "https://www.asyncapi.com/docs/reference/specification/v3.0.0",
+    "issuer": "AsyncAPI Initiative (Linux Foundation)",
+    "edition_or_date": "3.0.0, 2023",
+    "why_relevant": "Open specification for channels, operations, messages, correlation, and reply description models.",
+    "verified": true,
+    "confidence": "medium"
+   }
+  ],
+  "discovery_vacancies": [
+   "AsyncAPI listed at medium confidence: community-governed spec, not a formal standards-body Standard like OASIS AMQP/MQTT."
+  ]
+ },
+ {
+  "family_slug": "operations_research",
+  "authorities": [
+   {
+    "title": "A Course in Combinatorial Optimization",
+    "uri": "https://homepages.cwi.nl/~lex/files/dict.pdf",
+    "issuer": "Alexander Schrijver, CWI",
+    "edition_or_date": "Open lecture notes, first published 2013",
+    "why_relevant": "Seminal-author open treatment of combinatorial optimization foundations relevant to OR corpus.",
+    "verified": true,
+    "confidence": "medium"
+   },
+   {
+    "title": "Linear Programming: A Concise Introduction",
+    "uri": "https://www.math.ucla.edu/~tom/LP.pdf",
+    "issuer": "Thomas S. Ferguson, UCLA",
+    "edition_or_date": "Open text, unpublished academic manuscript",
+    "why_relevant": "Peer-respected open introduction to LP duality and simplex fundamentals cited in OR curricula.",
+    "verified": true,
+    "confidence": "medium"
+   }
+  ],
+  "discovery_vacancies": [
+   "No OASIS/ISO-class formal OR standard exists; INFORMS methodology pages returned HTTP 403 to automated verification and are omitted.",
+   "Nemhauser & Wolsey 'Integer and Combinatorial Optimization' has no verifiable authorized open URI found."
+  ]
+ },
+ {
+  "family_slug": "optional_model_agent_extensions",
+  "authorities": [
+   {
+    "title": "JSON Schema Draft 2020-12",
+    "uri": "https://json-schema.org/draft/2020-12/schema",
+    "issuer": "JSON Schema Organization / OpenJS Foundation",
+    "edition_or_date": "Draft 2020-12, 2021",
+    "why_relevant": "Normative schema language defining tool/function parameter contracts across agent providers.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Function calling guide",
+    "uri": "https://platform.openai.com/docs/guides/function-calling",
+    "issuer": "OpenAI",
+    "edition_or_date": "Current provider documentation, accessed 2026-08-27",
+    "why_relevant": "Primary official contract for structured model-to-tool invocation extensions.",
+    "verified": true,
+    "confidence": "medium"
+   },
+   {
+    "title": "Model Context Protocol Specification",
+    "uri": "https://modelcontextprotocol.io/specification/latest",
+    "issuer": "Anthropic / MCP open-source project",
+    "edition_or_date": "Latest published specification version",
+    "why_relevant": "Open protocol standardizing agent tool/resource extension interfaces beyond single vendors.",
+    "verified": true,
+    "confidence": "medium"
+   }
+  ],
+  "discovery_vacancies": [
+   "Provider docs (OpenAI) and MCP spec are vendor-origin authority surfaces; confidence capped at medium pending neutral standardization."
+  ]
+ },
+ {
+  "family_slug": "persistence_lakehouse",
+  "authorities": [
+   {
+    "title": "Apache Iceberg Table Spec",
+    "uri": "https://iceberg.apache.org/spec/",
+    "issuer": "Apache Software Foundation",
+    "edition_or_date": "Iceberg Table Spec v2, current site edition",
+    "why_relevant": "Open-format ASF specification of lakehouse table format, snapshots, and schema evolution.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Apache Parquet Format Documentation",
+    "uri": "https://parquet.apache.org/docs/",
+    "issuer": "Apache Software Foundation",
+    "edition_or_date": "Current format documentation",
+    "why_relevant": "ASF open columnar storage format standard underlying lakehouse object-log layouts.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Delta Transaction Log Protocol (PROTOCOL.md)",
+    "uri": "https://github.com/delta-io/delta/blob/master/PROTOCOL.md",
+    "issuer": "Delta Lake project (LF Projects / Databricks-founded)",
+    "edition_or_date": "Current master protocol document",
+    "why_relevant": "Openly specified transaction log protocol, though vendor-origin tech-report equivalent.",
+    "verified": true,
+    "confidence": "medium"
+   }
+  ],
+  "discovery_vacancies": [
+   "Delta Lake protocol is vendor-origin (Databricks/Linux Foundation); treated at medium confidence rather than neutral-standard."
+  ]
+ },
+ {
+  "family_slug": "pipeline_dataflow",
+  "authorities": [
+   {
+    "title": "The Dataflow Model: A Practical Approach to Balancing Correctness, Latency, and Cost in Massive-Scale, Unbounded, Out-of-Order Data Processing",
+    "uri": "https://research.google/pubs/the-dataflow-model-a-practical-approach-to-balancing-correctness-latency-and-cost-in-massive-scale-unbounded-out-of-order-data-processing/",
+    "issuer": "Google Research / PVLDB Vol. 8 (Akidau et al.)",
+    "edition_or_date": "2015, PVLDB 8(12), pp. 1792-1803",
+    "why_relevant": "Seminal definition of streaming/batch pipeline semantics: windows, watermarks, triggers, exactly-once.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Apache Beam Programming Guide",
+    "uri": "https://beam.apache.org/documentation/programming-guide/",
+    "issuer": "Apache Software Foundation (Beam PMC)",
+    "edition_or_date": "Living official documentation (accessed 2026-08-27)",
+    "why_relevant": "Official spec of the Beam model's pipeline/PCollection/transform abstractions underlying Dataflow.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": [
+   "No authoritative neutral spec for materialized-view/incremental view maintenance (viewed as candidate supplement; verified copies of classic papers not confirmed in-session)"
+  ]
+ },
+ {
+  "family_slug": "platform_commercial_support",
+  "authorities": [
+   {
+    "title": "ISO/IEC 20000-1:2018 \u2014 Information technology \u2014 Service management \u2014 Part 1: Service management system requirements",
+    "uri": "https://www.iso.org/standard/70636.html",
+    "issuer": "ISO/IEC JTC 1 (International Organization for Standardization)",
+    "edition_or_date": "3rd edition, published 2018; Amendment 1:2024 (climate action changes) exists at iso.org/standard/88434.html",
+    "why_relevant": "The only international standard defining requirements for an IT service management system (SMS); authoritative bounded anchor for commercial-support capability claims (full text paywalled; landing page verifies scope/title).",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Site Reliability Engineering: How Google Runs Production Systems (free official online edition)",
+    "uri": "https://sre.google/sre-book/table-of-contents/",
+    "issuer": "Google LLC / O'Reilly Media",
+    "edition_or_date": "2016, full text online, licensed CC BY-NC-ND 4.0",
+    "why_relevant": "Official, freely readable regulator-equivalent practitioner authority on production support practices: SLOs, error budgets, incident management, on-call, and postmortems \u2014 directly grounds commercial-support operation definitions.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "ITIL 4 \u2014 AXELOS best-practice framework for IT service management (official certification/framework page)",
+    "uri": "https://www.axelos.com/certifications/itil-service-management/itil-4",
+    "issuer": "AXELOS (PeopleCert)",
+    "edition_or_date": "ITIL 4, current framework edition (2019\u2013 )",
+    "why_relevant": "ITIL is the de facto commercial IT service/support best-practice framework; the official AXELOS page anchors provenance of support-lifecycle terminology. Note: fetch redirected toward the AXELOS homepage and core ITIL 4 publications remain paywalled, so treat as naming-level anchor only.",
+    "verified": true,
+    "confidence": "medium"
+   }
+  ],
+  "discovery_vacancies": [
+   "No freely accessible authoritative text of ITIL 4 service-management practices exists outside paid PeopleCert/AXELOS publications; an open normative substitute for ITIL practice definitions is vacant.",
+   "ISO/IEC 20000-1 full text is paywalled; only the bounded catalogue-page claim (title/scope) can be cited as verified."
+  ]
+ },
+ {
+  "family_slug": "predictive_analytics",
+  "authorities": [
+   {
+    "title": "Breiman, L. \u2014 Random Forests",
+    "uri": "https://link.springer.com/article/10.1023/A:1010933404324",
+    "issuer": "Machine Learning (Springer/Kluwer), vol. 45, pp. 5\u201332",
+    "edition_or_date": "October 2001; DOI 10.1023/A:1010933404324",
+    "why_relevant": "Seminal peer-reviewed paper defining random forests, out-of-bag error, and variable-importance estimates \u2014 canonical authority for ensemble-method metric semantics in predictive analytics.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Breiman, L. \u2014 Random Forests (author-hosted PDF, UC Berkeley Statistics Department)",
+    "uri": "https://www.stat.berkeley.edu/~breiman/randomforest2001.pdf",
+    "issuer": "Leo Breiman, Statistics Department, University of California, Berkeley",
+    "edition_or_date": "January 2001 preprint version of the Machine Learning 45(1):5\u201332 paper",
+    "why_relevant": "Freely accessible author-hosted full text of the seminal Random Forests paper, hosted by the author's institutional department.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Hastie, Tibshirani & Friedman \u2014 The Elements of Statistical Learning, 2nd Edition (authors' free PDF page)",
+    "uri": "https://hastie.su.domains/ElemStatLearn/",
+    "issuer": "Stanford University (authors' official page; book published by Springer)",
+    "edition_or_date": "2nd Edition, 2009 (corrected printings); PDF offered legally free by the authors",
+    "why_relevant": "Standard graduate reference for statistical learning/predictive modeling (regression, classification, model assessment and selection) with an author-sanctioned legal free PDF; authoritative source for predictive-analytics method formulas.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": []
+ },
+ {
+  "family_slug": "query_compilation_execution",
+  "authorities": [
+   {
+    "title": "Query Evaluation Techniques for Large Databases",
+    "uri": "https://www.comp.nus.edu.sg/~tankl/cs5208/readings/GraefeSurveys.pdf",
+    "issuer": "ACM Computing Surveys 25(2) (Goetz Graefe); full-text copy hosted by NUS",
+    "edition_or_date": "1993",
+    "why_relevant": "Canonical survey defining query compilation and physical execution operator techniques; ACM DL is paywalled (403).",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Access Path Selection in a Relational Database Management System",
+    "uri": "https://web.eecs.umich.edu/~michjc/eecs584/Papers/selinger_1979.pdf",
+    "issuer": "ACM SIGMOD 1979 (Selinger, Astrahan, Chamberlin, Lorie, Price; IBM); copy hosted by U. Michigan EECS",
+    "edition_or_date": "1979",
+    "why_relevant": "Seminal cost-based optimizer paper defining selectivity estimation, join ordering, plan compilation pipeline.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": [
+   "Graefe Cascades framework paper (IEEE Data Eng. Bulletin 1995): no freely verifiable official URI found; dl.acm.org returns HTTP 403",
+   "ISO/IEC SQL standard (e.g., SQL:2023) is paywalled; no fetchable authoritative text"
+  ]
+ },
+ {
+  "family_slug": "representation_codec",
+  "authorities": [
+   {
+    "title": "RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format",
+    "uri": "https://www.rfc-editor.org/rfc/rfc8259.txt",
+    "issuer": "IETF (T. Bray, Ed.)",
+    "edition_or_date": "December 2017; Standards Track; obsoletes RFC 7159",
+    "why_relevant": "Authoritative normative grammar and interoperability rules for the family's JSON representations.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "RFC 8949: Concise Binary Object Representation (CBOR)",
+    "uri": "https://www.rfc-editor.org/rfc/rfc8949.html",
+    "issuer": "IETF (C. Bormann, P. Hoffman)",
+    "edition_or_date": "December 2020; STD 94; obsoletes RFC 7049",
+    "why_relevant": "Normative binary codec specification complementing JSON for compact representation.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Apache Parquet File Format Documentation",
+    "uri": "https://parquet.apache.org/docs/file-format/",
+    "issuer": "Apache Parquet project (ASF)",
+    "edition_or_date": "Living format docs (last modified July 2024); metadata structure defined in parquet-format Thrift IDL",
+    "why_relevant": "Official columnar file-format layout spec: row groups, column chunks, PAR1 magic, footer metadata.",
+    "verified": true,
+    "confidence": "medium"
+   }
+  ],
+  "discovery_vacancies": []
+ },
+ {
+  "family_slug": "runtime_resource_control",
+  "authorities": [
+   {
+    "title": "Control Group v2 (cgroup v2) - Linux Kernel Documentation",
+    "uri": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+    "issuer": "Linux Kernel Organization (Tejun Heo)",
+    "edition_or_date": "Living official kernel documentation (accessed 2026-08-27)",
+    "why_relevant": "Authoritative reference for hierarchical CPU/memory/IO limits, weights, protections in resource control.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "sched_setscheduler() - The Open Group Base Specifications Issue 8 (POSIX.1-2024 / IEEE Std 1003.1-2024)",
+    "uri": "https://pubs.opengroup.org/onlinepubs/9799919799/functions/sched_setscheduler.html",
+    "issuer": "The Open Group / IEEE / ISO POSIx standard",
+    "edition_or_date": "Issue 8, 2024; Process Scheduling option, Realtime extension",
+    "why_relevant": "Vendor-neutral standard defining scheduling policies and priority semantics for runtime resource control.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": [
+   "No canonical peer-reviewed authority identified for container/orchestrator-level scheduling (Kubernetes and SIGMOBILE venues lack a single spec-style document); potential future candidate requiring verification",
+   "PSI (Pressure Stall Information) upstream design doc has no standalone peer-reviewed publication located in-session"
+  ]
+ },
+ {
+  "family_slug": "semantic_metrics_formulas",
+  "authorities": [
+   {
+    "title": "IEEE Std 1061-1998 \u2014 IEEE Standard for a Software Quality Metrics Methodology",
+    "uri": "https://standards.ieee.org/standard/1061-1998.html",
+    "issuer": "IEEE SA (IEEE Standards Association)",
+    "edition_or_date": "1998 (approved 1998-12-08; inactive-reserved since 2020, superseding the 1992 edition)",
+    "why_relevant": "The IEEE standard methodology for establishing software quality metrics and mapping them to quality factors \u2014 normative anchor for how semantic software metrics and their formulas should be defined hierarchically (full text paywalled; landing page verifies identity/status).",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "Fenton & Bieman \u2014 Software Metrics: A Rigorous and Practical Approach, Third Edition (publisher page)",
+    "uri": "https://www.routledge.com/Software-Metrics-A-Rigorous-and-Practical-Approach-Third-Edition/Fenton-Bieman/p/book/9781439838228",
+    "issuer": "CRC Press / Taylor & Francis (Chapman & Hall/CRC)",
+    "edition_or_date": "3rd Edition, copyright 2015, ISBN 9781439838228",
+    "why_relevant": "Seminal peer-reviewed-standard academic work grounding software measurement in measurement theory (representation condition, meaningfulness, validation of metrics) \u2014 primary citation authority for the semantics of software metric formulas.",
+    "verified": true,
+    "confidence": "high"
+   }
+  ],
+  "discovery_vacancies": [
+   "No open-access normative authority for measurement-theory formalization of software metrics was found; Fenton & Bieman and IEEE 1061 are both commercially gated, so formal metric-definition clauses must cite these via bounded bibliographic claims.",
+   "No verified official landing page located for an openly readable measurement-theory primer (e.g., a Finkelstein or Fenton measurement-theory paper); a free authoritative substitute would close this vacancy."
+  ]
+ },
+ {
+  "family_slug": "geospatial_analytics",
+  "authorities": [
+   {
+    "title": "OGC Standards programme (GeoPackage, WFS/WMS/OGC API - Features, Abstract Specification)",
+    "uri": "https://www.ogc.org/standards/",
+    "issuer": "Open Geospatial Consortium (OGC)",
+    "edition_or_date": "Living catalogue verified 2026-08-27",
+    "why_relevant": "Official SDO for geospatial formats/services the family consumes.",
+    "verified": true,
+    "confidence": "high"
+   },
+   {
+    "title": "SpatioTemporal Asset Catalog (STAC) specification",
+    "uri": "https://stacspec.org/",
+    "issuer": "STAC community / Radiant Earth",
+    "edition_or_date": "v1.x current",
+    "why_relevant": "Open spec for geospatial asset catalogs commonly feeding analytics.",
+    "verified": false,
+    "confidence": "low"
+   }
+  ],
+  "discovery_vacancies": [
+   "ISO 19115 metadata integration not verifiable from OGC catalogue page in-session; left as vacancy pending ISO landing-page check."
+  ]
+ }
+]

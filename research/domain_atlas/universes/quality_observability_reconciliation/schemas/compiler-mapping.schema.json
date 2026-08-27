@@ -1,0 +1,74 @@
+{
+  "$id": "https://shannon-insight.local/schemas/qor/compiler-mapping.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "type": "integer"
+    },
+    "lowering_stages": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mapping_id": {
+      "pattern": "^qor\\.compiler_mapping\\.",
+      "type": "string"
+    },
+    "must_refuse_when": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "offer_template_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "requirement_ref": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "result_kind": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "pattern": "^qor\\.src\\.",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "researched_candidate_not_adjudicated"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "edition",
+    "status",
+    "operation_ref",
+    "requirement_ref",
+    "offer_template_ref",
+    "lowering_stages",
+    "must_refuse_when",
+    "result_kind",
+    "source_refs"
+  ],
+  "title": "Quality compiler mapping candidate",
+  "type": "object"
+}

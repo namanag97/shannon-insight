@@ -1,0 +1,65 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.predictive-analytics-semantic-slice.v1",
+  "inside": [
+    "target, label, feature, sampling, split and leakage contracts",
+    "predictive and forecasting model-family semantics",
+    "training objectives, algorithms and pure kernels",
+    "metric, calibration, conformal, fairness, robustness and explanation assurance",
+    "artifact identity and model serialization",
+    "provider ACLs",
+    "batch, online and stream scoring",
+    "lifecycle, monitoring and drift response",
+    "scoped predictive finding handoff"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.feature-platform",
+      "relationship": "published_language"
+    },
+    {
+      "context_ref": "context.annotation-operations",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.causal-inference",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.runtime-resource-control",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.domain-decision-authority",
+      "relationship": "anti_corruption_layer"
+    }
+  ],
+  "outside": [
+    "causal-effect identification and intervention semantics",
+    "source ingestion and generic feature computation infrastructure",
+    "domain ownership of labels, harms, utility and thresholds",
+    "operational decision authorization",
+    "generic compute scheduling",
+    "UI and case workflow",
+    "LLM/agent orchestration"
+  ],
+  "published_language": [
+    "PredictiveTarget",
+    "LabelAssertion",
+    "FeatureContract",
+    "StudySplit",
+    "LeakageFinding",
+    "ModelFamilyRequirement",
+    "FittedArtifactManifest",
+    "ModelRepresentation",
+    "ScoringRequest",
+    "PredictionEnvelope",
+    "AssuranceFinding",
+    "DriftFinding",
+    "DriftResponseIntent"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can a declared population and prediction-time information set yield reproducible, uncertainty-aware predictions and forecasts without collapsing labels into truth, evaluation into utility, artifacts into carriers, drift into cause or predictions into decisions?"
+}

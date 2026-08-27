@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-27",
+  "bound_libraries": 28,
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "document_native_libraries": 13,
+  "downstream_products": 12,
+  "exact_contracts_selected": 0,
+  "expert_learning_profiles": 16,
+  "library_axis_decision_candidates": 448,
+  "method_types": 63,
+  "non_collapse_laws": 47,
+  "owner_decisions": 0,
+  "primary_or_official_sources": 40,
+  "product_capability_boundary_findings": 10,
+  "program_id": "program.document-processing-semantic-slice.v1",
+  "qualified_implementations": 0,
+  "recent_non_llm_innovations": 10,
+  "semantic_modules": 38,
+  "shared_import_libraries": 14,
+  "unconsumed_shared_foundation_candidates": 1
+}

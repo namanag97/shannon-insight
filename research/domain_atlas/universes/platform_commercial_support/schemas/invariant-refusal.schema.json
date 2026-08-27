@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "edition": {
+      "type": "string"
+    },
+    "enforcement_phases": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "law": {
+      "type": "string"
+    },
+    "record_kind": {
+      "enum": [
+        "authority_invariant",
+        "tenant_isolation_invariant",
+        "semantic_invariant",
+        "boundary_invariant",
+        "refusal",
+        "failure_precedence"
+      ]
+    },
+    "rule_id": {
+      "type": "string"
+    },
+    "source_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "type": "string"
+    },
+    "violation_result": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "rule_id",
+    "law",
+    "enforcement_phases",
+    "violation_result",
+    "source_refs"
+  ],
+  "title": "Invariant, refusal, or failure precedence rule",
+  "type": "object"
+}

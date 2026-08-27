@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "caveats": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "compiler_implications": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "context_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "core_change": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "first_material_year": {
+      "maximum": 2026,
+      "minimum": 2021,
+      "type": "integer"
+    },
+    "innovation_id": {
+      "type": "string"
+    },
+    "non_llm": {
+      "const": true
+    },
+    "record_kind": {
+      "enum": [
+        "innovation"
+      ]
+    },
+    "source_refs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_kind",
+    "edition",
+    "status",
+    "innovation_id",
+    "first_material_year",
+    "non_llm",
+    "core_change",
+    "context_refs",
+    "compiler_implications",
+    "source_refs",
+    "caveats"
+  ],
+  "title": "Non-LLM platform innovation",
+  "type": "object"
+}

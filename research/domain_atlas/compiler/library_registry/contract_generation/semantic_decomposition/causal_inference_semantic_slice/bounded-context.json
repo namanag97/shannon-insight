@@ -1,0 +1,71 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "context_id": "context.causal-inference-semantic-slice.v1",
+  "inside": [
+    "causal questions, interventions, potential outcomes and estimands",
+    "randomized and observational study-design semantics",
+    "assignment, exposure, adherence and analysis cuts",
+    "graphical and potential-outcome identification",
+    "effect estimators and uncertainty",
+    "quasi-experimental and longitudinal designs",
+    "diagnostics, falsification, sensitivity and partial identification",
+    "heterogeneous effects, mediation, interference and transportability",
+    "result sealing, conclusion appraisal and evidence handoff"
+  ],
+  "neighbors": [
+    {
+      "context_ref": "context.experiment-lifecycle",
+      "relationship": "customer_supplier"
+    },
+    {
+      "context_ref": "context.predictive-analytics-semantic-slice",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.process-analytics-semantic-slice",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.domain-decision-authority",
+      "relationship": "anti_corruption_layer"
+    },
+    {
+      "context_ref": "context.runtime-resource-control",
+      "relationship": "customer_supplier"
+    }
+  ],
+  "outside": [
+    "domain authority to choose interventions, outcomes and acceptable harms",
+    "physical intervention delivery",
+    "generic predictive model-family ownership",
+    "causal discovery as truth generation",
+    "signal/process root-cause diagnosis",
+    "enterprise action or policy authorization",
+    "generic storage, compute and orchestration",
+    "LLM/agent orchestration"
+  ],
+  "published_language": [
+    "CausalQuestion",
+    "InterventionStrategy",
+    "PotentialOutcomeModel",
+    "Estimand",
+    "AssignmentMechanism",
+    "AssignmentOccurrence",
+    "ExposureOccurrence",
+    "IdentificationAssumption",
+    "CausalGraph",
+    "IdentifiedFunctional",
+    "EffectEstimatorBinding",
+    "CausalEstimate",
+    "DiagnosticFinding",
+    "SensitivityResult",
+    "TransportFormula",
+    "CausalResultManifest",
+    "ConclusionAppraisal",
+    "DecisionEvidenceHandoff"
+  ],
+  "ratification": "WITHHELD",
+  "record_kind": "bounded_context_candidate",
+  "vision": "How can a declared intervention contrast be designed, identified, estimated, challenged and transported without collapsing association into causation, assignment into exposure, graph assumptions into truth, sensitivity into proof or a causal finding into a decision?"
+}

@@ -1,11 +1,12 @@
 """Runtime context for FRESH-BUILD kernel."""
+
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from pathlib import Path
 from typing import Callable, Optional
-import time
 
 
 class Phase(Enum):
@@ -23,6 +24,7 @@ class Phase(Enum):
 @dataclass
 class RuntimeContext:
     """Execution context for the FRESH-BUILD kernel."""
+
     root: Path
     phase: Phase = Phase.INIT
     start_time: float = field(default_factory=time.time)

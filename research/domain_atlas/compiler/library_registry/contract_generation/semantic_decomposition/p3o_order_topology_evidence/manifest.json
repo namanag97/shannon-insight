@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "evidence-candidates.jsonl": {
+      "bytes": 37265,
+      "sha256": "1bd4445ed9b090b9f90a4bf57125fa1dac592d95b46aad80b7edb89ea8a8908b"
+    },
+    "family-evidence-dockets.jsonl": {
+      "bytes": 46386,
+      "sha256": "0065e51ec89af88d27c7630f1fb8244d7ddee51d9bf83fe4b202432133f6b297"
+    },
+    "summary.json": {
+      "bytes": 343,
+      "sha256": "2e4092cb9b622743563f584e1f95895c0197df8ef89884deebeba00f1371665a"
+    }
+  },
+  "manifest_id": "manifest.p3o.order-topology-evidence.v1"
+}

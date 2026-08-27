@@ -1,0 +1,194 @@
+{
+  "$id": "https://san.example/spec/pipeline-dataflow/state-contract-v0.1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bound": {
+      "additionalProperties": false,
+      "properties": {
+        "expression": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "ttl",
+            "window_close",
+            "cardinality",
+            "compaction_frontier",
+            "finite_input",
+            "explicit_unbounded"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "expression"
+      ],
+      "type": "object"
+    },
+    "checkpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "consistency": {
+          "enum": [
+            "none",
+            "local",
+            "barrier_consistent",
+            "transactional"
+          ]
+        },
+        "participates": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "participates",
+        "consistency"
+      ],
+      "type": "object"
+    },
+    "concurrency": {
+      "enum": [
+        "single_writer",
+        "partition_confined",
+        "optimistic",
+        "serialized",
+        "commutative"
+      ]
+    },
+    "decision_bindings": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "durability": {
+      "enum": [
+        "ephemeral",
+        "attempt",
+        "worker",
+        "run",
+        "deployment",
+        "cross_region"
+      ]
+    },
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "key_shape_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "migration": {
+      "additionalProperties": false,
+      "properties": {
+        "compatibility": {
+          "enum": [
+            "exact",
+            "backward",
+            "requires_transform",
+            "discardable_with_approval"
+          ]
+        },
+        "upcaster_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "compatibility",
+        "upcaster_refs"
+      ],
+      "type": "object"
+    },
+    "scope": {
+      "enum": [
+        "key",
+        "key_window",
+        "operator",
+        "partition",
+        "run",
+        "global"
+      ]
+    },
+    "state_contract_id": {
+      "pattern": "^[a-z][a-z0-9_.:-]+$",
+      "type": "string"
+    },
+    "state_kind": {
+      "enum": [
+        "value",
+        "list",
+        "map",
+        "reducing",
+        "aggregating",
+        "broadcast",
+        "timer",
+        "frontier",
+        "dedup_index",
+        "transaction"
+      ]
+    },
+    "ttl": {
+      "additionalProperties": false,
+      "properties": {
+        "duration": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expiry_visibility": {
+          "enum": [
+            "silent",
+            "tombstone",
+            "receipt",
+            "not_applicable"
+          ]
+        },
+        "time_domain": {
+          "enum": [
+            "event_time",
+            "processing_time",
+            "valid_time",
+            "explicit_signal",
+            "none"
+          ]
+        }
+      },
+      "required": [
+        "time_domain",
+        "duration",
+        "expiry_visibility"
+      ],
+      "type": "object"
+    },
+    "value_shape_ref": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "state_contract_id",
+    "edition",
+    "state_kind",
+    "scope",
+    "key_shape_ref",
+    "value_shape_ref",
+    "bound",
+    "durability",
+    "ttl",
+    "checkpoint",
+    "migration",
+    "concurrency",
+    "decision_bindings"
+  ],
+  "title": "Operator state contract",
+  "type": "object"
+}

@@ -1,0 +1,147 @@
+{
+  "adjudication_performed": false,
+  "artifacts": {
+    "alias-assertions.jsonl": {
+      "bytes": 5491,
+      "records": 5,
+      "sha256": "12f60a0aae9015bfa82ff95325ae965877fc2942062491fd8b188be16eed2cdb"
+    },
+    "candidate-mappings.jsonl": {
+      "bytes": 589094,
+      "records": 186,
+      "sha256": "d9b4e518d66bbb6a7cc8bbc0b8ea8d534c30064137f221174a2b26e7ba33ab60"
+    },
+    "canonical-candidate-index.jsonl": {
+      "bytes": 3805848,
+      "records": 3814,
+      "sha256": "b0ac0d9328975431363e6f3c979537b113b657526378841c1d9db4defbe18ed2"
+    },
+    "collisions-homonyms.jsonl": {
+      "bytes": 276174,
+      "records": 445,
+      "sha256": "d0553bc9537ca73ce2d2d425a7848d16b264fae841671271b2d9cc9494f29b5d"
+    },
+    "coverage-report.json": {
+      "bytes": 4803,
+      "records": 1,
+      "sha256": "c6507585c835c5886f2a0c4095cf5e103baf8f5cc5dec94748c32a6df58f090a"
+    },
+    "coverage-report.jsonl": {
+      "bytes": 3869,
+      "records": 1,
+      "sha256": "7daee831c85fbcaa9ae89a8aeab5a8807127039fb23472a0c2cac7d192e07541"
+    },
+    "missing-concept-proposals.jsonl": {
+      "bytes": 475146,
+      "records": 412,
+      "sha256": "3d5da369ea632423d89d68c7384961ef204a6e8df0f1d1169d3b7fe7c28b3704"
+    },
+    "namespace-alignments.jsonl": {
+      "bytes": 74374,
+      "records": 146,
+      "sha256": "02c627c2f51bb6a2b0012b5cd284fa17abad13f671a3982c3bd3c2e266d8b7a6"
+    },
+    "negative-tests.jsonl": {
+      "bytes": 2925,
+      "records": 12,
+      "sha256": "835d79e78fdcb143e41ba210e38522dd333e2619f7559fa08058b773a7c3e8ad"
+    },
+    "review-batches.jsonl": {
+      "bytes": 219507,
+      "records": 68,
+      "sha256": "56a99690159af92e04e6323c59b498555bb45f4f40cdf12afe4650db5dfb998a"
+    },
+    "schemas/alias-assertion.schema.json": {
+      "bytes": 292,
+      "records": 1,
+      "sha256": "e56a3602a9336eed4d58af17e4bb1fb643ab3bec2a8257e96215706248606bc1"
+    },
+    "schemas/candidate-mapping.schema.json": {
+      "bytes": 483,
+      "records": 1,
+      "sha256": "d96f9c4a076d3320e2ca6531d5cd48b79cfa0d6dc2699ead994d887eb41c657e"
+    },
+    "schemas/canonical-candidate.schema.json": {
+      "bytes": 367,
+      "records": 1,
+      "sha256": "a1488ebf7fde4e74052c695493c759a128a6411476b085bf6d7d68a963c8fced"
+    },
+    "schemas/collision.schema.json": {
+      "bytes": 332,
+      "records": 1,
+      "sha256": "1b4325cd4f80202938d9470b24bf4f0dc7333547739fd1bed4353dc515ec658e"
+    },
+    "schemas/coverage-report.schema.json": {
+      "bytes": 443,
+      "records": 1,
+      "sha256": "cf58d33b34bddeef003f9b15f420849c54f8ff589291b08d95f92c042b6665cd"
+    },
+    "schemas/missing-concept.schema.json": {
+      "bytes": 356,
+      "records": 1,
+      "sha256": "91a25b8c189944a753754cf73ff0eb50d09344073f07a590d93272d6f289147a"
+    },
+    "schemas/namespace-alignment.schema.json": {
+      "bytes": 348,
+      "records": 1,
+      "sha256": "4fc9b44eaec56650f45ebdacd41ee1db45012889fcd90e1910d5d4049c3160f1"
+    },
+    "schemas/negative-test.schema.json": {
+      "bytes": 274,
+      "records": 1,
+      "sha256": "cc34f316c7e7ff4e3c2b3ac6336832ef1c7f8ac939b23cbcd65331981354afda"
+    },
+    "schemas/review-batch.schema.json": {
+      "bytes": 372,
+      "records": 1,
+      "sha256": "0e1ec1d0e9ab3a52030cf530f873584c06c26ff032562e0fa11dc9b2c873d9f5"
+    },
+    "schemas/source-definition.schema.json": {
+      "bytes": 359,
+      "records": 1,
+      "sha256": "5f8fe7c4fbbe4ba7966f552c9ea9ac88262944d5fbafa88c22d40eb28b412532"
+    },
+    "schemas/source-occurrence.schema.json": {
+      "bytes": 345,
+      "records": 1,
+      "sha256": "63af1b9c57324b11c0a01828c6319a291447a666c8f8b63060e744dad62f3a3e"
+    },
+    "schemas/triage-record.schema.json": {
+      "bytes": 395,
+      "records": 1,
+      "sha256": "5ae9ca89f2fd5d6205a27692ce515f2cf39293142ff49addd806ac24db78ab5b"
+    },
+    "schemas/universe-id-census.schema.json": {
+      "bytes": 356,
+      "records": 1,
+      "sha256": "3b38d1c4254cd4b1b53050acab1b256be8bd303d1ce92a7be04b947031af11e7"
+    },
+    "source-definitions.jsonl": {
+      "bytes": 5415273,
+      "records": 4169,
+      "sha256": "0646f6c70909938b2414cd7389d127f87c74cbb32f2730bb44206b56ce6d4538"
+    },
+    "source-occurrences.jsonl": {
+      "bytes": 27078921,
+      "records": 20176,
+      "sha256": "e4eb7cf2d32709f3581ad7f1f92a33a3ab51c95b3827b3ffa881f51e702928ed"
+    },
+    "triage-records.jsonl": {
+      "bytes": 4935205,
+      "records": 4169,
+      "sha256": "07995874d630d69ea37bf4169eca3c83dff200e692b6608677baa07f22259449"
+    },
+    "universe-id-census.jsonl": {
+      "bytes": 15442668,
+      "records": 42064,
+      "sha256": "021c1c1c63f0c6243076101892b4e91fc9c0ab14499c10dbcafeecceb95af666"
+    }
+  },
+  "edition": 1,
+  "generator": "build_mapper.py",
+  "input_queue": "industries/canonical-reference-review-queue.jsonl",
+  "input_queue_records": 4169,
+  "input_queue_sha256": "ea9f0a4842ec04188f4f9c06e08df6d08302b0da3991a21c3588952fbd0fdba6",
+  "llm_runtime_dependency": "none",
+  "record_kind": "canonical_reference_mapper_manifest"
+}

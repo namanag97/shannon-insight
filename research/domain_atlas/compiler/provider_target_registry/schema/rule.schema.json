@@ -1,0 +1,52 @@
+{
+  "$id": "https://san.example/spec/provider-target/rule_id-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "edition": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "must": {
+      "type": "string"
+    },
+    "otherwise": {
+      "type": "string"
+    },
+    "rule_id": {
+      "pattern": "^[a-z][a-z0-9_.-]+$",
+      "type": "string"
+    },
+    "rule_kind": {
+      "enum": [
+        "refusal",
+        "invalidation"
+      ]
+    },
+    "status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "typed_degradation": {
+      "enum": [
+        "forbidden",
+        "only_if_declared"
+      ]
+    },
+    "when": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rule_id",
+    "edition",
+    "status",
+    "rule_kind",
+    "when",
+    "must",
+    "otherwise",
+    "typed_degradation"
+  ],
+  "title": "Refusal or invalidation rule",
+  "type": "object"
+}

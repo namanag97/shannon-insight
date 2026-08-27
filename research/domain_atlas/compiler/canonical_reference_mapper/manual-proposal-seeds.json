@@ -1,0 +1,679 @@
+{
+  "edition": 1,
+  "review_posture": "authoring semantic review complete; independent review pending",
+  "contextual_exact": {
+    "analytical_practice": {
+      "analytics.method.probabilistic_forecasting": "analytics.forecasting.probabilistic_forecasting",
+      "analytics.method.randomized_controlled_experiment": "analytics.experimental_design.randomized_controlled_experiment",
+      "change-point detection": "analytics.anomaly_change.change_point_detection",
+      "clustering": "analytics.data_mining.clustering",
+      "column generation": "or.method.column_generation",
+      "constraint optimization": "or.method.constraint_optimization",
+      "constraint programming": "analytics.optimization.constraint_programming",
+      "counterfactual simulation": "analytics.simulation.counterfactual_simulation",
+      "cross-validation": "analytics.model_evaluation.cross_validation",
+      "difference in differences": "method_family.causal.difference_in_differences",
+      "difference-in-differences": "method_family.causal.difference_in_differences",
+      "discrete-event simulation": "analytics.simulation.discrete_event_simulation",
+      "episode mining": "analytics.data_mining.episode_mining",
+      "hypothesis testing": "analytics.inferential.hypothesis_testing",
+      "identifiability analysis": "analytics.measurement_uncertainty.identifiability_analysis",
+      "inventory optimization": "analytics.optimization.inventory_optimization",
+      "large-neighborhood search": "analytics.heuristic_search.large_neighborhood_search",
+      "maintenance scheduling": "or.method.maintenance_scheduling",
+      "method.accessibility_analysis": "analytics.spatial.accessibility_analysis",
+      "method.activity_based_costing": "analytics.cost_performance.activity_based_costing",
+      "method.agent_based_simulation": "analytics.simulation.agent_based_simulation",
+      "method.appointment_scheduling": "or.method.appointment_scheduling",
+      "method.assignment_optimization": "analytics.optimization.assignment_optimization",
+      "method.bin_packing": "or.method.bin_packing",
+      "method.bipartite_matching": "or.method.bipartite_matching",
+      "method.bottleneck_analysis": "analytics.queue_flow_capacity.bottleneck_analysis",
+      "method.capacity_analysis": "analytics.queue_flow_capacity.capacity_analysis",
+      "method.chance_constrained_optimization": "analytics.optimization.chance_constrained_optimization",
+      "method.change_attribution": "analytics.diagnostic_rca.change_attribution",
+      "method.change_point_detection": "analytics.anomaly_change.change_point_detection",
+      "method.community_detection": "analytics.graph_network.community_detection",
+      "method.constraint_programming": "analytics.optimization.constraint_programming",
+      "method.contribution_analysis": "analytics.descriptive_profile.contribution_analysis",
+      "method.cost_sensitive_classification": "analytics.data_mining.cost_sensitive_classification",
+      "method.counterfactual_simulation": "analytics.simulation.counterfactual_simulation",
+      "method.difference_in_differences": "method_family.causal.difference_in_differences",
+      "method.discrete_event_simulation": "analytics.simulation.discrete_event_simulation",
+      "method.dynamic_pricing": "or.method.dynamic_pricing",
+      "method.dynamic_programming": "analytics.optimization.dynamic_programming",
+      "method.facility_location": "or.method.facility_location",
+      "method.funnel_analysis": "analytics.descriptive_profile.funnel_analysis",
+      "method.inverse_probability_weighting": "analytics.causal.inverse_probability_weighting",
+      "method.job_shop_scheduling": "or.method.job_shop_scheduling",
+      "method.knapsack": "or.method.knapsack",
+      "method.latency_decomposition": "analytics.cost_performance.latency_decomposition",
+      "method.map_matching": "method_family.spatial.map_matching",
+      "method.measurement_system_analysis": "analytics.measurement_uncertainty.measurement_system_analysis",
+      "method.microsimulation": "analytics.simulation.microsimulation",
+      "method.minimum_cost_flow": "or.method.minimum_cost_flow",
+      "method.model_predictive_control": "analytics.optimization.model_predictive_control",
+      "method.monte_carlo_simulation": "analytics.simulation.monte_carlo_simulation",
+      "method.multicommodity_flow": "or.method.multicommodity_flow",
+      "method.network_design": "or.method.network_design",
+      "method.portfolio_optimization": "analytics.optimization.portfolio_optimization",
+      "method.probabilistic-forecasting": "analytics.forecasting.probabilistic_forecasting",
+      "method.probabilistic_forecasting": "analytics.forecasting.probabilistic_forecasting",
+      "method.probabilistic_record_linkage": "analytics.search_retrieval.probabilistic_record_linkage",
+      "method.process_simulation": "analytics.process.process_simulation",
+      "method.process_variant_analysis": "analytics.process.process_variant_analysis",
+      "method.quadratic_assignment": "or.method.quadratic_assignment",
+      "method.quantile_regression": "method_family.inferential.quantile_regression",
+      "method.queueing_analysis": "or.method.queueing_analysis",
+      "method.record_linkage": "analytics.search_retrieval.record_linkage",
+      "method.recurrent_event_analysis": "analytics.reliability_survival.recurrent_event_analysis",
+      "method.resource_constrained_shortest_path": "or.method.resource_constrained_shortest_path",
+      "method.revenue_management": "or.method.revenue_management",
+      "method.rework_loop_analysis": "analytics.process.rework_loop_analysis",
+      "method.robust_control": "or.method.robust_control",
+      "method.robust_decision_making": "analytics.decision_risk.robust_decision_making",
+      "method.robust_optimization": "analytics.optimization.robust_optimization",
+      "method.rolling_horizon_optimization": "or.method.rolling_horizon_optimization",
+      "method.root_cause_analysis": "analytics.diagnostic_rca.root_cause_analysis",
+      "method.scenario_analysis": "analytics.decision_risk.scenario_analysis",
+      "method.scenario_planning": "or.method.scenario_planning",
+      "method.scenario_simulation": "analytics.simulation.scenario_simulation",
+      "method.seasonal_anomaly_detection": "analytics.anomaly_change.seasonal_anomaly_detection",
+      "method.sensitivity_analysis": "analytics.model_evaluation.sensitivity_analysis",
+      "method.spectral_analysis": "analytics.signal_sensor.spectral_analysis",
+      "method.statistical_process_control": "analytics.quality_spc.statistical_process_control",
+      "method.stochastic_optimization": "analytics.optimization.stochastic_optimization",
+      "method.stress_testing": "analytics.decision_risk.stress_testing",
+      "method.two_stage_stochastic_programming": "or.method.two_stage_stochastic_programming",
+      "method.uncertainty_propagation": "analytics.measurement_uncertainty.uncertainty_propagation",
+      "multi-criteria decision analysis": "analytics.decision_risk.multi_criteria_decision_analysis",
+      "network flow optimization": "analytics.optimization.network_flow_optimization",
+      "nonlinear optimization": "analytics.optimization.nonlinear_optimization",
+      "out-of-distribution detection": "analytics.anomaly_change.out_of_distribution_detection",
+      "portfolio optimization": "analytics.optimization.portfolio_optimization",
+      "process simulation": "analytics.process.process_simulation",
+      "real-options analysis": "analytics.decision_risk.real_options_analysis",
+      "recurrent-event analysis": "analytics.reliability_survival.recurrent_event_analysis",
+      "remote-sensing change analysis": "analytics.spatial.remote_sensing_change_analysis",
+      "residual analysis": "analytics.model_evaluation.residual_analysis",
+      "robust decision making": "analytics.decision_risk.robust_decision_making",
+      "robust optimization": "analytics.optimization.robust_optimization",
+      "scenario analysis": "analytics.decision_risk.scenario_analysis",
+      "scenario simulation": "analytics.simulation.scenario_simulation",
+      "sensitivity analysis": "analytics.model_evaluation.sensitivity_analysis",
+      "solution verification": "analytics.or_modeling.solution_verification",
+      "spectral analysis": "analytics.signal_sensor.spectral_analysis",
+      "stochastic optimization": "analytics.optimization.stochastic_optimization",
+      "stress testing": "analytics.decision_risk.stress_testing",
+      "uncertainty propagation": "analytics.measurement_uncertainty.uncertainty_propagation",
+      "variance component analysis": "analytics.inferential.variance_component_analysis"
+    },
+    "typed_operation": {
+      "op.interval_join": "operation.relational_algebra.interval_join",
+      "op.propagate_uncertainty": "operation.statistical_kernel.propagate_uncertainty",
+      "op.spatial_join": "operation.relational_algebra.spatial_join",
+      "op.verify_digest": "operation.compression_integrity.verify_digest",
+      "operation.propagate_uncertainty": "operation.statistical_kernel.propagate_uncertainty",
+      "operation.spatial_join": "operation.relational_algebra.spatial_join",
+      "operation.verify_checksum": "operation.compression_integrity.verify_checksum",
+      "propagate uncertainty": "operation.statistical_kernel.propagate_uncertainty"
+    },
+    "source_system_class": {
+      "Laboratory information management system": "source.scientific_research.laboratory_information_management",
+      "laboratory information management system": "source.scientific_research.laboratory_information_management"
+    }
+  },
+  "semantic_proposals": [
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.causal-graph-rca",
+      "target_refs": ["method_family.causal.graph_identification", "analytics.diagnostic_rca.root_cause_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium",
+      "rationale": "The finance cases combine a causal-graph identification obligation with root-cause investigation; neither canonical target alone preserves both claims."
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.causal-identification",
+      "target_refs": ["analytics.causal.causal_question_formulation", "method_family.causal.graph_identification"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.change-and-outlier-detection",
+      "target_refs": ["analytics.anomaly_change.change_point_detection", "analytics.anomaly_change.point_anomaly_detection"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.constrained-optimization",
+      "target_refs": ["or.method.constraint_optimization"],
+      "relation": "narrower",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.constraint-based-record-linkage",
+      "target_refs": ["analytics.search_retrieval.record_linkage"],
+      "relation": "narrower",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.drilldown-decomposition",
+      "target_refs": ["analytics.descriptive_profile.drill_down_analysis", "analytics.diagnostic_rca.hierarchical_drill_down_diagnosis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.event-log-process-discovery",
+      "target_refs": ["analytics.process.process_discovery"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.monte-carlo-or-discrete-event-simulation",
+      "target_refs": ["analytics.simulation.monte_carlo_simulation", "analytics.simulation.discrete_event_simulation"],
+      "relation": "overlap",
+      "mapping_semantics": "explicit_alternative_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.policy-and-limit-evaluation",
+      "target_refs": ["analytics.decision_risk.policy_rule_evaluation"],
+      "relation": "narrower",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.queue-and-flow-analysis",
+      "target_refs": ["analytics.queue_flow_capacity.queue_performance_analysis", "analytics.queue_flow_capacity.flow_balance_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.randomized-or-quasi-experiment",
+      "target_refs": ["analytics.experimental_design.randomized_controlled_experiment", "method_family.causal.difference_in_differences"],
+      "relation": "overlap",
+      "mapping_semantics": "explicit_alternative_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.rule-statistical-surveillance",
+      "target_refs": ["method_family.anomaly_change.rule_threshold", "analytics.anomaly_change.anomaly_triage"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.scenario-stress-testing",
+      "target_refs": ["analytics.decision_risk.stress_testing", "analytics.decision_risk.scenario_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.state-machine-conformance",
+      "target_refs": ["analytics.process.rule_and_policy_conformance_checking"],
+      "relation": "narrower",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.supervised-risk-estimation",
+      "target_refs": ["analytics.data_mining.calibrated_risk_scoring"],
+      "relation": "overlap",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.apply-shocks-and-propagate",
+      "target_refs": ["operation.optimization_simulation.simulate_scenario", "operation.statistical_kernel.propagate_uncertainty"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.compare-trace-to-policy",
+      "target_refs": ["operation.process_event.replay_event_on_process_model", "operation.process_event.calculate_conformance_fitness"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.discover-process-from-events",
+      "target_refs": ["operation.process_event.discover_process_model"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.estimate-outcome-distribution",
+      "target_refs": ["operation.statistical_kernel.estimate_distribution"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.estimate-treatment-effect",
+      "target_refs": ["operation.statistical_kernel.calculate_effect_size"],
+      "relation": "overlap",
+      "confidence": "low",
+      "information_loss": ["A statistical effect size is not by itself an identified causal treatment effect; estimand and identification remain mandatory."]
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.evaluate-limit-authorize-and-receipt",
+      "target_refs": ["operation.lineage_provenance.record_policy_decision", "operation.security_privacy.emit_authorization_receipt"],
+      "relation": "overlap",
+      "mapping_semantics": "partial_one_to_many_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.forecast-with-intervals",
+      "target_refs": ["operation.statistical_kernel.fit_time_series_model", "operation.statistical_kernel.summarize_uncertainty"],
+      "relation": "overlap",
+      "mapping_semantics": "partial_one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.localize-queue-and-capacity-constraint",
+      "target_refs": ["operation.process_event.calculate_process_waiting_time", "operation.optimization_simulation.formulate_constraint"],
+      "relation": "overlap",
+      "mapping_semantics": "partial_one_to_many_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.match-balance-and-explain-break",
+      "target_refs": ["operation.identity_entity.score_record_match", "operation.reconciliation.reconcile_balances", "operation.reconciliation.identify_unmatched_item"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.monitor-alert-investigate",
+      "target_refs": ["operation.output_consumption.construct_alert", "operation.lineage_provenance.record_policy_decision"],
+      "relation": "overlap",
+      "mapping_semantics": "partial_one_to_many_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.optimize-under-constraints",
+      "target_refs": ["operation.optimization_simulation.formulate_constraint", "operation.optimization_simulation.solve_exact_model", "operation.optimization_simulation.verify_solution_feasibility"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.simulate-paths-and-events",
+      "target_refs": ["operation.optimization_simulation.run_monte_carlo_simulation", "operation.optimization_simulation.run_discrete_event_simulation"],
+      "relation": "overlap",
+      "mapping_semantics": "explicit_alternative_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.slice-decompose-compare",
+      "target_refs": ["operation.output_consumption.construct_drill_path", "operation.statistical_kernel.decompose_variance", "operation.reconciliation.compare_source_and_target"],
+      "relation": "overlap",
+      "mapping_semantics": "partial_one_to_many_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.trace-contributors-and-causes",
+      "target_refs": ["operation.process_event.construct_event_trace", "operation.lineage_provenance.construct_lineage_graph"],
+      "relation": "overlap",
+      "mapping_semantics": "partial_one_to_many_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "typed_operation",
+      "raw_ref": "operation.value-and-explain-change",
+      "target_refs": ["operation.aggregation_measure.evaluate_formula", "operation.aggregation_measure.explain_formula_evaluation"],
+      "relation": "overlap",
+      "mapping_semantics": "partial_one_to_many_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.multivariate_diagnostic_decomposition",
+      "target_refs": ["analytics.diagnostic_rca.root_cause_analysis", "analytics.descriptive_profile.contribution_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.process_mining_conformance",
+      "target_refs": ["analytics.process.process_discovery", "analytics.process.process_conformance_checking"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.target_trial_or_quasi_experiment",
+      "target_refs": ["analytics.causal.causal_question_formulation", "analytics.experimental_design.randomized_controlled_experiment"],
+      "relation": "overlap",
+      "mapping_semantics": "partial_alternative_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.time_to_event_competing_risk",
+      "target_refs": ["analytics.reliability_survival.competing_risks_analysis"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.discrete_event_or_microsimulation",
+      "target_refs": ["analytics.simulation.discrete_event_simulation", "analytics.simulation.microsimulation"],
+      "relation": "overlap",
+      "mapping_semantics": "explicit_alternative_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.probabilistic_decision_analysis",
+      "target_refs": ["analytics.decision_risk.bayesian_decision_analysis"],
+      "relation": "overlap",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.governed_anomaly_detection",
+      "target_refs": ["analytics.anomaly_change.anomaly_triage", "analytics.anomaly_change.contextual_anomaly_detection"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.spatial_access_and_cluster_analysis",
+      "target_refs": ["analytics.spatial.accessibility_analysis", "analytics.spatial.spatial_cluster_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.record_level_reconciliation",
+      "target_refs": ["method_family.data_quality.reconciliation", "analytics.search_retrieval.record_linkage"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.queueing_theory",
+      "target_refs": ["or.method.queueing_analysis"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "method.reporting_delay_nowcasting",
+      "target_refs": ["analytics.forecasting.nowcasting"],
+      "relation": "narrower",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.stratified_drilldown_and_decomposition",
+      "target_refs": ["analytics.descriptive_profile.drill_down_analysis", "analytics.descriptive_profile.contribution_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.constrained_mathematical_optimization",
+      "target_refs": ["or.method.constraint_optimization"],
+      "relation": "narrower",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.causal_inference",
+      "target_refs": ["analytics.causal.causal_question_formulation", "method_family.causal.graph_identification", "method_family.causal.matching"],
+      "relation": "broader",
+      "mapping_semantics": "one_to_many_partial_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.process_mining_and_conformance",
+      "target_refs": ["analytics.process.process_discovery", "analytics.process.process_conformance_checking"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.discrete_event_and_scenario_simulation",
+      "target_refs": ["analytics.simulation.discrete_event_simulation", "analytics.simulation.scenario_simulation"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.causal_graph_and_root_cause_analysis",
+      "target_refs": ["method_family.causal.graph_identification", "analytics.diagnostic_rca.root_cause_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.risk_scoring_and_calibration",
+      "target_refs": ["analytics.data_mining.calibrated_risk_scoring", "analytics.model_evaluation.calibration_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.state_and_exception_monitoring",
+      "target_refs": ["or.method.decision_policy_monitoring", "analytics.anomaly_change.anomaly_triage"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.elasticity_and_choice_estimation",
+      "target_refs": ["analytics.econometric_longitudinal.elasticity_estimation"],
+      "relation": "overlap",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.queueing_and_constraint_analysis",
+      "target_refs": ["or.method.queueing_analysis", "analytics.queue_flow_capacity.constraint_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.survival_and_hazard_modeling",
+      "target_refs": ["analytics.reliability_survival.parametric_survival_analysis", "analytics.reliability_survival.hazard_decomposition"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_decomposition",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "analytical_practice",
+      "raw_ref": "analytics.method.reliability_and_failure_analysis",
+      "target_refs": ["analytics.reliability_survival.reliability_block_analysis", "analytics.reliability_survival.accelerated_failure_time_analysis"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_partial_decomposition",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "core banking and deposit account system",
+      "target_refs": ["source.regulated_vertical.core_banking"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "electronic health record and clinical documentation",
+      "target_refs": ["source.regulated_vertical.electronic_health_record"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "Manufacturing execution and operations management",
+      "target_refs": ["source.enterprise_application.manufacturing_execution"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "order_management",
+      "target_refs": ["source.enterprise_application.commerce_order_pos"],
+      "relation": "overlap",
+      "confidence": "low"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "SCADA DCS PLC and industrial historian",
+      "target_refs": ["source.industrial_ot.scada_dcs", "source.industrial_ot.plc_controller", "source.industrial_ot.industrial_historian"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_source_surface_decomposition",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "student information and enrollment system",
+      "target_refs": ["source.regulated_vertical.education_student_learning"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "point_of_sale_and_tender",
+      "target_refs": ["source.enterprise_application.commerce_order_pos"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "EMS NMS and cross-domain alarm manager",
+      "target_refs": ["source.regulated_vertical.telecom_oss_bss"],
+      "relation": "narrower",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "source_system_class",
+      "raw_ref": "BIM and engineering authoring/federation",
+      "target_refs": ["source.geospatial_media.cad_bim_repository"],
+      "relation": "narrower",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "industry.finance_insurance",
+      "target_refs": ["industry.isic5.section.l"],
+      "relation": "overlap",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "banking.ccr",
+      "target_refs": ["industry.isic5.division.c64"],
+      "relation": "narrower",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "health.life_sciences",
+      "target_refs": ["industry.isic5.division.c21", "industry.isic5.division.c72", "industry.isic5.division.c86"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_cross_activity_scope",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "ind.manufacturing",
+      "target_refs": ["industry.isic5.section.c"],
+      "relation": "overlap",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "transport.logistics",
+      "target_refs": ["industry.isic5.section.h"],
+      "relation": "overlap",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "energy.resources",
+      "target_refs": ["industry.isic5.section.b", "industry.isic5.section.d", "industry.isic5.section.e"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_cross_activity_scope",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "industry.public_service",
+      "target_refs": ["industry.isic5.section.p", "industry.isic5.section.q", "industry.isic5.section.r"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_cross_activity_scope",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "commerce.services",
+      "target_refs": ["industry.isic5.section.g", "industry.isic5.section.i", "industry.isic5.section.o"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_cross_activity_scope",
+      "confidence": "medium"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "industry.telecom_media_tech",
+      "target_refs": ["industry.isic5.section.j", "industry.isic5.section.k"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_cross_activity_scope",
+      "confidence": "high"
+    },
+    {
+      "reference_domain": "industry_classification",
+      "raw_ref": "industry.built_food_environment",
+      "target_refs": ["industry.isic5.section.a", "industry.isic5.section.c", "industry.isic5.section.e", "industry.isic5.section.f", "industry.isic5.section.m", "industry.isic5.section.n"],
+      "relation": "overlap",
+      "mapping_semantics": "one_to_many_cross_activity_scope",
+      "confidence": "medium"
+    }
+  ]
+}

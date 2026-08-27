@@ -1,0 +1,38 @@
+name: Closure Effective Progress
+
+on:
+  push:
+    branches:
+      - 'closure/effective-progress-*'
+    paths:
+      - research/product_ontology/closure_program/build_effective_progress.py
+      - research/product_ontology/**/summary.json
+      - research/domain_atlas/**/summary.json
+      - research/analytics_landscape/product_families/evidence-governance-summary.json
+      - research/domain_atlas/industries/canonical-reference-auto-alias-summary.json
+      - .github/workflows/closure-effective-progress.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 research/product_ontology/closure_program/build_effective_progress.py
+      - name: Persist effective progress
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/product_ontology/closure_program/effective-batch-progress.jsonl research/product_ontology/closure_program/effective-progress-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "closure: regenerate effective portfolio progress [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

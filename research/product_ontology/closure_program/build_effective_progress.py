@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Generates the current B00-B20 effective portfolio projection from committed authority corpora.
 from __future__ import annotations
 import json
 from pathlib import Path

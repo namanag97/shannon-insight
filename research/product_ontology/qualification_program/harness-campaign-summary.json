@@ -1,0 +1,30 @@
+{
+  "as_of": "2026-08-27",
+  "assigned_scope_count": 526,
+  "campaign_scope_counts": {
+    "harness.document_content": 22,
+    "harness.generic_effect_bounded_stateful": 121,
+    "harness.geospatial_compute": 21,
+    "harness.graph_compute": 26,
+    "harness.human_work_state_machine": 8,
+    "harness.policy_security_governance": 47,
+    "harness.presentation_human_experience": 9,
+    "harness.process_analytics": 11,
+    "harness.pure_deterministic_semantic": 149,
+    "harness.query_index_compute": 26,
+    "harness.registry_catalog": 10,
+    "harness.solver_optimization": 17,
+    "harness.stateful_runtime_recovery": 2,
+    "harness.statistical_model_method": 39,
+    "harness.storage_persistence": 9,
+    "harness.stream_change_dataflow": 9
+  },
+  "completion_claim": false,
+  "execution_evidence_reuse_authorized_count": 0,
+  "harness_campaign_count": 16,
+  "qualification_verdicts_created": 0,
+  "report_id": "b10_b11_harness_campaign_factoring",
+  "semantic_contract_scope_count": 526,
+  "status": "ALL_EXACT_SCOPES_FACTORED_INTO_REUSABLE_HARNESS_SHAPES_VERDICTS_OPEN",
+  "unassigned_scope_count": 0
+}

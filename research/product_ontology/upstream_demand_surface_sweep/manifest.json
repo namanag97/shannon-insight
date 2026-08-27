@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "path": "evidence.jsonl",
+      "records": 16,
+      "sha256": "4cde30a4049f016e90a81ac08237dd646ede8531f308aa3b6aec8528b5040265"
+    },
+    {
+      "path": "demand-surfaces.jsonl",
+      "records": 8,
+      "sha256": "7f52cbc0361f1b4ed2c3fb19b67a31e12df3b102921e98376fc726cc5067828a"
+    },
+    {
+      "path": "universal-laws.jsonl",
+      "records": 12,
+      "sha256": "6ddfefac89b0230614a8500d23e659825e27e689bf3fca3ee0f3b1d7465b3625"
+    },
+    {
+      "path": "boundary-hypotheses.jsonl",
+      "records": 10,
+      "sha256": "72186d0832c359111d1258349918d48de2d496b0ef1f1926c5de8ff1bb7e7ba0"
+    },
+    {
+      "path": "library-contract-hypotheses.jsonl",
+      "records": 53,
+      "sha256": "1de60db6de53e21d56684ceaeb886c54023dc0a7f685d3c9227155a35a68ceb3"
+    },
+    {
+      "path": "vertical-pack-requirements.jsonl",
+      "records": 5,
+      "sha256": "851cf1beb06b498d3186778961ed65115671c208d2493c05cc92e223b15f35f6"
+    }
+  ],
+  "summary": {
+    "boundary_hypotheses": 10,
+    "canonical_mutations": 0,
+    "completion_claim": false,
+    "demand_surfaces": 8,
+    "library_contract_hypotheses": 53,
+    "promote_presumptive": 5,
+    "promote_strong": 1,
+    "sources": 16,
+    "universal_laws": 12,
+    "vertical_pack_deltas": 5
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "input_kind": "user_supplied_upstream_research_delta",
+  "original_path": "/Users/namanagarwal/.codex/attachments/fc5de726-cf2b-4240-b906-2ca5c5c2f027/pasted-text.txt",
+  "sha256": "9e9f26001d7e69890174e3d0e80e4add4f63c0c716f06fe0868bcc3bc9a94fe1",
+  "disposition": "CHALLENGED_AND_ENCODED_AS_UNRATIFIED_DELTA",
+  "instructions_in_input_treated_as_authoritative": false,
+  "completion_claim": false
+}

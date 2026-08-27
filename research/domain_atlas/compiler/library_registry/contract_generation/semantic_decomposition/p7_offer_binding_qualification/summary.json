@@ -6,25 +6,25 @@
   "edition": 1,
   "implementation_offer_intake_templates": 1052,
   "input_snapshot": {
-    "aggregate_sha256": "8fa439163adde5bd269b863d424703fc6371f74e075f1b53311632396f77ca22",
+    "aggregate_sha256": "cfb3799543f440bfabadc71f7334619f69985397a8fe2a3189606cc41b56ff9b",
     "files": [
       {
-        "bytes": 947393,
+        "bytes": 966931,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/qualification-scope-kernels.jsonl",
         "record_count": 526,
-        "sha256": "8c2d33c33ad0b6e59f5ebdd7e50aa69b9551713e96401fa7dc347e4cd533fd4c"
+        "sha256": "bfea46b21ef77df3effc43223d19734c223d425849427e3e685804993dde1a4e"
       },
       {
-        "bytes": 1481853,
+        "bytes": 1501830,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/subject-dockets.jsonl",
         "record_count": 539,
-        "sha256": "ec039f5a8e27f677ce430d45fba002eb054f963ddb4be31f068fab7805a958a4"
+        "sha256": "cd421a023709fc37c402c27172be0cd47c2f1e2b9bb5c32c4c1156c546559e2c"
       },
       {
-        "bytes": 1389513,
+        "bytes": 1409546,
         "path": "research/product_ontology/qualification_program/library-qualification-subjects.jsonl",
         "record_count": 539,
-        "sha256": "eb38c92eaba7f404403859f1f987524fc88bfeaefafa812830ab1512fbf9ee2d"
+        "sha256": "d0d8af111012ed5f5b8385c3de8da2afdf375a66d730ac96e19236a0a9ffbac7"
       },
       {
         "bytes": 30662,
@@ -63,7 +63,7 @@
         "sha256": "990f0d1d711c3bf5d1fe99266362c768f6de77759dea5ae1f3665c16677b6d88"
       }
     ],
-    "snapshot_id": "snapshot.p7-input.8fa439163adde5bd"
+    "snapshot_id": "snapshot.p7-input.cfb3799543f440bf"
   },
   "program_id": "program.p7-offer-binding-qualification.v1",
   "qualification_profile_kernels": 132,

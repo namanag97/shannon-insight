@@ -37,6 +37,7 @@ def main() -> int:
     edges = load_jsonl("gate-dependencies.jsonl")
     programs = load_jsonl("product-qualification-programs.jsonl")
     subjects = load_jsonl("library-qualification-subjects.jsonl")
+    bindings = load_jsonl("execution-evidence-bindings.jsonl")
     vacancies = load_jsonl("evidence-vacancies.jsonl")
     acceptance = load_jsonl("product-vertical-acceptance-programs.jsonl")
     summary = json.loads((HERE / "summary.json").read_text())
@@ -84,7 +85,26 @@ def main() -> int:
     subjects_by_product = Counter(row["candidate_id"] for row in subjects)
     if set(subjects_by_product) != candidate_ids or min(subjects_by_product.values(), default=0) < 1:
         errors.append("every product must have at least one exact library qualification subject")
-    if any(row["implementation_state"] != "NO_BOUND_ARTIFACT" or row["qualified_implementation_refs"] or row["portable_offer"] for row in subjects):
+    binding_ids = {row["binding_id"] for row in bindings}
+    if len(binding_ids) != len(bindings):
+        errors.append("duplicate execution evidence binding")
+    for binding in bindings:
+        source_path = ROOT / binding["source_ref"]
+        evidence_path = ROOT / binding["evidence_ref"]
+        if not source_path.is_file() or hashlib.sha256(source_path.read_bytes()).hexdigest() != binding["source_sha256"]:
+            errors.append(f"{binding['binding_id']}: source binding identity drift")
+        if not evidence_path.is_file():
+            errors.append(f"{binding['binding_id']}: missing retained evidence")
+        if binding["qualification_subject_ref"] not in subject_ids or binding["relevant_gate_ref"] not in gate_ids:
+            errors.append(f"{binding['binding_id']}: unknown subject or gate")
+        if binding["completion_claim"] or binding["qualified_implementation_count"] or binding["portable_offer"] or binding["build_ready"] or binding["ratified"]:
+            errors.append(f"{binding['binding_id']}: unsupported promotion")
+    for subject in subjects:
+        refs = subject.get("execution_evidence_binding_refs", [])
+        expected_state = "EXECUTION_EVIDENCE_PRESENT_UNQUALIFIED" if refs else "NO_BOUND_ARTIFACT"
+        if subject["implementation_state"] != expected_state or any(ref not in binding_ids for ref in refs):
+            errors.append(f"{subject['subject_id']}: execution evidence state/binding mismatch")
+    if any(row["qualified_implementation_refs"] or row["portable_offer"] for row in subjects):
         errors.append("an implementation was promoted without evidence")
     if any("Removing every model, LLM and agent" not in row["automation_extension"]["removal_law"] for row in programs):
         errors.append("optional automation removal law is missing")
@@ -99,6 +119,10 @@ def main() -> int:
         for ref in program["library_subject_refs"]:
             if ref not in subject_ids:
                 errors.append(f"{program['candidate_id']}: unknown library subject {ref}")
+        program_bindings = [row for row in bindings if row["candidate_id"] == program["candidate_id"]]
+        for binding in program_bindings:
+            if states[binding["relevant_gate_ref"]] != binding["gate_effect"]:
+                errors.append(f"{binding['binding_id']}: gate state does not acknowledge retained evidence")
     if any(row["current_verdict"] != "NOT_EXECUTED" or any(slot["executed_acceptance_ref"] for slot in row["vertical_slots"]) for row in acceptance):
         errors.append("vertical acceptance was promoted without execution evidence")
     if any(not row["blocking"] or row["status"] != "OPEN" for row in vacancies):
@@ -111,7 +135,7 @@ def main() -> int:
     if effective_summary["effective_gate_state_counts"].get("BLOCKED_MISSING_CONTRACT", 0):
         errors.append("effective qualification state resurrects a resolved structural compiler gap")
 
-    expected_counts = {"products": len(programs), "subjects": len(subjects), "vacancies": len(vacancies), "acceptance_programs": len(acceptance), "gates": len(gates), "edges": len(edges)}
+    expected_counts = {"products": len(programs), "subjects": len(subjects), "bindings": len(bindings), "vacancies": len(vacancies), "acceptance_programs": len(acceptance), "gates": len(gates), "edges": len(edges)}
     if manifest["counts"] != expected_counts:
         errors.append("manifest counts drift")
     for name, metadata in manifest["files"].items():

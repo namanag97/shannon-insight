@@ -183,6 +183,29 @@ def main() -> int:
         elif output:
             adjudication_outputs.append(output)
 
+    data_sharing_execution_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/conformance_evaluation/executions/data_sharing_exact_scope/validate_execution.py"
+    )
+    if not data_sharing_execution_validator.is_file():
+        errors.append("data-sharing exact-scope execution validator is missing")
+    else:
+        completed = subprocess.run(
+            [sys.executable, str(data_sharing_execution_validator)],
+            cwd=ROOT.parent.parent,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        output = completed.stdout.strip()
+        if completed.returncode != 0:
+            errors.append(
+                "data-sharing exact-scope execution failed: "
+                + (output or completed.stderr.strip())
+            )
+        elif output:
+            adjudication_outputs.append(output)
+
     convergence_rebase_validator = ROOT / "research_convergence_rebase/validate.py"
     if not convergence_rebase_validator.is_file():
         errors.append("research-convergence rebase validator is missing")

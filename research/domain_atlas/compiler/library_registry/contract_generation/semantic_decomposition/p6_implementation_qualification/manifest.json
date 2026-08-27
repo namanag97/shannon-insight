@@ -3,8 +3,8 @@
   "completion_claim": false,
   "files": {
     "compiler-selection-gates.jsonl": {
-      "bytes": 606076,
-      "sha256": "86aa24255ea81155c1dde4440715ed3afc2ac31b3109017c21c6776c81e05489"
+      "bytes": 606041,
+      "sha256": "8ea61b299ff0bed90cbeb70a48f73ac7d35ba02b06b5239b0d93c92ec04e8746"
     },
     "concrete-reference-resolutions.jsonl": {
       "bytes": 357858,
@@ -19,24 +19,24 @@
       "sha256": "8bda913b61877ce4c66401d5f9e2e513ee4abb917257b2f076157f978fe988d7"
     },
     "product-qualification-dockets.jsonl": {
-      "bytes": 286790,
-      "sha256": "cf93ffc94997b94202cdb3ae20e39ba1169854c2272b2c3c1117e70252b88cc4"
+      "bytes": 286820,
+      "sha256": "7b9c1f7190858bcd7357eadae177b2c592919d099c97b657671f9895b9986d5a"
     },
     "qualification-scope-kernels.jsonl": {
-      "bytes": 947393,
-      "sha256": "8c2d33c33ad0b6e59f5ebdd7e50aa69b9551713e96401fa7dc347e4cd533fd4c"
+      "bytes": 966931,
+      "sha256": "bfea46b21ef77df3effc43223d19734c223d425849427e3e685804993dde1a4e"
     },
     "resolution-ontology.json": {
       "bytes": 186,
       "sha256": "b2078042c674c5f9b01779f18836da3a6a06e28b559ee210e5d9e106b194e306"
     },
     "subject-dockets.jsonl": {
-      "bytes": 1481853,
-      "sha256": "ec039f5a8e27f677ce430d45fba002eb054f963ddb4be31f068fab7805a958a4"
+      "bytes": 1501830,
+      "sha256": "cd421a023709fc37c402c27172be0cd47c2f1e2b9bb5c32c4c1156c546559e2c"
     },
     "summary.json": {
-      "bytes": 3132,
-      "sha256": "ae12aaaad739d8dab5eac1bc523b9febea102298a2ed3bf4c44a65d07fa61f3e"
+      "bytes": 3385,
+      "sha256": "597babf04b1f98424da1dae5a6c453596caf7d2683c9dc68ab2c6a35d48f0011"
     }
   },
   "manifest_id": "manifest.p6-implementation-qualification.v1"

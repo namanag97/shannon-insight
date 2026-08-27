@@ -21,6 +21,7 @@ GATE_DEPENDENCIES = QUALIFICATION / "gate-dependencies.jsonl"
 PRODUCT_PROGRAMS = QUALIFICATION / "product-qualification-programs.jsonl"
 VERTICAL_PROGRAMS = QUALIFICATION / "product-vertical-acceptance-programs.jsonl"
 VACANCIES = QUALIFICATION / "evidence-vacancies.jsonl"
+EXECUTION_BINDINGS = QUALIFICATION / "execution-evidence-bindings.jsonl"
 CONTRIBUTIONS = LIBRARY_REGISTRY / "library-contributions.jsonl"
 P5_TEMPLATES = HERE.parent / "p5_exact_contract_adjudication/exact-contract-ratification-packet-templates.jsonl"
 AS_OF = "2026-08-27"
@@ -52,7 +53,7 @@ def slug(value: str) -> str:
 
 def snapshot() -> dict[str, Any]:
     files = []
-    for path in (SUBJECTS, GATE_DEFINITIONS, GATE_DEPENDENCIES, PRODUCT_PROGRAMS, VERTICAL_PROGRAMS, VACANCIES, CONTRIBUTIONS, P5_TEMPLATES):
+    for path in (SUBJECTS, GATE_DEFINITIONS, GATE_DEPENDENCIES, PRODUCT_PROGRAMS, VERTICAL_PROGRAMS, VACANCIES, EXECUTION_BINDINGS, CONTRIBUTIONS, P5_TEMPLATES):
         data = path.read_bytes()
         files.append({
             "path": str(path.relative_to(REPO)),
@@ -85,6 +86,10 @@ def build_records() -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[di
     programs = load_jsonl(PRODUCT_PROGRAMS)
     vertical_programs = load_jsonl(VERTICAL_PROGRAMS)
     vacancies = load_jsonl(VACANCIES)
+    execution_bindings = load_jsonl(EXECUTION_BINDINGS)
+    bindings_by_subject: dict[str, list[dict[str, Any]]] = collections.defaultdict(list)
+    for binding in execution_bindings:
+        bindings_by_subject[binding["qualification_subject_ref"]].append(binding)
 
     concrete_refs = sorted({ref for subject in subjects for ref in subject["compiler_projection"]["concrete_library_refs"]})
     resolutions = []
@@ -126,6 +131,11 @@ def build_records() -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[di
     for scope_id, members in sorted(scope_groups.items()):
         signature = scope_signatures[scope_id]
         member_ids = sorted(row["subject_id"] for row in members)
+        scope_binding_refs = sorted(
+            binding["binding_id"]
+            for member in members
+            for binding in bindings_by_subject.get(member["subject_id"], [])
+        )
         scope_kernels.append({
             "record_kind": "exact_implementation_qualification_scope",
             "scope_id": scope_id,
@@ -138,9 +148,10 @@ def build_records() -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[di
             "required_independent_implementation_slots": 2,
             "implementation_slot_refs": [f"slot.{scope_id}.primary", f"slot.{scope_id}.independent-secondary"],
             "qualified_implementation_refs": [],
+            "execution_evidence_binding_refs": scope_binding_refs,
             "portable_offer": False,
             "sharing_law": "A qualification may be reused only for this exact immutable contract, implementation, dependency, target, configuration, evidence and budget scope.",
-            "status": "OPEN_NO_BOUND_IMPLEMENTATION",
+            "status": "OPEN_EXECUTION_EVIDENCE_UNQUALIFIED" if scope_binding_refs else "OPEN_NO_BOUND_IMPLEMENTATION",
             "completion_claim": False,
         })
     scope_by_subject = {subject_ref: row for row in scope_kernels for subject_ref in row["subject_refs"]}
@@ -153,7 +164,10 @@ def build_records() -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[di
     for subject in sorted(subjects, key=lambda row: row["subject_id"]):
         local_resolutions = [resolution_by_ref[ref] for ref in subject["compiler_projection"]["concrete_library_refs"]]
         resolution_classes = sorted({row["resolution_class"] for row in local_resolutions})
-        blockers = ["NO_BOUND_IMPLEMENTATION_ARTIFACT", "NO_EXECUTED_CONFORMANCE_EVIDENCE", "NO_INDEPENDENT_APPRAISAL", "NO_PORTABLE_OFFER"]
+        subject_binding_refs = sorted(row["binding_id"] for row in bindings_by_subject.get(subject["subject_id"], []))
+        blockers = ["NO_BOUND_IMPLEMENTATION_ARTIFACT", "NO_INDEPENDENT_APPRAISAL", "NO_PORTABLE_OFFER"]
+        if not subject_binding_refs:
+            blockers.append("NO_EXECUTED_CONFORMANCE_EVIDENCE")
         blocker_by_resolution = {
             "P5_OPEN_EXACT_CONTRACT": "EXACT_CONTRACT_UNRATIFIED",
             "REGISTERED_SPECIFIED_UNIMPLEMENTED": "SPECIFIED_LIBRARY_UNIMPLEMENTED",
@@ -177,6 +191,7 @@ def build_records() -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[di
             "p5_exact_contract_template_refs": [row["p5_exact_contract_template_ref"] for row in local_resolutions if row["p5_exact_contract_template_ref"]],
             "required_conformance_context_refs": subject["required_conformance_context_refs"],
             "required_evidence_classes": subject["required_evidence_classes"],
+            "execution_evidence_binding_refs": subject_binding_refs,
             "evidence_vacancy_refs": sorted(row["vacancy_id"] for row in vacancies_by_candidate[subject["candidate_id"]]),
             "implementation_slot_refs": scope_by_subject[subject["subject_id"]]["implementation_slot_refs"],
             "qualified_implementation_refs": [],

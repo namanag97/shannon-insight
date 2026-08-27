@@ -1,0 +1,24 @@
+{
+  "all_program_gates_open": true,
+  "application_and_solution_completion_requires": [
+    "B16_OPEN_WORLD_COVERAGE_NOVELTY",
+    "B17_INTENT_TO_SOLUTION_COMPOSITION",
+    "B18_APPLICATION_HUMAN_EFFECT_BOUNDARY",
+    "B19_MULTI_PRODUCT_SYSTEM_ACCEPTANCE",
+    "B20_CONTINUOUS_VALIDITY_INVALIDATION"
+  ],
+  "as_of": "2026-08-27",
+  "base_batch_count": 16,
+  "completion_claim": false,
+  "expanded_batch_count": 21,
+  "program_level_gate_count": 5,
+  "program_level_gate_ids": [
+    "B16_OPEN_WORLD_COVERAGE_NOVELTY",
+    "B17_INTENT_TO_SOLUTION_COMPOSITION",
+    "B18_APPLICATION_HUMAN_EFFECT_BOUNDARY",
+    "B19_MULTI_PRODUCT_SYSTEM_ACCEPTANCE",
+    "B20_CONTINUOUS_VALIDITY_INVALIDATION"
+  ],
+  "report_id": "expanded_program_closure_frontier",
+  "status": "EXPANDED_B00_B20_DAG_DEFINED_NO_PROGRAM_COMPLETION_CLAIM"
+}

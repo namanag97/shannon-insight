@@ -51,7 +51,7 @@ def dead_import_count(
     dead = find_dead_imports(tensor, t)
 
     counts: dict[int, int] = {}
-    for i, j in dead:
+    for i, _j in dead:
         counts[i] = counts.get(i, 0) + 1
 
     return counts

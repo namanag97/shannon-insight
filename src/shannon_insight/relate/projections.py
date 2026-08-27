@@ -16,16 +16,23 @@ from shannon_insight.relate.protocols import (
     Verdict,
 )
 
+ExternalKey = tuple[str, str]
+
 
 def stamp_and_collect(
     records: list[BindingRecord],
     rel_to_id: dict[str, str],
     metrics: RelateMetrics,
-) -> tuple[list[EdgeRecord], list[PhantomFact], list[tuple[str, str]], dict[str, int]]:
+) -> tuple[
+    list[EdgeRecord],
+    list[PhantomFact],
+    list[tuple[str, str]],
+    dict[ExternalKey, int],
+]:
     edges: list[EdgeRecord] = []
     phantoms_internal: list[PhantomFact] = []
     unlisted_external: list[tuple[str, str]] = []
-    externals_counter: Counter[str] = Counter()
+    externals_counter: Counter[ExternalKey] = Counter()
 
     for rec in records:
         if rec.verdict is Verdict.EXTERNAL and rec.reason:

@@ -1,0 +1,20 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "raw_queue_records": 4169,
+  "research_resolved_candidate_records": 3,
+  "research_resolved_occurrences": 4,
+  "remaining_open_research_records": 4166,
+  "method_reference_frontier": {
+    "raw_unresolved_distinct": 2031,
+    "research_resolved_candidate_distinct": 3,
+    "remaining_open_research_distinct": 2028,
+    "canonically_ratified_distinct": 0
+  },
+  "other_reference_frontiers_unchanged": {
+    "industry_or_subindustry": 398,
+    "typed_operation": 1378,
+    "source_system_class": 362
+  },
+  "status": "PARTIAL_RESEARCH_RESOLUTION_RATIFICATION_WITHHELD"
+}

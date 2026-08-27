@@ -3,10 +3,12 @@ name: B07 Canonical Reference Auto Aliases
 on:
   push:
     branches:
-      - closure/b07-auto-alias-candidates
+      - 'closure/b07-*'
     paths:
       - research/domain_atlas/industries/**
       - research/domain_atlas/universes/analytics_types/candidate-practices.jsonl
+      - research/domain_atlas/universes/operations/operation-candidates.jsonl
+      - research/domain_atlas/universes/source_systems/source-classes.jsonl
       - .github/workflows/b07-auto-alias-candidates.yml
   workflow_dispatch:
 
@@ -19,12 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: closure/b07-auto-alias-candidates
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Generate exact alias candidates
+      - name: Generate exact canonical-reference candidates
         run: python3 research/domain_atlas/industries/build_exact_alias_candidates.py
       - name: Validate candidates
         run: python3 research/domain_atlas/industries/validate_exact_alias_candidates.py
@@ -37,5 +39,5 @@ jobs:
             echo "Generated candidate projection already current"
             exit 0
           fi
-          git commit -m "research: generate conservative B07 alias candidates [skip ci]"
-          git push origin HEAD:closure/b07-auto-alias-candidates
+          git commit -m "research: generate conservative B07 exact-reference candidates [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

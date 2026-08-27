@@ -1,11 +1,22 @@
 {
   "as_of": "2026-08-27",
+  "candidate_occurrences_by_domain": {
+    "analytical_practice": 496,
+    "source_system_class": 2,
+    "typed_operation": 146
+  },
+  "candidate_records_by_domain": {
+    "analytical_practice": 127,
+    "source_system_class": 2,
+    "typed_operation": 8
+  },
   "completion_claim": false,
-  "machine_exact_alias_candidate_occurrences": 496,
-  "machine_exact_alias_candidate_records": 127,
+  "edition": 2,
+  "machine_exact_alias_candidate_occurrences": 644,
+  "machine_exact_alias_candidate_records": 137,
   "manual_research_resolutions": 3,
   "raw_review_queue_records": 4169,
-  "remaining_without_manual_or_machine_exact_candidate": 4039,
+  "remaining_without_manual_or_machine_exact_candidate": 4029,
   "report_id": "industry_canonical_reference_auto_alias_candidates",
   "status": "CANDIDATES_ONLY_AUTHORITY_WITHHELD"
 }

@@ -1,0 +1,43 @@
+name: Closure Expanded B00-B20 DAG
+
+on:
+  push:
+    branches:
+      - 'closure/expanded-*'
+    paths:
+      - research/product_ontology/closure_program/program-level-gates.jsonl
+      - research/product_ontology/closure_program/expanded-batches.jsonl
+      - research/product_ontology/closure_program/expanded-summary.json
+      - research/product_ontology/closure_program/build_program_level_gates.py
+      - research/product_ontology/closure_program/validate_program_level_gates.py
+      - .github/workflows/closure-expanded-dag.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build expanded B00-B20 DAG
+        run: python3 research/product_ontology/closure_program/build_program_level_gates.py
+      - name: Validate expanded DAG
+        run: python3 research/product_ontology/closure_program/validate_program_level_gates.py
+      - name: Persist generated DAG
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/product_ontology/closure_program/program-level-gates.jsonl \
+                  research/product_ontology/closure_program/expanded-batches.jsonl \
+                  research/product_ontology/closure_program/expanded-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "closure: generate expanded B00-B20 DAG [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

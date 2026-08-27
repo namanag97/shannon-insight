@@ -1,0 +1,27 @@
+{
+  "record_kind": "qualification_execution_evidence_binding",
+  "edition": 1,
+  "as_of": "2026-08-27",
+  "candidate_id": "candidate.product.data_sharing",
+  "product_ref": "product.data_sharing_exchange",
+  "qualification_subject_ref": "subject.qp.data_sharing.data_sharing_contract",
+  "abstract_contract_ref": "library.data_sharing_contract",
+  "canonical_projection_ref": "library.persistence.sharing_contract",
+  "evidence_ref": "research/domain_atlas/compiler/conformance_evaluation/executions/data_sharing_exact_scope/runs/run-20260827-linux-x86_64-python3_13-001/receipt.json",
+  "evidence_class": "executed_test_receipts",
+  "relevant_gate_ref": "gate.qp.exact_scope_execution",
+  "gate_effect": "EVIDENCE_PRESENT_PREREQUISITES_OPEN_NOT_A_PASS",
+  "satisfied_prerequisites": [],
+  "open_prerequisites": [
+    "gate.qp.law_authority",
+    "gate.qp.implementation_identity",
+    "gate.qp.reproducible_build"
+  ],
+  "independent_appraisal": false,
+  "independently_controlled_implementation_count": 0,
+  "qualified_implementation_count": 0,
+  "portable_offer": false,
+  "build_ready": false,
+  "ratified": false,
+  "completion_claim": false
+}

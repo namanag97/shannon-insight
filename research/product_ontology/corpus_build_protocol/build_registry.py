@@ -22,6 +22,18 @@ ROOT = HERE.parents[2]
 SCAN_ROOTS = [ROOT / "research/domain_atlas", ROOT / "research/product_ontology", ROOT / "research/analytics_landscape"]
 AS_OF = "2026-08-27"
 
+MIGRATION_WAVES = {
+    "M00_AUTHORED_VALIDATION_CLASSIFICATION": ([], "Separate authored sources, immutable snapshots and aggregate validators from regenerable projections."),
+    "M01_UNIVERSE_AND_EVIDENCE_PRODUCERS": (["M00_AUTHORED_VALIDATION_CLASSIFICATION"], "Contract source, shape, operation, method, presentation and other universe producers before their consumers."),
+    "M02_VERTICAL_CONTEXT_AND_REFERENCE_PRODUCERS": (["M00_AUTHORED_VALIDATION_CLASSIFICATION", "M01_UNIVERSE_AND_EVIDENCE_PRODUCERS"], "Contract industries, context maps, reference spines and vertical demand producers."),
+    "M03_PRODUCT_BOUNDARY_AND_ADJUDICATION": (["M01_UNIVERSE_AND_EVIDENCE_PRODUCERS", "M02_VERTICAL_CONTEXT_AND_REFERENCE_PRODUCERS"], "Contract product research, boundary adjudication, dossier and migration projections."),
+    "M04_SEMANTIC_CONTRACT_AND_COORDINATE_GRAPH": (["M01_UNIVERSE_AND_EVIDENCE_PRODUCERS", "M03_PRODUCT_BOUNDARY_AND_ADJUDICATION"], "Contract semantic axes, evidence campaigns, coordinate packages, exact-contract and owner-adjudication projections."),
+    "M05_COMPILER_BINDING_AND_CODEGEN": (["M04_SEMANTIC_CONTRACT_AND_COORDINATE_GRAPH"], "Contract binder, mapper, IR, codegen, implementation architecture and conformance compiler packages."),
+    "M06_QUALIFICATION_EXECUTION_AND_ACCEPTANCE": (["M03_PRODUCT_BOUNDARY_AND_ADJUDICATION", "M04_SEMANTIC_CONTRACT_AND_COORDINATE_GRAPH", "M05_COMPILER_BINDING_AND_CODEGEN"], "Separate test harnesses, execution campaigns, independent qualification and vertical/system acceptance evidence."),
+    "M07_CLOSURE_FIXED_POINT_AND_GLOBAL_ROUTING": (["M02_VERTICAL_CONTEXT_AND_REFERENCE_PRODUCERS", "M03_PRODUCT_BOUNDARY_AND_ADJUDICATION", "M04_SEMANTIC_CONTRACT_AND_COORDINATE_GRAPH", "M05_COMPILER_BINDING_AND_CODEGEN", "M06_QUALIFICATION_EXECUTION_AND_ACCEPTANCE"], "Contract repository-wide inventories, closure projections, routers and aggregate validation as bounded fixed-point consumers."),
+    "M08_RESIDUAL_PACKAGE_ADJUDICATION": (["M00_AUTHORED_VALIDATION_CLASSIFICATION"], "Adjudicate packages that do not yet map safely to a known build-system responsibility."),
+}
+
 
 def canonical(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
@@ -108,6 +120,38 @@ def topo(contracts: list[dict[str, Any]]) -> list[str]:
     return order
 
 
+def migration_wave(row: dict[str, Any]) -> str:
+    root = row["root"]
+    if not row["build_scripts"]:
+        return "M00_AUTHORED_VALIDATION_CLASSIFICATION"
+    if "/executions/" in root or "qualification" in root or "acceptance" in root or "composition_pilots" in root:
+        return "M06_QUALIFICATION_EXECUTION_AND_ACCEPTANCE"
+    if "/universes/" in root or "analytics_landscape" in root:
+        return "M01_UNIVERSE_AND_EVIDENCE_PRODUCERS"
+    if "/industries" in root or "/context_map" in root or "canonical_reference" in root:
+        return "M02_VERTICAL_CONTEXT_AND_REFERENCE_PRODUCERS"
+    if "/semantic_decomposition/" in root:
+        return "M04_SEMANTIC_CONTRACT_AND_COORDINATE_GRAPH"
+    if "/compiler/" in root:
+        return "M05_COMPILER_BINDING_AND_CODEGEN"
+    if any(token in root for token in ("/adjudications/", "/dossier_readiness", "/boundary_", "/inventory_challenges/", "/upstream_demand")):
+        return "M03_PRODUCT_BOUNDARY_AND_ADJUDICATION"
+    if any(token in root for token in ("/closure_program", "/global_boundary_research", "/corpus_architecture_router", "/semantic_fixed_point_campaign")):
+        return "M07_CLOSURE_FIXED_POINT_AND_GLOBAL_ROUTING"
+    return "M08_RESIDUAL_PACKAGE_ADJUDICATION"
+
+
+def suggested_kind(row: dict[str, Any]) -> str:
+    root = row["root"]
+    if "/executions/" in root or "qualification" in root or "acceptance" in root:
+        return "execution_campaign"
+    if not row["build_scripts"] and row["validate_scripts"]:
+        return "authored_source_or_aggregate_validator_UNRESOLVED"
+    if row["build_scripts"]:
+        return "deterministic_projection_CANDIDATE_UNPROVEN"
+    return "package_kind_UNRESOLVED"
+
+
 def outputs() -> dict[str, str]:
     observed = discover()
     order = topo(CONTRACTS)
@@ -176,6 +220,64 @@ def outputs() -> dict[str, str]:
                 }
             )
 
+    gaps_by_candidate: dict[str, list[str]] = defaultdict(list)
+    for gap in gaps:
+        gaps_by_candidate[gap["package_candidate_ref"]].append(gap["gap_id"])
+    dockets = []
+    for row in observed:
+        if row["declared_contract_ref"] is not None:
+            continue
+        dockets.append(
+            {
+                "record_kind": "corpus_build_contract_candidate_docket",
+                "docket_id": "docket.package-contract." + row["candidate_id"].removeprefix("candidate."),
+                "package_candidate_ref": row["candidate_id"],
+                "root": row["root"],
+                "migration_wave_ref": migration_wave(row),
+                "suggested_package_kind": suggested_kind(row),
+                "observed_build_scripts": row["build_scripts"],
+                "observed_validate_scripts": row["validate_scripts"],
+                "observed_manifest_paths": row["local_manifest_paths"],
+                "observed_schema_paths": row["local_schema_paths"],
+                "decision_axes": {
+                    "input_ownership": "UNRESOLVED",
+                    "output_ownership": "UNRESOLVED",
+                    "dependency_edges": "UNRESOLVED",
+                    "package_kind": "UNRATIFIED_CANDIDATE",
+                    "authority_class": "UNRESOLVED",
+                    "determinism": "UNPROVEN",
+                    "write_boundary": "UNRESOLVED",
+                    "fixed_point_membership": "UNRESOLVED",
+                    "execution_risk": "UNASSESSED",
+                },
+                "migration_gap_refs": sorted(gaps_by_candidate[row["candidate_id"]]),
+                "orchestrator_action": "REFUSE_AUTOMATIC_EXECUTION",
+                "completion_claim": False,
+            }
+        )
+
+    dockets_by_wave: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for docket in dockets:
+        dockets_by_wave[docket["migration_wave_ref"]].append(docket)
+    migration_batches = []
+    for wave_id, (depends_on, objective) in MIGRATION_WAVES.items():
+        rows = dockets_by_wave[wave_id]
+        migration_batches.append(
+            {
+                "record_kind": "corpus_build_protocol_migration_batch",
+                "batch_id": wave_id,
+                "depends_on": depends_on,
+                "objective": objective,
+                "package_candidate_count": len(rows),
+                "package_candidate_refs": sorted(row["package_candidate_ref"] for row in rows),
+                "build_and_validate_candidates": sum(bool(row["observed_build_scripts"] and row["observed_validate_scripts"]) for row in rows),
+                "build_without_local_validator_candidates": sum(bool(row["observed_build_scripts"] and not row["observed_validate_scripts"]) for row in rows),
+                "validate_without_local_builder_candidates": sum(bool(row["observed_validate_scripts"] and not row["observed_build_scripts"]) for row in rows),
+                "exit_condition": "Every candidate has an explicit input/output/dependency/authority/write/rebuild contract or an authored, historical, aggregate, external, merged or retired disposition.",
+                "automatic_execution_enabled": False,
+                "completion_claim": False,
+            }
+        )
     vocabulary = [
         *({"record_kind": "package_kind_definition", "term": key, "definition": value} for key, value in sorted(PACKAGE_KINDS.items())),
         *({"record_kind": "authority_class_definition", "term": key} for key in sorted(AUTHORITY_CLASSES)),
@@ -193,6 +295,8 @@ def outputs() -> dict[str, str]:
         "aggregate_validators": sum(row["package_kind"] == "aggregate_validator" for row in contracts),
         "uncontracted_observed_packages": sum(row["declared_contract_ref"] is None for row in observed),
         "migration_gap_records": len(gaps),
+        "contract_candidate_dockets": len(dockets),
+        "migration_batches": len(migration_batches),
         "dependency_edges": len(edges),
         "topological_nodes": len(order),
         "world_completion_claim": False,
@@ -203,6 +307,8 @@ def outputs() -> dict[str, str]:
         "observed-package-candidates.jsonl": "".join(canonical(row) + "\n" for row in observed),
         "dependency-edges.jsonl": "".join(canonical(row) + "\n" for row in edges),
         "migration-gaps.jsonl": "".join(canonical(row) + "\n" for row in gaps),
+        "contract-candidate-dockets.jsonl": "".join(canonical(row) + "\n" for row in dockets),
+        "migration-batches.jsonl": "".join(canonical(row) + "\n" for row in migration_batches),
         "protocol-vocabulary.jsonl": "".join(canonical(row) + "\n" for row in vocabulary),
         "summary.json": json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
     }

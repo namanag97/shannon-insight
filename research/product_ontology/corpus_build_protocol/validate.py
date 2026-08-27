@@ -25,6 +25,8 @@ def main() -> int:
     contracts = load_jsonl("package-contracts.jsonl")
     observed = load_jsonl("observed-package-candidates.jsonl")
     gaps = load_jsonl("migration-gaps.jsonl")
+    dockets = load_jsonl("contract-candidate-dockets.jsonl")
+    batches = load_jsonl("migration-batches.jsonl")
     by_id = {row["package_id"]: row for row in contracts}
     assert len(by_id) == len(contracts)
     assert sorted(row["topological_order"] for row in contracts) == list(range(1, len(contracts) + 1))
@@ -60,6 +62,17 @@ def main() -> int:
     uncontracted = {row["candidate_id"] for row in observed if row["declared_contract_ref"] is None}
     gap_candidates = {row["package_candidate_ref"] for row in gaps if row["gap_kind"] == "EXPLICIT_PACKAGE_CONTRACT_MISSING"}
     assert uncontracted == gap_candidates
+    assert uncontracted == {row["package_candidate_ref"] for row in dockets}
+    assert len({row["docket_id"] for row in dockets}) == len(dockets)
+    required_axes = {"input_ownership", "output_ownership", "dependency_edges", "package_kind", "authority_class", "determinism", "write_boundary", "fixed_point_membership", "execution_risk"}
+    assert all(set(row["decision_axes"]) == required_axes for row in dockets)
+    batch_ids = {row["batch_id"] for row in batches}
+    assert len(batch_ids) == len(batches) == 9
+    assert all(set(row["depends_on"]) <= batch_ids for row in batches)
+    docket_refs = {row["package_candidate_ref"] for row in dockets}
+    batched_refs = [ref for row in batches for ref in row["package_candidate_refs"]]
+    assert len(batched_refs) == len(set(batched_refs)) and set(batched_refs) == docket_refs
+    assert all(row["automatic_execution_enabled"] is False and row["completion_claim"] is False for row in batches)
     assert all(row["completion_claim"] is False for row in gaps)
 
     summary = json.loads((HERE / "summary.json").read_text(encoding="utf-8"))
@@ -67,6 +80,8 @@ def main() -> int:
     assert summary["explicit_package_contracts"] == len(contracts)
     assert summary["uncontracted_observed_packages"] == len(uncontracted)
     assert summary["migration_gap_records"] == len(gaps)
+    assert summary["contract_candidate_dockets"] == len(dockets)
+    assert summary["migration_batches"] == len(batches)
     assert summary["completion_claim"] is False and summary["world_completion_claim"] is False
     print(
         "PASS corpus build protocol: "

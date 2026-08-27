@@ -2,9 +2,17 @@
   "as_of": "2026-08-27",
   "completion_claim": false,
   "files": {
+    "contract-candidate-dockets.jsonl": {
+      "bytes": 303143,
+      "sha256": "ac7d1916fa91fa061c625f11574f485b3cc2d81ae28b27780023f2feeb3fa103"
+    },
     "dependency-edges.jsonl": {
       "bytes": 3082,
       "sha256": "32259af38393e7d480c365f0d79c02fc85f7c0296fe66464c3d317d4abaf02f1"
+    },
+    "migration-batches.jsonl": {
+      "bytes": 23095,
+      "sha256": "d9c054f745459f0f86b27c3d8e2af416e50474c4d5f740137834e68cc23f475f"
     },
     "migration-gaps.jsonl": {
       "bytes": 125757,
@@ -23,8 +31,8 @@
       "sha256": "38188b7b8706cc95bb149014824d096b87c555058d5bcb407a935b62419d3987"
     },
     "summary.json": {
-      "bytes": 472,
-      "sha256": "4613bfc85683db77dbcfed451b1b2b5e5f60351084ffbf4cf7f89031a87ae80f"
+      "bytes": 535,
+      "sha256": "d2c7ce6938950a9c7bdc932b53340a470e05a59e47b1d5147e4a751a3163fd7b"
     }
   },
   "manifest_id": "manifest.corpus-build-protocol.v1"

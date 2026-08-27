@@ -17,6 +17,8 @@ The protocol distinguishes deterministic projections, repository-wide fixed-poin
 
 `observed-package-candidates.jsonl` is a deterministic inventory of Python package-shaped directories. Discovery does not grant execution authority. Uncontracted packages are emitted into `migration-gaps.jsonl`, and the orchestrator refuses to run them.
 
+The migration is factored rather than scheduled as hundreds of independent fixes. `contract-candidate-dockets.jsonl` gives every uncontracted package the same nine decision axes, and `migration-batches.jsonl` groups them into nine dependency waves from authored/evidence classification through universes, vertical contexts, product boundaries, semantic contracts, compiler binding, qualification and repository fixed points.
+
 ## Commands
 
 From the repository root:

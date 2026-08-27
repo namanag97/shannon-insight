@@ -66,31 +66,78 @@ def dirty_paths() -> set[str]:
     return paths
 
 
+def workspace_state() -> dict[str, str]:
+    completed = subprocess.run(
+        ["git", "ls-files", "-co", "--exclude-standard", "-z"],
+        cwd=ROOT,
+        capture_output=True,
+        check=True,
+    )
+    state = {}
+    for raw in completed.stdout.split(b"\0"):
+        if not raw:
+            continue
+        rel = raw.decode()
+        path = ROOT / rel
+        if path.is_file():
+            state[rel] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return state
+
+
+def state_changes(before: dict[str, str], after: dict[str, str]) -> set[str]:
+    return {path for path in before.keys() | after.keys() if before.get(path) != after.get(path)}
+
+
+def package_owner(path: str, plan: list[dict]) -> str | None:
+    owners = [row for row in plan if path == row["root"] or path.startswith(row["root"].rstrip("/") + "/")]
+    if not owners:
+        return None
+    return max(owners, key=lambda row: len(row["root"]))["package_id"]
+
+
 def validate_package(row: dict) -> list[str]:
     return [run(command) for command in row["validate_commands"]]
 
 
-def build_package_twice(row: dict) -> dict:
+def build_package_twice(row: dict, plan: list[dict]) -> dict:
     if not row["execution_enabled"]:
         raise SystemExit(f"execution refused for not-yet-enabled contract: {row['package_id']}")
     if row["package_kind"] in {"authored_source", "historical_snapshot", "execution_campaign"}:
         raise SystemExit(f"automatic regeneration prohibited for {row['package_kind']}: {row['package_id']}")
     if not row["build_commands"]:
-        return {"package_id": row["package_id"], "builds": 0, "stable": True, "validation": validate_package(row)}
+        before_validation = workspace_state()
+        validation = validate_package(row)
+        validation_writes = state_changes(before_validation, workspace_state())
+        if validation_writes:
+            raise SystemExit(f"read-only validator wrote files for {row['package_id']}: {sorted(validation_writes)}")
+        return {"package_id": row["package_id"], "builds": 0, "stable": True, "validation": validation}
     root = ROOT / row["root"]
+    before = workspace_state()
     first_output = [run(command) for command in row["build_commands"]]
+    after_first = workspace_state()
     first_digest = tree_digest(root)
     second_output = [run(command) for command in row["build_commands"]]
+    after_second = workspace_state()
     second_digest = tree_digest(root)
-    if first_digest != second_digest:
+    if first_digest != second_digest or after_first != after_second:
         raise SystemExit(f"non-deterministic package projection: {row['package_id']}")
+    writes = state_changes(before, after_second)
+    violations = sorted(path for path in writes if package_owner(path, plan) != row["package_id"])
+    if violations:
+        raise SystemExit(f"package crossed its most-specific write owner boundary ({row['package_id']}):\n" + "\n".join(violations))
+    before_validation = workspace_state()
+    validation = validate_package(row)
+    validation_writes = state_changes(before_validation, workspace_state())
+    if validation_writes:
+        raise SystemExit(f"validator wrote files for {row['package_id']}: {sorted(validation_writes)}")
     return {
         "package_id": row["package_id"],
         "builds": 2,
         "stable": True,
         "tree_sha256": second_digest,
         "build_output": second_output or first_output,
-        "validation": validate_package(row),
+        "changed_paths": sorted(writes),
+        "validation": validation,
     }
 
 
@@ -98,7 +145,7 @@ def execute(plan: list[dict]) -> dict:
     before = dirty_paths()
     if before:
         raise SystemExit("execution requires a clean worktree; commit or discard current changes first")
-    receipts = [build_package_twice(row) for row in plan]
+    receipts = [build_package_twice(row, plan) for row in plan]
     after = dirty_paths()
     allowed_roots = tuple(row["root"].rstrip("/") + "/" for row in plan if row["write_policy"] != "read_only")
     violations = sorted(path for path in after if not path.startswith(allowed_roots))
@@ -134,4 +181,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

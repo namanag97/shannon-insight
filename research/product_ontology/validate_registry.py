@@ -1612,6 +1612,26 @@ def main() -> int:
         elif output:
             adjudication_outputs.append(output)
 
+    closure_validator = ROOT / "closure_program/validate.py"
+    if not closure_validator.is_file():
+        errors.append("product-ontology closure-program validator is missing")
+    else:
+        completed = subprocess.run(
+            [sys.executable, str(closure_validator)],
+            cwd=ROOT.parent.parent,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        output = completed.stdout.strip()
+        if completed.returncode != 0:
+            errors.append(
+                "product-ontology closure program failed: "
+                + (output or completed.stderr.strip())
+            )
+        elif output:
+            adjudication_outputs.append(output)
+
     if errors:
         for error in errors:
             print(f"ERROR: {error}")

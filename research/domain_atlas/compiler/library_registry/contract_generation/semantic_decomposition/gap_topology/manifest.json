@@ -4,7 +4,7 @@
   "files": {
     "closure-lattice.json": {
       "bytes": 8920,
-      "sha256": "1c7dccfe9fb11340589157d4d6297e05b2a0142a95986045a197a3db69e24adb"
+      "sha256": "cfefd1118e170941011af8dc37903c81060694c1b9405834bba9ab67234bbb6c"
     },
     "closure-method-kernels.jsonl": {
       "bytes": 65238,
@@ -32,7 +32,7 @@
     },
     "summary.json": {
       "bytes": 10351,
-      "sha256": "c0d1560eedac072f326b7e7068d69d28d28b55cab587097088043605931cb205"
+      "sha256": "9ff73ebda260455790a86a938be19584deb54d2de9734404bde3d0c59e8f7d96"
     }
   },
   "manifest_id": "manifest.semantic-gap-topology.v1"

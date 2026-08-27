@@ -38,9 +38,46 @@ jobs:
           python3 research/domain_atlas/compiler/library_registry/exact_api_closure/build_program.py
           python3 research/domain_atlas/compiler/library_registry/exact_api_closure/validate.py
       - name: Regenerate contract generation program
+        run: python3 research/domain_atlas/compiler/library_registry/contract_generation/build_program.py
+      - name: Diagnose contract wave partition
         run: |
-          python3 research/domain_atlas/compiler/library_registry/contract_generation/build_program.py
-          python3 research/domain_atlas/compiler/library_registry/contract_generation/validate.py
+          python3 - <<'PY'
+          import json
+          from collections import Counter
+          from pathlib import Path
+
+          root = Path("research/domain_atlas/compiler/library_registry/contract_generation")
+          read = lambda name: [json.loads(line) for line in (root / name).read_text(encoding="utf-8").splitlines() if line.strip()]
+          packages = read("work-packages.jsonl")
+          waves = read("execution-waves.jsonl")
+          package_counts = Counter(row["work_package_id"] for row in packages)
+          wave_refs = [ref for wave in waves for ref in wave["work_package_refs"]]
+          wave_counts = Counter(wave_refs)
+          duplicate_packages = {key: value for key, value in package_counts.items() if value > 1}
+          duplicate_wave_refs = {key: value for key, value in wave_counts.items() if value > 1}
+          missing = sorted(set(package_counts) - set(wave_counts))
+          unknown = sorted(set(wave_counts) - set(package_counts))
+          print(json.dumps({
+              "work_package_rows": len(packages),
+              "unique_work_package_ids": len(package_counts),
+              "wave_ref_rows": len(wave_refs),
+              "unique_wave_refs": len(wave_counts),
+              "duplicate_work_package_ids": duplicate_packages,
+              "duplicate_wave_refs": duplicate_wave_refs,
+              "missing_from_waves": missing,
+              "unknown_wave_refs": unknown,
+          }, sort_keys=True, indent=2))
+          for ref in sorted(set(duplicate_packages) | set(duplicate_wave_refs) | set(missing) | set(unknown)):
+              print("DETAIL", ref)
+              for row in packages:
+                  if row["work_package_id"] == ref:
+                      print("PACKAGE", json.dumps(row, sort_keys=True))
+              for wave in waves:
+                  if ref in wave["work_package_refs"]:
+                      print("WAVE", wave["wave_id"], wave["research_families"], wave["work_package_refs"].count(ref))
+          PY
+      - name: Validate contract generation program
+        run: python3 research/domain_atlas/compiler/library_registry/contract_generation/validate.py
       - name: Build and validate evidence governance
         run: |
           python3 research/analytics_landscape/product_families/build_evidence_governance.py

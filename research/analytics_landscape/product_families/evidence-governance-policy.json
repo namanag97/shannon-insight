@@ -1,0 +1,315 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "entity_kinds": [
+    "legal_entity",
+    "organization",
+    "brand",
+    "product",
+    "project",
+    "foundation",
+    "standards_body",
+    "consortium",
+    "public_agency",
+    "research_institution",
+    "professional_body",
+    "software_artifact"
+  ],
+  "evidence_roles": [
+    {
+      "definition": "Defines or analyzes concepts, formal properties or explanatory theory.",
+      "not_sufficient_for": [
+        "implementation qualification",
+        "executed acceptance"
+      ],
+      "role_id": "foundational_theory"
+    },
+    {
+      "definition": "Defines a computational or analytical method, assumptions, operations or complexity.",
+      "not_sufficient_for": [
+        "provider qualification",
+        "domain-semantic authority"
+      ],
+      "role_id": "algorithm"
+    },
+    {
+      "definition": "Provides component, boundary, interface, lifecycle or deployment structure evidence.",
+      "not_sufficient_for": [
+        "semantic ratification",
+        "physical execution proof"
+      ],
+      "role_id": "architecture"
+    },
+    {
+      "definition": "Provides normative requirements or controlled vocabulary from an identified standards authority.",
+      "not_sufficient_for": [
+        "universal product boundary",
+        "implementation qualification"
+      ],
+      "role_id": "standard"
+    },
+    {
+      "definition": "Reports observations, experiments, benchmarks or measured outcomes relevant to a bounded claim.",
+      "not_sufficient_for": [
+        "universal truth",
+        "repository acceptance"
+      ],
+      "role_id": "empirical_validation"
+    },
+    {
+      "definition": "Provides evidence about human work, cognition, accessibility, interaction, safety or organizational behavior.",
+      "not_sufficient_for": [
+        "runtime qualification",
+        "business authority"
+      ],
+      "role_id": "human_factors"
+    },
+    {
+      "definition": "Defines authority, accountability, assurance, policy, risk, privacy, security or audit obligations.",
+      "not_sufficient_for": [
+        "provider implementation evidence",
+        "vertical acceptance"
+      ],
+      "role_id": "governance"
+    },
+    {
+      "definition": "Helps falsify merge, split, demotion, externalization or ownership decisions for a product boundary.",
+      "not_sufficient_for": [
+        "product ratification by itself"
+      ],
+      "role_id": "product_boundary_evidence"
+    },
+    {
+      "definition": "Shows a candidate independently operated product, project or organization associated with a related job or capability.",
+      "not_sufficient_for": [
+        "canonical semantics",
+        "product completeness",
+        "implementation qualification"
+      ],
+      "role_id": "adoption_evidence"
+    },
+    {
+      "definition": "Describes a concrete provider, project, API, runtime or technical implementation.",
+      "not_sufficient_for": [
+        "semantic authority",
+        "independent qualification"
+      ],
+      "role_id": "implementation_reference"
+    },
+    {
+      "definition": "Explicit debt when committed metadata cannot defensibly assign a narrower controlled role.",
+      "not_sufficient_for": [
+        "any semantic, implementation, qualification or acceptance gate"
+      ],
+      "role_id": "unclassified_research_evidence"
+    }
+  ],
+  "exact_support_requires": [
+    "stable selector or record identifier",
+    "recoverable source representation or source-state identifier",
+    "validator-confirmed match to the bounded claim"
+  ],
+  "gate_laws": [
+    "Research proposal may prepare evidence and decisions but may not mint semantic authority.",
+    "Semantic ratification requires a named authority decision over an exact editioned payload.",
+    "Implementation qualification requires reproducible implementation evidence against an exact contract scope.",
+    "Executed acceptance requires a physical occurrence and acceptance receipt for the declared vertical and environment.",
+    "One gate does not imply another unless an explicit editioned contract says so."
+  ],
+  "gate_order": [
+    "RESEARCH_PROPOSAL",
+    "SEMANTIC_RATIFICATION",
+    "IMPLEMENTATION_QUALIFICATION",
+    "EXECUTED_ACCEPTANCE"
+  ],
+  "identity_states": [
+    "PROVISIONAL_INTERNAL_HANDLE",
+    "AUTHORITATIVELY_RESOLVED"
+  ],
+  "locator_states": [
+    "RESOURCE_ONLY_EXACT_SELECTOR_MISSING",
+    "RESOURCE_IDENTIFIER_ONLY",
+    "FRAGMENT_PRESENT_UNVERIFIED",
+    "EXACT_SELECTOR_VERIFIED"
+  ],
+  "negative_charter": [
+    "Does not define product or bounded-context semantics.",
+    "Does not promote an organization, brand, product, project or foundation into a canonical product.",
+    "Does not infer legal identity, acquisition, rename, parentage, control or succession from names, domains or shared branding.",
+    "Does not treat a homepage or resource URL as proof of a bounded capability or adoption claim.",
+    "Does not treat an independent implementation as semantic authority.",
+    "Does not convert a proposed evidence role into semantic ratification.",
+    "Does not invent implementation qualification or executed vertical acceptance.",
+    "Does not require optional AI or agent functionality."
+  ],
+  "non_collapse_laws": [
+    "organization != legal_entity",
+    "legal_entity != brand",
+    "brand != product",
+    "product != project",
+    "project != foundation",
+    "foundation != standards_body",
+    "name_similarity != identity",
+    "shared_domain_or_branding != legal_identity",
+    "source_url != exact_claim_locator",
+    "homepage != product_capability_evidence",
+    "candidate_adoption_reference != verified_adoption",
+    "adoption_evidence != semantic_authority",
+    "provenance_attribution != ownership_authority",
+    "parent_relationship != acquisition",
+    "acquisition != product_succession",
+    "rename != same_entity_without_valid_time_evidence",
+    "version_relation != corporate_identity_relation",
+    "proposed_evidence_role != ratified_evidence_role",
+    "semantic_ratification != implementation_qualification",
+    "implementation_qualification != executed_acceptance",
+    "generated_projection != repaired_source_debt"
+  ],
+  "policy_id": "horizontal_evidence_identity_claim_and_gate_governance",
+  "primary_sources": [
+    {
+      "accessed_on": "2026-08-27",
+      "bounded_claims": [
+        "Provenance can distinguish entities, activities and agents.",
+        "Qualified influence relations can carry attributes such as role, time and plan."
+      ],
+      "evidence_roles": [
+        "standard",
+        "governance",
+        "architecture"
+      ],
+      "issuing_authority": "World Wide Web Consortium",
+      "non_authority_scope": [
+        "Does not identify which Shannon product owns a meaning.",
+        "Does not validate the truth of a source claim.",
+        "Does not equate provenance attribution with legal or semantic ownership."
+      ],
+      "source_id": "src_w3c_prov_o",
+      "title": "PROV-O: The PROV Ontology",
+      "url": "https://www.w3.org/TR/prov-o/"
+    },
+    {
+      "accessed_on": "2026-08-27",
+      "bounded_claims": [
+        "Selectors can identify a segment of a source using fragments, exact text or positions.",
+        "A source state can identify the intended representation of a changing resource."
+      ],
+      "evidence_roles": [
+        "standard",
+        "architecture"
+      ],
+      "issuing_authority": "World Wide Web Consortium",
+      "non_authority_scope": [
+        "A selector does not prove that the selected passage supports the claim.",
+        "The model does not ratify evidence roles or product boundaries."
+      ],
+      "source_id": "src_w3c_web_annotation",
+      "title": "Web Annotation Data Model",
+      "url": "https://www.w3.org/TR/annotation-model/"
+    },
+    {
+      "accessed_on": "2026-08-27",
+      "bounded_claims": [
+        "Versioned resources can use typed version and succession relations.",
+        "Resource identity and version succession should be explicit rather than inferred from titles."
+      ],
+      "evidence_roles": [
+        "standard",
+        "governance"
+      ],
+      "issuing_authority": "DataCite",
+      "non_authority_scope": [
+        "Resource-version relations do not establish corporate acquisition, legal parentage or semantic ownership.",
+        "DataCite metadata does not qualify an implementation."
+      ],
+      "source_id": "src_datacite_metadata_schema",
+      "title": "DataCite Metadata Schema and Versioning Guidance",
+      "url": "https://schema.datacite.org/"
+    },
+    {
+      "accessed_on": "2026-08-27",
+      "bounded_claims": [
+        "LEI reference data can provide who-is-who information for legal entities within the Global LEI System."
+      ],
+      "evidence_roles": [
+        "standard",
+        "governance"
+      ],
+      "issuing_authority": "Global Legal Entity Identifier Foundation",
+      "non_authority_scope": [
+        "Not every organization, project, product, brand or foundation has an LEI.",
+        "An LEI identifies a legal entity, not every product or project it operates."
+      ],
+      "source_id": "src_gleif_level_1",
+      "title": "Level 1 Data: Who is Who",
+      "url": "https://www.gleif.org/en/lei-data/access-and-use-lei-data/level-1-data-who-is-who"
+    },
+    {
+      "accessed_on": "2026-08-27",
+      "bounded_claims": [
+        "The Global LEI System represents direct and ultimate accounting-consolidating parent relationships for reporting legal entities.",
+        "Relationship records include typed relationship, dates, validation and reporting information."
+      ],
+      "evidence_roles": [
+        "standard",
+        "governance"
+      ],
+      "issuing_authority": "Global Legal Entity Identifier Foundation",
+      "non_authority_scope": [
+        "Accounting-consolidation parentage is not a universal acquisition, brand, product or semantic-ownership model.",
+        "Missing LEI relationship data does not prove that no relationship exists."
+      ],
+      "source_id": "src_gleif_level_2",
+      "title": "Level 2 Data: Who Owns Whom",
+      "url": "https://www.gleif.org/en/lei-data/access-and-use-lei-data/level-2-data-who-owns-whom"
+    }
+  ],
+  "relationship_kinds": [
+    "operates",
+    "maintains",
+    "stewards",
+    "product_of",
+    "project_of",
+    "subsidiary_of",
+    "direct_accounting_parent_of",
+    "ultimate_accounting_parent_of",
+    "acquired_by",
+    "merged_into",
+    "renamed_to",
+    "predecessor_of",
+    "successor_of",
+    "new_version_of",
+    "version_of",
+    "alternate_identifier_for"
+  ],
+  "relationship_required_fields": [
+    "subject_entity_id",
+    "relation_id",
+    "object_entity_id",
+    "valid_from",
+    "valid_to",
+    "evidence_claim_id",
+    "authority_scope",
+    "verification_state"
+  ],
+  "role_assignment_laws": [
+    "A role applies to a source-claim binding, not permanently to a source.",
+    "A source may serve different roles for different bounded claims.",
+    "Heuristic role projections remain proposed and unratified.",
+    "Independent products and organizations are adoption evidence, never default semantic authority.",
+    "Unknown role is explicit debt and must not be coerced to architecture or theory."
+  ],
+  "schema_version": "2.0.0",
+  "selector_kinds": [
+    "uri_fragment",
+    "text_quote",
+    "text_position",
+    "json_pointer",
+    "xpath",
+    "csv_fragment",
+    "pdf_page_region",
+    "record_identifier"
+  ],
+  "sovereign_question": "What evidence entity, bounded claim, locator, role and gate state may the horizontal research corpus assert without confusing adoption, provenance, semantic authority, implementation qualification or executed acceptance?",
+  "status": "review_candidate_unratified"
+}

@@ -8,22 +8,22 @@
     {
       "path": "package-routes.jsonl",
       "records": 50,
-      "sha256": "37058a9ace45e16b3d902b7bff2138b031bea166056996f99e9d47c12d6df8f0"
+      "sha256": "121f66e15d8830f565fbc728bc83957b75ef79cccaf00b3282e383bf1520c9f8"
     },
     {
       "path": "file-routes.jsonl",
-      "records": 3662,
-      "sha256": "6871e9b83e7b8b85ae4211dc6471d22b54df3357cdec90f351e3b198029c194f"
+      "records": 3677,
+      "sha256": "fed263fc64990c33010ab2327f874ef6dc596d98168c4dfc523148c57bdf9e3c"
     },
     {
       "path": "record-routes.jsonl",
-      "records": 93959,
-      "sha256": "4660625c10d05a59af0df915b14e0cfd62635cdb58a7d56d3ecd3256ed051a37"
+      "records": 94194,
+      "sha256": "4434e8985ebe534eabf8885b517f2a2f6167229154f51a7bd1939a1fbc3bbbe5"
     },
     {
       "path": "record-identity-findings.jsonl",
-      "records": 2001,
-      "sha256": "26280bf2c52523a86ce072de8b324d9d844a28767a09a2993e097fae2909d009"
+      "records": 2009,
+      "sha256": "d02aca7d67d689f79f2edddbc91a87b9d33f5c5a42e9dc61677af69623073f04"
     },
     {
       "path": "parse-findings.jsonl",
@@ -44,14 +44,14 @@
   "summary": {
     "ambiguous_files": 0,
     "completion_claim": false,
-    "declared_identity_routes": 93959,
-    "files_requiring_schema_identity_adjudication": 2001,
+    "declared_identity_routes": 94194,
+    "files_requiring_schema_identity_adjudication": 2009,
     "nonempty_packages": 50,
-    "occurrence_only_records": 294851,
+    "occurrence_only_records": 299549,
     "packages": 50,
     "parse_findings": 0,
-    "routed_files": 3662,
-    "routed_record_occurrences": 388810,
+    "routed_files": 3677,
+    "routed_record_occurrences": 393743,
     "rules": 50,
     "self_hosting_exclusion": "research/product_ontology/corpus_architecture_router/",
     "unrouted_files": 0

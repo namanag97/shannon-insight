@@ -1,0 +1,452 @@
+{
+  "$defs": {
+    "frontierRequirement": {
+      "properties": {
+        "completion_claim": {
+          "$ref": "#/$defs/nonCompletion"
+        },
+        "exit_condition": {
+          "minLength": 20,
+          "type": "string"
+        },
+        "requirement_id": {
+          "enum": [
+            "HR03_CANONICALIZE_ORGANIZATION_IDENTITY",
+            "HR04_BIND_EVIDENCE_TO_CLAIMS",
+            "HR05_RESEARCH_REFERENCE_ROLES"
+          ]
+        },
+        "status": {
+          "const": "PARTIAL_EXPLICIT_DEBT"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "status",
+        "exit_condition",
+        "completion_claim"
+      ],
+      "type": "object"
+    },
+    "httpsUrl": {
+      "format": "uri",
+      "pattern": "^https?://",
+      "type": "string"
+    },
+    "locator": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "exact_claim_support": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "locator_state": {
+                "const": "EXACT_SELECTOR_VERIFIED"
+              },
+              "selector_kind": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "selector_value": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "source_state": {
+                "minLength": 1,
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "exact_claim_support": {
+          "type": "boolean"
+        },
+        "locator_state": {
+          "enum": [
+            "RESOURCE_ONLY_EXACT_SELECTOR_MISSING",
+            "RESOURCE_IDENTIFIER_ONLY",
+            "FRAGMENT_PRESENT_UNVERIFIED",
+            "EXACT_SELECTOR_VERIFIED"
+          ]
+        },
+        "selector_kind": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selector_value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_state": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_url": {
+          "$ref": "#/$defs/httpsUrl"
+        }
+      },
+      "required": [
+        "source_url",
+        "selector_kind",
+        "selector_value",
+        "source_state",
+        "locator_state",
+        "exact_claim_support"
+      ],
+      "type": "object"
+    },
+    "nonCompletion": {
+      "const": false,
+      "type": "boolean"
+    },
+    "organizationFamilyClaim": {
+      "properties": {
+        "claim_id": {
+          "pattern": "^claim\\.membership\\.",
+          "type": "string"
+        },
+        "completion_claim": {
+          "$ref": "#/$defs/nonCompletion"
+        },
+        "evidence_locator": {
+          "$ref": "#/$defs/locator"
+        },
+        "evidence_role": {
+          "const": "adoption_evidence"
+        },
+        "executed_acceptance": {
+          "const": false,
+          "type": "boolean"
+        },
+        "family_id": {
+          "pattern": "^hpf_",
+          "type": "string"
+        },
+        "implementation_qualification": {
+          "const": false,
+          "type": "boolean"
+        },
+        "organization_id": {
+          "pattern": "^org_",
+          "type": "string"
+        },
+        "record_kind": {
+          "const": "organization_family_membership_claim"
+        },
+        "role_state": {
+          "const": "CONTROLLED_ADOPTION_ROLE"
+        },
+        "semantic_authority": {
+          "const": false,
+          "type": "boolean"
+        },
+        "status": {
+          "const": "UNVERIFIED_EXPLICIT_DEBT"
+        }
+      },
+      "required": [
+        "record_kind",
+        "claim_id",
+        "family_id",
+        "organization_id",
+        "evidence_locator",
+        "evidence_role",
+        "role_state",
+        "status",
+        "semantic_authority",
+        "implementation_qualification",
+        "executed_acceptance",
+        "completion_claim"
+      ],
+      "type": "object"
+    },
+    "organizationIdentity": {
+      "properties": {
+        "authoritative_identifiers": {
+          "maxItems": 0,
+          "type": "array"
+        },
+        "canonical_entity_kind": {
+          "const": "UNRESOLVED"
+        },
+        "completion_claim": {
+          "$ref": "#/$defs/nonCompletion"
+        },
+        "family_refs": {
+          "items": {
+            "pattern": "^hpf_",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "identity_status": {
+          "const": "PROVISIONAL_INTERNAL_HANDLE"
+        },
+        "organization_id": {
+          "pattern": "^org_",
+          "type": "string"
+        },
+        "record_kind": {
+          "const": "organization_identity_projection"
+        },
+        "semantic_authority": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "record_kind",
+        "organization_id",
+        "canonical_entity_kind",
+        "identity_status",
+        "authoritative_identifiers",
+        "family_refs",
+        "semantic_authority",
+        "completion_claim"
+      ],
+      "type": "object"
+    },
+    "organizationIdentityGap": {
+      "properties": {
+        "completion_claim": {
+          "$ref": "#/$defs/nonCompletion"
+        },
+        "gap_id": {
+          "pattern": "^identity-gap\\.org_",
+          "type": "string"
+        },
+        "inference_prohibitions": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 4,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "organization_id": {
+          "pattern": "^org_",
+          "type": "string"
+        },
+        "record_kind": {
+          "const": "organization_identity_gap"
+        },
+        "required_reviews": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 6,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "status": {
+          "const": "OPEN_EXPLICIT_DEBT"
+        }
+      },
+      "required": [
+        "record_kind",
+        "gap_id",
+        "organization_id",
+        "status",
+        "required_reviews",
+        "inference_prohibitions",
+        "completion_claim"
+      ],
+      "type": "object"
+    },
+    "researchFamilyClaim": {
+      "properties": {
+        "claim_id": {
+          "pattern": "^claim\\.research\\.",
+          "type": "string"
+        },
+        "claim_state": {
+          "const": "PROPOSED_UNRATIFIED"
+        },
+        "completion_claim": {
+          "$ref": "#/$defs/nonCompletion"
+        },
+        "evidence_locator": {
+          "$ref": "#/$defs/locator"
+        },
+        "executed_acceptance": {
+          "const": false,
+          "type": "boolean"
+        },
+        "family_id": {
+          "pattern": "^hpf_",
+          "type": "string"
+        },
+        "implementation_qualification": {
+          "const": false,
+          "type": "boolean"
+        },
+        "record_kind": {
+          "const": "research_reference_family_claim"
+        },
+        "reference_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "role_assignment": {
+          "$ref": "#/$defs/roleAssignment"
+        },
+        "semantic_authority": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "record_kind",
+        "claim_id",
+        "family_id",
+        "reference_id",
+        "role_assignment",
+        "evidence_locator",
+        "claim_state",
+        "semantic_authority",
+        "implementation_qualification",
+        "executed_acceptance",
+        "completion_claim"
+      ],
+      "type": "object"
+    },
+    "researchReferenceRole": {
+      "properties": {
+        "completion_claim": {
+          "$ref": "#/$defs/nonCompletion"
+        },
+        "evidence_locator": {
+          "$ref": "#/$defs/locator"
+        },
+        "family_refs": {
+          "items": {
+            "pattern": "^hpf_",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "record_kind": {
+          "const": "research_reference_role_projection"
+        },
+        "reference_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "role_state": {
+          "enum": [
+            "PROPOSED_UNRATIFIED",
+            "UNCLASSIFIED_EXPLICIT_DEBT"
+          ]
+        },
+        "roles": {
+          "$ref": "#/$defs/roles"
+        },
+        "semantic_authority": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "record_kind",
+        "reference_id",
+        "roles",
+        "role_state",
+        "family_refs",
+        "evidence_locator",
+        "semantic_authority",
+        "completion_claim"
+      ],
+      "type": "object"
+    },
+    "roleAssignment": {
+      "additionalProperties": false,
+      "properties": {
+        "decision_basis": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "role_state": {
+          "enum": [
+            "CONTROLLED_ADOPTION_ROLE",
+            "PROPOSED_UNRATIFIED",
+            "UNCLASSIFIED_EXPLICIT_DEBT",
+            "RATIFIED"
+          ]
+        },
+        "roles": {
+          "$ref": "#/$defs/roles"
+        }
+      },
+      "required": [
+        "roles",
+        "role_state",
+        "decision_basis"
+      ],
+      "type": "object"
+    },
+    "roles": {
+      "items": {
+        "enum": [
+          "foundational_theory",
+          "algorithm",
+          "architecture",
+          "standard",
+          "empirical_validation",
+          "human_factors",
+          "governance",
+          "product_boundary_evidence",
+          "adoption_evidence",
+          "implementation_reference",
+          "unclassified_research_evidence"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "$id": "https://shannon-insight.dev/schemas/horizontal-evidence-governance/2.0.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/researchReferenceRole"
+    },
+    {
+      "$ref": "#/$defs/researchFamilyClaim"
+    },
+    {
+      "$ref": "#/$defs/organizationFamilyClaim"
+    },
+    {
+      "$ref": "#/$defs/organizationIdentity"
+    },
+    {
+      "$ref": "#/$defs/organizationIdentityGap"
+    },
+    {
+      "$ref": "#/$defs/frontierRequirement"
+    }
+  ],
+  "title": "Horizontal evidence governance projections"
+}

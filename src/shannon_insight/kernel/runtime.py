@@ -19,7 +19,6 @@ from ..extract.git import extract_git_history
 from ..extract.syntax import extract_syntax
 from ..finders.catalog import run_finders
 from ..populate.authors import populate_authors
-from ..populate.clones import populate_clones
 from ..populate.cochange import populate_cochange
 from ..populate.combined import populate_combined
 from ..populate.imports import populate_imports

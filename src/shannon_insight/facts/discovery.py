@@ -54,7 +54,8 @@ def discover(root: str | Path, config: DiscoveryConfig | None = None) -> Iterato
         if gi.exists():
             try:
                 lines += [
-                    ln for ln in gi.read_text(encoding="utf-8", errors="replace").splitlines()
+                    ln
+                    for ln in gi.read_text(encoding="utf-8", errors="replace").splitlines()
                     if ln.strip() and not ln.lstrip().startswith("#")
                 ]
             except OSError:
@@ -105,7 +106,9 @@ def discover(root: str | Path, config: DiscoveryConfig | None = None) -> Iterato
             if _is_excluded(spec, rel):
                 continue
             for ndir, nspec in nested_specs.items():
-                if rel.startswith(ndir.relative_to(root_path).as_posix() + "/") and nspec.match_file(rel):
+                if rel.startswith(
+                    ndir.relative_to(root_path).as_posix() + "/"
+                ) and nspec.match_file(rel):
                     skip_nested = True
                     break
             else:

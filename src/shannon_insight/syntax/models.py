@@ -146,7 +146,6 @@ class FileSyntax:
         """Reference/usage count for a bound name — Phase-B binding fuel."""
         return sum(1 for n, _ in self.occurrences if n == name)
 
-
     @property
     def function_count(self) -> int:
         return len(self.functions)

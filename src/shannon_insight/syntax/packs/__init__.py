@@ -90,7 +90,13 @@ def python_imports(node: object, text_of: Callable[[object], str]) -> list[Impor
                 if ch.type == "aliased_import":  # type: ignore[attr-defined]
                     raw = text_of(ch)
                     module, _, alias = raw.partition(" as ")
-                    out.append(ImportDecl(module=module.strip(), alias=alias.strip() or None, line=n.start_point[0] + 1))  # type: ignore[attr-defined]
+                    out.append(
+                        ImportDecl(
+                            module=module.strip(),
+                            alias=alias.strip() or None,
+                            line=n.start_point[0] + 1,
+                        )
+                    )  # type: ignore[attr-defined]
                 elif ch.type == "dotted_name":  # type: ignore[attr-defined]
                     out.append(ImportDecl(module=text_of(ch), line=n.start_point[0] + 1))  # type: ignore[attr-defined]
         elif t == "import_from_statement":
@@ -114,7 +120,13 @@ def python_imports(node: object, text_of: Callable[[object], str]) -> list[Impor
                     else:
                         names.append(txt)
             out.append(
-                ImportDecl(module=module, names=tuple(names), alias=alias, level=level, line=n.start_point[0] + 1)  # type: ignore[attr-defined]
+                ImportDecl(
+                    module=module,
+                    names=tuple(names),
+                    alias=alias,
+                    level=level,
+                    line=n.start_point[0] + 1,
+                )  # type: ignore[attr-defined]
             )
         else:
             stack.extend(n.named_children)  # type: ignore[attr-defined]
@@ -162,7 +174,9 @@ def js_ts_imports(node: object, text_of: Callable[[object], str]) -> list[Import
                     elif st == "named_imports":
                         for spec in sub.named_children:  # type: ignore[attr-defined]
                             raw = text_of(spec)
-                            names.append(raw.split(" as ")[0].replace("{", "").replace("}", "").strip())
+                            names.append(
+                                raw.split(" as ")[0].replace("{", "").replace("}", "").strip()
+                            )
             out.append(
                 ImportDecl(
                     module=_strip_quotes(text_of(src)),
@@ -185,13 +199,17 @@ def js_ts_imports(node: object, text_of: Callable[[object], str]) -> list[Import
             elif callee == "import":
                 out.append(
                     ImportDecl(
-                        module=_strip_quotes(text_of(first)), line=n.start_point[0] + 1, is_dynamic=True
+                        module=_strip_quotes(text_of(first)),
+                        line=n.start_point[0] + 1,
+                        is_dynamic=True,
                     )
                 )
         elif t == "export_statement":
             src = n.child_by_field_name("source")  # type: ignore[attr-defined]
             if src is not None:
-                out.append(ImportDecl(module=_strip_quotes(text_of(src)), line=n.start_point[0] + 1))  # type: ignore[attr-defined]
+                out.append(
+                    ImportDecl(module=_strip_quotes(text_of(src)), line=n.start_point[0] + 1)
+                )  # type: ignore[attr-defined]
         stack.extend(n.named_children)  # type: ignore[attr-defined]
     return out
 
@@ -216,7 +234,12 @@ def rust_imports(node: object, text_of: Callable[[object], str]) -> list[ImportD
         t = n.type  # type: ignore[attr-defined]
         if t == "use_declaration":  # type: ignore[attr-defined]
             arg = n.named_children[0] if n.named_child_count > 0 else None  # type: ignore[attr-defined]
-            raw = text_of(arg if arg is not None else n).removeprefix("use ").removesuffix(";").strip()
+            raw = (
+                text_of(arg if arg is not None else n)
+                .removeprefix("use ")
+                .removesuffix(";")
+                .strip()
+            )
             flattened = raw.replace("{", "").replace("}", "")
             for part in (p.strip().lstrip(":") for p in flattened.split(",")):
                 if part:
@@ -263,7 +286,7 @@ def c_imports(node: object, text_of: Callable[[object], str]) -> list[ImportDecl
                 system = token.startswith("<")
                 out.append(
                     ImportDecl(
-                        module=token.strip("<>\""),
+                        module=token.strip('<>"'),
                         is_system=system,
                         line=n.start_point[0] + 1,  # type: ignore[attr-defined]
                     )
@@ -274,17 +297,32 @@ def c_imports(node: object, text_of: Callable[[object], str]) -> list[ImportDecl
 
 _PY_CONTROLS = frozenset(
     {
-        "if_statement", "for_statement", "while_statement", "try_statement",
-        "with_statement", "elif_clause", "except_clause", "match_statement",
-        "case_clause", "conditional_expression", "boolean_operator",
+        "if_statement",
+        "for_statement",
+        "while_statement",
+        "try_statement",
+        "with_statement",
+        "elif_clause",
+        "except_clause",
+        "match_statement",
+        "case_clause",
+        "conditional_expression",
+        "boolean_operator",
     }
 )
 
 _JS_CONTROLS = frozenset(
     {
-        "if_statement", "for_statement", "for_in_statement", "while_statement",
-        "do_statement", "switch_statement", "switch_case", "try_statement",
-        "catch_clause", "ternary_expression",
+        "if_statement",
+        "for_statement",
+        "for_in_statement",
+        "while_statement",
+        "do_statement",
+        "switch_statement",
+        "switch_case",
+        "try_statement",
+        "catch_clause",
+        "ternary_expression",
     }
 )
 
@@ -313,8 +351,12 @@ GO = PackSpec(
     call_types=frozenset({"call_expression"}),
     control_types=frozenset(
         {
-            "if_statement", "for_statement", "switch_statement",
-            "type_switch_statement", "select_statement", "case_clause",
+            "if_statement",
+            "for_statement",
+            "switch_statement",
+            "type_switch_statement",
+            "select_statement",
+            "case_clause",
             "communication_clause",
         }
     ),
@@ -373,9 +415,16 @@ JAVA = PackSpec(
     call_types=frozenset({"method_invocation"}),
     control_types=frozenset(
         {
-            "if_statement", "for_statement", "enhanced_for_statement", "while_statement",
-            "do_statement", "switch_statement", "switch_case", "try_statement",
-            "catch_clause", "ternary_expression",
+            "if_statement",
+            "for_statement",
+            "enhanced_for_statement",
+            "while_statement",
+            "do_statement",
+            "switch_statement",
+            "switch_case",
+            "try_statement",
+            "catch_clause",
+            "ternary_expression",
         }
     ),
     import_extractor=java_imports,
@@ -394,8 +443,14 @@ RUST = PackSpec(
     call_types=frozenset({"call_expression"}),
     control_types=frozenset(
         {
-            "if_expression", "if_let_expression", "match_expression", "match_arm",
-            "for_expression", "while_expression", "while_let_expression", "loop_expression",
+            "if_expression",
+            "if_let_expression",
+            "match_expression",
+            "match_arm",
+            "for_expression",
+            "while_expression",
+            "while_let_expression",
+            "loop_expression",
         }
     ),
     import_extractor=rust_imports,
@@ -426,7 +481,14 @@ C = PackSpec(
     class_types=frozenset(),
     call_types=frozenset({"call_expression"}),
     control_types=frozenset(
-        {"if_statement", "for_statement", "while_statement", "do_statement", "switch_statement", "case_statement"}
+        {
+            "if_statement",
+            "for_statement",
+            "while_statement",
+            "do_statement",
+            "switch_statement",
+            "case_statement",
+        }
     ),
     import_extractor=c_imports,
     fallback_module="tree_sitter_c",
@@ -445,8 +507,7 @@ CPP = PackSpec(
 )
 
 PACKS_BY_LANGUAGE: dict[str, PackSpec] = {
-    p.name: p
-    for p in (PYTHON, GO, JAVASCRIPT, TYPESCRIPT, TSX, JAVA, RUST, RUBY, C, CPP)
+    p.name: p for p in (PYTHON, GO, JAVASCRIPT, TYPESCRIPT, TSX, JAVA, RUST, RUBY, C, CPP)
 }
 
 _PACKS_BY_EXTENSION: dict[str, PackSpec] = {}
@@ -477,7 +538,18 @@ def detect_language(path: str) -> str | None:
 
 
 __all__ = [
-    "CPP", "C", "GO", "JAVA", "JAVASCRIPT", "PYTHON", "RUBY", "RUST",
-    "TYPESCRIPT", "TSX", "PackSpec", "detect_language", "pack_for_extension",
+    "CPP",
+    "C",
+    "GO",
+    "JAVA",
+    "JAVASCRIPT",
+    "PYTHON",
+    "RUBY",
+    "RUST",
+    "TYPESCRIPT",
+    "TSX",
+    "PackSpec",
+    "detect_language",
+    "pack_for_extension",
     "pack_for_language",
 ]

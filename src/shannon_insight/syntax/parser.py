@@ -147,7 +147,9 @@ class Walker:
         self.comments = (
             []
             if self.is_generated
-            else [self.content[s:e].decode("utf-8", "replace").strip() for s, e in comment_spans[:200]]
+            else [
+                self.content[s:e].decode("utf-8", "replace").strip() for s, e in comment_spans[:200]
+            ]
         )
 
         self._builders: list[_FnBuilder] = []
@@ -238,8 +240,12 @@ class Walker:
             return self.text(left)
         for ch in node.named_children:  # type: ignore[attr-defined]
             t = ch.type  # type: ignore[attr-defined]
-            if t in ("identifier", "property_identifier", "field_identifier",
-                     "shorthand_property_identifier"):
+            if t in (
+                "identifier",
+                "property_identifier",
+                "field_identifier",
+                "shorthand_property_identifier",
+            ):
                 return self.text(ch)
             if t == "variable_declarator":
                 inner = ch.child_by_field_name("name")  # type: ignore[attr-defined]
@@ -259,7 +265,9 @@ class Walker:
             for tok in ch.named_children:  # type: ignore[attr-defined]
                 txt = self.text(tok).split(" as ")[0].strip("{} \n,")
                 if txt and txt != ",":
-                    self.exports.append(ExportDecl(name=txt.split(",")[0].strip(), kind="symbol", line=line))
+                    self.exports.append(
+                        ExportDecl(name=txt.split(",")[0].strip(), kind="symbol", line=line)
+                    )
 
     def _visit_function(self, node: object, in_export: bool) -> None:
         name_node = node.child_by_field_name("name")  # type: ignore[attr-defined]
@@ -310,7 +318,7 @@ class Walker:
 
         self._builders.append(builder)
         fn_children = node.children  # type: ignore[attr-defined]
-        builder.is_async = any(getattr(ch, 'type', '') == 'async' for ch in fn_children)
+        builder.is_async = any(getattr(ch, "type", "") == "async" for ch in fn_children)
         for ch in fn_children:
             self._visit(ch, 0, in_export)
         self._finish_function(builder)
@@ -329,8 +337,13 @@ class Walker:
             target = named or pattern
             if target is not None:
                 out.append(_clean_param(Walker._static_text(target)))
-            elif t in ("identifier", "shorthand_property_identifier", "pattern_identifier",
-                       "required_parameter", "optional_parameter"):
+            elif t in (
+                "identifier",
+                "shorthand_property_identifier",
+                "pattern_identifier",
+                "required_parameter",
+                "optional_parameter",
+            ):
                 out.append(_clean_param(Walker._static_text(ch)))
             elif t.endswith("parameter") and t != "formal_parameters":
                 head = _clean_param(Walker._static_text(ch).split(":")[0])
@@ -379,7 +392,8 @@ class Walker:
             FunctionDef(
                 name=name,
                 params=tuple(
-                    p for p in b.params
+                    p
+                    for p in b.params
                     if p and not (b.is_method and p in ("self", "cls") and p == b.params[0])
                 ),
                 start_line=b.start_line,
@@ -425,12 +439,16 @@ class Walker:
             depth += 1
         return None
 
-    def _visit_class(self, node: object, control_depth: int, is_interface: bool, in_export: bool) -> None:
+    def _visit_class(
+        self, node: object, control_depth: int, is_interface: bool, in_export: bool
+    ) -> None:
         name_node = node.child_by_field_name("name")  # type: ignore[attr-defined]
         bases: list[str] = []
 
-        sup = (node.child_by_field_name("superclass")  # type: ignore[attr-defined]
-               or node.child_by_field_name("superclasses"))  # type: ignore[attr-defined]
+        sup = (
+            node.child_by_field_name("superclass")  # type: ignore[attr-defined]
+            or node.child_by_field_name("superclasses")
+        )  # type: ignore[attr-defined]
         if sup is not None:
             targets = sup.named_children if sup.named_child_count > 0 else [sup]  # type: ignore[attr-defined]
             bases.extend(self.text(t) for t in targets)
@@ -458,7 +476,7 @@ class Walker:
             b = b.strip()
             for kw in ("extends ", "implements ", ": "):
                 if b.startswith(kw):
-                    b = b[len(kw):].strip()
+                    b = b[len(kw) :].strip()
             if b:
                 cleaned_bases.append(b)
 
@@ -473,7 +491,8 @@ class Walker:
             is_interface=is_interface,
             exported=in_export,
             abstract_keyword=any(
-                getattr(ch, "type", "") == "abstract" for ch in node.children  # type: ignore[attr-defined]
+                getattr(ch, "type", "") == "abstract"
+                for ch in node.children  # type: ignore[attr-defined]
             ),
         )
         self.classes.append(cls)
@@ -491,7 +510,9 @@ class Walker:
             seen[(imp.module, imp.level, imp.line, imp.is_dynamic)] = imp
         return tuple(seen.values())
 
-    def build_exports(self, functions: list[FunctionDef], classes: list[_ClsBuilder]) -> tuple[ExportDecl, ...]:
+    def build_exports(
+        self, functions: list[FunctionDef], classes: list[_ClsBuilder]
+    ) -> tuple[ExportDecl, ...]:
         out: list[ExportDecl] = []
         seen: set[tuple[str, str]] = set()
 
@@ -503,7 +524,11 @@ class Walker:
 
         for f in functions:
             if f.exported:
-                add(f.qualified_name or f.name, "method" if f.is_method else "function", f.start_line)
+                add(
+                    f.qualified_name or f.name,
+                    "method" if f.is_method else "function",
+                    f.start_line,
+                )
         for c in classes:
             if c.exported or c.abstract_keyword:
                 add(c.name, "interface" if c.is_interface else "class", c.start_line)

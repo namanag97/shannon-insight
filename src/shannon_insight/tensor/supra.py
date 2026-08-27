@@ -76,9 +76,7 @@ def build_supra_adjacency(
     n_layers = len(layers)
 
     supra_n = n_layers * n
-    blocks: list[list[sparse.csr_matrix | None]] = [
-        [None] * n_layers for _ in range(n_layers)
-    ]
+    blocks: list[list[sparse.csr_matrix | None]] = [[None] * n_layers for _ in range(n_layers)]
 
     identity = sparse.eye(n, dtype=np.float32, format="csr")
     omega_identity = omega * identity
@@ -157,8 +155,8 @@ def supra_spectral_analysis(
         layer_participation = {}
         for i, r in enumerate(layers):
             segment = fiedler_vec[i * n : (i + 1) * n]
-            energy = float(np.sum(segment ** 2))
-            total_energy = float(np.sum(fiedler_vec ** 2)) or 1.0
+            energy = float(np.sum(segment**2))
+            total_energy = float(np.sum(fiedler_vec**2)) or 1.0
             name = RELATION_NAMES[r] if r < len(RELATION_NAMES) else f"LAYER_{r}"
             layer_participation[name] = energy / total_energy
 

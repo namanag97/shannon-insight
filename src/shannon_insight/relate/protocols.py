@@ -30,17 +30,17 @@ class Confidence(str, Enum):
 
 
 class BindMethod(str, Enum):
-    EXACT_FILE = "EXACT_FILE"            # specifier mapped 1:1 onto indexed file
-    INDEX_PACKAGE = "INDEX_PACKAGE"      # dir import → __init__/index/mod file
-    ANCESTOR_WALK = "ANCESTOR_WALK"      # search-root iteration won
-    PREFIX_STRIP = "PREFIX_STRIP"        # progressive prefix stripping won
-    ALIAS_MAP = "ALIAS_MAP"              # tsconfig paths / package exports
-    WORKSPACE_PKG = "WORKSPACE_PKG"      # monorepo workspace member name
-    GO_PACKAGE_DIR = "GO_PACKAGE_DIR"    # import binds every file of a package dir
+    EXACT_FILE = "EXACT_FILE"  # specifier mapped 1:1 onto indexed file
+    INDEX_PACKAGE = "INDEX_PACKAGE"  # dir import → __init__/index/mod file
+    ANCESTOR_WALK = "ANCESTOR_WALK"  # search-root iteration won
+    PREFIX_STRIP = "PREFIX_STRIP"  # progressive prefix stripping won
+    ALIAS_MAP = "ALIAS_MAP"  # tsconfig paths / package exports
+    WORKSPACE_PKG = "WORKSPACE_PKG"  # monorepo workspace member name
+    GO_PACKAGE_DIR = "GO_PACKAGE_DIR"  # import binds every file of a package dir
     JAVA_WILDCARD_DIR = "JAVA_WILDCARD_DIR"
-    CASE_FOLD = "CASE_FOLD"              # case-insensitive rescue (portability smell)
-    REEXPORT_HOP = "REEXPORT_HOP"        # barrel file passthrough (1 hop max)
-    NONCODE_ASSET = "NONCODE_ASSET"      # bound to a known non-language file
+    CASE_FOLD = "CASE_FOLD"  # case-insensitive rescue (portability smell)
+    REEXPORT_HOP = "REEXPORT_HOP"  # barrel file passthrough (1 hop max)
+    NONCODE_ASSET = "NONCODE_ASSET"  # bound to a known non-language file
 
 
 #: ladder position — lower is stronger; consumers gate on this integer rank

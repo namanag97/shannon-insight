@@ -2,7 +2,11 @@
 
 import sqlite3
 
-from shannon_insight.facts.git_extractor import canonicalize_authors, classify_intent, extract_git_facts
+from shannon_insight.facts.git_extractor import (
+    canonicalize_authors,
+    classify_intent,
+    extract_git_facts,
+)
 from shannon_insight.facts.identity import FileChange, FileIdentityResolver
 from shannon_insight.facts.models import ChangeType
 
@@ -27,7 +31,9 @@ class TestGitExtractor:
 
     def test_additions_deletions_attached(self, git_repo):
         _, changes = extract_git_facts(git_repo)
-        modified = [c for c in changes if c.change_type is ChangeType.MODIFIED and c.new_path == "a.py"]
+        modified = [
+            c for c in changes if c.change_type is ChangeType.MODIFIED and c.new_path == "a.py"
+        ]
         assert modified and modified[0].additions is not None
 
     def test_bot_author_present(self, git_repo):
@@ -45,8 +51,12 @@ class TestIdentityChain:
                 resolver.process_change(
                     commit.commit_hash,
                     commit.timestamp,
-                    FileChange(commit.commit_hash, chg.new_path or chg.old_path or "",
-                               chg.change_type, old_path=chg.old_path),
+                    FileChange(
+                        commit.commit_hash,
+                        chg.new_path or chg.old_path or "",
+                        chg.change_type,
+                        old_path=chg.old_path,
+                    ),
                 )
         resolver.commit()
         return resolver
@@ -65,26 +75,43 @@ class TestIdentityChain:
 
     def test_readd_gets_new_identity(self, tmp_path):
         import subprocess
+
         root = tmp_path / "readd"
         root.mkdir()
-        env = {"GIT_AUTHOR_NAME": "A", "GIT_AUTHOR_EMAIL": "a@x.com",
-               "GIT_COMMITTER_NAME": "A", "GIT_COMMITTER_EMAIL": "a@x.com", "HOME": str(tmp_path)}
+        env = {
+            "GIT_AUTHOR_NAME": "A",
+            "GIT_AUTHOR_EMAIL": "a@x.com",
+            "GIT_COMMITTER_NAME": "A",
+            "GIT_COMMITTER_EMAIL": "a@x.com",
+            "HOME": str(tmp_path),
+        }
+
         def g(*a):
             subprocess.run(["git", "-C", str(root), *a], capture_output=True, env=env, check=True)
+
         g("init", "-q")
         (root / "f.txt").write_text("v1")
-        g("add", "."); g("commit", "-qm", "add")
-        (root / "f.txt").unlink(); g("add", "-A"); g("commit", "-qm", "del")
+        g("add", ".")
+        g("commit", "-qm", "add")
+        (root / "f.txt").unlink()
+        g("add", "-A")
+        g("commit", "-qm", "del")
         (root / "f.txt").write_text("v2")
-        g("add", "."); g("commit", "-qm", "re-add")
+        g("add", ".")
+        g("commit", "-qm", "re-add")
 
         commits, changes = extract_git_facts(root)
         conn = sqlite3.connect(":memory:")
         r = FileIdentityResolver(conn)
         for c in commits:
             for chg in (x for x in changes if x.commit_hash == c.commit_hash):
-                r.process_change(c.commit_hash, c.timestamp,
-                                 FileChange(c.commit_hash, chg.new_path or "", chg.change_type, old_path=chg.old_path))
+                r.process_change(
+                    c.commit_hash,
+                    c.timestamp,
+                    FileChange(
+                        c.commit_hash, chg.new_path or "", chg.change_type, old_path=chg.old_path
+                    ),
+                )
         stats = r.stats()
         assert stats["total_identities"] == 2  # original + re-add
 
@@ -92,6 +119,7 @@ class TestIdentityChain:
 class TestAuthors:
     def test_gmail_normalization_merges(self):
         from shannon_insight.facts.authors import AuthorResolver
+
         r = AuthorResolver()
         a = r.resolve("Alice", "a.b+x@gmail.com")
         b = r.resolve("Alice B", "ab@gmail.com")
@@ -99,6 +127,7 @@ class TestAuthors:
 
     def test_mailmap(self):
         from shannon_insight.facts.authors import AuthorResolver
+
         r = AuthorResolver()
         r.load_mailmap("Alice <alice@real.com> Ali <old@legacy.com>")
         a = r.resolve("Ali", "old@legacy.com")
@@ -106,6 +135,7 @@ class TestAuthors:
 
     def test_localpart_merge_across_domains(self):
         from shannon_insight.facts.authors import AuthorResolver
+
         r = AuthorResolver()
         a = r.resolve("Bob", "bob@corp.com")
         b = r.resolve("Bob", "bob@personal.io")
@@ -113,6 +143,7 @@ class TestAuthors:
 
     def test_bots_flagged_and_isolated(self):
         from shannon_insight.facts.authors import AuthorResolver, filter_human_authors
+
         r = AuthorResolver()
         records = [
             r.resolve("dependabot[bot]", "bot@github.com"),

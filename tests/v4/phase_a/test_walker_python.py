@@ -72,9 +72,9 @@ class TestUtilPy:
 
     def test_hard_stubs_flagged(self):
         todo = {f.name: f for f in self.s.functions}
-        assert todo["todo_a"].is_hard_stub is True       # pass
-        assert todo["todo_b"].is_hard_stub is False      # docstring-only, not marker
-        assert todo["todo_c"].is_hard_stub is True       # raise NotImplementedError
+        assert todo["todo_a"].is_hard_stub is True  # pass
+        assert todo["todo_b"].is_hard_stub is False  # docstring-only, not marker
+        assert todo["todo_c"].is_hard_stub is True  # raise NotImplementedError
         real = todo["real_work"]
         assert real.is_hard_stub is False
         assert real.has_docstring is False

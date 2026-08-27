@@ -57,14 +57,13 @@ class AuthorResolver:
     def load_mailmap(self, content: str) -> None:
         """Parse .mailmap format lines::
 
-            Proper Name <proper@email> <commit@email>
-            Proper Name <proper@email> Commit Name <commit@email>
+        Proper Name <proper@email> <commit@email>
+        Proper Name <proper@email> Commit Name <commit@email>
         """
         for line in content.splitlines():
             emails = re.findall(r"<([^>]+)>", line)
             if len(emails) == 2:
                 self._mailmap[self.normalize_email(emails[1])] = self.normalize_email(emails[0])
-
 
     @staticmethod
     def normalize_email(email: str) -> str:
@@ -100,12 +99,7 @@ class AuthorResolver:
         if email and email in self._by_email:
             return self._by_email[email]
         local = email.partition("@")[0]
-        if (
-            self.merge_same_localpart
-            and local
-            and "@" in email
-            and local in self._by_localpart
-        ):
+        if self.merge_same_localpart and local and "@" in email and local in self._by_localpart:
             canonical = self._by_localpart[local]
         elif email:
             canonical = email

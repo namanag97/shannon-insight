@@ -40,7 +40,7 @@ def build_pair_dynamics(
         for fid in ordered:
             marginals[fid] = marginals.get(fid, 0) + 1
         for i, a in enumerate(ordered):
-            for b in ordered[i + 1:]:
+            for b in ordered[i + 1 :]:
                 key = (a, b) if a < b else (b, a)
                 joint[key] = joint.get(key, 0) + 1
 
@@ -55,7 +55,9 @@ def build_pair_dynamics(
         lift = pab / (pa * pb)
         conf_a = co / max(marginals.get(a, 1), 1)
         conf_b = co / max(marginals.get(b, 1), 1)
-        out[(a, b)] = PairDynamics(lift=round(lift, 4), confidence=round(min(conf_a, conf_b), 4), co_commits=co)
+        out[(a, b)] = PairDynamics(
+            lift=round(lift, 4), confidence=round(min(conf_a, conf_b), 4), co_commits=co
+        )
     return out
 
 

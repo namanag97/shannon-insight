@@ -20,6 +20,7 @@ from shannon_insight.relate.pairs import (
     hidden_facts,
     unreachable_from_entry,
 )
+from shannon_insight.relate.projections import stamp_and_collect
 from shannon_insight.relate.protocols import (
     BindingRecord,
     EdgeRecord,
@@ -28,7 +29,6 @@ from shannon_insight.relate.protocols import (
     RelateMetrics,
     Verdict,
 )
-from shannon_insight.relate.projections import stamp_and_collect
 from shannon_insight.syntax.models import FileSyntax
 
 
@@ -180,7 +180,13 @@ class RelateService:
         }
 
         result.hidden_pairs = hidden_facts(
-            dynamics, edge_pairs, inputs.files, inputs.classes, inputs.rel_to_id, id_to_rel, cfg.thresholds
+            dynamics,
+            edge_pairs,
+            inputs.files,
+            inputs.classes,
+            inputs.rel_to_id,
+            id_to_rel,
+            cfg.thresholds,
         )
         result.dead_pairs = dead_facts(
             [(e.src_file_id, e.dst_file_id) for e in edges],
@@ -198,7 +204,9 @@ class RelateService:
         for e in edges:
             adjacency.setdefault(e.src_file_id, set()).add(e.dst_file_id)
         entries = _entry_ids(inputs.files, inputs.rel_to_id)
-        result.unreachable = unreachable_from_entry(entries, adjacency, set(inputs.rel_to_id.values()))
+        result.unreachable = unreachable_from_entry(
+            entries, adjacency, set(inputs.rel_to_id.values())
+        )
 
         return result
 

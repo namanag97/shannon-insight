@@ -57,14 +57,24 @@ class TestIntakeE2E:
     def test_generated_bundle_fast_path(self, tmp_path):
         root = tmp_path / "bundle"
         root.mkdir()
-        (root / "bundle.js").write_text("var x=1;" + ",".join(f"a{i}:{{v:{i}}}" for i in range(40_000)))
+        (root / "bundle.js").write_text(
+            "var x=1;" + ",".join(f"a{i}:{{v:{i}}}" for i in range(40_000))
+        )
         s = analyze_source("bundle.js", (root / "bundle.js").read_bytes())
         assert s.is_generated is True
         assert s.content_hash
 
 
-GOLDEN_KEYS = ("language", "lines", "function_count", "class_count",
-               "import_count", "stub_ratio", "impl_gini", "max_nesting")
+GOLDEN_KEYS = (
+    "language",
+    "lines",
+    "function_count",
+    "class_count",
+    "import_count",
+    "stub_ratio",
+    "impl_gini",
+    "max_nesting",
+)
 
 
 def _manifest() -> dict:
@@ -118,7 +128,7 @@ class TestGitignoreGuide:
         root = self._tree(tmp_path)
         rels = [p.relative_to(root).as_posix() for p in discover(root)]
         assert "src/generated/out.py" not in rels  # dir-pattern kills subtree
-        assert "src/gen_out.py" in rels            # name-similar file untouched
+        assert "src/gen_out.py" in rels  # name-similar file untouched
         assert "src/keep.py" in rels
 
     def test_respect_flag_off_restores(self, tmp_path):

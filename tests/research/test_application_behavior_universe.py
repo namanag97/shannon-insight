@@ -40,5 +40,12 @@ def test_application_behavior_has_one_open_gap_for_each_unresolved_promotion_cla
         if line.strip()
     ]
     categories = {gap["category"] for gap in gaps}
-    assert {"semantic_ownership", "implementation", "portability", "vertical", "authority", "coverage"} <= categories
+    assert {
+        "semantic_ownership",
+        "implementation",
+        "portability",
+        "vertical",
+        "authority",
+        "coverage",
+    } <= categories
     assert all(gap["status"] == "OPEN" and gap["completion_claim"] is False for gap in gaps)

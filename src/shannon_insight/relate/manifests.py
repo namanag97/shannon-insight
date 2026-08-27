@@ -23,7 +23,7 @@ from pathlib import Path
 class ManifestFacts:
     declared: dict[str, frozenset[str]] = field(default_factory=dict)  # ecosystem -> names
     workspaces: dict[str, str] = field(default_factory=dict)  # pkg name -> dir posix
-    ws_kind: dict[str, str] = field(default_factory=dict)     # pkg name -> npm|cargo
+    ws_kind: dict[str, str] = field(default_factory=dict)  # pkg name -> npm|cargo
     tsconfig_paths: dict[str, tuple[str, ...]] = field(default_factory=dict)
     go_module: str | None = None
     go_modules: dict[str, str] = field(default_factory=dict)  # module path -> root dir posix
@@ -32,9 +32,20 @@ class ManifestFacts:
 
 _MANIFEST_SKIP_DIRS = frozenset(
     {
-        ".git", ".venv", "venv", "node_modules", "__pycache__", ".tox",
-        ".mypy_cache", ".pytest_cache", ".shannon", "dist", "build", "target",
-        "site-packages", "bower_components",
+        ".git",
+        ".venv",
+        "venv",
+        "node_modules",
+        "__pycache__",
+        ".tox",
+        ".mypy_cache",
+        ".pytest_cache",
+        ".shannon",
+        "dist",
+        "build",
+        "target",
+        "site-packages",
+        "bower_components",
     }
 )
 
@@ -52,7 +63,11 @@ def _manifest_rel_dirs(root: Path, max_depth: int = 3) -> list[str]:
             except OSError:
                 continue
             for child in children:
-                if not child.is_dir() or child.name.startswith(".") or child.name in _MANIFEST_SKIP_DIRS:
+                if (
+                    not child.is_dir()
+                    or child.name.startswith(".")
+                    or child.name in _MANIFEST_SKIP_DIRS
+                ):
                     continue
                 nxt.append(f"{d}/{child.name}" if d else child.name)
         out.extend(nxt)
@@ -261,7 +276,7 @@ def _read_pyproject(root: Path, mf: ManifestFacts, rel_dir: str = "") -> None:
             continue
         if stripped.startswith("name"):
             _, _, val = stripped.partition("=")
-            name = val.strip().strip('"\'')
+            name = val.strip().strip("\"'")
             if name:
                 mf.self_names = mf.self_names | {name}
         elif stripped.startswith("dependencies"):

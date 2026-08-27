@@ -5,8 +5,8 @@
   "generated_sha256": {
     "dependency-boundary-findings.jsonl": "27d5f0e76209b3ea2124a5bc04c35ede7125693271847c647494b16869658310",
     "implementation-crosswalk.jsonl": "226dd8f177fa1825d872520f2f71b0e9f0d1f29140c1b106a96f13c60bff7561",
-    "module-allocation.jsonl": "5704b56b6786ee29d03480b49a11c3d722217258ad0a9f6ffa01eb38f590da34",
-    "summary.json": "4f37d13d1a174b0ce7f88ce92891afcf890d8717b18d84bc445ffc1948b450a8"
+    "module-allocation.jsonl": "2054fa0f69efab65fabad0f00f0e55dd8fe970d98fc1cd59a1ae5791ee59faaa",
+    "summary.json": "ff44cf310db13e71e1bb949e25bbc5a7eebf6385fadfeeec443e7f15dc57ff1d"
   },
   "input_sha256": {
     "application-boundary.json": "065afa736148872f4d93de4145dbe7cab6e71995a9be028df89ddae124e3a94a",
@@ -17,5 +17,5 @@
   },
   "manifest_id": "python_implementation_product_fit",
   "schema_version": "1.0.0",
-  "source_tree_sha256": "3b97154d127cd881ac7260c52bb0c63cacfdb30724fc83b43ec95a89b58127e0"
+  "source_tree_sha256": "6ccd02f712364766b1166410f5796ac3bdd664bc2356c78a7076c526d6e534e6"
 }

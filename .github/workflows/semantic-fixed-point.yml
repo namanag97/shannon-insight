@@ -32,7 +32,7 @@ jobs:
 
       - name: Persist generated projection
         run: |
-          if git diff --quiet -- research/product_ontology/semantic_fixed_point_campaign/generated; then
+          if [ -z "$(git status --porcelain -- research/product_ontology/semantic_fixed_point_campaign/generated)" ]; then
             echo "Generated projection already current"
             exit 0
           fi

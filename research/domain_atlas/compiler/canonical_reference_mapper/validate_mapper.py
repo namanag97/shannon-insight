@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -86,10 +87,44 @@ def main() -> int:
         "negatives": "negative-tests.jsonl",
     }
     data = {key: load_jsonl(ROOT / name) for key, name in files.items()}
+    authority_records = load_jsonl(builder.AUTHORITY_EVIDENCE_PATH)
     queue = load_jsonl(QUEUE_PATH)
     report = json.loads((ROOT / "coverage-report.json").read_text(encoding="utf-8"))
     report_jsonl = load_jsonl(ROOT / "coverage-report.jsonl")
     manifest = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
+
+    jsonschema = None
+    if args.schemas:
+        try:
+            import jsonschema as imported_jsonschema  # type: ignore
+            jsonschema = imported_jsonschema
+        except ImportError:
+            errors.append("--schemas requested but jsonschema is not installed")
+
+    # The authority ledger is an input, not a generated adjudication.  Keep its
+    # shape and provenance fail-closed even when optional jsonschema is absent.
+    authority_schema_path = ROOT / "schemas/authority-evidence.schema.json"
+    add_error(errors, authority_schema_path.exists(), "missing schema authority-evidence.schema.json")
+    authority_ids = [record.get("authority_id") for record in authority_records]
+    add_error(errors, all(isinstance(value, str) and value for value in authority_ids), "authority evidence has missing/invalid authority_id")
+    add_error(errors, not duplicate_values(authority_records, "authority_id"), "authority evidence has duplicate authority IDs")
+    allowed_authority_kinds = {"official_method_body", "official_product_documentation", "primary_research_paper"}
+    for index, record in enumerate(authority_records, 1):
+        label = f"authority-evidence.jsonl:{index}"
+        add_error(errors, record.get("record_kind") == "canonical_reference_authority_evidence", f"{label}: invalid record_kind")
+        add_error(errors, record.get("source_kind") in allowed_authority_kinds, f"{label}: invalid source_kind")
+        add_error(errors, record.get("status") == "verified_primary_evidence", f"{label}: authority evidence must be verified_primary_evidence")
+        add_error(errors, bool(record.get("publisher_or_authors")), f"{label}: publisher_or_authors is empty")
+        add_error(errors, bool(record.get("supports")), f"{label}: supports is empty")
+        add_error(errors, bool(record.get("limitations")), f"{label}: limitations is empty")
+        add_error(errors, bool(re.match(r"^https?://", str(record.get("primary_url", "")))), f"{label}: primary_url is not http(s)")
+        add_error(errors, bool(re.match(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$", str(record.get("accessed_at", "")))), f"{label}: accessed_at is not YYYY-MM-DD")
+        if "publication_year" in record:
+            add_error(errors, isinstance(record["publication_year"], int), f"{label}: publication_year is not an integer")
+        if jsonschema and authority_schema_path.exists():
+            schema = json.loads(authority_schema_path.read_text(encoding="utf-8"))
+            for error in jsonschema.Draft202012Validator(schema).iter_errors(record):
+                errors.append(f"authority-evidence.jsonl:{index}: schema: {error.message}")
 
     # Basic identities and checked-in JSON Schemas.
     id_fields = {
@@ -107,13 +142,6 @@ def main() -> int:
         "collisions": "collision.schema.json", "triage": "triage-record.schema.json",
         "batches": "review-batch.schema.json", "negatives": "negative-test.schema.json",
     }
-    jsonschema = None
-    if args.schemas:
-        try:
-            import jsonschema as imported_jsonschema  # type: ignore
-            jsonschema = imported_jsonschema
-        except ImportError:
-            errors.append("--schemas requested but jsonschema is not installed")
     for key, records in data.items():
         duplicates = duplicate_values(records, id_fields[key])
         add_error(errors, not duplicates, f"{files[key]} duplicate {id_fields[key]} values: {duplicates[:10]}")
@@ -186,6 +214,7 @@ def main() -> int:
     mapping_by_id = {record["mapping_id"]: record for record in data["mappings"]}
     occurrence_ids = {record["occurrence_id"] for record in data["occurrences"]}
     definition_ids = {record["source_definition_id"] for record in data["definitions"]}
+    authority_by_id = {record.get("authority_id"): record for record in authority_records}
     allowed_confidence = {"high", "medium", "low"}
     for mapping in data["mappings"]:
         source = queue_by_id.get(mapping["queue_id"])
@@ -198,6 +227,13 @@ def main() -> int:
         add_error(errors, mapping["review_status"] == "manual_evidence_reviewed_independent_review_pending", f"{mapping['mapping_id']}: invalid review posture")
         add_error(errors, mapping["status"] == "proposed" and mapping["adjudicated"] is False, f"{mapping['mapping_id']}: proposal falsely adjudicated")
         add_error(errors, mapping["source_definition_ref"] in definition_ids, f"{mapping['mapping_id']}: missing source definition")
+        mapping_evidence = mapping.get("evidence", {})
+        authority_refs = mapping_evidence.get("authority_evidence_refs")
+        add_error(errors, isinstance(authority_refs, list), f"{mapping['mapping_id']}: authority evidence refs must be an array")
+        if isinstance(authority_refs, list):
+            add_error(errors, authority_refs == sorted(set(authority_refs)), f"{mapping['mapping_id']}: authority evidence refs must be sorted and unique")
+            for authority_ref in authority_refs:
+                add_error(errors, authority_ref in authority_by_id, f"{mapping['mapping_id']}: unknown authority evidence {authority_ref}")
         target_evidence = []
         for target_ref in mapping["target_refs"]:
             target = candidate_by_id.get(target_ref)
@@ -208,18 +244,28 @@ def main() -> int:
             target_evidence.extend(target["evidence_refs"])
         for occurrence_ref in mapping["evidence"]["source_occurrence_refs"]:
             add_error(errors, occurrence_ref in occurrence_ids, f"{mapping['mapping_id']}: missing evidence occurrence {occurrence_ref}")
-        evidence_present = bool(mapping["evidence"]["source_evidence_refs"] or mapping["evidence"]["target_evidence_refs"] or target_evidence)
+        evidence_present = bool(mapping["evidence"]["source_evidence_refs"] or mapping["evidence"]["target_evidence_refs"] or authority_refs or target_evidence)
         add_error(errors, evidence_present, f"{mapping['mapping_id']}: mapping has no source or target evidence")
 
     # Manual seeds are the only semantic proposal authority.
     seed_pairs = set()
+    seed_authority_refs = {}
     for seed in builder.load_manual_seeds():
         key = (seed["reference_domain"], seed["raw_ref"])
         matching = [item for item in queue if (item["reference_domain"], item["raw_ref"]) == key]
         if len(matching) == 1:
-            seed_pairs.add((matching[0]["queue_id"], tuple(seed["target_refs"])))
+            pair = (matching[0]["queue_id"], tuple(seed["target_refs"]))
+            seed_pairs.add(pair)
+            seed_authority_refs[pair] = sorted(set(seed.get("authority_evidence_refs", [])))
     output_pairs = {(row["queue_id"], tuple(row["target_refs"])) for row in data["mappings"]}
     add_error(errors, seed_pairs == output_pairs, "candidate mappings differ from checked-in manual seeds")
+    for mapping in data["mappings"]:
+        pair = (mapping["queue_id"], tuple(mapping["target_refs"]))
+        add_error(
+            errors,
+            mapping["evidence"].get("authority_evidence_refs") == seed_authority_refs.get(pair, []),
+            f"{mapping['mapping_id']}: authority evidence differs from checked-in manual seed",
+        )
 
     # Mechanical namespace results cannot carry semantic force.
     for alignment in data["alignments"]:
@@ -313,6 +359,14 @@ def main() -> int:
     add_error(errors, report["queue_items"] == len(queue) == len(data["triage"]), "coverage queue/triage count mismatch")
     add_error(errors, report["source_occurrences"] == len(data["occurrences"]), "coverage occurrence count mismatch")
     add_error(errors, report["manual_evidence_reviewed_proposals"] == len(data["mappings"]), "coverage proposal count mismatch")
+    expected_authority_ref_counts = dict(sorted(Counter(
+        ref for row in data["mappings"] for ref in row["evidence"].get("authority_evidence_refs", [])
+    ).items()))
+    add_error(errors, report["authority_evidence_records"] == len(authority_records), "coverage authority evidence count mismatch")
+    add_error(errors, report["mappings_with_authority_evidence"] == len({
+        row["mapping_id"] for row in data["mappings"] if row["evidence"].get("authority_evidence_refs")
+    }), "coverage mapped authority evidence count mismatch")
+    add_error(errors, report["authority_evidence_ref_counts"] == expected_authority_ref_counts, "coverage authority evidence reference counts mismatch")
     add_error(errors, report["adjudicated_status_count"] == 0, "coverage reports adjudicated records")
     add_error(errors, report["silent_rewrite_count"] == 0, "coverage reports silent rewrites")
     add_error(errors, report_jsonl == [report], "coverage JSON and JSONL differ")
@@ -326,6 +380,14 @@ def main() -> int:
     queue_sha = hashlib.sha256(QUEUE_PATH.read_bytes()).hexdigest()
     add_error(errors, manifest["input_queue_sha256"] == queue_sha == report["input_queue_sha256"], "input queue digest mismatch")
     add_error(errors, manifest["input_queue_records"] == len(queue), "manifest queue count mismatch")
+    authority_sha = hashlib.sha256(builder.AUTHORITY_EVIDENCE_PATH.read_bytes()).hexdigest()
+    seeds_sha = hashlib.sha256(builder.MANUAL_SEEDS_PATH.read_bytes()).hexdigest()
+    add_error(errors, manifest["input_manual_proposal_seeds"] == builder.MANUAL_SEEDS_PATH.relative_to(ATLAS).as_posix(), "manifest manual seed path mismatch")
+    add_error(errors, manifest["input_manual_proposal_seeds_sha256"] == seeds_sha, "manifest manual seed digest mismatch")
+    add_error(errors, manifest["input_manual_proposal_seed_count"] == len(builder.load_manual_seeds()), "manifest manual seed count mismatch")
+    add_error(errors, manifest["input_authority_evidence"] == builder.AUTHORITY_EVIDENCE_PATH.relative_to(ATLAS).as_posix(), "manifest authority evidence path mismatch")
+    add_error(errors, manifest["input_authority_evidence_sha256"] == authority_sha, "manifest authority evidence digest mismatch")
+    add_error(errors, manifest["input_authority_evidence_records"] == len(authority_records), "manifest authority evidence count mismatch")
     add_error(errors, manifest["adjudication_performed"] is False, "manifest claims adjudication")
     add_error(errors, manifest["llm_runtime_dependency"] == "none", "manifest has an LLM runtime dependency")
     for relative, receipt in manifest["artifacts"].items():

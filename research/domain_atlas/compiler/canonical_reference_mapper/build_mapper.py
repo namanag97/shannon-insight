@@ -24,6 +24,8 @@ ATLAS = ROOT.parent.parent
 INDUSTRIES = ATLAS / "industries"
 UNIVERSES = ATLAS / "universes"
 QUEUE_PATH = INDUSTRIES / "canonical-reference-review-queue.jsonl"
+AUTHORITY_EVIDENCE_PATH = ROOT / "authority-evidence.jsonl"
+MANUAL_SEEDS_PATH = ROOT / "manual-proposal-seeds.json"
 
 PACK_FOCUS = {
     "finance_insurance": "finance",
@@ -103,6 +105,20 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
                 raise ValueError(f"{path}:{line_number}: JSONL record is not an object")
             records.append(value)
     return records
+
+
+def load_authority_evidence() -> list[dict[str, Any]]:
+    """Load the checked-in primary/official evidence ledger used by proposals."""
+    records = load_jsonl(AUTHORITY_EVIDENCE_PATH)
+    seen: set[str] = set()
+    for record in records:
+        authority_id = record.get("authority_id")
+        if not isinstance(authority_id, str) or not authority_id:
+            raise ValueError("authority evidence requires a non-empty authority_id")
+        if authority_id in seen:
+            raise ValueError(f"duplicate authority evidence ID: {authority_id}")
+        seen.add(authority_id)
+    return sorted(records, key=lambda record: record["authority_id"])
 
 
 def jsonl_bytes(records: Iterable[dict[str, Any]]) -> bytes:
@@ -438,6 +454,7 @@ def candidate_mappings(
     occ_by_key = defaultdict(list)
     for occurrence in occurrences:
         occ_by_key[(occurrence["reference_domain"], occurrence["raw_ref"])].append(occurrence)
+    authority_by_id = {record["authority_id"]: record for record in load_authority_evidence()}
     result = []
     seen_sources: set[tuple[str, tuple[str, ...]]] = set()
     for seed in load_manual_seeds():
@@ -465,6 +482,13 @@ def candidate_mappings(
         source_rows = occ_by_key[key]
         source_evidence = source_definition["evidence_refs"]
         target_evidence = sorted({ref for target in targets for ref in target["evidence_refs"]})
+        authority_evidence_refs = sorted(set(seed.get("authority_evidence_refs", [])))
+        unknown_authority_refs = set(authority_evidence_refs) - set(authority_by_id)
+        if unknown_authority_refs:
+            raise ValueError(
+                f"manual seed references unknown authority evidence: {item['raw_ref']} -> "
+                f"{sorted(unknown_authority_refs)}"
+            )
         focus = {PACK_FOCUS[pack] for pack in item["origin_packs"]}
         if any("banking.ccr" in row["context"].get("subindustry_ids", []) for row in source_rows):
             focus.add("finance_ccr")
@@ -492,6 +516,7 @@ def candidate_mappings(
                 "source_occurrence_refs": [row["occurrence_id"] for row in source_rows],
                 "source_evidence_refs": source_evidence,
                 "target_evidence_refs": target_evidence,
+                "authority_evidence_refs": authority_evidence_refs,
                 "target_source_files": sorted({target["source_file"] for target in targets}),
                 "target_contract_sha256s": [target["semantic_contract_sha256"] for target in targets],
             },
@@ -717,6 +742,7 @@ def coverage_report(
     candidates: list[dict[str, Any]], census: list[dict[str, Any]], alignments: list[dict[str, Any]],
     aliases: list[dict[str, Any]], mappings: list[dict[str, Any]], missing: list[dict[str, Any]],
     collisions_rows: list[dict[str, Any]], triage: list[dict[str, Any]], batches: list[dict[str, Any]],
+    authority_records: list[dict[str, Any]],
 ) -> dict[str, Any]:
     by_domain: dict[str, Any] = {}
     for domain in sorted({item["reference_domain"] for item in queue}):
@@ -763,6 +789,13 @@ def coverage_report(
         "missing_concept_proposals": len(missing),
         "collision_homonym_records": len(collisions_rows),
         "review_batches": len(batches),
+        "authority_evidence_records": len(authority_records),
+        "mappings_with_authority_evidence": len({
+            row["mapping_id"] for row in mappings if row["evidence"].get("authority_evidence_refs")
+        }),
+        "authority_evidence_ref_counts": dict(sorted(Counter(
+            ref for row in mappings for ref in row["evidence"].get("authority_evidence_refs", [])
+        ).items())),
         "adjudicated_status_count": 0,
         "silent_rewrite_count": 0,
         "by_domain": by_domain,
@@ -788,6 +821,25 @@ def make_schema(title: str, required: list[str], properties: dict[str, Any] | No
 
 def schemas() -> dict[str, dict[str, Any]]:
     common_string = {"type": "string", "minLength": 1}
+    candidate_mapping_schema = make_schema(
+        "Semantic candidate mapping",
+        ["record_kind", "mapping_id", "queue_id", "reference_domain", "raw_ref", "target_refs", "proposed_relation", "rationale", "information_loss", "uncertainties", "evidence", "confidence", "review_status", "status", "adjudicated"],
+        properties={
+            "evidence": {
+                "type": "object",
+                "required": ["source_occurrence_refs", "source_evidence_refs", "target_evidence_refs", "authority_evidence_refs", "target_source_files", "target_contract_sha256s"],
+                "properties": {
+                    "source_occurrence_refs": {"type": "array", "items": common_string},
+                    "source_evidence_refs": {"type": "array", "items": common_string},
+                    "target_evidence_refs": {"type": "array", "items": common_string},
+                    "authority_evidence_refs": {"type": "array", "items": common_string},
+                    "target_source_files": {"type": "array", "items": common_string},
+                    "target_contract_sha256s": {"type": "array", "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+                },
+                "additionalProperties": True,
+            },
+        },
+    )
     return {
         "source-occurrence.schema.json": make_schema("Canonical-reference source occurrence", ["record_kind", "occurrence_id", "reference_domain", "raw_ref", "origin_pack", "source_record_id", "context"]),
         "source-definition.schema.json": make_schema("Canonical-reference source definition", ["record_kind", "source_definition_id", "queue_id", "reference_domain", "raw_ref", "occurrence_count", "definition_status"]),
@@ -795,7 +847,32 @@ def schemas() -> dict[str, dict[str, Any]]:
         "universe-id-census.schema.json": make_schema("Universe identifier census record", ["record_kind", "identifier", "declaration_seen", "declaration_files", "reference_files", "field_names", "occurrence_count"]),
         "alias-assertion.schema.json": make_schema("Declared alias or official crosswalk assertion", ["record_kind", "assertion_id", "assertion_kind", "status"]),
         "namespace-alignment.schema.json": make_schema("Mechanical namespace alignment", ["record_kind", "alignment_id", "queue_id", "raw_ref", "candidate_target_ref", "semantic_effect", "proves_equivalence"]),
-        "candidate-mapping.schema.json": make_schema("Semantic candidate mapping", ["record_kind", "mapping_id", "queue_id", "reference_domain", "raw_ref", "target_refs", "proposed_relation", "rationale", "information_loss", "uncertainties", "evidence", "confidence", "review_status", "status", "adjudicated"]),
+        "candidate-mapping.schema.json": candidate_mapping_schema,
+        "authority-evidence.schema.json": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "Canonical-reference authority evidence",
+            "type": "object",
+            "additionalProperties": False,
+            "required": [
+                "record_kind", "authority_id", "title", "publisher_or_authors", "source_kind",
+                "primary_url", "accessed_at", "authority_scope", "supports", "limitations", "status",
+            ],
+            "properties": {
+                "record_kind": {"const": "canonical_reference_authority_evidence"},
+                "authority_id": {"type": "string", "minLength": 1},
+                "title": {"type": "string", "minLength": 1},
+                "publisher_or_authors": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+                "source_kind": {"enum": ["official_method_body", "official_product_documentation", "primary_research_paper"]},
+                "primary_url": {"type": "string", "format": "uri", "minLength": 1},
+                "related_urls": {"type": "array", "items": {"type": "string", "format": "uri"}},
+                "publication_year": {"type": "integer", "minimum": 1900, "maximum": 2100},
+                "accessed_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+                "authority_scope": {"type": "string", "minLength": 1},
+                "supports": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+                "limitations": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+                "status": {"const": "verified_primary_evidence"},
+            },
+        },
         "missing-concept.schema.json": make_schema("Missing canonical concept proposal", ["record_kind", "proposal_id", "queue_id", "reference_domain", "raw_ref", "proposed_relation", "status", "adjudicated"]),
         "collision.schema.json": make_schema("Collision or homonym record", ["record_kind", "collision_id", "collision_kind", "reference_domain", "risk", "required_action", "status"]),
         "triage-record.schema.json": make_schema("Canonical-reference triage record", ["record_kind", "triage_id", "queue_id", "queue_record_sha256", "reference_domain", "raw_ref", "occurrence_count", "relation", "status", "adjudicated"]),
@@ -807,6 +884,7 @@ def schemas() -> dict[str, dict[str, Any]]:
 
 def build_outputs() -> dict[str, bytes]:
     queue = load_jsonl(QUEUE_PATH)
+    authority_records = load_authority_evidence()
     candidates = canonical_candidates()
     census = universe_id_census()
     occurrences = source_occurrences()
@@ -822,6 +900,7 @@ def build_outputs() -> dict[str, bytes]:
     coverage = coverage_report(
         queue, occurrences, definitions, candidates, census, alignments, aliases,
         mappings, missing, collision_rows, triage, batches,
+        authority_records,
     )
     artifacts: dict[str, bytes] = {
         "source-occurrences.jsonl": jsonl_bytes(occurrences),
@@ -852,6 +931,12 @@ def build_outputs() -> dict[str, bytes]:
         "input_queue": QUEUE_PATH.relative_to(ATLAS).as_posix(),
         "input_queue_sha256": hashlib.sha256(QUEUE_PATH.read_bytes()).hexdigest(),
         "input_queue_records": len(queue),
+        "input_manual_proposal_seeds": MANUAL_SEEDS_PATH.relative_to(ATLAS).as_posix(),
+        "input_manual_proposal_seeds_sha256": hashlib.sha256(MANUAL_SEEDS_PATH.read_bytes()).hexdigest(),
+        "input_manual_proposal_seed_count": len(load_manual_seeds()),
+        "input_authority_evidence": AUTHORITY_EVIDENCE_PATH.relative_to(ATLAS).as_posix(),
+        "input_authority_evidence_sha256": hashlib.sha256(AUTHORITY_EVIDENCE_PATH.read_bytes()).hexdigest(),
+        "input_authority_evidence_records": len(authority_records),
         "artifacts": manifest_artifacts,
         "adjudication_performed": False,
         "llm_runtime_dependency": "none",

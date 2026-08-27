@@ -1,7 +1,64 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": true,
-  "properties": {},
+  "properties": {
+    "evidence": {
+      "additionalProperties": true,
+      "properties": {
+        "authority_evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "source_evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "source_occurrence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "target_contract_sha256s": {
+          "items": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "target_evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "target_source_files": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "source_occurrence_refs",
+        "source_evidence_refs",
+        "target_evidence_refs",
+        "authority_evidence_refs",
+        "target_source_files",
+        "target_contract_sha256s"
+      ],
+      "type": "object"
+    }
+  },
   "required": [
     "record_kind",
     "mapping_id",

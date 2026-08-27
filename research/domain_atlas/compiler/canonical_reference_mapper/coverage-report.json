@@ -1,28 +1,36 @@
 {
   "adjudicated_status_count": 0,
   "alias_and_official_crosswalk_assertions": 5,
+  "authority_evidence_records": 5,
+  "authority_evidence_ref_counts": {
+    "authority.google.or_tools.constraint_optimization": 1,
+    "authority.google.or_tools.cp_sat": 1,
+    "authority.holme_saramaki.temporal_networks": 1,
+    "authority.ieee.process_mining_manifesto": 1,
+    "authority.pearl.causal_calculus": 1
+  },
   "blocking_posture": "All records remain candidates or open gaps pending independent review and adjudication outside this pass.",
   "by_confidence": {
-    "high": 23,
+    "high": 26,
     "low": 13,
-    "medium": 150
+    "medium": 151
   },
   "by_domain": {
     "analytical_practice": {
       "confidence_counts": {
-        "high": 12,
+        "high": 15,
         "low": 5,
-        "medium": 125
+        "medium": 126
       },
-      "manual_reviewed_proposals": 142,
+      "manual_reviewed_proposals": 146,
       "occurrences": 5009,
-      "open_triage_items": 1889,
+      "open_triage_items": 1885,
       "queue_items": 2031,
-      "queue_items_with_proposals": 142,
+      "queue_items_with_proposals": 146,
       "relation_counts": {
         "broader": 1,
-        "narrower": 113,
-        "overlap": 28
+        "narrower": 116,
+        "overlap": 29
       }
     },
     "industry_classification": {
@@ -75,10 +83,10 @@
   },
   "by_pack": {
     "built_food_environment": {
-      "manual_reviewed_proposals": 26,
+      "manual_reviewed_proposals": 28,
       "occurrences": 3317,
-      "open_queue_items": 619,
-      "queue_items_with_proposals": 26,
+      "open_queue_items": 617,
+      "queue_items_with_proposals": 28,
       "queue_memberships": 645
     },
     "commerce_services": {
@@ -103,10 +111,10 @@
       "queue_memberships": 124
     },
     "health_life_sciences": {
-      "manual_reviewed_proposals": 17,
+      "manual_reviewed_proposals": 19,
       "occurrences": 2640,
-      "open_queue_items": 150,
-      "queue_items_with_proposals": 17,
+      "open_queue_items": 148,
+      "queue_items_with_proposals": 19,
       "queue_memberships": 167
     },
     "manufacturing_industrial": {
@@ -117,54 +125,55 @@
       "queue_memberships": 908
     },
     "public_education": {
-      "manual_reviewed_proposals": 22,
+      "manual_reviewed_proposals": 24,
       "occurrences": 932,
-      "open_queue_items": 542,
-      "queue_items_with_proposals": 22,
+      "open_queue_items": 540,
+      "queue_items_with_proposals": 24,
       "queue_memberships": 564
     },
     "telecom_media_tech": {
-      "manual_reviewed_proposals": 34,
+      "manual_reviewed_proposals": 36,
       "occurrences": 1316,
-      "open_queue_items": 768,
-      "queue_items_with_proposals": 34,
+      "open_queue_items": 766,
+      "queue_items_with_proposals": 36,
       "queue_memberships": 802
     },
     "transport_logistics": {
-      "manual_reviewed_proposals": 36,
+      "manual_reviewed_proposals": 38,
       "occurrences": 1396,
-      "open_queue_items": 344,
-      "queue_items_with_proposals": 36,
+      "open_queue_items": 342,
+      "queue_items_with_proposals": 38,
       "queue_memberships": 380
     }
   },
   "by_relation": {
     "broader": 1,
-    "narrower": 133,
-    "overlap": 52
+    "narrower": 136,
+    "overlap": 53
   },
   "by_review_focus": {
-    "built_food_environment": 26,
+    "built_food_environment": 28,
     "commerce": 17,
     "energy": 26,
     "finance": 34,
     "finance_ccr": 32,
-    "healthcare": 17,
-    "logistics": 36,
+    "healthcare": 19,
+    "logistics": 38,
     "manufacturing": 21,
-    "public": 22,
-    "telecom_media_tech": 34
+    "public": 24,
+    "telecom_media_tech": 36
   },
   "canonical_candidates": 3814,
   "collision_homonym_records": 445,
   "completion_claim": false,
   "edition": 1,
   "input_queue_sha256": "ea9f0a4842ec04188f4f9c06e08df6d08302b0da3991a21c3588952fbd0fdba6",
-  "manual_evidence_reviewed_proposals": 186,
+  "manual_evidence_reviewed_proposals": 190,
+  "mappings_with_authority_evidence": 4,
   "mechanical_namespace_alignments": 146,
   "missing_concept_proposals": 412,
   "queue_items": 4169,
-  "queue_items_with_semantic_proposals": 186,
+  "queue_items_with_semantic_proposals": 190,
   "record_kind": "canonical_reference_coverage_report",
   "report_id": "canonical-reference-mapper.coverage.edition1",
   "review_batches": 68,
@@ -173,6 +182,6 @@
   "source_occurrences": 20176,
   "status": "triage_complete_adjudication_open",
   "triage_records": 4169,
-  "universe_id_census_records": 42064,
+  "universe_id_census_records": 42316,
   "unresolved_first_class_triage_items": 4169
 }

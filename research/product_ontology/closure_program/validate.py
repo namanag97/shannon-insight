@@ -29,6 +29,8 @@ assert closure_summary["canonical_gaps_closed"] == 0
 for script in (
     HERE / "validate_master_frontier.py",
     ROOT / "research/domain_atlas/validate_ownership_adjudications.py",
+    ROOT / "research/domain_atlas/industries/validate_exact_alias_candidates.py",
+    ROOT / "research/domain_atlas/industries/validate_canonical_reference_review_batches.py",
 ):
     result = subprocess.run([sys.executable, str(script)], cwd=ROOT, text=True, capture_output=True)
     if result.returncode:

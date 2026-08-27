@@ -21,6 +21,8 @@ def main() -> int:
     readiness = read_json(ROOT / "research/product_ontology/dossier_readiness/summary.json")
     qualification = read_json(ROOT / "research/product_ontology/qualification_program/effective-summary.json")
     industries = read_json(ROOT / "research/domain_atlas/industries/integration-audit.json")
+    industry_effective = read_json(ROOT / "research/domain_atlas/industries/canonical-reference-effective-summary.json")
+    industry_review = read_json(ROOT / "research/domain_atlas/industries/canonical-reference-machine-review-summary.json")
     context_map = read_json(ROOT / "research/domain_atlas/context_map/manifest.json")
     source_systems = read_json(ROOT / "research/domain_atlas/universes/source_systems/coverage-report.json")
     data_shapes = read_json(ROOT / "research/domain_atlas/universes/data_shapes/coverage-report.json")
@@ -102,10 +104,10 @@ def main() -> int:
             "batch_id": "B07_INDUSTRY_CANONICAL_REFERENCE_CLOSURE",
             "depends_on": ["B03_CONTEXT_MAP_RATIFICATION", "B06_LIBRARY_CONTRACT_AUTHORITY"],
             "scope": "Resolve industry/subindustry, method, operation, source-class and data-shape references for all existing analytical cases.",
-            "current": {"industry_packs": industries["pack_count"], "analytical_cases": vertical_cases, "evidence_sources": vertical_evidence, "unresolved_industry_refs": industries["canonical_reference_closure"]["unresolved_industry_or_subindustry_refs"], "unresolved_method_refs": industries["canonical_reference_closure"]["unresolved_method_refs"], "unresolved_operation_refs": industries["canonical_reference_closure"]["unresolved_operation_refs"], "unresolved_source_class_refs": industries["canonical_reference_closure"]["unresolved_source_class_refs"], "data_shape_needs": vertical_shapes, "source_system_needs": vertical_sources},
+            "current": {"industry_packs": industries["pack_count"], "analytical_cases": vertical_cases, "evidence_sources": vertical_evidence, "raw_review_queue_records": industry_effective["raw_queue_records"], "research_resolved_candidate_records": industry_effective["research_resolved_candidate_records"], "effective_open_review_records": industry_effective["remaining_open_research_records"], "unresolved_industry_refs": industry_effective["other_reference_frontiers_unchanged"]["industry_or_subindustry"], "unresolved_method_refs": industry_effective["method_reference_frontier"]["remaining_open_research_distinct"], "unresolved_operation_refs": industry_effective["other_reference_frontiers_unchanged"]["typed_operation"], "unresolved_source_class_refs": industry_effective["other_reference_frontiers_unchanged"]["source_system_class"], "machine_review_batches": industry_review["review_batch_count"], "machine_exact_alias_review_candidates": industry_review["source_candidate_records"], "machine_exact_alias_candidate_occurrences": industry_review["source_candidate_occurrences"], "data_shape_needs": vertical_shapes, "source_system_needs": vertical_sources},
             "exit_condition": "Every analytical case resolves to canonical industry, method, typed operation, source-system class and data-shape identities or emits a typed extension gap without silent coercion.",
             "status": "OPEN_HIGH_LEVERAGE",
-            "authority_refs": ["research/domain_atlas/industries/integration-audit.json", "research/domain_atlas/industries/canonical-reference-review-queue.jsonl"],
+            "authority_refs": ["research/domain_atlas/industries/integration-audit.json", "research/domain_atlas/industries/canonical-reference-effective-summary.json", "research/domain_atlas/industries/canonical-reference-machine-review-summary.json", "research/domain_atlas/industries/canonical-reference-review-queue.jsonl"],
         },
         {
             "batch_id": "B08_SOURCE_SYSTEM_AND_OCCURRENCE_CLOSURE",
@@ -192,7 +194,10 @@ def main() -> int:
         "library_subject_count": qualification["library_qualification_subject_count"],
         "effective_evidence_vacancy_count": qualification["effective_evidence_vacancy_count"],
         "industry_analytical_case_count": vertical_cases,
-        "industry_canonical_reference_queue_count": industries["canonical_reference_review_queue_records"],
+        "industry_canonical_reference_raw_queue_count": industry_effective["raw_queue_records"],
+        "industry_canonical_reference_queue_count": industry_effective["remaining_open_research_records"],
+        "industry_canonical_reference_research_resolved_count": industry_effective["research_resolved_candidate_records"],
+        "industry_canonical_reference_machine_review_candidate_count": industry_review["source_candidate_records"],
         "source_system_class_count": source_systems["class_records"],
         "data_shape_logical_count": data_shapes["counts"]["logical_shapes"],
         "context_count": context_map["counts"]["contexts"],

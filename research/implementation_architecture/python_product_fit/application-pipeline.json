@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-08-28",
+  "pipeline_id": "pipeline.application.codebase_engineering_intelligence",
+  "application_id": "application.codebase_engineering_intelligence",
+  "external_inputs": [
+    "external.software_source_occurrence",
+    "external.analysis_intent_and_policy"
+  ],
+  "stages": [
+    {
+      "stage_index": 1,
+      "stage_id": "stage.source_scope_and_occurrence",
+      "owner_layer": "SOURCE_ACQUISITION",
+      "module_owner_keys": ["environment.py", "file_ops.py", "intake"],
+      "inputs": ["external.software_source_occurrence", "external.analysis_intent_and_policy"],
+      "outputs": ["artifact.source_scope", "artifact.source_occurrence_context"],
+      "decisions": ["Select root, revision/history bound, language/discovery policy and finite resource budget."],
+      "refusals": ["Missing root", "Unresolvable or unsupported source occurrence", "Policy or resource budget refusal"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "stage_index": 2,
+      "stage_id": "stage.discovery_and_admission",
+      "owner_layer": "SOURCE_ACQUISITION",
+      "module_owner_keys": ["intake", "scanning", "syntax"],
+      "inputs": ["artifact.source_scope", "artifact.source_occurrence_context"],
+      "outputs": ["artifact.admitted_source_inventory", "artifact.skip_and_refusal_ledger"],
+      "decisions": ["Classify each candidate file as admitted, skipped or refused with explicit reason."],
+      "refusals": ["Excluded path", "Unsupported type", "Unreadable or oversized content", "Discovery failure"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "stage_index": 3,
+      "stage_id": "stage.observation_extraction",
+      "owner_layer": "SOURCE_ACQUISITION",
+      "module_owner_keys": ["extract", "facts", "scanning", "syntax", "temporal"],
+      "inputs": ["artifact.admitted_source_inventory", "artifact.source_occurrence_context"],
+      "outputs": ["artifact.raw_program_observations", "artifact.raw_repository_history_observations", "artifact.extraction_provenance"],
+      "decisions": ["Select parser/fallback and Git extraction paths while preserving provider and partiality evidence."],
+      "refusals": ["Decode failure", "Parser failure", "Unsupported language", "Unavailable or partial Git history"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "stage_index": 4,
+      "stage_id": "stage.identity_and_fact_admission",
+      "owner_layer": "NORMALIZED_FACT_AND_IDENTITY",
+      "module_owner_keys": ["facts", "models.py"],
+      "inputs": ["artifact.raw_program_observations", "artifact.raw_repository_history_observations", "artifact.extraction_provenance"],
+      "outputs": ["artifact.normalized_codebase_fact_set", "artifact.codebase_identity_map"],
+      "decisions": ["Admit application-local identities and normalize observations without converting derived claims into source facts."],
+      "refusals": ["Identity collision", "Invalid fact shape", "Unresolved rename or lifecycle contradiction", "Stale content identity"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "stage_index": 5,
+      "stage_id": "stage.relation_construction",
+      "owner_layer": "ANALYSIS_ORCHESTRATION",
+      "module_owner_keys": ["architecture", "graph", "relate", "tensor"],
+      "inputs": ["artifact.normalized_codebase_fact_set", "artifact.codebase_identity_map"],
+      "outputs": ["artifact.typed_codebase_relation_set", "artifact.multirelation_code_graph"],
+      "decisions": ["Construct typed relation layers while retaining unresolved endpoints and source-layer provenance."],
+      "refusals": ["Unknown endpoint", "Invalid self relation", "Contradictory identity", "Unsupported relation construction"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "stage_index": 6,
+      "stage_id": "stage.analytical_method_execution",
+      "owner_layer": "ANALYTICAL_METHOD_KERNEL",
+      "module_owner_keys": ["algorithms", "architecture", "cross_layer", "graph", "math", "semantics", "temporal", "tensor"],
+      "inputs": ["artifact.normalized_codebase_fact_set", "artifact.multirelation_code_graph"],
+      "outputs": ["artifact.bounded_method_result_set"],
+      "decisions": ["Select method, parameters, population and finite resource envelope for each application analysis."],
+      "refusals": ["Insufficient population", "Undefined method domain", "Numeric or convergence failure", "Budget exhaustion", "Unavailable prerequisite relation"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "stage_index": 7,
+      "stage_id": "stage.signal_and_finding_synthesis",
+      "owner_layer": "ANALYSIS_ORCHESTRATION",
+      "module_owner_keys": ["core", "insights", "kernel", "signals", "scope.py"],
+      "inputs": ["artifact.normalized_codebase_fact_set", "artifact.multirelation_code_graph", "artifact.bounded_method_result_set"],
+      "outputs": ["artifact.application_signal_field", "artifact.evidenced_finding_set", "artifact.analysis_run_result"],
+      "decisions": ["Apply application-local fusion, threshold and finding rules without minting business facts or authorized effects."],
+      "refusals": ["Missing evidence", "Unavailable prerequisite signal", "Invalid threshold domain", "Cancelled or degraded phase", "Finding identity conflict"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "stage_index": 8,
+      "stage_id": "stage.evidence_snapshot_and_history",
+      "owner_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "module_owner_keys": ["database.py", "diff.py", "events", "persistence", "queries.py", "query", "snapshot.py", "storage"],
+      "inputs": ["artifact.application_signal_field", "artifact.evidenced_finding_set", "artifact.analysis_run_result", "artifact.extraction_provenance"],
+      "outputs": ["artifact.analysis_snapshot", "artifact.finding_lifecycle_history", "artifact.result_query_projection"],
+      "decisions": ["Persist and compare exact application results while retaining provenance and version identity."],
+      "refusals": ["Persistence failure", "Schema/version mismatch", "Stale snapshot", "Missing predecessor", "Incomparable result edition"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "stage_index": 9,
+      "stage_id": "stage.experience_projection",
+      "owner_layer": "EXPERIENCE_AND_DELIVERY",
+      "module_owner_keys": ["api.py", "cli", "debug_export.py", "server", "visualization.py"],
+      "inputs": ["artifact.analysis_run_result", "artifact.analysis_snapshot", "artifact.finding_lifecycle_history", "artifact.result_query_projection"],
+      "outputs": ["experience.cli_result", "experience.python_api_result", "experience.local_dashboard", "experience.html_or_debug_export"],
+      "decisions": ["Select a bounded presentation without changing source facts, method results, findings or evidence identity."],
+      "refusals": ["Unsupported output format", "Serialization failure", "Unavailable evidence", "Client disconnect", "Rendering budget exhaustion"],
+      "implementation_status": "OBSERVED_IMPLEMENTATION_CANDIDATE_UNQUALIFIED",
+      "semantic_authority": false,
+      "qualification_claim": false
+    }
+  ],
+  "pipeline_laws": [
+    "source occurrence selection precedes source admission",
+    "raw observation != admitted fact",
+    "admitted fact != derived relation",
+    "derived relation != analytical method result",
+    "method result != application signal",
+    "application signal != evidenced finding",
+    "evidenced finding != authorized decision or effect",
+    "persisted snapshot != source-system truth",
+    "experience projection cannot mint or mutate upstream facts",
+    "same Python process does not collapse stage ownership"
+  ],
+  "terminal_outputs": [
+    "experience.cli_result",
+    "experience.python_api_result",
+    "experience.local_dashboard",
+    "experience.html_or_debug_export"
+  ],
+  "horizontal_semantic_authority": false,
+  "qualified_stage_count": 0,
+  "completion_claim": false
+}

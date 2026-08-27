@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "dependency-edges.jsonl": {
+      "bytes": 3082,
+      "sha256": "32259af38393e7d480c365f0d79c02fc85f7c0296fe66464c3d317d4abaf02f1"
+    },
+    "migration-gaps.jsonl": {
+      "bytes": 125757,
+      "sha256": "e77655d5b9c105d1647bb2f0c8189ed3a122d3b6c28de73b03ad46338f7ffc57"
+    },
+    "observed-package-candidates.jsonl": {
+      "bytes": 198614,
+      "sha256": "30d9c421e8df044166c6c37521afb463b774f5ba40c5f39a457fcae619ad2a3a"
+    },
+    "package-contracts.jsonl": {
+      "bytes": 10727,
+      "sha256": "ffc25924fd25bf3aad29040a78bc9dc0c8687b049feb27b1b9d2ce13da75ebad"
+    },
+    "protocol-vocabulary.jsonl": {
+      "bytes": 1983,
+      "sha256": "38188b7b8706cc95bb149014824d096b87c555058d5bcb407a935b62419d3987"
+    },
+    "summary.json": {
+      "bytes": 472,
+      "sha256": "4613bfc85683db77dbcfed451b1b2b5e5f60351084ffbf4cf7f89031a87ae80f"
+    }
+  },
+  "manifest_id": "manifest.corpus-build-protocol.v1"
+}

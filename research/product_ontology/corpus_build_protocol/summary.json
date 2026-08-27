@@ -1,0 +1,16 @@
+{
+  "aggregate_validators": 1,
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "dependency_edges": 10,
+  "executable_contracts": 2,
+  "explicit_package_contracts": 10,
+  "fixed_point_packages": 2,
+  "migration_gap_records": 201,
+  "observed_python_package_candidates": 196,
+  "protocol_id": "protocol.corpus-build.v1",
+  "protocol_version": "1.0.0-candidate",
+  "topological_nodes": 10,
+  "uncontracted_observed_packages": 186,
+  "world_completion_claim": false
+}

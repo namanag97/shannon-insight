@@ -1,0 +1,19 @@
+{"definition":"Read-only validator over other packages; it owns no generated semantic records.","record_kind":"package_kind_definition","term":"aggregate_validator"}
+{"definition":"Human-authored evidence or policy; validation is allowed but automatic regeneration is not.","record_kind":"package_kind_definition","term":"authored_source"}
+{"definition":"Outputs are a pure deterministic projection of declared inputs.","record_kind":"package_kind_definition","term":"deterministic_projection"}
+{"definition":"Runs implementations or systems and emits occurrence-bound evidence receipts.","record_kind":"package_kind_definition","term":"execution_campaign"}
+{"definition":"Projection observes a broad corpus and must be rerun after upstream writes until stable.","record_kind":"package_kind_definition","term":"fixed_point_projection"}
+{"definition":"Immutable evidence from an earlier campaign; never silently rebuilt against live inputs.","record_kind":"package_kind_definition","term":"historical_snapshot"}
+{"record_kind":"authority_class_definition","term":"execution_evidence_not_qualification"}
+{"record_kind":"authority_class_definition","term":"historical_evidence"}
+{"record_kind":"authority_class_definition","term":"proposed_unratified"}
+{"record_kind":"authority_class_definition","term":"research_candidate"}
+{"record_kind":"authority_class_definition","term":"structural_metadata"}
+{"record_kind":"rebuild_policy_definition","term":"immutable_never_rebuild"}
+{"record_kind":"rebuild_policy_definition","term":"manual_evidence_occurrence"}
+{"record_kind":"rebuild_policy_definition","term":"on_declared_input_change"}
+{"record_kind":"rebuild_policy_definition","term":"repository_fixed_point"}
+{"record_kind":"rebuild_policy_definition","term":"validate_only"}
+{"record_kind":"write_policy_definition","term":"declared_output_paths_only"}
+{"record_kind":"write_policy_definition","term":"package_root_only"}
+{"record_kind":"write_policy_definition","term":"read_only"}

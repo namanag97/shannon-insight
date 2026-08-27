@@ -1618,6 +1618,7 @@ def main() -> int:
         "quality/reconciliation split audit": ROOT / "inventory_challenges/quality_reconciliation_split_audit/validate.py",
         "upstream demand-surface sweep": ROOT / "upstream_demand_surface_sweep/validate.py",
         "solution-synthesis architecture": ROOT / "solution_synthesis_architecture/validate.py",
+        "corpus build protocol": ROOT / "corpus_build_protocol/validate.py",
         "semantic fixed-point campaign": ROOT / "semantic_fixed_point_campaign/validate_fixed_point.py",
         "horizontal coverage-family research corpus": ROOT.parent / "analytics_landscape/product_families/validate.py",
         "corpus architecture router": ROOT / "corpus_architecture_router/validate.py",

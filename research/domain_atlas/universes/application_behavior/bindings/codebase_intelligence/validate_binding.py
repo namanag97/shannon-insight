@@ -36,6 +36,16 @@ def unique(rows: list[dict[str, Any]], key: str) -> None:
         raise AssertionError(f"duplicate {key}")
 
 
+def validate_definition(schema: dict[str, Any], definition: str, instance: Any) -> None:
+    wrapper = {
+        "$schema": schema["$schema"],
+        "$id": schema["$id"] + f"#{definition}",
+        "$defs": schema["$defs"],
+        "$ref": f"#/$defs/{definition}",
+    }
+    jsonschema.validate(instance, wrapper)
+
+
 def main() -> int:
     result = subprocess.run([sys.executable, str(HERE / "build_binding.py"), "--check"], cwd=HERE, capture_output=True, text=True, check=False)
     if result.returncode:
@@ -50,15 +60,15 @@ def main() -> int:
     summary = load_json(HERE / "summary.json")
     manifest = load_json(HERE / "manifest.json")
 
-    jsonschema.validate(product, schema["$defs"]["product"])
+    validate_definition(schema, "product", product)
     for row in components:
-        jsonschema.validate(row, schema["$defs"]["component"])
+        validate_definition(schema, "component", row)
     for row in libraries:
-        jsonschema.validate(row, schema["$defs"]["library"])
+        validate_definition(schema, "library", row)
     for row in research:
-        jsonschema.validate(row, schema["$defs"]["researchPython"])
+        validate_definition(schema, "researchPython", row)
     for row in evidence:
-        jsonschema.validate(row, schema["$defs"]["evidence"])
+        validate_definition(schema, "evidence", row)
 
     unique(components, "component_id")
     unique(components, "path")

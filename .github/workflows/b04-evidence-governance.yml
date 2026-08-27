@@ -7,14 +7,21 @@ on:
     paths:
       - research/analytics_landscape/product_families/**
       - .github/workflows/b04-evidence-governance.yml
+  pull_request:
+    paths:
+      - research/analytics_landscape/product_families/**
+      - research/product_ontology/closure_program/**
+      - research/product_ontology/corpus_architecture_router/**
+      - .github/workflows/b04-evidence-governance.yml
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  generate:
+  generate-and-validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,24 +29,38 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - name: Build evidence governance projection
+          python-version: '3.11'
+      - name: Materialize B04 hardening source
+        run: python3 .github/bootstrap-b04-evidence-governance-hardening.py
+      - name: Build evidence-governance projections
         run: python3 research/analytics_landscape/product_families/build_evidence_governance.py
-      - name: Validate horizontal corpus
+      - name: Validate horizontal source corpus
         run: python3 research/analytics_landscape/product_families/validate.py
-      - name: Validate evidence governance
+      - name: Validate evidence-governance projections
         run: python3 research/analytics_landscape/product_families/validate_evidence_governance.py
-      - name: Persist generated projection
+      - name: Build and validate evidence-upgrade campaigns
+        run: |
+          python3 research/analytics_landscape/product_families/build_evidence_upgrade_campaigns.py
+          python3 research/analytics_landscape/product_families/validate_evidence_upgrade_campaigns.py
+      - name: Recompute and validate closure frontier
+        run: |
+          python3 research/product_ontology/closure_program/build_master_frontier.py
+          python3 research/product_ontology/closure_program/validate_master_frontier.py
+      - name: Regenerate and validate corpus routing
+        run: |
+          python3 research/product_ontology/corpus_architecture_router/build_router.py
+          python3 research/product_ontology/corpus_architecture_router/validate.py
+      - name: Validate repository ontology registry
+        run: python3 research/product_ontology/validate_registry.py
+      - name: Persist deterministic projections
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name "shannon-insight-research-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/analytics_landscape/product_families/research-reference-role-projection.jsonl \
-                  research/analytics_landscape/product_families/organization-family-membership-claims.jsonl \
-                  research/analytics_landscape/product_families/organization-identity-projection.jsonl \
-                  research/analytics_landscape/product_families/evidence-governance-summary.json
+          git add -A
           if git diff --cached --quiet; then
-            echo "Evidence governance projection already current"
+            echo "B04 projections and derived inventories already current"
             exit 0
           fi
-          git commit -m "research: generate B04 evidence governance projection [skip ci]"
+          git commit -m "research: regenerate B04 evidence governance and routing [skip ci]"
           git push origin HEAD:${{ github.ref_name }}

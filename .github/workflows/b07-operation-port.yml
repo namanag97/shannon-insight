@@ -1,4 +1,4 @@
-name: B07 Operation Research Port
+name: B07 Largest Frontier Closure
 
 on:
   push:
@@ -7,8 +7,11 @@ on:
     paths:
       - research/domain_atlas/industries/apply_high_impact_operation_adjudications.py
       - research/domain_atlas/industries/apply_pack_common_operation_adjudications.py
+      - research/domain_atlas/industries/build_vertical_overlay_classification.py
+      - research/domain_atlas/industries/validate_vertical_overlay_classification.py
       - research/domain_atlas/industries/canonical-reference-extension-gaps.jsonl
       - research/domain_atlas/industries/canonical-reference-research-evidence.jsonl
+      - research/domain_atlas/industries/foundation/schema/vertical-analytical-overlay-node.schema.json
       - .github/workflows/b07-operation-port.yml
   workflow_dispatch:
 
@@ -30,9 +33,13 @@ jobs:
         run: python3 research/domain_atlas/industries/apply_high_impact_operation_adjudications.py
       - name: Apply 32 pack-common operation dispositions
         run: python3 research/domain_atlas/industries/apply_pack_common_operation_adjudications.py
+      - name: Canonicalize all local industry refs as analytical overlays
+        run: python3 research/domain_atlas/industries/build_vertical_overlay_classification.py
+      - name: Validate 398 overlay identities against exact case/evidence extents
+        run: python3 research/domain_atlas/industries/validate_vertical_overlay_classification.py
       - name: Recompute unresolved B07 frontier
         run: python3 research/domain_atlas/industries/build_unresolved_frontier_profile.py
-      - name: Verify exact reduction and promotion posture
+      - name: Verify combined largest-frontier reduction
         run: |
           python3 - <<'PY'
           import json
@@ -40,14 +47,17 @@ jobs:
           p=Path('research/domain_atlas/industries')
           s=json.loads((p/'unresolved-frontier-profile-summary.json').read_text())
           rows=[json.loads(x) for x in (p/'canonical-reference-adjudications.jsonl').read_text().splitlines() if x.strip()]
-          tranche=[r for r in rows if r.get('research_tranche') in {'b07.high_impact_operations.2026_08_27','b07.pack_common_operations.2026_08_27'}]
-          assert len(tranche)==38, len(tranche)
-          assert s['remaining_unresolved_records']==3988, s
-          assert s['remaining_unresolved_occurrences']==15397, s
+          ops=[r for r in rows if r.get('research_tranche') in {'b07.high_impact_operations.2026_08_27','b07.pack_common_operations.2026_08_27'}]
+          ind=[r for r in rows if r.get('research_tranche')=='b07.vertical_overlay_classification.2026_08_27']
+          assert len(ops)==38, len(ops)
+          assert len(ind)==398, len(ind)
+          assert s['remaining_unresolved_records']==3590, s
+          assert s['remaining_unresolved_occurrences']==10305, s
           assert s['remaining_occurrences_by_domain']['typed_operation']==5491, s
           assert s['remaining_records_by_domain']['typed_operation']==1332, s
-          assert all(not r.get('completion_claim') and r['status']=='research_resolved_candidate_not_ratified' for r in tranche)
-          print('PASS: 38 B07 decisions; 4,075 typed-operation occurrence obligations research-resolved; authority withheld')
+          assert 'industry_classification' not in s['remaining_records_by_domain'], s
+          assert all(not r.get('completion_claim') and r['status']=='research_resolved_candidate_not_ratified' for r in ops+ind)
+          print('PASS: 436 research decisions; 9,167 B07 occurrence obligations dispositioned; industry classification frontier canonicalized; authority withheld')
           PY
       - name: Persist generated B07 state
         run: |
@@ -55,10 +65,11 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/domain_atlas/industries/canonical-reference-adjudications.jsonl \
                   research/domain_atlas/industries/pack-common-operation-adjudication-summary.json \
-                  research/domain_atlas/industries/unresolved-frontier-*.json*
+                  research/domain_atlas/industries/unresolved-frontier-*.json* \
+                  research/domain_atlas/industries/foundation/vertical-analytical-overlay-*.json*
           if git diff --cached --quiet; then
-            echo "B07 operation state already current"
+            echo "B07 largest-frontier state already current"
             exit 0
           fi
-          git commit -m "research: port validated B07 operation dispositions [skip ci]"
+          git commit -m "research: close largest B07 operation and industry frontiers [skip ci]"
           git push origin HEAD:${{ github.ref_name }}

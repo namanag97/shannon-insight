@@ -1,0 +1,12 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "independently_appraised_occurrence_count": 0,
+  "production_qualified_occurrence_count": 0,
+  "refused_packet_count": 0,
+  "refused_packets": [],
+  "report_id": "source_system_occurrence_registry",
+  "retained_occurrence_count": 1,
+  "source_class_count_with_retained_occurrence": 1,
+  "status": "POPULATED_RESEARCH_EXECUTION_OCCURRENCES_PRODUCTION_QUALIFICATION_WITHHELD"
+}

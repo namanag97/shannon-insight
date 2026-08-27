@@ -1,0 +1,16 @@
+{
+  "as_of": "2026-08-27",
+  "authority_blocked_count": 4,
+  "batch_count": 16,
+  "completion_claim": false,
+  "downstream_evidence_blocked_count": 6,
+  "effective_qualification_vacancies": 912,
+  "largest_machine_queue": {
+    "batch_id": "B07_INDUSTRY_CANONICAL_REFERENCE_CLOSURE",
+    "count": 4029
+  },
+  "machine_active_count": 4,
+  "report_id": "effective_batched_closure_progress",
+  "retained_source_occurrences": 1,
+  "structurally_done_or_done_monitor_count": 3
+}

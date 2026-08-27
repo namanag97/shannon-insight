@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-08-28",
+  "application_id": "application.codebase_engineering_intelligence",
+  "distribution_name": "shannon-codebase-insight",
+  "import_package": "shannon_insight",
+  "disposition": "RETAIN_AS_APPLICATION_DOMAIN_REFERENCE_PRODUCT",
+  "product_plane": "APPLICATION_DOMAIN_PRODUCT",
+  "industry_scope": [
+    "software_engineering",
+    "developer_productivity",
+    "software_architecture_and_quality"
+  ],
+  "sovereign_question": "Given an exact software source tree and available repository history, what structural, temporal, semantic and cross-layer conditions are defensibly observable, how should they be evidenced, and which bounded engineering concerns should be surfaced without minting unsupported business facts?",
+  "users_and_jobs": [
+    "Software engineers inspect concrete code and dependency concerns.",
+    "Engineering leaders inspect codebase-level risk, change and ownership signals.",
+    "Architects examine module, relation, layering and evolution evidence.",
+    "Tool builders consume deterministic fact, signal, finding and snapshot outputs."
+  ],
+  "owned_meanings": [
+    "Observed software file, function, class, import and repository-change facts admitted from a bounded source cut.",
+    "Application-local identities for files, commits, modules, relations, signals, findings and snapshots.",
+    "Application-local definitions of codebase structural, temporal, semantic and cross-layer findings.",
+    "Application-local evidence linking a finding to admitted source observations and method outputs."
+  ],
+  "owned_artifacts": [
+    "Codebase acquisition and intake report",
+    "Normalized source and Git fact set",
+    "Dependency, co-change, semantic, clone and multilayer relation graph",
+    "Per-file, per-module and global signal field",
+    "Finding set with evidence and stable identity",
+    "Analysis snapshot, diff and history record",
+    "CLI, API, server-state and rendered-report projection"
+  ],
+  "source_contracts": [
+    {
+      "contract_id": "source.software_tree.filesystem",
+      "meaning": "A bounded filesystem source tree containing software artifacts and explicit discovery/exclusion policy.",
+      "admission_or_refusal": "Admit only readable, classified files inside the selected root and policy; refuse, skip or evidence unsupported, excluded, oversized, binary or unreadable inputs."
+    },
+    {
+      "contract_id": "source.software_repository.git",
+      "meaning": "An optional exact Git repository history used for commit, author, rename, file-change and co-change observations.",
+      "admission_or_refusal": "Admit deterministic bounded history with explicit partial-history posture; absence or extraction failure must degrade visibly rather than fabricate temporal evidence."
+    }
+  ],
+  "data_shape_contracts": [
+    {
+      "contract_id": "shape.source_text_and_metadata",
+      "meaning": "Source bytes, decoded text and filesystem metadata tied to an exact path and acquisition occurrence.",
+      "admission_or_refusal": "Decode under explicit fallback policy and retain skips/errors; never silently reinterpret unsupported binary content as source text."
+    },
+    {
+      "contract_id": "shape.normalized_program_syntax",
+      "meaning": "Language-normalized file, function, class, import, identifier and call observations with parser/fallback provenance.",
+      "admission_or_refusal": "Parser and regex-fallback results remain distinguishable; unsupported language or malformed syntax must be visible in evidence."
+    },
+    {
+      "contract_id": "shape.repository_event_history",
+      "meaning": "Ordered commit and file-change observations including rename, deletion, author and bounded history context.",
+      "admission_or_refusal": "History must be deterministic for the selected revision/cut and expose shallow, truncated or absent history."
+    },
+    {
+      "contract_id": "shape.multirelation_code_graph",
+      "meaning": "Nodes and typed weighted relations for imports, co-change, similarity, clones, authorship and derived multilayer analysis.",
+      "admission_or_refusal": "Unknown or unresolved endpoints remain explicit; derived relation layers never replace their source observations."
+    },
+    {
+      "contract_id": "shape.signal_finding_evidence",
+      "meaning": "Typed signals, findings, provenance, snapshots and lifecycle records emitted from admitted observations and bounded methods.",
+      "admission_or_refusal": "A finding without required observations, method identity or evidence must be refused or marked unavailable, never inferred from display state."
+    }
+  ],
+  "analytical_capabilities": [
+    {
+      "capability_id": "capability.software_structure_analysis",
+      "scope": "Dependency, module, layer, cycle, reachability, centrality, community and architecture analysis over software artifacts.",
+      "platform_status": "APPLICATION_LOCAL"
+    },
+    {
+      "capability_id": "capability.repository_temporal_analysis",
+      "scope": "Commit, churn, change-trajectory, author, rename, co-change and historical finding analysis over bounded Git observations.",
+      "platform_status": "APPLICATION_LOCAL"
+    },
+    {
+      "capability_id": "capability.information_theoretic_measurement",
+      "scope": "Entropy, divergence, compression, concentration and related quantitative method kernels reusable only after exact semantic qualification.",
+      "platform_status": "REUSABLE_METHOD_CANDIDATE_UNQUALIFIED"
+    },
+    {
+      "capability_id": "capability.graph_and_tensor_methods",
+      "scope": "Graph, hypergraph, spectral and tensor methods whose generic algorithms may be reusable but whose current application bindings are codebase-specific.",
+      "platform_status": "REUSABLE_METHOD_CANDIDATE_UNQUALIFIED"
+    },
+    {
+      "capability_id": "capability.codebase_finding_synthesis",
+      "scope": "Application-specific fusion, thresholds, pattern detection and evidence assembly for software-engineering concerns.",
+      "platform_status": "APPLICATION_LOCAL"
+    }
+  ],
+  "operated_lifecycles": [
+    "Discover and admit a bounded source tree.",
+    "Extract or readmit deterministic source and repository facts.",
+    "Construct typed relations and analytical observations.",
+    "Compute bounded method outputs and application signals.",
+    "Evaluate findings with evidence, refusals and degradation posture.",
+    "Persist snapshots and compare change over time.",
+    "Publish CLI, API, server and report projections without creating new source truth."
+  ],
+  "experience_surfaces": [
+    "Command-line analysis and reporting",
+    "Python API",
+    "Local server/dashboard state",
+    "HTML and debug export",
+    "Snapshot/history query surfaces"
+  ],
+  "negative_charter": [
+    "Does not own the universal enterprise product ontology or any retained horizontal product merely because research files share the repository.",
+    "Does not own general ERP, CRM, warehouse, lakehouse, event-stream, industrial, clinical, geospatial, document or scientific source acquisition.",
+    "Does not define universal business entities, metrics, policies, decisions, workflows, plans or industry vocabulary.",
+    "Does not constitute a general data integration, transformation, catalog, governance, quality, semantic-layer, BI, ML, optimization or planning platform.",
+    "Does not turn a Python module into a qualified semantic library without exact contract, build, execution and appraisal receipts.",
+    "Does not treat a dashboard, report or API projection as authority to mint facts, decisions or effects.",
+    "Does not claim provider portability, production SLOs, residency, cost, vertical acceptance, build readiness or ratification.",
+    "Does not make optional AI or agent behavior a prerequisite for deterministic acquisition, analysis, evidence or refusal semantics.",
+    "Does not silently broaden codebase-specific findings into universal analytical meanings.",
+    "Does not allow the research corpus to import runtime implementation details as semantic authority."
+  ],
+  "non_collapse_laws": [
+    "research_candidate != retained_product_authority",
+    "python_module != semantic_library_contract",
+    "implemented_code != qualified_implementation",
+    "codebase_application != horizontal_data_platform",
+    "source_file != admitted_program_fact",
+    "git_commit != business_event",
+    "derived_signal != source_fact",
+    "finding != authorized_decision_or_effect",
+    "rendered_view != evidentiary_authority",
+    "same_repository != same_bounded_context",
+    "generic_algorithm != application_semantics",
+    "passing_unit_tests != vertical_acceptance"
+  ],
+  "authority": {
+    "local_application_semantic_owner": "application.codebase_engineering_intelligence",
+    "horizontal_semantic_authority": false,
+    "product_ratification_authority": false,
+    "implementation_qualification_authority": false
+  },
+  "qualification_posture": {
+    "status": "IMPLEMENTED_APPLICATION_UNQUALIFIED_AGAINST_HORIZONTAL_CONTRACTS",
+    "qualified_contract_scope_count": 0,
+    "portable_offer_count": 0,
+    "executed_vertical_acceptance_count": 0,
+    "build_ready": false,
+    "ratified": false,
+    "required_gates": [
+      "Bind an exact abstract contract edition to each reusable implementation claim.",
+      "Record source, artifact, dependency, toolchain and configuration identity.",
+      "Rebuild reproducibly and retain provenance/SBOM evidence.",
+      "Execute exact-scope conformance, refusal, resource and failure tests.",
+      "Obtain independent appraisal and, where portability is claimed, a second independently controlled implementation.",
+      "Bind an exact physical target occurrence and execute unrelated vertical acceptance before build-ready or ratification claims."
+    ]
+  },
+  "evolution_and_exit": {
+    "compatibility_facade": "The existing shannon_insight import package and public API remain the application compatibility facade.",
+    "module_split_policy": "A module may move into a reusable package only after its semantic contract is separated from codebase-specific meanings and qualified independently.",
+    "provider_substitution_policy": "Provider or parser substitution requires exact capability, loss, refusal and evidence comparison; similar names or output shapes are insufficient.",
+    "deprecation_policy": "Deprecated application APIs remain explicit compatibility seams with migration evidence; they never become alternate semantic owners."
+  },
+  "completion_claim": false
+}

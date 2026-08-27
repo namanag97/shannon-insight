@@ -4,11 +4,12 @@
   "counts_by_priority_band": {
     "P0_PRODUCT_AND_VERTICAL": 66,
     "P1_PRODUCT": 288,
-    "P2_SHARED_GRAPH": 173,
-    "P3_REMAINDER": 147
+    "P2_SHARED_GRAPH": 176,
+    "P3_REMAINDER": 152
   },
   "counts_by_research_family": {
     "analytical_method_kernels": 72,
+    "application_behavior": 8,
     "candidate_data_shapes": 33,
     "connector_protocol": 5,
     "consumption_bi_visualization": 29,
@@ -33,10 +34,10 @@
     "shared_semantic_foundations": 60
   },
   "counts_by_research_lane": {
-    "algorithm_conformance": 165,
+    "algorithm_conformance": 166,
     "boundary_first": 33,
-    "effect_runtime_provider": 224,
-    "semantic_contract": 252
+    "effect_runtime_provider": 228,
+    "semantic_contract": 255
   },
   "edition": 1,
   "laws": [
@@ -44,8 +45,8 @@
     "Priority changes work order and never weakens closure evidence.",
     "A source-level exact API is not implementation, qualification, portability or product acceptance."
   ],
-  "open_items": 674,
+  "open_items": 682,
   "program_id": "program.exact-api-closure.v1",
-  "research_batches": 57,
+  "research_batches": 60,
   "status": "ACTIVE_INCOMPLETE"
 }

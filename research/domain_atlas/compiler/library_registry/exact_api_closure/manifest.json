@@ -1,21 +1,21 @@
 {
   "as_of": "2026-08-26",
   "counts": {
-    "exact_api_closure_item": 674,
-    "exact_api_research_batch": 57
+    "exact_api_closure_item": 682,
+    "exact_api_research_batch": 60
   },
   "files": {
     "closure-queue.jsonl": {
-      "bytes": 1139815,
-      "sha256": "7cc595bdde30a918175066bb1ee34160224acdcf32845a025b7aba7ea7a7855c"
+      "bytes": 1153060,
+      "sha256": "5bb5b02721f69f3bb1b12d435d73bcde28d7042def390486297f2f99f4f69030"
     },
     "research-batches.jsonl": {
-      "bytes": 197457,
-      "sha256": "925e123b0e55591d0e9b347fdc802c60c04ca21c6fb9075df3f51f6ccd5ecb62"
+      "bytes": 207439,
+      "sha256": "d143a3cdfe43e9e8057a3d4e8c02b5ad10dd940f9805ee06a7b7f3ce3b921318"
     },
     "summary.json": {
-      "bytes": 1635,
-      "sha256": "3fd1bcadaa42a498ee68b3105a68fbc58001f264e52b50d1d755813676b3e040"
+      "bytes": 1666,
+      "sha256": "d81a688433c4f02a0456ce43b61e45f53b1a06dde38c23237903b5ca93ccedb2"
     }
   },
   "manifest_id": "manifest.exact-api-closure.v1"

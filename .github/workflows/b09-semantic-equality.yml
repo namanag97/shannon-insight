@@ -1,0 +1,24 @@
+name: B09 Semantic Equality Profiles
+
+on:
+  push:
+    branches:
+      - 'closure/b09-*'
+    paths:
+      - research/domain_atlas/universes/data_shapes/semantic-equality-*.jsonl
+      - research/domain_atlas/universes/data_shapes/validate_semantic_equality_profiles.py
+      - .github/workflows/b09-semantic-equality.yml
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Execute semantic equality boundary vectors
+        run: python3 research/domain_atlas/universes/data_shapes/validate_semantic_equality_profiles.py

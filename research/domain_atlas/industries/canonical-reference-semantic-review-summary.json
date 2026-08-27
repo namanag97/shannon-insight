@@ -1,0 +1,13 @@
+{
+  "as_of": "2026-08-27",
+  "authority_receipts_created": 0,
+  "completion_claim": false,
+  "current_method_candidates": 3,
+  "legacy_exact_candidates": 137,
+  "report_id": "industry_canonical_reference_semantic_review_batches",
+  "represented_candidate_occurrences": 700,
+  "represented_candidate_records": 140,
+  "review_batch_count": 32,
+  "semantic_decisions_created": 0,
+  "status": "MACHINE_FACTORED_REVIEW_FRONTIER_NOT_SEMANTIC_CLOSURE"
+}

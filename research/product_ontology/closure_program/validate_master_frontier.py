@@ -54,7 +54,8 @@ assert summary["effective_evidence_vacancy_count"] == qualification["effective_e
 assert summary["industry_canonical_reference_raw_queue_count"] == industries["canonical_reference_review_queue_records"] == industry_effective["raw_queue_records"] == 4169
 assert summary["industry_canonical_reference_unclassified_count"] == industry_residuals["unclassified_reference_count_after_typing"] == 0
 assert summary["industry_canonical_reference_typed_residual_gap_count"] == industry_residuals["typed_residual_gap_count"]
-assert summary["industry_canonical_reference_research_resolved_count"] == industry_effective["research_resolved_candidate_records"] == 3
+assert summary["industry_canonical_reference_ledger_disposition_count"] == industry_effective["ledger_disposition_records"] == 4029
+assert summary["industry_canonical_reference_research_resolved_count"] == industry_effective["ledger_research_resolved_candidate_records"] == 439
 assert summary["industry_canonical_reference_machine_review_candidate_count"] == industry_review["source_candidate_records"] == 137
 assert summary["context_count"] == context_map["counts"]["contexts"] == 144
 assert summary["source_system_class_count"] == source_systems["class_records"] == 171
@@ -67,7 +68,7 @@ assert summary["completion_claim"] is False
 assert rows[4]["current"]["weak_membership_claims"] == evidence_governance["weak_membership_claim_count"]
 assert rows[5]["current"]["falsification_contracts"] == boundary_falsification["falsification_contract_count"]
 assert rows[6]["current"]["exact_semantic_contract_scopes"] == contract_scopes["semantic_contract_scope_count"]
-assert rows[7]["current"]["manual_research_dispositions"] == industry_candidates["manual_research_resolutions"]
+assert rows[7]["current"]["ledger_dispositions"] == industry_effective["ledger_disposition_records"]
 assert rows[8]["current"]["retained_occurrences"] == source_occurrences["retained_occurrence_count"]
 assert rows[8]["current"]["source_acquisition_identity_stages"] == len(source_topology["nodes"]) == 7
 assert rows[8]["current"]["complete_reference_chains"] == source_reference_chain["governed_data_cuts"] == 1

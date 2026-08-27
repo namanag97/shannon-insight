@@ -1,20 +1,45 @@
 {
-  "as_of": "2026-08-27",
+  "as_of": "2026-08-28",
   "completion_claim": false,
+  "covered_queue_records": 4169,
+  "current_method_identity_candidate_records": 3,
+  "ledger_disposition_records": 4029,
+  "ledger_exact_alias_records": 3,
+  "ledger_records_by_domain": {
+    "analytical_practice": 1901,
+    "industry_classification": 398,
+    "source_system_class": 360,
+    "typed_operation": 1370
+  },
+  "ledger_records_by_relation": {
+    "canonical_local_analytical_overlay_identity": 398,
+    "exact_alias": 3,
+    "no_match_underspecified_rehome": 6,
+    "rehome_and_split_required": 1,
+    "rehome_to_analytical_method": 2,
+    "rehome_to_domain_semantic_extension": 5,
+    "rehome_to_intent_context": 2,
+    "rehome_to_method_family": 5,
+    "rehome_to_result_evaluation": 3,
+    "rehome_to_study_method_extension": 6,
+    "split_required_composition": 1,
+    "split_required_cross_boundary_composition": 3,
+    "split_required_method_bound_composition": 1,
+    "split_required_missing_prerequisite": 1,
+    "split_required_optimization_composition": 1,
+    "split_required_study_composition": 1,
+    "typed_extension_gap": 3590
+  },
+  "ledger_records_by_status": {
+    "research_resolved_candidate_not_ratified": 439,
+    "typed_extension_gap_open": 3590
+  },
+  "ledger_research_resolved_candidate_records": 439,
+  "ledger_typed_extension_gap_records": 3590,
+  "machine_exact_alias_candidate_records": 137,
   "raw_queue_records": 4169,
-  "research_resolved_candidate_records": 3,
-  "research_resolved_occurrences": 4,
-  "remaining_open_research_records": 4166,
-  "method_reference_frontier": {
-    "raw_unresolved_distinct": 2031,
-    "research_resolved_candidate_distinct": 3,
-    "remaining_open_research_distinct": 2028,
-    "canonically_ratified_distinct": 0
-  },
-  "other_reference_frontiers_unchanged": {
-    "industry_or_subindustry": 398,
-    "typed_operation": 1378,
-    "source_system_class": 362
-  },
-  "status": "PARTIAL_RESEARCH_RESOLUTION_RATIFICATION_WITHHELD"
+  "report_id": "canonical_reference_effective_frontier",
+  "semantic_ratifications": 0,
+  "status": "ALL_QUEUE_REFERENCES_HAVE_EXPLICIT_DISPOSITION_OR_TYPED_GAP_AUTHORITY_WITHHELD",
+  "uncovered_queue_records": 0
 }

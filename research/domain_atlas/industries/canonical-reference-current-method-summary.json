@@ -3,8 +3,8 @@
   "candidate_occurrences": 56,
   "candidate_records": 3,
   "completion_claim": false,
-  "legacy_or_manual_resolved_excluded": 140,
-  "remaining_analytical_practice_rows_after_all_exact_candidate_layers": 1898,
+  "legacy_or_manual_resolved_excluded": 4166,
+  "remaining_analytical_practice_rows_after_all_exact_candidate_layers": 0,
   "report_id": "industry_current_method_identity_candidates",
   "status": "CANDIDATES_ONLY_AUTHORITY_WITHHELD"
 }

@@ -1,0 +1,57 @@
+name: Shannon Python Placement Evidence
+
+on:
+  push:
+    branches:
+      - architecture/shannon-python-product-placement
+    paths:
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_placement_evidence.py
+      - .github/workflows/shannon-python-placement-evidence.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_placement_evidence.py
+      - .github/workflows/shannon-python-placement-evidence.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - run: python3 research/product_ontology/implementation_placement/build_python_placement_evidence.py
+      - run: python3 research/product_ontology/implementation_placement/validate_python_placement_evidence.py
+      - run: pytest -q tests/research/test_shannon_python_placement_evidence.py
+      - name: Require generated evidence in pull requests
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --exit-code -- \
+            research/product_ontology/implementation_placement/shannon-python-placement-evidence.jsonl \
+            research/product_ontology/implementation_placement/shannon-python-placement-evidence-summary.json
+      - name: Persist generated evidence on the placement branch
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'shannon-insight-research-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            research/product_ontology/implementation_placement/shannon-python-placement-evidence.jsonl \
+            research/product_ontology/implementation_placement/shannon-python-placement-evidence-summary.json
+          if git diff --cached --quiet; then
+            echo 'Python placement evidence already current'
+            exit 0
+          fi
+          git commit -m 'research: generate Python placement evidence packet [skip evidence]'
+          git push origin HEAD:${{ github.ref_name }}

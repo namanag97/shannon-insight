@@ -106,6 +106,11 @@ pipeline: CDC source -> decode -> validate -> deduplicate -> temporalize -> tabl
     2,031 analytical-practice names, 1,378 typed-operation names, 398 industry/subindustry names and
     362 source-system class names. These are now governed in
     `industries/canonical-reference-review-queue.jsonl`; no string-based equivalence is permitted.
+15. Application behavior was previously only an assembly/IR placeholder. The candidate universe at
+    `universes/application_behavior/` now specifies 7 contexts, 12 contracts, 17 operations, 4
+    state machines, 8 reusable libraries, 16 conformance tests, 16 negative twins and 8 explicit
+    assembly edges. It remains open: all offers are unimplemented and unqualified, tests are not
+    executed, no effect authority is granted, and no unrelated vertical has accepted the corpus.
 
 The machine-readable status for every plane is `coverage-planes.jsonl`. A finite plane list is not a
 completeness proof; it is a governed review boundary that must admit typed extensions and gaps.

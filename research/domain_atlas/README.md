@@ -95,6 +95,9 @@ effect authority.
 - `RESEARCH-EXECUTION-DAG.md` — research waves, promotion gates and budget-allocation law.
 - `industries/` — classification foundation, vertical analytical cases and reference-adjudication queue.
 - `universes/` — open registries for sources, types/shapes, operations, methods and execution concerns.
+- `universes/application_behavior/` — candidate application commands, queries, state, workflow,
+  event, projection, effect-handoff and execution-evidence contracts, with explicit non-compiler
+  assembly edges and fail-closed qualification accounting.
 - `compiler/` — closed requirement/offer/binding metamodel and proof obligations.
 - `ecosystem/` — specialists, exact expert/research contributions and recurring change intelligence.
 

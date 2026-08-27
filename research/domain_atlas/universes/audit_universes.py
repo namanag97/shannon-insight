@@ -59,10 +59,11 @@ def main() -> int:
     operation_candidate_registry = HERE / "operations/operation-candidates.jsonl"
     operation_family_catalog = load(HERE / "operations/family-catalog.json")
     operation_deep_specs = load(HERE / "operations/deep-specifications.json")
+    application_behavior_report = load(HERE / "application_behavior/coverage-report.json")
     report = {
         "audit_id": "san.domain-atlas.universe-baseline",
         "edition": 1,
-        "as_of": "2026-08-25",
+        "as_of": "2026-08-27",
         "status": "incomplete_baseline",
         "analytics_type_universe": {
             "inherited_adjudication_records": len(analytics_ids),
@@ -104,6 +105,15 @@ def main() -> int:
             "candidate_occurrences": line_count(context_registry),
             "standing": "enumerated_not_adjudicated"
         },
+        "application_behavior_universe": {
+            "status": application_behavior_report["status"],
+            "completion_claim": application_behavior_report["completion_claim"],
+            "counts": application_behavior_report["counts"],
+            "qualification": application_behavior_report["qualification"],
+            "assembly_mechanisms": application_behavior_report["assembly_mechanisms"],
+            "open_gaps": application_behavior_report["blocking_gaps"],
+            "standing": "specified_candidate_open_world"
+        },
         "llm_quarantine": {
             "forbidden_core_analytics_records": forbidden_core_records,
             "passes": not forbidden_core_records
@@ -112,10 +122,10 @@ def main() -> int:
             "inherited analytics registry contains 60 records rather than the previously claimed 300",
             "expanded analytical-practice records are hypotheses and require split/merge, evidence and compiler adjudication",
             "source-system universe is an open-world researched candidate and still lacks independent review and recurring saturation evidence",
-            "data-type ontology lacks an operation-by-type totality matrix",
             "normalized operation records are hypotheses; most lack typed signatures, laws, evidence and lowering",
             "machine mappings are partial or gaps for 23 of 60 inherited analytics types",
             "559 distinct context candidates remain unadjudicated",
+            "application behavior contracts are specified candidates with no qualified implementation, portable offer or executed vertical acceptance",
             "no universe has independent completeness evidence"
         ],
         "completion_claim": False

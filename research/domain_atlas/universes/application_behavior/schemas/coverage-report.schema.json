@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.example/schemas/application-behavior-coverage.schema.json",
+  "type": "object",
+  "required": ["coverage_id", "universe_id", "edition", "as_of", "status", "completion_claim", "counts", "qualification", "assembly_mechanisms", "blocking_gaps", "claim_boundary"],
+  "properties": {
+    "coverage_id": {"type": "string", "const": "coverage.application_behavior.v0_1_0"},
+    "universe_id": {"const": "application_behavior"},
+    "edition": {"const": 1},
+    "as_of": {"type": "string", "format": "date"},
+    "status": {"const": "specified_candidate_open_world"},
+    "completion_claim": {"const": false},
+    "counts": {"type": "object", "minProperties": 10, "additionalProperties": {"type": "integer", "minimum": 0}},
+    "qualification": {"type": "object", "required": ["qualified_implementations", "portable_offers", "binding_eligible_offers", "executed_conformance_tests", "vertical_acceptance_receipts"], "properties": {"qualified_implementations": {"const": 0}, "portable_offers": {"const": 0}, "binding_eligible_offers": {"const": 0}, "executed_conformance_tests": {"const": 0}, "vertical_acceptance_receipts": {"const": 0}}, "additionalProperties": true},
+    "assembly_mechanisms": {"type": "array", "minItems": 3, "items": {"type": "string"}},
+    "blocking_gaps": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^gap\\.application\\.[a-z0-9_]+$"}},
+    "claim_boundary": {"type": "string", "minLength": 30}
+  },
+  "additionalProperties": true
+}

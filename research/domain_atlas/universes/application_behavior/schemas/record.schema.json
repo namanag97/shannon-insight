@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.example/schemas/application-behavior-record.schema.json",
+  "title": "Application behavior candidate record",
+  "description": "Common envelope for one deterministic JSONL record. Domain-specific fields are checked by validate_corpus.py.",
+  "type": "object",
+  "required": ["edition", "status", "completion_claim", "evidence_refs"],
+  "properties": {
+    "edition": {"type": "integer", "minimum": 1},
+    "status": {"type": "string", "minLength": 1},
+    "completion_claim": {"const": false},
+    "evidence_refs": {"type": "array", "items": {"type": "string", "pattern": "^source\\.application\\.[a-z0-9_]+$"}},
+    "lifecycle": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "time_model": {"type": "object", "required": ["roles", "ambient_time_allowed", "clock_ref"], "properties": {"roles": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "ambient_time_allowed": {"const": false}, "clock_ref": {"type": ["string", "null"]}}, "additionalProperties": true},
+    "authority_model": {"type": "string", "minLength": 1},
+    "resource_assumptions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "side_effects": {"type": "string", "minLength": 1},
+    "invariants": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "refusals": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "additionalProperties": true
+}

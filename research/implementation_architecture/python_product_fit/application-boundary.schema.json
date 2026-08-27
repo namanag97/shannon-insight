@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.dev/schemas/python-application-boundary.schema.json",
+  "title": "Python application implementation boundary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "as_of",
+    "application_id",
+    "distribution_name",
+    "import_package",
+    "disposition",
+    "product_plane",
+    "industry_scope",
+    "sovereign_question",
+    "users_and_jobs",
+    "owned_meanings",
+    "owned_artifacts",
+    "source_contracts",
+    "data_shape_contracts",
+    "analytical_capabilities",
+    "operated_lifecycles",
+    "experience_surfaces",
+    "negative_charter",
+    "non_collapse_laws",
+    "authority",
+    "qualification_posture",
+    "evolution_and_exit",
+    "completion_claim"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "as_of": {"type": "string", "format": "date"},
+    "application_id": {"const": "application.codebase_engineering_intelligence"},
+    "distribution_name": {"const": "shannon-codebase-insight"},
+    "import_package": {"const": "shannon_insight"},
+    "disposition": {"const": "RETAIN_AS_APPLICATION_DOMAIN_REFERENCE_PRODUCT"},
+    "product_plane": {"const": "APPLICATION_DOMAIN_PRODUCT"},
+    "industry_scope": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "sovereign_question": {"type": "string", "minLength": 30},
+    "users_and_jobs": {"$ref": "#/$defs/nonEmptyStrings"},
+    "owned_meanings": {"$ref": "#/$defs/nonEmptyStrings"},
+    "owned_artifacts": {"$ref": "#/$defs/nonEmptyStrings"},
+    "source_contracts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/contract"}},
+    "data_shape_contracts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/contract"}},
+    "analytical_capabilities": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/capability"}},
+    "operated_lifecycles": {"$ref": "#/$defs/nonEmptyStrings"},
+    "experience_surfaces": {"$ref": "#/$defs/nonEmptyStrings"},
+    "negative_charter": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string", "minLength": 15}},
+    "non_collapse_laws": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string", "pattern": "!="}},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_application_semantic_owner", "horizontal_semantic_authority", "product_ratification_authority", "implementation_qualification_authority"],
+      "properties": {
+        "local_application_semantic_owner": {"type": "string", "minLength": 1},
+        "horizontal_semantic_authority": {"const": false},
+        "product_ratification_authority": {"const": false},
+        "implementation_qualification_authority": {"const": false}
+      }
+    },
+    "qualification_posture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "qualified_contract_scope_count", "portable_offer_count", "executed_vertical_acceptance_count", "build_ready", "ratified", "required_gates"],
+      "properties": {
+        "status": {"const": "IMPLEMENTED_APPLICATION_UNQUALIFIED_AGAINST_HORIZONTAL_CONTRACTS"},
+        "qualified_contract_scope_count": {"const": 0},
+        "portable_offer_count": {"const": 0},
+        "executed_vertical_acceptance_count": {"const": 0},
+        "build_ready": {"const": false},
+        "ratified": {"const": false},
+        "required_gates": {"$ref": "#/$defs/nonEmptyStrings"}
+      }
+    },
+    "evolution_and_exit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compatibility_facade", "module_split_policy", "provider_substitution_policy", "deprecation_policy"],
+      "properties": {
+        "compatibility_facade": {"type": "string", "minLength": 1},
+        "module_split_policy": {"type": "string", "minLength": 20},
+        "provider_substitution_policy": {"type": "string", "minLength": 20},
+        "deprecation_policy": {"type": "string", "minLength": 20}
+      }
+    },
+    "completion_claim": {"const": false}
+  },
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_id", "meaning", "admission_or_refusal"],
+      "properties": {
+        "contract_id": {"type": "string", "pattern": "^[a-z0-9_.-]+$"},
+        "meaning": {"type": "string", "minLength": 20},
+        "admission_or_refusal": {"type": "string", "minLength": 20}
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability_id", "scope", "platform_status"],
+      "properties": {
+        "capability_id": {"type": "string", "pattern": "^[a-z0-9_.-]+$"},
+        "scope": {"type": "string", "minLength": 20},
+        "platform_status": {"enum": ["APPLICATION_LOCAL", "REUSABLE_METHOD_CANDIDATE_UNQUALIFIED"]}
+      }
+    }
+  }
+}

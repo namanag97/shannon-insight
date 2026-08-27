@@ -3,7 +3,7 @@ from wave_io_campaign import validate_campaign
 
 
 def main() -> int:
-    return validate_campaign("M01_UNIVERSE_AND_EVIDENCE_PRODUCERS", "m01")
+    return validate_campaign("M02_VERTICAL_CONTEXT_AND_REFERENCE_PRODUCERS", "m02")
 
 
 if __name__ == "__main__":

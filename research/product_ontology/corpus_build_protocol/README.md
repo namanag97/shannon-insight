@@ -34,7 +34,7 @@ python3 research/product_ontology/corpus_build_protocol/orchestrate.py verify pa
 
 `trace_package_io.py` is a migration aid for disposable clean worktrees. It observes repository-local reads and writes from an uncontracted builder so input/output candidates can be adjudicated. A trace is not a determinism proof or execution authorization.
 
-`run_m01_io_campaign.py` turns that observation into a bounded same-campaign receipt for the universe/evidence wave: every builder runs twice from the same clean commit in a disposable worktree, validators must be read-only, and builder identities are digest-bound. Starting each run clean distinguishes reproducibility from mere idempotence. The retained receipt still cannot provide independent appraisal, semantic authority, qualification or canonical execution authorization.
+`wave_io_campaign.py` provides the reusable bounded campaign mechanism used by `run_m01_io_campaign.py` and subsequent migration-wave wrappers. Every builder runs twice from the same clean commit in a disposable worktree, validators must be read-only, and builder identities are digest-bound. Starting each run clean distinguishes reproducibility from mere idempotence. A retained receipt still cannot provide independent appraisal, semantic authority, qualification or canonical execution authorization.
 
 ## Current boundary
 

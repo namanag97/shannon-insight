@@ -6,7 +6,7 @@
   "refused_packet_count": 0,
   "refused_packets": [],
   "report_id": "source_system_occurrence_registry",
-  "retained_occurrence_count": 1,
-  "source_class_count_with_retained_occurrence": 1,
+  "retained_occurrence_count": 2,
+  "source_class_count_with_retained_occurrence": 2,
   "status": "POPULATED_RESEARCH_EXECUTION_OCCURRENCES_PRODUCTION_QUALIFICATION_WITHHELD"
 }

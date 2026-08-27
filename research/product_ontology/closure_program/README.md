@@ -15,9 +15,13 @@ Current live facts include:
 - 0 open structural compiler gaps after the canonical 59-gap rebase;
 - 912 effective qualification evidence vacancies, not the older 917 raw-snapshot vacancies;
 - 1,613 researched industry analytical cases across 9 broad challenge packs;
-- 4,169 unresolved canonical-reference review records across industry/method/operation/source identities;
+- 4,169 raw canonical-reference review records across industry/method/operation/source identities, of which 3 are research-resolved candidates and 4,166 remain open at the effective research layer;
 - 171 open-world source-system classes;
+- a seven-stage non-collapse topology from source class through governed data cut;
+- 1 complete synthetic SQLite reference chain spanning all seven identities, still neither production-qualified nor independently appraised;
+- 1 retained executed SQLite source occurrence, with production qualification and independent appraisal still withheld;
 - 177 logical data shapes;
+- 18 historical data-shape gaps with explicit effective dispositions and 0 end-to-end closed gaps;
 - 144 candidate global contexts and 308 context relations;
 - 59 provider implementation artifacts / concrete offers as unqualified seeds;
 - 0 portable, vertically accepted, build-ready or ratified products.
@@ -26,7 +30,7 @@ No count is a completeness claim.
 
 ## Dependency-ordered batches
 
-The live queue is divided into 16 batches:
+The live queue is divided into 21 dependency-ordered batches. B00-B15 qualify individual products and libraries. B16-B20 prove that the resulting corpus can cover, synthesize, operate and continuously maintain complete enterprise solutions; B15 is therefore the final **product** gate, not the final program gate.
 
 ```text
 B00 truth convergence
@@ -53,7 +57,25 @@ B00 truth convergence
                                                                                               |
                                                                                               v
                                                                                      B15 two-release + ratification
+                                                                                              |
+ B07/B08/B09 --------------------------------------------------------------------> B16 open-world coverage
+                                                                                              |
+ B12/B13/B16 --------------------------------------------------------------------> B17 intent synthesis
+                                                                                              |
+ B11/B13/B17 --------------------------------------------------------------------> B18 human/authority/effect
+                                                                                              |
+ B14/B17/B18 --------------------------------------------------------------------> B19 multi-product acceptance
+                                                                                              |
+ B15/B19 ------------------------------------------------------------------------> B20 continuous validity
 ```
+
+The five program-level gates close omissions that product-local qualification cannot prove:
+
+- **B16 open-world coverage and novelty** uses unrelated held-out industries, professions, lifecycles, analytical questions, source modalities and adversarial cases. A new concept must compose or become a typed extension gap; similarity is not authority.
+- **B17 intent-to-solution synthesis** executes the full path from declared intent through requirements/offers, semantic and physical binding, configuration and reproducible plans or typed refusals. Compilation is one bounded operating mode, not universal judgment.
+- **B18 application, human authority and effect** proves workflow, review, UI/document, accessibility/offline, authorization, effect, compensation, appeal and recall laws. Analytic result, recommendation, judgment, authorization, effect and outcome remain distinct.
+- **B19 multi-product system acceptance** tests end-to-end solutions, including identity, time, transaction, retry, lineage, authority, deletion/recall, version skew and recovery interactions that product-local tests cannot see.
+- **B20 continuous validity and decommission** propagates standards/provider/dependency/security/price/limit/schema/behavior changes into invalidation, requalification, migration, suspension or safe exit. It is the final program gate.
 
 B01 and final ratification are intentionally authority-blocked. Research and automation may prepare exact decision payloads but cannot invent named human authority, independent appraisal or physical execution receipts.
 

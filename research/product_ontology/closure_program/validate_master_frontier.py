@@ -14,15 +14,33 @@ context_map = json.loads((ROOT / "research/domain_atlas/context_map/manifest.jso
 source_systems = json.loads((ROOT / "research/domain_atlas/universes/source_systems/coverage-report.json").read_text(encoding="utf-8"))
 data_shapes = json.loads((ROOT / "research/domain_atlas/universes/data_shapes/coverage-report.json").read_text(encoding="utf-8"))
 providers = json.loads((ROOT / "research/domain_atlas/compiler/provider_target_registry/manifest.json").read_text(encoding="utf-8"))
+evidence_governance = json.loads((ROOT / "research/analytics_landscape/product_families/evidence-governance-summary.json").read_text(encoding="utf-8"))
+boundary_falsification = json.loads((ROOT / "research/product_ontology/dossier_readiness/product-boundary-falsification-summary.json").read_text(encoding="utf-8"))
+contract_scopes = json.loads((ROOT / "research/product_ontology/qualification_program/contract-scope-summary.json").read_text(encoding="utf-8"))
+canonical_refs = json.loads((ROOT / "research/domain_atlas/industries/canonical-reference-effective-summary.json").read_text(encoding="utf-8"))
+source_occurrences = json.loads((ROOT / "research/domain_atlas/universes/source_systems/occurrence-registry-summary.json").read_text(encoding="utf-8"))
+source_topology = json.loads((ROOT / "research/domain_atlas/universes/source_systems/source-acquisition-topology.json").read_text(encoding="utf-8"))
+source_reference_chain = json.loads((ROOT / "research/domain_atlas/universes/source_systems/source-acquisition-reference-summary.json").read_text(encoding="utf-8"))
+effective_shape_gaps = json.loads((ROOT / "research/domain_atlas/universes/data_shapes/effective-gap-summary.json").read_text(encoding="utf-8"))
+synthesis = json.loads((ROOT / "research/product_ontology/solution_synthesis_architecture/summary.json").read_text(encoding="utf-8"))
+human_work = json.loads((ROOT / "research/domain_atlas/universes/human_work_review_adjudication/manifest.json").read_text(encoding="utf-8"))
+effect_boundary = json.loads((ROOT / "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/effect_boundary_coordinate_ontology/summary.json").read_text(encoding="utf-8"))
+vertical_acceptance = json.loads((ROOT / "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p8_vertical_acceptance_tensor/summary.json").read_text(encoding="utf-8"))
+change_intelligence = json.loads((ROOT / "research/domain_atlas/ecosystem/change_intelligence/manifest.json").read_text(encoding="utf-8"))
+coverage_planes = [json.loads(x) for x in (ROOT / "research/domain_atlas/coverage-planes.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
 
-assert len(rows) == 16 == summary["batch_count"]
+assert len(rows) == 21 == summary["batch_count"]
 ids = [r["batch_id"] for r in rows]
-assert ids == [f"B{i:02d}_" + ids[i].split("_", 1)[1] for i in range(16)]
+assert ids == [f"B{i:02d}_" + ids[i].split("_", 1)[1] for i in range(21)]
 assert len(set(ids)) == len(ids)
 known = set(ids)
+seen = set()
 for row in rows:
     assert set(row["depends_on"]) <= known
+    assert set(row["depends_on"]) <= seen, f"{row['batch_id']} is not dependency ordered"
     assert row["exit_condition"] and row["authority_refs"] and row["scope"]
+    assert row["status"] not in {"CLOSED", "SATISFIED"}
+    seen.add(row["batch_id"])
 
 cases = sum(p["cases"] for p in industries["packs"])
 assert cases == 1613 == summary["industry_analytical_case_count"]
@@ -34,7 +52,24 @@ assert summary["context_count"] == context_map["counts"]["contexts"] == 144
 assert summary["source_system_class_count"] == source_systems["class_records"] == 171
 assert summary["data_shape_logical_count"] == data_shapes["counts"]["logical_shapes"] == 177
 assert summary["provider_offer_seed_count"] == providers["counts"]["concrete_offers"] == 59
+assert summary["program_level_gate_count"] == 5
+assert summary["final_product_gate"] == "B15_TWO_RELEASE_CHANGE_AND_RATIFICATION"
+assert summary["final_program_gate"] == "B20_CONTINUOUS_VALIDITY_AND_DECOMMISSION"
 assert summary["completion_claim"] is False
-assert rows[7]["current"]["unresolved_method_refs"] == industries["canonical_reference_closure"]["unresolved_method_refs"]
+assert rows[4]["current"]["weak_membership_claims"] == evidence_governance["weak_membership_claim_count"]
+assert rows[5]["current"]["falsification_contracts"] == boundary_falsification["falsification_contract_count"]
+assert rows[6]["current"]["exact_semantic_contract_scopes"] == contract_scopes["semantic_contract_scope_count"]
+assert rows[7]["current"]["remaining_open_research_records"] == canonical_refs["remaining_open_research_records"]
+assert rows[7]["current"]["unresolved_method_refs"] == canonical_refs["method_reference_frontier"]["remaining_open_research_distinct"]
+assert rows[8]["current"]["retained_occurrences"] == source_occurrences["retained_occurrence_count"]
+assert rows[8]["current"]["source_acquisition_identity_stages"] == len(source_topology["nodes"]) == 7
+assert rows[8]["current"]["complete_reference_chains"] == source_reference_chain["governed_data_cuts"] == 1
+assert rows[9]["current"]["end_to_end_closed_gaps"] == effective_shape_gaps["end_to_end_closed_gap_count"]
 assert rows[14]["current"]["nominal_gate_obligations"] == qualification["retained_product_count"] * 2 * 8 == 1056
-print("PASS master closure frontier: 16 dependency-ordered batches; live counts agree with authority summaries")
+assert rows[16]["current"]["coverage_planes"] == len(coverage_planes)
+assert rows[17]["current"]["ir_stages"] == synthesis["ir_stages"]
+assert rows[18]["current"]["human_work_decision_points"] == human_work["files"]["decision-points.jsonl"]["records"]
+assert rows[18]["current"]["effect_boundary_routes"] == effect_boundary["target_member_routes"]
+assert rows[19]["current"]["structural_composition_pilots"] == vertical_acceptance["pilot_structural_compositions"]
+assert rows[20]["current"]["verified_change_events"] == change_intelligence["counts"]["verified-change-events"]
+print("PASS master closure frontier: 21 dependency-ordered batches (16 product/library + 5 program-level); live counts agree with authority summaries")

@@ -14,9 +14,9 @@
   "edition": 3,
   "machine_exact_alias_candidate_occurrences": 644,
   "machine_exact_alias_candidate_records": 137,
-  "manual_research_resolutions": 439,
+  "manual_research_resolutions": 4029,
   "raw_review_queue_records": 4169,
-  "remaining_without_manual_or_machine_exact_candidate": 3593,
+  "remaining_without_manual_or_machine_exact_candidate": 3,
   "report_id": "industry_canonical_reference_auto_alias_candidates",
   "status": "CANDIDATES_ONLY_AUTHORITY_WITHHELD"
 }

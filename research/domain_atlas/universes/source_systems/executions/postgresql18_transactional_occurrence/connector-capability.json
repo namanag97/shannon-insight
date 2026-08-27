@@ -1,0 +1,148 @@
+{
+  "adapter_id": "connector.psycopg3.postgresql18.native_probe.v1",
+  "conformance_receipts": [
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.server_identity_and_logical_wal"
+    },
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.schema_and_key_discovery"
+    },
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.repeatable_snapshot_stability"
+    },
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.transaction_rollback_atomicity"
+    },
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.logical_slot_identity"
+    },
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.wal_position_advances_for_changes"
+    },
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.logical_change_visibility"
+    },
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.schema_evolution_discoverable"
+    },
+    {
+      "artifact_ref": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+      "executed_at": "2026-08-27T16:45:52.640366Z",
+      "result": "pass",
+      "test_id": "verify.postgresql18.final_reconciliation"
+    }
+  ],
+  "delivery": {
+    "backfill": "SQL snapshot",
+    "checkpoint": "logical replication slot LSN",
+    "deduplication": "consumer responsibility; not qualified",
+    "guarantee": "native transaction/WAL observations only; no external connector delivery guarantee",
+    "ordering_scope": "transaction/WAL order",
+    "replay": "peek does not consume; durable consumer replay not qualified",
+    "resume": "slot-based continuation not exercised across process restart",
+    "transaction_boundary": "PostgreSQL transaction"
+  },
+  "license": {
+    "redistribution": "not adjudicated",
+    "spdx_or_policy": "psycopg licensing and PostgreSQL licensing require exact package review",
+    "support_status": "research harness only"
+  },
+  "limits": {
+    "concurrency": "not benchmarked",
+    "page": "not applicable to SQL row stream",
+    "payload": "not benchmarked",
+    "query_cost": "not benchmarked",
+    "quota": "not benchmarked",
+    "rate": "not benchmarked",
+    "retention": "-1"
+  },
+  "observability": {
+    "dead_letter": "none",
+    "health": "SQL connectivity",
+    "lineage": "receipt IDs and exact occurrence",
+    "logs": "GitHub Actions",
+    "metrics": "none retained",
+    "owner": "shannon-insight B08 research harness",
+    "retry": "not qualified",
+    "runbook": "research harness",
+    "traces": "none"
+  },
+  "operations": {
+    "change": [
+      "logical slot create",
+      "pgoutput peek",
+      "WAL LSN observe"
+    ],
+    "discovery": [
+      "information_schema",
+      "pg_catalog"
+    ],
+    "read": [
+      "SQL snapshot"
+    ],
+    "write": [
+      "synthetic mutations only"
+    ]
+  },
+  "protocol": "PostgreSQL SQL via psycopg 3 plus native logical decoding SQL probe",
+  "schema": {
+    "compatibility": "consumer-specific",
+    "deprecation": "not qualified",
+    "discovery": "information_schema",
+    "drift": "re-discover after DDL",
+    "inference": "declared SQL types",
+    "unknown_fields": "fail closed"
+  },
+  "security": {
+    "audit": "GitHub Actions log",
+    "authentication": "password test account",
+    "authorization": "superuser in harness; production least privilege NOT qualified",
+    "credential_reference_only": true,
+    "encryption": "not asserted",
+    "network_boundary": "localhost runner",
+    "secret_rotation": "ephemeral job secret only"
+  },
+  "source_class_ids": [
+    "source.operational_database.relational_transactional",
+    "source.event_messaging_cdc.transaction_log_cdc"
+  ],
+  "temporal": {
+    "cursor_time": "LSN",
+    "event_time": "application column only if present",
+    "late_data": "application semantic",
+    "recorded_time": "commit/WAL ordering",
+    "revision": "UPDATE WAL record",
+    "tombstone": "DELETE WAL record depends on replica identity for old row detail",
+    "watermark": "none"
+  },
+  "versions": {
+    "implementation": "psycopg 3.3.4 B08 native probe",
+    "maximum_tested_source": "18.6 (Debian 18.6-1.pgdg13+2)",
+    "minimum_source": "PostgreSQL 18 for this exact retained scope",
+    "protocol": "PostgreSQL 18 SQL/logical decoding interfaces"
+  }
+}

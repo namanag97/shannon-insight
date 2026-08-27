@@ -1,0 +1,31 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://san.example/domain-atlas/acquisition-plan.schema.json",
+  "title":"Governed source acquisition plan",
+  "description":"Composes an exact source occurrence, access surface and connector with snapshot/incremental/CDC handoff, reconciliation, retry, drift, security and budgets. It is not itself a source type or connector capability declaration.",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["plan_id","occurrence_ref","access_surface_ref","connector_ref","requested_source_class_refs","object_selection","initial_cut","change_capture","handoff","reconciliation","retry_and_idempotency","schema_change","deletion_and_correction","security","budgets","output_cut_contract","refusal_rules","status","non_collapse"],
+  "properties":{
+    "plan_id":{"type":"string","pattern":"^acquisition-plan\\."},
+    "occurrence_ref":{"type":"string","pattern":"^source-occurrence\\."},
+    "access_surface_ref":{"type":"string","pattern":"^source-surface\\."},
+    "connector_ref":{"type":"string","minLength":3},
+    "requested_source_class_refs":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","pattern":"^source\\."}},
+    "object_selection":{"type":"object","minProperties":1},
+    "initial_cut":{"type":"object","required":["mode","consistency_requirement","boundary_identity"],"properties":{"mode":{"enum":["snapshot","bounded_export","from_checkpoint","none"]},"consistency_requirement":{"type":"string"},"boundary_identity":{"type":"string"}},"additionalProperties":true},
+    "change_capture":{"type":"object","required":["mode","cursor_or_position","ordering_scope","duplicate_policy","gap_policy","retention_expiry_policy"],"additionalProperties":true},
+    "handoff":{"type":"object","required":["snapshot_to_change_law","overlap_policy","gap_detection","unknown_outcome_policy"],"additionalProperties":true},
+    "reconciliation":{"type":"object","required":["count_or_hash","key_coverage","delete_coverage","frequency","failure_posture"],"additionalProperties":true},
+    "retry_and_idempotency":{"type":"object","minProperties":1},
+    "schema_change":{"type":"object","required":["discovery","compatibility","unknown_field_policy","breaking_change_policy"],"additionalProperties":true},
+    "deletion_and_correction":{"type":"object","minProperties":1},
+    "security":{"type":"object","required":["credential_ref_only","least_privilege","network_boundary","audit"],"additionalProperties":true},
+    "budgets":{"type":"object","required":["time","memory","concurrency","rate","cost"],"additionalProperties":true},
+    "output_cut_contract":{"type":"object","required":["governed_cut_required","lineage_required","completeness_state_required"],"additionalProperties":true},
+    "refusal_rules":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+    "status":{"enum":["DRAFT","ADMITTED","EXECUTABLE","REFUSED","REVOKED","SUPERSEDED"]},
+    "non_collapse":{"type":"array","minItems":5,"uniqueItems":true,"items":{"type":"string"}},
+    "completion_claim":{"type":"boolean","const":false}
+  }
+}

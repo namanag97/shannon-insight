@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-08-28",
+  "decision_id": "decision.python_role_in_composable_data_analytics_company",
+  "decision": "RETAIN_PYTHON_AS_APPLICATION_RESEARCH_HARNESS_AND_OPTIONAL_PROVIDER_LANGUAGE_NOT_UNIVERSAL_SEMANTIC_AUTHORITY",
+  "planes": [
+    {
+      "plane_id": "plane.research_builders_and_validators",
+      "repository_location": "research/**/*.py",
+      "role": "Deterministically generate, crosswalk and validate machine-readable research corpora.",
+      "runtime_distribution_membership": false,
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "plane_id": "plane.codebase_intelligence_application",
+      "repository_location": "src/shannon_insight/**/*.py",
+      "role": "Operate the software-engineering intelligence application over bounded source-tree and Git observations.",
+      "runtime_distribution_membership": true,
+      "semantic_authority": "APPLICATION_LOCAL_ONLY",
+      "qualification_claim": false
+    },
+    {
+      "plane_id": "plane.qualification_harnesses",
+      "repository_location": "research/**/executions/**/*.py",
+      "role": "Execute exact-scope test protocols and retain evidence without self-certifying independence or qualification.",
+      "runtime_distribution_membership": false,
+      "semantic_authority": false,
+      "qualification_claim": false
+    },
+    {
+      "plane_id": "plane.future_contract_provider_implementations",
+      "repository_location": null,
+      "role": "Optional independently versioned Python provider distributions for exact abstract contract editions.",
+      "runtime_distribution_membership": false,
+      "semantic_authority": false,
+      "qualification_claim": false
+    }
+  ],
+  "allowed_python_roles": [
+    "Research source models, builders, crosswalks and fail-closed validators",
+    "Application-domain services and experiences for codebase engineering intelligence",
+    "Deterministic pure method implementations where numeric and resource contracts are explicit",
+    "Provider adapters behind abstract contracts",
+    "Qualification, differential, property, metamorphic and failure-injection harnesses",
+    "Notebook or exploratory experiences when their outputs remain proposals until admitted"
+  ],
+  "forbidden_collapses": [
+    "python_class != canonical_semantic_authority",
+    "research_builder != production_runtime",
+    "notebook_result != admitted_enterprise_fact",
+    "provider_sdk_type != abstract_contract_type",
+    "package_importability != implementation_qualification",
+    "single_language_implementation != portability",
+    "unit_test_pass != independent_appraisal",
+    "application_module != horizontal_product"
+  ],
+  "package_split_triggers": [
+    {
+      "trigger": "A method is claimed reusable outside codebase intelligence.",
+      "required_action": "Extract an editioned abstract contract and application-neutral test vectors before moving code into a separately versioned provider package."
+    },
+    {
+      "trigger": "A module acquires provider SDK, network, storage or process effects.",
+      "required_action": "Separate pure contract/value semantics from the effectful provider adapter and bind resource, failure, retry, cancellation and evidence behavior."
+    },
+    {
+      "trigger": "A horizontal product needs Python implementation.",
+      "required_action": "Create a product-owned package only after product boundary and library authority are ratified; do not enlarge shannon_insight as a miscellaneous platform container."
+    },
+    {
+      "trigger": "A second implementation or non-Python runtime is selected.",
+      "required_action": "Use canonical carriers, shared conformance vectors and differential/exit evidence; do not treat Python object serialization as the interoperability contract."
+    }
+  ],
+  "interchange_laws": [
+    "Canonical carriers are editioned and language-neutral.",
+    "Private admitted values are reconstructed only after validation of hostile carriers.",
+    "Provider-specific handles remain outside abstract semantic contracts.",
+    "Unknown fields, versions, partiality, time and loss behavior are explicit.",
+    "Cross-language equality and digest rules are declared before portability is claimed."
+  ],
+  "current_package_actions": [
+    "Keep distribution name shannon-codebase-insight and import facade shannon_insight.",
+    "Classify every current module under the application boundary.",
+    "Expose cross-layer dependency debt rather than pretending the package is already cleanly decomposed.",
+    "Prevent runtime imports from research authority corpora.",
+    "Require exact contract and qualification references before any module is promoted as a reusable horizontal implementation."
+  ],
+  "completion_claim": false
+}

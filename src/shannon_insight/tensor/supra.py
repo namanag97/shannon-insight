@@ -75,14 +75,13 @@ def build_supra_adjacency(
         layers = [r for r in layers if r != COMBINED]
     n_layers = len(layers)
 
-    supra_n = n_layers * n
     blocks: list[list[sparse.csr_matrix | None]] = [[None] * n_layers for _ in range(n_layers)]
 
     identity = sparse.eye(n, dtype=np.float32, format="csr")
     omega_identity = omega * identity
 
     for i, r_i in enumerate(layers):
-        for j, r_j in enumerate(layers):
+        for j, _r_j in enumerate(layers):
             if i == j:
                 # Diagonal block: the actual adjacency matrix for this layer
                 blocks[i][j] = tensor.slice(t, r_i).astype(np.float32)

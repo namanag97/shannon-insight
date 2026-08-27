@@ -1,0 +1,125 @@
+{
+  "authority_scope": "synthetic public.b08_items only",
+  "change_modes": [
+    "WAL LSN",
+    "logical slot pgoutput"
+  ],
+  "completion_claim": false,
+  "endpoint_or_locator_class": "localhost PostgreSQL service with wal_level=logical",
+  "evidence_refs": [
+    "receipt.source.postgresql18.a03a3ede25f6a4cc"
+  ],
+  "expires_at": "2026-09-26T16:45:52.640366Z",
+  "non_collapse": [
+    "access surface != PostgreSQL product offer",
+    "configured logical slot != external connector",
+    "WAL visibility != decoded business event semantics",
+    "surface observation != governed cut"
+  ],
+  "object_scope": [
+    "public.b08_items",
+    "publication:b08_pub",
+    "logical_slot:b08_slot"
+  ],
+  "observed_at": "2026-08-27T16:45:52.640366Z",
+  "observed_limits": {
+    "concurrency": {
+      "failure_behavior": "workload and configuration specific",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "not benchmarked",
+      "source": "unknown",
+      "unit": "sessions",
+      "value": null
+    },
+    "cost_and_egress": {
+      "failure_behavior": "runner infrastructure cost excluded",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "local open-source container only",
+      "source": "capability_probe",
+      "unit": "provider_metered_currency",
+      "value": 0
+    },
+    "cursor_ttl": {
+      "failure_behavior": "slot lifetime/configuration specific",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "logical replication slot",
+      "source": "unknown",
+      "unit": "duration",
+      "value": null
+    },
+    "object_size": {
+      "failure_behavior": "requires deployment/version-specific evidence",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "relation/table",
+      "source": "unknown",
+      "unit": "bytes",
+      "value": null
+    },
+    "page_size": {
+      "failure_behavior": "compile-time build setting may differ",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "default PostgreSQL block size; not probed as deployment limit",
+      "source": "documentation",
+      "unit": "bytes",
+      "value": 8192
+    },
+    "payload_size": {
+      "failure_behavior": "requires boundary probe",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "row/value",
+      "source": "unknown",
+      "unit": "bytes",
+      "value": null
+    },
+    "query_timeout": {
+      "failure_behavior": "statement_timeout not set by harness",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "statement execution",
+      "source": "unknown",
+      "unit": "duration",
+      "value": null
+    },
+    "quota": {
+      "failure_behavior": "deployment specific",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "container storage",
+      "source": "unknown",
+      "unit": "bytes",
+      "value": null
+    },
+    "rate": {
+      "failure_behavior": "benchmark required",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "not benchmarked",
+      "source": "unknown",
+      "unit": "operations_per_second",
+      "value": null
+    },
+    "retention": {
+      "failure_behavior": "slot may retain WAL subject to configuration and disk",
+      "observed_at": "2026-08-27T16:45:52.640366Z",
+      "scope": "logical-slot WAL retention cap setting",
+      "source": "capability_probe",
+      "unit": "configuration",
+      "value": "-1"
+    }
+  },
+  "occurrence_ref": "source-occurrence.postgresql18.github_actions.synthetic.v1",
+  "protocol_or_format": "PostgreSQL SQL + logical replication/pgoutput",
+  "read_modes": [
+    "SQL query",
+    "repeatable-read snapshot"
+  ],
+  "security_requirements": {
+    "audit": "GitHub Actions logs + retained receipt only",
+    "authn": "PostgreSQL password inside isolated test job",
+    "authz": "postgres superuser for logical-slot setup; NOT least-privilege production posture",
+    "credential_ref": "github_actions_ephemeral_postgres_password",
+    "encryption": "not asserted; local runner connection",
+    "network": "localhost published Docker service port within runner",
+    "tenant": "single synthetic database"
+  },
+  "status": "OBSERVED",
+  "surface_id": "source-surface.postgresql18.github_actions.sql_logical.v1",
+  "surface_kind": "cdc"
+}

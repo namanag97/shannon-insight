@@ -1,0 +1,17 @@
+{
+  "all_tests_passed": true,
+  "as_of": "2026-08-27T16:45:52.640366Z",
+  "completion_claim": false,
+  "external_connector_qualified": false,
+  "independently_appraised": false,
+  "logical_slot": "b08_slot",
+  "occurrence_id": "source-occurrence.postgresql18.github_actions.synthetic.v1",
+  "passed_test_count": 9,
+  "production_qualified": false,
+  "report_id": "b08_postgresql18_transactional_logical_occurrence",
+  "source_class_ids": [
+    "source.operational_database.relational_transactional",
+    "source.event_messaging_cdc.transaction_log_cdc"
+  ],
+  "test_count": 9
+}

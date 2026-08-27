@@ -1,0 +1,159 @@
+{
+  "completion_claim": false,
+  "execution_environment": {
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "postgresql": "18.6 (Debian 18.6-1.pgdg13+2)",
+    "psycopg": "3.3.4",
+    "python": "3.12.14"
+  },
+  "independent_appraisal_claim": false,
+  "logical_rowset_sha256": "a03a3ede25f6a4cc73ceca8cf2a1b35108f387c98f5c8843d7e564ad764a9832",
+  "passed": true,
+  "production_slo_claim": false,
+  "qualification_claim": false,
+  "receipt_id": "receipt.source.postgresql18.a03a3ede25f6a4cc",
+  "record_kind": "source_occurrence_probe_receipt",
+  "same_campaign_controlled": true,
+  "started_at": "2026-08-27T16:45:52.640366Z",
+  "tests": [
+    {
+      "evidence": {
+        "n": "180006",
+        "v": "18.6 (Debian 18.6-1.pgdg13+2)",
+        "wal_level": "logical"
+      },
+      "passed": true,
+      "test_id": "server_identity_and_logical_wal"
+    },
+    {
+      "evidence": {
+        "columns": [
+          {
+            "column_name": "id",
+            "data_type": "bigint",
+            "is_nullable": "NO"
+          },
+          {
+            "column_name": "value",
+            "data_type": "text",
+            "is_nullable": "NO"
+          },
+          {
+            "column_name": "amount",
+            "data_type": "numeric",
+            "is_nullable": "YES"
+          },
+          {
+            "column_name": "updated_at",
+            "data_type": "timestamp with time zone",
+            "is_nullable": "NO"
+          }
+        ],
+        "primary_key": [
+          "id"
+        ]
+      },
+      "passed": true,
+      "test_id": "schema_and_key_discovery"
+    },
+    {
+      "evidence": {
+        "after_new_transaction": 3,
+        "before": 2,
+        "during_snapshot": 2
+      },
+      "passed": true,
+      "test_id": "repeatable_snapshot_stability"
+    },
+    {
+      "evidence": {
+        "rows_after_rollback": 0
+      },
+      "passed": true,
+      "test_id": "transaction_rollback_atomicity"
+    },
+    {
+      "evidence": {
+        "created": {
+          "lsn": "0/179A570",
+          "slot_name": "b08_slot"
+        },
+        "metadata": {
+          "active": false,
+          "confirmed_flush_lsn": "0/179A570",
+          "database": "postgres",
+          "plugin": "pgoutput",
+          "restart_lsn": "0/179A538",
+          "slot_name": "b08_slot",
+          "slot_type": "logical"
+        }
+      },
+      "passed": true,
+      "test_id": "logical_slot_identity"
+    },
+    {
+      "evidence": {
+        "byte_diff": "480",
+        "end_lsn": "0/179A750",
+        "start_lsn": "0/179A570"
+      },
+      "passed": true,
+      "test_id": "wal_position_advances_for_changes"
+    },
+    {
+      "evidence": {
+        "first_lsn": "0/179A570",
+        "last_lsn": "0/179A750",
+        "message_count": 10
+      },
+      "passed": true,
+      "test_id": "logical_change_visibility"
+    },
+    {
+      "evidence": {
+        "columns": [
+          {
+            "column_name": "id",
+            "data_type": "bigint",
+            "is_nullable": "NO"
+          },
+          {
+            "column_name": "value",
+            "data_type": "text",
+            "is_nullable": "NO"
+          },
+          {
+            "column_name": "amount",
+            "data_type": "numeric",
+            "is_nullable": "YES"
+          },
+          {
+            "column_name": "updated_at",
+            "data_type": "timestamp with time zone",
+            "is_nullable": "NO"
+          },
+          {
+            "column_name": "note",
+            "data_type": "text",
+            "is_nullable": "YES"
+          }
+        ]
+      },
+      "passed": true,
+      "test_id": "schema_evolution_discoverable"
+    },
+    {
+      "evidence": {
+        "ids": [
+          1,
+          3,
+          4
+        ],
+        "logical_rowset_sha256": "a03a3ede25f6a4cc73ceca8cf2a1b35108f387c98f5c8843d7e564ad764a9832",
+        "row_count": 3
+      },
+      "passed": true,
+      "test_id": "final_reconciliation"
+    }
+  ]
+}

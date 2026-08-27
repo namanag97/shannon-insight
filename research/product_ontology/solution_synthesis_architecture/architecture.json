@@ -1,0 +1,35 @@
+{
+  "architecture_id": "architecture.solution_synthesis_assurance.v1",
+  "compiler_promise": "Transform sufficiently explicit, ratified intent against frozen registries into a reproducible solution blueprint, or return a complete typed actionable account of why closure is impossible.",
+  "completion_claim": false,
+  "component_refs": [
+    "component.synthesis.assurance-appraisal-system",
+    "component.synthesis.authority-adjudication-workbench",
+    "component.synthesis.constraint-planner-synthesizer",
+    "component.synthesis.desired-state-reconciler",
+    "component.synthesis.deterministic-compiler-kernel",
+    "component.synthesis.ontology-research-extension"
+  ],
+  "ir_refs": [
+    "ir.synthesis.application-behavior-ir",
+    "ir.synthesis.authority-effect-ir",
+    "ir.synthesis.business-intent-ir",
+    "ir.synthesis.capability-requirement-ir",
+    "ir.synthesis.contract-graph-ir",
+    "ir.synthesis.deployment-blueprint-ir",
+    "ir.synthesis.evidence-acceptance-ir",
+    "ir.synthesis.logical-dataflow-ir",
+    "ir.synthesis.physical-binding-ir",
+    "ir.synthesis.product-composition-ir",
+    "ir.synthesis.semantic-intent-ir"
+  ],
+  "kind": "ARCHITECTURE_PATTERN_NOT_PRODUCT",
+  "mode_refs": [
+    "mode.synthesis.closed-world-compilation",
+    "mode.synthesis.interactive-synthesis",
+    "mode.synthesis.open-world-discovery"
+  ],
+  "non_promise": "Does not infer universal business meaning, manufacture authority or evidence, guarantee physical effects or outcomes, or treat open-world discovery as a closed-world compile.",
+  "sovereign_question": "For each enterprise requirement, which bounded mechanism may resolve it, which authority owns any remaining decision, and what exact blueprint or residual follows without pretending the whole world is mechanically compilable?",
+  "status": "PROPOSED_UNRATIFIED"
+}

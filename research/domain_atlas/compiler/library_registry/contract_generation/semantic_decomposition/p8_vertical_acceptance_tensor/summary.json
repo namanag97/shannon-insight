@@ -5,13 +5,13 @@
   "edition": 1,
   "executed_vertical_acceptances": 0,
   "input_snapshot": {
-    "aggregate_sha256": "8ea77c54bc86c4554ec846870e13db2f6cb568c8753984ec72d12e4ff87e8775",
+    "aggregate_sha256": "305b566d925e1b81cfc31a5e29d6c2485966be2750adc8a2c63ecfe850c799c5",
     "files": [
       {
-        "bytes": 233967,
+        "bytes": 233982,
         "path": "research/product_ontology/qualification_program/product-qualification-programs.jsonl",
         "record_count": 65,
-        "sha256": "aaa1a72452d86fb091936f66d3552fef79033062d721f9c929a62718a787e13d"
+        "sha256": "7aa361f5f63a177549ae6269edbc50f2aed2a841da29af0ea3af36713b54451e"
       },
       {
         "bytes": 74067,
@@ -38,7 +38,7 @@
         "sha256": "59b667e208282235f328bb7a063c94a2a475a95c3eee436c2c402b0741aa13de"
       }
     ],
-    "snapshot_id": "snapshot.p8-input.8ea77c54bc86c455"
+    "snapshot_id": "snapshot.p8-input.305b566d925e1b81"
   },
   "pilot_product_candidate_relations": 45,
   "pilot_structural_compositions": 4,

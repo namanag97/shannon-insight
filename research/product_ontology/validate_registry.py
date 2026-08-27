@@ -1592,6 +1592,7 @@ def main() -> int:
         "analytical-operations inventory challenge": ROOT / "inventory_challenges/analytical_operations_gap_audit/validate.py",
         "quality/reconciliation split audit": ROOT / "inventory_challenges/quality_reconciliation_split_audit/validate.py",
         "upstream demand-surface sweep": ROOT / "upstream_demand_surface_sweep/validate.py",
+        "solution-synthesis architecture": ROOT / "solution_synthesis_architecture/validate.py",
     }
     for challenge_name, inventory_challenge_validator in inventory_challenges.items():
         if not inventory_challenge_validator.is_file():

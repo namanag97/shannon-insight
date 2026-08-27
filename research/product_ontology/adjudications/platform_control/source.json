@@ -114,6 +114,13 @@
         "invalidate_compilation",
         "replay_compilation"
       ],
+      "compilation_frontier_classes": [
+        "mechanically_compilable",
+        "constraint_synthesizable",
+        "authority_or_judgment_required",
+        "physical_or_evidence_required",
+        "open_world_extension_required"
+      ],
       "definition": "Compiles typed enterprise intent into a closed candidate solution plan or typed refusal with evidence.",
       "events": [
         "compilation_opened",
@@ -156,12 +163,12 @@
         "all alternatives decisions assumptions and evidence remain attributable"
       ],
       "jobs": [
+        "classify each requirement by compilation frontier",
         "bind exact input and registry snapshots",
-        "resolve and type authored intent",
-        "lower through legal IR stages",
-        "derive and bind exact capability requirements",
-        "coordinate proofs and qualifications",
-        "produce a reproducible solution and artifact plan or typed refusal"
+        "resolve and type authored intent through the multi-IR family",
+        "derive exact capability and evidence obligations",
+        "route owner decisions and open-world research",
+        "produce a reproducible immutable blueprint or complete actionable incomplete solution"
       ],
       "kind": "product",
       "lifecycle_states": [
@@ -187,16 +194,21 @@
         "invalidated",
         "superseded"
       ],
-      "name": "Intent-to-Solution Compiler",
-      "negative_mission": "Does not own business or industry meaning, silently create defaults, qualify providers by documentation, execute builds or deployments, authorize effects, mutate enterprise data, approve business decisions or assert vertical acceptance.",
+      "name": "Bounded Intent-to-Solution Compiler Kernel",
+      "negative_mission": "Does not claim universal mechanical compilation; own business meaning or tradeoffs; manufacture authority, implementations or evidence; reconcile deployments; authorize effects; or assert outcomes and acceptance.",
       "operated": true,
+      "operating_modes": [
+        "closed_world_compilation",
+        "interactive_synthesis",
+        "open_world_discovery"
+      ],
       "outcomes": [
+        "frontier_classified_requirements",
         "resolved_or_refused_intent",
-        "typed_staged_ir",
-        "closed_requirement_offer_graph",
-        "retained_alternatives_and_gaps",
-        "reproducible_solution_and_artifact_plan",
-        "scoped_proof_and_release_evidence"
+        "typed_multi_stage_ir",
+        "closed_or_residual_requirement_offer_graph",
+        "reproducible_immutable_solution_blueprint",
+        "complete_actionable_incomplete_solution"
       ],
       "refusals": [
         "invalid_syntax",
@@ -215,8 +227,9 @@
         "incremental_clean_rebuild_mismatch"
       ],
       "semantic_owner_ref": "semantic.compilation_run",
-      "sovereign_question": "Given editioned enterprise intent and frozen registries, what closed evidence-bearing solution plan or typed refusal follows without inventing domain meaning or executing unauthorized effects?",
+      "sovereign_question": "Given sufficiently explicit ratified enterprise intent and frozen registries, what deterministic evidence-bearing blueprint, partial plan or typed residual follows, and which requirements must be routed to other synthesis authorities?",
       "status": "presumptive_product",
+      "synthesis_architecture_ref": "research/product_ontology/solution_synthesis_architecture/architecture.json",
       "users": [
         "enterprise_architect",
         "solution_engineer",
@@ -1303,6 +1316,22 @@
       "operated": false,
       "semantic_owner_ref": "semantic.incident_case",
       "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "architecture_ref": "research/product_ontology/solution_synthesis_architecture/architecture.json",
+      "artifact_id": "pattern.solution_synthesis_assurance",
+      "definition": "Places deterministic compilation beside constraint planning, owner adjudication, desired-state reconciliation, independent assurance and governed open-world ontology research.",
+      "evidence_refs": [
+        "evidence.compiler.mlir",
+        "evidence.compiler.smtlib",
+        "evidence.compiler.iso29119"
+      ],
+      "kind": "architecture_pattern",
+      "name": "Solution Synthesis and Assurance Architecture",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "proposed_unratified"
     },
     {
       "adoption_unit": false,
@@ -3483,18 +3512,19 @@
           "provider_owner"
         ],
         "jobs": [
-          "Compile exact enterprise intent into a closed reproducible solution plan, partial plan, unknown result or typed refusal while retaining every decision and proof obligation."
+          "Classify each requirement by resolution frontier and compile only the mechanically justified portion into a reproducible blueprint or complete actionable residual while retaining every decision and proof obligation."
         ],
         "measurable_outcomes": [
+          "frontier_classified_requirements",
           "resolved_or_refused_intent",
-          "typed_staged_ir",
-          "closed_requirement_offer_graph",
-          "retained_alternatives_and_gaps",
-          "reproducible_solution_and_artifact_plan",
-          "scoped_proof_and_release_evidence"
+          "typed_multi_stage_ir",
+          "closed_or_residual_requirement_offer_graph",
+          "retained_alternatives_decisions_and_gaps",
+          "reproducible_immutable_solution_blueprint",
+          "complete_actionable_incomplete_solution"
         ],
-        "negative_mission": "Does not own business or industry meaning, silently create defaults, qualify providers by documentation, execute builds or deployments, authorize effects, mutate enterprise data, approve business decisions or assert vertical acceptance.",
-        "sovereign_question": "Given editioned enterprise intent and frozen registries, what closed evidence-bearing solution plan or typed refusal follows without inventing domain meaning or executing unauthorized effects?",
+        "negative_mission": "Does not claim all requirements are mechanically compilable; own business meaning or tradeoffs; manufacture authority, implementations or evidence; execute builds or deployments; reconcile physical state; approve business decisions; or assert effects, outcomes or vertical acceptance.",
+        "sovereign_question": "Given sufficiently explicit ratified enterprise intent and frozen registries, what deterministic evidence-bearing blueprint, partial plan or typed residual follows, and which requirements must be routed to planning, adjudication, reconciliation, assurance or open-world research instead?",
         "users": [
           "enterprise_architect",
           "solution_engineer",
@@ -3519,7 +3549,13 @@
           "every proof and receipt is scoped to exact subjects inputs checkers environments and time",
           "partial unknown unsat refused cancelled and failed remain distinct",
           "all alternatives diagnostics assumptions decisions and invalidation supports remain attributable",
-          "provider identity and optional automation cannot change semantics"
+          "provider identity and optional automation cannot change semantics",
+          "every requirement is classified into one explicit compilation-frontier class",
+          "unknown concept unsupported known construct invalid declaration and missing evidence remain distinct",
+          "compiled blueprint is not applied state effect receipt outcome or acceptance",
+          "runtime evidence may invalidate but never silently rewrite declared meaning",
+          "typed partial plan with exact residuals is a legitimate outcome",
+          "every decision has an explicit earliest binding phase and later override law"
         ],
         "aggregate_roots": [
           "CompilationRun",
@@ -3604,7 +3640,11 @@
             "proof-obligation and qualification-request coordination",
             "target artifact build and release planning",
             "typed gaps diagnostics incremental invalidation and deterministic replay",
-            "solution-plan publication and supersession"
+            "solution-plan publication and supersession",
+            "closed-world interactive-synthesis and open-world-discovery mode classification",
+            "business semantic product capability contract application dataflow authority/effect physical blueprint and evidence IR-family legality",
+            "mechanically-compilable constraint-synthesizable authority-or-judgment physical-or-evidence and open-world frontier classification",
+            "compiled-solution and incomplete-solution publication"
           ],
           "outside": [
             "business and industry semantic ownership",
@@ -3614,7 +3654,12 @@
             "resource admission allocation and execution",
             "build/deployment effects",
             "business decision and effect authority",
-            "product operations and vertical acceptance"
+            "product operations and vertical acceptance",
+            "objective preference risk and tradeoff authority",
+            "human adjudication and ratification",
+            "open-world ontology research and mutation",
+            "desired-state application and reconciliation",
+            "independent qualification appraisal and acceptance"
           ]
         },
         "commands": [
@@ -3694,6 +3739,31 @@
             "neighbor_ref": "context.vertical_acceptance",
             "relationship": "customer_supplier",
             "translation": "submit plan and evidence for independent domain-owner acceptance"
+          },
+          {
+            "neighbor_ref": "component.constraint_planner_synthesizer",
+            "relationship": "customer_supplier",
+            "translation": "delegate finite alternative search under supplied constraints and objectives; never manufacture objective authority"
+          },
+          {
+            "neighbor_ref": "component.authority_adjudication_workbench",
+            "relationship": "customer_supplier",
+            "translation": "emit exact decision requests for semantic disputes tradeoffs exceptions and authorization"
+          },
+          {
+            "neighbor_ref": "component.desired_state_reconciler",
+            "relationship": "effect_port",
+            "translation": "publish authorized immutable blueprints; reconciler owns convergence retries rollback and physical receipts"
+          },
+          {
+            "neighbor_ref": "component.assurance_appraisal_system",
+            "relationship": "customer_supplier",
+            "translation": "emit exact proof obligations and consume independently scoped qualification and acceptance receipts"
+          },
+          {
+            "neighbor_ref": "component.ontology_research_extension",
+            "relationship": "customer_supplier",
+            "translation": "suspend open-world requests until evidence challenge owner decision and editioned ontology extension complete"
           }
         ],
         "domain_events": [
@@ -3734,7 +3804,7 @@
           "IncrementalInvalidationService",
           "CompilationReplayService"
         ],
-        "domain_vision_statement": "Compile one exact enterprise-intent occurrence against frozen semantic, library, provider and target registries into a reproducible evidence-bearing plan, partial plan, unknown result or typed refusal.",
+        "domain_vision_statement": "Act as the deterministic kernel inside solution synthesis: classify the compilation frontier and transform one sufficiently explicit enterprise-intent occurrence against frozen registries into a reproducible evidence-bearing blueprint, partial plan or exact residual without acquiring planner, adjudicator, reconciler, assurance or research authority.",
         "entities": [
           "CompilationRun",
           "PassAttempt",
@@ -3783,7 +3853,10 @@
           "provider and backend isolation behind versioned ports",
           "fail-closed authority and evidence",
           "complete decision rejection assumption and receipt trace",
-          "removing optional model and agent extensions preserves the deterministic compiler core"
+          "removing optional model and agent extensions preserves the deterministic compiler core",
+          "compiler planner adjudicator reconciler assurance and research extension remain independently replaceable authorities",
+          "compiled blueprint is immutable desired state and never a completed effect",
+          "open-world discovery suspends rather than fabricates closed-world compilation"
         ],
         "policies_and_reactions": [
           "when an import or registry digest changes invalidate its exact support closure",
@@ -3816,7 +3889,24 @@
           "ArtifactPlan",
           "ReleaseEvidencePlan",
           "InvalidationSet",
-          "CompilationOutcome"
+          "CompilationOutcome",
+          "CompilationMode",
+          "CompilationFrontierClass",
+          "BusinessIntentIr",
+          "SemanticIntentIr",
+          "ProductCompositionIr",
+          "CapabilityRequirementIr",
+          "ContractGraphIr",
+          "ApplicationBehaviorIr",
+          "LogicalDataflowIr",
+          "AuthorityEffectIr",
+          "PhysicalBindingIr",
+          "DeploymentBlueprintIr",
+          "EvidenceAcceptanceIr",
+          "DecisionRequest",
+          "CompilerResidual",
+          "CompiledSolution",
+          "IncompleteSolution"
         ],
         "read_models_and_projections": [
           "CompilationStatusView",
@@ -3855,7 +3945,13 @@
           "resource_budget_exhausted",
           "cancellation_requested",
           "incremental_clean_rebuild_mismatch",
-          "vertical_acceptance_absent"
+          "vertical_acceptance_absent",
+          "open_world_concept_unknown",
+          "judgment_owner_missing",
+          "binding_phase_unassigned",
+          "objective_authority_missing",
+          "estate_binding_missing",
+          "deployment_authority_missing"
         ],
         "repositories": [
           "CompilationRunRepository",
@@ -8204,6 +8300,13 @@
       "predicate": "requires",
       "relation_id": "relation.operations.requires.incident",
       "to_ref": "neighbor.incident_service_management"
+    },
+    {
+      "binding_phase": "authoring",
+      "from_ref": "pattern.solution_synthesis_assurance",
+      "predicate": "packages",
+      "relation_id": "relation.synthesis_pattern.packages.compiler",
+      "to_ref": "product.solution_compiler"
     }
   ],
   "requirements": [

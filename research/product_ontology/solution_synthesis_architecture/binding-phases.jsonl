@@ -1,0 +1,7 @@
+{"binding_phase_id": "phase.synthesis.authoring", "completion_claim": false, "typical_decisions": ["outcome", "vertical_vocabulary", "non_goal", "acceptance_intent"]}
+{"binding_phase_id": "phase.synthesis.change", "completion_claim": false, "typical_decisions": ["migration", "requalification", "rollback", "retirement", "historical_replay"]}
+{"binding_phase_id": "phase.synthesis.compile", "completion_claim": false, "typical_decisions": ["semantic_owner", "product_boundary", "contract", "policy", "logical_plan"]}
+{"binding_phase_id": "phase.synthesis.deployment", "completion_claim": false, "typical_decisions": ["estate", "tenant", "account", "region", "resource", "credential_reference"]}
+{"binding_phase_id": "phase.synthesis.post-runtime", "completion_claim": false, "typical_decisions": ["reconciliation", "appraisal", "outcome_evaluation", "invalidation"]}
+{"binding_phase_id": "phase.synthesis.qualification", "completion_claim": false, "typical_decisions": ["implementation_occurrence", "provider_offer", "conformance_scope"]}
+{"binding_phase_id": "phase.synthesis.runtime", "completion_claim": false, "typical_decisions": ["admission", "routing", "retry", "failover", "human_approval", "effect_attempt"]}

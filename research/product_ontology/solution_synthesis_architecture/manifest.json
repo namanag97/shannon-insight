@@ -1,0 +1,57 @@
+{
+  "files": [
+    {
+      "path": "components.jsonl",
+      "records": 6,
+      "sha256": "b84c32985db9050673f0b194f3d8f782702db63221273832dbbb973943e7a88c"
+    },
+    {
+      "path": "operating-modes.jsonl",
+      "records": 3,
+      "sha256": "7b469fba8545a7761335062a13d6d153dc2ab049d77eb5d5c8a54194c734c81f"
+    },
+    {
+      "path": "ir-stages.jsonl",
+      "records": 11,
+      "sha256": "3ea87162585e1a11c918df7c8797b7da4da69004f82e90910e9f2ed146bdf4a9"
+    },
+    {
+      "path": "ir-transforms.jsonl",
+      "records": 11,
+      "sha256": "618828a12a7e5e70a821088f7486645f4d3a64044e92adb7ea4ca43193e2c7cb"
+    },
+    {
+      "path": "compilation-frontier.jsonl",
+      "records": 5,
+      "sha256": "295fe5bb6b3fb3e3c9134443a11d76e288f2bc43954f46ba4f5fe4164a93904d"
+    },
+    {
+      "path": "binding-phases.jsonl",
+      "records": 7,
+      "sha256": "c95112d2826741210f44cfd6cab8ae918274f26c1e47370b2bed3af779e411f4"
+    },
+    {
+      "path": "laws.jsonl",
+      "records": 12,
+      "sha256": "c87323d88f6523aa3e7d2bc3f545764b7a3a862e4d88d9606e6b6fe3f8786234"
+    },
+    {
+      "path": "outcomes.jsonl",
+      "records": 2,
+      "sha256": "8a0af6d538a642a4d982217443b4652a678842c62731a21dcf8c5504b523b161"
+    }
+  ],
+  "summary": {
+    "architecture_patterns": 1,
+    "binding_phases": 7,
+    "completion_claim": false,
+    "components": 6,
+    "constitutional_laws": 12,
+    "frontier_classes": 5,
+    "ir_stages": 11,
+    "ir_transforms": 11,
+    "operating_modes": 3,
+    "outcomes": 2,
+    "products_promoted": 0
+  }
+}

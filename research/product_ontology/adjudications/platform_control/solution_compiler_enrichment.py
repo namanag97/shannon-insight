@@ -13,6 +13,8 @@ from typing import Any
 
 
 PRODUCT = "product.solution_compiler"
+SYNTHESIS_PATTERN = "pattern.solution_synthesis_assurance"
+SYNTHESIS_ARCHITECTURE = "research/product_ontology/solution_synthesis_architecture/architecture.json"
 AUTOMATION = {
     "default": "DETERMINISTIC_CORE_ONLY",
     "postures": ["PROHIBITED", "OPTIONAL", "REQUIRED_BY_INTENT", "UNDETERMINED"],
@@ -170,13 +172,13 @@ CODEGEN_RELEASE_REFS = [
 
 
 def compiler_dossier() -> dict[str, Any]:
-    question = "Given editioned enterprise intent and frozen registries, what closed evidence-bearing solution plan or typed refusal follows without inventing domain meaning or executing unauthorized effects?"
+    question = "Given sufficiently explicit ratified enterprise intent and frozen registries, what deterministic evidence-bearing blueprint, partial plan or typed residual follows, and which requirements must be routed to planning, adjudication, reconciliation, assurance or open-world research instead?"
     users = ["enterprise_architect", "solution_engineer", "domain_model_owner", "platform_engineer", "assurance_reviewer", "release_operator"]
     harmed = ["affected_business_actor", "data_subject", "domain_owner", "source_owner", "runtime_operator", "provider_owner"]
-    outcomes = ["resolved_or_refused_intent", "typed_staged_ir", "closed_requirement_offer_graph", "retained_alternatives_and_gaps", "reproducible_solution_and_artifact_plan", "scoped_proof_and_release_evidence"]
-    negative = "Does not own business or industry meaning, silently create defaults, qualify providers by documentation, execute builds or deployments, authorize effects, mutate enterprise data, approve business decisions or assert vertical acceptance."
+    outcomes = ["frontier_classified_requirements", "resolved_or_refused_intent", "typed_multi_stage_ir", "closed_or_residual_requirement_offer_graph", "retained_alternatives_decisions_and_gaps", "reproducible_immutable_solution_blueprint", "complete_actionable_incomplete_solution"]
+    negative = "Does not claim all requirements are mechanically compilable; own business meaning or tradeoffs; manufacture authority, implementations or evidence; execute builds or deployments; reconcile physical state; approve business decisions; or assert effects, outcomes or vertical acceptance."
     ddd = {
-        "domain_vision_statement": "Compile one exact enterprise-intent occurrence against frozen semantic, library, provider and target registries into a reproducible evidence-bearing plan, partial plan, unknown result or typed refusal.",
+        "domain_vision_statement": "Act as the deterministic kernel inside solution synthesis: classify the compilation frontier and transform one sufficiently explicit enterprise-intent occurrence against frozen registries into a reproducible evidence-bearing blueprint, partial plan or exact residual without acquiring planner, adjudicator, reconciler, assurance or research authority.",
         "subdomain_classification": "core_differentiating_horizontal_intent_to_solution_compilation_product",
         "bounded_context_boundary": {
             "inside": ["compilation request and run identity", "input and registry snapshot binding", "source anchoring and resolution occurrences", "staged semantic IR and legality", "pass profiles and lowering traces", "requirement/offer candidate and rejection graph", "hard constraints objectives and binding results", "proof-obligation and qualification-request coordination", "target artifact build and release planning", "typed gaps diagnostics incremental invalidation and deterministic replay", "solution-plan publication and supersession"],
@@ -226,11 +228,24 @@ def compiler_dossier() -> dict[str, Any]:
         "event_storming_swimlanes": users + ["domain_registry_owner", "library_registry_owner", "provider_qualification_subsystem", "solver_backend", "proof_checker", "codegen_backend", "runtime_authority", "vertical_acceptance_authority"],
         "nonfunctional_laws": ["deterministic canonical output for identical frozen inputs", "finite memory work output candidate and proof budgets", "cooperative cancellation with explicit partial outcomes", "no ambient network filesystem clock randomness environment or mutable registry lookup in semantic passes", "stable diagnostic codes and source anchors", "content-addressed artifacts plus stable semantic identities", "incremental result equals clean result", "provider and backend isolation behind versioned ports", "fail-closed authority and evidence", "complete decision rejection assumption and receipt trace", "removing optional model and agent extensions preserves the deterministic compiler core"],
     }
+    ddd["bounded_context_boundary"]["inside"].extend(["closed-world interactive-synthesis and open-world-discovery mode classification", "business semantic product capability contract application dataflow authority/effect physical blueprint and evidence IR-family legality", "mechanically-compilable constraint-synthesizable authority-or-judgment physical-or-evidence and open-world frontier classification", "compiled-solution and incomplete-solution publication"])
+    ddd["bounded_context_boundary"]["outside"].extend(["objective preference risk and tradeoff authority", "human adjudication and ratification", "open-world ontology research and mutation", "desired-state application and reconciliation", "independent qualification appraisal and acceptance"])
+    ddd["context_map"].extend([
+        {"neighbor_ref": "component.constraint_planner_synthesizer", "relationship": "customer_supplier", "translation": "delegate finite alternative search under supplied constraints and objectives; never manufacture objective authority"},
+        {"neighbor_ref": "component.authority_adjudication_workbench", "relationship": "customer_supplier", "translation": "emit exact decision requests for semantic disputes tradeoffs exceptions and authorization"},
+        {"neighbor_ref": "component.desired_state_reconciler", "relationship": "effect_port", "translation": "publish authorized immutable blueprints; reconciler owns convergence retries rollback and physical receipts"},
+        {"neighbor_ref": "component.assurance_appraisal_system", "relationship": "customer_supplier", "translation": "emit exact proof obligations and consume independently scoped qualification and acceptance receipts"},
+        {"neighbor_ref": "component.ontology_research_extension", "relationship": "customer_supplier", "translation": "suspend open-world requests until evidence challenge owner decision and editioned ontology extension complete"},
+    ])
+    ddd["published_language"].extend(["CompilationMode", "CompilationFrontierClass", "BusinessIntentIr", "SemanticIntentIr", "ProductCompositionIr", "CapabilityRequirementIr", "ContractGraphIr", "ApplicationBehaviorIr", "LogicalDataflowIr", "AuthorityEffectIr", "PhysicalBindingIr", "DeploymentBlueprintIr", "EvidenceAcceptanceIr", "DecisionRequest", "CompilerResidual", "CompiledSolution", "IncompleteSolution"])
+    ddd["aggregate_invariants"].extend(["every requirement is classified into one explicit compilation-frontier class", "unknown concept unsupported known construct invalid declaration and missing evidence remain distinct", "compiled blueprint is not applied state effect receipt outcome or acceptance", "runtime evidence may invalidate but never silently rewrite declared meaning", "typed partial plan with exact residuals is a legitimate outcome", "every decision has an explicit earliest binding phase and later override law"])
+    ddd["refusal_failure_catalog"].extend(["open_world_concept_unknown", "judgment_owner_missing", "binding_phase_unassigned", "objective_authority_missing", "estate_binding_missing", "deployment_authority_missing"])
+    ddd["nonfunctional_laws"].extend(["compiler planner adjudicator reconciler assurance and research extension remain independently replaceable authorities", "compiled blueprint is immutable desired state and never a completed effect", "open-world discovery suspends rather than fabricates closed-world compilation"])
     assert set(ddd) == DDD_FIELDS
     return {
         "dossier_id": "ddd.platform.solution_compiler", "record_kind": "product_ddd_dossier",
         "edition": 1, "product_ref": PRODUCT, "status": "candidate_not_ratified",
-        "product_truth": {"sovereign_question": question, "users": users, "harmed_parties": harmed, "jobs": ["Compile exact enterprise intent into a closed reproducible solution plan, partial plan, unknown result or typed refusal while retaining every decision and proof obligation."], "measurable_outcomes": outcomes, "negative_mission": negative},
+        "product_truth": {"sovereign_question": question, "users": users, "harmed_parties": harmed, "jobs": ["Classify each requirement by resolution frontier and compile only the mechanically justified portion into a reproducible blueprint or complete actionable residual while retaining every decision and proof obligation."], "measurable_outcomes": outcomes, "negative_mission": negative},
         "strategic_and_tactical_ddd": ddd,
     }
 
@@ -247,15 +262,27 @@ def enrich(source: dict[str, Any]) -> dict[str, Any]:
         evidence("evidence.compiler.iso29119", "ISO/IEC/IEEE 29119 software testing series", "ISO/IEC/IEEE", "https://www.iso.org/standard/81291.html", "Defines testing concepts and processes relevant to scoped conformance evidence."),
     ])
 
+    source["artifacts"].append({
+        "artifact_id": SYNTHESIS_PATTERN, "kind": "architecture_pattern", "name": "Solution Synthesis and Assurance Architecture",
+        "status": "proposed_unratified", "semantic_owner_ref": None, "adoption_unit": False, "operated": False,
+        "definition": "Places deterministic compilation beside constraint planning, owner adjudication, desired-state reconciliation, independent assurance and governed open-world ontology research.",
+        "evidence_refs": ["evidence.compiler.mlir", "evidence.compiler.smtlib", "evidence.compiler.iso29119"],
+        "architecture_ref": SYNTHESIS_ARCHITECTURE,
+    })
+    source["relations"].append({"relation_id": "relation.synthesis_pattern.packages.compiler", "from_ref": SYNTHESIS_PATTERN, "predicate": "packages", "to_ref": PRODUCT, "binding_phase": "authoring"})
+
     product = next(row for row in source["artifacts"] if row["artifact_id"] == PRODUCT)
     product.update({
-        "name": "Intent-to-Solution Compiler",
-        "sovereign_question": "Given editioned enterprise intent and frozen registries, what closed evidence-bearing solution plan or typed refusal follows without inventing domain meaning or executing unauthorized effects?",
+        "name": "Bounded Intent-to-Solution Compiler Kernel",
+        "sovereign_question": "Given sufficiently explicit ratified enterprise intent and frozen registries, what deterministic evidence-bearing blueprint, partial plan or typed residual follows, and which requirements must be routed to other synthesis authorities?",
         "users": ["enterprise_architect", "solution_engineer", "domain_model_owner", "platform_engineer", "assurance_reviewer", "release_operator"],
         "harmed_parties": ["affected_business_actor", "data_subject", "domain_owner", "source_owner", "runtime_operator", "provider_owner"],
-        "jobs": ["bind exact input and registry snapshots", "resolve and type authored intent", "lower through legal IR stages", "derive and bind exact capability requirements", "coordinate proofs and qualifications", "produce a reproducible solution and artifact plan or typed refusal"],
-        "outcomes": ["resolved_or_refused_intent", "typed_staged_ir", "closed_requirement_offer_graph", "retained_alternatives_and_gaps", "reproducible_solution_and_artifact_plan", "scoped_proof_and_release_evidence"],
-        "negative_mission": "Does not own business or industry meaning, silently create defaults, qualify providers by documentation, execute builds or deployments, authorize effects, mutate enterprise data, approve business decisions or assert vertical acceptance.",
+        "jobs": ["classify each requirement by compilation frontier", "bind exact input and registry snapshots", "resolve and type authored intent through the multi-IR family", "derive exact capability and evidence obligations", "route owner decisions and open-world research", "produce a reproducible immutable blueprint or complete actionable incomplete solution"],
+        "outcomes": ["frontier_classified_requirements", "resolved_or_refused_intent", "typed_multi_stage_ir", "closed_or_residual_requirement_offer_graph", "reproducible_immutable_solution_blueprint", "complete_actionable_incomplete_solution"],
+        "negative_mission": "Does not claim universal mechanical compilation; own business meaning or tradeoffs; manufacture authority, implementations or evidence; reconcile deployments; authorize effects; or assert outcomes and acceptance.",
+        "synthesis_architecture_ref": SYNTHESIS_ARCHITECTURE,
+        "operating_modes": ["closed_world_compilation", "interactive_synthesis", "open_world_discovery"],
+        "compilation_frontier_classes": ["mechanically_compilable", "constraint_synthesizable", "authority_or_judgment_required", "physical_or_evidence_required", "open_world_extension_required"],
         "lifecycle_states": ["draft", "snapshots_bound", "parsed", "resolved", "elaborated", "lowering", "requirements_ready", "candidate_enumeration", "constraint_solving", "qualification_pending", "artifact_planning", "plan_ready", "published", "partially_bound", "gapped", "unknown", "unsat", "refused", "cancelled", "invalidated", "superseded"],
         "commands": ["open_compilation", "bind_input_snapshot", "bind_registry_snapshot", "parse_declaration", "resolve_reference", "lower_ir_stage", "adjudicate_model_class", "derive_capability_requirements", "solve_hard_constraints", "plan_target_artifacts", "publish_solution_plan", "record_compiler_gap", "cancel_compilation", "invalidate_compilation", "replay_compilation"],
         "events": ["compilation_opened", "input_snapshot_bound", "registry_snapshot_bound", "declaration_parsed", "reference_resolved", "ir_stage_lowered", "model_class_adjudicated", "capability_requirements_derived", "hard_constraints_solved", "target_artifacts_planned", "solution_plan_published", "compiler_gap_recorded", "compilation_cancelled", "compilation_invalidated", "compilation_replayed"],

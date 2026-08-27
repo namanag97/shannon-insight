@@ -1,0 +1,22 @@
+{
+  "completion_claim": false,
+  "files": {
+    "downstream-revalidation.jsonl": {
+      "bytes": 28063396,
+      "sha256": "b5e79fb398fe3ec98407fecf4dd93767f58cd72337c2f171e29b15113a256138"
+    },
+    "effective-gap-resolutions.jsonl": {
+      "bytes": 997639,
+      "sha256": "6be4c7304bab4a3af689db0e4440ceb324aa7987b61bea5ec781751311388b8f"
+    },
+    "fixed-point-new-gap-resolutions.jsonl": {
+      "bytes": 10029,
+      "sha256": "99fbd1c98a6acd015c3f51e17aeb5a22af81b41a23fd48a1f07cf6a7d0de44f3"
+    },
+    "summary.json": {
+      "bytes": 995,
+      "sha256": "87a4d1ec947a1166e2f4bda15cd2589a57235228ba21d79b7dd0c6f683ccff31"
+    }
+  },
+  "manifest_id": "manifest.semantic-fixed-point-campaign.v1"
+}

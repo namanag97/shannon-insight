@@ -1,0 +1,25 @@
+{
+  "as_of": "2026-08-27",
+  "canonical_gaps_closed": 0,
+  "completion_claim": false,
+  "downstream_revalidation": {
+    "authority_routing_rows": 7992,
+    "migration_rows": 6481,
+    "rows": 14473,
+    "unchanged_rows": 0
+  },
+  "effective_original_research_atoms_resolved": 14496,
+  "effective_original_research_quotients_resolved": 625,
+  "effective_research_vacancies": 0,
+  "invented_implementations": 0,
+  "invented_qualifications": 0,
+  "invented_vertical_acceptances": 0,
+  "new_research_gaps_discovered": 9,
+  "new_research_gaps_with_effective_resolution": 9,
+  "p01_families_audited": 23,
+  "program_id": "program.semantic-fixed-point-campaign.v1",
+  "ratified_decisions": 0,
+  "research_completion_semantics": "All known research-addressable quotients and fixed-point deltas have an evidence-bounded proposed-unratified resolution. Canonical closure remains authority-owned and physical gates remain open.",
+  "starting_research_atoms": 14496,
+  "starting_research_quotients": 625
+}

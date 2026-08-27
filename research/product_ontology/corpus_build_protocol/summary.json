@@ -8,7 +8,7 @@
   "explicit_package_contracts": 10,
   "fixed_point_packages": 2,
   "migration_batches": 9,
-  "migration_gap_records": 201,
+  "migration_gap_records": 199,
   "observed_python_package_candidates": 196,
   "protocol_id": "protocol.corpus-build.v1",
   "protocol_version": "1.0.0-candidate",

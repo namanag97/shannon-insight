@@ -18,7 +18,7 @@
     "aliases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "definition": {"type": "string", "minLength": 1},
     "practice_kind": {"enum": ["study", "method", "diagnostic", "measurement", "decision", "validation", "operational_support", "semantic_evaluation"]},
-    "distinctiveness_basis": {"type": "array", "items": {"enum": ["intent", "study_design", "input_contract", "output_contract", "assumption", "uncertainty", "evaluation", "evidence", "decision", "runtime"]}, "uniqueItems": true},
+    "distinctiveness_basis": {"type": "array", "items": {"enum": ["intent", "study_design", "input_contract", "output_contract", "assumption", "uncertainty", "evaluation", "evidence", "decision", "runtime", "method", "population", "time", "censoring"]}, "uniqueItems": true},
     "intent_verbs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "input_contracts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "output_contracts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
@@ -33,4 +33,3 @@
   },
   "additionalProperties": false
 }
-

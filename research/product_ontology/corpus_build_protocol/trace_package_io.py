@@ -59,6 +59,7 @@ def main() -> int:
     if not builder.is_file() or not package_root.is_dir() or package_root not in builder.parents:
         raise SystemExit("builder must exist inside the declared package root")
     sys.path.insert(0, str(builder.parent))
+    sys.argv = [str(builder)]
     sys.addaudithook(audit)
     captured = io.StringIO()
     exit_code = 0
@@ -88,4 +89,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

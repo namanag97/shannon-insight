@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.dev/schemas/shannon-python-placement.schema.json",
+  "title": "Shannon Python implementation placement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_kind",
+    "implementation_id",
+    "implementation_root",
+    "application_product",
+    "placement_verdict",
+    "placement_rationale",
+    "non_collapse_laws",
+    "module_count",
+    "source_file_count",
+    "source_line_count",
+    "module_crosswalk_path",
+    "unknown_horizontal_coverage_coordinates",
+    "qualification_posture",
+    "completion_claim",
+    "projection_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_kind": {"const": "implementation_product_placement"},
+    "implementation_id": {"const": "implementation.shannon_python.codebase_insight"},
+    "implementation_root": {"const": "src/shannon_insight"},
+    "application_product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "product_id",
+        "name",
+        "product_plane",
+        "domain",
+        "sovereign_question",
+        "users_and_jobs",
+        "owned_artifacts",
+        "lifecycle",
+        "negative_charter"
+      ],
+      "properties": {
+        "product_id": {"const": "application_product.software_engineering.codebase_intelligence"},
+        "name": {"type": "string", "minLength": 1},
+        "product_plane": {"const": "application_domain_product_candidate"},
+        "domain": {"const": "software_engineering_and_developer_productivity"},
+        "sovereign_question": {"type": "string", "minLength": 40},
+        "users_and_jobs": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 10}},
+        "owned_artifacts": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "lifecycle": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "negative_charter": {"type": "array", "minItems": 5, "items": {"type": "string", "minLength": 20}}
+      }
+    },
+    "placement_verdict": {"const": "RETAIN_AS_APPLICATION_PRODUCT_AND_QUALIFICATION_PROVING_IMPLEMENTATION"},
+    "placement_rationale": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 20}},
+    "non_collapse_laws": {"type": "array", "minItems": 9, "uniqueItems": true, "items": {"type": "string", "minLength": 10}},
+    "module_count": {"type": "integer", "minimum": 1},
+    "source_file_count": {"type": "integer", "minimum": 1},
+    "source_line_count": {"type": "integer", "minimum": 1},
+    "module_crosswalk_path": {"const": "research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl"},
+    "unknown_horizontal_coverage_coordinates": {"type": "array", "maxItems": 0},
+    "qualification_posture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "eligible_candidate_roles", "prohibited_claims", "required_next_evidence"],
+      "properties": {
+        "status": {"const": "UNQUALIFIED_IMPLEMENTATION_CANDIDATE"},
+        "eligible_candidate_roles": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 1}},
+        "prohibited_claims": {"type": "array", "minItems": 6, "items": {"type": "string", "minLength": 1}},
+        "required_next_evidence": {"type": "array", "minItems": 6, "items": {"type": "string", "minLength": 10}}
+      }
+    },
+    "completion_claim": {"const": false},
+    "projection_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

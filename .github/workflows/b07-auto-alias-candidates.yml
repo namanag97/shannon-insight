@@ -1,0 +1,41 @@
+name: B07 Canonical Reference Auto Aliases
+
+on:
+  push:
+    branches:
+      - closure/b07-auto-alias-candidates
+    paths:
+      - research/domain_atlas/industries/**
+      - research/domain_atlas/universes/analytics_types/candidate-practices.jsonl
+      - .github/workflows/b07-auto-alias-candidates.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: closure/b07-auto-alias-candidates
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate exact alias candidates
+        run: python3 research/domain_atlas/industries/build_exact_alias_candidates.py
+      - name: Validate candidates
+        run: python3 research/domain_atlas/industries/validate_exact_alias_candidates.py
+      - name: Persist generated candidates
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/industries/canonical-reference-auto-alias-candidates.jsonl research/domain_atlas/industries/canonical-reference-auto-alias-summary.json
+          if git diff --cached --quiet; then
+            echo "Generated candidate projection already current"
+            exit 0
+          fi
+          git commit -m "research: generate conservative B07 alias candidates [skip ci]"
+          git push origin HEAD:closure/b07-auto-alias-candidates

@@ -33,7 +33,7 @@ class CPResult:
     @property
     def file_communities(self) -> np.ndarray:
         """File community membership (N x R). Average of source/target factors."""
-        return (self.factors[0] + self.factors[1]) / 2.0
+        return np.asarray((self.factors[0] + self.factors[1]) / 2.0)
 
     @property
     def temporal_patterns(self) -> np.ndarray:
@@ -349,6 +349,6 @@ def _als_update_nonneg(
     new_factor = rhs @ np.linalg.inv(gram)
 
     # Non-negativity projection
-    new_factor = np.maximum(new_factor, 0.0).astype(np.float32)
+    new_factor = np.asarray(np.maximum(new_factor, 0.0), dtype=np.float32)
 
     return new_factor

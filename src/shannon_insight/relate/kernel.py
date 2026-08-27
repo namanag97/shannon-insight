@@ -66,7 +66,7 @@ class BindingKernel:
             out.append(Candidate(rel_path, method, rank))
         return out
 
-    def _first_file(self, base: str, t: FamilyTable) -> Candidate | None:
+    def _first_file(self, base: str, t: FamilyTable | tuple[str, ...]) -> Candidate | None:
         for cand in self._file_candidates(base, t):
             if self.index.has(cand.rel_path):
                 return cand
@@ -288,7 +288,7 @@ class BindingKernel:
                     cand = self._first_file(base, t)
                     if cand is not None:
                         return _resolved_c(
-                            rel, imp, cand, BindMethod.WORKSPACE_PKG, Confidence.HIGH
+                            rel, imp, cand.rel_path, BindMethod.WORKSPACE_PKG, Confidence.HIGH
                         )
                     return _phantom(rel, imp, f"workspace_member_missing_file:{spec}")
                 if first in self.mf.declared.get("npm", frozenset()) or first.startswith("@"):
@@ -302,11 +302,12 @@ class BindingKernel:
 
         ups = spec.count("..")
         base = normalize_base(_parent(rel), *([".."] * ups), spec.replace("./", ""))
-        hit, others = _pick([self._file_candidates(base, t)], self.index)
-        if hit is None:
-            hit = self._casefold_rescue(rel, imp, base, t, ("",))
+        hit, _others = _pick([self._file_candidates(base, t)], self.index)
         if hit is not None:
             return _resolved(rel, imp, hit)
+        fold = self._casefold_rescue(rel, imp, base, t, ("",))
+        if fold is not None:
+            return fold
         return _phantom(rel, imp, f"unresolved_relative:{spec}")
 
     # ── rust ──────────────────────────────────────────────────────────
@@ -340,9 +341,11 @@ class BindingKernel:
         rest = [s for s in segs if s not in ("crate", "self", "super")]
         ups = sum(1 for s in segs if s == "super")
         if head == "crate":
-            starts = dict.fromkeys((*self._rust_roots, self._crate_root_for(rel)))
+            starts: tuple[str, ...] = tuple(
+                dict.fromkeys((*self._rust_roots, self._crate_root_for(rel)))
+            )
         else:
-            starts = {_up(_parent(rel), ups)}
+            starts = (_up(_parent(rel), ups),)
         # full path first …
         for start in starts:
             hit, _ = _pick(

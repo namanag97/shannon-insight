@@ -61,7 +61,7 @@ def discover(root: str | Path, config: DiscoveryConfig | None = None) -> Iterato
             except OSError:
                 pass
     spec = pathspec.PathSpec.from_lines("gitwildmatch", lines) if lines else None
-    nested_specs: dict[Path, tuple[str, object]] = {}
+    nested_specs: dict[Path, pathspec.PathSpec] = {}
     max_bytes = int(cfg.max_file_size_mb * 1024 * 1024)
 
     dirs = [root_path]

@@ -122,7 +122,9 @@ def a0_canonicalize_authors(
     return canonicalize_authors_impl(commits, mailmap_content)
 
 
-def canonicalize_authors_impl(commits, mailmap_content):
+def canonicalize_authors_impl(
+    commits: list[CommitFact], mailmap_content: str | None
+) -> tuple[list[CommitFact], list[AuthorRecord]]:
     from shannon_insight.facts.git_extractor import canonicalize_authors
 
     return canonicalize_authors(commits, mailmap_content)

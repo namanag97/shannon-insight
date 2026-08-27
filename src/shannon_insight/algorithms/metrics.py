@@ -28,7 +28,7 @@ def gini(values: np.ndarray) -> float:
     # G = (2 × Σ i × x_i) / (n × Σ x_i) - (n+1)/n
     weighted_sum = sum(i * v for i, v in enumerate(values, 1))
     gini_value = (2 * weighted_sum) / (n * total) - (n + 1) / n
-    return max(0.0, min(1.0, gini_value))
+    return float(max(0.0, min(1.0, float(gini_value))))
 
 
 def entropy(distribution: dict[str, float]) -> float:
@@ -51,4 +51,4 @@ def entropy(distribution: dict[str, float]) -> float:
             p = count / total
             H -= p * np.log2(p)
 
-    return H
+    return float(H)

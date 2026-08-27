@@ -154,26 +154,23 @@ class FileIdentityResolver:
         """
         ct = change.change_type
 
-        if ct == ChangeType.ADDED:
-            return self._handle_add(commit_hash, timestamp, change)
-        elif ct == ChangeType.RENAMED:
-            return self._handle_rename(commit_hash, timestamp, change)
-        elif ct == ChangeType.DELETED:
-            return self._handle_delete(commit_hash, timestamp, change)
-        elif ct == ChangeType.MODIFIED:
-            return self._handle_modify(commit_hash, timestamp, change)
-        elif ct == ChangeType.COPIED:
-            # Copy creates a NEW identity (not shared with source).
-            return self._handle_add(commit_hash, timestamp, change)
-        else:
-            # Defensive: treat unknown types as implicit adds.
+        handler = {
+            ChangeType.ADDED: self._handle_add,
+            ChangeType.RENAMED: self._handle_rename,
+            ChangeType.DELETED: self._handle_delete,
+            ChangeType.MODIFIED: self._handle_modify,
+            # Copy creates a NEW identity rather than sharing the source identity.
+            ChangeType.COPIED: self._handle_add,
+        }.get(ct)
+        if handler is None:
             logger.warning(
                 "Unknown change type %s for %s in %s, treating as ADD",
                 ct,
                 change.path,
                 commit_hash,
             )
-            return self._handle_add(commit_hash, timestamp, change)
+            handler = self._handle_add
+        return handler(commit_hash, timestamp, change)
 
     def _handle_add(self, commit_hash: str, timestamp: int, change: FileChange) -> str:
         """Handle ADD (or COPY) -- create a fresh identity.
@@ -353,7 +350,7 @@ class FileIdentityResolver:
                 (row[0], path, timestamp, row[0], path, timestamp),
             ).fetchone()
             if later_rename is None:
-                return row[0]
+                return str(row[0])
 
         # 2. Check birth_path (file may have never been renamed).
         row = self.conn.execute(
@@ -375,7 +372,7 @@ class FileIdentityResolver:
                 (row[0], path, timestamp),
             ).fetchone()
             if later_rename is None:
-                return row[0]
+                return str(row[0])
 
         return None
 

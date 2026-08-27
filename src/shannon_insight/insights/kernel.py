@@ -24,6 +24,7 @@ from .validation import (
 
 if TYPE_CHECKING:
     from ..debug_export import DebugExporter
+    from ..facts.store import FactStore as PersistentFactStore
 
 ProgressCallback = Optional[Callable[[str], None]]
 
@@ -85,14 +86,14 @@ class InsightKernel:
         self._enable_fact_storage = enable_fact_storage
         self._use_fact_store = use_fact_store
         self._fact_session_id: str | None = None
-        self._facts_db = None  # Lazy-initialized persistent FactStore
+        self._facts_db: PersistentFactStore | None = None
         self._debug_exporter: DebugExporter | None = None
         if debug_export_dir:
             from ..debug_export import DebugExporter
 
             self._debug_exporter = DebugExporter(debug_export_dir)
 
-    def _get_facts_db(self):
+    def _get_facts_db(self) -> PersistentFactStore | None:
         """Get or create the persistent FactStore (lazy init).
 
         Returns the facts.store.FactStore instance, creating it on first call

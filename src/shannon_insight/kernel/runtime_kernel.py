@@ -59,6 +59,7 @@ from .phases import PHASE_EXECUTORS
 from .result import PhaseResult, RuntimeResult
 
 if TYPE_CHECKING:
+    from ..facts.store import FactStore as PersistentFactStore
     from ..insights.store import AnalysisStore
     from ..session import AnalysisSession
 
@@ -116,12 +117,12 @@ class RuntimeKernel:
         self.phase_timeout_seconds = phase_timeout_seconds
         self.enable_provenance = enable_provenance
         self.use_fact_store = use_fact_store
-        self._facts_db = None  # Lazy-initialized persistent FactStore
+        self._facts_db: PersistentFactStore | None = None
 
         # Phase executors (in order)
         self._executors = list(PHASE_EXECUTORS)
 
-    def _get_facts_db(self):
+    def _get_facts_db(self) -> PersistentFactStore | None:
         """Get or create the persistent FactStore (lazy init).
 
         Returns the facts.store.FactStore instance, creating it on first call

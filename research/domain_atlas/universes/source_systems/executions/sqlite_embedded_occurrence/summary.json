@@ -1,0 +1,12 @@
+{
+  "all_tests_passed": true,
+  "as_of": "2026-08-27T16:26:48.257035Z",
+  "completion_claim": false,
+  "independently_appraised": false,
+  "occurrence_id": "source-occurrence.sqlite.github_actions.synthetic.v1",
+  "passed_test_count": 8,
+  "production_qualified": false,
+  "report_id": "b08_sqlite_embedded_source_occurrence",
+  "source_class_id": "source.operational_database.embedded_relational",
+  "test_count": 8
+}

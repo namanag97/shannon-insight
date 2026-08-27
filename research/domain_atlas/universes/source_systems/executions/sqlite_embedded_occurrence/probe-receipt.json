@@ -1,0 +1,101 @@
+{
+  "completion_claim": false,
+  "database_sha256": "918429aaf09bca8dd141d8ce215c3b1abe670dcfe0a4e5a79445a5dbadfa067e",
+  "execution_environment": {
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "python": "3.12.14",
+    "sqlite": "3.45.1"
+  },
+  "independent_appraisal_claim": false,
+  "passed": true,
+  "production_slo_claim": false,
+  "qualification_claim": false,
+  "receipt_id": "receipt.source.sqlite_embedded.918429aaf09bca8d",
+  "record_kind": "source_occurrence_probe_receipt",
+  "same_campaign_controlled": true,
+  "started_at": "2026-08-27T16:26:48.257035Z",
+  "tests": [
+    {
+      "evidence": {
+        "journal_mode": "wal"
+      },
+      "passed": true,
+      "test_id": "journal_mode_wal"
+    },
+    {
+      "evidence": {
+        "columns": [
+          {
+            "name": "id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "name": "value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "name": "amount",
+            "notnull": 0,
+            "pk": 0,
+            "type": "NUMERIC"
+          }
+        ]
+      },
+      "passed": true,
+      "test_id": "schema_and_key_discovery"
+    },
+    {
+      "evidence": {
+        "row_count": 2
+      },
+      "passed": true,
+      "test_id": "repeatable_read_basic"
+    },
+    {
+      "evidence": {
+        "rows_after_rollback": 0
+      },
+      "passed": true,
+      "test_id": "transaction_rollback_atomicity"
+    },
+    {
+      "evidence": {
+        "after_new_snapshot": 3,
+        "before": 2,
+        "during_reader_snapshot": 2
+      },
+      "passed": true,
+      "test_id": "snapshot_cut_stability"
+    },
+    {
+      "evidence": {
+        "remaining_beta_rows": 0
+      },
+      "passed": true,
+      "test_id": "hard_delete_observable"
+    },
+    {
+      "evidence": {
+        "columns": [
+          "id",
+          "value",
+          "amount",
+          "note"
+        ]
+      },
+      "passed": true,
+      "test_id": "schema_evolution_discoverable"
+    },
+    {
+      "evidence": {
+        "integrity_check": "ok"
+      },
+      "passed": true,
+      "test_id": "integrity_check"
+    }
+  ]
+}

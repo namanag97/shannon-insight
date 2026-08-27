@@ -1,0 +1,157 @@
+{
+  "authority_claims": [
+    {
+      "claim": "This occurrence is authoritative only for test data created by this harness; it has no enterprise source-of-record authority.",
+      "effective_interval": "2026-08-27T16:26:48.257035Z/2026-09-26T16:26:48.257035Z",
+      "owner": "shannon-insight B08 execution harness",
+      "scope": "synthetic items table only"
+    }
+  ],
+  "deployment_identity": {
+    "deployment": "ephemeral GitHub Actions synthetic database",
+    "product": "SQLite",
+    "provider": "SQLite Project",
+    "region_or_site": "github_hosted_runner",
+    "tenant_or_account": "none_local_ephemeral_test",
+    "version": "3.45.1"
+  },
+  "freshness": {
+    "expires_at": "2026-09-26T16:26:48.257035Z",
+    "observed_at": "2026-08-27T16:26:48.257035Z",
+    "reprobe_trigger": "SQLite version, Python sqlite binding, journal mode, runner image, source-class law or harness changes"
+  },
+  "objects": [
+    {
+      "key_ref": "main.items.id",
+      "object_pattern": "main.items",
+      "schema_ref": "probe-receipt.json#schema_and_key_discovery",
+      "sensitivity": "synthetic_non_sensitive"
+    }
+  ],
+  "observed_capabilities": {
+    "change": [
+      "schema_reinspection",
+      "WAL_file_present_during_execution"
+    ],
+    "discovery": [
+      "sqlite_master",
+      "PRAGMA table_info"
+    ],
+    "read": [
+      "point_query",
+      "scan",
+      "transaction_snapshot"
+    ],
+    "time_order_finality": [
+      "commit_final_with_transaction_snapshot_cut"
+    ],
+    "transactions": [
+      "atomic_commit",
+      "rollback",
+      "concurrent_snapshot_reader_under_WAL"
+    ],
+    "write": [
+      "insert",
+      "delete",
+      "alter_table",
+      "transaction"
+    ]
+  },
+  "occurrence_id": "source-occurrence.sqlite.github_actions.synthetic.v1",
+  "probe_receipts": [
+    "receipt.source.sqlite_embedded.918429aaf09bca8d"
+  ],
+  "quantitative_limits": {
+    "concurrency": {
+      "failure_behavior": "locking/busy timeout and workload specific",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "not benchmarked",
+      "source": "unknown",
+      "unit": "concurrent actors",
+      "value": null
+    },
+    "cost_and_egress": {
+      "failure_behavior": "host compute/storage costs intentionally excluded",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "ephemeral local open-source execution only",
+      "source": "capability_probe",
+      "unit": "provider_metered_currency",
+      "value": 0
+    },
+    "cursor_ttl": {
+      "failure_behavior": "connection/transaction lifecycle specific",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "sqlite cursor/transaction lifetime",
+      "source": "unknown",
+      "unit": "duration",
+      "value": null
+    },
+    "object_size": {
+      "failure_behavior": "disk/filesystem/runtime constraints may bind earlier",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "database file theoretical ceiling not production envelope",
+      "source": "capability_probe",
+      "unit": "bytes_theoretical_from_current_page_size_x_max_page_count",
+      "value": 17592186036224
+    },
+    "page_size": {
+      "failure_behavior": "invalid/unsupported pragma or database corruption",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "database page",
+      "source": "capability_probe",
+      "unit": "bytes",
+      "value": 4096
+    },
+    "payload_size": {
+      "failure_behavior": "compile/runtime limit requires dedicated boundary probe",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "row/value payload",
+      "source": "unknown",
+      "unit": "bytes",
+      "value": null
+    },
+    "query_timeout": {
+      "failure_behavior": "busy/locked operation raises error after configured timeout",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "sqlite connection busy timeout used by harness",
+      "source": "capability_probe",
+      "unit": "seconds",
+      "value": 5
+    },
+    "quota": {
+      "failure_behavior": "filesystem/deployment specific",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "local file occurrence",
+      "source": "unknown",
+      "unit": "logical quota",
+      "value": null
+    },
+    "rate": {
+      "failure_behavior": "must benchmark before capacity claim",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "not_benchmarked",
+      "source": "unknown",
+      "unit": "operations_per_second",
+      "value": null
+    },
+    "retention": {
+      "failure_behavior": "operator/filesystem lifecycle specific",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "local database persistence",
+      "source": "unknown",
+      "unit": "duration",
+      "value": null
+    }
+  },
+  "reviewed_at": "2026-08-27T16:26:48.257035Z",
+  "security_boundary": {
+    "audit": "retained probe receipt only; no production audit subsystem",
+    "authn": "process/filesystem boundary only",
+    "authz": "OS runner file permissions; no SQLite-native tenant authorization",
+    "credential_ref": "none_ephemeral_local_file",
+    "encryption": "not asserted; ephemeral runner storage",
+    "network": "no network listener",
+    "tenant": "single synthetic test process boundary"
+  },
+  "source_class_id": "source.operational_database.embedded_relational"
+}

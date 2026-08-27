@@ -39,7 +39,6 @@ def unique(rows: list[dict[str, Any]], key: str) -> None:
 def validate_definition(schema: dict[str, Any], definition: str, instance: Any) -> None:
     wrapper = {
         "$schema": schema["$schema"],
-        "$id": schema["$id"] + f"#{definition}",
         "$defs": schema["$defs"],
         "$ref": f"#/$defs/{definition}",
     }

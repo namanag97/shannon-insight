@@ -1,0 +1,43 @@
+name: Semantic Fixed Point
+
+on:
+  push:
+    branches:
+      - research/semantic-closure-fixed-point-2026-08-27
+    paths-ignore:
+      - research/product_ontology/semantic_fixed_point_campaign/generated/**
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fixed-point:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/semantic-closure-fixed-point-2026-08-27
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build fixed-point projection
+        run: python3 research/product_ontology/semantic_fixed_point_campaign/build_fixed_point.py
+
+      - name: Validate fixed-point projection
+        run: python3 research/product_ontology/semantic_fixed_point_campaign/validate_fixed_point.py
+
+      - name: Persist generated projection
+        run: |
+          if [ -z "$(git status --porcelain -- research/product_ontology/semantic_fixed_point_campaign/generated)" ]; then
+            echo "Generated projection already current"
+            exit 0
+          fi
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/product_ontology/semantic_fixed_point_campaign/generated
+          git commit -m "research: generate semantic fixed-point projection [skip ci]"
+          git push origin HEAD:research/semantic-closure-fixed-point-2026-08-27

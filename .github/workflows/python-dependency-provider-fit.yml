@@ -1,0 +1,58 @@
+name: Python Dependency Provider Fit
+
+on:
+  push:
+    branches:
+      - 'architecture/python-implementation-fit-*'
+    paths:
+      - pyproject.toml
+      - research/implementation_architecture/python_product_fit/dependency-provider-*.json
+      - research/implementation_architecture/python_product_fit/build_dependency_provider_crosswalk.py
+      - research/implementation_architecture/python_product_fit/validate_dependency_provider_crosswalk.py
+      - .github/workflows/python-dependency-provider-fit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-validate:
+    if: ${{ !contains(github.event.head_commit.message, '[skip dependency-fit]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build provider crosswalk and retain diagnostics
+        id: build
+        shell: bash
+        run: |
+          set +e
+          python3 research/implementation_architecture/python_product_fit/build_dependency_provider_crosswalk.py
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Persist deterministic provider projection
+        run: |
+          git config user.name "shannon-insight-architecture-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/implementation_architecture/python_product_fit/dependency-provider-crosswalk.jsonl \
+                  research/implementation_architecture/python_product_fit/dependency-provider-summary.json \
+                  research/implementation_architecture/python_product_fit/dependency-provider-manifest.json
+          if git diff --cached --quiet; then
+            echo "Python dependency/provider projection already current"
+            exit 0
+          fi
+          git commit -m "architecture: regenerate Python dependency provider fit [skip dependency-fit]"
+          git push origin HEAD:${{ github.ref_name }}
+      - name: Refuse unclassified provider dependencies
+        if: ${{ steps.build.outputs.status != '0' }}
+        run: |
+          cat research/implementation_architecture/python_product_fit/dependency-provider-summary.json
+          exit 1
+      - name: Validate deterministic provider classification
+        run: python3 research/implementation_architecture/python_product_fit/validate_dependency_provider_crosswalk.py --determinism

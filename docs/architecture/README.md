@@ -1,6 +1,32 @@
 # Shannon Insight Architecture
 
-This directory contains the definitive architecture documentation for Shannon Insight.
+This directory contains the definitive implementation architecture documentation for the
+**Software / Codebase Intelligence and Engineering Analytics** product in this repository.
+
+## Scope boundary
+
+The executable `src/shannon_insight` package is one application-domain analytical product. It is
+not the universal enterprise data-and-analytics platform modeled under `research/`. Its complete
+machine-readable product, library, component and Python-workbench boundary is maintained at:
+
+- [`research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/`](../../research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/)
+
+```text
+provider-neutral data / method / runtime / evidence contracts
+                              │
+                              ▼
+      Software / Codebase Intelligence application product
+                              │
+                              ▼
+                 src/shannon_insight (Python)
+
+research/**/*.py = corpus authoring, validation, migration or execution workbench
+                   != production platform or semantic authority
+```
+
+The relationship tensor is an important product implementation model, not the boundary of all
+analytics. A parser is not a product, a graph is not a sovereign domain, an engineering signal is
+not a universal business metric, and a finding cannot authorize remediation.
 
 ## Core Documents
 
@@ -21,7 +47,7 @@ K = time windows
 R = 5 relationship types (IMPORT, COCHANGE, AUTHOR, SEMANTIC, COMBINED)
 ```
 
-**Everything flows through this tensor:**
+**Everything in this product implementation flows through this tensor:**
 - Levels 0-2: Extract data and **populate** the tensor
 - Levels 3+: **Slice** the tensor and compute signals
 

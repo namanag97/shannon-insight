@@ -16,8 +16,8 @@ from shannon_insight.core.errors import ErrorCode, ShannonError
 from shannon_insight.facts.authors import AuthorRecord
 from shannon_insight.facts.classify import FileClass, classify
 from shannon_insight.facts.discovery import DiscoveryConfig
-from shannon_insight.facts.models import CommitFact, FileChangeFact
 from shannon_insight.facts.git_extractor import git_context
+from shannon_insight.facts.models import CommitFact, FileChangeFact
 from shannon_insight.intake.pipeline import (
     IdentityView,
     a0_canonicalize_authors,
@@ -182,13 +182,17 @@ class IntakeService:
             content, skip_detail = h1_read_capped(path, cap_bytes)
             if content is None:
                 reason = (
-                    SkipReason.TOO_LARGE if skip_detail.startswith("too_large") else SkipReason.READ_ERROR
+                    SkipReason.TOO_LARGE
+                    if skip_detail.startswith("too_large")
+                    else SkipReason.READ_ERROR
                 )
                 report.skipped.append(SkippedFile(rel, reason, skip_detail))
                 continue
             file_class = classify(rel).file_class
             if file_class in (FileClass.DOC, FileClass.DATA):
-                report.skipped.append(SkippedFile(rel, SkipReason.UNPARSEABLE_CLASS, file_class.value))
+                report.skipped.append(
+                    SkippedFile(rel, SkipReason.UNPARSEABLE_CLASS, file_class.value)
+                )
                 continue
             try:
                 syntax = p0_parse_unit(rel, content, self._parsers)
@@ -216,7 +220,9 @@ class IntakeService:
                 report.partial_history = gctx.partial_history or gctx.is_shallow
                 if gctx.partial_history:
                     report.events.append(
-                        IntakeEvent("partial_history", f"{gctx.analyzed_commits}/{gctx.total_commits}")
+                        IntakeEvent(
+                            "partial_history", f"{gctx.analyzed_commits}/{gctx.total_commits}"
+                        )
                     )
             try:
                 commits, changes = x2_extract_streams(root, config.max_commits)

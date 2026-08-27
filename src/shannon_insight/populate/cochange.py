@@ -12,7 +12,7 @@ Rules:
 from __future__ import annotations
 
 import math
-from collections import Counter
+from collections import defaultdict
 from itertools import combinations
 from typing import Any
 
@@ -40,8 +40,8 @@ def populate_cochange(
             window).
     """
     # Accumulate weighted co-occurrence and marginal counts
-    cochange_counts: Counter[tuple[str, str]] = Counter()
-    file_counts: Counter[str] = Counter()
+    cochange_counts: dict[tuple[str, str], float] = defaultdict(float)
+    file_counts: dict[str, float] = defaultdict(float)
     total_weight = 0.0
 
     for commit in git_history.commits:

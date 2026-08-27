@@ -32,7 +32,6 @@ from shannon_insight.facts.models import ChangeType, CommitFact, FileChangeFact
 from shannon_insight.syntax.models import FileSyntax
 from shannon_insight.syntax.parser import ParserManager, analyze_source
 
-
 # ── S0 session ────────────────────────────────────────────────────────────
 
 
@@ -66,7 +65,9 @@ def s0_session_context(
             f"git={use_git}",
         ]
     )
-    return SessionContext(root=Path(root).resolve(), config_hash=hashlib.sha256(canonical.encode()).hexdigest()[:16])
+    return SessionContext(
+        root=Path(root).resolve(), config_hash=hashlib.sha256(canonical.encode()).hexdigest()[:16]
+    )
 
 
 # ── Structural spine ──────────────────────────────────────────────────────
@@ -121,7 +122,9 @@ def a0_canonicalize_authors(
     return canonicalize_authors_impl(commits, mailmap_content)
 
 
-def canonicalize_authors_impl(commits, mailmap_content):
+def canonicalize_authors_impl(
+    commits: list[CommitFact], mailmap_content: str | None
+) -> tuple[list[CommitFact], list[AuthorRecord]]:
     from shannon_insight.facts.git_extractor import canonicalize_authors
 
     return canonicalize_authors(commits, mailmap_content)
@@ -144,9 +147,7 @@ class IdentityView:
         return counts
 
 
-def i0_resolve_identity(
-    commits: list[CommitFact], changes: list[FileChangeFact]
-) -> IdentityView:
+def i0_resolve_identity(commits: list[CommitFact], changes: list[FileChangeFact]) -> IdentityView:
     """I1+I2+I3: feed resolver strictly oldest-first (its ORDER INVARIANT)."""
     conn_conn = __import__("sqlite3").connect(":memory:")
     resolver = FileIdentityResolver(conn_conn)
@@ -195,10 +196,16 @@ def j0_join(files: list, changes: list[FileChangeFact], view: IdentityView):
     """J1+J2+J3: stamp ids onto both artifact families + churn rollup."""
     churn = view.changes_per_id(changes)
     stamped_files = [
-        replace(f, file_id=view.path_to_id.get(f.rel_path), total_changes=churn.get(view.path_to_id.get(f.rel_path, ""), 0))
+        replace(
+            f,
+            file_id=view.path_to_id.get(f.rel_path),
+            total_changes=churn.get(view.path_to_id.get(f.rel_path, ""), 0),
+        )
         for f in files
     ]
-    stamped_changes = [replace(c, file_id=view.path_to_id.get(c.new_path or c.old_path or "", "")) for c in changes]
+    stamped_changes = [
+        replace(c, file_id=view.path_to_id.get(c.new_path or c.old_path or "", "")) for c in changes
+    ]
     return stamped_files, stamped_changes
 
 

@@ -2,8 +2,8 @@
 
 from shannon_insight.relate.manifests import ManifestFacts, read_manifests
 from shannon_insight.relate.protocols import (
-    BindMethod,
     BindingRecord,
+    BindMethod,
     Confidence,
     EdgeRecord,
     ExternalPkg,
@@ -14,7 +14,18 @@ from shannon_insight.relate.protocols import (
 from shannon_insight.relate.service import RelateConfig, RelateInputs, RelateResult, RelateService
 
 __all__ = [
-    "BindMethod", "BindingRecord", "Confidence", "EdgeRecord", "ExternalPkg",
-    "ManifestFacts", "PhantomFact", "RelateConfig", "RelateInputs",
-    "RelateMetrics", "RelateResult", "RelateService", "Verdict", "read_manifests",
+    "BindMethod",
+    "BindingRecord",
+    "Confidence",
+    "EdgeRecord",
+    "ExternalPkg",
+    "ManifestFacts",
+    "PhantomFact",
+    "RelateConfig",
+    "RelateInputs",
+    "RelateMetrics",
+    "RelateResult",
+    "RelateService",
+    "Verdict",
+    "read_manifests",
 ]

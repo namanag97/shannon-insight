@@ -18,7 +18,10 @@ from __future__ import annotations
 import hashlib
 import re
 from bisect import bisect_left
+from collections.abc import Sequence
 from dataclasses import dataclass, field
+
+from tree_sitter import Node, Parser
 
 from shannon_insight.core.errors import ErrorCode, ShannonError
 from shannon_insight.syntax.models import (
@@ -35,11 +38,6 @@ from shannon_insight.syntax.packs import PackSpec, detect_language, pack_for_lan
 
 _MAX_IDENTIFIERS = 5000
 _MAX_OCCURRENCES = 4000
-
-try:
-    from tree_sitter import Parser
-except ImportError as exc:  # pragma: no cover - environment guard
-    raise ImportError("tree-sitter is required for the syntax context") from exc
 
 
 @dataclass
@@ -86,19 +84,19 @@ class _ClsBuilder:
 
 
 def _scan_leaves(
-    root: object,
+    root: Node,
 ) -> tuple[list[tuple[int, int]], list[tuple[int, int]], list[str]]:
     code_spans: list[tuple[int, int]] = []
     comment_spans: list[tuple[int, int]] = []
     stack = [root]
     while stack:
         n = stack.pop()
-        children = n.children  # type: ignore[attr-defined]
+        children = n.children
         if not children:
-            s, e = n.start_byte, n.end_byte  # type: ignore[attr-defined]
+            s, e = n.start_byte, n.end_byte
             if e <= s:
                 continue
-            if "comment" in n.type:  # type: ignore[attr-defined]
+            if "comment" in n.type:
                 comment_spans.append((s, e))
             else:
                 code_spans.append((s, e))
@@ -147,15 +145,17 @@ class Walker:
         self.comments = (
             []
             if self.is_generated
-            else [self.content[s:e].decode("utf-8", "replace").strip() for s, e in comment_spans[:200]]
+            else [
+                self.content[s:e].decode("utf-8", "replace").strip() for s, e in comment_spans[:200]
+            ]
         )
 
         self._builders: list[_FnBuilder] = []
         self._class_stack: list[_ClsBuilder] = []
         self._package: str | None = None
 
-    def text(self, node: object) -> str:
-        return self.content[node.start_byte : node.end_byte].decode("utf-8", "replace")  # type: ignore[attr-defined]
+    def text(self, node: Node) -> str:
+        return self.content[node.start_byte : node.end_byte].decode("utf-8", "replace")
 
     def analyze(self) -> tuple[list[FunctionDef], list[_ClsBuilder]]:
         self._visit(self.tree.root_node, 0, False)
@@ -163,16 +163,21 @@ class Walker:
         cls = sorted(self.classes, key=lambda c: c.start_line)
         return fns, cls
 
-    def _visit(self, node: object, control_depth: int, in_export: bool, children=None) -> None:
-        ntype = node.type  # type: ignore[attr-defined]
+    def _visit(
+        self,
+        node: Node,
+        control_depth: int,
+        in_export: bool,
+        children: Sequence[Node] | None = None,
+    ) -> None:
+        ntype = node.type
         spec = self.pack
         if children is None:
-            children = node.children  # type: ignore[attr-defined]
+            children = node.children
 
         if spec.package_type is not None and ntype == spec.package_type and self._package is None:
-            target = (
-                node.child_by_field_name("name")  # type: ignore[attr-defined]
-                or (node.named_children[-1] if node.named_child_count > 0 else None)  # type: ignore[attr-defined]
+            target = node.child_by_field_name("name") or (
+                node.named_children[-1] if node.named_child_count > 0 else None
             )
             if target is not None:
                 self._package = self.text(target).removeprefix("package ").strip() or None
@@ -209,12 +214,12 @@ class Walker:
         if ntype in spec.control_types and self._builders:
             inner = control_depth + 1
             self._builders[-1].touch_control(inner)
-            for ch in node.children:  # type: ignore[attr-defined]
+            for ch in node.children:
                 self._visit(ch, inner, in_export)
             return
 
         if ntype in spec.call_types and self._builders:
-            callee = node.child_by_field_name("function")  # type: ignore[attr-defined]
+            callee = node.child_by_field_name("function")
             if callee is not None:
                 raw = self.text(callee)
                 name = raw.rsplit(".", 1)[-1].rsplit("::", 1)[-1].strip("() ")
@@ -229,56 +234,62 @@ class Walker:
         for ch in children:
             self._visit(ch, control_depth, in_export)
 
-    def _extract_field_name(self, node: object) -> str | None:
-        named = node.child_by_field_name("name")  # type: ignore[attr-defined]
+    def _extract_field_name(self, node: Node) -> str | None:
+        named = node.child_by_field_name("name")
         if named is not None:
             return self.text(named).lstrip("#")
-        left = node.child_by_field_name("left")  # type: ignore[attr-defined]
+        left = node.child_by_field_name("left")
         if left is not None:
             return self.text(left)
-        for ch in node.named_children:  # type: ignore[attr-defined]
-            t = ch.type  # type: ignore[attr-defined]
-            if t in ("identifier", "property_identifier", "field_identifier",
-                     "shorthand_property_identifier"):
+        for ch in node.named_children:
+            t = ch.type
+            if t in (
+                "identifier",
+                "property_identifier",
+                "field_identifier",
+                "shorthand_property_identifier",
+            ):
                 return self.text(ch)
             if t == "variable_declarator":
-                inner = ch.child_by_field_name("name")  # type: ignore[attr-defined]
+                inner = ch.child_by_field_name("name")
                 if inner is not None:
                     return self.text(inner)
             if t == "assignment":
-                l2 = ch.child_by_field_name("left")  # type: ignore[attr-defined]
+                l2 = ch.child_by_field_name("left")
                 if l2 is not None:
                     return self.text(l2)
         return None
 
-    def _capture_export_list(self, node: object) -> None:
-        line = node.start_point[0] + 1  # type: ignore[attr-defined]
-        for ch in node.named_children:  # type: ignore[attr-defined]
-            if "clause" not in ch.type:  # type: ignore[attr-defined]
+    def _capture_export_list(self, node: Node) -> None:
+        line = node.start_point[0] + 1
+        for ch in node.named_children:
+            if "clause" not in ch.type:
                 continue
-            for tok in ch.named_children:  # type: ignore[attr-defined]
+            for tok in ch.named_children:
                 txt = self.text(tok).split(" as ")[0].strip("{} \n,")
                 if txt and txt != ",":
-                    self.exports.append(ExportDecl(name=txt.split(",")[0].strip(), kind="symbol", line=line))
+                    self.exports.append(
+                        ExportDecl(name=txt.split(",")[0].strip(), kind="symbol", line=line)
+                    )
 
-    def _visit_function(self, node: object, in_export: bool) -> None:
-        name_node = node.child_by_field_name("name")  # type: ignore[attr-defined]
+    def _visit_function(self, node: Node, in_export: bool) -> None:
+        name_node = node.child_by_field_name("name")
         if name_node is not None:
             display_name: str = self.text(name_node)
         else:
             display_name = self._declarator_name(node) or "<anonymous>"
-        params_node = node.child_by_field_name("parameters")  # type: ignore[attr-defined]
-        body = node.child_by_field_name("body")  # type: ignore[attr-defined]
+        params_node = node.child_by_field_name("parameters")
+        body = node.child_by_field_name("body")
 
-        bstart = body.start_byte if body is not None else node.end_byte  # type: ignore[attr-defined]
-        bend = body.end_byte if body is not None else node.end_byte  # type: ignore[attr-defined]
+        bstart = body.start_byte if body is not None else node.end_byte
+        bend = body.end_byte if body is not None else node.end_byte
 
         builder = _FnBuilder(
             name=display_name,
-            start_line=node.start_point[0] + 1,  # type: ignore[attr-defined]
-            end_line=node.end_point[0] + 1,  # type: ignore[attr-defined]
-            node_start=node.start_byte,  # type: ignore[attr-defined]
-            node_end=node.end_byte,  # type: ignore[attr-defined]
+            start_line=node.start_point[0] + 1,
+            end_line=node.end_point[0] + 1,
+            node_start=node.start_byte,
+            node_end=node.end_byte,
             body_start=bstart,
             body_end=bend,
             body_text=self.content[bstart:bend].decode("utf-8", "replace"),
@@ -293,15 +304,15 @@ class Walker:
             exported=in_export,
         )
 
-        if self.pack.name == "python" and body is not None and body.named_child_count > 0:  # type: ignore[attr-defined]
-            first = body.named_children[0]  # type: ignore[attr-defined]
-            if first.type == "expression_statement" and first.named_child_count > 0:  # type: ignore[attr-defined]
-                inner = first.named_children[0]  # type: ignore[attr-defined]
-                if inner.type == "string":  # type: ignore[attr-defined]
+        if self.pack.name == "python" and body is not None and body.named_child_count > 0:
+            first = body.named_children[0]
+            if first.type == "expression_statement" and first.named_child_count > 0:
+                inner = first.named_children[0]
+                if inner.type == "string":
                     builder.has_docstring = True
 
         for fname in self.pack.return_type_fields:
-            rt = node.child_by_field_name(fname)  # type: ignore[attr-defined]
+            rt = node.child_by_field_name(fname)
             if rt is not None:
                 cleaned = self.text(rt).lstrip(":-> ").strip()
                 if cleaned:
@@ -309,28 +320,33 @@ class Walker:
                 break
 
         self._builders.append(builder)
-        fn_children = node.children  # type: ignore[attr-defined]
-        builder.is_async = any(getattr(ch, 'type', '') == 'async' for ch in fn_children)
+        fn_children = node.children
+        builder.is_async = any(getattr(ch, "type", "") == "async" for ch in fn_children)
         for ch in fn_children:
             self._visit(ch, 0, in_export)
         self._finish_function(builder)
 
     @staticmethod
-    def _param_names(params_node: object) -> list[str]:
+    def _param_names(params_node: Node | None) -> list[str]:
         out: list[str] = []
         if params_node is None:
             return out
-        for ch in params_node.named_children:  # type: ignore[attr-defined]
-            t = ch.type  # type: ignore[attr-defined]
+        for ch in params_node.named_children:
+            t = ch.type
             if t in ("comment", ",", "this"):
                 continue
-            named = ch.child_by_field_name("name")  # type: ignore[attr-defined]
-            pattern = ch.child_by_field_name("pattern")  # type: ignore[attr-defined]
+            named = ch.child_by_field_name("name")
+            pattern = ch.child_by_field_name("pattern")
             target = named or pattern
             if target is not None:
                 out.append(_clean_param(Walker._static_text(target)))
-            elif t in ("identifier", "shorthand_property_identifier", "pattern_identifier",
-                       "required_parameter", "optional_parameter"):
+            elif t in (
+                "identifier",
+                "shorthand_property_identifier",
+                "pattern_identifier",
+                "required_parameter",
+                "optional_parameter",
+            ):
                 out.append(_clean_param(Walker._static_text(ch)))
             elif t.endswith("parameter") and t != "formal_parameters":
                 head = _clean_param(Walker._static_text(ch).split(":")[0])
@@ -339,11 +355,9 @@ class Walker:
         return out
 
     @staticmethod
-    def _static_text(node: object) -> str:
-        try:
-            return node.text.decode("utf-8")  # type: ignore[attr-defined,union-attr]
-        except AttributeError:
-            return ""
+    def _static_text(node: Node) -> str:
+        raw = node.text
+        return raw.decode("utf-8") if raw is not None else ""
 
     def _finish_function(self, b: _FnBuilder) -> None:
         total = self.tokens.count_within(b.node_start, b.node_end)
@@ -379,7 +393,8 @@ class Walker:
             FunctionDef(
                 name=name,
                 params=tuple(
-                    p for p in b.params
+                    p
+                    for p in b.params
                     if p and not (b.is_method and p in ("self", "cls") and p == b.params[0])
                 ),
                 start_line=b.start_line,
@@ -410,41 +425,42 @@ class Walker:
             self.top_level_names.append(name)
         self._builders.pop()
 
-    def _declarator_name(self, node: object) -> str | None:
+    def _declarator_name(self, node: Node) -> str | None:
         """C/C++: name hides inside declarator -> function_declarator -> declarator."""
-        decl = node.child_by_field_name("declarator")  # type: ignore[attr-defined]
+        decl = node.child_by_field_name("declarator")
         depth = 0
         while decl is not None and depth < 4:
             t = getattr(decl, "type", "")
             if t == "identifier":
                 return self.text(decl)
-            inner = decl.child_by_field_name("declarator")  # type: ignore[attr-defined]
+            inner = decl.child_by_field_name("declarator")
             if inner is None:
                 return None
             decl = inner
             depth += 1
         return None
 
-    def _visit_class(self, node: object, control_depth: int, is_interface: bool, in_export: bool) -> None:
-        name_node = node.child_by_field_name("name")  # type: ignore[attr-defined]
+    def _visit_class(
+        self, node: Node, control_depth: int, is_interface: bool, in_export: bool
+    ) -> None:
+        name_node = node.child_by_field_name("name")
         bases: list[str] = []
 
-        sup = (node.child_by_field_name("superclass")  # type: ignore[attr-defined]
-               or node.child_by_field_name("superclasses"))  # type: ignore[attr-defined]
+        sup = node.child_by_field_name("superclass") or node.child_by_field_name("superclasses")
         if sup is not None:
-            targets = sup.named_children if sup.named_child_count > 0 else [sup]  # type: ignore[attr-defined]
+            targets = sup.named_children if sup.named_child_count > 0 else [sup]
             bases.extend(self.text(t) for t in targets)
-        interfaces = node.child_by_field_name("interfaces")  # type: ignore[attr-defined]
+        interfaces = node.child_by_field_name("interfaces")
         if interfaces is not None:
-            bases.extend(self.text(t) for t in interfaces.named_children)  # type: ignore[attr-defined]
+            bases.extend(self.text(t) for t in interfaces.named_children)
         if not bases:
-            for ch in node.named_children:  # type: ignore[attr-defined]
-                ct = ch.type  # type: ignore[attr-defined]
+            for ch in node.named_children:
+                ct = ch.type
                 if ct == "superclasses" or "heritage" in ct:
-                    for sub in ch.named_children:  # type: ignore[attr-defined]
-                        if sub.type == "argument_list":  # type: ignore[attr-defined]
-                            bases.extend(self.text(t2) for t2 in sub.named_children)  # type: ignore[attr-defined]
-                        elif "comment" not in sub.type:  # type: ignore[attr-defined]
+                    for sub in ch.named_children:
+                        if sub.type == "argument_list":
+                            bases.extend(self.text(t2) for t2 in sub.named_children)
+                        elif "comment" not in sub.type:
                             bases.append(self.text(sub))
 
         decorators = [
@@ -458,27 +474,25 @@ class Walker:
             b = b.strip()
             for kw in ("extends ", "implements ", ": "):
                 if b.startswith(kw):
-                    b = b[len(kw):].strip()
+                    b = b[len(kw) :].strip()
             if b:
                 cleaned_bases.append(b)
 
         cls = _ClsBuilder(
             name=self.text(name_node) if name_node is not None else "<anonymous>",
-            start_line=node.start_point[0] + 1,  # type: ignore[attr-defined]
-            end_line=node.end_point[0] + 1,  # type: ignore[attr-defined]
-            node_start=node.start_byte,  # type: ignore[attr-defined]
-            node_end=node.end_byte,  # type: ignore[attr-defined]
+            start_line=node.start_point[0] + 1,
+            end_line=node.end_point[0] + 1,
+            node_start=node.start_byte,
+            node_end=node.end_byte,
             bases=cleaned_bases,
             decorators=decorators,
             is_interface=is_interface,
             exported=in_export,
-            abstract_keyword=any(
-                getattr(ch, "type", "") == "abstract" for ch in node.children  # type: ignore[attr-defined]
-            ),
+            abstract_keyword=any(getattr(ch, "type", "") == "abstract" for ch in node.children),
         )
         self.classes.append(cls)
         self._class_stack.append(cls)
-        cls_children = node.children  # type: ignore[attr-defined]
+        cls_children = node.children
         for ch in cls_children:
             self._visit(ch, control_depth, in_export)
         self._class_stack.pop()
@@ -491,7 +505,9 @@ class Walker:
             seen[(imp.module, imp.level, imp.line, imp.is_dynamic)] = imp
         return tuple(seen.values())
 
-    def build_exports(self, functions: list[FunctionDef], classes: list[_ClsBuilder]) -> tuple[ExportDecl, ...]:
+    def build_exports(
+        self, functions: list[FunctionDef], classes: list[_ClsBuilder]
+    ) -> tuple[ExportDecl, ...]:
         out: list[ExportDecl] = []
         seen: set[tuple[str, str]] = set()
 
@@ -503,7 +519,11 @@ class Walker:
 
         for f in functions:
             if f.exported:
-                add(f.qualified_name or f.name, "method" if f.is_method else "function", f.start_line)
+                add(
+                    f.qualified_name or f.name,
+                    "method" if f.is_method else "function",
+                    f.start_line,
+                )
         for c in classes:
             if c.exported or c.abstract_keyword:
                 add(c.name, "interface" if c.is_interface else "class", c.start_line)
@@ -521,14 +541,14 @@ class Walker:
         stack = [self.tree.root_node]
         while stack:
             n = stack.pop()
-            if n.type == "if_statement" and "__main__" in self.text(n):  # type: ignore[attr-defined]
+            if n.type == "if_statement" and "__main__" in self.text(n):
                 return True
-            stack.extend(n.named_children)  # type: ignore[attr-defined]
+            stack.extend(n.named_children)
         return False
 
     @staticmethod
-    def _preceding_siblings(node: object) -> list[object]:
-        sibs: list[object] = []
+    def _preceding_siblings(node: Node) -> list[Node]:
+        sibs: list[Node] = []
         cur = getattr(node, "prev_sibling", None)
         while cur is not None:
             sibs.append(cur)
@@ -628,7 +648,7 @@ def analyze_source(
         exports=exports,
         top_level_names=top_names,
         package=walker._package,
-        has_errors=bool(walker.tree.root_node.has_error),  # type: ignore[attr-defined]
+        has_errors=bool(walker.tree.root_node.has_error),
         has_main_guard=walker.has_main_guard(),
         parse_mode="tree-sitter",
         parser_version=SYNTAX_PARSER_VERSION,

@@ -12,8 +12,12 @@ import shannon_insight
 _ALLOWED_ROOTS = {"shannon_insight"}
 
 
-V4_ROOTS = ("shannon_insight.core.", "shannon_insight.syntax.",
-            "shannon_insight.facts.", "shannon_insight.intake.")
+V4_ROOTS = (
+    "shannon_insight.core.",
+    "shannon_insight.syntax.",
+    "shannon_insight.facts.",
+    "shannon_insight.intake.",
+)
 
 
 def _iter_modules():
@@ -32,5 +36,3 @@ def test_every_module_imports() -> None:
         except Exception as exc:  # noqa: BLE001 - this IS the assertion
             failures.append((name, repr(exc)))
     assert not failures, "\n".join(f"{n}: {e}" for n, e in failures)
-
-

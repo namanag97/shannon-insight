@@ -6,8 +6,8 @@ from shannon_insight.intake.service import (
     IntakeReport,
     IntakeService,
     ParsedFile,
-    SkipReason,
     SkippedFile,
+    SkipReason,
 )
 
 __all__ = [

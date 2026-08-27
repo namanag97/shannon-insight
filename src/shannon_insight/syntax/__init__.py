@@ -6,8 +6,8 @@ from shannon_insight.syntax.models import (
     FunctionDef,
     ImportDecl,
 )
-from shannon_insight.syntax.parser import ParserManager, analyze_source
 from shannon_insight.syntax.packs import PackSpec, detect_language
+from shannon_insight.syntax.parser import ParserManager, analyze_source
 
 __all__ = [
     "ClassDef",

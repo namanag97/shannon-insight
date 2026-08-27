@@ -430,20 +430,18 @@ class RuntimeContext:
         self._start()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> bool:
-        """Exit the runtime context with cleanup."""
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        """Exit the runtime context with cleanup without suppressing exceptions."""
         self._stop(exc_val)
-        return False  # Don't suppress exceptions
 
     async def __aenter__(self) -> RuntimeContext:
         """Async context manager entry."""
         self._start()
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb) -> bool:
-        """Async context manager exit."""
+    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+        """Async context manager exit without suppressing exceptions."""
         self._stop(exc_val)
-        return False
 
     def _start(self) -> None:
         """Initialize the runtime context."""
@@ -812,7 +810,8 @@ class RuntimeContext:
         try:
             with open(self._checkpoint_path) as f:
                 checkpoint = json.load(f)
-            return checkpoint.get("data")
+            data = checkpoint.get("data")
+            return data if isinstance(data, dict) else None
         except Exception:
             return None
 

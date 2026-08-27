@@ -38,14 +38,16 @@ def pagerank(
     M = D_inv @ A
 
     # Initialize
-    pr = np.ones(n) / n
+    pr: np.ndarray = np.asarray(np.ones(n) / n, dtype=float)
 
     for _ in range(max_iterations):
         # Dangling node contribution
         dangling_sum = pr[dangling].sum() / n
 
         # PageRank iteration
-        pr_new = (1 - damping) / n + damping * (M.T @ pr + dangling_sum)
+        pr_new: np.ndarray = np.asarray(
+            (1 - damping) / n + damping * (M.T @ pr + dangling_sum), dtype=float
+        )
 
         # Check convergence
         if np.max(np.abs(pr_new - pr)) < tolerance:
@@ -53,4 +55,4 @@ def pagerank(
 
         pr = pr_new
 
-    return pr
+    return np.asarray(pr, dtype=float)

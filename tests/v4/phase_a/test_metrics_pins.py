@@ -34,9 +34,14 @@ class TestStubScore:
         # No signature tokens => ratio saturates instantly: body is
         # "infinitely implemented" relative to an empty declaration.
         fn = FunctionDef(
-            name="f", params=(), start_line=1, end_line=1,
-            body_tokens=5, signature_tokens=0,
-            nesting_depth=0, cyclomatic=1,
+            name="f",
+            params=(),
+            start_line=1,
+            end_line=1,
+            body_tokens=5,
+            signature_tokens=0,
+            nesting_depth=0,
+            cyclomatic=1,
         )
         assert fn.stub_score == 0.0
 

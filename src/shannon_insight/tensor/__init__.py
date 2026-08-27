@@ -1,6 +1,15 @@
 """4D Relationship Tensor for codebase analysis."""
 
-from .core import AUTHOR, CLONE, COCHANGE, COMBINED, IMPORT, RELATION_NAMES, SEMANTIC, RelationTensor
+from .core import (
+    AUTHOR,
+    CLONE,
+    COCHANGE,
+    COMBINED,
+    IMPORT,
+    RELATION_NAMES,
+    SEMANTIC,
+    RelationTensor,
+)
 from .decomposition import CPResult, TuckerResult, cp_decomposition, tucker_decomposition
 from .hypergraph import HypergraphResult, build_hypergraph, hypergraph_laplacian_spectrum
 from .index import NodeIndex

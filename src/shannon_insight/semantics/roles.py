@@ -8,6 +8,7 @@ See spec: docs/v2/phases/phase-2-semantics.md
 
 from __future__ import annotations
 
+import importlib
 import re
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -99,13 +100,14 @@ def _get_pyproject_entry_points(root_dir: str = "") -> set[str]:
     entry_points: set[str] = set()
 
     try:
-        import tomllib
-    except ImportError:
+        toml_module = importlib.import_module("tomllib")
+    except ModuleNotFoundError:
         try:
-            import tomli as tomllib  # noqa: F811
-        except ImportError:
+            toml_module = importlib.import_module("tomli")
+        except ModuleNotFoundError:
             _ENTRY_POINT_CACHE[root_dir] = entry_points
             return entry_points
+    toml_load = toml_module.load
 
     pyproject_path = Path(root_dir) / "pyproject.toml" if root_dir else Path("pyproject.toml")
     if not pyproject_path.exists():
@@ -114,7 +116,7 @@ def _get_pyproject_entry_points(root_dir: str = "") -> set[str]:
 
     try:
         with open(pyproject_path, "rb") as f:
-            data = tomllib.load(f)
+            data = toml_load(f)
 
         # [project.scripts] and [project.gui-scripts]
         for section in ("scripts", "gui-scripts"):

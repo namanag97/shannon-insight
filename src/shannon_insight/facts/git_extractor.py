@@ -13,8 +13,8 @@ import subprocess
 from dataclasses import replace
 from pathlib import Path
 
-from shannon_insight.facts.models import ChangeType, CommitFact, FileChangeFact
 from shannon_insight.facts.authors import AuthorRecord, AuthorResolver
+from shannon_insight.facts.models import ChangeType, CommitFact, FileChangeFact
 
 _SEP = "\x1f"
 
@@ -61,7 +61,10 @@ def git_context(root, max_commits=5000, timeout_seconds=30):
     root_str = str(root)
     try:
         branch = _git0(root_str, ["rev-parse", "--abbrev-ref", "HEAD"], timeout_seconds).strip()
-        shallow = _git0(root_str, ["rev-parse", "--is-shallow-repository"], timeout_seconds).strip() == "true"
+        shallow = (
+            _git0(root_str, ["rev-parse", "--is-shallow-repository"], timeout_seconds).strip()
+            == "true"
+        )
         total_s = _git0(root_str, ["rev-list", "--count", "HEAD"], timeout_seconds).strip()
         total = int(total_s) if total_s.isdigit() else 0
     except (subprocess.TimeoutExpired, OSError):

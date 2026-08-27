@@ -19,13 +19,9 @@ class RobustStatistics:
         Returns:
             MAD value
         """
-        median_val = np.median(values)
-
-        if isinstance(values, np.ndarray):
-            deviations = np.abs(values - median_val)
-        else:
-            deviations = [abs(x - median_val) for x in values]
-
+        array = np.asarray(values, dtype=float)
+        median_val = float(np.median(array))
+        deviations = np.abs(array - median_val)
         return float(np.median(deviations))
 
     @staticmethod
@@ -96,11 +92,12 @@ class RobustStatistics:
             contamination_val = "auto" if contamination is None else contamination
             clf = IsolationForest(contamination=contamination_val, random_state=42)
             outliers = clf.fit_predict(values.reshape(-1, 1))
-            return np.array([o == -1 for o in outliers])  # type: ignore[no-any-return]
+            return np.asarray([o == -1 for o in outliers], dtype=np.bool_)
 
         except (ImportError, Exception):
-            return np.array(  # type: ignore[no-any-return]
+            return np.asarray(
                 RobustStatistics.iqr_outliers(
                     values.tolist() if hasattr(values, "tolist") else list(values)
-                )
+                ),
+                dtype=np.bool_,
             )

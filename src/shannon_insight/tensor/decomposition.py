@@ -12,10 +12,9 @@ Tucker decomposition captures cross-mode interactions via a core tensor.
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import numpy as np
-from scipy import sparse
 
 from .core import RELATION_NAMES, RelationTensor
 
@@ -34,7 +33,7 @@ class CPResult:
     @property
     def file_communities(self) -> np.ndarray:
         """File community membership (N x R). Average of source/target factors."""
-        return (self.factors[0] + self.factors[1]) / 2.0
+        return np.asarray((self.factors[0] + self.factors[1]) / 2.0)
 
     @property
     def temporal_patterns(self) -> np.ndarray:
@@ -65,14 +64,18 @@ class CPResult:
             top_files = []
             for idx in top_indices:
                 if scores[idx] > 0.01:
-                    top_files.append({
-                        "path": tensor.node_path(int(idx)),
-                        "membership": float(scores[idx]),
-                    })
+                    top_files.append(
+                        {
+                            "path": tensor.node_path(int(idx)),
+                            "membership": float(scores[idx]),
+                        }
+                    )
 
             # Dominant relation type
             rel_scores = rel_imp[:, r]
-            dominant_rel = RELATION_NAMES[int(np.argmax(rel_scores))] if len(rel_scores) > 0 else "UNKNOWN"
+            dominant_rel = (
+                RELATION_NAMES[int(np.argmax(rel_scores))] if len(rel_scores) > 0 else "UNKNOWN"
+            )
 
             # Temporal trend (slope of activity)
             t_vals = temporal[:, r]
@@ -82,15 +85,17 @@ class CPResult:
             else:
                 trend = 0.0
 
-            summaries.append({
-                "component": r,
-                "weight": float(self.weights[r]),
-                "n_files": len(top_files),
-                "top_files": top_files,
-                "dominant_relation": dominant_rel,
-                "temporal_trend": trend,
-                "activity_pattern": t_vals.tolist(),
-            })
+            summaries.append(
+                {
+                    "component": r,
+                    "weight": float(self.weights[r]),
+                    "n_files": len(top_files),
+                    "top_files": top_files,
+                    "dominant_relation": dominant_rel,
+                    "temporal_trend": trend,
+                    "activity_pattern": t_vals.tolist(),
+                }
+            )
 
         return summaries
 
@@ -158,7 +163,7 @@ def cp_decomposition(
     if n > 2000:
         logger.warning(
             f"Tensor has {n} nodes — CP decomposition on dense 4D array "
-            f"would require {n*n*k*n_rel*4/(1024**3):.1f} GB. Skipping."
+            f"would require {n * n * k * n_rel * 4 / (1024**3):.1f} GB. Skipping."
         )
         return None
 
@@ -344,6 +349,6 @@ def _als_update_nonneg(
     new_factor = rhs @ np.linalg.inv(gram)
 
     # Non-negativity projection
-    new_factor = np.maximum(new_factor, 0.0).astype(np.float32)
+    new_factor = np.asarray(np.maximum(new_factor, 0.0), dtype=np.float32)
 
     return new_factor

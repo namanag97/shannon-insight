@@ -50,4 +50,4 @@ def conway_alignment(tensor: RelationTensor, t: int = -1) -> float:
     if total_imports == 0:
         return 1.0
 
-    return 1 - len(violations) / total_imports
+    return float(1 - len(violations) / total_imports)

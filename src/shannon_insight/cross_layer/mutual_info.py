@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import cast
+
 import numpy as np
 from scipy import sparse
 
@@ -33,7 +35,7 @@ def edge_mutual_info(
     def discretize(v: np.ndarray) -> np.ndarray:
         if v.max() == v.min():
             return np.zeros_like(v, dtype=int)
-        return np.digitize(v, np.linspace(v.min(), v.max(), bins))
+        return cast(np.ndarray, np.digitize(v, np.linspace(v.min(), v.max(), bins)))
 
     d1 = discretize(v1)
     d2 = discretize(v2)
@@ -55,4 +57,4 @@ def edge_mutual_info(
             if joint[i, j] > 0 and p1[i] > 0 and p2[j] > 0:
                 mi += joint[i, j] * np.log2(joint[i, j] / (p1[i] * p2[j]))
 
-    return mi
+    return float(mi)

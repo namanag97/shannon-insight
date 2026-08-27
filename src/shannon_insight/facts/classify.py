@@ -29,23 +29,53 @@ class FileClass(Enum):
 
 _VENDORED_SEGMENTS = frozenset(
     {
-        "node_modules", "vendor", "third_party", "thirdparty",
-        "site-packages", "dist-packages", "__pycache__", ".tox",
-        "venv", ".venv", "target", "bower_components", "packages-lock",
+        "node_modules",
+        "vendor",
+        "third_party",
+        "thirdparty",
+        "site-packages",
+        "dist-packages",
+        "__pycache__",
+        ".tox",
+        "venv",
+        ".venv",
+        "target",
+        "bower_components",
+        "packages-lock",
     }
 )
 
 _GENERATED_SEGMENTS = frozenset({"generated", "gen", "_gen", "autogen", "protobuf", "proto_out"})
-_GENERATED_SUFFIXES = (".min.js", ".min.css", ".map", ".d.ts", ".pb.go", "_pb2.py", ".g.dart", ".lock")
+_GENERATED_SUFFIXES = (
+    ".min.js",
+    ".min.css",
+    ".map",
+    ".d.ts",
+    ".pb.go",
+    "_pb2.py",
+    ".g.dart",
+    ".lock",
+)
 
 _TEST_SEGMENTS = frozenset({"test", "tests", "spec", "specs", "__tests__", "testing"})
-_CONFIG_EXTS = frozenset({".toml", ".yaml", ".yml", ".ini", ".cfg", ".conf", ".properties", ".env", ".editorconfig"})
+_CONFIG_EXTS = frozenset(
+    {".toml", ".yaml", ".yml", ".ini", ".cfg", ".conf", ".properties", ".env", ".editorconfig"}
+)
 _DOC_EXTS = frozenset({".md", ".rst", ".adoc", ".txt"})
 _DATA_EXTS = frozenset({".csv", ".tsv", ".parquet", ".pkl", ".npy", ".sqlite", ".db"})
 
 _TEST_FILE_PATTERNS = (
-    "test_*.py", "*_test.py", "*_test.go", "*_test.rs", "*.test.js", "*.test.ts",
-    "*.test.tsx", "*.spec.js", "*.spec.ts", "*_test.cc", "*_test.cpp",
+    "test_*.py",
+    "*_test.py",
+    "*_test.go",
+    "*_test.rs",
+    "*.test.js",
+    "*.test.ts",
+    "*.test.tsx",
+    "*.spec.js",
+    "*.spec.ts",
+    "*_test.cc",
+    "*_test.cpp",
 )
 _TEST_NAME_PREFIXES = ("test_",)
 
@@ -72,7 +102,19 @@ def classify(rel_posix: str) -> ClassEvidence:
     ext = p.suffix
     if name.startswith(_TEST_FILE_PATTERNS[:2][0]) or _matches_test_pattern(name):
         return ClassEvidence(FileClass.TEST, "test_filename")
-    if parts & _TEST_SEGMENTS and ext in (".py", ".go", ".js", ".jsx", ".ts", ".tsx", ".rs", ".java", ".rb", ".c", ".cpp"):
+    if parts & _TEST_SEGMENTS and ext in (
+        ".py",
+        ".go",
+        ".js",
+        ".jsx",
+        ".ts",
+        ".tsx",
+        ".rs",
+        ".java",
+        ".rb",
+        ".c",
+        ".cpp",
+    ):
         return ClassEvidence(FileClass.TEST, "test_dir")
 
     if ext in _DOC_EXTS:

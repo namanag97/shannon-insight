@@ -15,8 +15,8 @@ from shannon_insight.relate.index import ModuleIndex, normalize_base
 from shannon_insight.relate.manifests import ManifestFacts
 from shannon_insight.relate.protocols import (
     METHOD_RANK,
-    BindMethod,
     BindingRecord,
+    BindMethod,
     Candidate,
     Confidence,
     RelateMetrics,
@@ -66,7 +66,7 @@ class BindingKernel:
             out.append(Candidate(rel_path, method, rank))
         return out
 
-    def _first_file(self, base: str, t: FamilyTable) -> Candidate | None:
+    def _first_file(self, base: str, t: FamilyTable | tuple[str, ...]) -> Candidate | None:
         for cand in self._file_candidates(base, t):
             if self.index.has(cand.rel_path):
                 return cand
@@ -86,8 +86,9 @@ class BindingKernel:
             if key.endswith("*"):
                 prefix = key[:-1]
                 if spec.startswith(prefix) and len(prefix) > len(best_key):
-                    best_key, best_vals = prefix, tuple(
-                        v.replace("*", spec[len(prefix):]) for v in vals
+                    best_key, best_vals = (
+                        prefix,
+                        tuple(v.replace("*", spec[len(prefix) :]) for v in vals),
                     )
             elif spec == key and len(key) > len(best_key):
                 best_key, best_vals = key, vals
@@ -104,8 +105,7 @@ class BindingKernel:
                 rel_path = tmpl.format(base=normalize_base(root, base))
                 folded = self.index.casefold_lookup(rel_path)
                 if folded is not None:
-                    return _resolved_c(rel, imp, folded,
-                                       BindMethod.CASE_FOLD, Confidence.LOW)
+                    return _resolved_c(rel, imp, folded, BindMethod.CASE_FOLD, Confidence.LOW)
         return None
 
     def _probe_python_roots(self) -> tuple[str, ...]:
@@ -141,7 +141,11 @@ class BindingKernel:
                 if d.rpartition("/")[2] == "src":
                     roots.add(d)
                 d = d.rpartition("/")[0]
-        return ("",) if len(roots) == 1 else ("", *sorted(roots - {""}, key=lambda x: (x.count("/"), x)))
+        return (
+            ("",)
+            if len(roots) == 1
+            else ("", *sorted(roots - {""}, key=lambda x: (x.count("/"), x)))
+        )
 
     def _infer_java_root(self, files: dict[str, FileSyntax]) -> str | None:
         votes: Counter[str] = Counter()
@@ -167,7 +171,6 @@ class BindingKernel:
                 best = d
         return best
 
-
     # ── pass-2 entry ──────────────────────────────────────────────────
 
     def bind_all(self) -> list[BindingRecord]:
@@ -188,11 +191,17 @@ class BindingKernel:
             and record.confidence is Confidence.HIGH
         ):
             record = BindingRecord(
-                source_rel=record.source_rel, specifier=record.specifier, line=record.line,
-                language=record.language, is_dynamic=record.is_dynamic,
-                verdict=record.verdict, target_rel=record.target_rel,
-                target_file_id=record.target_file_id, method=record.method,
-                confidence=Confidence.MEDIUM, ambiguous_with=record.ambiguous_with,
+                source_rel=record.source_rel,
+                specifier=record.specifier,
+                line=record.line,
+                language=record.language,
+                is_dynamic=record.is_dynamic,
+                verdict=record.verdict,
+                target_rel=record.target_rel,
+                target_file_id=record.target_file_id,
+                method=record.method,
+                confidence=Confidence.MEDIUM,
+                ambiguous_with=record.ambiguous_with,
                 reason=record.reason,
             )
         return _finalize_counters(record, self.metrics)
@@ -267,22 +276,25 @@ class BindingKernel:
             if alias_hit is not None:
                 cand = self._first_file(alias_hit, t)
                 if cand is not None:
-                    return _resolved_c(rel, imp, cand.rel_path,
-                                       BindMethod.ALIAS_MAP, Confidence.HIGH)
+                    return _resolved_c(
+                        rel, imp, cand.rel_path, BindMethod.ALIAS_MAP, Confidence.HIGH
+                    )
             if not tilde_alias:
                 ws_dir = (
-                    self.mf.workspaces.get(first)
-                    if self.mf.ws_kind.get(first) == "npm"
-                    else None
+                    self.mf.workspaces.get(first) if self.mf.ws_kind.get(first) == "npm" else None
                 )
                 if ws_dir is not None:
-                    base = normalize_base(ws_dir, spec[len(first):].lstrip("/"))
+                    base = normalize_base(ws_dir, spec[len(first) :].lstrip("/"))
                     cand = self._first_file(base, t)
                     if cand is not None:
-                        return _resolved_c(rel, imp, cand, BindMethod.WORKSPACE_PKG, Confidence.HIGH)
+                        return _resolved_c(
+                            rel, imp, cand.rel_path, BindMethod.WORKSPACE_PKG, Confidence.HIGH
+                        )
                     return _phantom(rel, imp, f"workspace_member_missing_file:{spec}")
                 if first in self.mf.declared.get("npm", frozenset()) or first.startswith("@"):
-                    scoped_ok = first.startswith("@") and first in self.mf.declared.get("npm", frozenset())
+                    scoped_ok = first.startswith("@") and first in self.mf.declared.get(
+                        "npm", frozenset()
+                    )
                     if scoped_ok or not first.startswith("@"):
                         return _external(rel, imp, "npm", spec.split("/", 1)[0])
                 return _phantom(rel, imp, f"unlisted_external:{first}")
@@ -290,11 +302,12 @@ class BindingKernel:
 
         ups = spec.count("..")
         base = normalize_base(_parent(rel), *([".."] * ups), spec.replace("./", ""))
-        hit, others = _pick([self._file_candidates(base, t)], self.index)
-        if hit is None:
-            hit = self._casefold_rescue(rel, imp, base, t, ("",))
+        hit, _others = _pick([self._file_candidates(base, t)], self.index)
         if hit is not None:
             return _resolved(rel, imp, hit)
+        fold = self._casefold_rescue(rel, imp, base, t, ("",))
+        if fold is not None:
+            return fold
         return _phantom(rel, imp, f"unresolved_relative:{spec}")
 
     # ── rust ──────────────────────────────────────────────────────────
@@ -312,7 +325,11 @@ class BindingKernel:
                 return _resolved(rel, imp, hit)
         if head in t.stdlib:
             return _external(rel, imp, "crates", head, note="core")
-        if head in self.mf.workspaces and self.mf.ws_kind.get(head) == "cargo" and head != self._own_crate_name(rel):
+        if (
+            head in self.mf.workspaces
+            and self.mf.ws_kind.get(head) == "cargo"
+            and head != self._own_crate_name(rel)
+        ):
             return _skipped(rel, imp, "cross_crate_workspace")
         if head in self.mf.declared.get("crates", frozenset()):
             return _external(rel, imp, "crates", head)
@@ -324,12 +341,16 @@ class BindingKernel:
         rest = [s for s in segs if s not in ("crate", "self", "super")]
         ups = sum(1 for s in segs if s == "super")
         if head == "crate":
-            starts = dict.fromkeys((*self._rust_roots, self._crate_root_for(rel)))
+            starts: tuple[str, ...] = tuple(
+                dict.fromkeys((*self._rust_roots, self._crate_root_for(rel)))
+            )
         else:
-            starts = {_up(_parent(rel), ups)}
+            starts = (_up(_parent(rel), ups),)
         # full path first …
         for start in starts:
-            hit, _ = _pick([self._file_candidates(normalize_base(start, "/".join(rest)), t)], self.index)
+            hit, _ = _pick(
+                [self._file_candidates(normalize_base(start, "/".join(rest)), t)], self.index
+            )
             if hit is not None:
                 return _resolved(rel, imp, hit)
         # … then progressive symbol-tail stripping (use-paths end in symbols)
@@ -338,9 +359,12 @@ class BindingKernel:
                 base = normalize_base(start, "/".join(rest[:k]))
                 rel_path = self._first_file_any(base, t.file_templates)
                 if rel_path is not None:
-                    return _resolved_c(rel, imp, rel_path,
-                                       BindMethod.PREFIX_STRIP, Confidence.LOW)
-        return _phantom(rel, imp, f"unresolved_crate_path:{'::'.join(segs)}" if segs else "unresolved_crate_path:")
+                    return _resolved_c(rel, imp, rel_path, BindMethod.PREFIX_STRIP, Confidence.LOW)
+        return _phantom(
+            rel,
+            imp,
+            f"unresolved_crate_path:{'::'.join(segs)}" if segs else "unresolved_crate_path:",
+        )
 
     def _own_crate_name(self, rel: str) -> str | None:
         best = ""
@@ -358,11 +382,9 @@ class BindingKernel:
 
     def _bind_go(self, rel: str, t: FamilyTable, imp: ImportDecl, spec: str) -> BindingRecord:
         full = imp.names[0] if imp.names else spec
-        for module, mdir in sorted(
-            self.mf.go_modules.items(), key=lambda kv: (-len(kv[0]), kv[0])
-        ):
+        for module, mdir in sorted(self.mf.go_modules.items(), key=lambda kv: (-len(kv[0]), kv[0])):
             if full == module or full.startswith(module + "/"):
-                rem = full[len(module):].strip("/")
+                rem = full[len(module) :].strip("/")
                 hits = self.index.files_under(
                     normalize_base(mdir, rem), (".go",), cap=t.max_dir_files
                 )
@@ -381,7 +403,9 @@ class BindingKernel:
     # ── jvm ───────────────────────────────────────────────────────────
 
     def _bind_jvm(self, rel: str, t: FamilyTable, imp: ImportDecl, spec: str) -> BindingRecord:
-        if any(spec.startswith(p) for p in ("java.", "javax.", "jdk.", "javafx.", "sun.", "com.sun.")):
+        if any(
+            spec.startswith(p) for p in ("java.", "javax.", "jdk.", "javafx.", "sun.", "com.sun.")
+        ):
             return _external(rel, imp, "maven", spec.split(".")[0], note="jdk")
         path_form = spec.replace(".", "/")
         if spec.endswith(".*"):
@@ -395,14 +419,17 @@ class BindingKernel:
                 )
             hits = sorted(set(hits))[: t.max_dir_files]
             if hits:
-                return _resolved_multi(rel, imp, hits, BindMethod.JAVA_WILDCARD_DIR, Confidence.MEDIUM)
+                return _resolved_multi(
+                    rel, imp, hits, BindMethod.JAVA_WILDCARD_DIR, Confidence.MEDIUM
+                )
             return _phantom(rel, imp, f"jvm_package_missing:{pkg}")
         for root in dict.fromkeys(filter(None, [self._java_root, ""])):
             base = normalize_base(root, path_form)
             cand = self._first_file(base, ("{base}.java", "{base}.kt"))
             if cand is not None:
-                return _resolved_c(rel, imp, cand.rel_path,
-                                   BindMethod.ANCESTOR_WALK, Confidence.HIGH)
+                return _resolved_c(
+                    rel, imp, cand.rel_path, BindMethod.ANCESTOR_WALK, Confidence.HIGH
+                )
         return _phantom(rel, imp, f"jvm_class_missing:{spec}")
 
     # ── ruby / C loadpath family ─────────────────────────────────────
@@ -478,11 +505,17 @@ def _stamp_language(rec: BindingRecord, table: FamilyTable) -> BindingRecord:
     if rec.language:
         return rec
     return BindingRecord(
-        source_rel=rec.source_rel, specifier=rec.specifier, line=rec.line,
-        language=sorted(table.languages)[0], is_dynamic=rec.is_dynamic,
-        verdict=rec.verdict, target_rel=rec.target_rel,
-        target_file_id=rec.target_file_id, method=rec.method,
-        confidence=rec.confidence, ambiguous_with=rec.ambiguous_with,
+        source_rel=rec.source_rel,
+        specifier=rec.specifier,
+        line=rec.line,
+        language=sorted(table.languages)[0],
+        is_dynamic=rec.is_dynamic,
+        verdict=rec.verdict,
+        target_rel=rec.target_rel,
+        target_file_id=rec.target_file_id,
+        method=rec.method,
+        confidence=rec.confidence,
+        ambiguous_with=rec.ambiguous_with,
         reason=rec.reason,
     )
 
@@ -507,7 +540,9 @@ def _resolved(rel: str, imp: ImportDecl, cand: Candidate) -> BindingRecord:
     return _resolved_c(rel, imp, cand.rel_path, cand.method, _conf_for(cand))
 
 
-def _resolved_c(rel: str, imp: ImportDecl, target: str, method: BindMethod, conf: Confidence) -> BindingRecord:
+def _resolved_c(
+    rel: str, imp: ImportDecl, target: str, method: BindMethod, conf: Confidence
+) -> BindingRecord:
     return _record(rel, imp, Verdict.RESOLVED, target=target, method=method, conf=conf)
 
 
@@ -515,10 +550,14 @@ def _resolved_multi(
     rel: str, imp: ImportDecl, targets: list[str], method: BindMethod, conf: Confidence
 ) -> BindingRecord:
     primary, extras = targets[0], tuple(targets[1:])
-    return _record(rel, imp, Verdict.RESOLVED, target=primary, method=method, conf=conf, ambiguous=extras[:4])
+    return _record(
+        rel, imp, Verdict.RESOLVED, target=primary, method=method, conf=conf, ambiguous=extras[:4]
+    )
 
 
-def _external(rel: str, imp: ImportDecl, eco: str, name: str, note: str | None = None) -> BindingRecord:
+def _external(
+    rel: str, imp: ImportDecl, eco: str, name: str, note: str | None = None
+) -> BindingRecord:
     reason = f"{eco}:{name}" + (f":{note}" if note else "")
     return _record(rel, imp, Verdict.EXTERNAL, reason=reason)
 

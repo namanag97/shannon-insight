@@ -121,7 +121,7 @@ class RelationTensor:
         n = self.n_nodes
         if n < 2:
             return 0.0
-        return self.slice(t, r).nnz / (n * (n - 1))
+        return float(self.slice(t, r).nnz / (n * (n - 1)))
 
     @property
     def paths(self) -> list[str]:

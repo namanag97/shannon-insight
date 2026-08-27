@@ -51,16 +51,14 @@ stat statistics string stringprep struct subprocess symtable sys sysconfig
 tarfile tempfile termios textwrap threading time timeit tkinter token
 tokenize tomllib trace traceback tracemalloc tty types typing unicodedata
 unittest urllib uuid venv warnings wave weakref webbrowser wsgiref xml
-xmlrpc zipfile zipimport zlib zoneinfo"""
-    .split()
+xmlrpc zipfile zipimport zlib zoneinfo""".split()
 )
 
 _JS_BUILTINS = frozenset(
     """assert buffer child_process cluster console constants crypto dgram
 diagnostics_channel dns domain events fs http http2 https inspector module
 net os path perf_hooks process punycode querystring readline repl stream
-string_decoder timers tls trace_events tty url util v8 vm worker_threads zlib"""
-    .split()
+string_decoder timers tls trace_events tty url util v8 vm worker_threads zlib""".split()
 )
 
 _GO_STDLIB = frozenset(

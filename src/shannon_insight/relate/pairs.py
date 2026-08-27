@@ -39,9 +39,22 @@ def _stem(name: str) -> str:
     n = name.lower()
     for prefix in ("test_",):
         if n.startswith(prefix):
-            n = n[len(prefix):]
+            n = n[len(prefix) :]
     for suffix in ("_test", ".test", ".spec", "_spec"):
-        for ext in (".py", ".go", ".js", ".jsx", ".ts", ".tsx", ".rs", ".rb", ".java", ".cc", ".cpp", ""):
+        for ext in (
+            ".py",
+            ".go",
+            ".js",
+            ".jsx",
+            ".ts",
+            ".tsx",
+            ".rs",
+            ".rb",
+            ".java",
+            ".cc",
+            ".cpp",
+            "",
+        ):
             if n.endswith(suffix + ext):
                 n = n[: -len(suffix + ext)]
                 break
@@ -134,7 +147,11 @@ def hidden_facts(
             PairFact(
                 src_file_id=a,
                 dst_file_id=b,
-                evidence={"lift": dyn.lift, "confidence": dyn.confidence, "co_commits": float(dyn.co_commits)},
+                evidence={
+                    "lift": dyn.lift,
+                    "confidence": dyn.confidence,
+                    "co_commits": float(dyn.co_commits),
+                },
             )
         )
     return out
@@ -157,7 +174,16 @@ def dead_facts(
         if changes_per_id.get(dst, 0) < thresholds.dead_min_changes:
             continue
         seen.add(pair)
-        out.append(PairFact(src, dst, {"changes_src": float(changes_per_id[src]), "changes_dst": float(changes_per_id[dst])}))
+        out.append(
+            PairFact(
+                src,
+                dst,
+                {
+                    "changes_src": float(changes_per_id[src]),
+                    "changes_dst": float(changes_per_id[dst]),
+                },
+            )
+        )
     return out
 
 

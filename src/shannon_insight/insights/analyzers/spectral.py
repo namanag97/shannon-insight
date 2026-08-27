@@ -36,7 +36,7 @@ class SpectralAnalyzer:
         node_idx = {n: i for i, n in enumerate(nodes)}
         n = len(nodes)
 
-        adj = np.zeros((n, n), dtype=float)  # type: ignore[var-annotated]
+        adj = np.zeros((n, n), dtype=float)
         for src, targets in graph.adjacency.items():
             i = node_idx.get(src)
             if i is None:
@@ -52,8 +52,8 @@ class SpectralAnalyzer:
         laplacian = np.diag(degree_vec) - adj
 
         # Eigendecomposition
-        eigenvalues = np.linalg.eigvalsh(laplacian)
-        eigenvalues = sorted(eigenvalues.tolist())
+        eigenvalue_array = np.linalg.eigvalsh(laplacian)
+        eigenvalues: list[float] = sorted(float(value) for value in eigenvalue_array.tolist())
 
         # Number of connected components = number of zero eigenvalues
         tolerance = 1e-8

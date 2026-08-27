@@ -1,0 +1,13 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "falsification_contract_count": 66,
+  "product_specific_economic_exit_evidence_complete_count": 0,
+  "product_specific_independent_adoption_evidence_complete_count": 0,
+  "ratified_boundary_count": 0,
+  "report_id": "retained_product_boundary_falsification",
+  "retained_product_count": 66,
+  "status": "FALSIFICATION_CONTRACTS_COMPLETE_EXTERNAL_EVIDENCE_AND_RATIFICATION_OPEN",
+  "structural_falsification_gap_count": 0,
+  "structurally_surviving_candidate_count": 66
+}

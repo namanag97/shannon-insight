@@ -1,0 +1,40 @@
+name: B09 Data Shape Gap Frontier
+
+on:
+  push:
+    branches:
+      - 'closure/b09-gap-*'
+    paths:
+      - research/domain_atlas/universes/data_shapes/coverage-gaps.json
+      - research/domain_atlas/universes/data_shapes/semantic-equality-*.jsonl
+      - research/domain_atlas/universes/data_shapes/build_effective_gap_frontier.py
+      - research/domain_atlas/universes/data_shapes/validate_effective_gap_frontier.py
+      - .github/workflows/b09-gap-frontier.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build effective gap frontier
+        run: python3 research/domain_atlas/universes/data_shapes/build_effective_gap_frontier.py
+      - name: Validate effective gap frontier
+        run: python3 research/domain_atlas/universes/data_shapes/validate_effective_gap_frontier.py
+      - name: Persist projection
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/universes/data_shapes/effective-gap-frontier.jsonl research/domain_atlas/universes/data_shapes/effective-gap-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "research: generate B09 effective data-shape gap frontier [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from build_registry import ROOT, outputs
 from source_model import AUTHORITY_CLASSES, PACKAGE_KINDS, REBUILD_POLICIES, WRITE_POLICIES
+from validate_m01_io_campaign import main as validate_m01_io_campaign
 
 HERE = Path(__file__).resolve().parent
 
@@ -83,6 +84,7 @@ def main() -> int:
     assert summary["contract_candidate_dockets"] == len(dockets)
     assert summary["migration_batches"] == len(batches)
     assert summary["completion_claim"] is False and summary["world_completion_claim"] is False
+    assert validate_m01_io_campaign() == 0
     print(
         "PASS corpus build protocol: "
         f"{len(contracts)} governed packages form an acyclic executable plan; "

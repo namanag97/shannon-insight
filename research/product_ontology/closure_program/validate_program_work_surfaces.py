@@ -14,7 +14,13 @@ def main():
     if summary['b18_human_effect_obligations']!=len(b18): errors.append('B18 summary drift')
     if summary['b19_system_fault_obligations']!=len(b19): errors.append('B19 summary drift')
     if summary['b20_invalidation_obligations']!=len(b20): errors.append('B20 summary drift')
-    if not any(r.get('dimension')=='profession_occupation' and r.get('assessment_state')=='MISSING_CANONICAL_FOUNDATION' for r in b16): errors.append('B16 must expose profession/occupation foundation gap until a canonical scheme exists')
+    occupation=[r for r in b16 if r.get('dimension')=='profession_occupation' and r.get('record_kind')=='b16_coverage_coordinate']
+    if summary.get('b16_missing_profession_foundation'):
+        if not any(r.get('dimension')=='profession_occupation' and r.get('assessment_state')=='MISSING_CANONICAL_FOUNDATION' for r in b16): errors.append('B16 missing profession foundation must remain explicit')
+    else:
+        if len(occupation)!=summary.get('b16_occupation_major_group_coordinates'): errors.append('B16 occupation coordinate summary drift')
+        if len(occupation)<10: errors.append('B16 ISCO occupation foundation must expose at least 10 major-group coordinates')
+        if any('occupation != economic_activity' not in r.get('non_collapse_laws',[]) for r in occupation): errors.append('B16 occupation/economic-activity non-collapse law missing')
     laws={r['non_collapse_law'] for r in b18}; modes={r['scenario_mode'] for r in b18}
     if len(laws)!=8 or len(modes)!=8: errors.append('B18 law/mode matrix incomplete')
     if len(b18)!=len(b17)*8*8: errors.append('B18 obligations must equal B17 challenges x 8 laws x 8 modes')
@@ -28,6 +34,6 @@ def main():
     if errors:
         for e in errors: print('ERROR:',e)
         return 1
-    print(f"PASS program work surfaces: B16={len(b16)} coordinates, B17={len(b17)} challenges, B18={len(b18)} obligations, B19={len(b19)} faults, B20={len(b20)} invalidations; 0 acceptance claims")
+    print(f"PASS program work surfaces: B16={len(b16)} coordinates ({len(occupation)} occupation), B17={len(b17)} challenges, B18={len(b18)} obligations, B19={len(b19)} faults, B20={len(b20)} invalidations; 0 acceptance claims")
     return 0
 if __name__=='__main__': raise SystemExit(main())

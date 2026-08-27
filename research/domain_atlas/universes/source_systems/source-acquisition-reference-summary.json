@@ -1,0 +1,14 @@
+{
+  "access_surfaces": 1,
+  "acquisition_plans": 1,
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "connector_implementations": 1,
+  "governed_data_cuts": 1,
+  "independently_appraised": false,
+  "production_qualified": false,
+  "provider_offers": 1,
+  "report_id": "sqlite_full_source_acquisition_reference_chain",
+  "source_classes": 1,
+  "source_occurrences": 1
+}

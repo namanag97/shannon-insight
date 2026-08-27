@@ -2,7 +2,7 @@
   "contract_id": "san.domain-atlas.open-world-universes",
   "edition": 1,
   "status": "active_research_contract",
-  "core_scope": "Provider-neutral data engineering and analytics, excluding LLM/generative/agentic semantics from the core.",
+  "core_scope": "Provider-neutral enterprise application, data engineering and analytics, excluding LLM/generative/agentic semantics from the core.",
   "optional_extension_scope": "Generative-model and agent capabilities may be modeled in a separate extension universe that imports the deterministic core; the core never depends on that extension.",
   "universes": [
     {
@@ -112,6 +112,12 @@
       "unit": "independently adoptable, operable and exitable user/outcome promise",
       "not_a_unit": ["library", "bounded context", "vendor bundle label", "compiler node"],
       "required_surfaces": ["users", "jobs", "outcomes", "negative_mission", "service_blueprint", "adoption", "operation", "SLO", "support", "security_privacy", "commercial", "migration", "exit", "packaged_contexts", "packaged_contributions", "evidence"]
+    },
+    {
+      "universe_id": "application_behavior",
+      "unit": "editioned provider-neutral application interaction, state, workflow, event, projection, effect-handoff or execution-evidence contract",
+      "not_a_unit": ["product boundary", "vertical business vocabulary", "database table", "transport envelope", "workflow engine", "compiler-only mechanism", "authorization grant", "business outcome"],
+      "required_surfaces": ["bounded_context", "commands", "queries", "aggregate_state", "state_transitions", "workflows", "sagas_compensation", "domain_events", "integration_events", "projections", "effect_intents", "effect_receipts", "execution_evidence", "identity", "edition", "lifecycle", "time", "authority", "resources", "side_effects", "invariants", "refusals", "requirements", "offers", "assembly_edges", "crosswalks", "conformance_tests", "negative_twins", "gaps", "provenance"]
     }
   ],
   "extension_universes": [

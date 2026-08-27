@@ -1,0 +1,60 @@
+{
+  "as_of": "2026-08-27",
+  "assembly_mechanisms": [
+    "application_runtime",
+    "dataflow_composition",
+    "explicit_effect_gateway",
+    "human_adjudication_then_effect_gateway",
+    "human_adjudication_then_structural_validation",
+    "semantic_import_then_human_review"
+  ],
+  "blocking_gaps": [
+    "gap.application.aggregate_authority",
+    "gap.application.context_owner_adjudication",
+    "gap.application.effect_authority",
+    "gap.application.implementation_qualification",
+    "gap.application.open_world_saturation",
+    "gap.application.provider_portability",
+    "gap.application.vertical_acceptance"
+  ],
+  "claim_boundary": "This corpus specifies candidate contracts and evidence obligations. It is not a complete ontology, qualified implementation set, portable provider offer, product definition, solution pack, or executed application.",
+  "completion_claim": false,
+  "counts": {
+    "assembly_edges": 8,
+    "boundary_decisions": 8,
+    "bounded_contexts": 7,
+    "conformance_tests": 16,
+    "crosswalks": 10,
+    "libraries": 8,
+    "negative_twins": 16,
+    "offers": 8,
+    "open_gaps": 7,
+    "operations": 17,
+    "requirements": 8,
+    "semantic_contracts": 12,
+    "sources": 11,
+    "state_machines": 4,
+    "state_transitions": 17
+  },
+  "coverage_id": "coverage.application_behavior.v0_1_0",
+  "edition": 1,
+  "imports": [
+    "universe.data_type",
+    "universe.operation",
+    "universe.pipeline_dataflow",
+    "universe.persistence",
+    "universe.security_privacy_trust",
+    "universe.runtime_resource",
+    "universe.lineage_provenance_evidence",
+    "universe.consumption"
+  ],
+  "qualification": {
+    "binding_eligible_offers": 0,
+    "executed_conformance_tests": 0,
+    "portable_offers": 0,
+    "qualified_implementations": 0,
+    "vertical_acceptance_receipts": 0
+  },
+  "status": "specified_candidate_open_world",
+  "universe_id": "application_behavior"
+}

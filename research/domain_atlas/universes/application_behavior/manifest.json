@@ -1,0 +1,76 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "assembly-edges.jsonl": {
+      "records": 8,
+      "sha256": "1e45ffa94bc2c01da66bf4225874ce7c6ce85c79da7b237ac234b8cd184cadc7"
+    },
+    "boundary-decisions.jsonl": {
+      "records": 8,
+      "sha256": "033173ffe90cbb2f4a140d98ca00001de92eb3c301fde0246a32d1d9a79c81a7"
+    },
+    "bounded-contexts.jsonl": {
+      "records": 7,
+      "sha256": "c77fd236a3786fa49f9dbbf8002e0d85d3b2e31a5ec0d4a0b8beeba0cfec265c"
+    },
+    "conformance-tests.jsonl": {
+      "records": 16,
+      "sha256": "91a013489374a7e67366f5b6357d7b7641551bcae5c4ff29a5abc4cf3f83ec1b"
+    },
+    "crosswalks.jsonl": {
+      "records": 10,
+      "sha256": "10f314a14a2094f3872b1085f8adf55d170beeb5ef0e18a6c97a22afc814290a"
+    },
+    "gaps.jsonl": {
+      "records": 7,
+      "sha256": "d17b516f0bd15cddefee544c8247da48143de4dab4b19de468f8541e03aa744a"
+    },
+    "library-contracts.jsonl": {
+      "records": 8,
+      "sha256": "79109842f783e3aacc0b32a0bb7a6153e1955a758f94077d3eed7daf4e7b05ac"
+    },
+    "negative-twins.jsonl": {
+      "records": 16,
+      "sha256": "b816edd8cdf244bc598489b90ccfd570c43cf21a1ee81021cf00d7bbc5c6bed3"
+    },
+    "operations.jsonl": {
+      "records": 17,
+      "sha256": "38ade2af42653ee66078ca33fcbdebf13ad366d0d905e7f5581ac092ac8e759e"
+    },
+    "requirements-offers.jsonl": {
+      "records": 16,
+      "sha256": "8bfef8012b9ff8ed501b33e3710739a9969e98477b6145eb37d4f4004f000651"
+    },
+    "semantic-contracts.jsonl": {
+      "records": 12,
+      "sha256": "11e4f4ec7b3d3d7a8bb3ebb55f7a1003b8ea70f0328ede6c720c316b1e1e4c5f"
+    },
+    "sources.jsonl": {
+      "records": 11,
+      "sha256": "d433a3c602f02b42ad08f45e673332c14a5a43faff1382f7800b4239fd621a36"
+    },
+    "state-machines.jsonl": {
+      "records": 4,
+      "sha256": "3cd86e316f6f6d26709d32ba5a6fe06d2a6692a56eab645a6a0e39f82bf30b02"
+    },
+    "state-transitions.jsonl": {
+      "records": 17,
+      "sha256": "5bfaaf26bbe7094c31412853c8778cf72388137128912bd5caab642a1ed1e8ba"
+    }
+  },
+  "generator": "build_corpus.py + source_model.py",
+  "manifest_id": "application_behavior_v0_1_0",
+  "qualification": {
+    "binding_eligible_offer_count": 0,
+    "executed_test_count": 0,
+    "qualified_implementation_count": 0
+  },
+  "schema_refs": [
+    "schemas/record.schema.json",
+    "schemas/manifest.schema.json",
+    "schemas/coverage-report.schema.json"
+  ],
+  "status": "specified_candidate_open_world"
+}

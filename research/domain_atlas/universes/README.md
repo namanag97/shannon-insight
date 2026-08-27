@@ -6,6 +6,7 @@ familiar vendors, tables and BI metrics.
 ```text
 Source-system universe
   x Data-type/observation/structure universe
+  x Application-behavior universe (commands, queries, state, workflow, events, projections, effects)
   x Operation/algebra universe
   x Analytical-practice/method universe
   x Horizontal bounded-context atlas
@@ -50,6 +51,16 @@ carrier representation
 ```
 
 These layers must not be collapsed into a database column type.
+
+## Application behavior universe
+
+Application behavior is a separate horizontal contract plane for enterprise applications. It
+keeps commands/queries, aggregate state/transitions, workflow and saga coordination,
+domain/integration events, projections, effect intents/receipts, and execution evidence distinct.
+It imports data, persistence, dataflow, policy/authority, runtime, provenance and consumption
+semantics without taking ownership of them. The candidate package is
+`application_behavior/`; it has no qualified implementation or bindable offer and cannot be
+promoted by schema validation alone.
 
 ### Operation
 

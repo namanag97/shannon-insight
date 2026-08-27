@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.example/schemas/application-behavior-manifest.schema.json",
+  "type": "object",
+  "required": ["manifest_id", "edition", "as_of", "status", "completion_claim", "files", "schema_refs", "qualification"],
+  "properties": {
+    "manifest_id": {"type": "string", "const": "application_behavior_v0_1_0"},
+    "edition": {"type": "integer", "const": 1},
+    "as_of": {"type": "string", "format": "date"},
+    "status": {"type": "string", "const": "specified_candidate_open_world"},
+    "completion_claim": {"const": false},
+    "files": {"type": "object", "minProperties": 10, "additionalProperties": {"type": "object", "required": ["records", "sha256"], "properties": {"records": {"type": "integer", "minimum": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}, "additionalProperties": false}},
+    "schema_refs": {"type": "array", "minItems": 3, "items": {"type": "string"}},
+    "qualification": {"type": "object", "required": ["qualified_implementation_count", "binding_eligible_offer_count", "executed_test_count"], "properties": {"qualified_implementation_count": {"const": 0}, "binding_eligible_offer_count": {"const": 0}, "executed_test_count": {"const": 0}}, "additionalProperties": true}
+  },
+  "additionalProperties": true
+}

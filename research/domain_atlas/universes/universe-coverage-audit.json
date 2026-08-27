@@ -15,16 +15,62 @@
     "referentially_closed": true,
     "standing": "seeded_incomplete"
   },
-  "as_of": "2026-08-25",
+  "application_behavior_universe": {
+    "assembly_mechanisms": [
+      "application_runtime",
+      "dataflow_composition",
+      "explicit_effect_gateway",
+      "human_adjudication_then_effect_gateway",
+      "human_adjudication_then_structural_validation",
+      "semantic_import_then_human_review"
+    ],
+    "completion_claim": false,
+    "counts": {
+      "assembly_edges": 8,
+      "boundary_decisions": 8,
+      "bounded_contexts": 7,
+      "conformance_tests": 16,
+      "crosswalks": 10,
+      "libraries": 8,
+      "negative_twins": 16,
+      "offers": 8,
+      "open_gaps": 7,
+      "operations": 17,
+      "requirements": 8,
+      "semantic_contracts": 12,
+      "sources": 11,
+      "state_machines": 4,
+      "state_transitions": 17
+    },
+    "open_gaps": [
+      "gap.application.aggregate_authority",
+      "gap.application.context_owner_adjudication",
+      "gap.application.effect_authority",
+      "gap.application.implementation_qualification",
+      "gap.application.open_world_saturation",
+      "gap.application.provider_portability",
+      "gap.application.vertical_acceptance"
+    ],
+    "qualification": {
+      "binding_eligible_offers": 0,
+      "executed_conformance_tests": 0,
+      "portable_offers": 0,
+      "qualified_implementations": 0,
+      "vertical_acceptance_receipts": 0
+    },
+    "standing": "specified_candidate_open_world",
+    "status": "specified_candidate_open_world"
+  },
+  "as_of": "2026-08-27",
   "audit_id": "san.domain-atlas.universe-baseline",
   "blocking_gaps": [
     "inherited analytics registry contains 60 records rather than the previously claimed 300",
     "expanded analytical-practice records are hypotheses and require split/merge, evidence and compiler adjudication",
     "source-system universe is an open-world researched candidate and still lacks independent review and recurring saturation evidence",
-    "data-type ontology lacks an operation-by-type totality matrix",
     "normalized operation records are hypotheses; most lack typed signatures, laws, evidence and lowering",
     "machine mappings are partial or gaps for 23 of 60 inherited analytics types",
     "559 distinct context candidates remain unadjudicated",
+    "application behavior contracts are specified candidates with no qualified implementation, portable offer or executed vertical acceptance",
     "no universe has independent completeness evidence"
   ],
   "bounded_context_universe": {

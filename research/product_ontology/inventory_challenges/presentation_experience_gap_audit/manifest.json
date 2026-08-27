@@ -1,0 +1,55 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "analytical-result-kinds.jsonl": {
+      "bytes": 8052,
+      "sha256": "9240b4eddbdbed0b6cb5d24d9045e60c379831829e300533ac8602d265a4f0fa"
+    },
+    "artifact-axis-obligations.jsonl": {
+      "bytes": 213810,
+      "sha256": "f16d6e4808c44e188b82dc6f08e0ddb080053c50618ba7e68d5308ee7affcbc1"
+    },
+    "evidence.jsonl": {
+      "bytes": 19484,
+      "sha256": "caad63337f82e41ec12655cfaa1a7abf9143e6779f8a57fd3ebbfd1e3efc7ede"
+    },
+    "input-snapshot.json": {
+      "bytes": 1337,
+      "sha256": "0069859a9b4c287c0b41e3712ae67061c970202f54765c0c0179a6df11d553cd"
+    },
+    "library-boundary-hypotheses.jsonl": {
+      "bytes": 41553,
+      "sha256": "eff17089cb4d458e57fe1b045385f3f5740bff853263e02a2a44b18a675ff326"
+    },
+    "non-collapse-laws.jsonl": {
+      "bytes": 14029,
+      "sha256": "560da67c03cd8add1529031d4200ab3b5d4295bfa119a8aa8397d1d6dadda11e"
+    },
+    "open-gaps.jsonl": {
+      "bytes": 18250,
+      "sha256": "4cf17ae230e3cd1c25128ec626412534aa804310e9c513132b5bb012926a9281"
+    },
+    "presentation-artifacts.jsonl": {
+      "bytes": 20459,
+      "sha256": "505e0cd6ce31fed87a8bfd4420773c17d96a6ac5f7dbf0fa2f2ae346f6b85395"
+    },
+    "product-boundary-hypotheses.jsonl": {
+      "bytes": 13487,
+      "sha256": "2b48feee2f133f381e825b46851e1979f631279fe8e40405cfd4c6b2596f4887"
+    },
+    "result-artifact-compatibility.jsonl": {
+      "bytes": 320831,
+      "sha256": "f44c9ec6a55d0b399293fa190855af07a853fa9dfaf464d829400a48da773ca8"
+    },
+    "semantic-axes.jsonl": {
+      "bytes": 5966,
+      "sha256": "593d21eadcb7b7691441503ba54bf981e4b85596bd771f835d32cdd29187c8ef"
+    },
+    "summary.json": {
+      "bytes": 706,
+      "sha256": "5c390acbaa964df7fff33f6bf3a17827cf463a96dd8bd8021c50384d93141814"
+    }
+  },
+  "manifest_id": "manifest.presentation-experience-gap-audit.v1"
+}

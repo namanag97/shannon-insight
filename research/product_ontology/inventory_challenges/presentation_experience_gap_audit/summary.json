@@ -1,0 +1,22 @@
+{
+  "analytical_result_kinds": 21,
+  "artifact_axis_obligations": 560,
+  "artifact_kinds": 35,
+  "as_of": "2026-08-27",
+  "candidate_library_vacancies": 29,
+  "completion_claim": false,
+  "existing_library_routes": 16,
+  "library_boundary_hypotheses": 45,
+  "noncollapse_laws": 30,
+  "open_gaps": 42,
+  "primary_or_official_sources": 35,
+  "product_boundary_hypotheses": 12,
+  "program_id": "program.presentation-experience-gap-audit.v1",
+  "qualified_implementations": 0,
+  "ratified_contracts": 0,
+  "ratified_products": 0,
+  "record_kind": "presentation_experience_gap_audit_summary",
+  "result_artifact_compatibility_cells": 735,
+  "semantic_axes": 16,
+  "status": "RESEARCH_AUDIT_ACTIVE_INCOMPLETE"
+}

@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": [
+    {
+      "bytes": 262105,
+      "path": "research/product_ontology/dossier_readiness/product-readiness.jsonl",
+      "role": "retained_products",
+      "sha256": "7644923000b4012bac364bd142e81084cb2f9b9a57e9c12f326963fb8eafdeab"
+    },
+    {
+      "bytes": 79728,
+      "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/bi_visualization_metrics_semantic_slice/library-semantic-bindings.jsonl",
+      "role": "bi_bindings",
+      "sha256": "36a85046ec09836fa1a35664d05955dfcfd74e78ed81a56a88c22c7a2140f66e"
+    },
+    {
+      "bytes": 10880,
+      "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/bi_visualization_metrics_semantic_slice/product-capability-boundary-findings.jsonl",
+      "role": "bi_findings",
+      "sha256": "0fb9c8b1274a1cb7f5dbf7105e03314fd7cf178326aea1cc089d32d0e09d22e7"
+    },
+    {
+      "bytes": 765,
+      "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/bi_visualization_metrics_semantic_slice/summary.json",
+      "role": "bi_summary",
+      "sha256": "9731a18e92478fb473225991a65364527aeee6f09f4a9d49f23fb1333220a625"
+    }
+  ],
+  "record_kind": "presentation_audit_input_snapshot"
+}

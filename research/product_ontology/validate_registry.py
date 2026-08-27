@@ -1590,6 +1590,7 @@ def main() -> int:
 
     inventory_challenges = {
         "analytical-operations inventory challenge": ROOT / "inventory_challenges/analytical_operations_gap_audit/validate.py",
+        "presentation-experience inventory challenge": ROOT / "inventory_challenges/presentation_experience_gap_audit/validate.py",
         "quality/reconciliation split audit": ROOT / "inventory_challenges/quality_reconciliation_split_audit/validate.py",
         "upstream demand-surface sweep": ROOT / "upstream_demand_surface_sweep/validate.py",
         "solution-synthesis architecture": ROOT / "solution_synthesis_architecture/validate.py",

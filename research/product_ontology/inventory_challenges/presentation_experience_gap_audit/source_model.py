@@ -1,0 +1,281 @@
+#!/usr/bin/env python3
+"""Evidence-bounded ontology for analytical presentation and consumption."""
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+AS_OF = "2026-08-27"
+
+
+def source(
+    ident: str,
+    title: str,
+    publisher: str,
+    uri: str,
+    claim: str,
+    limit: str,
+    family: str,
+) -> dict[str, Any]:
+    return {
+        "source_id": f"evidence.presentation.{ident}",
+        "record_kind": "primary_or_official_source_evidence",
+        "title": title,
+        "publisher": publisher,
+        "uri": uri,
+        "bounded_claim": claim,
+        "authority_limit": limit,
+        "research_family": family,
+        "retrieved_at": AS_OF,
+        "completion_claim": False,
+    }
+
+
+SOURCES = [
+    source("vegalite", "Vega-Lite Overview", "Vega Project", "https://vega.github.io/vega-lite/docs/", "A declarative JSON grammar can compile marks, encodings, transforms, composition and interaction into a lower-level visualization runtime.", "The grammar does not own business semantics, metric authority, publication lifecycle or effect authority.", "visual_grammar"),
+    source("vegalite_spec", "Vega-Lite View Specification", "Vega Project", "https://vega.github.io/vega-lite/docs/spec.html", "Single, layered, faceted, concatenated and repeated views have different composition and resolution semantics.", "Specification structure does not prove perceptual fitness for a particular analytical claim.", "visual_grammar"),
+    source("vegalite_selection", "Vega-Lite Selection Parameters", "Vega Project", "https://vega.github.io/vega-lite/docs/selection.html", "Point and interval selections drive data queries and have explicit event, clear and multi-view resolution behavior.", "A presentation selection is not a business decision, entitlement or source mutation.", "interaction"),
+    source("vega_view", "Vega View API", "Vega Project", "https://vega.github.io/vega/docs/api/view/", "A view instantiates a dataflow runtime, handles signals and events, and renders to interactive or static targets.", "One runtime API does not define the portable presentation IR or every device target.", "rendering_runtime"),
+    source("observable_marks", "Observable Plot Marks", "Observable", "https://observablehq.com/plot/features/marks", "Visual marks compose over scales and channels; types, order and missing values constrain valid encodings.", "Implementation defaults are not universal visualization laws.", "visual_grammar"),
+    source("observable_accessibility", "Observable Plot Accessibility", "Observable", "https://observablehq.com/plot/features/accessibility", "Plots expose ARIA labels and descriptions at plot, mark and scale structures.", "Generated labels alone do not prove equivalent task completion for assistive-technology users.", "accessibility"),
+    source("wcag22", "Web Content Accessibility Guidelines 2.2", "W3C", "https://www.w3.org/TR/WCAG22/", "Non-text alternatives, adaptable relationships, non-color-only meaning, keyboard operation and perceivable interaction are normative presentation concerns.", "WCAG is technology-neutral and does not select a visualization grammar or analytical encoding.", "accessibility"),
+    source("graphics_aria", "WAI-ARIA Graphics Module", "W3C", "https://www.w3.org/TR/graphics-aria/", "Graphics can expose logical document, object and symbol roles for semantic navigation by assistive technologies.", "Roles do not by themselves supply a complete accessible analytical equivalent.", "accessibility"),
+    source("svg2", "Scalable Vector Graphics 2", "W3C", "https://www.w3.org/TR/SVG2/", "SVG defines a structured vector rendering carrier with geometry, paint, text and event surfaces.", "A rendering carrier does not own analytical meaning or presentation fitness.", "rendering_runtime"),
+    source("cldr", "Unicode Common Locale Data Repository", "Unicode Consortium", "https://cldr.unicode.org/", "Locale data governs number, date, unit, currency and plural formatting across presentation targets.", "Locale formatting does not define domain quantities, exchange rates or business calendars.", "localization"),
+    source("tableau_sheets", "Workbooks and Sheets", "Tableau", "https://help.tableau.com/current/pro/desktop/en-us/environ_workbooksandsheets.htm", "A workbook independently persists worksheets, dashboards and stories with different composition jobs.", "One vendor object model is adoption evidence, not portable semantic authority.", "artifact_lifecycle"),
+    source("tableau_story", "Stories", "Tableau", "https://help.tableau.com/current/pro/desktop/en-us/stories.htm", "A story is an ordered sequence of views or dashboards used to communicate a narrative and decision context.", "Story authoring does not establish truth of the claims communicated.", "narrative"),
+    source("tableau_device", "Dashboard Layouts for Different Device Types", "Tableau", "https://help.tableau.com/current/pro/desktop/en-us/dashboards_dsd_create.htm", "Device layouts may inherit from or diverge from a default layout and must preserve intended content across viewport classes.", "Device-specific implementation thresholds are not universal layout semantics.", "delivery"),
+    source("tableau_accessibility", "Build Accessible Dashboards", "Tableau", "https://help.tableau.com/current/pro/desktop/en-us/accessibility_dashboards.htm", "Focus order, keyboard operation, captions, view-data alternatives and contrast are independently operated dashboard concerns.", "Documented limitations show implementation evidence, not complete WCAG conformance for every artifact.", "accessibility"),
+    source("powerbi_paginated", "Paginated Reports in Power BI", "Microsoft", "https://learn.microsoft.com/en-us/power-bi/consumer/end-user-paginated-report", "Interactive reports are optimized for exploration while paginated reports are page-oriented, printable and exportable artifacts.", "Product documentation does not prove that every formal report requires a distinct horizontal product.", "formal_reporting"),
+    source("powerbi_paginated_docs", "Paginated Reports Documentation", "Microsoft", "https://learn.microsoft.com/en-us/power-bi/paginated-reports", "Paginated reporting independently operates report definitions, parameters, layout, rendering, publication, export and embedding.", "Provider-specific RDL behavior is not a selected portable contract.", "formal_reporting"),
+    source("powerbi_embed", "Embed a Report in a Secure Portal", "Microsoft", "https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-embed-secure", "Embedded reports preserve item permissions and row/object-level data security while adding portal delivery context.", "An embed mechanism does not own host application authorization or business logic.", "embedding"),
+    source("powerbi_embed_rls", "Embed a Report with Row-Level Security", "Microsoft", "https://learn.microsoft.com/en-us/power-bi/developer/embedded/cloud-rls", "Embed tokens carry an effective identity and role projection used to filter a bounded embedded session.", "Token possession is not proof of upstream identity, purpose permission or business authority.", "embedding"),
+    source("grafana_dashboard", "Dashboards", "Grafana Labs", "https://grafana.com/docs/grafana/latest/visualizations/dashboards/", "Operational dashboards persist panels, queries, transformations, variables, annotations, links and layout as a coordinated artifact.", "Observability-oriented product behavior does not define every business BI dashboard.", "operational_dashboard"),
+    source("grafana_alert", "Alerting Best Practices", "Grafana Labs", "https://grafana.com/docs/grafana/latest/alerting/guides/best-practices/", "An alert is expected to be actionable, scoped, owned and routed; an informational view belongs on a dashboard instead.", "Best practice is not a universal alert qualification or incident authority.", "alerting"),
+    source("grafana_share", "Share Dashboards and Panels", "Grafana Labs", "https://grafana.com/docs/grafana/latest/dashboards/share-dashboards-panels/", "Links, external shares, snapshots, embeds, images, JSON exports and reports have distinct security and lifecycle behavior.", "Provider sharing modes do not define a portable disclosure-control contract.", "publication"),
+    source("grafana_reporting", "Create and Manage Reports", "Grafana Labs", "https://grafana.com/docs/grafana/latest/visualizations/dashboards/create-reports/", "Scheduled report definitions, generated files, delivery jobs, pause/resume and deletion form an operated lifecycle separate from a dashboard view.", "One implementation does not settle ownership between report publication and notification delivery.", "formal_reporting"),
+    source("nbformat", "Jupyter Notebook Format", "Project Jupyter", "https://nbformat.readthedocs.io/en/latest/format_description.html", "A notebook is a versioned computational document containing ordered code, markdown and raw cells with outputs and metadata.", "The file format does not qualify kernel execution, reproducibility or factual claims.", "computational_document"),
+    source("jupyter_mime", "Jupyter Display Data", "Project Jupyter", "https://nbformat.readthedocs.io/en/latest/format_description.html#display-data", "Notebook outputs use MIME bundles so frontends can select target-appropriate representations.", "Alternative representations may differ semantically and require equivalence evidence.", "computational_document"),
+    source("odf", "OpenDocument 1.4", "OASIS", "https://docs.oasis-open.org/office/OpenDocument/v1.4/os/", "Spreadsheet, chart, text and presentation documents are distinct conforming document kinds with structured content and styles.", "An interchange format does not define collaborative calculation authority or analytical product economics.", "analytical_grid"),
+    source("openformula", "OpenFormula 1.4", "OASIS", "https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.pdf", "Spreadsheet formulas have standardized syntax, evaluation and function behavior distinct from visual presentation.", "Formula conformance does not guarantee business semantic correctness or workbook governance.", "analytical_grid"),
+    source("xbrl", "XBRL 2.1", "XBRL International", "https://specifications.xbrl.org/specifications.html", "Facts, contexts, units, taxonomies, calculations, labels and presentation relationships are separately governed reporting structures.", "XBRL presentation relationships do not prescribe a complete human rendering or filing authority.", "regulatory_reporting"),
+    source("ogc_maps", "OGC API - Maps", "Open Geospatial Consortium", "https://ogcapi.ogc.org/maps/overview.html", "A map is a styled portrayal requested for a spatial extent, time, size and coordinate reference system.", "A map image is not the underlying feature, coverage or analytical result.", "specialized_view"),
+    source("ogc_tiles", "OGC API - Tiles", "Open Geospatial Consortium", "https://ogcapi.ogc.org/tiles/overview.html", "Tiles partition vector features, coverages or rendered maps using an explicit tile matrix set and scale.", "Tiling is a delivery/indexing contract, not spatial semantic ownership.", "specialized_view"),
+    source("ogc_styles", "OGC API - Styles", "Open Geospatial Consortium", "https://ogcapi.ogc.org/styles/overview.html", "Styles have independent create, validate, fetch, update, metadata and delete operations.", "Style lifecycle does not own the represented spatial resources.", "specialized_view"),
+    source("cytoscape", "Cytoscape.js Documentation", "Cytoscape Consortium", "https://js.cytoscape.org/", "Graph visualization separates elements, data, style, layout, viewport, selection and event interaction.", "A graph renderer does not own graph identity, analytical algorithms or domain authority.", "specialized_view"),
+    source("vtk", "Visualization Toolkit Documentation", "VTK Project", "https://docs.vtk.org/", "Scientific visualization operates typed data objects, transforms, filters, mappers, rendering and interaction across 2D and 3D data.", "A toolkit does not prove a generic scientific-visualization product boundary or vertical model semantics.", "specialized_view"),
+    source("prov", "PROV-DM", "W3C", "https://www.w3.org/TR/prov-dm/", "Entities, activities, agents and derivation/attribution relations can describe how a published analytical artifact was produced.", "Provenance records do not prove truth, fitness or authorization.", "evidence"),
+    source("cloudevents", "CloudEvents 1.0", "Cloud Native Computing Foundation", "https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md", "Event envelopes provide identity, source, type, time and data-content metadata for delivery across systems.", "An event envelope does not define alert semantics, recipient policy or acknowledgment authority.", "alerting"),
+    source("pdfua", "ISO 14289-1 PDF/UA", "ISO", "https://www.iso.org/standard/64599.html", "Accessible PDF imposes requirements on tagged structure and assistive-technology interoperability for durable documents.", "The public abstract does not qualify a specific renderer or prove equivalent analytical understanding.", "accessibility"),
+]
+
+
+AXES = [
+    ("identity_grain", "What artifact and occurrence is this, and what is its smallest independently addressable part?"),
+    ("result_binding", "Which immutable analytical result edition and data cut does the presentation bind?"),
+    ("semantic_type_quantity", "Which types, units, dimensions, denominators, currencies and calendars survive presentation?"),
+    ("time_freshness", "Which valid, recording, observation, scenario and refresh times are shown or withheld?"),
+    ("uncertainty_missingness", "How are intervals, distributions, abstentions, suppression and missing values represented?"),
+    ("encoding_fitness", "Which marks, channels, scales and transformations are valid for the result and claim?"),
+    ("composition_layout", "How do views compose, resolve shared scales and reflow across targets?"),
+    ("interaction_navigation", "What do selections, filters, drills, bookmarks and navigation mean and reset?"),
+    ("authority_effect", "Which actions only alter view state, request a decision, or cross into an operational effect?"),
+    ("accessibility_equivalence", "Can every supported task be completed through a perceivable and operable equivalent?"),
+    ("policy_privacy_disclosure", "How are entitlement, purpose, suppression and disclosure controls preserved?"),
+    ("provenance_evidence", "Can a claim be traced to result, query, metric, source and rendering editions?"),
+    ("lifecycle_version", "How are draft, review, publish, supersede, withdraw, snapshot and correction represented?"),
+    ("delivery_channel", "Which browser, mobile, embed, print, file, API, notification or offline target applies?"),
+    ("resource_performance", "What latency, row/mark, memory, bandwidth, cache and cancellation budgets apply?"),
+    ("compatibility_exit", "Can artifacts migrate, export, replay and preserve meaning across implementation changes?"),
+]
+
+
+ARTIFACTS = [
+    ("visualization_spec", "visual_grammar", "specification_edition", "draft_reviewed_published_superseded"),
+    ("visual_view", "interactive_exploration", "bound_view_edition", "draft_ready_active_stale_withdrawn"),
+    ("worksheet", "interactive_exploration", "worksheet_edition", "draft_reviewed_published_superseded"),
+    ("dashboard", "interactive_exploration", "dashboard_edition", "draft_reviewed_published_stale_withdrawn"),
+    ("dashboard_panel", "interactive_exploration", "panel_placement", "draft_bound_rendered_failed"),
+    ("scorecard", "formal_reporting", "scorecard_period_edition", "draft_certified_published_restated"),
+    ("operational_wallboard", "operational_dashboard", "live_operational_view", "starting_live_degraded_stale_stopped"),
+    ("story", "narrative", "ordered_story_edition", "draft_reviewed_published_superseded"),
+    ("story_point", "narrative", "ordered_story_position", "draft_bound_published_withdrawn"),
+    ("report_definition", "formal_reporting", "report_definition_edition", "draft_validated_released_retired"),
+    ("report_run", "formal_reporting", "report_execution_occurrence", "queued_running_rendered_failed_cancelled"),
+    ("paginated_report", "formal_reporting", "page_set_for_data_cut", "draft_rendered_published_expired"),
+    ("regulatory_report", "regulatory_reporting", "filing_report_edition", "draft_validated_authorized_submitted_amended"),
+    ("report_snapshot", "publication", "immutable_artifact_data_cut", "created_published_expired_recalled"),
+    ("export_artifact", "publication", "encoded_export_occurrence", "planned_encoding_ready_delivered_expired"),
+    ("notebook", "computational_document", "notebook_document_edition", "draft_executing_reviewed_published_superseded"),
+    ("notebook_cell", "computational_document", "ordered_cell_occurrence", "unexecuted_executing_succeeded_failed_stale"),
+    ("spreadsheet_workbook", "analytical_grid", "workbook_edition", "draft_calculating_reviewed_published_superseded"),
+    ("grid_sheet", "analytical_grid", "sheet_edition", "draft_calculating_ready_stale"),
+    ("pivot_view", "analytical_grid", "pivot_configuration_edition", "draft_bound_rendered_stale"),
+    ("map_view", "specialized_view", "map_extent_style_time_crs", "draft_bound_rendered_stale"),
+    ("tile_view", "specialized_view", "tile_matrix_cell_edition", "requested_rendered_cached_expired"),
+    ("graph_view", "specialized_view", "graph_layout_view_edition", "draft_layout_rendered_stale"),
+    ("process_view", "specialized_view", "process_model_view_edition", "draft_bound_rendered_stale"),
+    ("image_overlay_view", "specialized_view", "image_frame_overlay_edition", "draft_bound_rendered_reviewed"),
+    ("waveform_view", "specialized_view", "channel_window_view", "starting_live_frozen_stale_stopped"),
+    ("volume_3d_view", "specialized_view", "scene_camera_data_edition", "loading_ready_interacting_degraded_stopped"),
+    ("embedded_view", "embedding", "host_guest_session", "requested_authorized_active_expired_revoked"),
+    ("alert_rule", "alerting", "rule_edition_scope_owner", "draft_active_paused_retired"),
+    ("alert_occurrence", "alerting", "rule_subject_time_occurrence", "pending_firing_acknowledged_resolved_suppressed"),
+    ("subscription", "publication", "recipient_schedule_artifact_binding", "draft_active_paused_expired_revoked"),
+    ("notification", "alerting", "delivery_attempt_recipient", "queued_sent_delivered_failed_acknowledged"),
+    ("accessible_equivalent", "accessibility", "source_artifact_task_equivalent", "draft_validated_published_stale"),
+    ("annotation", "collaboration", "target_selector_body_occurrence", "draft_open_resolved_superseded"),
+    ("bookmark", "interaction", "view_state_capture", "created_shared_expired_deleted"),
+]
+
+
+RESULT_KINDS = [
+    ("scalar", {"general"}),
+    ("metric_observation", {"general", "time"}),
+    ("relational_table", {"general", "table"}),
+    ("multidimensional_cube", {"general", "table"}),
+    ("distribution", {"general", "statistical"}),
+    ("statistical_estimate", {"general", "statistical"}),
+    ("forecast", {"general", "statistical", "time"}),
+    ("anomaly_change", {"general", "statistical", "time"}),
+    ("causal_effect", {"general", "statistical"}),
+    ("optimization_solution", {"general", "decision"}),
+    ("simulation_ensemble", {"general", "statistical", "decision"}),
+    ("process_model", {"general", "process"}),
+    ("graph_network", {"general", "graph"}),
+    ("geospatial_feature", {"general", "geo"}),
+    ("raster_coverage", {"general", "geo", "image"}),
+    ("trajectory", {"general", "geo", "time"}),
+    ("image_inspection", {"general", "image"}),
+    ("signal_window_spectrum", {"general", "signal", "time"}),
+    ("document_search_result", {"general", "document"}),
+    ("case_evidence_graph", {"general", "graph", "document"}),
+    ("scientific_mesh_volume", {"general", "volume"}),
+]
+
+
+PRODUCT_HYPOTHESES = [
+    ("interactive_exploration", "Interactive Analytical Exploration", "SPLIT_TEST_FROM_BI_REPORTING", ["product.bi_reporting"], "An analyst iteratively selects, filters, compares and drills a bound result without changing source or business state."),
+    ("formal_reporting", "Formal Reporting & Publication", "SPLIT_TEST_FROM_BI_REPORTING", ["product.bi_reporting"], "A report owner defines, validates, schedules, renders, publishes, corrects and withdraws durable report artifacts."),
+    ("operational_dashboard", "Operational Dashboard & Wallboard", "MODE_OR_SOLUTION_COMPOSITION_UNTIL_INDEPENDENT_LIFECYCLE_PROVEN", ["product.bi_reporting", "product.runtime_resource_control"], "An operator observes live state and freshness while incident, alert and control authority remain external."),
+    ("analytical_application", "Analytical Application & Decision Experience", "CROSS_DOMAIN_COMPOSITION_NOT_PRESENTATION_PRODUCT", ["product.bi_reporting", "product.decision_automation"], "A user combines evidence, judgment and domain commands; presentation must not acquire application or decision authority."),
+    ("computational_document", "Computational Notebook & Reproducible Narrative", "RETAIN_EXISTING_PRODUCT_WITH_PRESENTATION_IMPORTS", ["product.analytical_notebook"], "A practitioner composes ordered executable and narrative cells with captured outputs and reproducibility evidence."),
+    ("analytical_grid", "Spreadsheet & Analytical Grid", "PRODUCT_SPLIT_TEST_REQUIRED", ["product.bi_reporting", "product.self_service_data_preparation"], "A user edits cells, formulas, tables and scenarios in a recalculating grid with distinct document and dependency state."),
+    ("embedding", "Embedded Analytics", "RETAIN_EXISTING_PRODUCT", ["product.embedded_analytics"], "A host application delivers an analytical artifact through an explicit host-guest, identity, entitlement and event bridge."),
+    ("specialized_view", "Specialized Spatial, Graph, Process, Signal and Scientific Viewers", "LIBRARY_FAMILIES_UNLESS_GENERIC_OPERATED_PRODUCT_PROVEN", ["product.geospatial_workbench", "product.graph_analysis_workbench", "product.process_mining_workbench", "product.signal_condition_diagnostics"], "Specialized renderers preserve modality semantics but normally remain product-owned view libraries."),
+    ("narrative", "Analytical Storytelling", "ARTIFACT_AND_AUTHORING_MODE_NOT_PRODUCT", ["product.bi_reporting", "product.analytical_notebook"], "An author orders views, annotations and claims for communication without changing their evidence authority."),
+    ("alerting", "Alert, Subscription & Notification", "SPLIT_EXACT_LIFECYCLES_ACROSS_PRODUCTS", ["product.bi_reporting", "product.runtime_resource_control"], "Rule evaluation, alert occurrence, subscription, routing, delivery and acknowledgment remain separate lifecycles and authorities."),
+    ("external_publication", "External Analytical Portal & Publication", "COMPOSE_EXISTING_PUBLICATION_AND_EMBED_PRODUCTS", ["product.data_product_publication", "product.embedded_analytics", "product.bi_reporting"], "A publisher releases governed analytical artifacts to external audiences with disclosure and withdrawal evidence."),
+    ("accessibility", "Accessible Analytical Equivalence", "CONSTITUTIONAL_LAW_AND_LIBRARY_FAMILY_NOT_PRODUCT", ["product.bi_reporting", "product.embedded_analytics"], "Every supported analytical task has a perceivable and operable equivalent with tested semantic preservation."),
+]
+
+
+LIBRARY_CANDIDATES = [
+    ("presentation_intent", "new", "presentation request, audience, job and claim posture"),
+    ("analytical_result_binding", "new", "immutable binding to result edition and data cut"),
+    ("presentation_ir", "library.cbv.presentation_ir", "portable typed presentation specification"),
+    ("visual_encoding", "library.cbv.visual_encoding", "marks, channels, scales and validity"),
+    ("visual_encoding_fitness", "new", "claim/result-to-encoding constraints and refusals"),
+    ("composition_layout", "new", "layer, facet, concatenate, repeat and scale resolution"),
+    ("responsive_layout", "new", "device and viewport-specific semantic preservation"),
+    ("interaction_state", "new", "selection, filter, parameter and reset state"),
+    ("selection_algebra", "new", "point/interval selection projection and resolution"),
+    ("drill_navigation", "new", "drill-down, drill-through and application navigation boundaries"),
+    ("dashboard_runtime", "library.cbv.dashboard_runtime", "coordinated view runtime"),
+    ("table_model", "library.cbv.table_model", "accessible tabular and grid presentation"),
+    ("report_definition", "new", "formal report parameters, sections, pagination and rules"),
+    ("report_run", "new", "execution occurrence, status and evidence"),
+    ("report_snapshot_reducer", "library.cbv.report_snapshot_reducer", "immutable snapshot from result and report editions"),
+    ("pagination_layout", "new", "page regions, breaks, headers, footers and totality"),
+    ("publication_lifecycle", "new", "review, publish, supersede, correct, withdraw and recall"),
+    ("content_versioning", "library.cbv.content_versioning_algebra", "artifact compatibility, diff and migration"),
+    ("subscription_runner", "library.cbv.subscription_runner", "scheduled evaluation and report delivery trigger"),
+    ("alert_state", "library.cbv.alert_state", "rule and occurrence lifecycle without delivery ownership"),
+    ("notification_port", "new", "typed routing/delivery boundary and receipts"),
+    ("export_plan", "library.cbv.export_plan", "target, policy, data cut and fidelity plan"),
+    ("export_encoder", "library.cbv.export_encoder", "target carrier encoding"),
+    ("export_delivery_port", "library.cbv.export_delivery_port", "delivery, expiry, recall and receipt"),
+    ("embedded_bridge", "library.cbv.embedded_bridge", "host-guest identity, context, event and navigation bridge"),
+    ("embed_entitlement_projection", "new", "bounded projection of effective identity and data policy"),
+    ("accessibility_semantics", "library.cbv.accessibility_semantics", "logical graphic structure, names, roles and navigation"),
+    ("accessible_task_equivalent", "new", "equivalent nonvisual task and evidence model"),
+    ("localization_format", "library.cbv.i18n_format", "locale-sensitive display without quantity reownership"),
+    ("uncertainty_encoding", "new", "interval, distribution, ensemble, confidence and sensitivity portrayal"),
+    ("missingness_encoding", "new", "missing, suppressed, invalid, censored and unavailable distinctions"),
+    ("provenance_disclosure", "new", "trace presentation claims to metric, query, result and source editions"),
+    ("annotation_collaboration", "new", "targeted commentary, issue and resolution without evidence conflation"),
+    ("bookmark_view_state", "new", "shareable view-state capture distinct from artifact edition"),
+    ("client_cache", "library.cbv.client_cache_algebra", "freshness-aware client and offline cache"),
+    ("renderer_adapter", "library.cbv.renderer_adapter", "target renderer interface and total failures"),
+    ("map_portrayal", "new", "spatial extent, CRS, style and time portrayal"),
+    ("tile_delivery", "new", "tile matrix, scale, cache and partial delivery"),
+    ("graph_layout_view", "new", "layout edition, viewport, selection and graph identity"),
+    ("signal_view", "new", "channel, window, sampling, units and live/frozen state"),
+    ("volume_scene_view", "new", "scientific mesh/volume, transfer function, camera and resource budgets"),
+    ("visual_regression_oracle", "new", "deterministic target rendering comparison with tolerances"),
+    ("semantic_equivalence_oracle", "new", "cross-target task and meaning equivalence"),
+    ("presentation_resource_budget", "new", "marks, rows, latency, memory, bandwidth and cancellation"),
+    ("presentation_usage_evidence", "new", "view, interaction and delivery telemetry without intent inference"),
+]
+
+
+NON_COLLAPSE_LAWS = [
+    ("metric_query", "metric_definition", "query_result"),
+    ("query_view", "query_result", "visual_encoding"),
+    ("encoding_pixels", "visual_encoding", "rendered_pixels"),
+    ("view_dashboard", "visual_view", "dashboard"),
+    ("dashboard_report", "dashboard", "report_snapshot"),
+    ("report_export", "report_snapshot", "export_artifact"),
+    ("dashboard_alert", "dashboard", "alert_occurrence"),
+    ("alert_notification", "alert_occurrence", "notification"),
+    ("notification_ack", "notification_delivery", "human_acknowledgment"),
+    ("selection_decision", "presentation_selection", "business_decision"),
+    ("filter_entitlement", "presentation_filter", "source_entitlement"),
+    ("drill_navigation", "analytical_drill", "domain_workflow_navigation"),
+    ("annotation_evidence", "presentation_annotation", "authoritative_evidence"),
+    ("recommendation_approval", "analytical_recommendation", "approval"),
+    ("approval_effect", "approval", "operational_effect"),
+    ("live_snapshot", "live_view", "historical_snapshot"),
+    ("uncertainty_portrayal", "uncertainty_value", "uncertainty_encoding"),
+    ("missing_zero", "missing_or_suppressed", "zero"),
+    ("chart_inference", "chart_recommendation", "valid_statistical_inference"),
+    ("embed_authority", "embed_token", "host_business_authorization"),
+    ("accessible_alt", "accessible_equivalent", "optional_alt_text"),
+    ("map_feature", "map_image", "spatial_feature"),
+    ("style_data", "map_style", "spatial_data"),
+    ("tile_resource", "tile", "source_resource"),
+    ("layout_graph", "graph_layout", "graph_identity"),
+    ("notebook_repro", "notebook_output", "reproducible_result"),
+    ("spreadsheet_fact", "spreadsheet_cell_value", "accepted_business_fact"),
+    ("story_truth", "narrative_claim", "validated_evidence"),
+    ("usage_intent", "view_telemetry", "user_intent"),
+    ("render_conformance", "pixel_similarity", "semantic_equivalence"),
+]
+
+
+SPECIALIZED_COMPATIBILITY = {
+    "map_view": {"geo"},
+    "tile_view": {"geo"},
+    "graph_view": {"graph"},
+    "process_view": {"process"},
+    "image_overlay_view": {"image"},
+    "waveform_view": {"signal"},
+    "volume_3d_view": {"volume"},
+    "pivot_view": {"table"},
+}
+
+
+def all_records() -> dict[str, Any]:
+    return {
+        "sources": SOURCES,
+        "axes": AXES,
+        "artifacts": ARTIFACTS,
+        "result_kinds": RESULT_KINDS,
+        "product_hypotheses": PRODUCT_HYPOTHESES,
+        "library_candidates": LIBRARY_CANDIDATES,
+        "noncollapse_laws": NON_COLLAPSE_LAWS,
+    }

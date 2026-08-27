@@ -10,6 +10,8 @@
     "component.synthesis.deterministic-compiler-kernel",
     "component.synthesis.ontology-research-extension"
   ],
+  "corpus_router_ref": "research/product_ontology/corpus_architecture_router/manifest.json",
+  "corpus_routing_law": "Every governed research file has one explicit package route into a bounded mechanism, IR transition, resolution frontier, binding phase and authority; record occurrence routing does not confer semantic authority.",
   "ir_refs": [
     "ir.synthesis.application-behavior-ir",
     "ir.synthesis.authority-effect-ir",

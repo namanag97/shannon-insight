@@ -7,6 +7,8 @@ ARCHITECTURE = {
     "sovereign_question": "For each enterprise requirement, which bounded mechanism may resolve it, which authority owns any remaining decision, and what exact blueprint or residual follows without pretending the whole world is mechanically compilable?",
     "compiler_promise": "Transform sufficiently explicit, ratified intent against frozen registries into a reproducible solution blueprint, or return a complete typed actionable account of why closure is impossible.",
     "non_promise": "Does not infer universal business meaning, manufacture authority or evidence, guarantee physical effects or outcomes, or treat open-world discovery as a closed-world compile.",
+    "corpus_router_ref": "research/product_ontology/corpus_architecture_router/manifest.json",
+    "corpus_routing_law": "Every governed research file has one explicit package route into a bounded mechanism, IR transition, resolution frontier, binding phase and authority; record occurrence routing does not confer semantic authority.",
 }
 
 COMPONENTS = [

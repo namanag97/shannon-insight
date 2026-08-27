@@ -3,22 +3,22 @@
   "completion_claim": false,
   "current_method_exact_candidates": 3,
   "machine_exact_candidates": 137,
-  "manual_adjudications": 9,
+  "manual_adjudications": 41,
   "raw_queue_records": 4169,
   "remaining_occurrences_by_domain": {
     "analytical_practice": 4453,
     "industry_classification": 5092,
     "source_system_class": 361,
-    "typed_operation": 8270
+    "typed_operation": 5491
   },
   "remaining_records_by_domain": {
     "analytical_practice": 1898,
     "industry_classification": 398,
     "source_system_class": 360,
-    "typed_operation": 1364
+    "typed_operation": 1332
   },
-  "remaining_unresolved_occurrences": 18176,
-  "remaining_unresolved_records": 4020,
+  "remaining_unresolved_occurrences": 15397,
+  "remaining_unresolved_records": 3988,
   "report_id": "b07_unresolved_frontier_profile",
   "research_campaign_count": 49,
   "semantic_decisions_created_by_this_profile": 0,
@@ -30,8 +30,8 @@
       "record_kind": "b07_research_campaign_route",
       "routing_only": true,
       "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 4404,
-      "unresolved_reference_count": 706
+      "unresolved_occurrence_count": 2922,
+      "unresolved_reference_count": 689
     },
     {
       "campaign_id": "analytical_practice.unclassified",
@@ -52,15 +52,6 @@
       "unresolved_reference_count": 49
     },
     {
-      "campaign_id": "operation.reconcile_validate_compare",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 903,
-      "unresolved_reference_count": 134
-    },
-    {
       "campaign_id": "industry.commerce_services",
       "completion_claim": false,
       "record_kind": "b07_research_campaign_route",
@@ -70,22 +61,13 @@
       "unresolved_reference_count": 25
     },
     {
-      "campaign_id": "routing.multiple_candidates",
+      "campaign_id": "operation.reconcile_validate_compare",
       "completion_claim": false,
       "record_kind": "b07_research_campaign_route",
       "routing_only": true,
       "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 742,
-      "unresolved_reference_count": 110
-    },
-    {
-      "campaign_id": "operation.estimate_infer",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 705,
-      "unresolved_reference_count": 122
+      "unresolved_occurrence_count": 576,
+      "unresolved_reference_count": 130
     },
     {
       "campaign_id": "industry.manufacturing_industrial",
@@ -95,6 +77,24 @@
       "semantic_decisions_created": 0,
       "unresolved_occurrence_count": 554,
       "unresolved_reference_count": 41
+    },
+    {
+      "campaign_id": "operation.estimate_infer",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 547,
+      "unresolved_reference_count": 120
+    },
+    {
+      "campaign_id": "routing.multiple_candidates",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 445,
+      "unresolved_reference_count": 107
     },
     {
       "campaign_id": "industry.energy_resources",
@@ -142,15 +142,6 @@
       "unresolved_reference_count": 125
     },
     {
-      "campaign_id": "operation.simulate_scenario",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 361,
-      "unresolved_reference_count": 52
-    },
-    {
       "campaign_id": "method.optimization_operations_research",
       "completion_claim": false,
       "record_kind": "b07_research_campaign_route",
@@ -169,24 +160,6 @@
       "unresolved_reference_count": 61
     },
     {
-      "campaign_id": "operation.rank_score_prioritize",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 300,
-      "unresolved_reference_count": 31
-    },
-    {
-      "campaign_id": "operation.detect_classify_segment",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 288,
-      "unresolved_reference_count": 77
-    },
-    {
       "campaign_id": "method.causal_experimentation",
       "completion_claim": false,
       "record_kind": "b07_research_campaign_route",
@@ -203,6 +176,33 @@
       "semantic_decisions_created": 0,
       "unresolved_occurrence_count": 254,
       "unresolved_reference_count": 68
+    },
+    {
+      "campaign_id": "method.simulation",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 251,
+      "unresolved_reference_count": 63
+    },
+    {
+      "campaign_id": "source_system_class.unclassified",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 226,
+      "unresolved_reference_count": 225
+    },
+    {
+      "campaign_id": "operation.simulate_scenario",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 184,
+      "unresolved_reference_count": 50
     }
   ]
 }

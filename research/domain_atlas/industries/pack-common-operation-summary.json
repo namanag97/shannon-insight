@@ -1,107 +1,16 @@
 {
   "as_of": "2026-08-27",
-  "common_operation_rows": 32,
+  "common_operation_rows": 0,
   "completion_claim": false,
   "pack_count": 9,
   "packs": [
     {
       "all_case_operation_rows": 0,
       "case_count": 188,
-      "common_operation_rows": 15,
+      "common_operation_rows": 0,
       "pack_id": "built_food_environment",
-      "represented_occurrences": 1305,
-      "top_refs": [
-        {
-          "coverage_ratio": 0.670213,
-          "occurrence_count": 126,
-          "queue_id": "refq.typed_operation.2bef0ee2d64aa082",
-          "raw_ref": "operation.identify_risk"
-        },
-        {
-          "coverage_ratio": 0.670213,
-          "occurrence_count": 126,
-          "queue_id": "refq.typed_operation.fbef59af4f82f3c8",
-          "raw_ref": "operation.quantify_risk"
-        },
-        {
-          "coverage_ratio": 0.670213,
-          "occurrence_count": 126,
-          "queue_id": "refq.typed_operation.41a8c932684a2c8b",
-          "raw_ref": "operation.stress_test"
-        },
-        {
-          "coverage_ratio": 0.643617,
-          "occurrence_count": 121,
-          "queue_id": "refq.typed_operation.760d069a146a84d6",
-          "raw_ref": "operation.change_point"
-        },
-        {
-          "coverage_ratio": 0.643617,
-          "occurrence_count": 121,
-          "queue_id": "refq.typed_operation.7ab64ed0620b1cb3",
-          "raw_ref": "operation.decompose"
-        },
-        {
-          "coverage_ratio": 0.643617,
-          "occurrence_count": 121,
-          "queue_id": "refq.typed_operation.185204e072834735",
-          "raw_ref": "operation.segment"
-        },
-        {
-          "coverage_ratio": 0.441489,
-          "occurrence_count": 83,
-          "queue_id": "refq.typed_operation.dc3cf25d3bc95e06",
-          "raw_ref": "operation.formulate_constraints"
-        },
-        {
-          "coverage_ratio": 0.441489,
-          "occurrence_count": 83,
-          "queue_id": "refq.typed_operation.7ace327b3c51657c",
-          "raw_ref": "operation.robustness_check"
-        },
-        {
-          "coverage_ratio": 0.361702,
-          "occurrence_count": 68,
-          "queue_id": "refq.typed_operation.895d37ecf11b3b53",
-          "raw_ref": "operation.fit"
-        },
-        {
-          "coverage_ratio": 0.361702,
-          "occurrence_count": 68,
-          "queue_id": "refq.typed_operation.02739e8677676c7c",
-          "raw_ref": "operation.forecast"
-        },
-        {
-          "coverage_ratio": 0.319149,
-          "occurrence_count": 60,
-          "queue_id": "refq.typed_operation.879381dda213dc8b",
-          "raw_ref": "operation.compare_scenarios"
-        },
-        {
-          "coverage_ratio": 0.271277,
-          "occurrence_count": 51,
-          "queue_id": "refq.typed_operation.962895ad6907ac7d",
-          "raw_ref": "operation.bottleneck_localize"
-        },
-        {
-          "coverage_ratio": 0.271277,
-          "occurrence_count": 51,
-          "queue_id": "refq.typed_operation.48c47bf6b6def1a4",
-          "raw_ref": "operation.process_mine"
-        },
-        {
-          "coverage_ratio": 0.265957,
-          "occurrence_count": 50,
-          "queue_id": "refq.typed_operation.9ef716cb84a2161e",
-          "raw_ref": "operation.geostatistics"
-        },
-        {
-          "coverage_ratio": 0.265957,
-          "occurrence_count": 50,
-          "queue_id": "refq.typed_operation.644ee2f0b725e64b",
-          "raw_ref": "operation.zonal_statistics"
-        }
-      ]
+      "represented_occurrences": 0,
+      "top_refs": []
     },
     {
       "all_case_operation_rows": 0,
@@ -114,131 +23,26 @@
     {
       "all_case_operation_rows": 0,
       "case_count": 217,
-      "common_operation_rows": 12,
+      "common_operation_rows": 0,
       "pack_id": "energy_resources",
-      "represented_occurrences": 1047,
-      "top_refs": [
-        {
-          "coverage_ratio": 0.451613,
-          "occurrence_count": 98,
-          "queue_id": "refq.typed_operation.43ec39339ccb37f8",
-          "raw_ref": "compare_expected_observed"
-        },
-        {
-          "coverage_ratio": 0.451613,
-          "occurrence_count": 98,
-          "queue_id": "refq.typed_operation.c39c65191c0e5512",
-          "raw_ref": "rank_candidate_explanations"
-        },
-        {
-          "coverage_ratio": 0.451613,
-          "occurrence_count": 98,
-          "queue_id": "refq.typed_operation.95396327f8340057",
-          "raw_ref": "reconstruct_state"
-        },
-        {
-          "coverage_ratio": 0.414747,
-          "occurrence_count": 90,
-          "queue_id": "refq.typed_operation.ef860c2ca03211f0",
-          "raw_ref": "calibrate_model"
-        },
-        {
-          "coverage_ratio": 0.414747,
-          "occurrence_count": 90,
-          "queue_id": "refq.typed_operation.89d6d97ab6483826",
-          "raw_ref": "run_scenarios"
-        },
-        {
-          "coverage_ratio": 0.414747,
-          "occurrence_count": 90,
-          "queue_id": "refq.typed_operation.68a78b5cf63fe9b9",
-          "raw_ref": "sensitivity_and_uncertainty_analysis"
-        },
-        {
-          "coverage_ratio": 0.37788,
-          "occurrence_count": 82,
-          "queue_id": "refq.typed_operation.165bab308abccf2a",
-          "raw_ref": "identify_hazards"
-        },
-        {
-          "coverage_ratio": 0.37788,
-          "occurrence_count": 82,
-          "queue_id": "refq.typed_operation.93186618d4a70b6f",
-          "raw_ref": "quantify_likelihood_consequence"
-        },
-        {
-          "coverage_ratio": 0.37788,
-          "occurrence_count": 82,
-          "queue_id": "refq.typed_operation.64c55906a286f874",
-          "raw_ref": "rank_risk_reduction_options"
-        },
-        {
-          "coverage_ratio": 0.364055,
-          "occurrence_count": 79,
-          "queue_id": "refq.typed_operation.714819668d1930c5",
-          "raw_ref": "formulate_objectives_constraints"
-        },
-        {
-          "coverage_ratio": 0.364055,
-          "occurrence_count": 79,
-          "queue_id": "refq.typed_operation.fb44f6fce5368ef3",
-          "raw_ref": "solve_or_prove_infeasible"
-        },
-        {
-          "coverage_ratio": 0.364055,
-          "occurrence_count": 79,
-          "queue_id": "refq.typed_operation.1333e21ad7059378",
-          "raw_ref": "verify_proposal_against_hard_constraints"
-        }
-      ]
+      "represented_occurrences": 0,
+      "top_refs": []
     },
     {
       "all_case_operation_rows": 0,
       "case_count": 268,
-      "common_operation_rows": 2,
+      "common_operation_rows": 0,
       "pack_id": "finance_insurance",
-      "represented_occurrences": 226,
-      "top_refs": [
-        {
-          "coverage_ratio": 0.518657,
-          "occurrence_count": 139,
-          "queue_id": "refq.typed_operation.bad02a219e0e23cc",
-          "raw_ref": "operation.slice-decompose-compare"
-        },
-        {
-          "coverage_ratio": 0.324627,
-          "occurrence_count": 87,
-          "queue_id": "refq.typed_operation.def91567b39d64aa",
-          "raw_ref": "operation.simulate-paths-and-events"
-        }
-      ]
+      "represented_occurrences": 0,
+      "top_refs": []
     },
     {
       "all_case_operation_rows": 0,
       "case_count": 155,
-      "common_operation_rows": 3,
+      "common_operation_rows": 0,
       "pack_id": "health_life_sciences",
-      "represented_occurrences": 201,
-      "top_refs": [
-        {
-          "coverage_ratio": 0.432258,
-          "occurrence_count": 67,
-          "queue_id": "refq.typed_operation.22900521cbff2e65",
-          "raw_ref": "op.compare"
-        },
-        {
-          "coverage_ratio": 0.432258,
-          "occurrence_count": 67,
-          "queue_id": "refq.typed_operation.4e7afc27d66ae29f",
-          "raw_ref": "op.decompose"
-        },
-        {
-          "coverage_ratio": 0.432258,
-          "occurrence_count": 67,
-          "queue_id": "refq.typed_operation.66050733058b67b7",
-          "raw_ref": "op.rank_contributors"
-        }
-      ]
+      "represented_occurrences": 0,
+      "top_refs": []
     },
     {
       "all_case_operation_rows": 0,

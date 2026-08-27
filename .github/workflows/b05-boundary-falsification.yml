@@ -1,0 +1,42 @@
+name: B05 Product Boundary Falsification
+
+on:
+  push:
+    branches:
+      - 'closure/b05-*'
+    paths:
+      - research/product_ontology/dossier_readiness/**
+      - research/product_ontology/adjudications/**
+      - .github/workflows/b05-boundary-falsification.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build product-boundary falsification contracts
+        run: python3 research/product_ontology/dossier_readiness/build_boundary_falsification.py
+      - name: Validate falsification contracts
+        run: python3 research/product_ontology/dossier_readiness/validate_boundary_falsification.py
+      - name: Persist generated projection
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/product_ontology/dossier_readiness/product-boundary-falsification.jsonl \
+                  research/product_ontology/dossier_readiness/product-boundary-falsification-summary.json
+          if git diff --cached --quiet; then
+            echo "Boundary falsification projection already current"
+            exit 0
+          fi
+          git commit -m "research: generate B05 boundary falsification projection [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

@@ -1,0 +1,12 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "industry_queue_decision_count": 398,
+  "node_count": 398,
+  "reference_spine_mappings_ratified": 0,
+  "report_id": "b07_vertical_analytical_overlay_classification",
+  "represented_occurrences": 5092,
+  "scheme_count": 9,
+  "semantic_ratifications_created": 0,
+  "status": "ALL_LOCAL_INDUSTRY_REFS_CANONICALIZED_AS_EVIDENCE_BOUND_OVERLAYS_ISIC_MAPPING_OPEN"
+}

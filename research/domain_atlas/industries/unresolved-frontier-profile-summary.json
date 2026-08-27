@@ -3,24 +3,22 @@
   "completion_claim": false,
   "current_method_exact_candidates": 3,
   "machine_exact_candidates": 137,
-  "manual_adjudications": 41,
+  "manual_adjudications": 439,
   "raw_queue_records": 4169,
   "remaining_occurrences_by_domain": {
     "analytical_practice": 4453,
-    "industry_classification": 5092,
     "source_system_class": 361,
     "typed_operation": 5491
   },
   "remaining_records_by_domain": {
     "analytical_practice": 1898,
-    "industry_classification": 398,
     "source_system_class": 360,
     "typed_operation": 1332
   },
-  "remaining_unresolved_occurrences": 15397,
-  "remaining_unresolved_records": 3988,
+  "remaining_unresolved_occurrences": 10305,
+  "remaining_unresolved_records": 3590,
   "report_id": "b07_unresolved_frontier_profile",
-  "research_campaign_count": 49,
+  "research_campaign_count": 40,
   "semantic_decisions_created_by_this_profile": 0,
   "status": "PROFILED_FOR_RESEARCH_BATCHING_NOT_SEMANTIC_CLOSURE",
   "top_research_campaigns": [
@@ -43,24 +41,6 @@
       "unresolved_reference_count": 1232
     },
     {
-      "campaign_id": "industry.finance_insurance",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 1405,
-      "unresolved_reference_count": 49
-    },
-    {
-      "campaign_id": "industry.commerce_services",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 875,
-      "unresolved_reference_count": 25
-    },
-    {
       "campaign_id": "operation.reconcile_validate_compare",
       "completion_claim": false,
       "record_kind": "b07_research_campaign_route",
@@ -68,15 +48,6 @@
       "semantic_decisions_created": 0,
       "unresolved_occurrence_count": 576,
       "unresolved_reference_count": 130
-    },
-    {
-      "campaign_id": "industry.manufacturing_industrial",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 554,
-      "unresolved_reference_count": 41
     },
     {
       "campaign_id": "operation.estimate_infer",
@@ -95,51 +66,6 @@
       "semantic_decisions_created": 0,
       "unresolved_occurrence_count": 445,
       "unresolved_reference_count": 107
-    },
-    {
-      "campaign_id": "industry.energy_resources",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 434,
-      "unresolved_reference_count": 28
-    },
-    {
-      "campaign_id": "industry.telecom_media_tech",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 409,
-      "unresolved_reference_count": 27
-    },
-    {
-      "campaign_id": "industry.health_life_sciences",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 401,
-      "unresolved_reference_count": 22
-    },
-    {
-      "campaign_id": "industry.transport_logistics",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 384,
-      "unresolved_reference_count": 13
-    },
-    {
-      "campaign_id": "industry.built_food_environment",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 376,
-      "unresolved_reference_count": 125
     },
     {
       "campaign_id": "method.optimization_operations_research",
@@ -169,15 +95,6 @@
       "unresolved_reference_count": 59
     },
     {
-      "campaign_id": "industry.public_education",
-      "completion_claim": false,
-      "record_kind": "b07_research_campaign_route",
-      "routing_only": true,
-      "semantic_decisions_created": 0,
-      "unresolved_occurrence_count": 254,
-      "unresolved_reference_count": 68
-    },
-    {
       "campaign_id": "method.simulation",
       "completion_claim": false,
       "record_kind": "b07_research_campaign_route",
@@ -203,6 +120,87 @@
       "semantic_decisions_created": 0,
       "unresolved_occurrence_count": 184,
       "unresolved_reference_count": 50
+    },
+    {
+      "campaign_id": "operation.detect_classify_segment",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 167,
+      "unresolved_reference_count": 76
+    },
+    {
+      "campaign_id": "operation.rank_score_prioritize",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 151,
+      "unresolved_reference_count": 29
+    },
+    {
+      "campaign_id": "method.forecasting_time_series",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 142,
+      "unresolved_reference_count": 37
+    },
+    {
+      "campaign_id": "method.reliability_survival_risk",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 140,
+      "unresolved_reference_count": 68
+    },
+    {
+      "campaign_id": "method.anomaly_change_detection",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 140,
+      "unresolved_reference_count": 27
+    },
+    {
+      "campaign_id": "method.process_mining",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 129,
+      "unresolved_reference_count": 10
+    },
+    {
+      "campaign_id": "operation.join_match_link",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 128,
+      "unresolved_reference_count": 79
+    },
+    {
+      "campaign_id": "operation.forecast_predict",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 122,
+      "unresolved_reference_count": 25
+    },
+    {
+      "campaign_id": "operation.transform_convert_normalize",
+      "completion_claim": false,
+      "record_kind": "b07_research_campaign_route",
+      "routing_only": true,
+      "semantic_decisions_created": 0,
+      "unresolved_occurrence_count": 121,
+      "unresolved_reference_count": 31
     }
   ]
 }

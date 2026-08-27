@@ -1,0 +1,68 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "files": {
+    "analytical-result-kinds.jsonl": {
+      "bytes": 12522,
+      "records": 50,
+      "sha256": "3a7aef823daf78c06a6d75aff5ec6c91286bd0d9a0de5a16b7dc6be82805dd96"
+    },
+    "benchmarks.jsonl": {
+      "bytes": 24752,
+      "records": 68,
+      "sha256": "7a9044e21549bbaedca9579033ed7e98a1bf0f5524ff9ff2da9502f3f0693f41"
+    },
+    "canonical-bridges.jsonl": {
+      "bytes": 25350,
+      "records": 63,
+      "sha256": "de39260b25a43dbbb92732f654edbc0b434aec80d0793974a4f1f11d8970fe00"
+    },
+    "interaction-contracts.jsonl": {
+      "bytes": 15194,
+      "records": 50,
+      "sha256": "c0143a14ca132e6cc096a5486cb37109fbd6ee3354842e5f887419cd726d4418"
+    },
+    "library-seams.jsonl": {
+      "bytes": 22336,
+      "records": 63,
+      "sha256": "eb6f178587a2f7139f377d6b4f30ef084aefebb90a1c7b8c406696a3c40c73ea"
+    },
+    "negative-tests.jsonl": {
+      "bytes": 15074,
+      "records": 70,
+      "sha256": "9ce5fb2f8fda30f6e77fe39f8c34320c9d2ec443985fb2a8b62981c36bccaf1e"
+    },
+    "question-intents.jsonl": {
+      "bytes": 64414,
+      "records": 140,
+      "sha256": "a051eb3d6eb4a1a396524b258c3d34e5edef11a78c30d052fa845bc2c06a619a"
+    },
+    "saturation-trials.jsonl": {
+      "bytes": 3316,
+      "records": 12,
+      "sha256": "979fa2d06b56ae059e4dd3866de7337d31860d0b3406c78c198ba563798627b3"
+    },
+    "sources.jsonl": {
+      "bytes": 48890,
+      "records": 88,
+      "sha256": "a1f990c70daa069b2900f98de795613bcd3da76057954f6089a180cbab46627a"
+    },
+    "specialist-experiences.jsonl": {
+      "bytes": 4467,
+      "records": 21,
+      "sha256": "302157c7cb33bc47189e79b2a0a0b610c67104feeeb8a9d48ea7377f7d1c7f8e"
+    },
+    "vertical-acceptance-cases.jsonl": {
+      "bytes": 21654,
+      "records": 42,
+      "sha256": "da07aab0e568c7b2a19c03d71e3adaa3d5ef09c803384eddb490a63e1a8d550a"
+    },
+    "visual-patterns.jsonl": {
+      "bytes": 44005,
+      "records": 214,
+      "sha256": "3a0f9dc799aa9182524e44879b8521f99c817666931d906319054f5a7252041d"
+    }
+  },
+  "manifest_id": "manifest.presentation-sota-semantics.v1",
+  "summary_sha256": "bce8bffd0265237044a3fe8310b430135cd28f0c2f0128175e426230a7b8ea51"
+}

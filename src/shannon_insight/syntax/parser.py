@@ -327,7 +327,7 @@ class Walker:
         self._finish_function(builder)
 
     @staticmethod
-    def _param_names(params_node: Node) -> list[str]:
+    def _param_names(params_node: Node | None) -> list[str]:
         out: list[str] = []
         if params_node is None:
             return out

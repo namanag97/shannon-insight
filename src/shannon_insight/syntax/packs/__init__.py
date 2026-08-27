@@ -16,7 +16,6 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import cast
 
 from tree_sitter import Node, Parser
 
@@ -53,7 +52,7 @@ class PackSpec:
         try:
             from tree_sitter_language_pack import get_parser as _gp
 
-            return cast(Parser, _gp(self.name))
+            return _gp(self.name)
         except Exception:
             pass
         if self.fallback_module is None:

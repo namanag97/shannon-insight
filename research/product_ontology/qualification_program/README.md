@@ -11,9 +11,12 @@ exact abstract contracts and are downstream implementation/provider-qualificatio
 
 The current effective projection is therefore 66 products, 539 library subjects, **912 effective
 open evidence vacancies**, 144 structurally satisfied gate cells, zero missing-contract cells and
-zero qualified, portable, accepted, build-ready or ratified products. `effective-summary.json` is
-the current machine-readable status projection; `summary.json` remains the immutable base snapshot
-used to prove the rebase rather than being silently rewritten.
+zero qualified, portable, accepted, build-ready or ratified products. One data-sharing exact-scope
+gate has retained execution evidence but remains open because law authority, implementation
+identity, reproducible build, independent appraisal and qualification prerequisites are not
+satisfied. `effective-summary.json` is the current machine-readable status projection;
+`summary.json` remains the immutable base snapshot used to prove the rebase rather than being
+silently rewritten.
 
 This layer answers the question left open by complete DDD and compiler decomposition:
 
@@ -74,7 +77,10 @@ source compiler gap
 reference matches a canonical `compiler-gap-rebase.jsonl` record whose disposition is
 `EXACT_ABSTRACT_CONTRACT_PRESENT`, whose remaining gate is concrete implementation/provider
 qualification, and which carries no bound or qualified implementation. The effective manifest
-binds the projection to exact upstream SHA-256 digests so stale downstream status is detectable.
+binds the projection to exact upstream SHA-256 digests so stale downstream status is detectable. It
+also discovers explicit `qualification-binding.json` records beneath the conformance-execution
+registry, verifies their subject/gate/evidence scope, and records evidence-present-but-open states
+without rewriting the retained base snapshot or promoting an implementation.
 
 Models, LLMs and agents are optional proposal tools. They may suggest a typed profile, generate
 candidate cases, search for a counterexample, summarize retained evidence or emit a diagnostic.
@@ -94,7 +100,9 @@ Generated and retained artifacts:
   gate classes per product;
 - `summary.json` and `manifest.json` — deterministic base-snapshot counts and digests;
 - `effective-gate-state-rebase.jsonl` — five exact product gate-state corrections derived from the
-  59 canonical compiler-gap rebase records;
+  59 canonical compiler-gap rebase records plus bounded evidence-presence projections;
+- `execution-evidence-bindings.jsonl` — digest-bound retained execution evidence registered against
+  exact qualification subjects and gates without implying a pass;
 - `effective-summary.json` — current effective qualification counts;
 - `effective-manifest.json` — exact input/output digests for the effective projection;
 - `build_effective_state.py` — deterministic builder/checker for that projection.

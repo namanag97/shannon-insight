@@ -8,7 +8,7 @@
   "gate_execution_kernels": 16,
   "implementation_slots": 1052,
   "input_snapshot": {
-    "aggregate_sha256": "33355fd9fa109eb08b7839c94257a1e41ee9d7c3457cbc5f2f1982793e65cdbb",
+    "aggregate_sha256": "f39963c63f3358812c1a75178470dcaf306c148b12d5230a5b36da02d931ec95",
     "files": [
       {
         "bytes": 1389513,
@@ -47,6 +47,12 @@
         "sha256": "46d32bcaa70031c9acea3f7a4fb6eb563b19a4ae8090021e05922c1b3f6c5a2f"
       },
       {
+        "bytes": 1344,
+        "path": "research/product_ontology/qualification_program/execution-evidence-bindings.jsonl",
+        "record_count": 1,
+        "sha256": "6801589631beae51f9312280a6ab88a1e6c127547d2d62b73403befeddbf04d3"
+      },
+      {
         "bytes": 9316073,
         "path": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl",
         "record_count": 846,
@@ -59,7 +65,7 @@
         "sha256": "53c14d47fc64015ee623e0420bd3c6a993f4feb0c22beea541861e4ba5ae41c2"
       }
     ],
-    "snapshot_id": "snapshot.p6-input.33355fd9fa109eb0"
+    "snapshot_id": "snapshot.p6-input.f39963c63f335881"
   },
   "portable_offers": 0,
   "product_qualification_dockets": 66,

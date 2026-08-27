@@ -1,16 +1,19 @@
 {
   "as_of": "2026-08-27",
-  "authority_blocked_count": 4,
-  "batch_count": 16,
+  "authority_or_external_evidence_blocked_batch_count": 8,
+  "batch_count": 21,
   "completion_claim": false,
-  "downstream_evidence_blocked_count": 6,
   "effective_qualification_vacancies": 912,
+  "exact_contract_scopes": 526,
   "largest_machine_queue": {
     "batch_id": "B07_INDUSTRY_CANONICAL_REFERENCE_CLOSURE",
-    "count": 4029
+    "count": 4026
   },
-  "machine_active_count": 4,
+  "machine_addressable_batch_count": 15,
+  "program_level_acceptance_results": 0,
+  "program_level_obligation_count": 492,
+  "qualification_harness_campaigns": 16,
   "report_id": "effective_batched_closure_progress",
-  "retained_source_occurrences": 1,
+  "retained_source_occurrences": 2,
   "structurally_done_or_done_monitor_count": 3
 }

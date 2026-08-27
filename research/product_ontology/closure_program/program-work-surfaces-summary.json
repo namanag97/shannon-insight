@@ -1,0 +1,13 @@
+{
+  "as_of": "2026-08-27",
+  "b16_coverage_coordinates": 75,
+  "b16_missing_profession_foundation": true,
+  "b17_seeded_solution_challenges": 4,
+  "b18_human_effect_obligations": 256,
+  "b19_system_fault_obligations": 44,
+  "b20_invalidation_obligations": 104,
+  "completion_claim": false,
+  "program_gate_acceptance_results": 0,
+  "report_id": "program_level_gate_work_surfaces",
+  "status": "FINITE_WORK_SURFACES_BUILT_ACCEPTANCE_UNEXECUTED"
+}

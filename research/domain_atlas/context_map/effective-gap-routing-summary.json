@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "counts_by_owning_batch": {
+    "B02_SEMANTIC_OWNER_UNIQUENESS": 4,
+    "B06_LIBRARY_CONTRACT_AUTHORITY": 2,
+    "B08_SOURCE_SYSTEM_AND_OCCURRENCE_CLOSURE": 1,
+    "B09_DATA_SHAPE_OPERATION_TOTALITY": 4,
+    "B10_IMPLEMENTATION_IDENTITY_AND_BUILD": 1,
+    "B11_EXACT_SCOPE_CONFORMANCE_AND_INDEPENDENT_APPRAISAL": 5,
+    "B12_SECOND_IMPLEMENTATION_PORTABILITY_EXIT": 1,
+    "B13_PHYSICAL_BINDING_SLO_SECURITY_COST": 2,
+    "B14_TWO_VERTICAL_EXECUTED_ACCEPTANCE": 6,
+    "B15_TWO_RELEASE_CHANGE_AND_RATIFICATION": 2
+  },
+  "end_to_end_closed_count": 0,
+  "gap_count": 28,
+  "report_id": "context_map_effective_gap_routing",
+  "routed_gap_count": 28,
+  "status": "ALL_GAPS_ROUTED_NONE_FALSIFIED_CLOSED",
+  "unrouted_gap_count": 0
+}

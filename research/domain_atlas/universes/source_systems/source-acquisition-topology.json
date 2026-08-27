@@ -1,0 +1,49 @@
+{
+  "topology_id": "source_acquisition_identity_topology",
+  "edition": 1,
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "nodes": [
+    {"kind":"source_system_class","identity_prefix":"source.","owns":"provider-neutral source semantics, authority shape, payload/time/order/finality/transaction/security/verification laws"},
+    {"kind":"provider_product_offer","identity_prefix":"source-offer.","owns":"documented provider/product/version-envelope capabilities and access possibilities"},
+    {"kind":"source_occurrence","identity_prefix":"source-occurrence.","owns":"exact deployed provider/product/version/account/site identity, permissions, observed limits and field/object authority"},
+    {"kind":"access_surface","identity_prefix":"source-surface.","owns":"one observed protocol/export/query/change surface on one exact occurrence"},
+    {"kind":"connector_implementation","identity_prefix":"connector.","owns":"adapter implementation/version/protocol operations, checkpoint/delete/schema/retry/security behavior and conformance receipts"},
+    {"kind":"acquisition_plan","identity_prefix":"acquisition-plan.","owns":"composition of occurrence + access surface + connector + snapshot/change handoff + reconciliation + budgets + security"},
+    {"kind":"governed_data_cut","identity_prefix":"governed-cut.","owns":"immutable exact records/schema/time/position/population/completeness/lineage admitted for downstream use"}
+  ],
+  "required_edges": [
+    {"from":"provider_product_offer","to":"source_system_class","relation":"documents_offer_for"},
+    {"from":"source_occurrence","to":"provider_product_offer","relation":"instantiates_or_declares_product_identity_from"},
+    {"from":"source_occurrence","to":"source_system_class","relation":"observed_as"},
+    {"from":"access_surface","to":"source_occurrence","relation":"observed_on"},
+    {"from":"connector_implementation","to":"source_system_class","relation":"claims_support_for"},
+    {"from":"acquisition_plan","to":"source_occurrence","relation":"binds"},
+    {"from":"acquisition_plan","to":"access_surface","relation":"uses"},
+    {"from":"acquisition_plan","to":"connector_implementation","relation":"executes_with"},
+    {"from":"governed_data_cut","to":"acquisition_plan","relation":"produced_by"},
+    {"from":"governed_data_cut","to":"source_occurrence","relation":"derived_from"}
+  ],
+  "forbidden_collapses": [
+    "source_system_class != provider_product_offer",
+    "provider_product_offer != source_occurrence",
+    "source_occurrence != access_surface",
+    "access_surface != connector_implementation",
+    "connector_implementation != acquisition_plan",
+    "successful_connector_execution != governed_data_cut",
+    "provider_vendor_name != source_system_class",
+    "connector_support_claim != executed conformance",
+    "documented provider limit != observed occurrence limit",
+    "source occurrence authority != connector authority",
+    "governed data cut != source system truth beyond the declared cut scope"
+  ],
+  "compiler_laws": [
+    "A vertical source need compiles first to provider-neutral source-system class requirements.",
+    "Provider/product selection may occur only after source-system class requirements are explicit.",
+    "A provider offer is eligible evidence for discovery but cannot satisfy an occurrence or connector execution gate.",
+    "A physical acquisition requires an exact occurrence, one eligible observed access surface and a connector whose exact versioned conformance receipts satisfy the requested class/interface laws.",
+    "Snapshot-to-change handoff, retries, schema drift, deletes, corrections, ordering, gaps and reconciliation are acquisition-plan semantics, not inferred from source or connector labels.",
+    "Downstream analytics consume only a sealed or explicitly partial governed data cut whose lineage names the occurrence, access surface, connector, plan and execution receipts.",
+    "Any missing identity or expired evidence yields a typed refusal or source-gap; the compiler does not guess."
+  ]
+}

@@ -34,6 +34,20 @@ still refuses compiler binding because it has no concrete qualified implementati
 186 work items are exactly 66 provider qualifications, 66 executed vertical acceptances and 54
 two-unrelated-vertical generality proofs.
 
+The 186 remaining items are not an instruction to execute 186 unrelated projects. The generated
+closure campaign projection factors them onto 51 reusable method campaigns:
+
+- 42 qualification/conformance workstreams share generators, oracles and evidence schemas across
+  exact scopes;
+- one unrelated-vertical selection campaign shares unrelatedness and scope-equivalence methods;
+- eight vertical-acceptance workstreams share gate methods and evidence schemas.
+
+The projection remains lossless: all 186 product items, 539 subjects, 132 qualification profiles,
+two independent implementation slots per scope, 132 vertical slots and 1,056 acceptance obligations
+retain exact identities and separate verdicts. Sharing a method never shares a qualification or
+acceptance decision. `closure-execution-dag.jsonl` orders intake and authority, shared method assets,
+exact-scope qualification, vertical acceptance, and final appraisal/ratification.
+
 Signal Condition Monitoring and Diagnostics is now structurally mapped through shared observation-
 binding, calibration-record and calibration-evaluation contracts. Visual Inspection Operations
 uses the same metrological core plus an exact acquisition-profile compiler and retains only its

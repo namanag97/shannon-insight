@@ -17,6 +17,9 @@ ROOT = HERE.parents[2]
 GLOBAL = ROOT / "research/product_ontology/global_boundary_research"
 VERTICALS = ROOT / "research/product_ontology/composition_pilots/deterministic_verticals"
 QUALIFICATION_SUBJECTS = ROOT / "research/product_ontology/qualification_program/library-qualification-subjects.jsonl"
+QUALIFICATION_PROGRAMS = ROOT / "research/product_ontology/qualification_program/product-qualification-programs.jsonl"
+P7 = ROOT / "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p7_offer_binding_qualification"
+P8 = ROOT / "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p8_vertical_acceptance_tensor"
 AS_OF = "2026-08-26"
 
 DDD_FIELDS = [
@@ -437,12 +440,175 @@ def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str,
     return readiness, sorted(work, key=lambda row: row["record_id"]), sorted(compiler_gap_rebase, key=lambda row: row["record_id"]), summary
 
 
+def build_closure_campaign(work: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Factor the flat product ledger onto reusable P7/P8 execution workstreams."""
+    programs = {row["candidate_id"]: row for row in load_jsonl(QUALIFICATION_PROGRAMS)}
+    profiles = load_jsonl(P7 / "qualification-profile-kernels.jsonl")
+    p7_workstreams = load_jsonl(P7 / "conformance-context-workstreams.jsonl")
+    p8_workstreams = load_jsonl(P8 / "acceptance-class-workstreams.jsonl")
+    slot_dockets = load_jsonl(P8 / "product-vertical-slot-dockets.jsonl")
+
+    profile_by_subject = {
+        subject_ref: profile
+        for profile in profiles
+        for subject_ref in profile["subject_refs"]
+    }
+    p7_workstreams_by_subject: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for workstream in p7_workstreams:
+        for subject_ref in workstream["subject_refs"]:
+            p7_workstreams_by_subject[subject_ref].append(workstream)
+    dockets_by_candidate: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for docket in slot_dockets:
+        dockets_by_candidate[docket["candidate_ref"]].append(docket)
+
+    projections: list[dict[str, Any]] = []
+    for item in work:
+        candidate_id = item["candidate_id"]
+        if item["work_kind"] == "provider_qualification":
+            subject_refs = programs[candidate_id]["library_subject_refs"]
+            profile_rows = {profile_by_subject[ref]["profile_id"]: profile_by_subject[ref] for ref in subject_refs}
+            workstream_rows = {
+                row["workstream_id"]: row
+                for ref in subject_refs
+                for row in p7_workstreams_by_subject[ref]
+            }
+            projections.append({
+                "record_id": f"projection.{item['record_id']}",
+                "record_kind": "product_closure_workstream_projection",
+                "work_item_ref": item["record_id"],
+                "candidate_id": candidate_id,
+                "work_kind": item["work_kind"],
+                "subject_refs": sorted(subject_refs),
+                "qualification_profile_refs": sorted(profile_rows),
+                "shared_workstream_refs": sorted(workstream_rows),
+                "exact_execution_refs": sorted({slot for row in profile_rows.values() for slot in row["implementation_slot_refs"]}),
+                "execution_law": "Shared generators, oracles and evidence schemas may be built once; every exact scope and both independent implementation slots execute and receive separate verdicts.",
+                "refusal_gate": "REFUSE_UNTIL_ALL_EXACT_SUBJECT_SCOPES_HAVE_TWO_CURRENT_INDEPENDENT_QUALIFICATION_RECEIPTS",
+                "status": "ROUTED_EXECUTION_OPEN",
+                "completion_claim": False,
+            })
+        elif item["work_kind"] == "unrelated_vertical_generality":
+            dockets = dockets_by_candidate[candidate_id]
+            projections.append({
+                "record_id": f"projection.{item['record_id']}",
+                "record_kind": "product_closure_workstream_projection",
+                "work_item_ref": item["record_id"],
+                "candidate_id": candidate_id,
+                "work_kind": item["work_kind"],
+                "subject_refs": [],
+                "qualification_profile_refs": [],
+                "shared_workstream_refs": ["campaign.product-readiness.vertical-slot-selection.v1"],
+                "exact_execution_refs": sorted(row["docket_id"] for row in dockets),
+                "execution_law": "Selection methodology is shared; each product retains two exact unrelated-vertical slots, a scope-equivalence proof and a named vertical authority.",
+                "refusal_gate": "REFUSE_UNTIL_TWO_UNRELATED_STRUCTURAL_COMPOSITIONS_BIND_THE_EXACT_PRODUCT_SCOPE",
+                "status": "ROUTED_EXECUTION_OPEN",
+                "completion_claim": False,
+            })
+        elif item["work_kind"] == "executed_vertical_acceptance":
+            dockets = dockets_by_candidate[candidate_id]
+            applicable_workstreams = [row for row in p8_workstreams if candidate_id in row["candidate_refs"]]
+            projections.append({
+                "record_id": f"projection.{item['record_id']}",
+                "record_kind": "product_closure_workstream_projection",
+                "work_item_ref": item["record_id"],
+                "candidate_id": candidate_id,
+                "work_kind": item["work_kind"],
+                "subject_refs": [],
+                "qualification_profile_refs": [],
+                "shared_workstream_refs": sorted(row["workstream_id"] for row in applicable_workstreams),
+                "exact_execution_refs": sorted({ref for row in dockets for ref in row["acceptance_obligation_refs"]}),
+                "execution_law": "Gate methods and evidence schemas are reusable; every product x unrelated-vertical slot x gate class executes under the same exact scope and receives a separate accountable verdict.",
+                "refusal_gate": "REFUSE_UNTIL_BOTH_VERTICAL_SLOTS_HAVE_ALL_EIGHT_CURRENT_ACCEPTED_GATE_RECEIPTS",
+                "status": "ROUTED_EXECUTION_OPEN",
+                "completion_claim": False,
+            })
+        else:
+            raise ValueError(f"unrouted closure work kind: {item['work_kind']}")
+
+    provider_items = {row["candidate_id"]: row["work_item_ref"] for row in projections if row["work_kind"] == "provider_qualification"}
+    acceptance_items = [row["work_item_ref"] for row in projections if row["work_kind"] == "executed_vertical_acceptance"]
+    generality_items = [row["work_item_ref"] for row in projections if row["work_kind"] == "unrelated_vertical_generality"]
+    campaigns: list[dict[str, Any]] = []
+    for source in p7_workstreams:
+        candidate_refs = sorted({
+            candidate_id
+            for candidate_id, program in programs.items()
+            if set(program["library_subject_refs"]) & set(source["subject_refs"])
+        })
+        relevant_profiles = [
+            row for row in profiles
+            if set(row["subject_refs"]) & set(source["subject_refs"])
+        ]
+        campaigns.append({
+            "campaign_id": source["workstream_id"],
+            "record_kind": "product_readiness_reusable_campaign",
+            "campaign_class": "QUALIFICATION_CONFORMANCE_METHOD",
+            "source_workstream_ref": source["workstream_id"],
+            "candidate_refs": candidate_refs,
+            "product_work_item_refs": sorted(provider_items[ref] for ref in candidate_refs),
+            "exact_profile_refs": sorted({row["profile_id"] for row in relevant_profiles}),
+            "exact_execution_refs": sorted({slot for row in relevant_profiles for slot in row["implementation_slot_refs"]}),
+            "depends_on_campaign_classes": ["RATIFIED_EXACT_CONTRACTS", "CONCRETE_IMPLEMENTATION_INTAKE"],
+            "sharing_law": source["shared_assets_allowed"],
+            "shared_verdict_forbidden": source["shared_verdict_forbidden"],
+            "status": "OPEN_EXTERNAL_INPUTS_REQUIRED",
+            "completion_claim": False,
+        })
+    campaigns.append({
+        "campaign_id": "campaign.product-readiness.vertical-slot-selection.v1",
+        "record_kind": "product_readiness_reusable_campaign",
+        "campaign_class": "UNRELATED_VERTICAL_SLOT_SELECTION",
+        "source_workstream_ref": None,
+        "candidate_refs": sorted(row["candidate_id"] for row in projections if row["work_kind"] == "unrelated_vertical_generality"),
+        "product_work_item_refs": sorted(generality_items),
+        "exact_profile_refs": [],
+        "exact_execution_refs": sorted(row["docket_id"] for candidate in dockets_by_candidate.values() for row in candidate if row["candidate_ref"] in {p["candidate_id"] for p in projections if p["work_kind"] == "unrelated_vertical_generality"}),
+        "depends_on_campaign_classes": ["VERTICAL_DEMAND_SURFACE_AND_SCOPE_CENSUS"],
+        "sharing_law": "Reuse unrelatedness and scope-equivalence tests; never share a product-specific vertical selection or acceptance verdict.",
+        "shared_verdict_forbidden": True,
+        "status": "OPEN_EXTERNAL_INPUTS_REQUIRED",
+        "completion_claim": False,
+    })
+    for source in p8_workstreams:
+        campaigns.append({
+            "campaign_id": source["workstream_id"],
+            "record_kind": "product_readiness_reusable_campaign",
+            "campaign_class": "VERTICAL_ACCEPTANCE_GATE_METHOD",
+            "source_workstream_ref": source["workstream_id"],
+            "candidate_refs": source["candidate_refs"],
+            "product_work_item_refs": sorted(acceptance_items),
+            "exact_profile_refs": [],
+            "exact_execution_refs": source["slot_obligation_refs"],
+            "depends_on_campaign_classes": ["UNRELATED_VERTICAL_SLOT_SELECTION", "EXACT_SCOPE_IMPLEMENTATION_QUALIFICATION"],
+            "sharing_law": source["sharing_law"],
+            "shared_verdict_forbidden": True,
+            "status": "OPEN_EXTERNAL_INPUTS_REQUIRED",
+            "completion_claim": False,
+        })
+
+    dag = [
+        {"stage": 1, "stage_id": "stage.product-readiness.authority-contracts-and-intake", "campaign_classes": ["RATIFIED_EXACT_CONTRACTS", "CONCRETE_IMPLEMENTATION_INTAKE", "VERTICAL_DEMAND_SURFACE_AND_SCOPE_CENSUS"], "exit_gate": "verified authority receipts, exact contract editions, implementation identities and candidate vertical scopes exist", "status": "OPEN", "completion_claim": False},
+        {"stage": 2, "stage_id": "stage.product-readiness.shared-method-assets", "campaign_classes": ["QUALIFICATION_CONFORMANCE_METHOD", "UNRELATED_VERTICAL_SLOT_SELECTION"], "exit_gate": "shared deterministic generators, oracles, evidence schemas and exact slot selections exist without shared verdicts", "status": "OPEN", "completion_claim": False},
+        {"stage": 3, "stage_id": "stage.product-readiness.exact-qualification", "campaign_classes": ["EXACT_SCOPE_IMPLEMENTATION_QUALIFICATION"], "exit_gate": "both independent implementation slots for every required product subject have current accepted qualification receipts", "status": "OPEN", "completion_claim": False},
+        {"stage": 4, "stage_id": "stage.product-readiness.vertical-acceptance", "campaign_classes": ["VERTICAL_ACCEPTANCE_GATE_METHOD"], "exit_gate": "all eight gate classes pass in two unrelated vertical slots under named domain authorities", "status": "OPEN", "completion_claim": False},
+        {"stage": 5, "stage_id": "stage.product-readiness.product-ratification", "campaign_classes": ["BUILD_READY_APPRAISAL_AND_RATIFICATION"], "exit_gate": "independent appraisal accepts completeness, portability, exit and residual-risk evidence", "status": "WITHHELD_DOWNSTREAM", "completion_claim": False},
+    ]
+    return sorted(projections, key=lambda row: row["record_id"]), sorted(campaigns, key=lambda row: row["campaign_id"]), dag
+
+
 def output_payloads() -> dict[str, str]:
     readiness, work, compiler_gap_rebase, summary = derive()
+    projections, campaigns, dag = build_closure_campaign(work)
+    summary["closure_workstream_projection_count"] = len(projections)
+    summary["reusable_campaign_count"] = len(campaigns)
+    summary["campaign_stage_count"] = len(dag)
     payloads = {
         "product-readiness.jsonl": lines(readiness),
         "closure-work-items.jsonl": lines(work),
         "compiler-gap-rebase.jsonl": lines(compiler_gap_rebase),
+        "closure-workstream-projection.jsonl": lines(projections),
+        "reusable-closure-campaigns.jsonl": lines(campaigns),
+        "closure-execution-dag.jsonl": lines(dag),
         "summary.json": json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
     }
     manifest = {
@@ -473,7 +639,7 @@ def main() -> int:
     if mismatches:
         print("ERROR stale readiness outputs: " + ", ".join(mismatches))
         return 1
-    print(("CHECK" if args.check else "BUILD") + " PASS: 5 deterministic readiness outputs")
+    print(("CHECK" if args.check else "BUILD") + " PASS: 8 deterministic readiness outputs")
     return 0
 
 

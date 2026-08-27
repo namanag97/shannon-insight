@@ -1,9 +1,17 @@
 {
   "as_of": "2026-08-26",
   "files": {
+    "closure-execution-dag.jsonl": {
+      "bytes": 1574,
+      "sha256": "fbb9e7404c2fe783de2493f238cf42128ad34050eae33e29775ea510d7aa4b56"
+    },
     "closure-work-items.jsonl": {
       "bytes": 89956,
       "sha256": "482a6438b990501e591c0663a0b8cf2eb8ff26c50ce50b344724b15ecfe026aa"
+    },
+    "closure-workstream-projection.jsonl": {
+      "bytes": 1189551,
+      "sha256": "0f074dfa31c59dd457cd88019bfd8cbaa5a6ce87c78191ae28fb89ec7e85997b"
     },
     "compiler-gap-rebase.jsonl": {
       "bytes": 51258,
@@ -13,9 +21,13 @@
       "bytes": 275745,
       "sha256": "0726b1074c5f6d5786c13f2eb21daa22a4032fd865a5d8238add3153d0a424b5"
     },
+    "reusable-closure-campaigns.jsonl": {
+      "bytes": 1589163,
+      "sha256": "04fe5624e6a8448f6bd6f4279462f2ac5842a204e0295c2e2d45cd6624acc9a8"
+    },
     "summary.json": {
-      "bytes": 1423,
-      "sha256": "f617a3ed0bed4c56c4704bc855e00773619822f91abc491e8b2a191c2dc92017"
+      "bytes": 1531,
+      "sha256": "a1ed9cb8a786b8cb856f0a000ad62d6c54025415d6d81ca36eec5d5af02ab22f"
     }
   },
   "manifest_id": "retained_product_dossier_readiness_manifest"

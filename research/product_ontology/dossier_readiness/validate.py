@@ -37,6 +37,9 @@ def main() -> int:
     rows = load_jsonl("product-readiness.jsonl")
     work = load_jsonl("closure-work-items.jsonl")
     compiler_gap_rebase = load_jsonl("compiler-gap-rebase.jsonl")
+    projections = load_jsonl("closure-workstream-projection.jsonl")
+    campaigns = load_jsonl("reusable-closure-campaigns.jsonl")
+    dag = load_jsonl("closure-execution-dag.jsonl")
     summary = json.loads((HERE / "summary.json").read_text(encoding="utf-8"))
     ids = [row["candidate_id"] for row in rows]
     retained_ids = {
@@ -98,6 +101,41 @@ def main() -> int:
         errors.append("closure work must remain open and blocking in this edition")
     if any(row["work_kind"] == "compiler_gap_closure" for row in work):
         errors.append("research-resolved compiler gaps are still double-counted as product work")
+    work_ids = {row["record_id"] for row in work}
+    if len(projections) != len(work) or {row["work_item_ref"] for row in projections} != work_ids:
+        errors.append("closure workstream projection must cover every work item exactly once")
+    if len({row["work_item_ref"] for row in projections}) != len(projections):
+        errors.append("closure workstream projection duplicates a work item")
+    if any(
+        not row["shared_workstream_refs"]
+        or not row["exact_execution_refs"]
+        or not row["refusal_gate"].startswith("REFUSE")
+        or row["status"] != "ROUTED_EXECUTION_OPEN"
+        or row["completion_claim"] is not False
+        for row in projections
+    ):
+        errors.append("a closure item lacks an exact fail-closed execution route")
+    by_kind = Counter(row["work_kind"] for row in projections)
+    if by_kind != Counter({"provider_qualification": 66, "executed_vertical_acceptance": 66, "unrelated_vertical_generality": 54}):
+        errors.append("closure workstream projection kind counts drift")
+    provider_projections = [row for row in projections if row["work_kind"] == "provider_qualification"]
+    if any(not row["subject_refs"] or not row["qualification_profile_refs"] for row in provider_projections):
+        errors.append("provider qualification route lacks exact subjects or profile kernels")
+    acceptance_projections = [row for row in projections if row["work_kind"] == "executed_vertical_acceptance"]
+    if any(len(row["shared_workstream_refs"]) != 8 or len(row["exact_execution_refs"]) != 16 for row in acceptance_projections):
+        errors.append("vertical acceptance route must cover 2 slots x 8 gate classes")
+    generality_projections = [row for row in projections if row["work_kind"] == "unrelated_vertical_generality"]
+    if any(len(row["exact_execution_refs"]) != 2 for row in generality_projections):
+        errors.append("unrelated-vertical route must preserve two exact slot dockets")
+    campaign_classes = Counter(row["campaign_class"] for row in campaigns)
+    if campaign_classes != Counter({"QUALIFICATION_CONFORMANCE_METHOD": 42, "VERTICAL_ACCEPTANCE_GATE_METHOD": 8, "UNRELATED_VERTICAL_SLOT_SELECTION": 1}):
+        errors.append("reusable closure campaign factoring drift")
+    if len(campaigns) != len({row["campaign_id"] for row in campaigns}) or any(row["completion_claim"] is not False for row in campaigns):
+        errors.append("reusable campaign identity collision or completion overclaim")
+    if any(not row["shared_verdict_forbidden"] for row in campaigns):
+        errors.append("a reusable campaign permits shared verdicts")
+    if [row["stage"] for row in dag] != [1, 2, 3, 4, 5] or any(row["completion_claim"] is not False for row in dag):
+        errors.append("closure execution DAG is not total, ordered and fail closed")
     if summary["retained_product_count"] != len(rows) or summary["open_work_item_count"] != len(work):
         errors.append("summary counts drift")
     if summary["build_ready_product_count"] or summary["executed_vertical_acceptance_product_count"]:
@@ -109,6 +147,8 @@ def main() -> int:
         or summary["implementation_binding_vacancy_count"] != 59
     ):
         errors.append("compiler-gap rebase summary drift")
+    if summary.get("closure_workstream_projection_count") != 186 or summary.get("reusable_campaign_count") != 51 or summary.get("campaign_stage_count") != 5:
+        errors.append("closure campaign summary drift")
 
     if errors:
         for error in errors:
@@ -120,6 +160,7 @@ def main() -> int:
         f"{summary['explicit_product_library_attribution_count']} explicit product-library decompositions; "
         f"{summary['explicit_product_compiler_map_count']} explicit product compiler maps; "
         f"{len(work)} physical/acceptance closure items; 59 source compiler gaps structurally rebased; "
+        f"{len(campaigns)} reusable execution campaigns in {len(dag)} stages; "
         "0 qualified providers; 0 build-ready products"
     )
     return 0

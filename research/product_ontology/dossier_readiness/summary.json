@@ -1,6 +1,8 @@
 {
   "as_of": "2026-08-26",
   "build_ready_product_count": 0,
+  "campaign_stage_count": 5,
+  "closure_workstream_projection_count": 186,
   "ddd_status_counts": {
     "COMPLETE_CANDIDATE_DOSSIER": 66
   },
@@ -28,6 +30,7 @@
   "report_id": "retained_product_dossier_and_compiler_readiness",
   "research_resolved_compiler_gap_count": 59,
   "retained_product_count": 66,
+  "reusable_campaign_count": 51,
   "scope": "Every strong or presumptive product in the current finite global corpus.",
   "source_compiler_gap_count": 59,
   "status": "CANDIDATE_GAP_MATRIX",

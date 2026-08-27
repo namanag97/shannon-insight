@@ -1,0 +1,42 @@
+name: B07 Unresolved Frontier Profile
+
+on:
+  push:
+    branches:
+      - 'closure/b07-largest-frontier-profile'
+    paths:
+      - research/domain_atlas/industries/build_unresolved_frontier_profile.py
+      - research/domain_atlas/industries/canonical-reference-review-queue.jsonl
+      - research/domain_atlas/industries/canonical-reference-adjudications.jsonl
+      - research/domain_atlas/industries/canonical-reference-auto-alias-candidates.jsonl
+      - research/domain_atlas/industries/canonical-reference-current-method-candidates.jsonl
+      - .github/workflows/b07-unresolved-frontier-profile.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  profile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Profile remaining B07 frontier
+        run: python3 research/domain_atlas/industries/build_unresolved_frontier_profile.py
+      - name: Persist deterministic profile
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/industries/unresolved-frontier-*.json*
+          if git diff --cached --quiet; then
+            echo "B07 frontier profile already current"
+            exit 0
+          fi
+          git commit -m "research: generate B07 unresolved frontier profile [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

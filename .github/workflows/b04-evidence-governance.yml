@@ -1,0 +1,45 @@
+name: B04 Horizontal Evidence Governance
+
+on:
+  push:
+    branches:
+      - 'closure/b04-*'
+    paths:
+      - research/analytics_landscape/product_families/**
+      - .github/workflows/b04-evidence-governance.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build evidence governance projection
+        run: python3 research/analytics_landscape/product_families/build_evidence_governance.py
+      - name: Validate horizontal corpus
+        run: python3 research/analytics_landscape/product_families/validate.py
+      - name: Validate evidence governance
+        run: python3 research/analytics_landscape/product_families/validate_evidence_governance.py
+      - name: Persist generated projection
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/analytics_landscape/product_families/research-reference-role-projection.jsonl \
+                  research/analytics_landscape/product_families/organization-family-membership-claims.jsonl \
+                  research/analytics_landscape/product_families/organization-identity-projection.jsonl \
+                  research/analytics_landscape/product_families/evidence-governance-summary.json
+          if git diff --cached --quiet; then
+            echo "Evidence governance projection already current"
+            exit 0
+          fi
+          git commit -m "research: generate B04 evidence governance projection [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

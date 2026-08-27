@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "refused_packet_count": 0,
+  "refused_packets": [],
+  "registry_counts": {
+    "access-surfaces.jsonl": 2,
+    "acquisition-plans.jsonl": 2,
+    "connector-capabilities.jsonl": 2,
+    "governed-data-cuts.jsonl": 2,
+    "provider-product-offers.jsonl": 2
+  },
+  "report_id": "source_acquisition_canonical_registries",
+  "status": "AGGREGATED_EXECUTION_PACKETS_AUTHORITY_AND_QUALIFICATION_UNCHANGED"
+}

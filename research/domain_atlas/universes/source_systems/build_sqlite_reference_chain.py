@@ -89,11 +89,17 @@ def main():
       'non_collapse':['governed cut != SQLite occurrence','governed cut != connector run','physical database digest != canonical logical row-set digest','synthetic completeness != production completeness','sealed cut authority is bounded to synthetic items table'],
       'completion_claim':False,
     }
-    (HERE/'provider-product-offers.jsonl').write_text(json.dumps(offer,sort_keys=True)+'\n',encoding='utf-8')
-    (HERE/'access-surfaces.jsonl').write_text(json.dumps(surface,sort_keys=True)+'\n',encoding='utf-8')
-    (HERE/'connector-capabilities.jsonl').write_text(json.dumps(connector,sort_keys=True)+'\n',encoding='utf-8')
-    (HERE/'acquisition-plans.jsonl').write_text(json.dumps(plan,sort_keys=True)+'\n',encoding='utf-8')
-    (HERE/'governed-data-cuts.jsonl').write_text(json.dumps(cut,sort_keys=True)+'\n',encoding='utf-8')
+    # This builder owns the SQLite execution packet, not the canonical
+    # multi-provider registries.  build_acquisition_registries.py is the sole
+    # writer of those root projections and merges every retained occurrence.
+    for name,obj in [
+      ('provider-offer.json',offer),
+      ('access-surface.json',surface),
+      ('connector-capability.json',connector),
+      ('acquisition-plan.json',plan),
+      ('governed-data-cut.json',cut),
+    ]:
+        (EXEC/name).write_text(json.dumps(obj,indent=2,sort_keys=True)+'\n',encoding='utf-8')
     summary={'report_id':'sqlite_full_source_acquisition_reference_chain','as_of':'2026-08-27','source_classes':1,'provider_offers':1,'source_occurrences':1,'access_surfaces':1,'connector_implementations':1,'acquisition_plans':1,'governed_data_cuts':1,'production_qualified':False,'independently_appraised':False,'completion_claim':False}
     dump('source-acquisition-reference-summary.json',summary); print(json.dumps(summary,sort_keys=True)); return 0
 if __name__=='__main__': raise SystemExit(main())

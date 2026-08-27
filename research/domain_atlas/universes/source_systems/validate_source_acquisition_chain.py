@@ -15,7 +15,8 @@ def main():
     plans={r['plan_id']:r for r in load_jsonl('acquisition-plans.jsonl')}
     cuts={r['cut_id']:r for r in load_jsonl('governed-data-cuts.jsonl')}
     topology=json.loads((HERE/'source-acquisition-topology.json').read_text(encoding='utf-8'))
-    summary=json.loads((HERE/'source-acquisition-reference-summary.json').read_text(encoding='utf-8'))
+    reference_summary=json.loads((HERE/'source-acquisition-reference-summary.json').read_text(encoding='utf-8'))
+    registry_summary=json.loads((HERE/'acquisition-registry-summary.json').read_text(encoding='utf-8'))
     if len(topology['nodes'])!=7: errors.append('topology must retain seven distinct identities')
     kinds=[n['kind'] for n in topology['nodes']]
     if len(kinds)!=len(set(kinds)): errors.append('topology node identity duplicated')
@@ -51,9 +52,15 @@ def main():
         if c['completeness']['state']=='COMPLETE_FOR_DECLARED_SCOPE' and not c['completeness']['known_residuals']:
             errors.append(f"{c['cut_id']}: bounded completeness lacks residuals")
         if c.get('completion_claim') is not False: errors.append(f"{c['cut_id']}: completion overclaim")
-    if summary['provider_offers']!=len(offers) or summary['source_occurrences']!=len(occurrences) or summary['access_surfaces']!=len(surfaces) or summary['connector_implementations']!=len(connectors) or summary['acquisition_plans']!=len(plans) or summary['governed_data_cuts']!=len(cuts):
+    registry_counts=registry_summary['registry_counts']
+    if registry_counts['provider-product-offers.jsonl']!=len(offers) or registry_counts['access-surfaces.jsonl']!=len(surfaces) or registry_counts['connector-capabilities.jsonl']!=len(connectors) or registry_counts['acquisition-plans.jsonl']!=len(plans) or registry_counts['governed-data-cuts.jsonl']!=len(cuts):
         errors.append('summary count drift')
-    if summary['production_qualified'] or summary['independently_appraised'] or summary['completion_claim']: errors.append('summary promotion overclaim')
+    if registry_summary['refused_packet_count'] or registry_summary['completion_claim']: errors.append('registry summary refusal or promotion overclaim')
+    # The reference summary is deliberately scoped to one SQLite exemplar; it
+    # must not be compared with the growing canonical occurrence registry.
+    if any(reference_summary[key] != 1 for key in ('source_classes','provider_offers','source_occurrences','access_surfaces','connector_implementations','acquisition_plans','governed_data_cuts')):
+        errors.append('SQLite reference summary scope drift')
+    if reference_summary['production_qualified'] or reference_summary['independently_appraised'] or reference_summary['completion_claim']: errors.append('reference summary promotion overclaim')
     try:
         import jsonschema
         for filename,schema_name in [('provider-product-offers.jsonl','provider-product-offer.schema.json'),('access-surfaces.jsonl','access-surface.schema.json'),('connector-capabilities.jsonl','connector-capability.schema.json'),('acquisition-plans.jsonl','acquisition-plan.schema.json'),('governed-data-cuts.jsonl','governed-data-cut.schema.json')]:

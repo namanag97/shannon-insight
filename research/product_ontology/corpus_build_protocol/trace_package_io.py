@@ -68,7 +68,14 @@ def main() -> int:
             runpy.run_path(str(builder), run_name="__main__")
     except SystemExit as exc:
         exit_code = int(exc.code or 0)
-    unique = sorted({(row["path"], row["access"]) for row in EVENTS})
+    # Interpreter bytecode caches are execution-environment noise rather than
+    # corpus inputs or outputs.  Their temporary filenames may contain process-
+    # specific suffixes, which would otherwise create false nondeterminism.
+    unique = sorted({
+        (row["path"], row["access"])
+        for row in EVENTS
+        if "__pycache__" not in Path(row["path"]).parts and not row["path"].endswith(".pyc")
+    })
     reads = [path for path, access in unique if access == "read" and path != args.builder]
     writes = [path for path, access in unique if access == "write"]
     outside_writes = [path for path in writes if not (ROOT / path).is_relative_to(package_root)]

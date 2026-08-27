@@ -1,0 +1,124 @@
+{
+  "authority_scope": "synthetic items table only",
+  "change_modes": [
+    "schema_reinspection",
+    "WAL_observation"
+  ],
+  "completion_claim": false,
+  "endpoint_or_locator_class": "ephemeral local database file",
+  "evidence_refs": [
+    "receipt.source.sqlite_embedded.918429aaf09bca8d"
+  ],
+  "expires_at": "2026-09-26T16:26:48.257035Z",
+  "non_collapse": [
+    "access surface != SQLite product offer",
+    "access surface != source occurrence",
+    "access surface != Python connector implementation",
+    "observed surface != successful governed acquisition"
+  ],
+  "object_scope": [
+    "main.items"
+  ],
+  "observed_at": "2026-08-27T16:26:48.257035Z",
+  "observed_limits": {
+    "concurrency": {
+      "failure_behavior": "locking/busy timeout and workload specific",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "not benchmarked",
+      "source": "unknown",
+      "unit": "concurrent actors",
+      "value": null
+    },
+    "cost_and_egress": {
+      "failure_behavior": "host compute/storage costs intentionally excluded",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "ephemeral local open-source execution only",
+      "source": "capability_probe",
+      "unit": "provider_metered_currency",
+      "value": 0
+    },
+    "cursor_ttl": {
+      "failure_behavior": "connection/transaction lifecycle specific",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "sqlite cursor/transaction lifetime",
+      "source": "unknown",
+      "unit": "duration",
+      "value": null
+    },
+    "object_size": {
+      "failure_behavior": "disk/filesystem/runtime constraints may bind earlier",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "database file theoretical ceiling not production envelope",
+      "source": "capability_probe",
+      "unit": "bytes_theoretical_from_current_page_size_x_max_page_count",
+      "value": 17592186036224
+    },
+    "page_size": {
+      "failure_behavior": "invalid/unsupported pragma or database corruption",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "database page",
+      "source": "capability_probe",
+      "unit": "bytes",
+      "value": 4096
+    },
+    "payload_size": {
+      "failure_behavior": "compile/runtime limit requires dedicated boundary probe",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "row/value payload",
+      "source": "unknown",
+      "unit": "bytes",
+      "value": null
+    },
+    "query_timeout": {
+      "failure_behavior": "busy/locked operation raises error after configured timeout",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "sqlite connection busy timeout used by harness",
+      "source": "capability_probe",
+      "unit": "seconds",
+      "value": 5
+    },
+    "quota": {
+      "failure_behavior": "filesystem/deployment specific",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "local file occurrence",
+      "source": "unknown",
+      "unit": "logical quota",
+      "value": null
+    },
+    "rate": {
+      "failure_behavior": "must benchmark before capacity claim",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "not_benchmarked",
+      "source": "unknown",
+      "unit": "operations_per_second",
+      "value": null
+    },
+    "retention": {
+      "failure_behavior": "operator/filesystem lifecycle specific",
+      "observed_at": "2026-08-27T16:26:48.257035Z",
+      "scope": "local database persistence",
+      "source": "unknown",
+      "unit": "duration",
+      "value": null
+    }
+  },
+  "occurrence_ref": "source-occurrence.sqlite.github_actions.synthetic.v1",
+  "protocol_or_format": "SQLite database API / file format via CPython sqlite3",
+  "read_modes": [
+    "point_query",
+    "scan",
+    "transaction_snapshot"
+  ],
+  "security_requirements": {
+    "audit": "retained probe receipt only; no production audit subsystem",
+    "authn": "process/filesystem boundary only",
+    "authz": "OS runner file permissions; no SQLite-native tenant authorization",
+    "credential_ref": "none_ephemeral_local_file",
+    "encryption": "not asserted; ephemeral runner storage",
+    "network": "no network listener",
+    "tenant": "single synthetic test process boundary"
+  },
+  "status": "OBSERVED",
+  "surface_id": "source-surface.sqlite.github_actions.synthetic.database_api.v1",
+  "surface_kind": "database"
+}

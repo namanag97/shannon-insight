@@ -1,0 +1,31 @@
+{
+  "completion_claim": false,
+  "documented_access_surface_kinds": [
+    "embedded database API",
+    "database file"
+  ],
+  "documented_object_families": [
+    "database file",
+    "tables",
+    "rows",
+    "indexes",
+    "schema metadata"
+  ],
+  "edition_or_version_envelope": "3.45.1",
+  "evidence_refs": [
+    "ev.sqlite.isolation"
+  ],
+  "non_collapse": [
+    "documented SQLite behavior != this GitHub occurrence",
+    "SQLite product != embedded-relational source class",
+    "SQLite API != connector implementation",
+    "documented isolation != executed conformance receipt"
+  ],
+  "offer_id": "source-offer.sqlite.embedded_relational.current_documented",
+  "product": "SQLite",
+  "provider": "SQLite Project",
+  "source_class_refs": [
+    "source.operational_database.embedded_relational"
+  ],
+  "status": "DOCUMENTED_OFFER_CANDIDATE"
+}

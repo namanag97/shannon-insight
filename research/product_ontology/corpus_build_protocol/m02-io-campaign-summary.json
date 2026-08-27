@@ -1,0 +1,21 @@
+{
+  "builder_observations": 20,
+  "campaign_id": "campaign.corpus-build.m02-io.v1",
+  "completion_claim": false,
+  "executed_builder_observations": 19,
+  "execution_authorizations_created": 0,
+  "independent_appraisals": 0,
+  "input_gated_builder_observations": 1,
+  "migration_wave_ref": "M02_VERTICAL_CONTEXT_AND_REFERENCE_PRODUCERS",
+  "observations_sha256": "534af2455d3b286d0ab0118a83fd3628492537bcf1f15330789cc4ce818cb741",
+  "package_local_write_packages": 11,
+  "package_observations": 11,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.7",
+  "qualification_claim": false,
+  "ratification_claim": false,
+  "stable_packages": 11,
+  "subject_commit": "da0315f4627b276b5931e03ef346d0737059bf2d",
+  "validator_observations": 16,
+  "validator_pass_packages": 11
+}

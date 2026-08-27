@@ -36,6 +36,8 @@ python3 research/product_ontology/corpus_build_protocol/orchestrate.py verify pa
 
 `wave_io_campaign.py` provides the reusable bounded campaign mechanism used by `run_m01_io_campaign.py` and subsequent migration-wave wrappers. Every builder runs twice from the same clean commit in a disposable worktree, validators must be read-only, and builder identities are digest-bound. Starting each run clean distinguishes reproducibility from mere idempotence. A retained receipt still cannot provide independent appraisal, semantic authority, qualification or canonical execution authorization.
 
+M01 retains 51 universe/evidence package observations. M02 retains 11 vertical/context/reference package observations. Parameterized builders whose declared immutable input is unavailable remain `INPUT_GATED_UNEXECUTED`; the campaign never converts an argument refusal into execution evidence.
+
 ## Current boundary
 
 This is a migration protocol, not a fabricated claim that every legacy generator is already governed. The registry contracts the high-fanout architecture, rebase, closure, inventory and aggregate-validation path first. Every remaining discovered package stays explicitly non-executable until its inputs, outputs, dependencies, ownership and rebuild semantics are adjudicated.

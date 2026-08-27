@@ -1,0 +1,43 @@
+name: B08 SQLite Source Occurrence
+
+on:
+  push:
+    branches:
+      - 'closure/b08-*'
+    paths:
+      - research/domain_atlas/universes/source_systems/executions/sqlite_embedded_occurrence/**
+      - research/domain_atlas/universes/source_systems/source-classes.jsonl
+      - .github/workflows/b08-sqlite-source-occurrence.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Execute SQLite occurrence probe
+        run: python3 research/domain_atlas/universes/source_systems/executions/sqlite_embedded_occurrence/run_execution.py
+      - name: Validate retained occurrence
+        run: python3 research/domain_atlas/universes/source_systems/executions/sqlite_embedded_occurrence/validate_execution.py
+      - name: Persist occurrence evidence
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/universes/source_systems/executions/sqlite_embedded_occurrence/probe-receipt.json \
+                  research/domain_atlas/universes/source_systems/executions/sqlite_embedded_occurrence/source-occurrence.json \
+                  research/domain_atlas/universes/source_systems/executions/sqlite_embedded_occurrence/summary.json
+          if git diff --cached --quiet; then
+            echo "Occurrence evidence already current"
+            exit 0
+          fi
+          git commit -m "evidence: retain SQLite source occurrence probe [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

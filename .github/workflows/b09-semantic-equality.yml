@@ -7,6 +7,7 @@ on:
     paths:
       - research/domain_atlas/universes/data_shapes/semantic-equality-*.jsonl
       - research/domain_atlas/universes/data_shapes/validate_semantic_equality_profiles.py
+      - research/domain_atlas/universes/data_shapes/.b09-*
       - .github/workflows/b09-semantic-equality.yml
   workflow_dispatch:
 

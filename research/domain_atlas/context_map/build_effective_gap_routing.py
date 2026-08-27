@@ -43,7 +43,8 @@ def main():
         rows.append({'record_kind':'effective_context_map_gap_routing','gap_id':g['gap_id'],'historical_description':g['description'],'blocking_scope':g['blocking_scope'],'campaign':campaign,'owning_batch':batch,'required_evidence_class':evidence_class,'effective_status':'ROUTED_STILL_OPEN','historical_evidence_needed':g['evidence_needed'],'completion_claim':False})
     (HERE/'effective-gap-routing.jsonl').write_text(''.join(json.dumps(r,sort_keys=True)+'\n' for r in rows),encoding='utf-8')
     counts={}
-    for r in rows: counts[r['owning_batch']]=counts.get(r['owning_batch'],0)+1
+    for r in rows:
+        counts[r['owning_batch']]=counts.get(r['owning_batch'],0)+1
     summary={'report_id':'context_map_effective_gap_routing','as_of':'2026-08-27','gap_count':len(rows),'routed_gap_count':len(rows),'unrouted_gap_count':0,'end_to_end_closed_count':0,'counts_by_owning_batch':dict(sorted(counts.items())),'completion_claim':False,'status':'ALL_GAPS_ROUTED_NONE_FALSIFIED_CLOSED'}
     (HERE/'effective-gap-routing-summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n',encoding='utf-8')
     print(json.dumps(summary,sort_keys=True)); return 0

@@ -1,0 +1,49 @@
+name: B08 Source Acquisition Reference Chain
+
+on:
+  push:
+    branches:
+      - 'closure/b08-chain-*'
+    paths:
+      - research/domain_atlas/universes/source_systems/build_sqlite_reference_chain.py
+      - research/domain_atlas/universes/source_systems/validate_source_acquisition_chain.py
+      - research/domain_atlas/universes/source_systems/*offer.schema.json
+      - research/domain_atlas/universes/source_systems/access-surface.schema.json
+      - research/domain_atlas/universes/source_systems/acquisition-plan.schema.json
+      - research/domain_atlas/universes/source_systems/governed-data-cut.schema.json
+      - research/domain_atlas/universes/source_systems/source-acquisition-topology.json
+      - research/domain_atlas/universes/source_systems/executions/sqlite_embedded_occurrence/**
+      - .github/workflows/b08-source-acquisition-chain.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build full source acquisition chain
+        run: python3 research/domain_atlas/universes/source_systems/build_sqlite_reference_chain.py
+      - name: Validate schemas and non-collapse topology
+        run: pip install jsonschema && python3 research/domain_atlas/universes/source_systems/validate_source_acquisition_chain.py
+      - name: Persist chain
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/universes/source_systems/provider-product-offers.jsonl \
+                  research/domain_atlas/universes/source_systems/access-surfaces.jsonl \
+                  research/domain_atlas/universes/source_systems/connector-capabilities.jsonl \
+                  research/domain_atlas/universes/source_systems/acquisition-plans.jsonl \
+                  research/domain_atlas/universes/source_systems/governed-data-cuts.jsonl \
+                  research/domain_atlas/universes/source_systems/source-acquisition-reference-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "research: generate complete B08 SQLite acquisition chain [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

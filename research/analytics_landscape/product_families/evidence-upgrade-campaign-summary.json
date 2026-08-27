@@ -1,0 +1,131 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "organization_campaign_count": 232,
+  "report_id": "horizontal_evidence_upgrade_campaigns",
+  "status": "PRIORITIZED_EXACT_EVIDENCE_RESEARCH_NOT_UPGRADED",
+  "strong_memberships_created": 0,
+  "top_20_campaigns": [
+    {
+      "name": "Microsoft",
+      "organization_id": "org_microsoft",
+      "priority_score": 481,
+      "weak_membership_count": 37
+    },
+    {
+      "name": "Databricks",
+      "organization_id": "org_databricks",
+      "priority_score": 455,
+      "weak_membership_count": 35
+    },
+    {
+      "name": "Google Cloud",
+      "organization_id": "org_google_cloud",
+      "priority_score": 455,
+      "weak_membership_count": 35
+    },
+    {
+      "name": "Snowflake",
+      "organization_id": "org_snowflake",
+      "priority_score": 455,
+      "weak_membership_count": 35
+    },
+    {
+      "name": "Oracle",
+      "organization_id": "org_oracle",
+      "priority_score": 416,
+      "weak_membership_count": 32
+    },
+    {
+      "name": "IBM",
+      "organization_id": "org_ibm",
+      "priority_score": 403,
+      "weak_membership_count": 31
+    },
+    {
+      "name": "SAP",
+      "organization_id": "org_sap",
+      "priority_score": 377,
+      "weak_membership_count": 29
+    },
+    {
+      "name": "Palantir",
+      "organization_id": "org_palantir",
+      "priority_score": 351,
+      "weak_membership_count": 27
+    },
+    {
+      "name": "Amazon Web Services",
+      "organization_id": "org_amazon_web_services",
+      "priority_score": 338,
+      "weak_membership_count": 26
+    },
+    {
+      "name": "Qlik",
+      "organization_id": "org_qlik",
+      "priority_score": 325,
+      "weak_membership_count": 25
+    },
+    {
+      "name": "ThoughtSpot",
+      "organization_id": "org_thoughtspot",
+      "priority_score": 325,
+      "weak_membership_count": 25
+    },
+    {
+      "name": "Salesforce Tableau",
+      "organization_id": "org_salesforce_tableau",
+      "priority_score": 286,
+      "weak_membership_count": 22
+    },
+    {
+      "name": "Dataiku",
+      "organization_id": "org_dataiku",
+      "priority_score": 247,
+      "weak_membership_count": 19
+    },
+    {
+      "name": "SAS",
+      "organization_id": "org_sas",
+      "priority_score": 221,
+      "weak_membership_count": 17
+    },
+    {
+      "name": "Alteryx",
+      "organization_id": "org_alteryx",
+      "priority_score": 208,
+      "weak_membership_count": 16
+    },
+    {
+      "name": "Sigma Computing",
+      "organization_id": "org_sigma_computing",
+      "priority_score": 208,
+      "weak_membership_count": 16
+    },
+    {
+      "name": "dbt Labs",
+      "organization_id": "org_dbt_labs",
+      "priority_score": 182,
+      "weak_membership_count": 14
+    },
+    {
+      "name": "Hex",
+      "organization_id": "org_hex",
+      "priority_score": 169,
+      "weak_membership_count": 13
+    },
+    {
+      "name": "Mode",
+      "organization_id": "org_mode",
+      "priority_score": 169,
+      "weak_membership_count": 13
+    },
+    {
+      "name": "GoodData",
+      "organization_id": "org_gooddata",
+      "priority_score": 143,
+      "weak_membership_count": 11
+    }
+  ],
+  "weak_membership_count": 1012
+}

@@ -19,6 +19,7 @@ def hid(s): return hashlib.sha256(s.encode()).hexdigest()[:16]
 def main():
     isic=jl(ROOT/'research/domain_atlas/industries/foundation/isic-rev5.nodes.jsonl')
     schemes=j(ROOT/'research/domain_atlas/industries/foundation/classification-schemes.json')
+    occupation_ext=jl(ROOT/'research/domain_atlas/industries/foundation/occupation-classification-extension.jsonl')
     sources=j(ROOT/'research/domain_atlas/universes/source_systems/coverage-report.json')
     practices=jl(ROOT/'research/domain_atlas/universes/analytics_types/candidate-practices.jsonl')
     verticals=jl(ROOT/'research/product_ontology/composition_pilots/deterministic_verticals/vertical-compositions.jsonl')
@@ -34,7 +35,14 @@ def main():
     for fam,count in sorted(practice_families.items()):
         b16.append({'record_kind':'b16_coverage_coordinate','coordinate_id':'b16.analytics_family.'+fam.replace('.','_'),'dimension':'analytical_question_family','canonical_ref':fam,'label':fam,'practice_count':count,'assessment_state':'RESEARCHED_CANDIDATE_NOVELTY_NOT_PROVEN','held_out_eligible':True,'completion_claim':False})
     occupation_schemes=[s for s in schemes if s.get('scheme_kind') in {'occupation','profession','work_role'}]
-    if not occupation_schemes:
+    occupation_schemes += [s for s in occupation_ext if s.get('record_kind')=='classification_scheme_extension' and s.get('scheme_kind') in {'occupation','profession','work_role'}]
+    occupation_nodes=[r for r in occupation_ext if r.get('record_kind')=='classification_node_extension' and r.get('level')=='major_group']
+    if occupation_schemes:
+        for node in sorted(occupation_nodes,key=lambda r:r['scheme_code']):
+            b16.append({'record_kind':'b16_coverage_coordinate','coordinate_id':'b16.occupation.'+node['scheme_code'],'dimension':'profession_occupation','canonical_ref':node['record_id'],'label':node['title'],'scheme_ref':node['scheme_edition_id'],'assessment_state':'CANONICAL_FOUNDATION_PRESENT_NOVELTY_NOT_PROVEN','held_out_eligible':True,'non_collapse_laws':['occupation != economic_activity','occupation != job_title','occupation != organizational_role','occupation != skill'],'completion_claim':False})
+        if not occupation_nodes:
+            b16.append({'record_kind':'b16_foundation_gap','coordinate_id':'b16.foundation.occupation_major_groups','dimension':'profession_occupation','assessment_state':'SCHEME_PRESENT_HIERARCHY_NOT_MATERIALIZED','required_resolution':'Materialize at least the ISCO major-group hierarchy before occupation novelty sampling.','completion_claim':False})
+    else:
         b16.append({'record_kind':'b16_foundation_gap','coordinate_id':'b16.foundation.occupation_classification','dimension':'profession_occupation','assessment_state':'MISSING_CANONICAL_FOUNDATION','required_resolution':'Add a primary-source occupation/profession classification foundation and explicit crosswalk policy; economic-activity schemes such as ISIC must not substitute for occupations.','completion_claim':False})
 
     # B17: reuse every deterministic vertical composition as an intent-to-solution challenge.
@@ -71,7 +79,7 @@ def main():
     write_jl('b18-human-effect-obligations.jsonl',b18)
     write_jl('b19-system-fault-obligations.jsonl',b19)
     write_jl('b20-invalidation-obligations.jsonl',b20)
-    summary={'report_id':'program_level_gate_work_surfaces','as_of':'2026-08-27','completion_claim':False,'b16_coverage_coordinates':len(b16),'b16_missing_profession_foundation':not bool(occupation_schemes),'b17_seeded_solution_challenges':len(b17),'b18_human_effect_obligations':len(b18),'b19_system_fault_obligations':len(b19),'b20_invalidation_obligations':len(b20),'program_gate_acceptance_results':0,'status':'FINITE_WORK_SURFACES_BUILT_ACCEPTANCE_UNEXECUTED'}
+    summary={'report_id':'program_level_gate_work_surfaces','as_of':'2026-08-27','completion_claim':False,'b16_coverage_coordinates':len(b16),'b16_missing_profession_foundation':not bool(occupation_schemes),'b16_occupation_major_group_coordinates':len(occupation_nodes),'b17_seeded_solution_challenges':len(b17),'b18_human_effect_obligations':len(b18),'b19_system_fault_obligations':len(b19),'b20_invalidation_obligations':len(b20),'program_gate_acceptance_results':0,'status':'FINITE_WORK_SURFACES_BUILT_ACCEPTANCE_UNEXECUTED'}
     (HERE/'program-work-surfaces-summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n',encoding='utf-8')
     print(json.dumps(summary,sort_keys=True)); return 0
 if __name__=='__main__': raise SystemExit(main())

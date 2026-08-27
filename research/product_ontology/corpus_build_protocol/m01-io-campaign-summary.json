@@ -2,10 +2,12 @@
   "builder_observations": 56,
   "campaign_id": "campaign.corpus-build.m01-io.v1",
   "completion_claim": false,
+  "executed_builder_observations": 56,
   "execution_authorizations_created": 0,
   "independent_appraisals": 0,
+  "input_gated_builder_observations": 0,
   "migration_wave_ref": "M01_UNIVERSE_AND_EVIDENCE_PRODUCERS",
-  "observations_sha256": "326766f12a3cb439c44dde97c773594ce01e4fafbaab2d50535bb267e43b65c9",
+  "observations_sha256": "72d04206a4ba293c35eb5ebaa80f468692fe4456825373411b51d3095c99c0db",
   "package_local_write_packages": 51,
   "package_observations": 51,
   "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
@@ -13,7 +15,7 @@
   "qualification_claim": false,
   "ratification_claim": false,
   "stable_packages": 51,
-  "subject_commit": "aa4b16aa8b51289b4b945a1ac7d00f2990c0cd2c",
+  "subject_commit": "521d0ef48484dea597322ddaae9cd17ed86f342f",
   "validator_observations": 56,
   "validator_pass_packages": 51
 }

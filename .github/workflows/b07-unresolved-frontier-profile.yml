@@ -8,15 +8,21 @@ on:
       - research/domain_atlas/industries/build_unresolved_frontier_profile.py
       - research/domain_atlas/industries/build_pack_common_operation_frontier.py
       - research/domain_atlas/industries/extract_operation_research_matches.py
+      - research/domain_atlas/industries/apply_pack_common_operation_adjudications.py
       - research/domain_atlas/industries/validate_high_impact_adjudications.py
+      - research/domain_atlas/industries/validate_pack_common_operation_adjudications.py
       - research/domain_atlas/industries/canonical-reference-review-queue.jsonl
       - research/domain_atlas/industries/canonical-reference-adjudications.jsonl
+      - research/domain_atlas/industries/canonical-reference-extension-gaps.jsonl
       - research/domain_atlas/industries/canonical-reference-research-evidence.jsonl
       - research/domain_atlas/industries/canonical-reference-auto-alias-candidates.jsonl
       - research/domain_atlas/industries/canonical-reference-current-method-candidates.jsonl
       - research/domain_atlas/industries/integration-audit.json
       - research/domain_atlas/universes/operations/operation-candidates.jsonl
+      - research/domain_atlas/context_map/contexts.jsonl
       - research/domain_atlas/context_map/gaps.jsonl
+      - research/product_ontology/adjudications/analytical_methods/artifacts.jsonl
+      - research/product_ontology/adjudications/analytical_methods/library-contracts.jsonl
       - .github/workflows/b07-unresolved-frontier-profile.yml
   workflow_dispatch:
 
@@ -34,24 +40,30 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate high-impact B07 adjudications
+      - name: Merge pack-common research dispositions into canonical ledger
+        run: python3 research/domain_atlas/industries/apply_pack_common_operation_adjudications.py
+      - name: Validate first high-impact B07 adjudications
         run: python3 research/domain_atlas/industries/validate_high_impact_adjudications.py
+      - name: Validate pack-common B07 adjudications
+        run: python3 research/domain_atlas/industries/validate_pack_common_operation_adjudications.py
       - name: Profile remaining B07 frontier
         run: python3 research/domain_atlas/industries/build_unresolved_frontier_profile.py
       - name: Factor common operation vocabulary by pack
         run: python3 research/domain_atlas/industries/build_pack_common_operation_frontier.py
       - name: Extract canonical operation research matches
         run: python3 research/domain_atlas/industries/extract_operation_research_matches.py
-      - name: Persist deterministic profile
+      - name: Persist deterministic research closure
         run: |
           git config user.name "shannon-insight-research-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/domain_atlas/industries/unresolved-frontier-*.json* \
+          git add research/domain_atlas/industries/canonical-reference-adjudications.jsonl \
+                  research/domain_atlas/industries/pack-common-operation-adjudication-summary.json \
+                  research/domain_atlas/industries/unresolved-frontier-*.json* \
                   research/domain_atlas/industries/operation-research-matches*.json* \
                   research/domain_atlas/industries/pack-common-operation-*.json*
           if git diff --cached --quiet; then
-            echo "B07 frontier profile already current"
+            echo "B07 research closure already current"
             exit 0
           fi
-          git commit -m "research: generate B07 unresolved frontier research profile [skip ci]"
+          git commit -m "research: merge pack-common B07 operation dispositions [skip ci]"
           git push origin HEAD:${{ github.ref_name }}

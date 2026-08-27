@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://san.example/spec/vertical-analytical-overlay-node-v1.schema.json",
+  "title": "Editioned local vertical analytical-overlay coordinate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_id","record_kind","edition","status","scheme_edition_id","raw_ref","title","origin_packs","parent_ref","ancestor_refs","semantic_boundary","case_refs","case_count","evidence_refs","geographic_scope","reference_spine_mapping","non_collapse_laws","remaining_gate","completion_claim"],
+  "properties": {
+    "record_id": {"type":"string","pattern":"^industry\\.vertical_overlay\\.[a-z0-9_]+\\.[a-f0-9]{16}$"},
+    "record_kind": {"const":"vertical_analytical_overlay_node"},
+    "edition": {"const":1},
+    "status": {"const":"research_candidate_not_ratified"},
+    "scheme_edition_id": {"type":"string","pattern":"^scheme\\.shannon\\.vertical_overlay\\.[a-z0-9_]+\\.e2026_08_27$"},
+    "raw_ref": {"type":"string","minLength":1},
+    "title": {"type":"string","minLength":1},
+    "origin_packs": {"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+    "parent_ref": {"type":["string","null"]},
+    "ancestor_refs": {"type":"array","uniqueItems":true,"items":{"type":"string"}},
+    "semantic_boundary": {"type":"string","minLength":1},
+    "case_refs": {"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+    "case_count": {"type":"integer","minimum":1},
+    "evidence_refs": {"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+    "geographic_scope": {"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+    "reference_spine_mapping": {
+      "type":"object","additionalProperties":false,
+      "required":["target_scheme_edition_id","relation","target_refs","mapping_basis","losses","transitive_use"],
+      "properties": {
+        "target_scheme_edition_id":{"const":"scheme.un.isic.rev5"},
+        "relation":{"enum":["equivalent_extent","subset","superset","overlap","composite","unresolved"]},
+        "target_refs":{"type":"array","uniqueItems":true,"items":{"type":"string"}},
+        "mapping_basis":{"enum":["official_correspondence","researched_crosswalk","local_extension_unmapped"]},
+        "losses":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+        "transitive_use":{"const":"forbidden"}
+      }
+    },
+    "non_collapse_laws":{"type":"array","minItems":2,"uniqueItems":true,"items":{"type":"string"}},
+    "remaining_gate":{"type":"string","minLength":1},
+    "completion_claim":{"const":false}
+  }
+}

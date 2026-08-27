@@ -1,0 +1,23 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "prior_accounted_records": 579,
+  "raw_queue_records": 4169,
+  "report_id": "b07_residual_reference_gap_typing",
+  "research_campaign_count": 40,
+  "residual_gaps_by_domain": {
+    "analytical_practice": 1898,
+    "source_system_class": 360,
+    "typed_operation": 1332
+  },
+  "residual_occurrences_by_domain": {
+    "analytical_practice": 4453,
+    "source_system_class": 361,
+    "typed_operation": 5491
+  },
+  "semantic_ratifications_created": 0,
+  "status": "ALL_B07_REFERENCE_ROWS_HAVE_EXPLICIT_DISPOSITION_OR_TYPED_GAP",
+  "typed_residual_gap_count": 3590,
+  "typed_residual_occurrences": 10305,
+  "unclassified_reference_count_after_typing": 0
+}

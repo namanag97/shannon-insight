@@ -47,17 +47,15 @@ manual_ids = {row["queue_id"] for row in manual}
 practices = load_jsonl(ATLAS / "universes/analytics_types/candidate-practices.jsonl")
 operations = load_jsonl(ATLAS / "universes/operations/operation-candidates.jsonl")
 sources = load_jsonl(ATLAS / "universes/source_systems/source-classes.jsonl")
+industries = load_jsonl(HERE / "foundation/isic-rev5.nodes.jsonl")
 
 targets: dict[str, set[str]] = {
     "analytical_practice": {row["practice_id"] for row in practices},
     "typed_operation": {row["operation_id"] for row in operations},
     "source_system_class": {row["class_id"] for row in sources},
+    "industry_classification": {row["record_id"] for row in industries},
 }
-indexes: dict[str, dict[str, set[str]]] = {
-    "analytical_practice": defaultdict(set),
-    "typed_operation": defaultdict(set),
-    "source_system_class": defaultdict(set),
-}
+indexes: dict[str, dict[str, set[str]]] = {domain: defaultdict(set) for domain in targets}
 for row in practices:
     for value in [row["practice_id"], row["name"], *row.get("aliases", [])]:
         for form in method_forms(value):
@@ -70,10 +68,21 @@ for row in sources:
     for value in [row["class_id"], row["name"], *row.get("inherited_seed_refs", [])]:
         for form in strict_forms(value, ("source.",)):
             indexes["source_system_class"][form].add(row["class_id"])
+for row in industries:
+    for value in [row["record_id"], row["scheme_code"], row["title"]]:
+        for form in strict_forms(value, ("industry.", "isic.", "isic5.")):
+            indexes["industry_classification"][form].add(row["record_id"])
+
+prefixes = {
+    "analytical_practice": ("method.",),
+    "typed_operation": ("operation.", "op."),
+    "source_system_class": ("source.",),
+    "industry_classification": ("industry.", "isic.", "isic5."),
+}
 
 rows = load_jsonl(HERE / "canonical-reference-auto-alias-candidates.jsonl")
 summary = json.loads((HERE / "canonical-reference-auto-alias-summary.json").read_text(encoding="utf-8"))
-assert summary["edition"] == 2
+assert summary["edition"] == 3
 assert len(rows) == len({row["candidate_id"] for row in rows}) == len({row["queue_id"] for row in rows})
 domain_counts = Counter()
 domain_occurrences = Counter()
@@ -86,12 +95,7 @@ for row in rows:
     assert source["raw_ref"] == row["raw_ref"]
     assert source["occurrence_count"] == row["occurrence_count"]
     assert row["candidate_target_ref"] in targets[domain]
-    if domain == "analytical_practice":
-        form = norm(row["raw_ref"], ("method.",))
-    elif domain == "typed_operation":
-        form = norm(row["raw_ref"], ("operation.", "op."))
-    else:
-        form = norm(row["raw_ref"], ("source.",))
+    form = norm(row["raw_ref"], prefixes[domain])
     assert row["normalized_form"] == form
     assert indexes[domain][form] == {row["candidate_target_ref"]}, (domain, row["raw_ref"], indexes[domain][form])
     assert row["relation"] == "machine_exact_alias_candidate"

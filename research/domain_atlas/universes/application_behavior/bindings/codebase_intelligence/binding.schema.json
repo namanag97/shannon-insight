@@ -85,7 +85,13 @@
     "evidence": {
       "type": "object",
       "required": ["evidence_id", "role", "locator", "claim", "does_not_prove"],
-      "properties": {"evidence_id": {"pattern": "^evidence\\."}, "role": {"enum": ["architecture", "standard", "product_boundary_evidence", "empirical_validation", "governance", "human_factors", "algorithm", "foundational_theory"]}, "does_not_prove": {"$ref": "#/$defs/stringList"}},
+      "properties": {
+        "evidence_id": {"pattern": "^evidence\\."},
+        "role": {"enum": ["architecture", "standard", "product_boundary_evidence", "empirical_validation", "governance", "human_factors", "algorithm", "foundational_theory"]},
+        "locator": {"$ref": "#/$defs/nonEmptyString"},
+        "claim": {"$ref": "#/$defs/nonEmptyString"},
+        "does_not_prove": {"$ref": "#/$defs/stringList"}
+      },
       "additionalProperties": false
     }
   }

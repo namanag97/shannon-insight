@@ -32,6 +32,8 @@ python3 research/product_ontology/corpus_build_protocol/orchestrate.py verify pa
 
 `execute` requires a clean worktree, complete input ownership, and an enabled package contract. It runs enabled deterministic builders twice, requires byte-identical package trees, executes validators and refuses writes outside declared package roots. Execution receipts are structural build evidence only; they do not qualify implementations or ratify domain contracts.
 
+`trace_package_io.py` is a migration aid for disposable clean worktrees. It observes repository-local reads and writes from an uncontracted builder so input/output candidates can be adjudicated. A trace is not a determinism proof or execution authorization.
+
 ## Current boundary
 
 This is a migration protocol, not a fabricated claim that every legacy generator is already governed. The registry contracts the high-fanout architecture, rebase, closure, inventory and aggregate-validation path first. Every remaining discovered package stays explicitly non-executable until its inputs, outputs, dependencies, ownership and rebuild semantics are adjudicated.

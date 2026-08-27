@@ -19,8 +19,8 @@
       "sha256": "8bda913b61877ce4c66401d5f9e2e513ee4abb917257b2f076157f978fe988d7"
     },
     "product-qualification-dockets.jsonl": {
-      "bytes": 286820,
-      "sha256": "7b9c1f7190858bcd7357eadae177b2c592919d099c97b657671f9895b9986d5a"
+      "bytes": 286790,
+      "sha256": "cf93ffc94997b94202cdb3ae20e39ba1169854c2272b2c3c1117e70252b88cc4"
     },
     "qualification-scope-kernels.jsonl": {
       "bytes": 966931,
@@ -36,7 +36,7 @@
     },
     "summary.json": {
       "bytes": 3385,
-      "sha256": "597babf04b1f98424da1dae5a6c453596caf7d2683c9dc68ab2c6a35d48f0011"
+      "sha256": "4e4b1957e74a33236c5ffb9c9c8a152f1fdac62192518acb4abc50eb44afcf1d"
     }
   },
   "manifest_id": "manifest.p6-implementation-qualification.v1"

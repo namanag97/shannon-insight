@@ -18,7 +18,6 @@ ADJUDICATIONS = ROOT / "research/product_ontology/adjudications"
 VERTICALS = ROOT / "research/product_ontology/composition_pilots/deterministic_verticals"
 CE = ROOT / "research/domain_atlas/compiler/conformance_evaluation"
 PTR = ROOT / "research/domain_atlas/compiler/provider_target_registry"
-EXECUTIONS = ROOT / "research/domain_atlas/compiler/conformance_evaluation/executions"
 AS_OF = "2026-08-26"
 
 
@@ -74,7 +73,7 @@ def render_jsonl(rows: list[dict[str, Any]]) -> str:
 
 
 def record_identity(row: dict[str, Any]) -> str:
-    for key in ("gate_id", "edge_id", "program_id", "subject_id", "binding_id", "vacancy_id", "acceptance_program_id"):
+    for key in ("gate_id", "edge_id", "program_id", "subject_id", "vacancy_id", "acceptance_program_id"):
         if key in row:
             return str(row[key])
     raise ValueError(f"record has no identity: {row}")
@@ -133,36 +132,12 @@ def oracle_contexts(library: dict[str, Any]) -> list[str]:
     return sorted(contexts)
 
 
-def load_execution_bindings() -> list[dict[str, Any]]:
-    bindings: list[dict[str, Any]] = []
-    for path in sorted(EXECUTIONS.rglob("qualification-binding.json")):
-        source = json.loads(path.read_text(encoding="utf-8"))
-        if source.get("record_kind") != "qualification_execution_evidence_binding":
-            raise ValueError(f"{path}: unexpected record_kind")
-        relative = path.relative_to(ROOT).as_posix()
-        subject_ref = source["qualification_subject_ref"]
-        gate_ref = source["relevant_gate_ref"]
-        bindings.append(
-            {
-                **source,
-                "binding_id": f"binding.qp.{subject_ref.removeprefix('subject.qp.')}.{gate_ref.removeprefix('gate.qp.')}",
-                "source_ref": relative,
-                "source_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
-            }
-        )
-    return bindings
-
-
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
 
     readiness = load_jsonl(READINESS / "product-readiness.jsonl")
-    execution_bindings = load_execution_bindings()
-    bindings_by_subject: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for binding in execution_bindings:
-        bindings_by_subject[binding["qualification_subject_ref"]].append(binding)
     verticals = load_jsonl(VERTICALS / "vertical-compositions.jsonl")
     vertical_refs: dict[str, list[str]] = defaultdict(list)
     for vertical in verticals:
@@ -251,8 +226,7 @@ def main() -> int:
                     },
                     "required_conformance_context_refs": contexts,
                     "required_evidence_classes": ["law_authority_receipt", "artifact_and_build_identity", "executed_test_receipts", "independence_assessment", "exact_scope_qualification_receipt"],
-                    "implementation_state": "EXECUTION_EVIDENCE_PRESENT_UNQUALIFIED" if bindings_by_subject.get(subject_id) else "NO_BOUND_ARTIFACT",
-                    "execution_evidence_binding_refs": sorted(row["binding_id"] for row in bindings_by_subject.get(subject_id, [])),
+                    "implementation_state": "NO_BOUND_ARTIFACT",
                     "qualified_implementation_refs": [],
                     "portable_offer": False,
                     "source_evidence_refs": sorted(library.get("evidence_refs", [])),
@@ -268,16 +242,6 @@ def main() -> int:
         }
         for gate_id, _name, _prereqs, _plane in GATES:
             current_states.setdefault(gate_id, "OPEN_NO_EVIDENCE" if gate_id not in {"gate.qp.build_ready", "gate.qp.ratification"} else "WITHHELD_DOWNSTREAM")
-        product_bindings = [row for ref in subject_refs for row in bindings_by_subject.get(ref, [])]
-        for binding in product_bindings:
-            gate_ref = binding["relevant_gate_ref"]
-            if gate_ref not in current_states:
-                raise ValueError(f"{binding['binding_id']}: unknown qualification gate {gate_ref}")
-            if binding["candidate_id"] != candidate_id or binding["product_ref"] != product_ref:
-                raise ValueError(f"{binding['binding_id']}: candidate/product scope mismatch")
-            if binding["completion_claim"] or binding["qualified_implementation_count"] or binding["portable_offer"] or binding["build_ready"] or binding["ratified"]:
-                raise ValueError(f"{binding['binding_id']}: unsupported promotion in execution evidence binding")
-            current_states[gate_ref] = binding["gate_effect"]
 
         programs.append(
             {
@@ -403,7 +367,6 @@ def main() -> int:
         "product-qualification-programs.jsonl": render_jsonl(programs),
         "library-qualification-subjects.jsonl": render_jsonl(subjects),
         "evidence-vacancies.jsonl": render_jsonl(vacancies),
-        "execution-evidence-bindings.jsonl": render_jsonl(execution_bindings),
         "product-vertical-acceptance-programs.jsonl": render_jsonl(acceptance),
         "summary.json": canonical(summary) + "\n",
     }
@@ -412,7 +375,7 @@ def main() -> int:
         "edition": 1,
         "as_of": AS_OF,
         "files": {name: {"sha256": hashlib.sha256(data.encode()).hexdigest(), "bytes": len(data.encode())} for name, data in sorted(outputs.items())},
-        "counts": {"products": len(programs), "subjects": len(subjects), "bindings": len(execution_bindings), "vacancies": len(vacancies), "acceptance_programs": len(acceptance), "gates": len(gate_rows), "edges": len(edges)},
+        "counts": {"products": len(programs), "subjects": len(subjects), "vacancies": len(vacancies), "acceptance_programs": len(acceptance), "gates": len(gate_rows), "edges": len(edges)},
     }
     outputs["manifest.json"] = canonical(manifest) + "\n"
 

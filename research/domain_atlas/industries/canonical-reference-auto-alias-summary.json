@@ -1,0 +1,11 @@
+{
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "machine_exact_alias_candidate_occurrences": 496,
+  "machine_exact_alias_candidate_records": 127,
+  "manual_research_resolutions": 3,
+  "raw_review_queue_records": 4169,
+  "remaining_without_manual_or_machine_exact_candidate": 4039,
+  "report_id": "industry_canonical_reference_auto_alias_candidates",
+  "status": "CANDIDATES_ONLY_AUTHORITY_WITHHELD"
+}

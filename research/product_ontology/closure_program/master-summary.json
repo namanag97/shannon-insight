@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-08-27",
+  "batch_count": 16,
+  "completion_claim": false,
+  "context_count": 144,
+  "data_shape_logical_count": 177,
+  "effective_evidence_vacancy_count": 912,
+  "industry_analytical_case_count": 1613,
+  "industry_canonical_reference_queue_count": 4169,
+  "library_subject_count": 539,
+  "next_authority_blocked_batch": "B01_SOURCE_AUTHORITY",
+  "next_machine_addressable_batch": "B07_INDUSTRY_CANONICAL_REFERENCE_CLOSURE",
+  "open_batch_count": 16,
+  "provider_offer_seed_count": 59,
+  "report_id": "master_batched_closure_frontier",
+  "retained_product_count": 66,
+  "source_system_class_count": 171
+}

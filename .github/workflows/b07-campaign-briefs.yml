@@ -1,0 +1,40 @@
+name: B07 Campaign Briefs
+
+on:
+  push:
+    branches:
+      - 'closure/b07-briefs-*'
+    paths:
+      - research/domain_atlas/industries/build_campaign_briefs.py
+      - research/domain_atlas/industries/canonical-reference-unresolved-*.jsonl
+      - research/domain_atlas/industries/campaign_briefs/**
+      - research/domain_atlas/industries/campaign-brief-*.json*
+      - .github/workflows/b07-campaign-briefs.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build per-campaign briefs
+        run: python3 research/domain_atlas/industries/build_campaign_briefs.py
+      - name: Persist briefs
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/industries/campaign_briefs \
+                  research/domain_atlas/industries/campaign-brief-index.jsonl \
+                  research/domain_atlas/industries/campaign-brief-summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "closure: generate B07 campaign briefs [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

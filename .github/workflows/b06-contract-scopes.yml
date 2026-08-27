@@ -1,0 +1,44 @@
+name: B06 Exact Contract Scopes
+
+on:
+  push:
+    branches:
+      - 'closure/b06-*'
+    paths:
+      - research/product_ontology/qualification_program/**
+      - research/product_ontology/adjudications/**
+      - .github/workflows/b06-contract-scopes.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build contract-scope registry
+        run: python3 research/product_ontology/qualification_program/build_contract_scope_registry.py
+      - name: Validate contract-scope registry
+        run: python3 research/product_ontology/qualification_program/validate_contract_scope_registry.py
+      - name: Persist generated projection
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/product_ontology/qualification_program/semantic-contract-scopes.jsonl \
+                  research/product_ontology/qualification_program/qualification-subject-scope-bindings.jsonl \
+                  research/product_ontology/qualification_program/contract-scope-conflicts.jsonl \
+                  research/product_ontology/qualification_program/contract-scope-summary.json
+          if git diff --cached --quiet; then
+            echo "Contract-scope projection already current"
+            exit 0
+          fi
+          git commit -m "research: generate B06 exact contract scopes [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

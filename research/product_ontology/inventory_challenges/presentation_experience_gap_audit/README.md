@@ -25,7 +25,8 @@ because it emitted pixels or ARIA text.
   acceptance and ratification remain open.
 - `Embedded Analytics` and `Analytical Notebook` remain existing product boundaries with
   narrower presentation imports.
-- Spreadsheet/grid and generic scientific/3D experiences require product split tests.
+- Spreadsheet/grid is deferred as a product while its reusable grid/formula contracts remain;
+  generic scientific/3D viewing is routed to specialized product owners and portrayal libraries.
 - Maps, graphs, process views, signal views and image overlays remain specialized library
   families unless independent generic product economics and lifecycles are proven.
 - Alert rule, alert occurrence, subscription, notification and acknowledgment are separate
@@ -71,6 +72,23 @@ distinctions executable.
 `presentation-vacancy-compiler-wiring.jsonl` encode the resulting seams. The external
 notification-product candidate has a complete 29-part DDD dossier but remains outside the
 analytics ownership boundary and unratified.
+
+## Presentation frontier convergence
+
+The remaining presentation research frontier is now structurally converged, without closing
+its physical or governance gates:
+
+- nine previously open product hypotheses have explicit retain, compose, demote, defer or
+  no-generic-product dispositions;
+- the 29 exact library vacancies are partitioned into nine constitutions and each has a typed,
+  fail-closed exact contract candidate;
+- all 735 result/artifact cells are partitioned into compatibility research quotients governed
+  by one compatibility-profile metamodel;
+- all 42 gap records are research-resolved but remain blocked on owner ratification, qualified
+  implementations, executed oracles and vertical acceptance as applicable.
+
+These records are proposals, not compiler-selectable offers. The compiler continues to refuse
+binding until an owner ratifies an exact contract and a provider produces qualification evidence.
 
 ## Build and validate
 

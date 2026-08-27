@@ -39,6 +39,13 @@ from vacancy_model import (
     VACANCY_LAWS,
     VACANCY_SOURCES,
 )
+from convergence_model import (
+    COMPATIBILITY_PROFILE_METAMODEL,
+    LIBRARY_CONSTITUTIONS,
+    PRODUCT_CONVERGENCE_DECISIONS,
+    build_compatibility_quotients,
+    build_contract_candidates,
+)
 
 
 INPUTS = {
@@ -269,23 +276,45 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
                 "completion_claim": False,
             })
 
+    product_convergence = []
+    hypothesis_by_id = {row["hypothesis_id"]: row for row in product_hypotheses}
+    for decision in PRODUCT_CONVERGENCE_DECISIONS:
+        row = dict(decision)
+        row["evidence_refs"] = hypothesis_by_id[row["subject_ref"]]["evidence_refs"]
+        product_convergence.append(row)
+    exact_contract_candidates = build_contract_candidates(libraries)
+    compatibility_quotients = build_compatibility_quotients(artifacts, results, compatibility)
+
     gaps = []
+    contract_by_hypothesis = {row["hypothesis_ref"]: row for row in exact_contract_candidates}
     for library in libraries:
         if library["status"] == "CANDIDATE_VACANCY":
+            candidate = contract_by_hypothesis[library["library_hypothesis_id"]]
             gaps.append({
                 "gap_id": f"gap.presentation.library.{slug(library['name'])}",
                 "record_kind": "presentation_research_gap",
                 "gap_class": "EXACT_LIBRARY_BOUNDARY_AND_CONTRACT",
                 "subject_ref": library["library_hypothesis_id"],
-                "evidence_needed": ["owner_adjudication", "exact_semantic_contract", "two_implementations", "conformance_oracles"],
+                "research_disposition": "EXACT_CONTRACT_CANDIDATE_PROPOSED_UNRATIFIED",
+                "exact_contract_candidate_ref": candidate["contract_id"],
+                "evidence_needed": ["owner_ratification", "qualified_implementation_offers", "executed_conformance_oracles", "two_unrelated_vertical_acceptances"],
                 "blocking_for_promotion_or_compilation": True,
-                "status": "OPEN",
+                "status": "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN",
                 "completion_claim": False,
             })
     adjudicated_product_gaps = {
         "hypothesis.presentation.interactive_exploration": ("RESEARCH_ADJUDICATED_STRONG_PRODUCT", ["canonical_graph_migration", "owner_ratification", "implementation_qualification", "two_vertical_acceptances"]),
         "hypothesis.presentation.formal_reporting": ("RESEARCH_ADJUDICATED_STRONG_PRODUCT", ["canonical_graph_migration", "owner_ratification", "implementation_qualification", "two_vertical_acceptances"]),
         "hypothesis.presentation.alerting": ("RESEARCH_ADJUDICATED_COMPOSITE_RETIRED", ["superseded_decision_migration", "external_domain_owner_ratification", "exact_contract_selection", "implementation_qualification"]),
+        "hypothesis.presentation.operational_dashboard": ("RESEARCH_ADJUDICATED_COMPOSITE_RETIRED", ["canonical_crosswalk_migration", "affected_owner_ratification", "composition_conformance", "two_vertical_acceptances"]),
+        "hypothesis.presentation.analytical_application": ("RESEARCH_ADJUDICATED_HOST_DOMAIN_COMPOSITION", ["host_domain_owner_ratification", "embedded_and_decision_contract_qualification", "two_vertical_acceptances"]),
+        "hypothesis.presentation.computational_document": ("RESEARCH_ADJUDICATED_EXISTING_PRODUCT", ["canonical_crosswalk_migration", "notebook_owner_ratification", "presentation_import_qualification"]),
+        "hypothesis.presentation.analytical_grid": ("RESEARCH_ADJUDICATED_DEFER_PRODUCT_RETAIN_CONTRACTS", ["grid_contract_owner_ratification", "qualified_implementations", "independent_product_economics_if_reopened"]),
+        "hypothesis.presentation.embedding": ("RESEARCH_ADJUDICATED_EXISTING_PRODUCT", ["embedded_analytics_owner_ratification", "entitlement_projection_qualification", "two_vertical_acceptances"]),
+        "hypothesis.presentation.specialized_view": ("RESEARCH_ADJUDICATED_NO_GENERIC_PRODUCT", ["specialized_owner_ratification", "portrayal_contract_qualification", "negative_twin_conformance"]),
+        "hypothesis.presentation.narrative": ("RESEARCH_ADJUDICATED_ARTIFACT_AND_MODE", ["reporting_and_notebook_owner_ratification", "authoring_contract_qualification", "vertical_acceptance"]),
+        "hypothesis.presentation.external_publication": ("RESEARCH_ADJUDICATED_COMPOSITE", ["affected_owner_ratification", "cross_product_contract_qualification", "disclosure_and_exit_acceptance"]),
+        "hypothesis.presentation.accessibility": ("RESEARCH_ADJUDICATED_CONSTITUTIONAL_LIBRARY", ["constitutional_owner_ratification", "task_equivalence_oracle_execution", "two_vertical_acceptances"]),
     }
     for hypothesis in product_hypotheses:
         resolution = adjudicated_product_gaps.get(hypothesis["hypothesis_id"])
@@ -305,9 +334,12 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "record_kind": "presentation_research_gap",
         "gap_class": "RESULT_ARTIFACT_COMPATIBILITY_PROFILES",
         "subject_ref": "tensor.presentation.result-artifact",
-        "evidence_needed": ["encoding_fitness_rules", "uncertainty_and_missingness_profiles", "accessibility_equivalence", "resource_budgets", "vertical_acceptance"],
+        "research_disposition": "COMPATIBILITY_PROFILE_METAMODEL_AND_QUOTIENTS_PROPOSED_UNRATIFIED",
+        "metamodel_ref": COMPATIBILITY_PROFILE_METAMODEL["metamodel_id"],
+        "quotient_refs": [row["quotient_id"] for row in compatibility_quotients],
+        "evidence_needed": ["per_cell_owner_ratification", "profile_editions", "executed_oracle_receipts", "qualified_provider_offers", "two_unrelated_vertical_acceptances"],
         "blocking_for_promotion_or_compilation": True,
-        "status": "OPEN",
+        "status": "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN",
         "completion_claim": False,
     })
 
@@ -340,6 +372,10 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "vacancy_noncollapse_laws": len(VACANCY_LAWS),
         "vacancy_compiler_transforms": len(COMPILER_WIRING),
         "external_candidate_ddd_dossiers": len(VACANCY_DDD_DOSSIERS),
+        "product_convergence_decisions": len(product_convergence),
+        "library_family_constitutions": len(LIBRARY_CONSTITUTIONS),
+        "exact_library_contract_candidates": len(exact_contract_candidates),
+        "compatibility_research_quotients": len(compatibility_quotients),
         "open_gaps": len(gaps),
         "research_resolved_downstream_gated_gaps": sum(row["status"] == "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN" for row in gaps),
         "unresolved_research_gaps": sum(row["status"] == "OPEN" for row in gaps),
@@ -347,7 +383,7 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "ratified_contracts": 0,
         "qualified_implementations": 0,
         "completion_claim": False,
-        "status": "RESEARCH_AUDIT_ACTIVE_INCOMPLETE",
+        "status": "RESEARCH_FRONTIER_CONVERGED_DOWNSTREAM_INCOMPLETE",
     }
     return {
         "evidence": all_sources,
@@ -372,6 +408,11 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "vacancy_laws": VACANCY_LAWS,
         "vacancy_compiler_wiring": COMPILER_WIRING,
         "vacancy_ddd_dossiers": VACANCY_DDD_DOSSIERS,
+        "product_convergence": product_convergence,
+        "library_constitutions": LIBRARY_CONSTITUTIONS,
+        "exact_contract_candidates": exact_contract_candidates,
+        "compatibility_profile_metamodel": [COMPATIBILITY_PROFILE_METAMODEL],
+        "compatibility_quotients": compatibility_quotients,
         "input_snapshot": input_snapshot(),
         "summary": summary,
     }
@@ -400,6 +441,11 @@ FILES = {
     "vacancy_laws": "presentation-vacancy-non-collapse-laws.jsonl",
     "vacancy_compiler_wiring": "presentation-vacancy-compiler-wiring.jsonl",
     "vacancy_ddd_dossiers": "presentation-vacancy-ddd-dossiers.jsonl",
+    "product_convergence": "presentation-product-convergence-decisions.jsonl",
+    "library_constitutions": "presentation-library-family-constitutions.jsonl",
+    "exact_contract_candidates": "presentation-exact-library-contract-candidates.jsonl",
+    "compatibility_profile_metamodel": "presentation-compatibility-profile-metamodel.jsonl",
+    "compatibility_quotients": "presentation-compatibility-quotients.jsonl",
 }
 
 

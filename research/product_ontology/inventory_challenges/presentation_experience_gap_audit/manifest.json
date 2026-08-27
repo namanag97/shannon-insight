@@ -51,12 +51,32 @@
       "sha256": "560da67c03cd8add1529031d4200ab3b5d4295bfa119a8aa8397d1d6dadda11e"
     },
     "open-gaps.jsonl": {
-      "bytes": 18846,
-      "sha256": "ad96671b520a738099addc2e7c34c75c80735497db7340289ce7c8970bc38889"
+      "bytes": 37210,
+      "sha256": "a8575abef4437cf3417653d1f5b392d050065fccc39171ee757c066201fc4d27"
     },
     "presentation-artifacts.jsonl": {
       "bytes": 20459,
       "sha256": "505e0cd6ce31fed87a8bfd4420773c17d96a6ac5f7dbf0fa2f2ae346f6b85395"
+    },
+    "presentation-compatibility-profile-metamodel.jsonl": {
+      "bytes": 1207,
+      "sha256": "b6277e37d08359a48cead7eb4c3188aa3853c8858e4881b6199570b9ebbdb045"
+    },
+    "presentation-compatibility-quotients.jsonl": {
+      "bytes": 170197,
+      "sha256": "6e2f7bac455edd6b6a6d18a77eeb46a80dbe2763acdbae8a2c28e50a10cd2bc3"
+    },
+    "presentation-exact-library-contract-candidates.jsonl": {
+      "bytes": 47707,
+      "sha256": "7351c5b41b97349defb70f10bdbb60e2065883cbf7a3346a8358ec04e801ef06"
+    },
+    "presentation-library-family-constitutions.jsonl": {
+      "bytes": 7779,
+      "sha256": "4e3089dab53a4b5d55c1d088bddc6c0dee42872e5b35f45f34b398919e8e81d5"
+    },
+    "presentation-product-convergence-decisions.jsonl": {
+      "bytes": 7160,
+      "sha256": "f785d8d696d1158dc91f991d4d9cddc38c6d9e31a826920f35286ee1076e1262"
     },
     "presentation-vacancy-adjudications.jsonl": {
       "bytes": 11743,
@@ -95,8 +115,8 @@
       "sha256": "593d21eadcb7b7691441503ba54bf981e4b85596bd771f835d32cdd29187c8ef"
     },
     "summary.json": {
-      "bytes": 1320,
-      "sha256": "4089594078840fd01ff963fc7d5e9c07022399911a81c33f042d0e355abc19e8"
+      "bytes": 1498,
+      "sha256": "cd659f1d39c4aced13d00e566bd52bd014820e5cdd4820119adb293a121b6cf0"
     }
   },
   "manifest_id": "manifest.presentation-experience-gap-audit.v1"

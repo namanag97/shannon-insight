@@ -57,6 +57,11 @@ def main() -> int:
     vacancy_laws = built["vacancy_laws"]
     vacancy_wiring = built["vacancy_compiler_wiring"]
     vacancy_dossiers = built["vacancy_ddd_dossiers"]
+    product_convergence = built["product_convergence"]
+    library_constitutions = built["library_constitutions"]
+    exact_contracts = built["exact_contract_candidates"]
+    compatibility_metamodel = built["compatibility_profile_metamodel"][0]
+    compatibility_quotients = built["compatibility_quotients"]
     summary = built["summary"]
 
     require(len(sources) >= 64, "primary/official source floor not met")
@@ -82,9 +87,8 @@ def main() -> int:
     require(all(not row["unresolved_retained_product_refs"] for row in hypotheses), "product hypothesis references unknown retained products")
     require(all(row["compiler_binding"].startswith("REFUSED") for row in libraries), "compiler binding bypassed")
     require(all(row["blocking_for_promotion_or_compilation"] and row["status"] in {"OPEN", "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN"} for row in gaps), "gap closed without downstream evidence")
-    resolved_gap_subjects = {row["subject_ref"] for row in gaps if row["status"] == "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN"}
-    require(resolved_gap_subjects == {"hypothesis.presentation.interactive_exploration", "hypothesis.presentation.formal_reporting", "hypothesis.presentation.alerting"}, "research-resolved gap projection drift")
-    require(all(row.get("research_disposition", "").startswith("RESEARCH_ADJUDICATED_") and row["evidence_needed"] for row in gaps if row["status"] == "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN"), "resolved research gap lost downstream gates")
+    require(all(row["status"] == "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN" for row in gaps), "research-addressable presentation gap remains unresolved")
+    require(all(row.get("research_disposition") and row["evidence_needed"] for row in gaps), "resolved research gap lost disposition or downstream gates")
     require(summary["ratified_products"] == summary["ratified_contracts"] == summary["qualified_implementations"] == 0, "physical or semantic proof fabricated")
     require(summary["completion_claim"] is False and summary["status"].endswith("INCOMPLETE"), "audit overclaims completion")
     require({row["name"] for row in artifacts} >= {"dashboard", "paginated_report", "regulatory_report", "notebook", "spreadsheet_workbook", "map_view", "graph_view", "waveform_view", "volume_3d_view", "embedded_view", "alert_occurrence", "accessible_equivalent"}, "critical presentation artifacts missing")
@@ -140,7 +144,35 @@ def main() -> int:
     require(set(vacancy_dossiers[0]["strategic_and_tactical_ddd"]) == required_ddd, "external notification DDD coverage drift")
     require(vacancy_dossiers[0]["status"] == "COMPLETE_CANDIDATE_NOT_RATIFIED" and vacancy_dossiers[0]["completion_claim"] is False, "external notification DDD overclaims completion")
     require(summary["vacancy_boundary_adjudications"] == 3 and summary["vacancy_meaning_allocations"] == 22 and summary["vacancy_library_seams"] == 28 and summary["vacancy_compiler_transforms"] == 6, "vacancy summary drift")
-    require(summary["research_resolved_downstream_gated_gaps"] == 3 and summary["unresolved_research_gaps"] == len(gaps) - 3, "gap summary does not distinguish research from downstream work")
+    convergence_subjects = {row["subject_ref"] for row in product_convergence}
+    all_hypothesis_subjects = {row["hypothesis_id"] for row in hypotheses}
+    already_adjudicated = {"hypothesis.presentation.interactive_exploration", "hypothesis.presentation.formal_reporting", "hypothesis.presentation.alerting"}
+    require(len(product_convergence) == 9 and convergence_subjects == all_hypothesis_subjects - already_adjudicated, "remaining product-hypothesis convergence is not lossless")
+    allowed_targets = retained_refs | {"product.interactive_analytics_exploration", "product.formal_reporting_publication"}
+    require(all(set(row["target_product_refs"]) <= allowed_targets for row in product_convergence), "product convergence references unknown target")
+    require(all(row["ratification"] == "WITHHELD" and row["completion_claim"] is False for row in product_convergence), "product convergence fabricated authority")
+    require(all(len(row["evidence_refs"]) >= 3 and set(row["evidence_refs"]) <= evidence_ids for row in product_convergence), "product convergence evidence unresolved")
+
+    candidate_names = {row["name"] for row in libraries if row["status"] == "CANDIDATE_VACANCY"}
+    constitution_members = [member for row in library_constitutions for member in row["member_names"]]
+    require(len(library_constitutions) == 9, "library family constitution cardinality drift")
+    require(len(constitution_members) == len(set(constitution_members)) and set(constitution_members) == candidate_names, "library family constitutions do not partition candidate vacancies")
+    require(all(row["status"] == "CANDIDATE_UNRATIFIED" and row["laws"] and row["required_axes"] for row in library_constitutions), "library constitution is incomplete or overratified")
+    require(len(exact_contracts) == len(candidate_names) == 29, "exact library contract candidate cardinality drift")
+    require(len({row["contract_id"] for row in exact_contracts}) == 29 and len({row["exact_library_ref"] for row in exact_contracts}) == 29, "exact library contract identity collision")
+    require({row["hypothesis_ref"] for row in exact_contracts} == {row["library_hypothesis_id"] for row in libraries if row["status"] == "CANDIDATE_VACANCY"}, "exact library contracts do not cover every vacancy")
+    require(all(row["types"] and row["operations"] and row["invariants"] and row["refusals"] and row["oracles"] and row["evidence_refs"] for row in exact_contracts), "exact library contract candidate is partial")
+    require(all(row["owner_ratification"] == "WITHHELD" and row["implementation_qualification"] == "NOT_ATTEMPTED" and row["compiler_binding"].startswith("REFUSED") for row in exact_contracts), "exact contract bypassed downstream gates")
+
+    require(compatibility_metamodel["status"] == "CANDIDATE_UNRATIFIED" and compatibility_metamodel["completion_claim"] is False, "compatibility metamodel overclaims authority")
+    require(set(compatibility_metamodel) >= {"identity", "semantic_preservation_axes", "representation_axes", "assurance_axes", "dispositions", "required_evidence", "compiler_law"}, "compatibility metamodel is partial")
+    require("No result-artifact pair lowers" in compatibility_metamodel["compiler_law"], "compatibility metamodel is not fail closed")
+    quotient_cell_refs = [cell_ref for row in compatibility_quotients for cell_ref in row["cell_refs"]]
+    require(len(quotient_cell_refs) == len(set(quotient_cell_refs)) == len(cells), "compatibility quotients overlap or lose cells")
+    require(set(quotient_cell_refs) == {row["cell_id"] for row in cells}, "compatibility quotients do not partition the tensor")
+    require(all(row["ratification_status"] == "OPEN_PER_CELL" and row["research_status"] == "STRUCTURALLY_ROUTED" and row["completion_claim"] is False for row in compatibility_quotients), "compatibility quotient fabricated completion")
+    require(summary["product_convergence_decisions"] == 9 and summary["library_family_constitutions"] == 9 and summary["exact_library_contract_candidates"] == 29, "convergence summary drift")
+    require(summary["research_resolved_downstream_gated_gaps"] == len(gaps) and summary["unresolved_research_gaps"] == 0, "research frontier did not converge cleanly")
 
     if errors:
         for error in errors:
@@ -151,6 +183,7 @@ def main() -> int:
         f"{len(sources)} sources; {len(artifacts)} artifacts x {len(results)} result kinds = {len(cells)} compatibility cells; "
         f"{len(obligations)} artifact-axis obligations; {len(hypotheses)} product hypotheses; "
         f"{len(libraries)} library seams; {len(laws)} non-collapse laws; {summary['unresolved_research_gaps']} unresolved research gaps + {summary['research_resolved_downstream_gated_gaps']} downstream-gated resolutions; "
+        f"9 product convergence decisions, 9 library constitutions, 29 exact contract candidates, {len(compatibility_quotients)} compatibility quotients; "
         f"1 adjudicated split, 2 strong candidate products, {len(allocations)} allocated libraries; "
         f"38 external frontier rows typed with 0 open research vacancies; "
         f"3 vacancy adjudications, {len(vacancy_ownership)} meaning allocations, {len(vacancy_libraries)} library seams; "

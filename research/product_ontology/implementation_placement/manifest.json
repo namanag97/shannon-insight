@@ -1,0 +1,131 @@
+{
+  "application_product_id": "application_product.software_engineering.codebase_intelligence",
+  "claims": {
+    "application_boundary_structurally_modeled": true,
+    "build_ready": false,
+    "executed_vertical_acceptance": false,
+    "extraction_candidates_exact_source_scoped": true,
+    "implementation_qualified": false,
+    "module_placement_total_for_current_source_tree": true,
+    "overall_completion": false,
+    "portable_offer": false,
+    "product_ratified": false,
+    "semantic_ratified": false
+  },
+  "dependency_order": [
+    "Python source tree",
+    "module placement projection",
+    "application-product DDD",
+    "reusable extraction frontier",
+    "qualification and vertical-acceptance programs"
+  ],
+  "files": [
+    {
+      "byte_count": 29226,
+      "path": "research/product_ontology/implementation_placement/build_shannon_codebase_intelligence_ddd.py",
+      "role": "source_model",
+      "sha256": "sha256:d70c9f749d82c15c4188e66cd30638fe4da455164f4273c67e14d29da18c9ffb"
+    },
+    {
+      "byte_count": 11181,
+      "path": "research/product_ontology/implementation_placement/build_shannon_python_extraction_frontier.py",
+      "role": "source_model",
+      "sha256": "sha256:3d598733c2b6768977de6638d66223a007725495a034fb97590f7c621ca3b50a"
+    },
+    {
+      "byte_count": 17853,
+      "path": "research/product_ontology/implementation_placement/build_shannon_python_placement.py",
+      "role": "source_model",
+      "sha256": "sha256:79f2669593219c716368f012c5a66baa9d0d00b267f47e7d58c8abca769bacb8"
+    },
+    {
+      "byte_count": 639,
+      "path": "research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd-summary.json",
+      "role": "generated_artifact",
+      "sha256": "sha256:9bdec570762fa5e0a859a1604e4f1f0eb75f26d2d742bcc01f0a1cafc1c0aaa3"
+    },
+    {
+      "byte_count": 28671,
+      "path": "research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd.json",
+      "role": "generated_artifact",
+      "sha256": "sha256:cd501ac8be808893d06bd446e11ada3ca03e97cc4503206cc7c643e69274baf3"
+    },
+    {
+      "byte_count": 63426,
+      "path": "research/product_ontology/implementation_placement/shannon-python-extraction-candidates.jsonl",
+      "role": "generated_artifact",
+      "sha256": "sha256:0d5ceb17ecbbad16992dcd6d7aba2dc358e413b00df0d87a10521f56c2bb0e75"
+    },
+    {
+      "byte_count": 726,
+      "path": "research/product_ontology/implementation_placement/shannon-python-extraction-summary.json",
+      "role": "generated_artifact",
+      "sha256": "sha256:71f9e6fe7c74f72ebcef418a9777566a57adb9d7f0f305dc76139bb7d2df4535"
+    },
+    {
+      "byte_count": 59317,
+      "path": "research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl",
+      "role": "generated_artifact",
+      "sha256": "sha256:25b854ec9bcfbc1d8a85d6b0d553e1f6c22905e9c9a2f3df05edd8324367e3cf"
+    },
+    {
+      "byte_count": 2492,
+      "path": "research/product_ontology/implementation_placement/shannon-python-module-crosswalk.schema.json",
+      "role": "schema",
+      "sha256": "sha256:2cdd2659d12d60a819b6cd80125f1bce973b074b67147723d4a235078c814ac8"
+    },
+    {
+      "byte_count": 4703,
+      "path": "research/product_ontology/implementation_placement/shannon-python-placement.json",
+      "role": "generated_artifact",
+      "sha256": "sha256:649acceab6b45426453363ca936c9d092077f8ab005a259327eeb69e8bef8e2a"
+    },
+    {
+      "byte_count": 3670,
+      "path": "research/product_ontology/implementation_placement/shannon-python-placement.schema.json",
+      "role": "schema",
+      "sha256": "sha256:497eb13c59c8754ec2e09c5c6a6d10094c29484c976f2d47d9559a00de448158"
+    },
+    {
+      "byte_count": 578,
+      "path": "research/product_ontology/implementation_placement/summary.json",
+      "role": "generated_artifact",
+      "sha256": "sha256:bcb2ac36a69c90ea71f8f1c3c849cb968456c53c9ea279ffc037a63ea19c30dd"
+    },
+    {
+      "byte_count": 9288,
+      "path": "research/product_ontology/implementation_placement/validate_shannon_codebase_intelligence_ddd.py",
+      "role": "validator",
+      "sha256": "sha256:e517ae14772b99422374dfa821daf4c2390dbe58212d435be65b05e59a9a8e6d"
+    },
+    {
+      "byte_count": 7698,
+      "path": "research/product_ontology/implementation_placement/validate_shannon_python_extraction_frontier.py",
+      "role": "validator",
+      "sha256": "sha256:1050ae208ddb39b0f2fb7444cb7e106fefdb011ea3ad05bf2487ec4748e4afc4"
+    },
+    {
+      "byte_count": 9107,
+      "path": "research/product_ontology/implementation_placement/validate_shannon_python_placement.py",
+      "role": "validator",
+      "sha256": "sha256:76025c0becf805a21cb3436236f77eb533a42171e764db755c88697c0d65d2dc"
+    },
+    {
+      "byte_count": 2368,
+      "path": "research/product_ontology/implementation_placement/validate_shannon_python_schemas.py",
+      "role": "validator",
+      "sha256": "sha256:85b88118f1f0a17b77a2045bcdbec7f179e284c8d7eb12411037932df04eb09b"
+    }
+  ],
+  "implementation_id": "implementation.shannon_python.codebase_insight",
+  "manifest_digest": "sha256:1a2a8b7cf1e1d91640672cd02dceae194f8a3604354856f2c5100f0372dd721e",
+  "manifest_id": "shannon_python_implementation_placement",
+  "projection_links": {
+    "bound_exact_contract_count": 0,
+    "candidate_count": 10,
+    "ddd_digest": "sha256:863b6fc9b56c7c287356ca4ab7f0863f018e60a89aa81fcabc163840fec291d8",
+    "placement_digest": "sha256:9fcb22668a222e23112f072b410dd9935c660608926d24a107c258cbafa4a9ef",
+    "qualified_candidate_count": 0
+  },
+  "schema_version": "1.0.0"
+}

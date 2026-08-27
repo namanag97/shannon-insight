@@ -36,6 +36,7 @@ def main() -> int:
 
     rows = load_jsonl("product-readiness.jsonl")
     work = load_jsonl("closure-work-items.jsonl")
+    compiler_gap_rebase = load_jsonl("compiler-gap-rebase.jsonl")
     summary = json.loads((HERE / "summary.json").read_text(encoding="utf-8"))
     ids = [row["candidate_id"] for row in rows]
     retained_ids = {
@@ -63,6 +64,29 @@ def main() -> int:
         errors.append("a provider became qualified without new qualification evidence")
     if any(row["provider_readiness"]["portable_offer_count"] for row in rows):
         errors.append("a provider became portable without two independent qualified implementations")
+    if len(compiler_gap_rebase) != 59:
+        errors.append("the 59 source compiler gaps must rebase losslessly")
+    if len({row["source_gap_ref"] for row in compiler_gap_rebase}) != len(compiler_gap_rebase):
+        errors.append("compiler-gap rebase duplicates a source gap")
+    if any(
+        set(row["contract_surface_present"])
+        < {"types", "operations", "decisions", "invariants", "refusals", "dependencies"}
+        for row in compiler_gap_rebase
+    ):
+        errors.append("a rebased compiler gap lacks a complete abstract contract surface")
+    if any(
+        row["status"] != "RESEARCH_RESOLVED_DOWNSTREAM_GATED"
+        or row["remaining_gate"] != "CONCRETE_IMPLEMENTATION_AND_PROVIDER_QUALIFICATION"
+        or row["qualified_implementation_refs"]
+        or not row["compiler_binding"].startswith("REFUSED")
+        or row["completion_claim"] is not False
+        for row in compiler_gap_rebase
+    ):
+        errors.append("compiler-gap rebase bypasses implementation or qualification gates")
+    if any(row["library_and_compiler"]["open_structural_binding_gap_count"] for row in rows):
+        errors.append("a research-addressable structural compiler gap remains open")
+    if sum(row["library_and_compiler"]["research_resolved_binding_gap_count"] for row in rows) != 59:
+        errors.append("product readiness loses a compiler-gap rebase")
     if any(row["build_readiness"] != "NOT_BUILD_READY" or row["ratification"] != "WITHHELD" for row in rows):
         errors.append("a product was prematurely marked build-ready or ratified")
     if any(not row["automation_law"]["deterministic_core_survives_removal"] for row in rows):
@@ -72,10 +96,19 @@ def main() -> int:
         errors.append("every retained product needs explicit closure work")
     if any(not row["blocking"] or row["status"] != "OPEN" for row in work):
         errors.append("closure work must remain open and blocking in this edition")
+    if any(row["work_kind"] == "compiler_gap_closure" for row in work):
+        errors.append("research-resolved compiler gaps are still double-counted as product work")
     if summary["retained_product_count"] != len(rows) or summary["open_work_item_count"] != len(work):
         errors.append("summary counts drift")
     if summary["build_ready_product_count"] or summary["executed_vertical_acceptance_product_count"]:
         errors.append("summary prematurely claims build readiness or executed acceptance")
+    if (
+        summary["source_compiler_gap_count"] != 59
+        or summary["research_resolved_compiler_gap_count"] != 59
+        or summary["open_structural_compiler_gap_count"] != 0
+        or summary["implementation_binding_vacancy_count"] != 59
+    ):
+        errors.append("compiler-gap rebase summary drift")
 
     if errors:
         for error in errors:
@@ -86,7 +119,8 @@ def main() -> int:
         f"{len(rows)} retained products; {len(complete)} full DDD dossiers; "
         f"{summary['explicit_product_library_attribution_count']} explicit product-library decompositions; "
         f"{summary['explicit_product_compiler_map_count']} explicit product compiler maps; "
-        f"{len(work)} blocking closure items; 0 qualified providers; 0 build-ready products"
+        f"{len(work)} physical/acceptance closure items; 59 source compiler gaps structurally rebased; "
+        "0 qualified providers; 0 build-ready products"
     )
     return 0
 

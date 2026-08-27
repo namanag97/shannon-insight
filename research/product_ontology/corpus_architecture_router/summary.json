@@ -1,14 +1,14 @@
 {
   "ambiguous_files": 0,
   "completion_claim": false,
-  "declared_identity_routes": 92493,
+  "declared_identity_routes": 92547,
   "files_requiring_schema_identity_adjudication": 1900,
   "nonempty_packages": 50,
   "occurrence_only_records": 289680,
   "packages": 50,
   "parse_findings": 0,
-  "routed_files": 3464,
-  "routed_record_occurrences": 382173,
+  "routed_files": 3465,
+  "routed_record_occurrences": 382227,
   "rules": 50,
   "self_hosting_exclusion": "research/product_ontology/corpus_architecture_router/",
   "unrouted_files": 0

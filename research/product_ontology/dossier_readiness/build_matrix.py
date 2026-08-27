@@ -16,6 +16,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 GLOBAL = ROOT / "research/product_ontology/global_boundary_research"
 VERTICALS = ROOT / "research/product_ontology/composition_pilots/deterministic_verticals"
+QUALIFICATION_SUBJECTS = ROOT / "research/product_ontology/qualification_program/library-qualification-subjects.jsonl"
 AS_OF = "2026-08-26"
 
 DDD_FIELDS = [
@@ -102,7 +103,7 @@ def product_ref_matches(row: dict[str, Any], subject_ref: str) -> bool:
     return row.get("product_ref") == subject_ref or subject_ref in row.get("product_refs", [])
 
 
-def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
+def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
     candidates = load_jsonl(GLOBAL / "product-archetypes.jsonl")
     retained = [
         row
@@ -126,8 +127,13 @@ def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]
         for candidate_id in row["product_refs"]:
             vertical_count[candidate_id] += 1
 
+    qualification_by_library = {
+        row["abstract_library_ref"]: row for row in load_jsonl(QUALIFICATION_SUBJECTS)
+    }
+
     readiness: list[dict[str, Any]] = []
     work: list[dict[str, Any]] = []
+    compiler_gap_rebase: list[dict[str, Any]] = []
     for candidate in sorted(retained, key=lambda row: row["record_id"]):
         candidate_id = candidate["record_id"]
         ident = candidate_id.removeprefix("candidate.product.")
@@ -194,8 +200,43 @@ def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]
         portable = sum(portable_offer(row) for row in offers)
         structural_verticals = vertical_count[candidate_id]
 
+        product_gap_resolutions = []
+        for gap in product_gaps:
+            abstract_refs = gap.get("abstract_library_refs") or [gap.get("abstract_library_ref")]
+            matches = [qualification_by_library.get(ref) for ref in abstract_refs]
+            contract_complete = bool(matches) and all(
+                match is not None
+                and set(match.get("contract", {}))
+                >= {"types", "operations", "decisions", "invariants", "refusals", "dependencies"}
+                for match in matches
+            )
+            if not contract_complete:
+                continue
+            for abstract_ref, match in zip(abstract_refs, matches):
+                resolution = {
+                    "record_id": f"rebase.{gap['gap_id']}",
+                    "record_kind": "compiler_gap_research_rebase",
+                    "source_gap_ref": gap["gap_id"],
+                    "product_ref": subject_ref,
+                    "abstract_library_ref": abstract_ref,
+                    "qualification_subject_ref": match["subject_id"],
+                    "contract_surface_present": sorted(match["contract"]),
+                    "research_disposition": "EXACT_ABSTRACT_CONTRACT_PRESENT",
+                    "remaining_gate": "CONCRETE_IMPLEMENTATION_AND_PROVIDER_QUALIFICATION",
+                    "implementation_state": match["implementation_state"],
+                    "qualified_implementation_refs": match["qualified_implementation_refs"],
+                    "compiler_binding": "REFUSED_NO_QUALIFIED_OFFER",
+                    "status": "RESEARCH_RESOLVED_DOWNSTREAM_GATED",
+                    "completion_claim": False,
+                }
+                product_gap_resolutions.append(resolution)
+                compiler_gap_rebase.append(resolution)
+        unresolved_structural_gaps = {
+            gap["gap_id"] for gap in product_gaps
+        } - {row["source_gap_ref"] for row in product_gap_resolutions}
+
         if product_maps:
-            mapping_status = "BLOCKED" if product_gaps or uncovered_capabilities else "STRUCTURALLY_MAPPED_UNQUALIFIED"
+            mapping_status = "BLOCKED" if unresolved_structural_gaps or uncovered_capabilities else "STRUCTURALLY_MAPPED_UNQUALIFIED"
         else:
             mapping_status = "UNDETERMINED_PRODUCT_ATTRIBUTION"
 
@@ -239,6 +280,10 @@ def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]
                 "explicit_product_library_count": len(product_libraries),
                 "explicit_product_binding_map_count": len(product_maps),
                 "explicit_product_binding_gap_count": len(product_gaps),
+                "research_resolved_binding_gap_count": len(product_gap_resolutions),
+                "open_structural_binding_gap_count": len(unresolved_structural_gaps),
+                "implementation_binding_vacancy_count": len(product_gap_resolutions),
+                "compiler_gap_rebase_refs": sorted(row["record_id"] for row in product_gap_resolutions),
                 "explicit_product_semantic_gap_count": len(product_semantic_gaps),
                 "declared_product_requirement_count": len(product_requirements),
                 "required_capability_refs": required_capabilities,
@@ -308,10 +353,10 @@ def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]
                 "Map every product library to an exact compiler registry contract or a named blocking gap.",
                 ["one map per product library", "typed gap for every missing exact contract"],
             )
-        if product_gaps:
+        if unresolved_structural_gaps:
             add_work(
                 "compiler_gap_closure",
-                f"Close or explicitly retain {len(product_gaps)} exact product-specific compiler binding gaps.",
+                f"Close or explicitly retain {len(unresolved_structural_gaps)} exact product-specific compiler binding gaps.",
                 ["semantic owner contribution", "law oracles", "independent conformance check"],
             )
         if uncovered_capabilities:
@@ -375,6 +420,10 @@ def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]
         "executed_vertical_acceptance_product_count": 0,
         "build_ready_product_count": 0,
         "open_work_item_count": len(work),
+        "source_compiler_gap_count": sum(row["library_and_compiler"]["explicit_product_binding_gap_count"] for row in readiness),
+        "research_resolved_compiler_gap_count": len(compiler_gap_rebase),
+        "open_structural_compiler_gap_count": sum(row["library_and_compiler"]["open_structural_binding_gap_count"] for row in readiness),
+        "implementation_binding_vacancy_count": len(compiler_gap_rebase),
         "ddd_status_counts": dict(sorted(status_counts.items())),
         "mapping_status_counts": dict(sorted(mapping_counts.items())),
         "laws": [
@@ -385,14 +434,15 @@ def derive() -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]
             "No model or agent may satisfy missing research, semantics, authority, qualification or acceptance evidence.",
         ],
     }
-    return readiness, sorted(work, key=lambda row: row["record_id"]), summary
+    return readiness, sorted(work, key=lambda row: row["record_id"]), sorted(compiler_gap_rebase, key=lambda row: row["record_id"]), summary
 
 
 def output_payloads() -> dict[str, str]:
-    readiness, work, summary = derive()
+    readiness, work, compiler_gap_rebase, summary = derive()
     payloads = {
         "product-readiness.jsonl": lines(readiness),
         "closure-work-items.jsonl": lines(work),
+        "compiler-gap-rebase.jsonl": lines(compiler_gap_rebase),
         "summary.json": json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
     }
     manifest = {
@@ -423,7 +473,7 @@ def main() -> int:
     if mismatches:
         print("ERROR stale readiness outputs: " + ", ".join(mismatches))
         return 1
-    print(("CHECK" if args.check else "BUILD") + " PASS: 4 deterministic readiness outputs")
+    print(("CHECK" if args.check else "BUILD") + " PASS: 5 deterministic readiness outputs")
     return 0
 
 

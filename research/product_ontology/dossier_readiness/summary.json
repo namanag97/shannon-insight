@@ -8,6 +8,7 @@
   "explicit_product_compiler_map_count": 66,
   "explicit_product_library_attribution_count": 66,
   "full_product_specific_ddd_count": 66,
+  "implementation_binding_vacancy_count": 59,
   "laws": [
     "A boundary verdict is not a DDD dossier.",
     "A bundle-level library list is not an exact product decomposition.",
@@ -16,17 +17,19 @@
     "No model or agent may satisfy missing research, semantics, authority, qualification or acceptance evidence."
   ],
   "mapping_status_counts": {
-    "BLOCKED": 5,
-    "STRUCTURALLY_MAPPED_UNQUALIFIED": 61
+    "STRUCTURALLY_MAPPED_UNQUALIFIED": 66
   },
   "missing_or_incomplete_ddd_count": 0,
-  "open_work_item_count": 191,
+  "open_structural_compiler_gap_count": 0,
+  "open_work_item_count": 186,
   "portable_provider_product_count": 0,
   "product_count_with_uncovered_required_capabilities": 0,
   "qualified_provider_product_count": 0,
   "report_id": "retained_product_dossier_and_compiler_readiness",
+  "research_resolved_compiler_gap_count": 59,
   "retained_product_count": 66,
   "scope": "Every strong or presumptive product in the current finite global corpus.",
+  "source_compiler_gap_count": 59,
   "status": "CANDIDATE_GAP_MATRIX",
   "two_vertical_structural_product_count": 12
 }

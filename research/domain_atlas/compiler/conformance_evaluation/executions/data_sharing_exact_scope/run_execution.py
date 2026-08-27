@@ -91,7 +91,11 @@ def refusal_case(factory: Callable[[], Any], setup_fn: Callable[[Any], None], ac
 
 def run_for(name: str, factory: Callable[[], Any]) -> dict[str, Any]:
     cases = []
-    for case_id, fn in [("happy_path", case_happy_path), ("revocation_monotone", case_revocation_monotone), ("recall_retains_residuals", case_recall_residuals)]:
+    for case_id, fn in [
+        ("happy_path", case_happy_path),
+        ("revocation_monotone", case_revocation_monotone),
+        ("recall_retains_residuals", case_recall_residuals),
+    ]:
         impl = factory()
         value = fn(impl)
         cases.append({"case_id": case_id, "verdict": "PASS", "result_digest": digest(value)})
@@ -123,7 +127,10 @@ def run_for(name: str, factory: Callable[[], Any]) -> dict[str, Any]:
 
 
 def main() -> int:
-    impls = [run_for("functional_copy_on_write", FunctionalSharingContract), run_for("append_only_event_reducer", ReducerSharingContract)]
+    impls = [
+        run_for("functional_copy_on_write", FunctionalSharingContract),
+        run_for("append_only_event_reducer", ReducerSharingContract),
+    ]
     differential = []
     for case_id, fn in [("happy_path", case_happy_path), ("revocation_monotone", case_revocation_monotone), ("recall_retains_residuals", case_recall_residuals)]:
         a = fn(FunctionalSharingContract())
@@ -143,31 +150,62 @@ def main() -> int:
             "contract_decisions": ["cut_resolution_policy", "recipient_binding_policy", "purpose_binding_policy", "grant_scope_policy", "revocation_policy", "recall_policy", "export_policy"],
             "operations": ["draft_share", "publish_share", "resolve_shared_cut", "adjudicate_grant", "create_subscription", "record_disclosure", "revoke_grant", "recall_cut", "export_share"],
             "invariants": ["share grant subscription disclosure and consumption are distinct", "every disclosure binds exact cut recipient purpose grant and policy", "revoked grants authorize no new disclosure", "source semantic ownership never transfers", "recall retains unresolved downstream residuals"],
-            "refusals_exercised": ["provider_authority_missing", "shared_cut_unresolved", "recipient_unresolved", "purpose_unbound", "policy_refused", "grant_expired_or_revoked", "recall_incomplete", "export_incomplete"]
+            "refusals_exercised": ["provider_authority_missing", "shared_cut_unresolved", "recipient_unresolved", "purpose_unbound", "policy_refused", "grant_expired_or_revoked", "recall_incomplete", "export_incomplete"],
         },
-        "implementation_controls": {"independently_controlled": False, "reason": "Both reference implementations are authored in this one research execution campaign; this evidence cannot satisfy the second-independent-implementation or independent-appraisal gates."},
-        "environment": {"python": sys.version.split()[0], "implementation": platform.python_implementation(), "platform": platform.platform()},
+        "implementation_controls": {
+            "independently_controlled": False,
+            "reason": "Both reference implementations are authored in this one research execution campaign; this evidence cannot satisfy the second-independent-implementation or independent-appraisal gates.",
+        },
+        "environment": {
+            "python": sys.version.split()[0],
+            "implementation": platform.python_implementation(),
+            "platform": platform.platform(),
+        },
         "source_digests": {
             "implementation_functional.py": source_digest(HERE / "implementation_functional.py"),
             "implementation_reducer.py": source_digest(HERE / "implementation_reducer.py"),
-            "run_execution.py": source_digest(HERE / "run_execution.py")
+            "run_execution.py": source_digest(HERE / "run_execution.py"),
         },
         "implementations": impls,
         "differential": differential,
         "verdict": "PASS_EXECUTED_TESTS_NOT_QUALIFIED",
-        "promotion_claims": {"implementation_qualified": False, "portable_offer": False, "product_build_ready": False, "product_ratified": False}
+        "promotion_claims": {
+            "implementation_qualified": False,
+            "portable_offer": False,
+            "product_build_ready": False,
+            "product_ratified": False,
+        },
     }
     out = HERE / "runs" / "run-20260827-linux-x86_64-python3_13-001" / "receipt.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    tracked = [HERE / "README.md", HERE / "implementation_functional.py", HERE / "implementation_reducer.py", HERE / "protocol.json", HERE / "qualification-binding.json", HERE / "run_execution.py", HERE / "validate_execution.py", out]
+    tracked = [
+        HERE / "README.md",
+        HERE / "implementation_functional.py",
+        HERE / "implementation_reducer.py",
+        HERE / "protocol.json",
+        HERE / "qualification-binding.json",
+        HERE / "run_execution.py",
+        out,
+    ]
     manifest = {
         "manifest_id": "manifest.data_sharing_exact_scope.edition1",
         "edition": 1,
         "as_of": "2026-08-27",
-        "files": {str(path.relative_to(HERE)): {"sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "bytes": len(path.read_bytes())} for path in tracked},
-        "counts": {"implementations": len(impls), "implementation_cases": sum(x["case_count"] for x in impls), "differential_cases": len(differential), "refusal_classes": len(receipt["scope"]["refusals_exercised"])},
-        "qualification_claim": False
+        "files": {
+            str(path.relative_to(HERE)): {
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "bytes": len(path.read_bytes()),
+            }
+            for path in tracked
+        },
+        "counts": {
+            "implementations": len(impls),
+            "implementation_cases": sum(x["case_count"] for x in impls),
+            "differential_cases": len(differential),
+            "refusal_classes": len(receipt["scope"]["refusals_exercised"]),
+        },
+        "qualification_claim": False,
     }
     (HERE / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"PASS: {sum(x['case_count'] for x in impls)} implementation cases + {len(differential)} differential cases; not qualified")

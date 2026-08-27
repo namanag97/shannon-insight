@@ -1,0 +1,15 @@
+{
+  "abstract_library_identity_conflict_count": 0,
+  "as_of": "2026-08-27",
+  "completion_claim": false,
+  "execution_evidence_reuse_currently_authorized_count": 0,
+  "product_attributed_subject_count": 539,
+  "ratified_contract_scope_count": 0,
+  "report_id": "qualification_contract_scope_registry",
+  "semantic_contract_scope_count": 526,
+  "shared_semantic_contract_scope_count": 13,
+  "status": "EXACT_SCOPE_DEDUPLICATION_BUILT_RATIFICATION_AND_EXECUTION_EVIDENCE_WITHHELD",
+  "subject_scope_binding_count": 539,
+  "subjects_in_shared_semantic_contract_scopes": 26,
+  "unique_abstract_library_ref_count": 526
+}

@@ -1,0 +1,44 @@
+name: B08 Source Occurrence Registry
+
+on:
+  push:
+    branches:
+      - 'closure/b08-registry-*'
+    paths:
+      - research/domain_atlas/universes/source_systems/executions/**
+      - research/domain_atlas/universes/source_systems/build_occurrence_registry.py
+      - research/domain_atlas/universes/source_systems/validate_occurrence_registry.py
+      - research/domain_atlas/universes/source_systems/source-classes.jsonl
+      - .github/workflows/b08-occurrence-registry.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build source occurrence registry
+        run: python3 research/domain_atlas/universes/source_systems/build_occurrence_registry.py
+      - name: Validate source occurrence registry
+        run: python3 research/domain_atlas/universes/source_systems/validate_occurrence_registry.py
+      - name: Persist registry
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/universes/source_systems/source-occurrences.jsonl \
+                  research/domain_atlas/universes/source_systems/occurrence-registry-summary.json
+          if git diff --cached --quiet; then
+            echo "Source occurrence registry already current"
+            exit 0
+          fi
+          git commit -m "research: generate B08 source occurrence registry [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}

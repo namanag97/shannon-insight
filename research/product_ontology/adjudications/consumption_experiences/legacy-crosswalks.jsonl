@@ -1,4 +1,4 @@
-{"canonical_refs":["semantic.alert_rule","semantic.alert_state","semantic.subscription","neighbor.notification_delivery"],"disposition":"split_capabilities_and_neighbor","edition":1,"legacy_ref":"candidate.product.alert_subscription","record_kind":"legacy_crosswalk"}
+{"canonical_refs":["semantic.alert_rule","semantic.alert_state","semantic.subscription","neighbor.notification_delivery"],"disposition":"retire_composite_split_producer_capabilities_and_external_product","edition":1,"legacy_ref":"candidate.product.alert_subscription","record_kind":"legacy_crosswalk"}
 {"canonical_refs":["product.analytical_notebook"],"disposition":"replace_exact","edition":1,"legacy_ref":"candidate.product.analytical_notebook","record_kind":"legacy_crosswalk"}
 {"canonical_refs":["product.bi_reporting"],"disposition":"replace_exact","edition":1,"legacy_ref":"candidate.product.bi_reporting","record_kind":"legacy_crosswalk"}
 {"canonical_refs":["artifact.dashboard_widget"],"disposition":"reclassify_presentation_artifact","edition":1,"legacy_ref":"candidate.product.dashboard_widget","record_kind":"legacy_crosswalk"}

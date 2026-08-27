@@ -44,14 +44,33 @@ exact retained product identities.
 The crosswalk falsifies several incoming "missing" claims: notebooks, experimentation,
 forecasting, simulation, optimization, graph, geospatial, predictive-model lifecycle,
 planning, activation and optional agent/model extensions already have retained boundaries.
-Only two rows survive as genuine new boundary-research vacancies in this pass:
+Two rows initially survived as genuine new boundary-research vacancies:
 
 - analytical content management and collaboration;
 - subscriptions, alerts and insight delivery.
 
+Both have now been adjudicated:
+
+- Analytical content collaboration is retained as a shared control-plane/library family. The
+  reusable semantics are real, but independent cross-provider adoption, economics, support and
+  exit are not proven, so product promotion is deferred.
+- The analytical alert/subscription/delivery bundle is retired as an invalid composite. Producer
+  products own alert evaluation or content subscriptions; a strong external horizontal
+  `Notification Orchestration & Delivery` candidate owns communication workflow and delivery;
+  domain workflow owners retain business acknowledgment and escalation.
+
+The package therefore has zero open research vacancies on the external 38-family frontier. This
+does not claim canonical ratification, qualified implementations or vertical acceptance.
+
 This yields a typed coverage frontier above the product registry rather than an unjustified
 second product registry. `frontier-level-non-collapse-laws.jsonl` makes the essential level
 distinctions executable.
+
+`presentation-vacancy-meaning-ownership.jsonl`,
+`presentation-vacancy-library-seams.jsonl` and
+`presentation-vacancy-compiler-wiring.jsonl` encode the resulting seams. The external
+notification-product candidate has a complete 29-part DDD dossier but remains outside the
+analytics ownership boundary and unratified.
 
 ## Build and validate
 

@@ -6,25 +6,25 @@
   "edition": 1,
   "implementation_offer_intake_templates": 1052,
   "input_snapshot": {
-    "aggregate_sha256": "72d4a3b679831f09e95e78ef1a711932474bfdce37891ecc3008e3b49e38161f",
+    "aggregate_sha256": "8fa439163adde5bd269b863d424703fc6371f74e075f1b53311632396f77ca22",
     "files": [
       {
-        "bytes": 947384,
+        "bytes": 947393,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/qualification-scope-kernels.jsonl",
         "record_count": 526,
-        "sha256": "a5fe2f9c0695e421aac59727f10e2249c2aa9536b7109c539d649e53bed36dc0"
+        "sha256": "8c2d33c33ad0b6e59f5ebdd7e50aa69b9551713e96401fa7dc347e4cd533fd4c"
       },
       {
         "bytes": 1481853,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/subject-dockets.jsonl",
         "record_count": 539,
-        "sha256": "6c595a1d29fd50fb02357b38b1490e2351496dba3ade8b895980223e01d4ea08"
+        "sha256": "ec039f5a8e27f677ce430d45fba002eb054f963ddb4be31f068fab7805a958a4"
       },
       {
-        "bytes": 1389323,
+        "bytes": 1389513,
         "path": "research/product_ontology/qualification_program/library-qualification-subjects.jsonl",
         "record_count": 539,
-        "sha256": "a591d670a0c87eddae58b769c071d4d28b26ee7b85826c243fa1f821f10d2917"
+        "sha256": "eb38c92eaba7f404403859f1f987524fc88bfeaefafa812830ab1512fbf9ee2d"
       },
       {
         "bytes": 30662,
@@ -63,10 +63,10 @@
         "sha256": "990f0d1d711c3bf5d1fe99266362c768f6de77759dea5ae1f3665c16677b6d88"
       }
     ],
-    "snapshot_id": "snapshot.p7-input.72d4a3b679831f09"
+    "snapshot_id": "snapshot.p7-input.8fa439163adde5bd"
   },
   "program_id": "program.p7-offer-binding-qualification.v1",
-  "qualification_profile_kernels": 131,
+  "qualification_profile_kernels": 132,
   "qualified_implementations": 0,
   "represented_qualification_scopes": 526,
   "represented_subject_context_occurrences": 8833,

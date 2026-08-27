@@ -27,12 +27,12 @@
       "sha256": "d5c0e6490bd03c7007f57ead234e6341c76bf2394493e9071a7cab9b14d4c942"
     },
     "evidence.jsonl": {
-      "bytes": 28342,
-      "sha256": "60c8e51d302e1c32135df7121fa4112dfe2b5f2d14b9e0e0a81afb92229c49f7"
+      "bytes": 36503,
+      "sha256": "8af7a499a38020219ae1e1024e4afa8641b86da155ddc2f4d612a094707a2847"
     },
     "external-38-family-frontier-crosswalk.jsonl": {
-      "bytes": 22134,
-      "sha256": "7d30e320b7184f8bedc13c68e836b46a181fd1992061fae5fcb7cc8cd054c4b1"
+      "bytes": 22287,
+      "sha256": "1fc215ce1f50ea4933c016215e0061cc2761e915f53ae009279e16a433d3aaa2"
     },
     "frontier-level-non-collapse-laws.jsonl": {
       "bytes": 1297,
@@ -51,12 +51,36 @@
       "sha256": "560da67c03cd8add1529031d4200ab3b5d4295bfa119a8aa8397d1d6dadda11e"
     },
     "open-gaps.jsonl": {
-      "bytes": 18250,
-      "sha256": "4cf17ae230e3cd1c25128ec626412534aa804310e9c513132b5bb012926a9281"
+      "bytes": 18846,
+      "sha256": "ad96671b520a738099addc2e7c34c75c80735497db7340289ce7c8970bc38889"
     },
     "presentation-artifacts.jsonl": {
       "bytes": 20459,
       "sha256": "505e0cd6ce31fed87a8bfd4420773c17d96a6ac5f7dbf0fa2f2ae346f6b85395"
+    },
+    "presentation-vacancy-adjudications.jsonl": {
+      "bytes": 11743,
+      "sha256": "6f9401fb4062943fb729833a46fe5c2e2856926f8a4c32f6631784c3d7768743"
+    },
+    "presentation-vacancy-compiler-wiring.jsonl": {
+      "bytes": 2622,
+      "sha256": "58b4bb593c4ad6e745d788c9f9a82505254bb5b3fab97d6f80d8c02c5090f3c3"
+    },
+    "presentation-vacancy-ddd-dossiers.jsonl": {
+      "bytes": 8000,
+      "sha256": "5c69c3847f57f5fcf6b6182b4d0b6681e7eef4ac9b858664974d70c9c92fd0cc"
+    },
+    "presentation-vacancy-library-seams.jsonl": {
+      "bytes": 12382,
+      "sha256": "891538618651445e6bc0703f0d7e0dc912e035128b6bd930047855091824523a"
+    },
+    "presentation-vacancy-meaning-ownership.jsonl": {
+      "bytes": 7446,
+      "sha256": "d59403dedf31b05b2d4f94682288e97cb201c27b518a08db6ccfacac3632c4d9"
+    },
+    "presentation-vacancy-non-collapse-laws.jsonl": {
+      "bytes": 4509,
+      "sha256": "3d2675a1945f4f1769847f97264aee685dfe0492c60e57b312c308cdc39651fb"
     },
     "product-boundary-hypotheses.jsonl": {
       "bytes": 13487,
@@ -71,8 +95,8 @@
       "sha256": "593d21eadcb7b7691441503ba54bf981e4b85596bd771f835d32cdd29187c8ef"
     },
     "summary.json": {
-      "bytes": 1021,
-      "sha256": "f626680cb70156704644ead69b8f6cd55b6693dd6722b39426c49d6fe28b789d"
+      "bytes": 1320,
+      "sha256": "4089594078840fd01ff963fc7d5e9c07022399911a81c33f042d0e355abc19e8"
     }
   },
   "manifest_id": "manifest.presentation-experience-gap-audit.v1"

@@ -30,6 +30,15 @@ from split_model import (
     SPLIT_SOURCES,
 )
 from frontier_model import FRONTIER_CROSSWALK, FRONTIER_LAWS, FRONTIER_SOURCES
+from vacancy_model import (
+    COMPILER_WIRING,
+    LIBRARY_SEAMS as VACANCY_LIBRARY_SEAMS,
+    OWNERSHIP_MATRIX,
+    VACANCY_ADJUDICATIONS,
+    VACANCY_DDD_DOSSIERS,
+    VACANCY_LAWS,
+    VACANCY_SOURCES,
+)
 
 
 INPUTS = {
@@ -114,7 +123,7 @@ def input_snapshot() -> dict[str, Any]:
 
 
 def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
-    all_sources = SOURCES + SPLIT_SOURCES + FRONTIER_SOURCES
+    all_sources = SOURCES + SPLIT_SOURCES + FRONTIER_SOURCES + VACANCY_SOURCES
     retained_rows = load_jsonl(INPUTS["retained_products"])
     retained_products = {row["local_subject_ref"] for row in retained_rows}
     bi_bindings = load_jsonl(INPUTS["bi_bindings"])
@@ -273,15 +282,22 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
                 "status": "OPEN",
                 "completion_claim": False,
             })
+    adjudicated_product_gaps = {
+        "hypothesis.presentation.interactive_exploration": ("RESEARCH_ADJUDICATED_STRONG_PRODUCT", ["canonical_graph_migration", "owner_ratification", "implementation_qualification", "two_vertical_acceptances"]),
+        "hypothesis.presentation.formal_reporting": ("RESEARCH_ADJUDICATED_STRONG_PRODUCT", ["canonical_graph_migration", "owner_ratification", "implementation_qualification", "two_vertical_acceptances"]),
+        "hypothesis.presentation.alerting": ("RESEARCH_ADJUDICATED_COMPOSITE_RETIRED", ["superseded_decision_migration", "external_domain_owner_ratification", "exact_contract_selection", "implementation_qualification"]),
+    }
     for hypothesis in product_hypotheses:
+        resolution = adjudicated_product_gaps.get(hypothesis["hypothesis_id"])
         gaps.append({
             "gap_id": f"gap.presentation.product.{slug(hypothesis['hypothesis_id'].split('.')[-1])}",
             "record_kind": "presentation_research_gap",
             "gap_class": "PRODUCT_BOUNDARY_ADJUDICATION",
             "subject_ref": hypothesis["hypothesis_id"],
-            "evidence_needed": hypothesis["promotion_gates"],
+            "evidence_needed": resolution[1] if resolution else hypothesis["promotion_gates"],
             "blocking_for_promotion_or_compilation": True,
-            "status": "OPEN",
+            "research_disposition": resolution[0] if resolution else "UNRESOLVED_BOUNDARY_RESEARCH",
+            "status": "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN" if resolution else "OPEN",
             "completion_claim": False,
         })
     gaps.append({
@@ -318,7 +334,15 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "external_frontier_rows_adjudicated": len(FRONTIER_CROSSWALK),
         "frontier_level_noncollapse_laws": len(FRONTIER_LAWS),
         "frontier_genuine_research_vacancies": sum(row["disposition"] == "GENUINE_RESEARCH_VACANCY" for row in FRONTIER_CROSSWALK),
+        "vacancy_boundary_adjudications": len(VACANCY_ADJUDICATIONS),
+        "vacancy_meaning_allocations": len(OWNERSHIP_MATRIX),
+        "vacancy_library_seams": len(VACANCY_LIBRARY_SEAMS),
+        "vacancy_noncollapse_laws": len(VACANCY_LAWS),
+        "vacancy_compiler_transforms": len(COMPILER_WIRING),
+        "external_candidate_ddd_dossiers": len(VACANCY_DDD_DOSSIERS),
         "open_gaps": len(gaps),
+        "research_resolved_downstream_gated_gaps": sum(row["status"] == "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN" for row in gaps),
+        "unresolved_research_gaps": sum(row["status"] == "OPEN" for row in gaps),
         "ratified_products": 0,
         "ratified_contracts": 0,
         "qualified_implementations": 0,
@@ -342,6 +366,12 @@ def build() -> dict[str, list[dict[str, Any]] | dict[str, Any]]:
         "split_ddd_dossiers": SPLIT_DDD_DOSSIERS,
         "frontier_crosswalk": FRONTIER_CROSSWALK,
         "frontier_laws": FRONTIER_LAWS,
+        "vacancy_adjudications": VACANCY_ADJUDICATIONS,
+        "vacancy_ownership": OWNERSHIP_MATRIX,
+        "vacancy_library_seams": VACANCY_LIBRARY_SEAMS,
+        "vacancy_laws": VACANCY_LAWS,
+        "vacancy_compiler_wiring": COMPILER_WIRING,
+        "vacancy_ddd_dossiers": VACANCY_DDD_DOSSIERS,
         "input_snapshot": input_snapshot(),
         "summary": summary,
     }
@@ -364,6 +394,12 @@ FILES = {
     "split_ddd_dossiers": "bi-reporting-split-ddd-dossiers.jsonl",
     "frontier_crosswalk": "external-38-family-frontier-crosswalk.jsonl",
     "frontier_laws": "frontier-level-non-collapse-laws.jsonl",
+    "vacancy_adjudications": "presentation-vacancy-adjudications.jsonl",
+    "vacancy_ownership": "presentation-vacancy-meaning-ownership.jsonl",
+    "vacancy_library_seams": "presentation-vacancy-library-seams.jsonl",
+    "vacancy_laws": "presentation-vacancy-non-collapse-laws.jsonl",
+    "vacancy_compiler_wiring": "presentation-vacancy-compiler-wiring.jsonl",
+    "vacancy_ddd_dossiers": "presentation-vacancy-ddd-dossiers.jsonl",
 }
 
 

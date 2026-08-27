@@ -4,7 +4,7 @@
   "files": {
     "compiler-selection-gates.jsonl": {
       "bytes": 606076,
-      "sha256": "e93357a93b4b3e538379119ad62b011802248a06c23029a8c19f48e0c19e4cff"
+      "sha256": "86aa24255ea81155c1dde4440715ed3afc2ac31b3109017c21c6776c81e05489"
     },
     "concrete-reference-resolutions.jsonl": {
       "bytes": 357858,
@@ -23,8 +23,8 @@
       "sha256": "cf93ffc94997b94202cdb3ae20e39ba1169854c2272b2c3c1117e70252b88cc4"
     },
     "qualification-scope-kernels.jsonl": {
-      "bytes": 947384,
-      "sha256": "a5fe2f9c0695e421aac59727f10e2249c2aa9536b7109c539d649e53bed36dc0"
+      "bytes": 947393,
+      "sha256": "8c2d33c33ad0b6e59f5ebdd7e50aa69b9551713e96401fa7dc347e4cd533fd4c"
     },
     "resolution-ontology.json": {
       "bytes": 186,
@@ -32,11 +32,11 @@
     },
     "subject-dockets.jsonl": {
       "bytes": 1481853,
-      "sha256": "6c595a1d29fd50fb02357b38b1490e2351496dba3ade8b895980223e01d4ea08"
+      "sha256": "ec039f5a8e27f677ce430d45fba002eb054f963ddb4be31f068fab7805a958a4"
     },
     "summary.json": {
       "bytes": 3132,
-      "sha256": "1e83f3cef3ba7af814bdf7182adb31a5c8195f6b5ac386229af1644ecaa6209a"
+      "sha256": "ae12aaaad739d8dab5eac1bc523b9febea102298a2ed3bf4c44a65d07fa61f3e"
     }
   },
   "manifest_id": "manifest.p6-implementation-qualification.v1"

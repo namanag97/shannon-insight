@@ -605,16 +605,18 @@
     {
       "adoption_unit": false,
       "artifact_id": "neighbor.notification_delivery",
-      "definition": "Owns channel delivery attempts and receipts, not analytical alert meaning.",
+      "definition": "Owns workflow, preference projection, channel routing, provider delivery attempts and receipts, but not analytical alert, content-subscription or business-acknowledgment meaning.",
       "evidence_refs": [
-        "evidence.prometheus.alertmanager",
-        "evidence.grafana.notifications"
+        "evidence.knock.workflows",
+        "evidence.knock.preferences",
+        "evidence.novu.workflow_api",
+        "evidence.prometheus.alertmanager"
       ],
       "kind": "neighboring_product",
-      "name": "Notification delivery service",
+      "name": "Notification orchestration and delivery",
       "operated": false,
       "semantic_owner_ref": null,
-      "status": "import_only"
+      "status": "strong_external_product_candidate_import_only"
     },
     {
       "adoption_unit": false,
@@ -851,13 +853,13 @@
     {
       "adoption_unit": false,
       "artifact_id": "semantic.subscription",
-      "definition": "recipient, content, schedule, parameter, channel and cancellation contract",
+      "definition": "subscriber intent, exact content, parameter/data cut, schedule and cancellation contract that emits attention intent without owning channel delivery",
       "evidence_refs": [
         "evidence.prometheus.alertmanager",
         "evidence.grafana.notifications"
       ],
       "kind": "semantic_contract",
-      "name": "Analytical subscription",
+      "name": "Analytical content subscription",
       "operated": false,
       "semantic_owner_ref": null,
       "status": "candidate"
@@ -1580,13 +1582,16 @@
     },
     {
       "decision_id": "decision.consumption.alert_subscription",
-      "disposition": "merge_into_capability_until_independent_service_proven",
+      "disposition": "retire_composite_keep_producer_capabilities_import_notification_product",
       "evidence_refs": [
         "evidence.prometheus.alertmanager",
         "evidence.grafana.notifications",
-        "evidence.powerbi.subscription"
+        "evidence.powerbi.subscription",
+        "evidence.knock.workflows",
+        "evidence.knock.preferences",
+        "evidence.novu.workflow_api"
       ],
-      "rationale": "Alert evaluation, alert state, report snapshot and channel delivery are separate meanings; bundling them in BI does not create one sovereign product.",
+      "rationale": "Alert evaluation remains with the producing analytical product, content subscription remains with its content product, notification workflow/delivery is an independently adoptable external horizontal product, and business acknowledgment/escalation remains with domain workflow owners.",
       "subject_ref": "semantic.subscription"
     },
     {
@@ -1686,7 +1691,7 @@
         "semantic.subscription",
         "neighbor.notification_delivery"
       ],
-      "disposition": "split_capabilities_and_neighbor",
+      "disposition": "retire_composite_split_producer_capabilities_and_external_product",
       "legacy_ref": "candidate.product.alert_subscription"
     },
     {
@@ -3303,28 +3308,31 @@
     {
       "class": "runtime_boundary",
       "decisions": [
-        "recipient_policy",
+        "content_cut_policy",
         "schedule_policy",
-        "retry_policy"
+        "subscriber_audience_intent_policy"
       ],
       "dependencies": [
-        "library.consumption.alert_state",
         "library.consumption.report_snapshot",
         "library.consumption.export_writer"
       ],
-      "effect_boundary": "effect_intents_and_receipts",
+      "effect_boundary": "attention_intents_only_no_channel_io",
       "evidence_refs": [
         "evidence.powerbi.subscription",
-        "evidence.prometheus.alertmanager"
+        "evidence.knock.workflows",
+        "evidence.novu.workflow_api"
       ],
       "invariants": [
-        "scheduled_does_not_mean_delivered",
-        "delivered_does_not_mean_authorized_use"
+        "scheduled_does_not_mean_evaluated",
+        "attention_intent_does_not_mean_delivery",
+        "delivery_does_not_mean_business_acknowledgment"
       ],
       "library_id": "library.consumption.subscription_runner",
       "operations": [
-        "plan_delivery",
-        "record_delivery"
+        "validate_subscription",
+        "evaluate_schedule",
+        "emit_attention_intent",
+        "cancel_subscription"
       ],
       "owner_ref": "semantic.subscription",
       "product_refs": [
@@ -3334,14 +3342,16 @@
         "capability.run_subscription"
       ],
       "refusals": [
-        "unauthorized_recipient",
+        "unauthorized_subscriber",
         "expired_subscription",
-        "delivery_failed"
+        "content_cut_unclosed",
+        "schedule_ambiguous",
+        "attention_intent_invalid"
       ],
       "types": [
-        "Subscription",
-        "DeliveryIntent",
-        "DeliveryReceipt"
+        "ContentSubscription",
+        "ScheduleOccurrence",
+        "AttentionIntent"
       ]
     },
     {
@@ -3933,13 +3943,13 @@
       "term": "Analytical alert state"
     },
     {
-      "invariant": "Analytical subscription identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
+      "invariant": "Analytical content subscription identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
       "meaning_id": "meaning.subscription",
       "must_not_be_owned_by": [
         "neighbor.notification_delivery"
       ],
       "owner_ref": "semantic.subscription",
-      "term": "Analytical subscription"
+      "term": "Analytical content subscription"
     },
     {
       "invariant": "Spreadsheet governance identity and state cannot be inferred from provider packaging, rendered bytes or generated prose.",
@@ -4386,6 +4396,36 @@
       "source_id": "evidence.grafana.export",
       "title": "Export alerting resources",
       "uri": "https://grafana.com/docs/grafana/latest/alerting/set-up/provision-alerting-resources/export-alerting-resources/"
+    },
+    {
+      "claim": "Documents an independently operated notification workflow lifecycle with triggers, steps, conditions, batching and channel delivery.",
+      "publisher": "Knock",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Notification orchestration does not own the triggering analytical condition, content meaning or business disposition.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.knock.workflows",
+      "title": "Workflows",
+      "uri": "https://docs.knock.app/concepts/workflows"
+    },
+    {
+      "claim": "Documents recipient and tenant preference evaluation independently of the producing application.",
+      "publisher": "Knock",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Preferences do not grant legal purpose, identity, disclosure or business authority.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.knock.preferences",
+      "title": "Preferences",
+      "uri": "https://docs.knock.app/concepts/preferences"
+    },
+    {
+      "claim": "A second independent platform exposes notification workflow create, retrieve, update, delete and preview surfaces.",
+      "publisher": "Novu",
+      "retrieved_at": "2026-08-26",
+      "scope_limit": "Provider API shape is adoption evidence, not a selected portable semantic contract.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.novu.workflow_api",
+      "title": "Create a workflow",
+      "uri": "https://docs.novu.co/api-reference/workflows/create-a-workflow"
     },
     {
       "claim": "Defines recalculated spreadsheet formula syntax and semantics under an exact standard edition.",

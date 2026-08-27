@@ -51,9 +51,15 @@ def main() -> int:
     dossiers = built["split_ddd_dossiers"]
     frontier = built["frontier_crosswalk"]
     frontier_laws = built["frontier_laws"]
+    vacancy_adjudications = built["vacancy_adjudications"]
+    vacancy_ownership = built["vacancy_ownership"]
+    vacancy_libraries = built["vacancy_library_seams"]
+    vacancy_laws = built["vacancy_laws"]
+    vacancy_wiring = built["vacancy_compiler_wiring"]
+    vacancy_dossiers = built["vacancy_ddd_dossiers"]
     summary = built["summary"]
 
-    require(len(sources) >= 50, "primary/official source floor not met")
+    require(len(sources) >= 64, "primary/official source floor not met")
     require(len({row["source_id"] for row in sources}) == len(sources), "duplicate source id")
     require(all(row["bounded_claim"] and row["authority_limit"] for row in sources), "unbounded evidence claim")
     evidence_ids = {row["source_id"] for row in sources}
@@ -75,7 +81,10 @@ def main() -> int:
     require(all(row["evidence_refs"] and set(row["evidence_refs"]) <= evidence_ids for row in libraries), "library evidence is missing or unresolved")
     require(all(not row["unresolved_retained_product_refs"] for row in hypotheses), "product hypothesis references unknown retained products")
     require(all(row["compiler_binding"].startswith("REFUSED") for row in libraries), "compiler binding bypassed")
-    require(all(row["blocking_for_promotion_or_compilation"] and row["status"] == "OPEN" for row in gaps), "gap closed without evidence")
+    require(all(row["blocking_for_promotion_or_compilation"] and row["status"] in {"OPEN", "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN"} for row in gaps), "gap closed without downstream evidence")
+    resolved_gap_subjects = {row["subject_ref"] for row in gaps if row["status"] == "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN"}
+    require(resolved_gap_subjects == {"hypothesis.presentation.interactive_exploration", "hypothesis.presentation.formal_reporting", "hypothesis.presentation.alerting"}, "research-resolved gap projection drift")
+    require(all(row.get("research_disposition", "").startswith("RESEARCH_ADJUDICATED_") and row["evidence_needed"] for row in gaps if row["status"] == "RESEARCH_RESOLVED_DOWNSTREAM_GATES_OPEN"), "resolved research gap lost downstream gates")
     require(summary["ratified_products"] == summary["ratified_contracts"] == summary["qualified_implementations"] == 0, "physical or semantic proof fabricated")
     require(summary["completion_claim"] is False and summary["status"].endswith("INCOMPLETE"), "audit overclaims completion")
     require({row["name"] for row in artifacts} >= {"dashboard", "paginated_report", "regulatory_report", "notebook", "spreadsheet_workbook", "map_view", "graph_view", "waveform_view", "volume_3d_view", "embedded_view", "alert_occurrence", "accessible_equivalent"}, "critical presentation artifacts missing")
@@ -105,10 +114,33 @@ def main() -> int:
     require(len(frontier) == 38 and [row["frontier_id"] for row in frontier] == [f"H{i:02d}" for i in range(1, 39)], "external frontier is not losslessly represented")
     require(all(set(row["retained_product_refs"]) <= retained_refs for row in frontier), "frontier crosswalk references unknown retained products")
     require(all(row["adjudicated_ontology_level"] and row["disposition"] and row["bounded_finding"] for row in frontier), "frontier row lacks typed disposition")
-    require({row["disposition"] for row in frontier} >= {"COVERED", "SPLIT_CANDIDATE", "DO_NOT_PROMOTE_AS_ONE_PRODUCT", "GENUINE_RESEARCH_VACANCY", "COVERED_DO_NOT_COLLAPSE"}, "frontier dispositions collapsed")
-    require(sum(row["disposition"] == "GENUINE_RESEARCH_VACANCY" for row in frontier) == 2, "genuine frontier vacancy count drift")
+    require({row["disposition"] for row in frontier} >= {"COVERED", "SPLIT_CANDIDATE", "DO_NOT_PROMOTE_AS_ONE_PRODUCT", "RESOLVED_DEFER_PRODUCT_PROMOTION", "RESOLVED_RETIRE_COMPOSITE", "COVERED_DO_NOT_COLLAPSE"}, "frontier dispositions collapsed")
+    require(sum(row["disposition"] == "GENUINE_RESEARCH_VACANCY" for row in frontier) == 0, "adjudicated frontier vacancy remained open")
     require(len(frontier_laws) == 5 and {row["law"] for row in frontier_laws} >= {"analytical_method_family != operated_product", "product_cluster != bounded_context", "shared_intermediate_representation != product", "machine_or_library != product"}, "frontier ontology-level laws incomplete")
-    require(summary["external_frontier_rows_adjudicated"] == 38 and summary["frontier_genuine_research_vacancies"] == 2, "frontier summary drift")
+    require(summary["external_frontier_rows_adjudicated"] == 38 and summary["frontier_genuine_research_vacancies"] == 0, "frontier summary drift")
+    require(len(vacancy_adjudications) == 3, "vacancy adjudication cardinality drift")
+    by_subject = {row["subject_ref"]: row for row in vacancy_adjudications}
+    content_decision = by_subject["hypothesis.presentation.analytical_content_collaboration"]
+    notification_decision = by_subject["external.product.notification_orchestration_delivery"]
+    composite_decision = by_subject["candidate.product.alert_subscription"]
+    require(content_decision["score_total"] == 14 and content_decision["verdict"] == "DEFER_PRODUCT_PROMOTION_RETAIN_SHARED_CONTROL_PLANE_AND_LIBRARIES", "content collaboration boundary overpromoted or underexplained")
+    require(notification_decision["score_total"] == 20 and notification_decision["verdict"] == "STRONG_EXTERNAL_HORIZONTAL_PRODUCT" and notification_decision["analytics_posture"] == "IMPORTED_NEIGHBOR_NOT_ANALYTICS_OWNED", "notification product boundary incorrect")
+    require(composite_decision["verdict"] == "RETIRE_COMPOSITE_AND_REALLOCATE_MEANINGS", "alert/subscription composite not retired")
+    require(all(row["ratification"] == "WITHHELD" for row in vacancy_adjudications), "vacancy boundary authority fabricated")
+    require(all(set(row["split_test"]) == {"user", "job", "adoption", "semantics", "authority", "lifecycle", "operation", "economics", "interface", "market_evidence"} for row in [content_decision, notification_decision]), "vacancy split test incomplete")
+    require(all(all(set(axis["evidence_refs"]) <= evidence_ids for axis in row["split_test"].values()) for row in [content_decision, notification_decision]), "vacancy split evidence unresolved")
+    require(len(vacancy_ownership) == 22 and len({row["meaning"] for row in vacancy_ownership}) == 22, "vacancy meaning ownership incomplete")
+    require({row["proposed_owner"] for row in vacancy_ownership} >= {"PRODUCING_ANALYTICAL_PRODUCT", "CONTENT_PRODUCER_PRODUCT", "EXTERNAL_NOTIFICATION_PRODUCT", "IMPORTED_INCIDENT_OR_CASE_WORKFLOW", "SHARED_CONTENT_CONTROL_PLANE"}, "critical vacancy owners missing")
+    require(len(vacancy_libraries) == 28 and len({row["library_ref"] for row in vacancy_libraries}) == 28, "vacancy library seams incomplete")
+    require(all(len(row["required_contract_surface"]) == 13 and row["status"] == "CANDIDATE_UNRATIFIED" for row in vacancy_libraries), "vacancy library contract surfaces incomplete")
+    require(len(vacancy_laws) == 20 and {row["law"] for row in vacancy_laws} >= {"alert_occurrence != notification_delivery_attempt", "delivery_outcome != human_acknowledgment", "content_container != analytical_artifact", "collaboration_review != product_specific_approval"}, "vacancy non-collapse laws incomplete")
+    require(len(vacancy_wiring) == 6 and {row["effect"] for row in vacancy_wiring} >= {"PURE_INTENT_CONSTRUCTION", "PURE_PLAN", "EXTERNAL_COMMUNICATION_EFFECT", "EVIDENCE_REDUCTION", "PURE_EXPORT_CONSTRUCTION"}, "vacancy compiler wiring incomplete")
+    require(all(row["input"] and row["output"] and row["refusals"] for row in vacancy_wiring), "compiler transform is partial")
+    require(len(vacancy_dossiers) == 1 and vacancy_dossiers[0]["product_ref"] == "external.product.notification_orchestration_delivery", "external notification DDD missing")
+    require(set(vacancy_dossiers[0]["strategic_and_tactical_ddd"]) == required_ddd, "external notification DDD coverage drift")
+    require(vacancy_dossiers[0]["status"] == "COMPLETE_CANDIDATE_NOT_RATIFIED" and vacancy_dossiers[0]["completion_claim"] is False, "external notification DDD overclaims completion")
+    require(summary["vacancy_boundary_adjudications"] == 3 and summary["vacancy_meaning_allocations"] == 22 and summary["vacancy_library_seams"] == 28 and summary["vacancy_compiler_transforms"] == 6, "vacancy summary drift")
+    require(summary["research_resolved_downstream_gated_gaps"] == 3 and summary["unresolved_research_gaps"] == len(gaps) - 3, "gap summary does not distinguish research from downstream work")
 
     if errors:
         for error in errors:
@@ -118,9 +150,10 @@ def main() -> int:
         "PASS presentation-experience gap audit: "
         f"{len(sources)} sources; {len(artifacts)} artifacts x {len(results)} result kinds = {len(cells)} compatibility cells; "
         f"{len(obligations)} artifact-axis obligations; {len(hypotheses)} product hypotheses; "
-        f"{len(libraries)} library seams; {len(laws)} non-collapse laws; {len(gaps)} open gaps; "
+        f"{len(libraries)} library seams; {len(laws)} non-collapse laws; {summary['unresolved_research_gaps']} unresolved research gaps + {summary['research_resolved_downstream_gated_gaps']} downstream-gated resolutions; "
         f"1 adjudicated split, 2 strong candidate products, {len(allocations)} allocated libraries; "
-        f"38 external frontier rows typed with 2 genuine research vacancies; "
+        f"38 external frontier rows typed with 0 open research vacancies; "
+        f"3 vacancy adjudications, {len(vacancy_ownership)} meaning allocations, {len(vacancy_libraries)} library seams; "
         "0 ratified products/contracts/implementations"
     )
     return 0

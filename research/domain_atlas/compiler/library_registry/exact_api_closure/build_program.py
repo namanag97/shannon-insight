@@ -41,6 +41,7 @@ FAMILY_BY_NAMESPACE = {
     "forecast": "forecasting_lifecycle",
     "experiment": "experimentation_lifecycle",
     "cp": "connector_protocol",
+    "application": "application_behavior",
 }
 
 GEOSPATIAL_NAMESPACES = {
@@ -72,6 +73,7 @@ FAMILY_EVIDENCE_PROGRAM = {
     "experimentation_lifecycle": ["experimental-design and causal-inference standards", "assignment, integrity, analysis-binding and conclusion lifecycles", "randomization, interference and multiplicity tests"],
     "geospatial_analytics": ["OGC and geospatial format/service standards", "CRS, topology, accuracy and workflow contracts", "coordinate, topology and accuracy differential tests"],
     "connector_protocol": ["protocol and connector specifications", "codec, transport, adapter and conformance boundaries", "wire fixtures, fault injection and interoperability tests"],
+    "application_behavior": ["application interaction, state, workflow, event, projection and effect-handoff specifications", "explicit authority, time, resource, refusal and receipt boundaries", "command/event, version conflict, retry/compensation, lag, effect-unknown and replay tests"],
 }
 
 # These are discovery seeds, not adopted semantic authority.  A batch owner must
@@ -161,6 +163,33 @@ FAMILY_PRIMARY_EVIDENCE_SEEDS = {
             "title": "IETF RFC 9334 RATS Architecture",
             "uri": "https://www.rfc-editor.org/rfc/rfc9334.html",
             "claim_scope": "runtime evidence freshness, appraisal, trust roles and authorization separation",
+        },
+    ],
+    "application_behavior": [
+        {
+            "title": "OpenAPI Specification 3.2.0",
+            "uri": "https://spec.openapis.org/oas/v3.2.0.html",
+            "claim_scope": "language-agnostic HTTP interface description; it does not establish domain command meaning or effect authority",
+        },
+        {
+            "title": "CloudEvents Specification 1.0.x",
+            "uri": "https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md",
+            "claim_scope": "interoperable event context attributes and serialization envelope; it does not define event processing guarantees",
+        },
+        {
+            "title": "W3C State Chart XML (SCXML) 1.0",
+            "uri": "https://www.w3.org/TR/scxml/",
+            "claim_scope": "event-driven state configuration and transition notation; it does not prove application ownership or persistence",
+        },
+        {
+            "title": "Sagas",
+            "uri": "https://doi.org/10.1145/38713.38742",
+            "claim_scope": "long-lived transaction decomposition and explicit compensating transactions; it does not make compensation rollback",
+        },
+        {
+            "title": "W3C PROV Data Model",
+            "uri": "https://www.w3.org/TR/prov-dm/Overview.html",
+            "claim_scope": "provenance relations among entities, activities and agents; it does not prove truth, authority or business acceptance",
         },
     ],
 }

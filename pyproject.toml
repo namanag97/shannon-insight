@@ -111,10 +111,12 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+norecursedirs = ["tests/fixtures"]
 
 [tool.ruff]
 target-version = "py39"
 line-length = 100
+exclude = ["tests/fixtures"]
 
 [tool.ruff.lint]
 select = [

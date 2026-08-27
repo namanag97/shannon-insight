@@ -1,0 +1,101 @@
+name: Shannon Python Placement Audit
+
+on:
+  push:
+    branches:
+      - architecture/shannon-python-product-placement
+    paths:
+      - src/shannon_insight/**
+      - research/analytics_landscape/product_families/**
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_*.py
+      - tests/research/test_shannon_codebase_intelligence_ddd.py
+      - .github/workflows/shannon-python-placement-audit.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/shannon_insight/**
+      - research/analytics_landscape/product_families/**
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_*.py
+      - tests/research/test_shannon_codebase_intelligence_ddd.py
+      - .github/workflows/shannon-python-placement-audit.yml
+  workflow_dispatch:
+
+concurrency:
+  group: shannon-python-placement-audit-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - name: Generate complete Python placement foundation
+        run: |
+          python3 research/product_ontology/implementation_placement/build_shannon_python_placement.py
+          python3 research/product_ontology/implementation_placement/build_shannon_python_source_totality.py
+          python3 research/product_ontology/implementation_placement/build_shannon_python_extraction_frontier.py
+          python3 research/product_ontology/implementation_placement/build_shannon_codebase_intelligence_ddd.py
+          python3 research/product_ontology/implementation_placement/build_python_placement_evidence.py
+          python3 research/product_ontology/implementation_placement/build_manifest.py
+          python3 research/product_ontology/implementation_placement/build_audit.py
+      - name: Validate complete Python placement foundation
+        run: |
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_placement.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_schemas.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_source_totality.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_extraction_frontier.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_codebase_intelligence_ddd.py
+          python3 research/product_ontology/implementation_placement/validate_python_placement_evidence.py
+          python3 research/product_ontology/implementation_placement/validate_manifest.py
+          python3 research/product_ontology/implementation_placement/validate_audit.py
+      - name: Run focused regression suite
+        run: |
+          pytest -q \
+            tests/research/test_shannon_python_placement.py \
+            tests/research/test_shannon_python_placement_schema.py \
+            tests/research/test_shannon_python_source_totality.py \
+            tests/research/test_shannon_python_extraction_frontier.py \
+            tests/research/test_shannon_codebase_intelligence_ddd.py \
+            tests/research/test_shannon_python_placement_evidence.py \
+            tests/research/test_shannon_python_implementation_placement_manifest.py \
+            tests/research/test_shannon_python_placement_audit.py
+      - name: Require generated audit corpus in pull requests
+        if: github.event_name == 'pull_request'
+        run: git diff --exit-code -- research/product_ontology/implementation_placement/
+      - name: Persist one coherent audit corpus on the placement branch
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'shannon-insight-architecture-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            research/product_ontology/implementation_placement/shannon-python-placement.json \
+            research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl \
+            research/product_ontology/implementation_placement/summary.json \
+            research/product_ontology/implementation_placement/shannon-python-source-totality.json \
+            research/product_ontology/implementation_placement/shannon-python-extraction-candidates.jsonl \
+            research/product_ontology/implementation_placement/shannon-python-extraction-summary.json \
+            research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd.json \
+            research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd-summary.json \
+            research/product_ontology/implementation_placement/shannon-python-placement-evidence.jsonl \
+            research/product_ontology/implementation_placement/shannon-python-placement-evidence-summary.json \
+            research/product_ontology/implementation_placement/manifest.json \
+            research/product_ontology/implementation_placement/audit.json
+          if git diff --cached --quiet; then
+            echo 'Python placement audit corpus already current'
+            exit 0
+          fi
+          git commit -m 'architecture: converge Python placement audit corpus [skip placement-audit]'
+          git push origin HEAD:${{ github.ref_name }}

@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-08-28",
+  "unknown_dependency_policy": "REFUSE_GENERATION",
+  "laws": [
+    "dependency_package != abstract_contract",
+    "provider_api != canonical_semantic_type",
+    "installation_success != implementation_qualification",
+    "version_constraint != reproducible_build",
+    "optional_extra != product_boundary",
+    "native_extension != portable_semantics",
+    "development_tool != production_runtime",
+    "same_capability_label != substitutable_provider"
+  ],
+  "providers": {
+    "numpy": {
+      "provider_role": "NUMERIC_ARRAY_RUNTIME",
+      "effect_boundary": "IN_PROCESS_NATIVE_COMPUTE_PROVIDER",
+      "replacement_seam": "Array shape, dtype, missingness, ordering, numeric precision and error behavior require canonical vectors before substitution."
+    },
+    "scikit-learn": {
+      "provider_role": "STATISTICAL_AND_ML_METHOD_RUNTIME",
+      "effect_boundary": "IN_PROCESS_COMPUTE_PROVIDER",
+      "replacement_seam": "Estimator identity, preprocessing, randomness, learned state, prediction shape and numeric tolerance require exact method contracts."
+    },
+    "scipy": {
+      "provider_role": "SCIENTIFIC_NUMERIC_METHOD_RUNTIME",
+      "effect_boundary": "IN_PROCESS_NATIVE_COMPUTE_PROVIDER",
+      "replacement_seam": "Algorithm selection, convergence, tolerances, sparse/dense behavior and failure semantics require exact vectors and resource envelopes."
+    },
+    "rich": {
+      "provider_role": "TERMINAL_PRESENTATION_PROVIDER",
+      "effect_boundary": "EXPERIENCE_RENDERING_PROVIDER",
+      "replacement_seam": "Rendered formatting may change, but semantic result identities and evidence must remain unchanged."
+    },
+    "textual": {
+      "provider_role": "TERMINAL_APPLICATION_EXPERIENCE_PROVIDER",
+      "effect_boundary": "INTERACTIVE_EXPERIENCE_RUNTIME_PROVIDER",
+      "replacement_seam": "Interaction state, accessibility, cancellation and admitted-command boundaries require explicit compatibility tests."
+    },
+    "pydantic": {
+      "provider_role": "RUNTIME_CARRIER_VALIDATION_PROVIDER",
+      "effect_boundary": "IN_PROCESS_VALIDATION_PROVIDER",
+      "replacement_seam": "Hostile carrier admission, coercion, unknown fields, error paths and serialization rules require exact compatibility policy."
+    },
+    "pydantic-settings": {
+      "provider_role": "RUNTIME_CONFIGURATION_ADMISSION_PROVIDER",
+      "effect_boundary": "ENVIRONMENT_CONFIGURATION_PROVIDER",
+      "replacement_seam": "Precedence, defaults, secret handling, parsing and refusal behavior require explicit configuration contracts."
+    },
+    "diskcache": {
+      "provider_role": "LOCAL_CACHE_PROVIDER",
+      "effect_boundary": "LOCAL_STATE_PROVIDER",
+      "replacement_seam": "Cache identity, expiry, serialization, locking, eviction, corruption and invalidation semantics require bounded tests."
+    },
+    "typer": {
+      "provider_role": "COMMAND_LINE_ADAPTER_PROVIDER",
+      "effect_boundary": "EXPERIENCE_AND_COMMAND_ADAPTER",
+      "replacement_seam": "Command names, arguments, exit codes, help, validation and cancellation remain compatibility surfaces."
+    },
+    "tree-sitter": {
+      "provider_role": "PROGRAM_SYNTAX_PARSER_RUNTIME",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Grammar edition, error recovery, byte ranges, encoding and normalization require differential parser evidence."
+    },
+    "tree-sitter-language-pack": {
+      "provider_role": "PROGRAM_GRAMMAR_BUNDLE_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Bundled grammar identities and versions must be observed; language-name equality is not parser equivalence."
+    },
+    "pathspec": {
+      "provider_role": "SOURCE_DISCOVERY_POLICY_PROVIDER",
+      "effect_boundary": "IN_PROCESS_DISCOVERY_PROVIDER",
+      "replacement_seam": "Pattern dialect, precedence, directory anchoring, negation and normalization require discovery golden tests."
+    },
+    "pyarrow": {
+      "provider_role": "COLUMNAR_INTERCHANGE_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_DATA_PROVIDER",
+      "replacement_seam": "Schema, nullability, dictionary encoding, metadata, chunking, IPC and numeric equality require exact interchange contracts."
+    },
+    "duckdb": {
+      "provider_role": "EMBEDDED_ANALYTICAL_QUERY_PROVIDER",
+      "effect_boundary": "LOCAL_QUERY_ENGINE_PROVIDER",
+      "replacement_seam": "SQL dialect, types, ordering, transactions, resource limits, persistence and extension behavior require exact query profiles."
+    },
+    "starlette": {
+      "provider_role": "HTTP_APPLICATION_INTERFACE_PROVIDER",
+      "effect_boundary": "NETWORK_SERVICE_PROVIDER",
+      "replacement_seam": "Request identity, middleware order, streaming, disconnect, error and lifecycle semantics require protocol tests."
+    },
+    "uvicorn": {
+      "provider_role": "ASGI_PROCESS_RUNTIME_PROVIDER",
+      "effect_boundary": "PROCESS_AND_NETWORK_RUNTIME_PROVIDER",
+      "replacement_seam": "Startup, shutdown, concurrency, timeout, signal, socket and worker behavior require physical occurrence evidence."
+    },
+    "watchfiles": {
+      "provider_role": "FILESYSTEM_CHANGE_WATCH_PROVIDER",
+      "effect_boundary": "OPERATING_SYSTEM_EVENT_PROVIDER",
+      "replacement_seam": "Coalescing, ordering, overflow, rename, loss and platform behavior require occurrence-specific tests."
+    },
+    "tree-sitter-python": {
+      "provider_role": "PYTHON_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Grammar version, recovery and node mapping require parser differential vectors."
+    },
+    "tree-sitter-go": {
+      "provider_role": "GO_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Grammar version, recovery and node mapping require parser differential vectors."
+    },
+    "tree-sitter-typescript": {
+      "provider_role": "TYPESCRIPT_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "TypeScript and TSX grammar identity, recovery and node mapping require parser differential vectors."
+    },
+    "tree-sitter-javascript": {
+      "provider_role": "JAVASCRIPT_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Grammar version, recovery and node mapping require parser differential vectors."
+    },
+    "tree-sitter-java": {
+      "provider_role": "JAVA_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Grammar version, recovery and node mapping require parser differential vectors."
+    },
+    "tree-sitter-rust": {
+      "provider_role": "RUST_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Grammar version, recovery, macro partiality and node mapping require parser differential vectors."
+    },
+    "tree-sitter-ruby": {
+      "provider_role": "RUBY_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Grammar version, recovery and node mapping require parser differential vectors."
+    },
+    "tree-sitter-c": {
+      "provider_role": "C_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Preprocessor partiality, grammar version, recovery and node mapping require parser differential vectors."
+    },
+    "tree-sitter-cpp": {
+      "provider_role": "CPP_GRAMMAR_PROVIDER",
+      "effect_boundary": "IN_PROCESS_NATIVE_ACQUISITION_PROVIDER",
+      "replacement_seam": "Preprocessor/template partiality, grammar version, recovery and node mapping require parser differential vectors."
+    },
+    "pytest": {
+      "provider_role": "TEST_EXECUTION_TOOL",
+      "effect_boundary": "ENGINEERING_TOOL_NOT_RUNTIME",
+      "replacement_seam": "Collection, fixtures, parametrization, skip and failure reporting affect evidence execution but not product semantics."
+    },
+    "pytest-cov": {
+      "provider_role": "TEST_COVERAGE_TOOL",
+      "effect_boundary": "ENGINEERING_TOOL_NOT_RUNTIME",
+      "replacement_seam": "Coverage configuration and measurement scope must remain explicit; coverage is not conformance."
+    },
+    "mypy": {
+      "provider_role": "STATIC_TYPE_ANALYSIS_TOOL",
+      "effect_boundary": "ENGINEERING_TOOL_NOT_RUNTIME",
+      "replacement_seam": "Checker version, configuration and plugin behavior are build evidence, not semantic proof."
+    },
+    "ruff": {
+      "provider_role": "LINT_AND_FORMAT_TOOL",
+      "effect_boundary": "ENGINEERING_TOOL_NOT_RUNTIME",
+      "replacement_seam": "Rule edition and formatter output are repository hygiene evidence only."
+    },
+    "build": {
+      "provider_role": "PYTHON_BUILD_FRONTEND_TOOL",
+      "effect_boundary": "ENGINEERING_TOOL_NOT_RUNTIME",
+      "replacement_seam": "Build frontend, backend, isolation and artifact digest must be retained for reproducible-build evidence."
+    },
+    "twine": {
+      "provider_role": "PYTHON_DISTRIBUTION_CHECK_AND_UPLOAD_TOOL",
+      "effect_boundary": "ENGINEERING_TOOL_NOT_RUNTIME",
+      "replacement_seam": "Metadata checks and publication transport do not establish runtime qualification."
+    },
+    "jsonschema": {
+      "provider_role": "RESEARCH_SCHEMA_VALIDATION_TOOL",
+      "effect_boundary": "ENGINEERING_AND_RESEARCH_VALIDATION_TOOL",
+      "replacement_seam": "Draft edition, format checking, reference resolution and error behavior require validator conformance vectors."
+    }
+  },
+  "completion_claim": false
+}

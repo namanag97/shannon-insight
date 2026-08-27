@@ -12,6 +12,17 @@ capacity and execution, provenance owns evidence relations, and products/vertica
 customer and business meaning. The application plane may reference those contracts but cannot
 silently absorb them.
 
+## Concrete application bindings
+
+Provider-neutral contracts become useful only through explicit application-domain bindings. A
+binding may own its domain artifacts and lifecycle while importing horizontal contracts; it may
+not promote its implementation language or provider details into universal semantics.
+
+- [`bindings/codebase_intelligence/`](bindings/codebase_intelligence/) binds the executable Python
+  package as the **Software / Codebase Intelligence and Engineering Analytics** application
+  product. It classifies every implementation component and every research Python program, and
+  keeps all qualification, portability, build-readiness and ratification gates withheld.
+
 The corpus distinguishes:
 
 - commands from events, queries from projections, aggregate state from persistence, workflows

@@ -7,11 +7,14 @@ on:
     paths:
       - research/domain_atlas/industries/build_unresolved_frontier_profile.py
       - research/domain_atlas/industries/extract_operation_research_matches.py
+      - research/domain_atlas/industries/validate_high_impact_adjudications.py
       - research/domain_atlas/industries/canonical-reference-review-queue.jsonl
       - research/domain_atlas/industries/canonical-reference-adjudications.jsonl
+      - research/domain_atlas/industries/canonical-reference-research-evidence.jsonl
       - research/domain_atlas/industries/canonical-reference-auto-alias-candidates.jsonl
       - research/domain_atlas/industries/canonical-reference-current-method-candidates.jsonl
       - research/domain_atlas/universes/operations/operation-candidates.jsonl
+      - research/domain_atlas/context_map/gaps.jsonl
       - .github/workflows/b07-unresolved-frontier-profile.yml
   workflow_dispatch:
 
@@ -29,6 +32,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Validate high-impact B07 adjudications
+        run: python3 research/domain_atlas/industries/validate_high_impact_adjudications.py
       - name: Profile remaining B07 frontier
         run: python3 research/domain_atlas/industries/build_unresolved_frontier_profile.py
       - name: Extract canonical operation research matches

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -39,7 +40,14 @@ class FunctionalSharingContract:
 
     def draft_share(self, *, share_id: str, edition: int, provider_ref: str, provider_authorized: bool, source_semantic_owner: str) -> dict[str, Any]:
         state = self.snapshot()
-        state["share"] = {"share_id": share_id, "edition": edition, "provider_ref": provider_ref, "provider_authorized": bool(provider_authorized), "source_semantic_owner": source_semantic_owner, "status": "draft"}
+        state["share"] = {
+            "share_id": share_id,
+            "edition": edition,
+            "provider_ref": provider_ref,
+            "provider_authorized": bool(provider_authorized),
+            "source_semantic_owner": source_semantic_owner,
+            "status": "draft",
+        }
         return self._commit(state)
 
     def resolve_shared_cut(self, *, cut_id: str, object_ids: list[str], source_semantic_owner: str, source_valid_cut: str, source_recording_cut: str) -> dict[str, Any]:
@@ -47,9 +55,18 @@ class FunctionalSharingContract:
             raise Refusal("shared_cut_unresolved")
         state = self.snapshot()
         share = state.get("share")
-        if not share or source_semantic_owner != share["source_semantic_owner"]:
+        if not share:
             raise Refusal("shared_cut_unresolved")
-        state["cuts"][cut_id] = {"cut_id": cut_id, "object_ids": sorted(set(object_ids)), "source_semantic_owner": source_semantic_owner, "source_valid_cut": source_valid_cut, "source_recording_cut": source_recording_cut, "recalled": False}
+        if source_semantic_owner != share["source_semantic_owner"]:
+            raise Refusal("shared_cut_unresolved")
+        state["cuts"][cut_id] = {
+            "cut_id": cut_id,
+            "object_ids": sorted(set(object_ids)),
+            "source_semantic_owner": source_semantic_owner,
+            "source_valid_cut": source_valid_cut,
+            "source_recording_cut": source_recording_cut,
+            "recalled": False,
+        }
         return self._commit(state)
 
     def publish_share(self, *, cut_id: str, policy_edition: str) -> dict[str, Any]:
@@ -97,7 +114,16 @@ class FunctionalSharingContract:
         requested = sorted(set(object_ids))
         if not set(requested).issubset(set(cut["object_ids"])):
             raise Refusal("policy_refused")
-        state["grants"][grant_id] = {"grant_id": grant_id, "recipient_ref": recipient_ref, "purpose_ref": purpose_ref, "object_ids": requested, "cut_id": cut["cut_id"], "policy_edition": share["policy_edition"], "expires_at": int(expires_at), "revoked": False}
+        state["grants"][grant_id] = {
+            "grant_id": grant_id,
+            "recipient_ref": recipient_ref,
+            "purpose_ref": purpose_ref,
+            "object_ids": requested,
+            "cut_id": cut["cut_id"],
+            "policy_edition": share["policy_edition"],
+            "expires_at": int(expires_at),
+            "revoked": False,
+        }
         return self._commit(state)
 
     def create_subscription(self, *, subscription_id: str, grant_id: str) -> dict[str, Any]:
@@ -105,7 +131,11 @@ class FunctionalSharingContract:
         grant = state["grants"].get(grant_id)
         if not grant or grant["revoked"]:
             raise Refusal("grant_expired_or_revoked")
-        state["subscriptions"][subscription_id] = {"subscription_id": subscription_id, "grant_id": grant_id, "cut_id": grant["cut_id"]}
+        state["subscriptions"][subscription_id] = {
+            "subscription_id": subscription_id,
+            "grant_id": grant_id,
+            "cut_id": grant["cut_id"],
+        }
         return self._commit(state)
 
     def record_disclosure(self, *, receipt_id: str, grant_id: str, recipient_ref: str, purpose_ref: str, cut_id: str, policy_edition: str, at_time: int) -> dict[str, Any]:
@@ -124,7 +154,16 @@ class FunctionalSharingContract:
             raise Refusal("purpose_unbound")
         if cut_id != grant["cut_id"] or policy_edition != grant["policy_edition"]:
             raise Refusal("policy_refused")
-        state["disclosures"][receipt_id] = {"receipt_id": receipt_id, "grant_id": grant_id, "recipient_ref": recipient_ref, "purpose_ref": purpose_ref, "cut_id": cut_id, "policy_edition": policy_edition, "at_time": int(at_time), "source_semantic_owner": cut["source_semantic_owner"]}
+        state["disclosures"][receipt_id] = {
+            "receipt_id": receipt_id,
+            "grant_id": grant_id,
+            "recipient_ref": recipient_ref,
+            "purpose_ref": purpose_ref,
+            "cut_id": cut_id,
+            "policy_edition": policy_edition,
+            "at_time": int(at_time),
+            "source_semantic_owner": cut["source_semantic_owner"],
+        }
         return self._commit(state)
 
     def revoke_grant(self, *, grant_id: str, revocation_id: str, at_time: int) -> dict[str, Any]:
@@ -133,7 +172,11 @@ class FunctionalSharingContract:
         if not grant:
             raise Refusal("grant_expired_or_revoked")
         grant["revoked"] = True
-        state["revocations"][revocation_id] = {"revocation_id": revocation_id, "grant_id": grant_id, "at_time": int(at_time)}
+        state["revocations"][revocation_id] = {
+            "revocation_id": revocation_id,
+            "grant_id": grant_id,
+            "at_time": int(at_time),
+        }
         return self._commit(state)
 
     def recall_cut(self, *, cut_id: str, recall_id: str, at_time: int) -> dict[str, Any]:
@@ -143,11 +186,24 @@ class FunctionalSharingContract:
             raise Refusal("shared_cut_unresolved")
         cut["recalled"] = True
         recipients = sorted({d["recipient_ref"] for d in state["disclosures"].values() if d["cut_id"] == cut_id})
-        state["recalls"][recall_id] = {"recall_id": recall_id, "cut_id": cut_id, "at_time": int(at_time), "unresolved_recipient_refs": recipients}
+        state["recalls"][recall_id] = {
+            "recall_id": recall_id,
+            "cut_id": cut_id,
+            "at_time": int(at_time),
+            "unresolved_recipient_refs": recipients,
+        }
         return self._commit(state)
 
     def export_share(self) -> dict[str, Any]:
         state = self.snapshot()
         if not state.get("share") or state["share"].get("status") != "published":
             raise Refusal("export_incomplete")
-        return {"share": deepcopy(state["share"]), "cuts": deepcopy(state["cuts"]), "grants": deepcopy(state["grants"]), "subscriptions": deepcopy(state["subscriptions"]), "disclosures": deepcopy(state["disclosures"]), "revocations": deepcopy(state["revocations"]), "recalls": deepcopy(state["recalls"])}
+        return {
+            "share": deepcopy(state["share"]),
+            "cuts": deepcopy(state["cuts"]),
+            "grants": deepcopy(state["grants"]),
+            "subscriptions": deepcopy(state["subscriptions"]),
+            "disclosures": deepcopy(state["disclosures"]),
+            "revocations": deepcopy(state["revocations"]),
+            "recalls": deepcopy(state["recalls"]),
+        }

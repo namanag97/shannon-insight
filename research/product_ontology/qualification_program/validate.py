@@ -24,6 +24,14 @@ def main() -> int:
     check = subprocess.run([sys.executable, str(HERE / "build_program.py"), "--check"], cwd=ROOT, text=True, capture_output=True)
     if check.returncode:
         errors.append(check.stdout.strip() or check.stderr.strip())
+    effective_check = subprocess.run(
+        [sys.executable, str(HERE / "build_effective_state.py"), "--check"],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if effective_check.returncode:
+        errors.append(effective_check.stdout.strip() or effective_check.stderr.strip())
 
     gates = load_jsonl("gate-definitions.jsonl")
     edges = load_jsonl("gate-dependencies.jsonl")
@@ -33,6 +41,7 @@ def main() -> int:
     acceptance = load_jsonl("product-vertical-acceptance-programs.jsonl")
     summary = json.loads((HERE / "summary.json").read_text())
     manifest = json.loads((HERE / "manifest.json").read_text())
+    effective_summary = json.loads((HERE / "effective-summary.json").read_text())
 
     gate_ids = {row["gate_id"] for row in gates}
     if len(gates) != 16 or len(gate_ids) != len(gates):
@@ -97,6 +106,11 @@ def main() -> int:
 
     if any(summary[key] for key in ("qualified_product_count", "portable_product_count", "executed_vertical_acceptance_product_count", "build_ready_product_count", "ratified_product_count")):
         errors.append("summary contains an unsupported promotion")
+    if any(effective_summary[key] for key in ("qualified_product_count", "portable_product_count", "executed_vertical_acceptance_product_count", "build_ready_product_count", "ratified_product_count")):
+        errors.append("effective summary contains an unsupported promotion")
+    if effective_summary["effective_gate_state_counts"].get("BLOCKED_MISSING_CONTRACT", 0):
+        errors.append("effective qualification state resurrects a resolved structural compiler gap")
+
     expected_counts = {"products": len(programs), "subjects": len(subjects), "vacancies": len(vacancies), "acceptance_programs": len(acceptance), "gates": len(gates), "edges": len(edges)}
     if manifest["counts"] != expected_counts:
         errors.append("manifest counts drift")
@@ -110,7 +124,11 @@ def main() -> int:
         for error in errors:
             print("ERROR: " + error)
         return 1
-    print(f"PASS product qualification program: {len(programs)} products; {len(subjects)} exact library subjects; {len(gates)}-gate DAG; {len(vacancies)} open evidence vacancies; 0 qualified, portable, accepted, build-ready or ratified products")
+    print(
+        f"PASS product qualification program: {len(programs)} products; {len(subjects)} exact library subjects; "
+        f"{len(gates)}-gate DAG; {effective_summary['effective_evidence_vacancy_count']} effective open evidence vacancies; "
+        "0 qualified, portable, accepted, build-ready or ratified products"
+    )
     return 0
 
 

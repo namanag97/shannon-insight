@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[2]
+SOURCE_SYSTEMS=HERE.parents[1]
 
 def load_jsonl(p):return [json.loads(x) for x in Path(p).read_text(encoding='utf-8').splitlines() if x.strip()]
 def main():
@@ -11,7 +11,7 @@ def main():
     receipt=json.loads((HERE/'probe-receipt.json').read_text(encoding='utf-8'))
     occurrence=json.loads((HERE/'source-occurrence.json').read_text(encoding='utf-8'))
     summary=json.loads((HERE/'summary.json').read_text(encoding='utf-8'))
-    classes={r['class_id'] for r in load_jsonl(ROOT/'source-classes.jsonl')}
+    classes={r['class_id'] for r in load_jsonl(SOURCE_SYSTEMS/'source-classes.jsonl')}
     if occurrence['source_class_id'] not in classes: errors.append('unknown source class')
     required={'deployment_identity','authority_claims','objects','observed_capabilities','quantitative_limits','security_boundary','freshness','probe_receipts','reviewed_at'}
     if not required<=set(occurrence): errors.append('source occurrence required fields missing')

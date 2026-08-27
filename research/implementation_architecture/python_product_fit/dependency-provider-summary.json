@@ -1,0 +1,18 @@
+{
+  "abstract_contract_binding_count": 0,
+  "as_of": "2026-08-28",
+  "classified_provider_package_count": 33,
+  "completion_claim": false,
+  "declared_dependency_group_count": 5,
+  "declared_dependency_occurrence_count": 35,
+  "optional_or_engineering_provider_package_count": 22,
+  "qualified_implementation_binding_count": 0,
+  "report_id": "python_dependency_provider_crosswalk",
+  "runtime_provider_package_count": 12,
+  "semantic_authority_count": 0,
+  "status": "DECLARED_PROVIDER_DEPENDENCIES_CLASSIFIED_UNQUALIFIED",
+  "unclassified_provider_packages": [
+    "types-psutil"
+  ],
+  "unique_declared_provider_package_count": 34
+}

@@ -1,0 +1,14 @@
+{
+  "as_of": "2026-08-28",
+  "completion_claim": false,
+  "generated_sha256": {
+    "dependency-provider-crosswalk.jsonl": "26dd620c28bf5d1940bbd27fc3d6d1088e0f985d7f04cb853cc3a20a5f5202b8",
+    "dependency-provider-summary.json": "6e79e5049e1135ec03bdf27881277727560ecef0ecbdfc4dca60f648384765ef"
+  },
+  "input_sha256": {
+    "dependency-provider-rules.json": "e9a239b55a565e5703fb9399f4098537e0edbe1f30bbd16695ecf6dc76cb5292",
+    "pyproject.toml": "22b1d3d7c4c32d14334dd0276865acb370ee314885a073a610125a5753b8090b"
+  },
+  "manifest_id": "python_dependency_provider_crosswalk",
+  "schema_version": "1.0.0"
+}

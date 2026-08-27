@@ -15,7 +15,7 @@
   "open_high_priority_clusters": 0,
   "open_medium_priority_clusters": 0,
   "owner_decisions": 0,
-  "product_formalism_coverage_rows": 65,
+  "product_formalism_coverage_rows": 66,
   "products_not_yet_assigned_to_formalism_cluster": [
     "product.batch_transform_build",
     "product.business_glossary",
@@ -38,6 +38,7 @@
     "product.operational_activation",
     "product.optional_model_extension",
     "product.pipeline_orchestration",
+    "product.platform_estate_tenancy_administration",
     "product.privacy_rights_retention",
     "product.project_portfolio_controls",
     "product.runtime_resource_control",
@@ -50,6 +51,6 @@
   "products_with_full_structural_slice_overlap": 34,
   "products_with_zero_structural_slice_overlap": 11,
   "program_id": "program.analytical-formalism-frontier.v1",
-  "retained_products": 65,
+  "retained_products": 66,
   "slice_library_union": 527
 }

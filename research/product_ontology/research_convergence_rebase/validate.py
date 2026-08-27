@@ -34,7 +34,13 @@ def main() -> int:
     assert sum(row["current_atom_count"] for row in physical) == summary["physical_governance_gate_atoms"]
     changed = [row for row in physical if row["atom_count_delta"]]
     assert len(changed) == 15 and all(row["gap_kind"] == "product-gate" for row in changed)
-    assert len({row["atom_count_delta"] for row in changed}) == 1
+    by_gate = {row["cluster_ref"].removeprefix("gap-cluster.product-gate."): row["atom_count_delta"] for row in changed}
+    downstream_growth = {delta for gate, delta in by_gate.items() if gate != "contract-decomposition"}
+    assert len(downstream_growth) == 1
+    retained_product_growth = next(iter(downstream_growth))
+    assert 0 < by_gate["contract-decomposition"] <= retained_product_growth
+    # A structurally decomposed newly retained product adds downstream evidence gates without
+    # adding a contract-decomposition vacancy. All other product gates grow once per product.
     assert sum(row["atom_count_delta"] for row in physical) == summary["physical_gate_atom_growth"]
     assert all(row["canonical_gaps_closed"] == 0 and not row["completion_claim"] for row in dispositions + gates)
     assert summary["canonical_gaps_closed"] == summary["ratified_decisions"] == summary["invented_implementations"] == summary["invented_qualifications"] == summary["invented_vertical_acceptances"] == 0

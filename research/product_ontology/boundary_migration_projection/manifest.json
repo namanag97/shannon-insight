@@ -24,7 +24,7 @@
     },
     "summary.json": {
       "bytes": 592,
-      "sha256": "b3fd220004ea7fd5af0568cfa1dfa40865eb9524e23a49f51ae0ffc47663ce30"
+      "sha256": "f879fff40238d45dfd404165e69ac1bfd1618fe165ba5c7701f70dc2277c0c80"
     }
   },
   "manifest_id": "manifest.product-boundary-migration-projection.v1"

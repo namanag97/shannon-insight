@@ -3,9 +3,9 @@
   "completion_claim": false,
   "counts_by_priority_band": {
     "P0_PRODUCT_AND_VERTICAL": 66,
-    "P1_PRODUCT": 286,
+    "P1_PRODUCT": 288,
     "P2_SHARED_GRAPH": 173,
-    "P3_REMAINDER": 149
+    "P3_REMAINDER": 147
   },
   "counts_by_research_family": {
     "analytical_method_kernels": 72,

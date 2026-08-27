@@ -11,12 +11,12 @@
       "sha256": "84798409f7d4e3c4c167f20ed70786f28d5a85cae1461b0496eabf70715a903b"
     },
     "product-formalism-coverage.jsonl": {
-      "bytes": 180765,
-      "sha256": "a86ec25d887934e16f81e1928b22745cbab5fe3ebeb76993dbaff21110156b09"
+      "bytes": 183583,
+      "sha256": "f0cf2323b28311bd46e12d5c13cb7a07e64157081c20b1f2273ac1dcfd41a612"
     },
     "summary.json": {
-      "bytes": 1952,
-      "sha256": "c78f243276cc7bec37a70066796443b520c2b9a9dd1dba95fff78c15302ba242"
+      "bytes": 2006,
+      "sha256": "59bbb6c4cfd2187e81cbdf031530a024f60bb2930b3ca34304f2bac9611cce01"
     }
   },
   "manifest_id": "manifest.analytical-formalism-frontier.v1"

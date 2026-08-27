@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from platform_product_enrichment import enrich_platform_products
+from platform_estate_enrichment import enrich_platform_estate
 from solution_compiler_enrichment import enrich as enrich_solution_compiler
 
 
@@ -346,7 +347,7 @@ def source() -> dict[str, Any]:
         {"gap_id":"gap.platform.focus_normalization_library","abstract_library_ref":"library.platform.cost_normalization","reason":"FOCUS semantics are researched but no exact reusable normalization contract appears in the compiler library registry.","resolution":"Adjudicate exact FOCUS types, residual/loss laws and two independent implementations before binding."},
     ]
 
-    return enrich_platform_products(enrich_solution_compiler({
+    return enrich_platform_estate(enrich_platform_products(enrich_solution_compiler({
         "contract_id":"contract.product_adjudication.platform_control.v0_1_0",
         "edition":1,
         "status":"evidence_backed_adjudicated_candidate_not_ratified",
@@ -368,7 +369,7 @@ def source() -> dict[str, Any]:
         "ownership":ownership,"libraries":libraries,"requirements":requirements,"offers":offers,
         "relations":relations,"crosswalks":crosswalks,"negative_tests":negative_tests,
         "binding_maps":binding_maps,"binding_gaps":binding_gaps,
-    }))
+    })))
 
 
 def source_bytes() -> bytes:

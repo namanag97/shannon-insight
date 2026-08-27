@@ -19,8 +19,8 @@
       "sha256": "69f9a8e7ff9eb86d38d9c60ac11d251aada0b8fdc5c0321859bc785c399f214d"
     },
     "library-semantic-bindings.jsonl": {
-      "bytes": 74228,
-      "sha256": "5805667020e2a2cdcdd7a67e63c3eefeb388e39d0ae4f81b6e967a7080950bf1"
+      "bytes": 74586,
+      "sha256": "0b371910a08cae9b3f33a171a04d74916665e8e1c8f55df0557014050c43b916"
     },
     "non-collapse-laws.jsonl": {
       "bytes": 12435,
@@ -31,8 +31,8 @@
       "sha256": "3a5a8b8db42c12910a97b0f3be2e2e63b2f90150efeb8d97c16479639922e1f8"
     },
     "product-capability-boundary-findings.jsonl": {
-      "bytes": 10479,
-      "sha256": "0ff656019ab1614927b07962e92a4c94ebbfc75d61a5fb8bbf0f9b6d8fa0e375"
+      "bytes": 10577,
+      "sha256": "a4ba975d3bdbc53ec02aa5ab97b0dd6bb6ba782a968640b37d5895f786fb12f6"
     },
     "query-method-taxonomy.jsonl": {
       "bytes": 45200,

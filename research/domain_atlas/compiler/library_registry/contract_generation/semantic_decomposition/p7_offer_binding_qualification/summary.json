@@ -4,27 +4,27 @@
   "completion_claim": false,
   "conformance_context_workstreams": 42,
   "edition": 1,
-  "implementation_offer_intake_templates": 1036,
+  "implementation_offer_intake_templates": 1052,
   "input_snapshot": {
-    "aggregate_sha256": "19b1cb2d3bc5b2a3f57bcf67128bfdcb091747ef8f37f7bf5ac99e0f2d36e217",
+    "aggregate_sha256": "72d4a3b679831f09e95e78ef1a711932474bfdce37891ecc3008e3b49e38161f",
     "files": [
       {
-        "bytes": 932687,
+        "bytes": 947384,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/qualification-scope-kernels.jsonl",
-        "record_count": 518,
-        "sha256": "c852d2f6366b1d466c649897f3cf8b8f8d012d2b6ded776ff6c41c3fa33f9c2e"
+        "record_count": 526,
+        "sha256": "a5fe2f9c0695e421aac59727f10e2249c2aa9536b7109c539d649e53bed36dc0"
       },
       {
-        "bytes": 1457178,
+        "bytes": 1481853,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/subject-dockets.jsonl",
-        "record_count": 531,
-        "sha256": "81351aebdf049bd6f24b64bb677c2a287b8ab5735f04c15bf203691724264c35"
+        "record_count": 539,
+        "sha256": "6c595a1d29fd50fb02357b38b1490e2351496dba3ade8b895980223e01d4ea08"
       },
       {
-        "bytes": 1369497,
+        "bytes": 1389323,
         "path": "research/product_ontology/qualification_program/library-qualification-subjects.jsonl",
-        "record_count": 531,
-        "sha256": "8e056cbb581ad01cbb3b511faf337b787fd6bace772007c0082580109a31e210"
+        "record_count": 539,
+        "sha256": "a591d670a0c87eddae58b769c071d4d28b26ee7b85826c243fa1f821f10d2917"
       },
       {
         "bytes": 30662,
@@ -63,15 +63,15 @@
         "sha256": "990f0d1d711c3bf5d1fe99266362c768f6de77759dea5ae1f3665c16677b6d88"
       }
     ],
-    "snapshot_id": "snapshot.p7-input.19b1cb2d3bc5b2a3"
+    "snapshot_id": "snapshot.p7-input.72d4a3b679831f09"
   },
   "program_id": "program.p7-offer-binding-qualification.v1",
-  "qualification_profile_kernels": 128,
+  "qualification_profile_kernels": 131,
   "qualified_implementations": 0,
-  "represented_qualification_scopes": 518,
-  "represented_subject_context_occurrences": 8706,
+  "represented_qualification_scopes": 526,
+  "represented_subject_context_occurrences": 8833,
   "selected_provider_offers": 0,
-  "semantic_physical_binding_gates": 1036,
+  "semantic_physical_binding_gates": 1052,
   "shared_profile_kernels": 48,
   "submitted_implementation_offers": 0
 }

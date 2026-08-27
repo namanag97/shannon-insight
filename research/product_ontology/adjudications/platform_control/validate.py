@@ -34,6 +34,7 @@ from platform_product_enrichment import (
     RUNTIME,
     RUNTIME_LIBRARIES,
 )
+from platform_estate_enrichment import ESTATE, ESTATE_LIBRARIES
 
 
 def rows(path: Path) -> list[dict]:
@@ -62,7 +63,7 @@ def main() -> int:
     require(Counter(row["record_kind"] for row in registry)==Counter(manifest["counts"]),"manifest counts differ")
     keys=[(row["record_kind"],identity(row)) for row in registry]; require(len(keys)==len(set(keys)),"duplicate identity")
     evidence={r["source_id"]:r for r in data["sources"]}; artifacts={r["artifact_id"]:r for r in data["artifacts"]}; libraries={r["library_id"]:r for r in data["libraries"]}; nodes=set(artifacts)|set(libraries)
-    require(len(evidence)>=30,"source floor not met"); require(all(r.get("claim") and r.get("scope_limit") and r.get("uri","").startswith("https://") for r in evidence.values()),"unscoped evidence")
+    require(len(evidence)>=35,"source floor not met"); require(all(r.get("claim") and r.get("scope_limit") and r.get("uri","").startswith("https://") for r in evidence.values()),"unscoped evidence")
     for ident,row in artifacts.items():
         require(all(ref in evidence for ref in row.get("evidence_refs",[])),f"bad evidence {ident}")
         owner=row.get("semantic_owner_ref")
@@ -70,7 +71,7 @@ def main() -> int:
         if row["kind"]=="product": require(row["adoption_unit"] and row["operated"],f"product flags {ident}")
         if row["kind"] in {"suite","architecture_pattern"}: require(owner is None,f"pattern/suite owns meaning {ident}")
     products={i for i,r in artifacts.items() if r["kind"]=="product"}
-    require(products=={"product.solution_compiler","product.data_product_developer_platform","product.runtime_resource_control","product.finops_allocation"},"product set drift")
+    require(products=={"product.solution_compiler","product.data_product_developer_platform","product.runtime_resource_control","product.finops_allocation",ESTATE},"product set drift")
     decisions={r["decision_id"]:r for r in data["boundary_decisions"]}; decided=set()
     for ident,row in decisions.items():
         require(row["subject_ref"] in nodes,f"bad subject {ident}"); require(all(ref in evidence for ref in row["evidence_refs"]),f"bad decision evidence {ident}")
@@ -117,7 +118,7 @@ def main() -> int:
         if path.is_file():
             concrete_by_origin[origin] = {str(row[id_field]) for row in rows(path)}
     maps={r["binding_map_id"]:r for r in data["binding_maps"]}; gaps={r["gap_id"]:r for r in data["binding_gaps"]}
-    require(len(maps)==len(libraries)==50,"one map per library required"); require({r["abstract_library_ref"] for r in maps.values()}==set(libraries),"map coverage")
+    require(len(maps)==len(libraries)==58,"one map per library required"); require({r["abstract_library_ref"] for r in maps.values()}==set(libraries),"map coverage")
     for ident,row in maps.items():
         refs = set(row["concrete_library_refs"])
         origins = row.get("concrete_library_origins", {})
@@ -151,9 +152,10 @@ def main() -> int:
         DEVELOPER: DEVELOPER_LIBRARIES,
         RUNTIME: RUNTIME_LIBRARIES,
         FINOPS: FINOPS_LIBRARIES,
+        ESTATE: ESTATE_LIBRARIES,
     }
-    require(PRODUCT_LIBRARIES == product_library_expectations, "product library constant drift")
-    require(ENRICHED_PRODUCTS == set(product_library_expectations), "enriched product set drift")
+    require(PRODUCT_LIBRARIES == {DEVELOPER: DEVELOPER_LIBRARIES, RUNTIME: RUNTIME_LIBRARIES, FINOPS: FINOPS_LIBRARIES}, "product library constant drift")
+    require(ENRICHED_PRODUCTS | {ESTATE} == set(product_library_expectations), "enriched product set drift")
     for product_ref, expected_libraries in product_library_expectations.items():
         product = artifacts[product_ref]
         require(product.get("automation_modality") == PRODUCT_AUTOMATION, f"automation doctrine drift {product_ref}")
@@ -164,7 +166,8 @@ def main() -> int:
         required = {row["capability_ref"] for row in data["requirements"] if row["consumer_ref"] == product_ref}
         provided = {capability for ident in expected_libraries for capability in libraries[ident]["provides"]}
         require(required <= provided, f"product capability requirement lacks attributed library {product_ref}:{sorted(required-provided)}")
-    require(not (DEVELOPER_LIBRARIES & RUNTIME_LIBRARIES or DEVELOPER_LIBRARIES & FINOPS_LIBRARIES or RUNTIME_LIBRARIES & FINOPS_LIBRARIES), "product library ownership overlaps")
+    attributed_sets=list(product_library_expectations.values())
+    require(all(not (left & right) for index,left in enumerate(attributed_sets) for right in attributed_sets[index+1:]), "product library ownership overlaps")
     require("library.platform.allocation_lease" not in libraries, "collapsed reservation/allocation/lease facade returned")
     require({"library.platform.runtime.reservation_ledger","library.platform.runtime.allocation_ledger","library.platform.runtime.lease_fencing"} <= RUNTIME_LIBRARIES, "reservation allocation lease split missing")
     require("library.platform.cost_normalization" in FINOPS_LIBRARIES, "FinOps normalization seam missing")
@@ -186,7 +189,7 @@ def main() -> int:
     if errors:
         for error in errors: print(f"ERROR: {error}")
         return 1
-    print(f"PASS platform/control adjudication: {len(evidence)} sources; {len(artifacts)} artifacts; {len(products)} product candidates; {len(libraries)} library contracts ({len(DEVELOPER_LIBRARIES)} developer, {len(RUNTIME_LIBRARIES)} runtime, {len(FINOPS_LIBRARIES)} FinOps, {len(COMPILER_LIBRARIES)} compiler); {len(data['requirements'])} unbound requirements; {len(data['offers'])} unqualified offers; {len(maps)} compiler binding maps; 4 complete 29-field product DDDs; {len(gaps)} typed binding gaps; {len(data['crosswalks'])} legacy crosswalks")
+    print(f"PASS platform/control adjudication: {len(evidence)} sources; {len(artifacts)} artifacts; {len(products)} product candidates; {len(libraries)} library contracts ({len(DEVELOPER_LIBRARIES)} developer, {len(RUNTIME_LIBRARIES)} runtime, {len(FINOPS_LIBRARIES)} FinOps, {len(ESTATE_LIBRARIES)} estate, {len(COMPILER_LIBRARIES)} compiler); {len(data['requirements'])} unbound requirements; {len(data['offers'])} unqualified offers; {len(maps)} compiler binding maps; 5 complete 29-field product DDDs; {len(gaps)} typed binding gaps; {len(data['crosswalks'])} legacy crosswalks")
     return 0
 
 

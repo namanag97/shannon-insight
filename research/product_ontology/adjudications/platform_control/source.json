@@ -1801,6 +1801,360 @@
       "operated": false,
       "semantic_owner_ref": "semantic.unit_cost",
       "status": "candidate"
+    },
+    {
+      "adoption_unit": true,
+      "artifact_id": "product.platform_estate_tenancy_administration",
+      "automation_modality": {
+        "default": "DETERMINISTIC_CORE_ONLY",
+        "hard_work_law": "Automation never substitutes for vocabulary, domain ownership, invariants, registry population, exact algorithms, proof obligations, qualification evidence, effect authority or vertical acceptance.",
+        "law": "A model or agent may propose declarations, mappings, plans, diagnostics, rewrites or repair candidates only; deterministic parsers, typecheckers, semantic owners, solvers, proof checkers and authorities decide whether they enter a compilation.",
+        "postures": [
+          "PROHIBITED",
+          "OPTIONAL",
+          "REQUIRED_BY_INTENT",
+          "UNDETERMINED"
+        ],
+        "removal_law": "Removing every optional model or agent extension preserves parsing, resolution, lowering, constraint solving, proof checking, artifact planning, diagnostics and evidence production; explicitly requested assistance may instead yield capability_unavailable."
+      },
+      "definition": "Operate administrative hierarchy, attachment, binding and recoverable container lifecycle across provider estates.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "harmed_parties": [
+        "tenant_user",
+        "resource_owner",
+        "data_subject",
+        "billing_owner",
+        "downstream_consumer",
+        "platform_operator",
+        "regulated_workload_owner"
+      ],
+      "jobs": [
+        "govern one identified estate hierarchy",
+        "create and move administrative containers",
+        "attach and explain inherited policy scopes",
+        "bind containers to qualified regions capacities and editions",
+        "delegate administration without transferring policy meaning",
+        "suspend delete restore and purge with evidence",
+        "export the hierarchy bindings policies and residual obligations for exit"
+      ],
+      "kind": "product",
+      "name": "Platform Estate & Tenancy Administration",
+      "negative_mission": "Does not own human or workload identity, authentication, authorization-policy meaning, product content, runtime scheduling, physical capacity truth, cost allocation, invoices, data residency interpretation, application workspaces or business-domain records.",
+      "operated": true,
+      "outcomes": [
+        "unowned_container_count",
+        "invalid_parent_transition_count",
+        "effective_policy_explanation_coverage",
+        "region_capacity_binding_conformance",
+        "orphan_recovery_time",
+        "deletion_restore_success",
+        "verified_estate_export_coverage",
+        "stale_administration_grant_count"
+      ],
+      "semantic_owner_ref": "semantic.platform_estate",
+      "sovereign_question": "How can a platform administrator create, organize, bind, govern, suspend, recover, move, and retire organization, account, project and workspace containers without confusing tenancy with identity, authorization, runtime capacity, content ownership, billing or provider implementation?",
+      "status": "strong_product_candidate",
+      "users": [
+        "platform_estate_administrator",
+        "organization_administrator",
+        "workspace_administrator",
+        "platform_product_owner",
+        "security_policy_owner",
+        "capacity_administrator",
+        "assurance_reviewer"
+      ]
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.platform_estate",
+      "definition": "identified hierarchy root, edition and governed container graph",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "semantic_contract",
+      "name": "Platform estate",
+      "operated": false,
+      "semantic_owner_ref": "semantic.platform_estate",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.estate_container",
+      "definition": "organization, account, folder, project or workspace administrative scope and lifecycle",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "semantic_contract",
+      "name": "Administrative container",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_container",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.estate_attachment",
+      "definition": "scope-bound external policy/control reference and effective inheritance trace",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "semantic_contract",
+      "name": "Estate attachment",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_attachment",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.estate_binding",
+      "definition": "validity-scoped provider, region, edition and capacity association",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "semantic_contract",
+      "name": "Estate binding",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_binding",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "semantic.estate_change",
+      "definition": "impact-complete move, suspend, delete, restore, purge or exit plan and receipts",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "semantic_contract",
+      "name": "Estate change",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_change",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.govern_estate_hierarchy",
+      "definition": "Typed capability owned by semantic.platform_estate.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "capability",
+      "name": "Govern estate hierarchy",
+      "operated": false,
+      "semantic_owner_ref": "semantic.platform_estate",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.reduce_container_lifecycle",
+      "definition": "Typed capability owned by semantic.estate_container.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "capability",
+      "name": "Reduce container lifecycle",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_container",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.project_effective_attachments",
+      "definition": "Typed capability owned by semantic.estate_attachment.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "capability",
+      "name": "Project effective attachments",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_attachment",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.bind_estate_administration",
+      "definition": "Typed capability owned by semantic.estate_attachment.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "capability",
+      "name": "Bind estate administration",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_attachment",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.bind_estate_region_capacity",
+      "definition": "Typed capability owned by semantic.estate_binding.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "capability",
+      "name": "Bind estate region and capacity",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_binding",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.plan_estate_change",
+      "definition": "Typed capability owned by semantic.estate_change.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "capability",
+      "name": "Plan estate change",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_change",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.reconcile_estate",
+      "definition": "Typed capability owned by semantic.estate_change.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "capability",
+      "name": "Reconcile estate",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_change",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "capability.export_estate",
+      "definition": "Typed capability owned by semantic.estate_change.",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "capability",
+      "name": "Export estate",
+      "operated": false,
+      "semantic_owner_ref": "semantic.estate_change",
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.aws_organizations",
+      "definition": "Observed unqualified organization, OU and account administration implementation.",
+      "evidence_refs": [
+        "evidence.aws.organizations"
+      ],
+      "kind": "implementation",
+      "name": "AWS Organizations",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.gcp_resource_manager",
+      "definition": "Observed unqualified organization, folder and project hierarchy implementation.",
+      "evidence_refs": [
+        "evidence.gcp.resource_hierarchy"
+      ],
+      "kind": "implementation",
+      "name": "Google Cloud Resource Manager",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.azure_management_groups",
+      "definition": "Observed unqualified management-group and subscription hierarchy implementation.",
+      "evidence_refs": [
+        "evidence.azure.management_groups"
+      ],
+      "kind": "implementation",
+      "name": "Azure Management Groups",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.snowflake_organizations",
+      "definition": "Observed unqualified organization and account lifecycle implementation.",
+      "evidence_refs": [
+        "evidence.snowflake.organizations"
+      ],
+      "kind": "implementation",
+      "name": "Snowflake Organizations",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
+    },
+    {
+      "adoption_unit": false,
+      "artifact_id": "implementation.fabric_workspaces",
+      "definition": "Observed unqualified tenant workspace and capacity lifecycle implementation.",
+      "evidence_refs": [
+        "evidence.fabric.workspaces"
+      ],
+      "kind": "implementation",
+      "name": "Microsoft Fabric Workspaces",
+      "operated": false,
+      "semantic_owner_ref": null,
+      "status": "candidate"
     }
   ],
   "binding_gaps": [],
@@ -2946,6 +3300,144 @@
       "product_refs": [
         "product.data_product_developer_platform"
       ]
+    },
+    {
+      "abstract_library_ref": "library.platform.estate.admin_delegation_binding",
+      "binding_map_id": "binding.platform.product.estate_admin_delegation_binding",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_origins": {
+        "library.csp.authority.delegation-graph": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl"
+      },
+      "concrete_library_refs": [
+        "library.csp.authority.delegation-graph"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.platform.estate.change_plan",
+      "binding_map_id": "binding.platform.product.estate_change_plan",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_origins": {
+        "library.product_composition.environment_lifecycle": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl",
+        "library.smf.compatibility_diff": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl"
+      },
+      "concrete_library_refs": [
+        "library.product_composition.environment_lifecycle",
+        "library.smf.compatibility_diff"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.platform.estate.container_lifecycle",
+      "binding_map_id": "binding.platform.product.estate_container_lifecycle",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_origins": {
+        "library.lpe.record-lifecycle": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl",
+        "library.product_composition.environment_lifecycle": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl"
+      },
+      "concrete_library_refs": [
+        "library.lpe.record-lifecycle",
+        "library.product_composition.environment_lifecycle"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.platform.estate.exit_manifest",
+      "binding_map_id": "binding.platform.product.estate_exit_manifest",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_origins": {
+        "library.platform-commercial-support.exit-manifest": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl",
+        "library.platform-commercial-support.export-transfer-port": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl"
+      },
+      "concrete_library_refs": [
+        "library.platform-commercial-support.exit-manifest",
+        "library.platform-commercial-support.export-transfer-port"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.platform.estate.hierarchy",
+      "binding_map_id": "binding.platform.product.estate_hierarchy",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_origins": {
+        "library.platform-commercial-support.account_identity": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl",
+        "library.platform-commercial-support.tenant-identity": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl"
+      },
+      "concrete_library_refs": [
+        "library.platform-commercial-support.tenant-identity",
+        "library.platform-commercial-support.account_identity"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.platform.estate.policy_attachment",
+      "binding_map_id": "binding.platform.product.estate_policy_attachment",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_origins": {
+        "library.csp.authority.policy-algebra": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl"
+      },
+      "concrete_library_refs": [
+        "library.csp.authority.policy-algebra"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.platform.estate.reconciliation",
+      "binding_map_id": "binding.platform.product.estate_reconciliation",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_origins": {
+        "library.runtime-resource.runtime-receipts": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl"
+      },
+      "concrete_library_refs": [
+        "library.runtime-resource.runtime-receipts"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ]
+    },
+    {
+      "abstract_library_ref": "library.platform.estate.region_capacity_binding",
+      "binding_map_id": "binding.platform.product.estate_region_capacity_binding",
+      "compiler_disposition": "structurally_projected_unqualified",
+      "concrete_library_origins": {
+        "library.runtime-resource.demand-offer-compatibility": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl",
+        "library.runtime-resource.resource-topology": "research/domain_atlas/compiler/library_registry/library-contributions.jsonl"
+      },
+      "concrete_library_refs": [
+        "library.runtime-resource.resource-topology",
+        "library.runtime-resource.demand-offer-compatibility"
+      ],
+      "gap_ref": null,
+      "portable_offer": false,
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ]
     }
   ],
   "boundary_decisions": [
@@ -3446,6 +3938,131 @@
       ],
       "rationale": "Agents may propose intent or diagnoses; deterministic typing, solving, qualification, authority, resource control, cost allocation and receipts remain authoritative.",
       "subject_ref": "pattern.composable_data_platform"
+    },
+    {
+      "decision_id": "decision.platform.estate_tenancy",
+      "disposition": "strong_product_candidate",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "rationale": "Unrelated cloud and data-platform providers independently expose an adopted administrator job, persistent hierarchy/container state, attachment inheritance, binding and deletion/recovery lifecycle. Identity, authorization, runtime, FinOps and content remain external.",
+      "split_test": {
+        "adoption": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        },
+        "authority": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        },
+        "economics": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 1
+        },
+        "interface": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        },
+        "job": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        },
+        "lifecycle": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        },
+        "market_evidence": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        },
+        "operation": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        },
+        "semantics": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        },
+        "user": {
+          "evidence_refs": [
+            "evidence.aws.organizations",
+            "evidence.gcp.resource_hierarchy",
+            "evidence.azure.management_groups",
+            "evidence.snowflake.organizations",
+            "evidence.fabric.workspaces"
+          ],
+          "finding": "Independent providers expose this boundary; commercial isolation is observed through administrative adoption but requires buyer validation.",
+          "score": 2
+        }
+      },
+      "subject_ref": "product.platform_estate_tenancy_administration"
     }
   ],
   "contract_id": "contract.product_adjudication.platform_control.v0_1_0",
@@ -3495,6 +4112,13 @@
       ],
       "disposition": "split_composition_and_defer_products",
       "legacy_ref": "candidate.product.platform_operations"
+    },
+    {
+      "canonical_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "disposition": "promote_exact",
+      "legacy_ref": "candidate.product.platform_estate_tenancy_administration"
     }
   ],
   "ddd_dossiers": [
@@ -5456,6 +6080,465 @@
           "PrechargeId",
           "DenominatorRef",
           "EvidenceRef"
+        ]
+      }
+    },
+    {
+      "dossier_id": "ddd.platform.platform_estate_tenancy_administration",
+      "edition": 1,
+      "product_ref": "product.platform_estate_tenancy_administration",
+      "product_truth": {
+        "harmed_parties": [
+          "tenant_user",
+          "resource_owner",
+          "data_subject",
+          "billing_owner",
+          "downstream_consumer",
+          "platform_operator",
+          "regulated_workload_owner"
+        ],
+        "jobs": [
+          "govern one identified estate hierarchy",
+          "create and move administrative containers",
+          "attach and explain inherited policy scopes",
+          "bind containers to qualified regions capacities and editions",
+          "delegate administration without transferring policy meaning",
+          "suspend delete restore and purge with evidence",
+          "export the hierarchy bindings policies and residual obligations for exit"
+        ],
+        "measurable_outcomes": [
+          "unowned_container_count",
+          "invalid_parent_transition_count",
+          "effective_policy_explanation_coverage",
+          "region_capacity_binding_conformance",
+          "orphan_recovery_time",
+          "deletion_restore_success",
+          "verified_estate_export_coverage",
+          "stale_administration_grant_count"
+        ],
+        "negative_mission": "Does not own human or workload identity, authentication, authorization-policy meaning, product content, runtime scheduling, physical capacity truth, cost allocation, invoices, data residency interpretation, application workspaces or business-domain records.",
+        "sovereign_question": "How can a platform administrator create, organize, bind, govern, suspend, recover, move, and retire organization, account, project and workspace containers without confusing tenancy with identity, authorization, runtime capacity, content ownership, billing or provider implementation?",
+        "users": [
+          "platform_estate_administrator",
+          "organization_administrator",
+          "workspace_administrator",
+          "platform_product_owner",
+          "security_policy_owner",
+          "capacity_administrator",
+          "assurance_reviewer"
+        ]
+      },
+      "record_kind": "product_ddd_dossier",
+      "status": "candidate_not_ratified",
+      "strategic_and_tactical_ddd": {
+        "aggregate_invariants": [
+          "one estate has exactly one root",
+          "a live non-root container has exactly one parent",
+          "parent graph is acyclic",
+          "identity is not a mutable display name or URL",
+          "moving a container creates a new hierarchy edition and recalculates effective attachment scope",
+          "attachment does not issue or evaluate the referenced policy",
+          "administrative delegation cannot exceed or outlive the external grant",
+          "region or capacity binding does not prove availability or authorization",
+          "delete remains recoverable until an explicit purge gate",
+          "purge refuses while retention dependency export or active-work obligations remain",
+          "provider DTO names never become canonical kinds"
+        ],
+        "aggregate_roots": [
+          "Estate",
+          "AdministrativeContainer",
+          "EstateChangePlan"
+        ],
+        "aggregates": [
+          {
+            "consistency": "one root and no cycles; every live non-root container has exactly one effective parent",
+            "members": [
+              "root",
+              "container index",
+              "hierarchy edition",
+              "structural constraints"
+            ],
+            "root": "Estate"
+          },
+          {
+            "consistency": "identity is immutable and lifecycle or move commands preserve governed dependencies",
+            "members": [
+              "identity",
+              "kind",
+              "parent edge",
+              "attachments",
+              "bindings",
+              "lifecycle"
+            ],
+            "root": "AdministrativeContainer"
+          },
+          {
+            "consistency": "a move or deletion cannot hide inherited-policy, region, capacity, content or active-work consequences",
+            "members": [
+              "source edition",
+              "target graph",
+              "policy impact",
+              "binding impact",
+              "active work disposition",
+              "rollback plan"
+            ],
+            "root": "EstateChangePlan"
+          }
+        ],
+        "anti_corruption_layers": [
+          "acl.aws_organizations",
+          "acl.google_resource_manager",
+          "acl.azure_management_groups",
+          "acl.snowflake_organizations",
+          "acl.fabric_workspaces",
+          "acl.identity_authorization",
+          "acl.runtime_capacity",
+          "acl.billing_finance"
+        ],
+        "application_services": [
+          "CreateEstateUseCase",
+          "MoveContainerUseCase",
+          "AttachPolicyUseCase",
+          "BindWorkspaceCapacityUseCase",
+          "RecoverOrphanedContainerUseCase",
+          "DeleteRestorePurgeUseCase",
+          "ExportEstateUseCase"
+        ],
+        "bounded_context_boundary": {
+          "inside": [
+            "organization and estate identity",
+            "container kinds and parent edges",
+            "account project workspace administrative identity",
+            "container lifecycle",
+            "policy attachment occurrence and effective-scope explanation",
+            "administrative delegation binding",
+            "region edition and capacity bindings",
+            "move suspend delete restore purge and exit state"
+          ],
+          "outside": [
+            "principal identity proof",
+            "authorization decision semantics",
+            "resource scheduling",
+            "workspace content",
+            "analytical session state",
+            "commercial contract",
+            "invoice or ledger",
+            "provider qualification",
+            "data-use interpretation"
+          ]
+        },
+        "commands": [
+          "create_estate",
+          "create_container",
+          "rename_container",
+          "move_container",
+          "attach_policy",
+          "detach_policy",
+          "bind_administrator",
+          "bind_region",
+          "bind_capacity",
+          "suspend_container",
+          "request_delete",
+          "restore_container",
+          "request_purge",
+          "reconcile_estate",
+          "plan_estate_exit",
+          "verify_estate_export"
+        ],
+        "concurrency_and_idempotency": [
+          "hierarchy changes use optimistic estate edition",
+          "container creation idempotency binds estate parent kind and client request",
+          "move serializes per container and validates source and target editions",
+          "attachment identity binds scope policy edition and inheritance profile",
+          "provider effects use separate occurrence identities and receipts",
+          "delete restore and purge commands serialize per container",
+          "unknown effects reconcile before a new attempt"
+        ],
+        "context_map": [
+          {
+            "neighbor_ref": "neighbor.identity_policy",
+            "relationship": "customer_supplier_with_acl",
+            "translation": "import principal grants policy editions and authorization decisions without owning them"
+          },
+          {
+            "neighbor_ref": "product.runtime_resource_control",
+            "relationship": "customer_supplier",
+            "translation": "publish administrative scopes and consume qualified capacity or runtime bindings"
+          },
+          {
+            "neighbor_ref": "product.finops_allocation",
+            "relationship": "customer_supplier",
+            "translation": "publish estate scope identities without owning allocation or billing"
+          },
+          {
+            "neighbor_ref": "product.data_product_developer_platform",
+            "relationship": "customer_supplier",
+            "translation": "provide account project and workspace targets without owning paved-path content"
+          },
+          {
+            "neighbor_ref": "component.provider_qualification",
+            "relationship": "customer_supplier",
+            "translation": "consume exact provider occurrence and capability receipts"
+          }
+        ],
+        "domain_events": [
+          "estate_created",
+          "container_created",
+          "container_renamed",
+          "container_moved",
+          "policy_attached",
+          "policy_detached",
+          "administrator_bound",
+          "region_bound",
+          "capacity_bound",
+          "container_suspended",
+          "container_delete_requested",
+          "container_restored",
+          "container_purge_requested",
+          "estate_reconciled",
+          "estate_exit_planned",
+          "estate_export_verified"
+        ],
+        "domain_services": [
+          "HierarchyValidationService",
+          "EffectiveAttachmentProjectionService",
+          "AdministrativeBindingService",
+          "EstateBindingCompatibilityService",
+          "EstateChangePlanningService",
+          "OrphanRecoveryService",
+          "EstateExitVerificationService"
+        ],
+        "domain_vision_statement": "Own the governed administrative estate from root organization through account, project and workspace containers, including parentage, scoped attachments, bindings and recoverable lifecycle evidence.",
+        "entities": [
+          "Estate",
+          "AdministrativeContainer",
+          "ParentEdge",
+          "PolicyAttachment",
+          "AdministrativeDelegationBinding",
+          "EstateBinding",
+          "EstateChangePlan",
+          "LifecycleCase",
+          "EstateExitManifest"
+        ],
+        "event_storming_swimlanes": [
+          "enterprise_platform_owner",
+          "estate_administrator",
+          "identity_authority",
+          "policy_authority",
+          "provider_qualification",
+          "capacity_administrator",
+          "runtime_control",
+          "workspace_owner",
+          "assurance_reviewer",
+          "support_operator"
+        ],
+        "factories": [
+          "EstateFactory",
+          "ContainerFactory",
+          "ParentEdgeFactory",
+          "PolicyAttachmentFactory",
+          "EstateBindingFactory",
+          "EstateChangePlanFactory",
+          "EstateExitManifestFactory"
+        ],
+        "integration_event_policy": "Only canonical estate/container identities, hierarchy editions, attachment references, binding decisions, lifecycle requests/receipts and exit manifests cross the boundary; provider DTOs, credentials, policy bodies, authorization decisions, content and invoices do not.",
+        "nonfunctional_laws": [
+          "deterministic hierarchy and inheritance projection for frozen editions",
+          "finite graph traversal and impact budgets",
+          "no hidden provider effects in semantic libraries",
+          "complete parent attachment binding and lifecycle trace",
+          "tenant and estate isolation",
+          "cooperative cancellation with explicit unknown outcome",
+          "recoverable deletion before authorized purge",
+          "provider-neutral export",
+          "optional model or agent removal preserves every estate function"
+        ],
+        "policies_and_reactions": [
+          "when parentage changes recompute effective attachment traces and affected bindings",
+          "when an administrator grant expires mark the container orphaned without deleting content",
+          "when a capacity or region binding becomes invalid suspend affected provisioning intents",
+          "when deletion is requested freeze new child creation and enumerate dependencies",
+          "when a provider effect is unknown reconcile before retry",
+          "when purge is requested require retention export active-work and authority gates"
+        ],
+        "published_language": [
+          "EstateId",
+          "EstateEdition",
+          "ContainerId",
+          "ContainerKind",
+          "ParentEdge",
+          "AttachmentId",
+          "PolicyEditionRef",
+          "EffectiveScopeTrace",
+          "AdministrativeGrantRef",
+          "RegionBinding",
+          "CapacityBinding",
+          "EstateChangePlan",
+          "ContainerLifecycleReceipt",
+          "EstateExitManifest"
+        ],
+        "read_models_and_projections": [
+          "EstateTreeView",
+          "ContainerLifecycleView",
+          "EffectivePolicyAttachmentView",
+          "AdministrativeDelegationView",
+          "RegionCapacityBindingView",
+          "OrphanedContainerView",
+          "DeletionRecoveryQueue",
+          "EstateChangeImpactView",
+          "EstateExitReadinessView"
+        ],
+        "refusal_failure_catalog": [
+          "root_already_exists",
+          "container_identity_conflict",
+          "parent_missing",
+          "parent_kind_incompatible",
+          "hierarchy_cycle",
+          "cross_estate_move_unplanned",
+          "policy_edition_unknown",
+          "inheritance_rule_unknown",
+          "administrative_grant_missing",
+          "administrative_grant_expired",
+          "provider_occurrence_unqualified",
+          "region_prohibited",
+          "capacity_offer_unknown",
+          "active_work_unresolved",
+          "retention_gate_open",
+          "dependent_container_exists",
+          "restore_window_expired",
+          "purge_authority_missing",
+          "reconciliation_unknown",
+          "exit_manifest_incomplete"
+        ],
+        "repositories": [
+          "EstateRepository",
+          "AdministrativeContainerRepository",
+          "AttachmentRepository",
+          "EstateBindingRepository",
+          "EstateChangePlanRepository",
+          "LifecycleCaseRepository"
+        ],
+        "sagas_and_process_managers": [
+          "ContainerCreationProcess",
+          "ContainerMoveProcess",
+          "PolicyAttachmentChangeProcess",
+          "RegionCapacityRebindingProcess",
+          "OrphanRecoveryProcess",
+          "DeleteRestorePurgeProcess",
+          "CrossProviderEstateExitProcess"
+        ],
+        "specifications": [
+          "SingleRootSpecification",
+          "AcyclicHierarchySpecification",
+          "ParentKindCompatibilitySpecification",
+          "EffectiveAttachmentCompletenessSpecification",
+          "AdministrativeGrantValiditySpecification",
+          "EstateBindingCompatibilitySpecification",
+          "MoveImpactClosureSpecification",
+          "PurgeSafetySpecification",
+          "EstateExitCompletenessSpecification"
+        ],
+        "state_machine": {
+          "AdministrativeContainer": [
+            "requested",
+            "active",
+            "suspended",
+            "orphaned",
+            "move_pending",
+            "delete_requested",
+            "recoverable_deleted",
+            "restore_pending",
+            "purge_pending",
+            "purged",
+            "unknown",
+            "refused"
+          ],
+          "EstateChangePlan": [
+            "draft",
+            "validated",
+            "authorized",
+            "effects_pending",
+            "reconciling",
+            "applied",
+            "rolled_back",
+            "partially_applied",
+            "unknown",
+            "refused"
+          ],
+          "law": "delete and purge are distinct; unknown provider outcomes are reconciled before retry and historical hierarchy editions remain immutable"
+        },
+        "subdomain_classification": {
+          "core": [
+            "estate_hierarchy_and_parentage",
+            "administrative_container_lifecycle",
+            "attachment_and_inheritance_scope",
+            "estate_change_and_exit"
+          ],
+          "generic_or_imported": [
+            "principal_identity",
+            "authentication",
+            "authorization_decision",
+            "policy_language",
+            "resource_capacity",
+            "billing",
+            "runtime_control",
+            "content_catalog",
+            "secrets",
+            "observability"
+          ],
+          "supporting": [
+            "administrative_delegation_binding",
+            "region_capacity_binding",
+            "reconciliation_and_orphan_recovery"
+          ]
+        },
+        "time_model": [
+          "hierarchy validity differs from recording time",
+          "parent and attachment relationships are bitemporal",
+          "administrative grants have independent validity",
+          "region capacity and provider bindings have observed and expiry times",
+          "deletion has request retention recovery and purge times",
+          "historical hierarchy and effective-scope explanations remain reproducible"
+        ],
+        "ubiquitous_language_policy": {
+          "homonym_rules": [
+            "tenant is not principal",
+            "account is not billing account",
+            "project is not project-management project",
+            "workspace is not analysis state",
+            "policy attachment is not policy decision",
+            "capacity binding is not capacity availability",
+            "delete is not purge"
+          ],
+          "terms": {
+            "Account": "provider-facing administrative and isolation occurrence, not a billing account unless explicitly bound",
+            "Attachment": "editioned association of an external policy or control to one scope",
+            "Container": "identified administrative scope with at most one effective parent in one hierarchy edition",
+            "EffectiveScope": "trace explaining which attachments apply through declared inheritance rules",
+            "Estate": "one administratively governed hierarchy under an identified root",
+            "EstateBinding": "validity-scoped association to provider region edition capacity or account occurrence",
+            "Orphaned": "container whose required administrative owner binding is absent",
+            "Project": "administrative grouping and service scope, not a business project",
+            "Purge": "irreversible authorized destruction after retention and dependency gates",
+            "Workspace": "administrative content container, not an analytical workspace or runtime session"
+          }
+        },
+        "value_objects": [
+          "EstateId",
+          "EstateEdition",
+          "ContainerId",
+          "ContainerKind",
+          "ParentEdgeId",
+          "AttachmentId",
+          "PolicyEditionRef",
+          "AuthorityRef",
+          "RegionRef",
+          "CapacityOfferRef",
+          "ProviderOccurrenceRef",
+          "LifecycleReason",
+          "RetentionDeadline",
+          "EvidenceRef",
+          "PlanDigest"
         ]
       }
     }
@@ -7635,6 +8718,409 @@
         "UnitCostObservation",
         "Uncertainty"
       ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "kind_compatibility",
+        "cross_estate_move_policy",
+        "cycle_policy"
+      ],
+      "dependencies": [],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "invariants": [
+        "one_root",
+        "one_parent_per_live_nonroot",
+        "acyclic",
+        "identity_is_not_display_name"
+      ],
+      "library_id": "library.platform.estate.hierarchy",
+      "operations": [
+        "create_root",
+        "add_container",
+        "move_container",
+        "validate_hierarchy",
+        "explain_parentage"
+      ],
+      "owner_ref": "semantic.platform_estate",
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "provides": [
+        "capability.govern_estate_hierarchy"
+      ],
+      "refusals": [
+        "root_conflict",
+        "parent_missing",
+        "kind_incompatible",
+        "cycle_detected"
+      ],
+      "types": [
+        "EstateId",
+        "EstateEdition",
+        "ContainerId",
+        "ContainerKind",
+        "ParentEdge",
+        "HierarchyDiagnostic"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "retention_policy",
+        "orphan_policy",
+        "purge_policy"
+      ],
+      "dependencies": [
+        "library.platform.estate.hierarchy"
+      ],
+      "effect_boundary": "pure_effect_intents",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "invariants": [
+        "delete_is_not_purge",
+        "purged_is_terminal",
+        "unknown_is_not_failed"
+      ],
+      "library_id": "library.platform.estate.container_lifecycle",
+      "operations": [
+        "validate_command",
+        "reduce_transition",
+        "plan_restore",
+        "authorize_purge"
+      ],
+      "owner_ref": "semantic.estate_container",
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "provides": [
+        "capability.reduce_container_lifecycle"
+      ],
+      "refusals": [
+        "illegal_transition",
+        "retention_open",
+        "dependency_exists",
+        "purge_authority_missing"
+      ],
+      "types": [
+        "ContainerCommand",
+        "ContainerState",
+        "RetentionWindow",
+        "LifecycleReceipt"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "inheritance_profile",
+        "override_policy",
+        "unknown_policy_policy"
+      ],
+      "dependencies": [
+        "library.platform.estate.hierarchy"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "invariants": [
+        "attachment_is_not_policy_decision",
+        "trace_retains_every_ancestor_and_rule"
+      ],
+      "library_id": "library.platform.estate.policy_attachment",
+      "operations": [
+        "attach",
+        "detach",
+        "project_effective_scope",
+        "explain_inheritance"
+      ],
+      "owner_ref": "semantic.estate_attachment",
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "provides": [
+        "capability.project_effective_attachments"
+      ],
+      "refusals": [
+        "policy_unknown",
+        "inheritance_rule_unknown",
+        "conflicting_attachment"
+      ],
+      "types": [
+        "Attachment",
+        "PolicyEditionRef",
+        "InheritanceProfile",
+        "EffectiveScopeTrace"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "grant_precedence",
+        "expiry_policy",
+        "orphan_policy"
+      ],
+      "dependencies": [
+        "library.platform.estate.hierarchy"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "invariants": [
+        "role_label_is_not_authority",
+        "binding_cannot_exceed_or_outlive_grant"
+      ],
+      "library_id": "library.platform.estate.admin_delegation_binding",
+      "operations": [
+        "bind_grant",
+        "validate_scope",
+        "expire_binding",
+        "explain_administration"
+      ],
+      "owner_ref": "semantic.estate_attachment",
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "provides": [
+        "capability.bind_estate_administration"
+      ],
+      "refusals": [
+        "grant_missing",
+        "grant_expired",
+        "scope_exceeds_grant"
+      ],
+      "types": [
+        "AdministrativeGrantRef",
+        "ContainerScope",
+        "DelegationBinding",
+        "BindingValidity"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "residency_constraint_profile",
+        "capacity_binding_policy",
+        "expiry_policy"
+      ],
+      "dependencies": [
+        "library.platform.estate.hierarchy"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "invariants": [
+        "binding_is_not_availability_or_authorization",
+        "provider_identity_does_not_define_semantics"
+      ],
+      "library_id": "library.platform.estate.region_capacity_binding",
+      "operations": [
+        "evaluate_compatibility",
+        "bind_region",
+        "bind_capacity",
+        "invalidate_binding"
+      ],
+      "owner_ref": "semantic.estate_binding",
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "provides": [
+        "capability.bind_estate_region_capacity"
+      ],
+      "refusals": [
+        "provider_unqualified",
+        "region_prohibited",
+        "offer_incompatible",
+        "binding_expired"
+      ],
+      "types": [
+        "ContainerRef",
+        "ProviderOccurrenceRef",
+        "RegionRef",
+        "CapacityOfferRef",
+        "EstateBinding"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "impact_closure_policy",
+        "active_work_policy",
+        "rollback_policy"
+      ],
+      "dependencies": [
+        "library.platform.estate.hierarchy",
+        "library.platform.estate.policy_attachment",
+        "library.platform.estate.region_capacity_binding",
+        "library.platform.estate.container_lifecycle"
+      ],
+      "effect_boundary": "pure_no_io",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "invariants": [
+        "plan_is_not_effect",
+        "every_descendant_attachment_binding_and_active_work_is_accounted"
+      ],
+      "library_id": "library.platform.estate.change_plan",
+      "operations": [
+        "compute_impact",
+        "plan_move",
+        "plan_delete",
+        "plan_restore",
+        "plan_rollback"
+      ],
+      "owner_ref": "semantic.estate_change",
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "provides": [
+        "capability.plan_estate_change"
+      ],
+      "refusals": [
+        "impact_incomplete",
+        "active_work_unresolved",
+        "rollback_unknown"
+      ],
+      "types": [
+        "EstateChangeRequest",
+        "AffectedContainerSet",
+        "AttachmentDiff",
+        "BindingDiff",
+        "ActiveWorkDisposition",
+        "EstateChangePlan"
+      ]
+    },
+    {
+      "class": "backend_spi",
+      "decisions": [
+        "retry_policy",
+        "unknown_outcome_policy",
+        "drift_policy"
+      ],
+      "dependencies": [
+        "library.platform.estate.change_plan"
+      ],
+      "effect_boundary": "effectful_runtime",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "invariants": [
+        "desired_is_not_observed_or_accepted",
+        "unknown_effect_is_reconciled_before_retry"
+      ],
+      "library_id": "library.platform.estate.reconciliation",
+      "operations": [
+        "emit_effect_intents",
+        "ingest_observation",
+        "reconcile",
+        "classify_residual"
+      ],
+      "owner_ref": "semantic.estate_change",
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "provides": [
+        "capability.reconcile_estate"
+      ],
+      "refusals": [
+        "effect_unauthorized",
+        "provider_unknown",
+        "observation_conflict",
+        "residual_unclassified"
+      ],
+      "types": [
+        "DesiredEstateEdition",
+        "ProviderEffectIntent",
+        "ProviderObservation",
+        "ReconciliationReceipt",
+        "ResidualDrift"
+      ]
+    },
+    {
+      "class": "semantic_pure",
+      "decisions": [
+        "export_profile",
+        "secret_exclusion_policy",
+        "residual_policy"
+      ],
+      "dependencies": [
+        "library.platform.estate.change_plan"
+      ],
+      "effect_boundary": "pure_effect_intents",
+      "evidence_refs": [
+        "evidence.aws.organizations",
+        "evidence.gcp.resource_hierarchy",
+        "evidence.azure.management_groups",
+        "evidence.snowflake.organizations",
+        "evidence.fabric.workspaces"
+      ],
+      "invariants": [
+        "data_export_is_not_estate_exit",
+        "credentials_and_provider_private_state_do_not_leak"
+      ],
+      "library_id": "library.platform.estate.exit_manifest",
+      "operations": [
+        "compile_exit_manifest",
+        "verify_export",
+        "record_residual",
+        "close_exit"
+      ],
+      "owner_ref": "semantic.estate_change",
+      "product_refs": [
+        "product.platform_estate_tenancy_administration"
+      ],
+      "provides": [
+        "capability.export_estate"
+      ],
+      "refusals": [
+        "dependency_unresolved",
+        "export_unverified",
+        "residual_owner_missing"
+      ],
+      "types": [
+        "EstateSnapshot",
+        "HierarchyExport",
+        "AttachmentExport",
+        "BindingExport",
+        "ActiveWorkDisposition",
+        "ResidualObligation",
+        "EstateExitManifest"
+      ]
     }
   ],
   "negative_scope": "Does not ratify products, qualify providers, grant effect authority, own business/domain intent, collapse telemetry into health, or treat cost normalization as billing truth.",
@@ -7813,6 +9299,36 @@
       "expected_result": "retain proposal taint and deterministic authority proof and effect gates",
       "prohibited_claim": "An agent proposal may fill missing platform runtime or FinOps evidence and execute the result.",
       "test_id": "negative.platform.agent_authority"
+    },
+    {
+      "expected_result": "import exact external identity and authorization decisions",
+      "prohibited_claim": "A tenant or account identity proves a principal, authentication or authorization.",
+      "test_id": "negative.estate.tenant_principal"
+    },
+    {
+      "expected_result": "project effective scope then request the owning policy decision",
+      "prohibited_claim": "A policy attached to an ancestor proves a specific action is authorized.",
+      "test_id": "negative.estate.attachment_decision"
+    },
+    {
+      "expected_result": "retain distinct administrative content analytical and runtime identities",
+      "prohibited_claim": "A provider workspace is an analytical workspace, runtime session or accepted content state.",
+      "test_id": "negative.estate.workspace_analysis"
+    },
+    {
+      "expected_result": "request a current qualified resource offer and admission decision",
+      "prohibited_claim": "A region or capacity binding proves physical capacity is available.",
+      "test_id": "negative.estate.binding_capacity"
+    },
+    {
+      "expected_result": "retain recovery retention dependency export and purge gates",
+      "prohibited_claim": "Deleting a container proves its content and obligations are permanently purged.",
+      "test_id": "negative.estate.delete_purge"
+    },
+    {
+      "expected_result": "translate through the provider ACL and retain residuals",
+      "prohibited_claim": "One provider hierarchy or workspace model defines the universal estate ontology.",
+      "test_id": "negative.estate.provider_universal"
     }
   ],
   "non_collapse_laws": [
@@ -7838,7 +9354,12 @@
     "resource demand != resource offer != quota != budget != admission != placement != reservation != allocation != lease != consumed usage",
     "usage event != usage aggregate != cost occurrence != normalized cost != attributed cost != allocated cost != charge != invoice != payment",
     "scheduler policy result states its assurance and never converts hard constraints to preferences",
-    "optional model or agent proposal is removable and has no admission allocation cost finance or effect authority"
+    "optional model or agent proposal is removable and has no admission allocation cost finance or effect authority",
+    "estate != tenant != principal != authorization domain",
+    "organization != account != billing account != project != workspace != runtime session",
+    "policy attachment != effective-scope trace != policy decision != enforcement effect",
+    "region or capacity binding != qualified offer != availability != admission != allocation",
+    "suspend != delete request != recoverable deletion != irreversible purge"
   ],
   "offers": [
     {
@@ -7927,6 +9448,76 @@
       "offer_id": "offer.opentelemetry.telemetry",
       "portable": false,
       "provider_ref": "implementation.opentelemetry",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.govern_estate_hierarchy",
+        "capability.reduce_container_lifecycle"
+      ],
+      "evidence_refs": [
+        "evidence.aws.organizations"
+      ],
+      "offer_id": "offer.aws_organizations.estate",
+      "portable": false,
+      "provider_ref": "implementation.aws_organizations",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.govern_estate_hierarchy",
+        "capability.reduce_container_lifecycle"
+      ],
+      "evidence_refs": [
+        "evidence.gcp.resource_hierarchy"
+      ],
+      "offer_id": "offer.gcp_resource_manager.estate",
+      "portable": false,
+      "provider_ref": "implementation.gcp_resource_manager",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.govern_estate_hierarchy",
+        "capability.reduce_container_lifecycle"
+      ],
+      "evidence_refs": [
+        "evidence.azure.management_groups"
+      ],
+      "offer_id": "offer.azure_management_groups.estate",
+      "portable": false,
+      "provider_ref": "implementation.azure_management_groups",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.govern_estate_hierarchy",
+        "capability.reduce_container_lifecycle"
+      ],
+      "evidence_refs": [
+        "evidence.snowflake.organizations"
+      ],
+      "offer_id": "offer.snowflake_organizations.estate",
+      "portable": false,
+      "provider_ref": "implementation.snowflake_organizations",
+      "qualified_implementation_count": 0,
+      "status": "observed_unqualified"
+    },
+    {
+      "capability_refs": [
+        "capability.govern_estate_hierarchy",
+        "capability.reduce_container_lifecycle"
+      ],
+      "evidence_refs": [
+        "evidence.fabric.workspaces"
+      ],
+      "offer_id": "offer.fabric_workspaces.estate",
+      "portable": false,
+      "provider_ref": "implementation.fabric_workspaces",
       "qualified_implementation_count": 0,
       "status": "observed_unqualified"
     }
@@ -8221,6 +9812,61 @@
       ],
       "owner_ref": "semantic.incident_case",
       "term": "Incident case"
+    },
+    {
+      "invariant": "Platform estate cannot be inferred from provider names, identity grants, resource usage, billing records or workspace content.",
+      "meaning_id": "meaning.platform_estate",
+      "must_not_be_owned_by": [
+        "neighbor.identity_policy",
+        "product.runtime_resource_control",
+        "product.finops_allocation"
+      ],
+      "owner_ref": "semantic.platform_estate",
+      "term": "Platform estate"
+    },
+    {
+      "invariant": "Administrative container cannot be inferred from provider names, identity grants, resource usage, billing records or workspace content.",
+      "meaning_id": "meaning.estate_container",
+      "must_not_be_owned_by": [
+        "neighbor.identity_policy",
+        "product.runtime_resource_control",
+        "product.finops_allocation"
+      ],
+      "owner_ref": "semantic.estate_container",
+      "term": "Administrative container"
+    },
+    {
+      "invariant": "Estate attachment cannot be inferred from provider names, identity grants, resource usage, billing records or workspace content.",
+      "meaning_id": "meaning.estate_attachment",
+      "must_not_be_owned_by": [
+        "neighbor.identity_policy",
+        "product.runtime_resource_control",
+        "product.finops_allocation"
+      ],
+      "owner_ref": "semantic.estate_attachment",
+      "term": "Estate attachment"
+    },
+    {
+      "invariant": "Estate binding cannot be inferred from provider names, identity grants, resource usage, billing records or workspace content.",
+      "meaning_id": "meaning.estate_binding",
+      "must_not_be_owned_by": [
+        "neighbor.identity_policy",
+        "product.runtime_resource_control",
+        "product.finops_allocation"
+      ],
+      "owner_ref": "semantic.estate_binding",
+      "term": "Estate binding"
+    },
+    {
+      "invariant": "Estate change cannot be inferred from provider names, identity grants, resource usage, billing records or workspace content.",
+      "meaning_id": "meaning.estate_change",
+      "must_not_be_owned_by": [
+        "neighbor.identity_policy",
+        "product.runtime_resource_control",
+        "product.finops_allocation"
+      ],
+      "owner_ref": "semantic.estate_change",
+      "term": "Estate change"
     }
   ],
   "relations": [
@@ -8307,6 +9953,34 @@
       "predicate": "packages",
       "relation_id": "relation.synthesis_pattern.packages.compiler",
       "to_ref": "product.solution_compiler"
+    },
+    {
+      "binding_phase": "authoring",
+      "from_ref": "suite.data_analytics_platform",
+      "predicate": "packages",
+      "relation_id": "relation.suite.packages.platform_estate",
+      "to_ref": "product.platform_estate_tenancy_administration"
+    },
+    {
+      "binding_phase": "deployment_time",
+      "from_ref": "product.data_product_developer_platform",
+      "predicate": "requires",
+      "relation_id": "relation.developer.requires.estate",
+      "to_ref": "product.platform_estate_tenancy_administration"
+    },
+    {
+      "binding_phase": "compile_time",
+      "from_ref": "product.platform_estate_tenancy_administration",
+      "predicate": "requires",
+      "relation_id": "relation.estate.requires.identity",
+      "to_ref": "neighbor.identity_policy"
+    },
+    {
+      "binding_phase": "target_binding",
+      "from_ref": "product.platform_estate_tenancy_administration",
+      "predicate": "requires",
+      "relation_id": "relation.estate.requires.runtime",
+      "to_ref": "product.runtime_resource_control"
     }
   ],
   "requirements": [
@@ -8723,9 +10397,81 @@
       "refusal": "unit_cost_contract_unbound",
       "requirement_id": "requirement.platform.compute_unit_cost",
       "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.govern_estate_hierarchy",
+      "consumer_ref": "product.platform_estate_tenancy_administration",
+      "minimum_qualified_offers": 1,
+      "refusal": "estate_hierarchy_unbound",
+      "requirement_id": "requirement.platform.estate.govern_estate_hierarchy",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.reduce_container_lifecycle",
+      "consumer_ref": "product.platform_estate_tenancy_administration",
+      "minimum_qualified_offers": 1,
+      "refusal": "container_lifecycle_unbound",
+      "requirement_id": "requirement.platform.estate.reduce_container_lifecycle",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.project_effective_attachments",
+      "consumer_ref": "product.platform_estate_tenancy_administration",
+      "minimum_qualified_offers": 1,
+      "refusal": "attachment_projection_unbound",
+      "requirement_id": "requirement.platform.estate.project_effective_attachments",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.bind_estate_administration",
+      "consumer_ref": "product.platform_estate_tenancy_administration",
+      "minimum_qualified_offers": 1,
+      "refusal": "administration_binding_unbound",
+      "requirement_id": "requirement.platform.estate.bind_estate_administration",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "target_binding",
+      "capability_ref": "capability.bind_estate_region_capacity",
+      "consumer_ref": "product.platform_estate_tenancy_administration",
+      "minimum_qualified_offers": 1,
+      "refusal": "estate_target_binding_unbound",
+      "requirement_id": "requirement.platform.estate.bind_estate_region_capacity",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "compile_time",
+      "capability_ref": "capability.plan_estate_change",
+      "consumer_ref": "product.platform_estate_tenancy_administration",
+      "minimum_qualified_offers": 1,
+      "refusal": "estate_change_planner_unbound",
+      "requirement_id": "requirement.platform.estate.plan_estate_change",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.reconcile_estate",
+      "consumer_ref": "product.platform_estate_tenancy_administration",
+      "minimum_qualified_offers": 1,
+      "refusal": "estate_reconciler_unbound",
+      "requirement_id": "requirement.platform.estate.reconcile_estate",
+      "status": "unbound"
+    },
+    {
+      "binding_phase": "runtime",
+      "capability_ref": "capability.export_estate",
+      "consumer_ref": "product.platform_estate_tenancy_administration",
+      "minimum_qualified_offers": 1,
+      "refusal": "estate_exit_unbound",
+      "requirement_id": "requirement.platform.estate.export_estate",
+      "status": "unbound"
     }
   ],
-  "scope": "Horizontal intent compilation, data-product developer platform, runtime resource control, provider qualification, platform operations and FinOps allocation boundaries.",
+  "scope": "Horizontal intent compilation, data-product developer platform, runtime resource control, provider qualification, platform operations and FinOps allocation boundaries. Platform estate and tenancy administration is a separate horizontal product boundary.",
   "sources": [
     {
       "claim": "Defines a platform as an integrated capability set offered to users through supported interfaces and recommends product thinking.",
@@ -9126,6 +10872,56 @@
       "source_id": "evidence.compiler.iso29119",
       "title": "ISO/IEC/IEEE 29119 software testing series",
       "uri": "https://www.iso.org/standard/81291.html"
+    },
+    {
+      "claim": "AWS persists one organization root, nested organizational units, accounts, moves and inherited policy controls.",
+      "publisher": "Amazon Web Services",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "AWS constructs are provider evidence; they do not define a universal estate model or qualify an occurrence.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.aws.organizations",
+      "title": "Managing organizational units",
+      "uri": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html"
+    },
+    {
+      "claim": "Google persists organization, folder and project hierarchy, exactly-one-parent structure, policy inheritance and lifecycle state.",
+      "publisher": "Google Cloud",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "Google resource kinds and policy behavior require an anti-corruption layer.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.gcp.resource_hierarchy",
+      "title": "About resource hierarchy",
+      "uri": "https://docs.cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy"
+    },
+    {
+      "claim": "Azure persists one directory-rooted management hierarchy, subscription parentage, moves and inherited policy/access scopes.",
+      "publisher": "Microsoft Azure",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "Azure hierarchy limits and Entra coupling are provider-specific.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.azure.management_groups",
+      "title": "Organize resources with management groups",
+      "uri": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview"
+    },
+    {
+      "claim": "Snowflake persists first-class organizations and accounts across regions/clouds with administrator-owned account lifecycle, editions and deletion.",
+      "publisher": "Snowflake",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "Snowflake accounts are not universal tenant, billing-account or workspace identities.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.snowflake.organizations",
+      "title": "Introduction to organizations and managing accounts",
+      "uri": "https://docs.snowflake.com/en/user-guide/organizations"
+    },
+    {
+      "claim": "Fabric persists workspace identity, tenant membership, capacity binding, lifecycle states, deletion retention and administrative recovery.",
+      "publisher": "Microsoft Fabric",
+      "retrieved_at": "2026-08-27",
+      "scope_limit": "Fabric workspace content and analytics semantics remain outside estate administration.",
+      "source_class": "official_specification_or_documentation",
+      "source_id": "evidence.fabric.workspaces",
+      "title": "Manage workspaces",
+      "uri": "https://learn.microsoft.com/en-us/fabric/admin/portal-workspaces"
     }
   ],
   "status": "evidence_backed_adjudicated_candidate_not_ratified"

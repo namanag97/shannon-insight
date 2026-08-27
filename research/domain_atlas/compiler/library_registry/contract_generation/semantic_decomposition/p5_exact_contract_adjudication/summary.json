@@ -12,19 +12,19 @@
   "execution_packages": 57,
   "family_semantic_kernels": 23,
   "input_snapshot": {
-    "aggregate_sha256": "65171d4975993795779d80c666f9e18adbbac5484b9475b5f6b0ea2a3242ca6a",
+    "aggregate_sha256": "011b449c5d239ad31fb2057806a27c7696e067df57ba169621340d997ad90c7f",
     "files": [
       {
-        "bytes": 1139327,
+        "bytes": 1139815,
         "path": "research/domain_atlas/compiler/library_registry/exact_api_closure/closure-queue.jsonl",
         "record_count": 674,
-        "sha256": "dfe14376f340b8731558919104638f64814c265c06ae15b8dd71523daf33fd34"
+        "sha256": "7cc595bdde30a918175066bb1ee34160224acdcf32845a025b7aba7ea7a7855c"
       },
       {
-        "bytes": 197016,
+        "bytes": 197457,
         "path": "research/domain_atlas/compiler/library_registry/exact_api_closure/research-batches.jsonl",
         "record_count": 57,
-        "sha256": "d6912ec7d7fe98ee6a56c90e226ac7c9c28a5b10a8ae1d241630fdfdb00ff151"
+        "sha256": "925e123b0e55591d0e9b347fdc802c60c04ca21c6fb9075df3f51f6ccd5ecb62"
       },
       {
         "bytes": 1370134,
@@ -60,7 +60,7 @@
         "bytes": 100700,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/work-packages.jsonl",
         "record_count": 57,
-        "sha256": "fc7212e0dec2d9567585d556fd137c6b10b0c608ec289aa24c47105d8f8706a6"
+        "sha256": "44e7ce2b84161ffa01c4dca31badd08123ee4686f880745523fc5c0c117b0642"
       },
       {
         "bytes": 6855357,
@@ -123,7 +123,7 @@
         "sha256": "884a17354c9904f73c53d6ca9d1783d5edd59713c11c68422ae6c52cd016d3bd"
       }
     ],
-    "snapshot_id": "snapshot.p5-input.65171d4975993795"
+    "snapshot_id": "snapshot.p5-input.011b449c5d239ad3"
   },
   "lowered_exact_contract_candidates": 0,
   "populated_archetype_obligation_kernels": 15,

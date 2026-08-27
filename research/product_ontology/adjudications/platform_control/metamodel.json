@@ -87,7 +87,12 @@
     "resource demand != resource offer != quota != budget != admission != placement != reservation != allocation != lease != consumed usage",
     "usage event != usage aggregate != cost occurrence != normalized cost != attributed cost != allocated cost != charge != invoice != payment",
     "scheduler policy result states its assurance and never converts hard constraints to preferences",
-    "optional model or agent proposal is removable and has no admission allocation cost finance or effect authority"
+    "optional model or agent proposal is removable and has no admission allocation cost finance or effect authority",
+    "estate != tenant != principal != authorization domain",
+    "organization != account != billing account != project != workspace != runtime session",
+    "policy attachment != effective-scope trace != policy decision != enforcement effect",
+    "region or capacity binding != qualified offer != availability != admission != allocation",
+    "suspend != delete request != recoverable deletion != irreversible purge"
   ],
   "record_kinds": {
     "artifact": {

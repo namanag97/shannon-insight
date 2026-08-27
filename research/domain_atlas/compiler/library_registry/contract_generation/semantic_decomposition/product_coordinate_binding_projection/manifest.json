@@ -3,28 +3,28 @@
   "completion_claim": false,
   "files": {
     "capability-import-coordinate-obligations.jsonl": {
-      "bytes": 243191,
-      "sha256": "aca103baa84e08ae9fe551780836a90fe472e4185f04a7d3966a5a3e3986a80c"
+      "bytes": 246429,
+      "sha256": "55a3dabd6445eb1c13a4e4769510fdbc19e5e9259cfc75eef84fc2eb2f8713e5"
     },
     "compiler-assembly-gates.jsonl": {
-      "bytes": 49374,
-      "sha256": "93f2f5576d1fe034c62e5fb429553b92e66715ccdf7626723ae5ef7e531a159d"
+      "bytes": 50047,
+      "sha256": "77450cad8b538500e584f7493ce10777f51231bf20715df75207d5187e211e16"
     },
     "industry-solution-pack-coordinate-dockets.jsonl": {
       "bytes": 20705,
       "sha256": "a086dbad186e2ef55b791e0b4cc290a3f3879351ff711ece916589fbaae268d8"
     },
     "product-coordinate-binding-dockets.jsonl": {
-      "bytes": 232797,
-      "sha256": "4719dd66d0aaecf33d595fc4782afff500c7b840012d2bc2f95872be822df95a"
+      "bytes": 236861,
+      "sha256": "d39be7ef47c172a3aa063bf1f3d581181fd90112acba198354caea6104b8985d"
     },
     "subject-coordinate-binding-projections.jsonl": {
-      "bytes": 897806,
-      "sha256": "9d97f0781f1c6e4e345ae3ddbbcbb67f422fa5026378cb7602c665d1dbae66fe"
+      "bytes": 912627,
+      "sha256": "078e9ffd80b38daba1d36872321958ab8498cb8dda895d3dd4a572e4707364cf"
     },
     "summary.json": {
       "bytes": 794,
-      "sha256": "e17cd272d7769977db8a487874d2219ba41ea71b1a762ca85ba979029e6e2635"
+      "sha256": "4ef2a6995241b24401a374fe9da0bdc82c8b61ad55d2ea65277a8d2e69fd29b2"
     },
     "vertical-composition-coordinate-dockets.jsonl": {
       "bytes": 96347,

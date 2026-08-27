@@ -63,8 +63,8 @@
       "sha256": "ed26027a7cdbed9ee422a9b41fac36552dfa5667f774f851de70d31f6396a326"
     },
     "exact-finding-inventory.jsonl": {
-      "bytes": 247533,
-      "sha256": "4ed8d2fb42d1e216e1acd4be6afa5f878a9d7d0c27d954c790456821218e4da3"
+      "bytes": 247631,
+      "sha256": "63b0b4829cce8139ff12a11204bafd8d485e6646f80d28778e36238049cdb7d1"
     },
     "execution-frontier.jsonl": {
       "bytes": 43291,

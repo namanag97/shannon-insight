@@ -31,7 +31,7 @@
     },
     "work-packages.jsonl": {
       "bytes": 100700,
-      "sha256": "fc7212e0dec2d9567585d556fd137c6b10b0c608ec289aa24c47105d8f8706a6"
+      "sha256": "44e7ce2b84161ffa01c4dca31badd08123ee4686f880745523fc5c0c117b0642"
     }
   },
   "manifest_id": "manifest.bulk-contract-generation.v1"

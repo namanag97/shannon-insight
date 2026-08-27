@@ -5,19 +5,19 @@
   "edition": 1,
   "executed_vertical_acceptances": 0,
   "input_snapshot": {
-    "aggregate_sha256": "305b566d925e1b81cfc31a5e29d6c2485966be2750adc8a2c63ecfe850c799c5",
+    "aggregate_sha256": "ee0d5c6acd9767f56c68b9c49b0255b2d5250328c35c3f5c03175d9df301e924",
     "files": [
       {
-        "bytes": 233982,
+        "bytes": 237693,
         "path": "research/product_ontology/qualification_program/product-qualification-programs.jsonl",
-        "record_count": 65,
-        "sha256": "7aa361f5f63a177549ae6269edbc50f2aed2a841da29af0ea3af36713b54451e"
+        "record_count": 66,
+        "sha256": "1c285e82872486ec098cc10ee2b3a75db9c821800dd0e94282cabc5bd2822cf7"
       },
       {
-        "bytes": 74067,
+        "bytes": 75220,
         "path": "research/product_ontology/qualification_program/product-vertical-acceptance-programs.jsonl",
-        "record_count": 65,
-        "sha256": "88701c1016a469a6f31bb81caf779bc719858f6d993e3fa5868df3c91ec894ad"
+        "record_count": 66,
+        "sha256": "8ccd6a06ad1ce6f8127d3faac6f9a41f878c9cb49a576b6a03b93ccfee4c10d5"
       },
       {
         "bytes": 133323,
@@ -38,16 +38,16 @@
         "sha256": "59b667e208282235f328bb7a063c94a2a475a95c3eee436c2c402b0741aa13de"
       }
     ],
-    "snapshot_id": "snapshot.p8-input.305b566d925e1b81"
+    "snapshot_id": "snapshot.p8-input.ee0d5c6acd9767f5"
   },
   "pilot_product_candidate_relations": 45,
   "pilot_structural_compositions": 4,
-  "product_programs": 65,
+  "product_programs": 66,
   "products_with_any_structural_pilot": 14,
   "products_with_two_accepted_unrelated_verticals": 0,
   "products_with_two_unrelated_structural_pilots": 12,
   "program_id": "program.p8-vertical-acceptance-tensor.v1",
-  "slot_gate_obligations": 1040,
-  "unrelated_vertical_slots": 130,
-  "vertical_acceptance_intake_templates": 130
+  "slot_gate_obligations": 1056,
+  "unrelated_vertical_slots": 132,
+  "vertical_acceptance_intake_templates": 132
 }

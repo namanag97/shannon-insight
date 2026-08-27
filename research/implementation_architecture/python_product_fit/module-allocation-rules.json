@@ -1,0 +1,358 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-08-28",
+  "application_id": "application.codebase_engineering_intelligence",
+  "unknown_top_level_policy": "REFUSE_GENERATION",
+  "coverage_coordinate_law": "hpf_* references are evidence-only research coordinates; they are not canonical product identity, semantic authority or qualification.",
+  "layers": {
+    "PUBLIC_COMPATIBILITY_FACADE": {
+      "may_import": ["PUBLIC_COMPATIBILITY_FACADE", "SOURCE_ACQUISITION", "NORMALIZED_FACT_AND_IDENTITY", "ANALYTICAL_METHOD_KERNEL", "ANALYSIS_ORCHESTRATION", "EVIDENCE_RESULT_AND_HISTORY", "EXPERIENCE_AND_DELIVERY", "APPLICATION_RUNTIME_SUPPORT"]
+    },
+    "SOURCE_ACQUISITION": {
+      "may_import": ["SOURCE_ACQUISITION", "NORMALIZED_FACT_AND_IDENTITY", "APPLICATION_RUNTIME_SUPPORT"]
+    },
+    "NORMALIZED_FACT_AND_IDENTITY": {
+      "may_import": ["NORMALIZED_FACT_AND_IDENTITY", "APPLICATION_RUNTIME_SUPPORT"]
+    },
+    "ANALYTICAL_METHOD_KERNEL": {
+      "may_import": ["NORMALIZED_FACT_AND_IDENTITY", "ANALYTICAL_METHOD_KERNEL", "APPLICATION_RUNTIME_SUPPORT"]
+    },
+    "ANALYSIS_ORCHESTRATION": {
+      "may_import": ["SOURCE_ACQUISITION", "NORMALIZED_FACT_AND_IDENTITY", "ANALYTICAL_METHOD_KERNEL", "ANALYSIS_ORCHESTRATION", "EVIDENCE_RESULT_AND_HISTORY", "APPLICATION_RUNTIME_SUPPORT"]
+    },
+    "EVIDENCE_RESULT_AND_HISTORY": {
+      "may_import": ["NORMALIZED_FACT_AND_IDENTITY", "EVIDENCE_RESULT_AND_HISTORY", "APPLICATION_RUNTIME_SUPPORT"]
+    },
+    "EXPERIENCE_AND_DELIVERY": {
+      "may_import": ["PUBLIC_COMPATIBILITY_FACADE", "NORMALIZED_FACT_AND_IDENTITY", "ANALYSIS_ORCHESTRATION", "EVIDENCE_RESULT_AND_HISTORY", "EXPERIENCE_AND_DELIVERY", "APPLICATION_RUNTIME_SUPPORT"]
+    },
+    "APPLICATION_RUNTIME_SUPPORT": {
+      "may_import": ["NORMALIZED_FACT_AND_IDENTITY", "APPLICATION_RUNTIME_SUPPORT"]
+    }
+  },
+  "allocations": {
+    "__init__.py": {
+      "ownership_layer": "PUBLIC_COMPATIBILITY_FACADE",
+      "allocation_basis": "Stable import-package identity and public compatibility exports.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": []
+    },
+    "api.py": {
+      "ownership_layer": "PUBLIC_COMPATIBILITY_FACADE",
+      "allocation_basis": "Public application API that composes internal application services.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_data_apps_embedded"]
+    },
+    "algorithms": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Algorithm implementations used by bounded codebase analyses.",
+      "implementation_posture": "REUSABLE_METHOD_CANDIDATE_UNQUALIFIED",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_descriptive_statistics", "hpf_diagnostic_rca"]
+    },
+    "architecture": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Software architecture graph, module, layer and coupling analysis.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_graph_network", "hpf_diagnostic_rca"]
+    },
+    "cache.py": {
+      "ownership_layer": "APPLICATION_RUNTIME_SUPPORT",
+      "allocation_basis": "Application-local caching and execution support without semantic authority.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_runtime_control"]
+    },
+    "cli": {
+      "ownership_layer": "EXPERIENCE_AND_DELIVERY",
+      "allocation_basis": "Command-line application experience and delivery adapter.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_reporting_narrative"]
+    },
+    "config.py": {
+      "ownership_layer": "APPLICATION_RUNTIME_SUPPORT",
+      "allocation_basis": "Application configuration, resource and runtime policy support.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_runtime_control"]
+    },
+    "core": {
+      "ownership_layer": "ANALYSIS_ORCHESTRATION",
+      "allocation_basis": "Application service composition and legacy orchestration surface.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_intent_compilation"]
+    },
+    "cross_layer": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Cross-relation analytical methods over admitted codebase observations.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_diagnostic_rca", "hpf_graph_network"]
+    },
+    "database.py": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Application result/history database adapter and query persistence.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_data_products"]
+    },
+    "debug_export.py": {
+      "ownership_layer": "EXPERIENCE_AND_DELIVERY",
+      "allocation_basis": "Debug/export projection of existing application state and evidence.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_reporting_narrative"]
+    },
+    "diff.py": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Snapshot and finding change comparison over application-owned history.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_diagnostic_rca", "hpf_temporal_forecast"]
+    },
+    "environment.py": {
+      "ownership_layer": "APPLICATION_RUNTIME_SUPPORT",
+      "allocation_basis": "Execution-environment discovery and bounded application runtime support.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_runtime_control"]
+    },
+    "events": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Application-local event and evidence projection types, not universal business events.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_data_products"]
+    },
+    "events.py": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Compatibility event projection if present as a root module.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_data_products"]
+    },
+    "exceptions": {
+      "ownership_layer": "APPLICATION_RUNTIME_SUPPORT",
+      "allocation_basis": "Application error/refusal taxonomy and exception transport.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_runtime_control", "hpf_trust_assurance_ops"]
+    },
+    "extract": {
+      "ownership_layer": "SOURCE_ACQUISITION",
+      "allocation_basis": "Source extraction adapters that emit application-local admitted observations.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_source_acquisition"]
+    },
+    "facts": {
+      "ownership_layer": "NORMALIZED_FACT_AND_IDENTITY",
+      "allocation_basis": "Normalized codebase fact, content, commit, identity and author records.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_contract_admission", "hpf_data_products", "hpf_measurement_semantics"]
+    },
+    "file_ops.py": {
+      "ownership_layer": "SOURCE_ACQUISITION",
+      "allocation_basis": "Filesystem access helper used by bounded source acquisition.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_source_acquisition"]
+    },
+    "graph": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Graph construction and algorithms over codebase relations.",
+      "implementation_posture": "REUSABLE_METHOD_CANDIDATE_UNQUALIFIED",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_graph_network", "hpf_diagnostic_rca"]
+    },
+    "infrastructure": {
+      "ownership_layer": "APPLICATION_RUNTIME_SUPPORT",
+      "allocation_basis": "Runtime, provenance, signal registry and application infrastructure support.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_runtime_control", "hpf_trust_assurance_ops"]
+    },
+    "insights": {
+      "ownership_layer": "ANALYSIS_ORCHESTRATION",
+      "allocation_basis": "Application analyzers, finders, fusion coordination and finding synthesis.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_diagnostic_rca", "hpf_intent_compilation"]
+    },
+    "intake": {
+      "ownership_layer": "SOURCE_ACQUISITION",
+      "allocation_basis": "Source discovery, admission, skip/refusal and intake reporting.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_source_acquisition", "hpf_contract_admission"]
+    },
+    "kernel": {
+      "ownership_layer": "ANALYSIS_ORCHESTRATION",
+      "allocation_basis": "Application run, phase, cancellation and result orchestration.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_intent_compilation", "hpf_orchestration_dataflow"]
+    },
+    "math": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Statistical, information-theoretic, graph and robust mathematical kernels.",
+      "implementation_posture": "REUSABLE_METHOD_CANDIDATE_UNQUALIFIED",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_descriptive_statistics", "hpf_graph_network", "hpf_measurement_semantics", "hpf_risk_uncertainty"]
+    },
+    "models.py": {
+      "ownership_layer": "NORMALIZED_FACT_AND_IDENTITY",
+      "allocation_basis": "Compatibility data models for application-owned facts and results.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_data_products"]
+    },
+    "persistence": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Application persistence of facts, results and historical evidence.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_data_products", "hpf_trust_assurance_ops"]
+    },
+    "queries.py": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Application history and result query compatibility surface.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_query_compute"]
+    },
+    "query": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Application query contracts and read models over retained evidence.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_query_compute"]
+    },
+    "relate": {
+      "ownership_layer": "ANALYSIS_ORCHESTRATION",
+      "allocation_basis": "Relation construction and application-level coordination across admitted facts.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_graph_network", "hpf_intent_compilation"]
+    },
+    "rename.py": {
+      "ownership_layer": "SOURCE_ACQUISITION",
+      "allocation_basis": "Git/file rename observation and compatibility helper.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_source_acquisition"]
+    },
+    "scanning": {
+      "ownership_layer": "SOURCE_ACQUISITION",
+      "allocation_basis": "Language scanning, parsing normalization and fallback acquisition.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_source_acquisition", "hpf_contract_admission"]
+    },
+    "scope.py": {
+      "ownership_layer": "ANALYSIS_ORCHESTRATION",
+      "allocation_basis": "Application analysis-scope and blast-radius coordination.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_diagnostic_rca"]
+    },
+    "semantics": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Codebase-specific naming, concept and role analysis; not universal business semantics.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_domain_semantics", "hpf_diagnostic_rca"]
+    },
+    "server": {
+      "ownership_layer": "EXPERIENCE_AND_DELIVERY",
+      "allocation_basis": "Local server, dashboard, API and state-delivery experience.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_dashboards_scorecards", "hpf_data_apps_embedded", "hpf_visual_presentation"]
+    },
+    "server_lifecycle.py": {
+      "ownership_layer": "APPLICATION_RUNTIME_SUPPORT",
+      "allocation_basis": "Local server process lifecycle and shutdown support.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_runtime_control"]
+    },
+    "signals": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Application signal fusion, normalization and threshold computation.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_descriptive_statistics", "hpf_diagnostic_rca", "hpf_measurement_semantics"]
+    },
+    "snapshot.py": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Application snapshot, finding identity and retained result representation.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_data_products", "hpf_trust_assurance_ops"]
+    },
+    "storage": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Application persistence and history-store implementation.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_data_products"]
+    },
+    "storage.py": {
+      "ownership_layer": "EVIDENCE_RESULT_AND_HISTORY",
+      "allocation_basis": "Compatibility persistence surface if present as a root module.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_data_products"]
+    },
+    "syntax": {
+      "ownership_layer": "SOURCE_ACQUISITION",
+      "allocation_basis": "Program syntax extraction, normalization and parser-pack acquisition.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_source_acquisition", "hpf_contract_admission"]
+    },
+    "temporal": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Codebase history, churn, trajectory, author and co-change analytical methods.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": true,
+      "coverage_coordinate_refs": ["hpf_temporal_forecast", "hpf_diagnostic_rca"]
+    },
+    "tensor": {
+      "ownership_layer": "ANALYTICAL_METHOD_KERNEL",
+      "allocation_basis": "Multirelation tensor, spectral, hypergraph and decomposition methods.",
+      "implementation_posture": "REUSABLE_METHOD_CANDIDATE_UNQUALIFIED",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_graph_network", "hpf_descriptive_statistics"]
+    },
+    "visualization.py": {
+      "ownership_layer": "EXPERIENCE_AND_DELIVERY",
+      "allocation_basis": "Rendered application report/visualization projection without fact authority.",
+      "implementation_posture": "APPLICATION_IMPLEMENTATION",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_visual_presentation", "hpf_reporting_narrative"]
+    },
+    "watch.py": {
+      "ownership_layer": "APPLICATION_RUNTIME_SUPPORT",
+      "allocation_basis": "Filesystem/watch runtime adapter without horizontal semantic authority.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_runtime_control"]
+    },
+    "watcher.py": {
+      "ownership_layer": "APPLICATION_RUNTIME_SUPPORT",
+      "allocation_basis": "Filesystem/watch runtime adapter without horizontal semantic authority.",
+      "implementation_posture": "COMPATIBILITY_OR_SUPPORT",
+      "local_application_semantic_owner": false,
+      "coverage_coordinate_refs": ["hpf_runtime_control"]
+    }
+  },
+  "completion_claim": false
+}

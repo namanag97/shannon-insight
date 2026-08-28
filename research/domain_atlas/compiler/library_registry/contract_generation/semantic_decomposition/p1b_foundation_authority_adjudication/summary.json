@@ -12,7 +12,7 @@
   "edition": 1,
   "family_constitution_dockets": 24,
   "input_snapshot": {
-    "aggregate_sha256": "143815f41087fec4235cf06ed66d962c48f7209b9e015efb5f1ad45b39d97067",
+    "aggregate_sha256": "c5dd7390c7cfb69ab0fbf033ddb9af563ec742c06cd9e2267fc779c5379f68ed",
     "files": [
       {
         "bytes": 67834,
@@ -24,7 +24,7 @@
         "bytes": 72828,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/readiness-audits.jsonl",
         "record_count": 24,
-        "sha256": "78410d2df0770523af1150a49fa3dc7e643089b05103553b9c6ebda7f83e83da"
+        "sha256": "84789c51ffefa5bbdf6480aa392ff5a6109001db2c10828f01067c4d0056d97e"
       },
       {
         "bytes": 398176,
@@ -51,7 +51,7 @@
         "sha256": "07184c6afe32e144d4136f4f9261dd25e5808c4fac1c6a27c860b948a1781bac"
       }
     ],
-    "snapshot_id": "snapshot.p1b-input.143815f41087fec4"
+    "snapshot_id": "snapshot.p1b-input.c5dd7390c7cfb69a"
   },
   "program_id": "program.p1b-foundation-authority-adjudication.v1",
   "ratification_packet_templates": 661,

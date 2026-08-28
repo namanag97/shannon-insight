@@ -1,0 +1,44 @@
+name: Code Intelligence Binding Bootstrap
+
+on:
+  push:
+    branches:
+      - architecture/python-product-platform-boundary
+    paths:
+      - research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/**
+      - .github/workflows/code-intelligence-binding-bootstrap.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: ${{ !contains(github.event.head_commit.message, '[skip binding-build]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install 'jsonschema>=4'
+      - name: Build and validate binding
+        working-directory: research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence
+        run: |
+          python3 build_binding.py
+          python3 validate_binding.py
+          python3 build_binding.py --check
+      - name: Persist deterministic artifacts
+        run: |
+          git config user.name "shannon-insight-research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence
+          if git diff --cached --quiet; then
+            echo "Binding already current"
+            exit 0
+          fi
+          git commit -m "architecture: generate code-intelligence Python binding [skip binding-build]"
+          git push origin HEAD:${{ github.ref_name }}

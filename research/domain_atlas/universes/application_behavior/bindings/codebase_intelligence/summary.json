@@ -1,0 +1,26 @@
+{
+  "as_of": "2026-08-28",
+  "build_ready_product_count": 0,
+  "classified_top_level_component_count": 42,
+  "completion_claim": false,
+  "library_binding_count": 10,
+  "product_id": "application_product.software_codebase_intelligence",
+  "product_kind": "application_domain_analytical_product",
+  "python_semantic_authority_count": 0,
+  "qualified_implementation_count": 0,
+  "ratified_product_count": 0,
+  "report_id": "code_intelligence_python_product_boundary",
+  "research_python_file_count": 541,
+  "research_python_role_counts": {
+    "qualification_execution_harness": 14,
+    "research_analysis_or_support": 60,
+    "research_authoring_model": 16,
+    "research_conformance_test": 1,
+    "research_corpus_builder": 218,
+    "research_migration_or_reconciliation": 1,
+    "research_validator": 231
+  },
+  "status": "APPLICATION_PRODUCT_BOUNDARY_EXPLICIT_IMPLEMENTATION_AND_RESEARCH_ROLES_UNQUALIFIED",
+  "top_level_component_count": 42,
+  "unclassified_top_level_component_count": 0
+}

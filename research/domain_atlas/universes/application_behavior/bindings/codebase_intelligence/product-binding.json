@@ -1,0 +1,253 @@
+{
+  "application_domain": "software_engineering",
+  "authority_model": {
+    "policy": "security and policy contexts control admission and disclosure",
+    "product": "owns software-intelligence interpretation only",
+    "qualification": "independent qualification authority remains absent",
+    "remediation": "human or external change-management authority controls effects",
+    "repository": "repository owner controls access and accepted source cut"
+  },
+  "commands": [
+    "DiscoverRepository",
+    "AdmitRepositoryCut",
+    "ParseSoftwareFiles",
+    "PopulateSoftwareRelations",
+    "ComputeEngineeringSignals",
+    "EvaluateEngineeringFindings",
+    "RetainCodebaseSnapshot",
+    "CompareCodebaseSnapshots",
+    "RenderEngineeringReport"
+  ],
+  "completion_claim": false,
+  "concurrency_model": [
+    "repository cut is immutable during one run",
+    "parallel parsing must preserve deterministic merge order",
+    "snapshot publication uses explicit identity and replacement rules"
+  ],
+  "economic_adoption_exit_seams": [
+    "repository hosting and access remain replaceable inputs",
+    "language parsers and storage adapters require explicit compatibility editions",
+    "retained facts and snapshots require documented export before implementation substitution",
+    "algorithm or threshold changes invalidate affected comparisons unless migrated",
+    "product adoption evidence and product boundary ratification remain open"
+  ],
+  "edition": 1,
+  "events": [
+    "RepositoryCutAdmitted",
+    "SoftwareFileObserved",
+    "SoftwareRelationDerived",
+    "EngineeringSignalComputed",
+    "EngineeringFindingEmitted",
+    "CodebaseSnapshotRetained"
+  ],
+  "evidence_model": [
+    "source cut",
+    "configuration digest",
+    "toolchain and package identity",
+    "fact lineage",
+    "formula/version",
+    "counterexample or refusal",
+    "snapshot identity"
+  ],
+  "evidence_refs": [
+    "evidence.code_intelligence.repository_architecture",
+    "evidence.python.packaging_pyproject",
+    "evidence.arrow.language_independent_format",
+    "evidence.substrait.cross_language_plan",
+    "evidence.opentelemetry.signals",
+    "evidence.parent.application_behavior"
+  ],
+  "falsification_tests": [
+    "If another product can own repository observation, software identities, engineering signals and findings without importing this product's lifecycle, merge or demote the boundary.",
+    "If a component is useful without software-domain meaning, classify it as an imported horizontal library or infrastructure adapter rather than product semantics.",
+    "If a Python-specific object leaks into a published portable contract, reject the contract or add a language-independent carrier.",
+    "If remediation occurs from a finding without an admitted authority handoff, fail conformance."
+  ],
+  "implementation_language": "python",
+  "invariants": [
+    "every result names one admitted repository cut and implementation edition",
+    "file identity evolution is distinct from path text",
+    "observed facts are distinct from derived signals and findings",
+    "a finding carries evidence and cannot authorize or perform remediation",
+    "missing parser or relation coverage is represented as partiality or refusal",
+    "identical admitted inputs and configuration produce deterministic contract outputs where the declared method is deterministic",
+    "imported horizontal contracts retain their semantic owners"
+  ],
+  "jobs": [
+    "observe a repository at an exact cut",
+    "derive syntax, identity, dependency, temporal and semantic facts",
+    "compute reproducible software-engineering signals",
+    "detect bounded architectural and maintainability findings",
+    "compare retained repository snapshots",
+    "present evidence without automatically authorizing remediation"
+  ],
+  "name": "Software / Codebase Intelligence and Engineering Analytics",
+  "negative_charter": [
+    "does not own universal enterprise source-system classes or connector semantics",
+    "does not own generic data contracts, master data, catalog, lineage, data quality or governance",
+    "does not own warehouse, lakehouse, stream, query or orchestration platform semantics",
+    "does not own universal business metrics or analytical-method meaning",
+    "does not own a general notebook, BI, planning or presentation product",
+    "does not make research generators into a production compiler or control plane",
+    "does not make Python the semantic authority for portable data, plans, telemetry or evidence"
+  ],
+  "non_collapse_laws": [
+    "repository occurrence != universal source-system registry",
+    "parser or AST library != analytical product",
+    "relationship graph or tensor != product boundary",
+    "engineering signal != universal business metric",
+    "engineering finding != authorized remediation",
+    "report projection != underlying evidence",
+    "Python package != enterprise data-and-analytics platform",
+    "research builder != production compiler",
+    "passing unit tests != provider qualification"
+  ],
+  "owned_artifacts": [
+    {
+      "artifact": "RepositoryObservation",
+      "meaning": "An admitted observation of one repository occurrence at a bounded cut.",
+      "owner": "application_product.software_codebase_intelligence"
+    },
+    {
+      "artifact": "SoftwareFileIdentity",
+      "meaning": "Application identity for a file across observed repository change, including rename history.",
+      "owner": "application_product.software_codebase_intelligence"
+    },
+    {
+      "artifact": "SoftwareSyntaxFact",
+      "meaning": "Observed language syntax facts such as functions, classes and imports.",
+      "owner": "application_product.software_codebase_intelligence"
+    },
+    {
+      "artifact": "SoftwareRelationGraph",
+      "meaning": "Typed software relationships derived from admitted observations.",
+      "owner": "application_product.software_codebase_intelligence"
+    },
+    {
+      "artifact": "SoftwareRelationTensor",
+      "meaning": "Multi-layer analytical representation of software relationships; not a universal graph or tensor contract.",
+      "owner": "application_product.software_codebase_intelligence"
+    },
+    {
+      "artifact": "EngineeringSignal",
+      "meaning": "A versioned software-engineering measurement with formula and provenance.",
+      "owner": "application_product.software_codebase_intelligence"
+    },
+    {
+      "artifact": "EngineeringFinding",
+      "meaning": "A bounded evidence-backed diagnostic result; not an authorized code change.",
+      "owner": "application_product.software_codebase_intelligence"
+    },
+    {
+      "artifact": "CodebaseSnapshot",
+      "meaning": "A retained analytical state for comparison and trend analysis.",
+      "owner": "application_product.software_codebase_intelligence"
+    },
+    {
+      "artifact": "EngineeringReportProjection",
+      "meaning": "A presentation projection over product facts and findings.",
+      "owner": "application_product.software_codebase_intelligence"
+    }
+  ],
+  "parent_semantic_authority": "research/domain_atlas/universes/application_behavior",
+  "product_id": "application_product.software_codebase_intelligence",
+  "product_kind": "application_domain_analytical_product",
+  "published_interfaces": [
+    "Python API",
+    "command-line interface",
+    "server/API projection",
+    "snapshot/event serialization",
+    "HTML/report projections"
+  ],
+  "qualification": {
+    "build_ready": false,
+    "executed_vertical_acceptance": false,
+    "implementation_qualified": false,
+    "independent_appraisal": false,
+    "portable": false,
+    "ratified": false,
+    "semantic_ratified": false
+  },
+  "queries": [
+    "GetFileEvidence",
+    "GetRelationNeighborhood",
+    "GetEngineeringSignals",
+    "ListEngineeringFindings",
+    "GetSnapshotDifference",
+    "ExplainFinding"
+  ],
+  "refusals": [
+    "refuse unreadable, unbounded or unsupported repository observations",
+    "refuse to infer business truth from source-code structure",
+    "refuse to label a heuristic finding as proof",
+    "refuse automatic remediation without a separate authorized application workflow",
+    "refuse provider qualification from package installation or unit tests",
+    "refuse Python object identity as a portable artifact identity"
+  ],
+  "sovereign_question": "What evidence-backed structural, temporal, semantic and architectural conditions exist in an observed software repository, and what bounded findings can be presented to software-engineering decision makers?",
+  "state_machine": {
+    "states": [
+      "declared",
+      "observing",
+      "observed",
+      "analyzing",
+      "analyzed",
+      "reported",
+      "refused",
+      "superseded"
+    ],
+    "transitions": [
+      [
+        "declared",
+        "observing",
+        "DiscoverRepository"
+      ],
+      [
+        "observing",
+        "observed",
+        "RepositoryCutAdmitted"
+      ],
+      [
+        "observed",
+        "analyzing",
+        "ComputeEngineeringSignals"
+      ],
+      [
+        "analyzing",
+        "analyzed",
+        "EngineeringFindingEmitted"
+      ],
+      [
+        "analyzed",
+        "reported",
+        "RenderEngineeringReport"
+      ],
+      [
+        "*",
+        "refused",
+        "RefusalRecorded"
+      ],
+      [
+        "observed|analyzed|reported",
+        "superseded",
+        "NewRepositoryCutAdmitted"
+      ]
+    ]
+  },
+  "status": "implemented_candidate_unqualified",
+  "time_model": [
+    "commit_time",
+    "author_time",
+    "observation_time",
+    "analysis_time",
+    "snapshot_effective_time"
+  ],
+  "users": [
+    "software engineer",
+    "technical lead",
+    "software architect",
+    "engineering manager",
+    "maintainer",
+    "assurance or review practitioner"
+  ]
+}

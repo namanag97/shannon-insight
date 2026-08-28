@@ -1,0 +1,47 @@
+{
+  "as_of": "2026-08-28",
+  "completion_claim": false,
+  "edition": 1,
+  "files": {
+    "component-bindings.jsonl": {
+      "records": 42,
+      "sha256": "09d01586e29ce2b46ce76a69b1731b5b8f145e069e219034c417fa0b821a7403"
+    },
+    "evidence.jsonl": {
+      "records": 6,
+      "sha256": "326357d2cb74f4f65c194a12a4e4c1460f2ad79aec75302323d16fb41264cea3"
+    },
+    "library-bindings.jsonl": {
+      "records": 10,
+      "sha256": "88e7104c8a7cdf5024b344fe66c0c07f22aaec8317de44e67d1809d0ed0319ee"
+    },
+    "product-binding.json": {
+      "records": 1,
+      "sha256": "bdb8b97eaaa6b911a385046313788a386a7fcf2a4be6823e3bd7540f50dd756a"
+    },
+    "research-python-roles.jsonl": {
+      "records": 541,
+      "sha256": "a17c24935ae94b4b4339701bf0ce3f6540b139f5ec0634f3e8b42911ea9134b4"
+    },
+    "summary.json": {
+      "records": 1,
+      "sha256": "686f87dbaffb20f890323ae4ff37dc9f8972230560c9dc2f91e87558d83f1062"
+    }
+  },
+  "inputs": {
+    "parent_manifest.json": "381193ce044231e7c870040c595430e22d22de3723efcd53ce51125afbf5e5d0",
+    "pyproject.toml": "22b1d3d7c4c32d14334dd0276865acb370ee314885a073a610125a5753b8090b",
+    "source_model.py": "70ab19a4fde57ae86e5a2baa6477b5db7bf7d2cacbd4a8ac7d1c6a790ff07806"
+  },
+  "manifest_id": "code_intelligence_python_product_boundary_v1",
+  "parent_authority": "research/domain_atlas/universes/application_behavior",
+  "qualification": {
+    "build_ready": false,
+    "executed_vertical_acceptance": false,
+    "implementation_qualified": false,
+    "independent_appraisal": false,
+    "portable": false,
+    "ratified": false,
+    "semantic_ratified": false
+  }
+}

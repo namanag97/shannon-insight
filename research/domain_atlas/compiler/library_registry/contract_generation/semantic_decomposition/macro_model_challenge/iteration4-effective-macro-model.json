@@ -1,0 +1,28 @@
+{
+  "as_of": "2026-08-28",
+  "base_axis_count": 16,
+  "candidate_axis_count": 9,
+  "candidate_axis_ids": [
+    "quantity_and_value_semantics",
+    "observation_measurement_and_metrology",
+    "scope_population_and_eligibility",
+    "normativity_and_obligation",
+    "provenance_and_derivation",
+    "epistemic_status",
+    "causal_and_interventional_semantics",
+    "stochastic_mechanism_and_assignment",
+    "semantic_constraints_and_validity"
+  ],
+  "canonical_mutation_allowed": false,
+  "completion_claim": false,
+  "effective_research_axis_count": 25,
+  "iteration_lineage": [
+    "v1 added five candidate axes",
+    "v2 corrected population lexical contamination and added causal plus stochastic axes",
+    "v3 split quantitative value from observation/metrology",
+    "v4 added semantic constraints/validity after proving it is not normativity or conformance evidence"
+  ],
+  "model_id": "model.enterprise-data-analytics-semantic-axes.challenge-v4",
+  "record_kind": "effective_macro_model_research_candidate_iteration4",
+  "status": "ITERATION_4_RESEARCH_CHALLENGE_CANDIDATE_NOT_RATIFIED"
+}

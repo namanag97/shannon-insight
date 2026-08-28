@@ -108,6 +108,30 @@
       "default_unretained_disposition": "REJECT_WEAK_CANDIDATE_FROM_CANONICAL_EVIDENCE",
       "default_unretained_rationale": "The reviewed Google Cloud product-documentation scope did not bind this candidate family membership to an exact distinct product surface. General cloud programmability, user-authored code, or a method executable in BigQuery or Vertex AI is not transitive product-boundary evidence.",
       "absence_claim": false
+    },
+    {
+      "organization_id": "org_qlik",
+      "reviewed_on": "2026-08-28",
+      "official_research_scope": [
+        "https://help.qlik.com/en-US/evaluation-guides/Content/overview/overview.htm",
+        "https://help.qlik.com/en-US/sense/May2026/Subsystems/Hub/Content/Sense_Hub/Introduction/qs-business.htm",
+        "https://help.qlik.com/en-US/evaluation-guides/Content/data-integration/data-integration.htm",
+        "https://www.qlik.com/us/products/data-products",
+        "https://help.qlik.com/en-US/cloud-services/Catalog/catalog-overview.htm"
+      ],
+      "retained_claim_ids": [
+        "claim.membership.hpf_alert_delivery.org_qlik",
+        "claim.membership.hpf_catalog_discovery.org_qlik",
+        "claim.membership.hpf_content_collaboration.org_qlik",
+        "claim.membership.hpf_dashboards_scorecards.org_qlik",
+        "claim.membership.hpf_data_apps_embedded.org_qlik",
+        "claim.membership.hpf_exploration_workspace.org_qlik",
+        "claim.membership.hpf_reporting_narrative.org_qlik",
+        "claim.membership.hpf_visual_presentation.org_qlik"
+      ],
+      "default_unretained_disposition": "REJECT_WEAK_CANDIDATE_FROM_CANONICAL_EVIDENCE",
+      "default_unretained_rationale": "The reviewed Qlik Cloud Analytics, Qlik Talend Cloud, Data Products, and catalog documentation scope did not bind this base candidate to an exact distinct product surface. An analysis method executable through user-authored expressions, extensions, or partner integrations is not transitive Qlik product-boundary evidence.",
+      "absence_claim": false
     }
   ]
 }

@@ -16,11 +16,11 @@
     },
     "exact-contract-dockets.jsonl": {
       "bytes": 5680096,
-      "sha256": "39f5f747ae67f06acf0b1f8e2c0d59dc7817ed086cb2553964859b8d01843a68"
+      "sha256": "399b4cb2fcb53dd53b70c6be4a5ef21630e762c2d88b60b34285b9666cc5068a"
     },
     "exact-contract-ratification-packet-templates.jsonl": {
       "bytes": 2700922,
-      "sha256": "d21cb20200986326c1a73bbc867bb5a883f534e07c185a05aef28533ccc63e35"
+      "sha256": "55d335daa7a88a44f3fe2beb03fc9fc6590c427f1af8ebbbbb3f344db7750686"
     },
     "execution-packages.jsonl": {
       "bytes": 124987,
@@ -36,7 +36,7 @@
     },
     "summary.json": {
       "bytes": 6217,
-      "sha256": "c072d0b77c7306e8f6f5693c38c1bfd95a1d5b61c136889d26be44260897a8a8"
+      "sha256": "804108d1f33ac53716f3e35496ae30c42dba0d11495fe3a5407f5a12b15ec480"
     }
   },
   "manifest_id": "manifest.p5-exact-contract-adjudication.v1"

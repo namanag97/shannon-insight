@@ -1,0 +1,253 @@
+{
+  "application_product_id": "application_product.software_engineering.codebase_intelligence",
+  "artifact_digests": [
+    {
+      "path": "research/product_ontology/implementation_placement/manifest.json",
+      "sha256": "sha256:9ebef47bcb328dcaf67102b83222ab340f416c36aa40fbeb33709f35174f2941"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd-summary.json",
+      "sha256": "sha256:9bdec570762fa5e0a859a1604e4f1f0eb75f26d2d742bcc01f0a1cafc1c0aaa3"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd.json",
+      "sha256": "sha256:cd501ac8be808893d06bd446e11ada3ca03e97cc4503206cc7c643e69274baf3"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-python-extraction-candidates.jsonl",
+      "sha256": "sha256:0d5ceb17ecbbad16992dcd6d7aba2dc358e413b00df0d87a10521f56c2bb0e75"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-python-extraction-summary.json",
+      "sha256": "sha256:71f9e6fe7c74f72ebcef418a9777566a57adb9d7f0f305dc76139bb7d2df4535"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl",
+      "sha256": "sha256:25b854ec9bcfbc1d8a85d6b0d553e1f6c22905e9c9a2f3df05edd8324367e3cf"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-python-placement-evidence-summary.json",
+      "sha256": "sha256:98a09caff51a5212f60aabbfc300946549617ae4de93dbbf35d2e015259882b8"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-python-placement-evidence.jsonl",
+      "sha256": "sha256:36b894c8326b5ded54c27d4c2ae303c88c91aa749d7e3c65fe24d2194643cfa3"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-python-placement.json",
+      "sha256": "sha256:649acceab6b45426453363ca936c9d092077f8ab005a259327eeb69e8bef8e2a"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/shannon-python-source-totality.json",
+      "sha256": "sha256:7f5cb215bf5ac1d60297fe480316a977fb413b944e54600e35816c5d2e7f9bca"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/summary.json",
+      "sha256": "sha256:bcb2ac36a69c90ea71f8f1c3c849cb968456c53c9ea279ffc037a63ea19c30dd"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/validate_manifest.py",
+      "sha256": "sha256:070ebd71aa6118e279a66ea904ca178e3710b5baca8a7fdffeeb21e340fb80af"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/validate_python_placement_evidence.py",
+      "sha256": "sha256:88a2c87a6b08a9f4d582b8a6482d6d958cb1d27f8c5cccd10e830a3d763f6d2d"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/validate_shannon_codebase_intelligence_ddd.py",
+      "sha256": "sha256:e517ae14772b99422374dfa821daf4c2390dbe58212d435be65b05e59a9a8e6d"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/validate_shannon_python_extraction_frontier.py",
+      "sha256": "sha256:1050ae208ddb39b0f2fb7444cb7e106fefdb011ea3ad05bf2487ec4748e4afc4"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/validate_shannon_python_placement.py",
+      "sha256": "sha256:76025c0becf805a21cb3436236f77eb533a42171e764db755c88697c0d65d2dc"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/validate_shannon_python_schemas.py",
+      "sha256": "sha256:85b88118f1f0a17b77a2045bcdbec7f179e284c8d7eb12411037932df04eb09b"
+    },
+    {
+      "path": "research/product_ontology/implementation_placement/validate_shannon_python_source_totality.py",
+      "sha256": "sha256:a09f76f37622ca9c9064bf139e0777b361ac87137d30269f58a6a0adae58bb63"
+    }
+  ],
+  "audit_digest": "sha256:1d7a1621e63fa9bf2d15d0b61cc4a4072f9c4d834cee5ee000fb88f87cba4a9b",
+  "audit_id": "shannon_python_implementation_placement_completion_audit",
+  "build_ready": false,
+  "computed_counts": {
+    "bound_exact_contract_count": 0,
+    "bounded_context_count": 9,
+    "claim_bound_primary_source_count": 27,
+    "explicit_source_exclusion_count": 1,
+    "extraction_candidate_count": 10,
+    "module_count": 40,
+    "owned_artifact_count": 10,
+    "qualified_extraction_candidate_count": 0,
+    "source_file_count": 249
+  },
+  "implementation_id": "implementation.shannon_python.codebase_insight",
+  "implementation_qualified": false,
+  "overall_completion_claim": false,
+  "product_ratified": false,
+  "remaining_frontier": [
+    {
+      "count": 1,
+      "gate": "ontology_and_product_authority",
+      "status": "OPEN_AUTHORITY_REQUIRED"
+    },
+    {
+      "count": 10,
+      "gate": "exact_abstract_contract_binding",
+      "status": "OPEN_PER_CANDIDATE"
+    },
+    {
+      "count": 11,
+      "gate": "implementation_identity_and_reproducible_build",
+      "status": "OPEN_B10"
+    },
+    {
+      "count": 11,
+      "gate": "exact_scope_execution_and_independent_appraisal",
+      "status": "OPEN_B11"
+    },
+    {
+      "count": 10,
+      "gate": "second_implementation_portability_exit",
+      "status": "OPEN_ONLY_WHERE_HORIZONTAL_PORTABILITY_IS_PROPOSED"
+    },
+    {
+      "count": 1,
+      "gate": "physical_binding_security_slo_cost",
+      "status": "OPEN_B13_FOR_APPLICATION_RELEASE"
+    },
+    {
+      "count": 1,
+      "gate": "executed_acceptance_and_ratification",
+      "status": "OPEN_APPLICATION_ACCEPTANCE_AND_PRODUCT_AUTHORITY"
+    }
+  ],
+  "requirements": [
+    {
+      "decision": "RETAIN_AS_APPLICATION_PRODUCT_AND_QUALIFICATION_PROVING_IMPLEMENTATION",
+      "evidence_refs": [
+        "shannon-python-placement.json",
+        "shannon-codebase-intelligence-ddd.json"
+      ],
+      "remaining_gate": "accountable ontology/product authority disposition",
+      "requirement": "The Python package is assigned to the application-domain plane and is not collapsed into the universal enterprise data/analytics platform.",
+      "requirement_id": "placement.application_product_boundary",
+      "status": "SATISFIED_CANDIDATE_BOUNDARY_NOT_RATIFIED",
+      "validator_refs": [
+        "validate_shannon_python_placement.py",
+        "validate_shannon_codebase_intelligence_ddd.py"
+      ]
+    },
+    {
+      "decision": "TOTAL_WITH_EXPLICIT_PACKAGE_FACADE_EXCLUSION",
+      "evidence_refs": [
+        "shannon-python-module-crosswalk.jsonl",
+        "shannon-python-source-totality.json"
+      ],
+      "remaining_gate": "revalidation after every source-tree change",
+      "requirement": "Every current Python source file is represented by a module scope or one explicit digest-bound package-facade exclusion.",
+      "requirement_id": "placement.current_source_totality",
+      "status": "SATISFIED_FOR_CURRENT_SOURCE_TREE",
+      "validator_refs": [
+        "validate_shannon_python_source_totality.py"
+      ]
+    },
+    {
+      "decision": "RETAIN_EXTERNAL_APPLICATION_PRODUCT_CANDIDATE",
+      "evidence_refs": [
+        "shannon-codebase-intelligence-ddd.json"
+      ],
+      "remaining_gate": "semantic and product ratification",
+      "requirement": "The application has explicit sovereign responsibility, contexts, artifacts, commands, events, states, invariants, refusals, authority, time, concurrency, APIs, dependencies and exit seams.",
+      "requirement_id": "placement.sovereign_ddd",
+      "status": "SATISFIED_COMPLETE_CANDIDATE_DDD",
+      "validator_refs": [
+        "validate_shannon_codebase_intelligence_ddd.py"
+      ]
+    },
+    {
+      "decision": "EXACT_SOURCE_SCOPES_IDENTIFIED_CONTRACT_AND_QUALIFICATION_GATES_OPEN",
+      "evidence_refs": [
+        "shannon-python-extraction-candidates.jsonl",
+        "shannon-python-extraction-summary.json"
+      ],
+      "remaining_gate": "exact abstract contract, semantic owner, purity proof and qualification per candidate",
+      "requirement": "Potential reusable libraries and method kernels are exact-source candidates, not silently promoted platform libraries.",
+      "requirement_id": "placement.reusable_extraction_separation",
+      "status": "SATISFIED_CANDIDATE_SCOPES_GATES_OPEN",
+      "validator_refs": [
+        "validate_shannon_python_extraction_frontier.py"
+      ]
+    },
+    {
+      "decision": "CLAIM_BOUND_PRIMARY_EVIDENCE_NOT_SEMANTIC_AUTHORITY",
+      "evidence_refs": [
+        "shannon-python-placement-evidence.jsonl"
+      ],
+      "remaining_gate": "periodic source freshness and product-identity review",
+      "requirement": "The boundary decision is challenged with claim-bound standards, official technical documentation and independently adopted products.",
+      "requirement_id": "placement.primary_evidence",
+      "status": "SATISFIED_RESEARCH_EVIDENCE_NOT_AUTHORITY",
+      "validator_refs": [
+        "validate_python_placement_evidence.py"
+      ]
+    },
+    {
+      "decision": "NO_DOWNSTREAM_GATE_PROMOTED",
+      "evidence_refs": [
+        "shannon-python-placement.json",
+        "shannon-python-extraction-candidates.jsonl",
+        "shannon-codebase-intelligence-ddd.json"
+      ],
+      "remaining_gate": "execute B10-B15 evidence programs rather than changing status fields",
+      "requirement": "Research, candidate semantics, implementation identity, qualification, portability, vertical acceptance, build readiness and ratification remain separate gates.",
+      "requirement_id": "placement.qualification_separation",
+      "status": "SATISFIED_FAIL_CLOSED",
+      "validator_refs": [
+        "validate_shannon_python_placement.py",
+        "validate_shannon_python_extraction_frontier.py",
+        "validate_shannon_codebase_intelligence_ddd.py"
+      ]
+    },
+    {
+      "decision": "DIGEST_BOUND_GENERATED_CORPUS",
+      "evidence_refs": [
+        "shannon-python-placement.json",
+        "shannon-python-module-crosswalk.jsonl",
+        "summary.json",
+        "shannon-python-source-totality.json",
+        "shannon-codebase-intelligence-ddd.json",
+        "shannon-codebase-intelligence-ddd-summary.json",
+        "shannon-python-extraction-candidates.jsonl",
+        "shannon-python-extraction-summary.json",
+        "shannon-python-placement-evidence.jsonl",
+        "shannon-python-placement-evidence-summary.json",
+        "manifest.json"
+      ],
+      "remaining_gate": "repository-wide validation and future freshness enforcement",
+      "requirement": "Every reported placement claim is traceable through deterministic generated artifacts, source digests and validators.",
+      "requirement_id": "placement.deterministic_traceability",
+      "status": "SATISFIED_FOR_CURRENT_COMMIT",
+      "validator_refs": [
+        "validate_shannon_python_placement.py",
+        "validate_shannon_python_schemas.py",
+        "validate_shannon_python_source_totality.py",
+        "validate_shannon_codebase_intelligence_ddd.py",
+        "validate_shannon_python_extraction_frontier.py",
+        "validate_python_placement_evidence.py",
+        "validate_manifest.py"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0",
+  "scope": "The checked-in Python application boundary and its relationship to the broader data-engineering and analytics product model.",
+  "semantic_ratified": false,
+  "verdict": "FOUNDATION_VALIDATED_DOWNSTREAM_AUTHORITY_AND_QUALIFICATION_GATES_OPEN"
+}

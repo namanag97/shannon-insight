@@ -16,7 +16,7 @@
     },
     "ratification-packet-templates.jsonl": {
       "bytes": 1117558,
-      "sha256": "39b0ac64489973d61a0aa62987db55ebd53f6fc18bc6c80e6bed012c6457be00"
+      "sha256": "d4fcfa1163e07e901dd55ac162ec48da119cb4720525b506a95fb1fb5547be5f"
     },
     "source-authority-dockets.jsonl": {
       "bytes": 48085,
@@ -24,7 +24,7 @@
     },
     "summary.json": {
       "bytes": 2538,
-      "sha256": "7a2ee8377fdc6f487b1546a147f7ba083f46ce4c70d6a95302d9af04772c71d5"
+      "sha256": "eab4d8bb79a7c3b5a658021d8b56a7985106550fa730ba9fadb7bc5528b4f2d2"
     },
     "template-contracts.json": {
       "bytes": 2662,

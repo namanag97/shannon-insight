@@ -7,13 +7,13 @@
   "completion_claim": false,
   "edition": 1,
   "input_snapshot": {
-    "aggregate_sha256": "3619c7e83495941aafad1b59e03faa2ede4be3046439bfeaee143e5d7d228f64",
+    "aggregate_sha256": "6db1d3b55ee048d6b5f06e1dff8b48789619c1252520a09b968d3ed51c2e9171",
     "files": [
       {
         "bytes": 1117558,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1b_foundation_authority_adjudication/ratification-packet-templates.jsonl",
         "record_count": 661,
-        "sha256": "39b0ac64489973d61a0aa62987db55ebd53f6fc18bc6c80e6bed012c6457be00"
+        "sha256": "d4fcfa1163e07e901dd55ac162ec48da119cb4720525b506a95fb1fb5547be5f"
       },
       {
         "bytes": 551646,
@@ -31,7 +31,7 @@
         "bytes": 2700922,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p5_exact_contract_adjudication/exact-contract-ratification-packet-templates.jsonl",
         "record_count": 682,
-        "sha256": "00b51aa46a81d43eae159b42bd34421acf6180d2b2acd0707ee480596d080a77"
+        "sha256": "7a0c597b1c10db906ae148353fd8398476ed9d91e104d5b4843dce71e5f3d8b1"
       },
       {
         "bytes": 0,
@@ -46,7 +46,7 @@
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       }
     ],
-    "snapshot_id": "snapshot.p4-input.3619c7e83495941a"
+    "snapshot_id": "snapshot.p4-input.6db1d3b55ee048d6"
   },
   "program_id": "program.p4-ratification-ingestion.v1",
   "receipt_refusals": 0,

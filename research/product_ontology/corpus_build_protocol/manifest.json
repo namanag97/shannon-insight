@@ -3,24 +3,24 @@
   "completion_claim": false,
   "files": {
     "contract-candidate-dockets.jsonl": {
-      "bytes": 303249,
-      "sha256": "6a61b535875ec5f673b6ad0888ebe9e2b53ca74ff9d96bdb0ebeefb840bc2e4b"
+      "bytes": 304967,
+      "sha256": "9292537de0e4c613c836bdd24b7c134dfb20e4a6e65d1077f45338bf3f1c6ad7"
     },
     "dependency-edges.jsonl": {
       "bytes": 3748,
       "sha256": "910d4d2ddbfefef4d986f341ea87b90984fbfb11a0f7f4df5c5c58edc4408b55"
     },
     "migration-batches.jsonl": {
-      "bytes": 23096,
-      "sha256": "fe34f80a20c0d328c97f22e925a5be49c7d286d36508a31de9b18bd933dd6a0a"
+      "bytes": 23223,
+      "sha256": "8291ec9550a3d533d9c2d53a1f2a7687eaaed6b45d6c5addb92090ee4d88717a"
     },
     "migration-gaps.jsonl": {
-      "bytes": 123826,
-      "sha256": "5df3c3709ac368b02c3ccfe5bd87b4b26ca403bf8fca0db0f615731164ab9e85"
+      "bytes": 124576,
+      "sha256": "9dcf6588ad221fde22e7ffe04eb11c8699abc4c29b9aba65c03d968ed623413f"
     },
     "observed-package-candidates.jsonl": {
-      "bytes": 199885,
-      "sha256": "0621a6505056697288e436cc06310f546b5e9d89f2fd9d5def4dbfbda1f2078f"
+      "bytes": 200919,
+      "sha256": "428fdcf01e7a1fa2afc6f707e6667d6f00314731c2937a501f00c712800a8fd8"
     },
     "package-contracts.jsonl": {
       "bytes": 12080,
@@ -32,7 +32,7 @@
     },
     "summary.json": {
       "bytes": 535,
-      "sha256": "8569d2c8ab4530911a5d227b066c5e61af8c9de82c3e10424d8c487b502886fd"
+      "sha256": "ae9aa5c9941a46cae495bf7c4545f553fdd416d431e8d168550a29334eab0afd"
     }
   },
   "manifest_id": "manifest.corpus-build-protocol.v1"

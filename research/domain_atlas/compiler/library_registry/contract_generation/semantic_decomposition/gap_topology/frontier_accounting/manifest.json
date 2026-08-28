@@ -1,0 +1,271 @@
+{
+  "completion_claim": false,
+  "files": [
+    {
+      "bytes": 936441,
+      "path": "atom-dispositions-00.jsonl",
+      "records": 528,
+      "sha256": "8d6369f0f941e627c26bda0f31091ae64ebdad7c458b9b53bc395024b76c5523"
+    },
+    {
+      "bytes": 928825,
+      "path": "atom-dispositions-01.jsonl",
+      "records": 525,
+      "sha256": "8e67dc640c5f6cdfa974ef5213f3466da225f15ac69454728e8b40e9c4b3c92b"
+    },
+    {
+      "bytes": 945001,
+      "path": "atom-dispositions-02.jsonl",
+      "records": 533,
+      "sha256": "4642fbee8fc8d945a296221503037bc289ea3eeae415e80316e5098e2874c136"
+    },
+    {
+      "bytes": 968662,
+      "path": "atom-dispositions-03.jsonl",
+      "records": 547,
+      "sha256": "98c70d5112aed857557cea8ef1eb6f9a2ae06b641cc548cd53841443975aafa7"
+    },
+    {
+      "bytes": 975131,
+      "path": "atom-dispositions-04.jsonl",
+      "records": 548,
+      "sha256": "83ec4ae18d4ac75ddbe013e2779f37115ac1d39db3d30a8fae8c749a14240ad3"
+    },
+    {
+      "bytes": 939820,
+      "path": "atom-dispositions-05.jsonl",
+      "records": 531,
+      "sha256": "4f20893da501e0e032b3039f6bf050be31a29f4e4ab075fbb8370bf2103efb6a"
+    },
+    {
+      "bytes": 965414,
+      "path": "atom-dispositions-06.jsonl",
+      "records": 543,
+      "sha256": "d0323a7bb9121ea1eddcfd8418d46fed666929c9a350ae4e4b9e9f7065d22483"
+    },
+    {
+      "bytes": 949609,
+      "path": "atom-dispositions-07.jsonl",
+      "records": 535,
+      "sha256": "f7c47470b96b227b37a91da0fe24f786a4e70198d0d714f4ce5598d72255aa70"
+    },
+    {
+      "bytes": 904422,
+      "path": "atom-dispositions-08.jsonl",
+      "records": 509,
+      "sha256": "f64f63b44ec504f570b35b5d148a4e7071f3e4bf8846ac12150c6dbf33480b30"
+    },
+    {
+      "bytes": 913444,
+      "path": "atom-dispositions-09.jsonl",
+      "records": 516,
+      "sha256": "04f778d3196c1165859e6542c63472b19473dff03a1d69fcf64a7b24cdbc854b"
+    },
+    {
+      "bytes": 921093,
+      "path": "atom-dispositions-10.jsonl",
+      "records": 520,
+      "sha256": "53fe9a1a7ff3163ad8569a7046d7839e5a3b2df812fc2aa0ee570211feafdce7"
+    },
+    {
+      "bytes": 970058,
+      "path": "atom-dispositions-11.jsonl",
+      "records": 547,
+      "sha256": "7c1594b7cafc52143bf88de254489136c2418dfaa7d12624abe5794ea553bb20"
+    },
+    {
+      "bytes": 930034,
+      "path": "atom-dispositions-12.jsonl",
+      "records": 524,
+      "sha256": "7efaf1dd2c4b824f94be7353cf175cfa766f69fdbfc4e2d0ed8dc8d6284db31a"
+    },
+    {
+      "bytes": 923394,
+      "path": "atom-dispositions-13.jsonl",
+      "records": 521,
+      "sha256": "63be8b60a870d2444584f04115e1ead3bcd67c7c5fa7c893e13d824ed3595722"
+    },
+    {
+      "bytes": 889614,
+      "path": "atom-dispositions-14.jsonl",
+      "records": 502,
+      "sha256": "6cec640b9c9fe5a42411407cbdfd693ee523c3d2095ba0c8ba711d2ab9935d7e"
+    },
+    {
+      "bytes": 967042,
+      "path": "atom-dispositions-15.jsonl",
+      "records": 546,
+      "sha256": "c08d1bc47ce5a32767ce17372d69b958a58f72949ffdf3aa603e0c2c9e5a75b4"
+    },
+    {
+      "bytes": 862571,
+      "path": "atom-dispositions-16.jsonl",
+      "records": 487,
+      "sha256": "badcf6db571f3cbdab66598f744af52cb610a6018be7a35f10a509645928f994"
+    },
+    {
+      "bytes": 958635,
+      "path": "atom-dispositions-17.jsonl",
+      "records": 540,
+      "sha256": "51d0c2c8e52c09110de286f7001dcf366e00b97cbb4e02dcbc6efffd489d8070"
+    },
+    {
+      "bytes": 933023,
+      "path": "atom-dispositions-18.jsonl",
+      "records": 526,
+      "sha256": "1bb169a52f7af7fef21e61372143fe04abbd06254377d0c9504d0a7dfed10f06"
+    },
+    {
+      "bytes": 982031,
+      "path": "atom-dispositions-19.jsonl",
+      "records": 553,
+      "sha256": "fbac84ac569029f132d559864e3f316480d1b7fbec02a2f9bd0c76105c79de60"
+    },
+    {
+      "bytes": 930329,
+      "path": "atom-dispositions-20.jsonl",
+      "records": 525,
+      "sha256": "560e5b38334f77de0b0edc386c5c3b603d7f6db6cc73ca898435f821c73c3de2"
+    },
+    {
+      "bytes": 1012609,
+      "path": "atom-dispositions-21.jsonl",
+      "records": 570,
+      "sha256": "98de8589f7bd0e20eed88d9e4d6b8f50fd98bceac3f9e8294c281820789b06e1"
+    },
+    {
+      "bytes": 974030,
+      "path": "atom-dispositions-22.jsonl",
+      "records": 549,
+      "sha256": "ff863c51db936f2e6871079e428a58743aa534488c512612e26292d9b775649f"
+    },
+    {
+      "bytes": 920230,
+      "path": "atom-dispositions-23.jsonl",
+      "records": 518,
+      "sha256": "d156577d827769617f1b3423a3eedf98c860336c51f721264c6a19779cbd0d6e"
+    },
+    {
+      "bytes": 923340,
+      "path": "atom-dispositions-24.jsonl",
+      "records": 520,
+      "sha256": "e1a24133301f9174abfa2feb2d4f41d2aff7829d1e1d0480646feea76fe729b7"
+    },
+    {
+      "bytes": 880929,
+      "path": "atom-dispositions-25.jsonl",
+      "records": 496,
+      "sha256": "3b56c4f3aa1759c27957bee5c79b7ee8947c41585f17c95664aa7c5527f5324a"
+    },
+    {
+      "bytes": 898357,
+      "path": "atom-dispositions-26.jsonl",
+      "records": 507,
+      "sha256": "3381b20a182d1e6d6c99650a8b7a9ed06e6e789501979859284d54b7a166a799"
+    },
+    {
+      "bytes": 1008938,
+      "path": "atom-dispositions-27.jsonl",
+      "records": 568,
+      "sha256": "570a050edefeb2827f67cf3b167703be072a1bc1b929304ed36bcb037ae4e3fb"
+    },
+    {
+      "bytes": 905640,
+      "path": "atom-dispositions-28.jsonl",
+      "records": 511,
+      "sha256": "d591e3edb13ac3d0a045e639c364dbcba7d96fac4b443d1046fbe095d1ceb254"
+    },
+    {
+      "bytes": 943743,
+      "path": "atom-dispositions-29.jsonl",
+      "records": 532,
+      "sha256": "274f29efdcccbc2afb0fb0d5614814ac32164252b1fd4e7cc78ba7fa6ec3843b"
+    },
+    {
+      "bytes": 925479,
+      "path": "atom-dispositions-30.jsonl",
+      "records": 521,
+      "sha256": "efeef0f1c505b3872ed2d7baefbf841e046d38ab8d34552c7cc63d5d38b9ca27"
+    },
+    {
+      "bytes": 975816,
+      "path": "atom-dispositions-31.jsonl",
+      "records": 550,
+      "sha256": "f1dbc9a01842e36ca8a80bf93659616594835e6edaaeeae1e5605f57bf0f2466"
+    },
+    {
+      "bytes": 926305,
+      "path": "cluster-dispositions.jsonl",
+      "records": 714,
+      "sha256": "21bb6b4f685b23effe776e23547f93b972e31642692341e34c79676c339fd092"
+    },
+    {
+      "bytes": 65935,
+      "path": "decision-kernels.jsonl",
+      "records": 10,
+      "sha256": "5bc9e01d4ba64a8c8fce79ac6c7666843a6f925ab1cde9c383fb0eff79106574"
+    },
+    {
+      "bytes": 4063,
+      "path": "disposition-taxonomy.jsonl",
+      "records": 10,
+      "sha256": "dad977ce4b1aebd6a265bfac50a86e076603f46d90ffa8ef2d526d3c77411ff8"
+    },
+    {
+      "bytes": 1456,
+      "path": "summary.json",
+      "records": 1,
+      "sha256": "8ea84ba5cd5b71677418f3f22ff69c9678106ae8addb246ed8f5759c29463f76"
+    },
+    {
+      "bytes": 838,
+      "path": "validation-report.json",
+      "records": 1,
+      "sha256": "de6f7673c5476f80c06cdda2c2d841a239ea9cad41165c0961d652c1a238f21e"
+    }
+  ],
+  "manifest_id": "manifest.semantic-gap-frontier-accounting.v1",
+  "summary": {
+    "accepted_atoms": 0,
+    "as_of": "2026-08-28",
+    "atom_shards": 32,
+    "closed_by_existing_valid_evidence": 0,
+    "completion_claim": false,
+    "decision_kernels": 10,
+    "disposition_counts": {
+      "COVERED_BY_REUSABLE_KERNEL": 11811,
+      "EVIDENCE_VACANCY": 2856,
+      "IMPLEMENTATION_ONLY": 682,
+      "QUALIFICATION_ONLY": 1599
+    },
+    "edition": 1,
+    "implemented_atoms": 0,
+    "multiply_mapped_atoms": 0,
+    "parent_gap_topology_program_ref": "program.semantic-gap-topology.v1",
+    "parent_gap_topology_sha256": "e95f3470f6b79155b0189d6578f52bdb39e1aa525aafaca9311fcceff9fc6b4c",
+    "program_id": "program.semantic-gap-frontier-accounting.v1",
+    "projected_gap_atoms": 16948,
+    "projected_gap_clusters": 714,
+    "qualified_atoms": 0,
+    "residual_counts": {
+      "CONCRETE_IMPLEMENTATION_OCCURRENCE": 682,
+      "EXACT_MEMBER_APPLICABILITY_DECISION": 10912,
+      "FAMILY_AXIS_EVIDENCE_AND_COUNTEREXAMPLES": 2832,
+      "INDEPENDENT_IMPLEMENTATION_QUALIFICATION": 682,
+      "OWNER_RATIFIED_EXACT_CONTRACT": 682,
+      "PRODUCT_OR_VERTICAL_ACCEPTANCE_RECEIPT": 917,
+      "SOURCE_AUTHORITY_DECISION": 24,
+      "SYMBOL_OWNER_AND_OCCURRENCE_RATIFICATION": 217
+    },
+    "reversibility": "PASS_BY_EXACT_SOURCE_OCCURRENCE_AND_CONSTITUENT_DIGEST",
+    "source_gap_atoms": 16948,
+    "source_gap_clusters": 714,
+    "status_counts": {
+      "EVIDENCE_VACANCY": 14667,
+      "IMPLEMENTATION_VACANCY": 682,
+      "QUALIFICATION_VACANCY": 1599
+    },
+    "unmapped_atoms": 0,
+    "unmapped_clusters": 0
+  }
+}

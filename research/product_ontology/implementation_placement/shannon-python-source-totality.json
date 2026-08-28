@@ -1,0 +1,22 @@
+{
+  "actual_python_source_file_count": 249,
+  "completion_claim": false,
+  "explicit_exclusion_count": 1,
+  "explicit_exclusions": [
+    {
+      "disposition": "PACKAGE_FACADE_OWNED_BY_APPLICATION_ROOT",
+      "implementation_qualified": false,
+      "owner": "application_product.software_engineering.codebase_intelligence",
+      "path": "src/shannon_insight/__init__.py",
+      "reason": "The package fa\u00e7ade exports application identity/API symbols but is not an independently owned implementation module or reusable library scope.",
+      "semantic_authority": false,
+      "sha256": "sha256:ee4f153b9dc36ac78345414a2af86e8455cefbe4297aada3b7ee6612a2a8242a"
+    }
+  ],
+  "module_crosswalk_source_file_count": 248,
+  "report_id": "shannon_python_source_totality",
+  "source_root": "src/shannon_insight",
+  "stale_crosswalk_source_files": [],
+  "status": "TOTAL_WITH_EXPLICIT_PACKAGE_FACADE_EXCLUSION",
+  "unclassified_source_files": []
+}

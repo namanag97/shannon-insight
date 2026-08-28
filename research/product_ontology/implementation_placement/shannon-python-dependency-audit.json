@@ -1,0 +1,77 @@
+{
+  "audit_digest": "sha256:28d6d61d9647a06f9c67b1a12bf3e9f4b5bb6b9398ab41afb612b144dc7bcb6b",
+  "classification_counts": {
+    "APPLICATION_LOCAL_EDGE": 95,
+    "APPLICATION_SEMANTIC_DEPENDENCY_REQUIRES_REHOME_OR_REFUSAL": 3,
+    "CANDIDATE_DEPENDENCY_REQUIRES_EXACT_CONTRACT": 9,
+    "EFFECTFUL_APPLICATION_DEPENDENCY_REQUIRES_PORT": 3,
+    "SHARED_SUPPORT_DEPENDENCY_REQUIRES_ADJUDICATION": 2
+  },
+  "completion_claim": false,
+  "extraction_blocking_or_contract_edge_count": 17,
+  "extraction_laws": [
+    "An observed import edge is evidence of implementation dependency, not semantic ownership.",
+    "A candidate-to-candidate edge requires an exact abstract dependency contract before extraction.",
+    "A candidate dependency on application, infrastructure or presentation code blocks pure-library promotion until ported, inverted, rehomed or explicitly refused.",
+    "A strongly connected component spanning candidate and non-candidate roles cannot be marketed as an independently reusable library.",
+    "Removing an import is insufficient when hidden data, configuration, runtime or semantic coupling remains."
+  ],
+  "implementation_id": "implementation.shannon_python.codebase_insight",
+  "implementation_qualified": false,
+  "internal_dependency_edge_count": 112,
+  "module_count": 40,
+  "nontrivial_scc_count": 2,
+  "nontrivial_sccs": [
+    {
+      "contains_extraction_candidate": false,
+      "contains_non_candidate": true,
+      "disposition": "REQUIRES_SEAM_ADJUDICATION_BEFORE_EXTRACTION",
+      "modules": [
+        "cli",
+        "server"
+      ],
+      "roles": [
+        "experience_delivery"
+      ],
+      "scc_id": "python_scc.001"
+    },
+    {
+      "contains_extraction_candidate": true,
+      "contains_non_candidate": true,
+      "disposition": "REQUIRES_SEAM_ADJUDICATION_BEFORE_EXTRACTION",
+      "modules": [
+        "architecture",
+        "debug_export",
+        "environment",
+        "graph",
+        "infrastructure",
+        "insights",
+        "persistence",
+        "populate",
+        "scanning",
+        "semantics",
+        "session",
+        "signals",
+        "temporal"
+      ],
+      "roles": [
+        "analytical_method_kernel_candidate",
+        "application_acquisition",
+        "application_diagnostic_analysis",
+        "application_finding_lifecycle",
+        "application_infrastructure",
+        "application_measurement_and_scoring",
+        "application_runtime_support",
+        "application_support",
+        "domain_semantic_library_candidate",
+        "experience_delivery"
+      ],
+      "scc_id": "python_scc.002"
+    }
+  ],
+  "report_id": "shannon_python_dependency_and_extraction_audit",
+  "semantic_ratified": false,
+  "status": "OBSERVED_DEPENDENCY_TOPOLOGY_EXTRACTION_SEAMS_UNADJUDICATED",
+  "strongly_connected_component_count": 27,
+  "unresolved_import_observations": []
+}

@@ -1,0 +1,55 @@
+name: Shannon Python Source Totality
+
+on:
+  push:
+    branches:
+      - architecture/shannon-python-product-placement
+    paths:
+      - src/shannon_insight/**
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_source_totality.py
+      - .github/workflows/shannon-python-source-totality.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/shannon_insight/**
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_source_totality.py
+      - .github/workflows/shannon-python-source-totality.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  totality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - run: python3 research/product_ontology/implementation_placement/build_shannon_python_placement.py
+      - run: python3 research/product_ontology/implementation_placement/build_shannon_python_source_totality.py
+      - run: python3 research/product_ontology/implementation_placement/validate_shannon_python_source_totality.py
+      - run: pytest -q tests/research/test_shannon_python_source_totality.py
+      - name: Require generated report in pull requests
+        if: github.event_name == 'pull_request'
+        run: git diff --exit-code -- research/product_ontology/implementation_placement/shannon-python-source-totality.json
+      - name: Persist generated report on the placement branch
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'shannon-insight-architecture-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/product_ontology/implementation_placement/shannon-python-source-totality.json
+          if git diff --cached --quiet; then
+            echo 'Python source totality report already current'
+            exit 0
+          fi
+          git commit -m 'architecture: generate Python source totality proof [skip totality]'
+          git push origin HEAD:${{ github.ref_name }}

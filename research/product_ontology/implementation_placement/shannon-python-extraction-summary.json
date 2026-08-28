@@ -1,0 +1,21 @@
+{
+  "candidate_count": 10,
+  "candidate_role_counts": {
+    "analytical_method_kernel_candidate": 6,
+    "domain_observation_and_identity": 1,
+    "domain_relation_construction": 1,
+    "domain_semantic_library_candidate": 2
+  },
+  "candidates_allowed_for_extraction": 0,
+  "candidates_with_bound_exact_contract": 0,
+  "completion_claim": false,
+  "implementation_id": "implementation.shannon_python.codebase_insight",
+  "portable_offer_count": 0,
+  "purity_posture_counts": {
+    "EFFECTFUL_OR_PURITY_UNPROVEN": 8,
+    "PURE_CANDIDATE_UNPROVEN": 2
+  },
+  "qualified_candidate_count": 0,
+  "report_id": "shannon_python_extraction_frontier",
+  "status": "EXACT_SOURCE_SCOPES_IDENTIFIED_CONTRACT_AND_QUALIFICATION_GATES_OPEN"
+}

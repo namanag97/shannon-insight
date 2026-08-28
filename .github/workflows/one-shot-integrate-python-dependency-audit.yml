@@ -1,0 +1,392 @@
+name: One-shot Integrate Python Dependency Audit
+
+on:
+  push:
+    branches:
+      - architecture/shannon-python-product-placement
+    paths:
+      - .github/workflows/one-shot-integrate-python-dependency-audit.yml
+  workflow_dispatch:
+
+concurrency:
+  group: one-shot-integrate-python-dependency-audit
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  integrate-generate-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - name: Integrate dependency topology into the placement foundation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          ROOT = Path('.')
+          HERE = ROOT / 'research/product_ontology/implementation_placement'
+
+          def read(name: str) -> str:
+              return (HERE / name).read_text(encoding='utf-8')
+
+          def write(name: str, text: str) -> None:
+              (HERE / name).write_text(text, encoding='utf-8')
+
+          def replace_once(text: str, old: str, new: str, label: str) -> str:
+              if new in text:
+                  return text
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected one source block, found {count}')
+              return text.replace(old, new, 1)
+
+          # Repair package __init__ relative-import resolution, idempotently.
+          name = 'build_shannon_python_dependency_audit.py'
+          text = read(name)
+          old_source = '''def source_module(path: Path) -> str:
+              relative = path.relative_to(SRC)
+              parts = list(relative.with_suffix("").parts)
+              if parts[-1] == "__init__":
+                  parts = parts[:-1]
+              suffix = ".".join(parts)
+              return "shannon_insight" + (f".{suffix}" if suffix else "")
+          '''
+          new_source = '''def source_module(path: Path) -> str:
+              relative = path.relative_to(SRC)
+              parts = list(relative.with_suffix("").parts)
+              suffix = ".".join(parts)
+              return "shannon_insight" + (f".{suffix}" if suffix else "")
+          '''
+          text = replace_once(text, old_source, new_source, 'dependency source_module')
+          old_top = '''def top_level_internal(module_name: str | None) -> str | None:
+              if not module_name or not module_name.startswith("shannon_insight"):
+                  return None
+              parts = module_name.split(".")
+              return parts[1] if len(parts) > 1 else "__package_root__"
+          '''
+          new_top = '''def top_level_internal(module_name: str | None) -> str | None:
+              if not module_name or not module_name.startswith("shannon_insight"):
+                  return None
+              parts = module_name.split(".")
+              if len(parts) <= 1 or parts[1] == "__init__":
+                  return "__package_root__"
+              return parts[1]
+          '''
+          text = replace_once(text, old_top, new_top, 'dependency top_level_internal')
+          write(name, text)
+
+          # Expand the non-circular core manifest to every placement generator,
+          # validator and generated artifact except the completion audit itself.
+          name = 'build_manifest.py'
+          text = read(name)
+          text = re.sub(
+              r'SOURCE_MODELS = \[.*?\]\nVALIDATORS = \[.*?\]\nSCHEMAS = \[.*?\]\nGENERATED = \[.*?\]\n',
+              '''SOURCE_MODELS = [
+              "build_shannon_python_placement.py",
+              "build_shannon_python_source_totality.py",
+              "build_shannon_python_extraction_frontier.py",
+              "build_shannon_codebase_intelligence_ddd.py",
+              "build_python_placement_evidence.py",
+              "build_shannon_python_dependency_audit.py",
+              "build_manifest.py",
+          ]
+          VALIDATORS = [
+              "validate_shannon_python_placement.py",
+              "validate_shannon_python_schemas.py",
+              "validate_shannon_python_source_totality.py",
+              "validate_shannon_python_extraction_frontier.py",
+              "validate_shannon_codebase_intelligence_ddd.py",
+              "validate_python_placement_evidence.py",
+              "validate_shannon_python_dependency_audit.py",
+              "validate_manifest.py",
+          ]
+          SCHEMAS = [
+              "shannon-python-placement.schema.json",
+              "shannon-python-module-crosswalk.schema.json",
+          ]
+          GENERATED = [
+              "shannon-python-placement.json",
+              "shannon-python-module-crosswalk.jsonl",
+              "summary.json",
+              "shannon-python-source-totality.json",
+              "shannon-python-extraction-candidates.jsonl",
+              "shannon-python-extraction-summary.json",
+              "shannon-codebase-intelligence-ddd.json",
+              "shannon-codebase-intelligence-ddd-summary.json",
+              "shannon-python-placement-evidence.jsonl",
+              "shannon-python-placement-evidence-summary.json",
+              "shannon-python-dependency-audit.json",
+              "shannon-python-dependency-edges.jsonl",
+          ]
+          ''',
+              text,
+              count=1,
+              flags=re.S,
+          )
+          old_load = '''    ddd = json.loads(
+                  (HERE / "shannon-codebase-intelligence-ddd-summary.json").read_text(
+                      encoding="utf-8"
+                  )
+              )
+              files = [file_record(name, "source_model") for name in SOURCE_MODELS]
+          '''
+          new_load = '''    ddd = json.loads(
+                  (HERE / "shannon-codebase-intelligence-ddd-summary.json").read_text(
+                      encoding="utf-8"
+                  )
+              )
+              totality = json.loads(
+                  (HERE / "shannon-python-source-totality.json").read_text(encoding="utf-8")
+              )
+              evidence = json.loads(
+                  (HERE / "shannon-python-placement-evidence-summary.json").read_text(
+                      encoding="utf-8"
+                  )
+              )
+              dependency = json.loads(
+                  (HERE / "shannon-python-dependency-audit.json").read_text(encoding="utf-8")
+              )
+              files = [file_record(name, "source_model") for name in SOURCE_MODELS]
+          '''
+          text = replace_once(text, old_load, new_load, 'manifest summary loads')
+          old_links = '''            "candidate_count": extraction["candidate_count"],
+                      "bound_exact_contract_count": extraction[
+                          "candidates_with_bound_exact_contract"
+                      ],
+                      "qualified_candidate_count": extraction["qualified_candidate_count"],
+          '''
+          new_links = '''            "candidate_count": extraction["candidate_count"],
+                      "bound_exact_contract_count": extraction[
+                          "candidates_with_bound_exact_contract"
+                      ],
+                      "qualified_candidate_count": extraction["qualified_candidate_count"],
+                      "actual_python_source_file_count": totality[
+                          "actual_python_source_file_count"
+                      ],
+                      "claim_bound_primary_source_count": evidence["source_count"],
+                      "internal_dependency_edge_count": dependency[
+                          "internal_dependency_edge_count"
+                      ],
+                      "extraction_blocking_or_contract_edge_count": dependency[
+                          "extraction_blocking_or_contract_edge_count"
+                      ],
+          '''
+          text = replace_once(text, old_links, new_links, 'manifest projection links')
+          write(name, text)
+
+          name = 'validate_manifest.py'
+          text = read(name)
+          old_roles = '''    required_roles = {
+                  "source_model": 3,
+                  "validator": 4,
+                  "schema": 2,
+                  "generated_artifact": 7,
+              }
+          '''
+          new_roles = '''    required_roles = {
+                  "source_model": 7,
+                  "validator": 8,
+                  "schema": 2,
+                  "generated_artifact": 12,
+              }
+          '''
+          text = replace_once(text, old_roles, new_roles, 'manifest validator role counts')
+          write(name, text)
+
+          # Add dependency topology as a first-class audit requirement.
+          name = 'build_audit.py'
+          text = read(name)
+          text = re.sub(
+              r'EVIDENCE_FILES = \[.*?\]\nVALIDATOR_FILES = \[.*?\]\n',
+              '''EVIDENCE_FILES = [
+              "shannon-python-placement.json",
+              "shannon-python-module-crosswalk.jsonl",
+              "summary.json",
+              "shannon-python-source-totality.json",
+              "shannon-codebase-intelligence-ddd.json",
+              "shannon-codebase-intelligence-ddd-summary.json",
+              "shannon-python-extraction-candidates.jsonl",
+              "shannon-python-extraction-summary.json",
+              "shannon-python-placement-evidence.jsonl",
+              "shannon-python-placement-evidence-summary.json",
+              "shannon-python-dependency-audit.json",
+              "shannon-python-dependency-edges.jsonl",
+              "manifest.json",
+          ]
+          VALIDATOR_FILES = [
+              "validate_shannon_python_placement.py",
+              "validate_shannon_python_schemas.py",
+              "validate_shannon_python_source_totality.py",
+              "validate_shannon_codebase_intelligence_ddd.py",
+              "validate_shannon_python_extraction_frontier.py",
+              "validate_python_placement_evidence.py",
+              "validate_shannon_python_dependency_audit.py",
+              "validate_manifest.py",
+          ]
+          ''',
+              text,
+              count=1,
+              flags=re.S,
+          )
+          old_audit_load = '''    evidence = read_jsonl("shannon-python-placement-evidence.jsonl")
+              evidence_summary = read_json("shannon-python-placement-evidence-summary.json")
+          '''
+          new_audit_load = '''    evidence = read_jsonl("shannon-python-placement-evidence.jsonl")
+              evidence_summary = read_json("shannon-python-placement-evidence-summary.json")
+              dependency = read_json("shannon-python-dependency-audit.json")
+              dependency_edges = read_jsonl("shannon-python-dependency-edges.jsonl")
+          '''
+          text = replace_once(text, old_audit_load, new_audit_load, 'audit dependency loads')
+          marker = '''        {
+                      "requirement_id": "placement.deterministic_traceability",
+          '''
+          dependency_requirement = '''        {
+                      "requirement_id": "placement.dependency_and_extraction_seams",
+                      "requirement": "Every observed top-level internal import is source-traced, role-classified and evaluated as an application-local edge, exact-contract dependency or extraction blocker; cross-role SCCs remain explicitly gated.",
+                      "evidence_refs": ["shannon-python-dependency-audit.json", "shannon-python-dependency-edges.jsonl"],
+                      "decision": dependency["status"],
+                      "validator_refs": ["validate_shannon_python_dependency_audit.py"],
+                      "status": "SATISFIED_OBSERVED_TOPOLOGY_SEAM_ADJUDICATION_OPEN",
+                      "remaining_gate": "adjudicate each candidate dependency and mixed-role SCC before reusable extraction",
+                  },
+          ''' + marker
+          text = replace_once(text, marker, dependency_requirement, 'audit dependency requirement')
+          old_counts = '''            "claim_bound_primary_source_count": len(evidence),
+          '''
+          new_counts = '''            "claim_bound_primary_source_count": len(evidence),
+                      "internal_dependency_edge_count": len(dependency_edges),
+                      "extraction_blocking_or_contract_edge_count": dependency[
+                          "extraction_blocking_or_contract_edge_count"
+                      ],
+                      "nontrivial_dependency_scc_count": dependency["nontrivial_scc_count"],
+          '''
+          text = replace_once(text, old_counts, new_counts, 'audit dependency counts')
+          frontier_marker = '''            {
+                          "gate": "exact_abstract_contract_binding",
+          '''
+          frontier_dependency = '''            {
+                          "gate": "dependency_seam_adjudication",
+                          "count": dependency["extraction_blocking_or_contract_edge_count"],
+                          "status": "OPEN_PER_OBSERVED_CANDIDATE_EDGE_OR_MIXED_ROLE_SCC",
+                      },
+          ''' + frontier_marker
+          text = replace_once(text, frontier_marker, frontier_dependency, 'audit dependency frontier')
+          write(name, text)
+
+          name = 'validate_audit.py'
+          text = read(name)
+          old_expected = '''    "placement.primary_evidence",
+              "placement.qualification_separation",
+          '''
+          new_expected = '''    "placement.primary_evidence",
+              "placement.dependency_and_extraction_seams",
+              "placement.qualification_separation",
+          '''
+          text = replace_once(text, old_expected, new_expected, 'audit validator requirement set')
+          old_count_checks = '''    if counts.get("claim_bound_primary_source_count", 0) < 25:
+                  fail("audit primary-evidence floor is below 25")
+          '''
+          new_count_checks = '''    if counts.get("claim_bound_primary_source_count", 0) < 25:
+                  fail("audit primary-evidence floor is below 25")
+              if counts.get("internal_dependency_edge_count", 0) < 1:
+                  fail("audit internal-dependency edge set is empty")
+              if counts.get("extraction_blocking_or_contract_edge_count", 0) < 1:
+                  fail("audit does not expose any extraction seam or contract dependency")
+          '''
+          text = replace_once(text, old_count_checks, new_count_checks, 'audit validator dependency counts')
+          write(name, text)
+
+          # Wire dependency generation, validation, regression and generated artifacts
+          # into each convergent workflow and the merge gate.
+          workflow_names = [
+              'shannon-python-placement-converge.yml',
+              'shannon-python-placement-audit.yml',
+              'shannon-python-placement-gate.yml',
+          ]
+          for workflow_name in workflow_names:
+              path = ROOT / '.github/workflows' / workflow_name
+              workflow = path.read_text(encoding='utf-8')
+              workflow = replace_once(
+                  workflow,
+                  '          python3 research/product_ontology/implementation_placement/build_python_placement_evidence.py\n          python3 research/product_ontology/implementation_placement/build_manifest.py',
+                  '          python3 research/product_ontology/implementation_placement/build_python_placement_evidence.py\n          python3 research/product_ontology/implementation_placement/build_shannon_python_dependency_audit.py\n          python3 research/product_ontology/implementation_placement/build_manifest.py',
+                  f'{workflow_name} dependency generation',
+              )
+              workflow = replace_once(
+                  workflow,
+                  '          python3 research/product_ontology/implementation_placement/validate_python_placement_evidence.py\n          python3 research/product_ontology/implementation_placement/validate_manifest.py',
+                  '          python3 research/product_ontology/implementation_placement/validate_python_placement_evidence.py\n          python3 research/product_ontology/implementation_placement/validate_shannon_python_dependency_audit.py\n          python3 research/product_ontology/implementation_placement/validate_manifest.py',
+                  f'{workflow_name} dependency validation',
+              )
+              workflow = replace_once(
+                  workflow,
+                  '            tests/research/test_shannon_python_placement_evidence.py \\\n            tests/research/test_shannon_python_implementation_placement_manifest.py',
+                  '            tests/research/test_shannon_python_placement_evidence.py \\\n            tests/research/test_shannon_python_dependency_audit.py \\\n            tests/research/test_shannon_python_implementation_placement_manifest.py',
+                  f'{workflow_name} dependency regression',
+              )
+              path.write_text(workflow, encoding='utf-8')
+
+          # Add generated dependency artifacts to workflows that commit generated state.
+          for workflow_name in ['shannon-python-placement-converge.yml', 'shannon-python-placement-audit.yml']:
+              path = ROOT / '.github/workflows' / workflow_name
+              workflow = path.read_text(encoding='utf-8')
+              workflow = replace_once(
+                  workflow,
+                  '            research/product_ontology/implementation_placement/shannon-python-placement-evidence-summary.json \\\n            research/product_ontology/implementation_placement/manifest.json',
+                  '            research/product_ontology/implementation_placement/shannon-python-placement-evidence-summary.json \\\n            research/product_ontology/implementation_placement/shannon-python-dependency-audit.json \\\n            research/product_ontology/implementation_placement/shannon-python-dependency-edges.jsonl \\\n            research/product_ontology/implementation_placement/manifest.json',
+                  f'{workflow_name} dependency artifacts',
+              )
+              path.write_text(workflow, encoding='utf-8')
+          PY
+      - name: Regenerate the complete integrated foundation
+        run: |
+          python3 research/product_ontology/implementation_placement/build_shannon_python_placement.py
+          python3 research/product_ontology/implementation_placement/build_shannon_python_source_totality.py
+          python3 research/product_ontology/implementation_placement/build_shannon_python_extraction_frontier.py
+          python3 research/product_ontology/implementation_placement/build_shannon_codebase_intelligence_ddd.py
+          python3 research/product_ontology/implementation_placement/build_python_placement_evidence.py
+          python3 research/product_ontology/implementation_placement/build_shannon_python_dependency_audit.py
+          python3 research/product_ontology/implementation_placement/build_manifest.py
+          python3 research/product_ontology/implementation_placement/build_audit.py
+      - name: Validate the complete integrated foundation
+        run: |
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_placement.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_schemas.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_source_totality.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_extraction_frontier.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_codebase_intelligence_ddd.py
+          python3 research/product_ontology/implementation_placement/validate_python_placement_evidence.py
+          python3 research/product_ontology/implementation_placement/validate_shannon_python_dependency_audit.py
+          python3 research/product_ontology/implementation_placement/validate_manifest.py
+          python3 research/product_ontology/implementation_placement/validate_audit.py
+          pytest -q \
+            tests/research/test_shannon_python_placement.py \
+            tests/research/test_shannon_python_placement_schema.py \
+            tests/research/test_shannon_python_source_totality.py \
+            tests/research/test_shannon_python_extraction_frontier.py \
+            tests/research/test_shannon_codebase_intelligence_ddd.py \
+            tests/research/test_shannon_python_placement_evidence.py \
+            tests/research/test_shannon_python_dependency_audit.py \
+            tests/research/test_shannon_python_implementation_placement_manifest.py \
+            tests/research/test_shannon_python_placement_audit.py
+      - name: Remove one-shot workflows and persist one coherent commit
+        run: |
+          rm -f \
+            .github/workflows/one-shot-integrate-python-dependency-audit.yml \
+            .github/workflows/one-shot-fix-python-dependency-relative-imports.yml \
+            .github/workflows/one-shot-fix-placement-audit-evidence-set.yml
+          git config user.name 'shannon-insight-architecture-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'architecture: integrate Python dependency topology into placement foundation'
+          git push origin HEAD:${{ github.ref_name }}

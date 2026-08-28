@@ -1,0 +1,95 @@
+{
+  "application_product": {
+    "domain": "software_engineering_and_developer_productivity",
+    "lifecycle": [
+      "DISCOVERED",
+      "ADMITTED",
+      "OBSERVED",
+      "RELATED",
+      "ANALYZED",
+      "FINDINGS_EMITTED",
+      "SNAPSHOT_PUBLISHED",
+      "STALE_OR_INVALIDATED",
+      "REFUSED_OR_PARTIAL"
+    ],
+    "name": "Software Codebase Intelligence",
+    "negative_charter": [
+      "does not own universal source-system, connector, storage, query, semantic-layer, planning, decision, activation, or presentation products",
+      "does not promote source-code or Git vocabulary into universal enterprise semantics",
+      "does not make algorithm implementations semantic authority or qualification evidence",
+      "does not authorize production changes, deployments, or human decisions",
+      "does not claim provider portability, vertical acceptance, build readiness, or ratification"
+    ],
+    "owned_artifacts": [
+      "RepositoryObservationCut",
+      "CodeFileIdentity",
+      "SyntaxObservation",
+      "CodeRelation",
+      "TemporalChangeSeries",
+      "CodebaseSignal",
+      "DiagnosticFinding",
+      "AnalysisSnapshot",
+      "FindingEvidence"
+    ],
+    "product_id": "application_product.software_engineering.codebase_intelligence",
+    "product_plane": "application_domain_product_candidate",
+    "sovereign_question": "What evidence-backed structural, temporal, semantic, ownership, and operational risks exist in a bounded software codebase, and which findings can be justified without inventing effects or authority?",
+    "users_and_jobs": [
+      "software engineers inspect architecture, coupling, change risk, and maintainability",
+      "engineering leaders inspect codebase health, ownership, and change concentration",
+      "reviewers trace findings to source observations, calculations, and retained snapshots"
+    ]
+  },
+  "completion_claim": false,
+  "implementation_id": "implementation.shannon_python.codebase_insight",
+  "implementation_root": "src/shannon_insight",
+  "module_count": 40,
+  "module_crosswalk_path": "research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl",
+  "non_collapse_laws": [
+    "shannon_python_package != universal_enterprise_data_platform",
+    "codebase_analysis_application != horizontal_analytics_product_family",
+    "implementation_module != semantic_authority",
+    "algorithm_implementation != qualified_method_contract",
+    "local_storage_or_query_support != storage_or_query_product",
+    "application_kernel != solution_compiler_or_reconciler",
+    "Git_or_source_code_observation != universal_source_system_contract",
+    "renderer_or_dashboard != analytical_result_meaning",
+    "same_campaign_tests != independent_qualification"
+  ],
+  "placement_rationale": [
+    "The package has an application-specific acquisition-to-finding lifecycle and software-domain artifacts.",
+    "Its graph, temporal, statistical, semantic, persistence, query, runtime, and experience modules are composed implementation parts, not sovereign horizontal products.",
+    "Selected pure modules may qualify against exact abstract contracts only through digest-bound scope, reproducible builds, adversarial execution, and independent appraisal."
+  ],
+  "placement_verdict": "RETAIN_AS_APPLICATION_PRODUCT_AND_QUALIFICATION_PROVING_IMPLEMENTATION",
+  "projection_digest": "sha256:9fcb22668a222e23112f072b410dd9935c660608926d24a107c258cbafa4a9ef",
+  "qualification_posture": {
+    "eligible_candidate_roles": [
+      "application proving implementation",
+      "method-kernel candidate for exact-scope qualification",
+      "software-engineering vertical acceptance fixture"
+    ],
+    "prohibited_claims": [
+      "universal platform implementation",
+      "semantic ratification",
+      "independent qualification",
+      "portable provider offer",
+      "executed cross-industry acceptance",
+      "build-ready product"
+    ],
+    "required_next_evidence": [
+      "exact product-ontology binding for the application product",
+      "exact abstract contract IDs for every extracted reusable library",
+      "source, artifact, dependency, toolchain, and configuration digests",
+      "deterministic and adversarial exact-scope execution",
+      "independent appraisal and a second independently controlled implementation wherever portability is claimed",
+      "two unrelated executed vertical acceptances for any promoted horizontal contract"
+    ],
+    "status": "UNQUALIFIED_IMPLEMENTATION_CANDIDATE"
+  },
+  "record_kind": "implementation_product_placement",
+  "schema_version": "1.0.0",
+  "source_file_count": 248,
+  "source_line_count": 56537,
+  "unknown_horizontal_coverage_coordinates": []
+}

@@ -1,0 +1,64 @@
+name: Shannon Codebase Intelligence DDD
+
+on:
+  push:
+    branches:
+      - architecture/shannon-python-product-placement
+    paths:
+      - src/shannon_insight/**
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_codebase_intelligence_ddd.py
+      - .github/workflows/shannon-codebase-intelligence-ddd.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/shannon_insight/**
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_codebase_intelligence_ddd.py
+      - .github/workflows/shannon-codebase-intelligence-ddd.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ddd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - name: Generate placement dependency
+        run: python3 research/product_ontology/implementation_placement/build_shannon_python_placement.py
+      - name: Generate application DDD
+        run: python3 research/product_ontology/implementation_placement/build_shannon_codebase_intelligence_ddd.py
+      - name: Validate application DDD
+        run: python3 research/product_ontology/implementation_placement/validate_shannon_codebase_intelligence_ddd.py
+      - name: Run focused regression
+        run: pytest -q tests/research/test_shannon_codebase_intelligence_ddd.py
+      - name: Require generated artifacts in pull requests
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --exit-code -- \
+            research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd.json \
+            research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd-summary.json
+      - name: Persist generated artifacts on the placement branch
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'shannon-insight-architecture-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd.json \
+            research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd-summary.json
+          if git diff --cached --quiet; then
+            echo 'Codebase-intelligence DDD already current'
+            exit 0
+          fi
+          git commit -m 'architecture: generate codebase intelligence DDD [skip ddd]'
+          git push origin HEAD:${{ github.ref_name }}

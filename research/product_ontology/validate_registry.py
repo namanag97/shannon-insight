@@ -40,10 +40,26 @@ def main() -> int:
             by_id[record_id] = record
 
     required_product_fields = {
-        "product_kind", "sovereign_question", "users", "jobs", "outcomes", "owned_meanings",
-        "excluded_meanings", "adoption_boundary", "exit_boundary", "lifecycle_boundary",
-        "authority_boundary", "slo_boundary", "failure_boundary", "economic_boundary", "interfaces",
-        "truth_contract_id", "truth_profile_status", "boundary_evaluation", "evidence_ids", "confidence",
+        "product_kind",
+        "sovereign_question",
+        "users",
+        "jobs",
+        "outcomes",
+        "owned_meanings",
+        "excluded_meanings",
+        "adoption_boundary",
+        "exit_boundary",
+        "lifecycle_boundary",
+        "authority_boundary",
+        "slo_boundary",
+        "failure_boundary",
+        "economic_boundary",
+        "interfaces",
+        "truth_contract_id",
+        "truth_profile_status",
+        "boundary_evaluation",
+        "evidence_ids",
+        "confidence",
     }
     products = [record for record in nodes if record.get("record_kind") == "product"]
     for product in products:
@@ -68,10 +84,14 @@ def main() -> int:
     for edge in edges:
         for endpoint in ("from", "to"):
             if edge.get(endpoint) not in by_id:
-                errors.append(f"edge {edge.get('record_id')} has unknown {endpoint}: {edge.get(endpoint)}")
+                errors.append(
+                    f"edge {edge.get('record_id')} has unknown {endpoint}: {edge.get(endpoint)}"
+                )
         for evidence_id in edge.get("evidence_ids", []):
             if evidence_id not in by_id or by_id[evidence_id].get("record_kind") != "evidence":
-                errors.append(f"edge {edge.get('record_id')} references unknown evidence {evidence_id}")
+                errors.append(
+                    f"edge {edge.get('record_id')} references unknown evidence {evidence_id}"
+                )
 
     with (ROOT / "truth-contract.json").open(encoding="utf-8") as handle:
         truth = json.load(handle)
@@ -84,7 +104,21 @@ def main() -> int:
         errors.append("truth contract JSON has no corresponding graph node")
 
     adjudication_outputs: list[str] = []
-    for adjudication in ("lakehouse", "movement", "governance_semantics", "analytical_methods", "consumption_experiences", "platform_control", "model_decision_serving", "query_warehouse_search_protection", "semantic_metrics_formulas", "collaboration_privacy_resolution_assurance", "representation_codec_boundary", "analytical_operations", "shared_owner_boundaries"):
+    for adjudication in (
+        "lakehouse",
+        "movement",
+        "governance_semantics",
+        "analytical_methods",
+        "consumption_experiences",
+        "platform_control",
+        "model_decision_serving",
+        "query_warehouse_search_protection",
+        "semantic_metrics_formulas",
+        "collaboration_privacy_resolution_assurance",
+        "representation_codec_boundary",
+        "analytical_operations",
+        "shared_owner_boundaries",
+    ):
         validator = ROOT / f"adjudications/{adjudication}/validate.py"
         if not validator.is_file():
             errors.append(f"{adjudication} adjudication validator is missing")
@@ -98,7 +132,9 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append(f"{adjudication} adjudication failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                f"{adjudication} adjudication failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
@@ -116,8 +152,7 @@ def main() -> int:
         output = completed.stdout.strip()
         if completed.returncode != 0:
             errors.append(
-                "global product-boundary corpus failed: "
-                + (output or completed.stderr.strip())
+                "global product-boundary corpus failed: " + (output or completed.stderr.strip())
             )
         elif output:
             adjudication_outputs.append(output)
@@ -136,8 +171,7 @@ def main() -> int:
         output = completed.stdout.strip()
         if completed.returncode != 0:
             errors.append(
-                "retained-product dossier readiness failed: "
-                + (output or completed.stderr.strip())
+                "retained-product dossier readiness failed: " + (output or completed.stderr.strip())
             )
         elif output:
             adjudication_outputs.append(output)
@@ -176,8 +210,7 @@ def main() -> int:
         output = completed.stdout.strip()
         if completed.returncode != 0:
             errors.append(
-                "product qualification program failed: "
-                + (output or completed.stderr.strip())
+                "product qualification program failed: " + (output or completed.stderr.strip())
             )
         elif output:
             adjudication_outputs.append(output)
@@ -199,8 +232,7 @@ def main() -> int:
         output = completed.stdout.strip()
         if completed.returncode != 0:
             errors.append(
-                "data-sharing exact-scope execution failed: "
-                + (output or completed.stderr.strip())
+                "data-sharing exact-scope execution failed: " + (output or completed.stderr.strip())
             )
         elif output:
             adjudication_outputs.append(output)
@@ -218,11 +250,15 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("research-convergence rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "research-convergence rebase failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    exact_api_validator = ROOT.parent / "domain_atlas/compiler/library_registry/exact_api_closure/validate.py"
+    exact_api_validator = (
+        ROOT.parent / "domain_atlas/compiler/library_registry/exact_api_closure/validate.py"
+    )
     if not exact_api_validator.is_file():
         errors.append("exact-API closure-program validator is missing")
     else:
@@ -235,11 +271,15 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("exact-API closure program failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "exact-API closure program failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    bulk_contract_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/validate.py"
+    bulk_contract_validator = (
+        ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/validate.py"
+    )
     if not bulk_contract_validator.is_file():
         errors.append("bulk contract-generation validator is missing")
     else:
@@ -252,11 +292,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("bulk contract-generation program failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "bulk contract-generation program failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    contract_pilot_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/pilots/lineage_provenance_evidence/validate.py"
+    contract_pilot_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/pilots/lineage_provenance_evidence/validate.py"
+    )
     if not contract_pilot_validator.is_file():
         errors.append("lineage/provenance/evidence contract-generation pilot validator is missing")
     else:
@@ -269,11 +314,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("lineage/provenance/evidence contract-generation pilot failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "lineage/provenance/evidence contract-generation pilot failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    wave0_shape_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/wave0_data_shape_boundaries/validate.py"
+    wave0_shape_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/wave0_data_shape_boundaries/validate.py"
+    )
     if not wave0_shape_validator.is_file():
         errors.append("Wave-0 data-shape boundary validator is missing")
     else:
@@ -286,11 +337,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("Wave-0 data-shape boundary adjudication failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "Wave-0 data-shape boundary adjudication failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    semantic_axis_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/validate.py"
+    semantic_axis_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/validate.py"
+    )
     if not semantic_axis_validator.is_file():
         errors.append("semantic-axis decomposition validator is missing")
     else:
@@ -303,11 +360,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("semantic-axis decomposition failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "semantic-axis decomposition failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    phase1_semantic_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase1_subject_grain/validate.py"
+    phase1_semantic_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase1_subject_grain/validate.py"
+    )
     if not phase1_semantic_validator.is_file():
         errors.append("Phase-1 subject/identity/grain semantic validator is missing")
     else:
@@ -320,11 +382,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("Phase-1 subject/identity/grain semantic constitution failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "Phase-1 subject/identity/grain semantic constitution failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    phase2_semantic_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase2_dynamics_information/validate.py"
+    phase2_semantic_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase2_dynamics_information/validate.py"
+    )
     if not phase2_semantic_validator.is_file():
         errors.append("Phase-2 dynamics/information semantic validator is missing")
     else:
@@ -337,11 +405,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("Phase-2 dynamics/information semantic constitution failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "Phase-2 dynamics/information semantic constitution failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    phase3_semantic_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase3_authority_effect_safety/validate.py"
+    phase3_semantic_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase3_authority_effect_safety/validate.py"
+    )
     if not phase3_semantic_validator.is_file():
         errors.append("Phase-3 authority/effect/safety semantic validator is missing")
     else:
@@ -354,11 +428,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("Phase-3 authority/effect/safety semantic constitution failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "Phase-3 authority/effect/safety semantic constitution failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    phase4_semantic_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase4_representation_evolution/validate.py"
+    phase4_semantic_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase4_representation_evolution/validate.py"
+    )
     if not phase4_semantic_validator.is_file():
         errors.append("Phase-4 representation/evolution semantic validator is missing")
     else:
@@ -371,11 +451,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("Phase-4 representation/evolution semantic constitution failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "Phase-4 representation/evolution semantic constitution failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    phase5_semantic_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase5_behavior_resources_proof/validate.py"
+    phase5_semantic_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/phase5_behavior_resources_proof/validate.py"
+    )
     if not phase5_semantic_validator.is_file():
         errors.append("Phase-5 behavior/resources/proof semantic validator is missing")
     else:
@@ -388,11 +474,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("Phase-5 behavior/resources/proof semantic constitution failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "Phase-5 behavior/resources/proof semantic constitution failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    semantic_coverage_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/validate_constitution_coverage.py"
+    semantic_coverage_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/validate_constitution_coverage.py"
+    )
     if not semantic_coverage_validator.is_file():
         errors.append("semantic constitution coverage validator is missing")
     else:
@@ -405,11 +497,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("semantic constitution coverage failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "semantic constitution coverage failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    semantic_applicability_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/applicability_matrices/validate.py"
+    semantic_applicability_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/applicability_matrices/validate.py"
+    )
     if not semantic_applicability_validator.is_file():
         errors.append("semantic applicability matrix validator is missing")
     else:
@@ -422,11 +519,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("semantic applicability matrices failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "semantic applicability matrices failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    method_kernel_semantic_pilot_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/applicability_matrices/pilot_analytical_method_kernels/validate.py"
+    method_kernel_semantic_pilot_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/applicability_matrices/pilot_analytical_method_kernels/validate.py"
+    )
     if not method_kernel_semantic_pilot_validator.is_file():
         errors.append("analytical method-kernel semantic pilot validator is missing")
     else:
@@ -439,11 +541,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("analytical method-kernel semantic pilot failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "analytical method-kernel semantic pilot failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    global_structured_semantic_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/structured_projection/validate.py"
+    global_structured_semantic_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/structured_projection/validate.py"
+    )
     if not global_structured_semantic_validator.is_file():
         errors.append("global structured semantic projection validator is missing")
     else:
@@ -456,11 +564,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("global structured semantic projection failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "global structured semantic projection failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    source_authority_audit_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/validate.py"
+    source_authority_audit_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/validate.py"
+    )
     if not source_authority_audit_validator.is_file():
         errors.append("family source-authority audit validator is missing")
     else:
@@ -473,11 +587,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("family source-authority audit failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "family source-authority audit failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p0_identity_grain_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p0_identity_grain/validate.py"
+    p0_identity_grain_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p0_identity_grain/validate.py"
+    )
     if not p0_identity_grain_validator.is_file():
         errors.append("P0 identity/grain semantic validator is missing")
     else:
@@ -490,11 +609,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P0 identity/grain semantic corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P0 identity/grain semantic corpus failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3e_grain_evidence_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3e_grain_cardinality_evidence/validate.py"
+    p3e_grain_evidence_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3e_grain_cardinality_evidence/validate.py"
+    )
     if not p3e_grain_evidence_validator.is_file():
         errors.append("P3E grain/cardinality evidence validator is missing")
     else:
@@ -507,11 +631,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3E grain/cardinality evidence campaign failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3E grain/cardinality evidence campaign failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3e_grain_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3e_grain_coordinate_ontology/validate.py"
+    p3e_grain_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3e_grain_coordinate_ontology/validate.py"
+    )
     if not p3e_grain_coordinate_validator.is_file():
         errors.append("P3E operation-positioned grain coordinate validator is missing")
     else:
@@ -524,11 +654,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3E operation-positioned grain coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3E operation-positioned grain coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3s_state_change_evidence_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3s_state_change_evidence/validate.py"
+    p3s_state_change_evidence_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3s_state_change_evidence/validate.py"
+    )
     if not p3s_state_change_evidence_validator.is_file():
         errors.append("P3S state/change evidence validator is missing")
     else:
@@ -541,11 +677,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3S state/change evidence campaign failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3S state/change evidence campaign failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3s_state_change_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3s_state_change_coordinate_ontology/validate.py"
+    p3s_state_change_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3s_state_change_coordinate_ontology/validate.py"
+    )
     if not p3s_state_change_coordinate_validator.is_file():
         errors.append("P3S subject-positioned state/change coordinate validator is missing")
     else:
@@ -558,11 +699,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3S subject-positioned state/change coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3S subject-positioned state/change coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3o_order_topology_evidence_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3o_order_topology_evidence/validate.py"
+    p3o_order_topology_evidence_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3o_order_topology_evidence/validate.py"
+    )
     if not p3o_order_topology_evidence_validator.is_file():
         errors.append("P3O order/topology evidence validator is missing")
     else:
@@ -575,11 +722,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3O order/topology evidence campaign failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3O order/topology evidence campaign failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3o_order_topology_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3o_order_topology_coordinate_ontology/validate.py"
+    p3o_order_topology_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3o_order_topology_coordinate_ontology/validate.py"
+    )
     if not p3o_order_topology_coordinate_validator.is_file():
         errors.append("P3O relation-positioned order/topology coordinate validator is missing")
     else:
@@ -592,11 +745,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3O relation-positioned order/topology coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3O relation-positioned order/topology coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3c_composition_algebra_evidence_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3c_composition_algebra_evidence/validate.py"
+    p3c_composition_algebra_evidence_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3c_composition_algebra_evidence/validate.py"
+    )
     if not p3c_composition_algebra_evidence_validator.is_file():
         errors.append("P3C composition/algebra evidence validator is missing")
     else:
@@ -609,11 +768,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3C composition/algebra evidence campaign failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3C composition/algebra evidence campaign failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3c_composition_algebra_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3c_composition_algebra_coordinate_ontology/validate.py"
+    p3c_composition_algebra_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3c_composition_algebra_coordinate_ontology/validate.py"
+    )
     if not p3c_composition_algebra_coordinate_validator.is_file():
         errors.append("P3C operator-positioned composition/algebra coordinate validator is missing")
     else:
@@ -626,11 +791,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3C operator-positioned composition/algebra coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3C operator-positioned composition/algebra coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3i_identity_equality_evidence_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3i_identity_equality_evidence/validate.py"
+    p3i_identity_equality_evidence_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3i_identity_equality_evidence/validate.py"
+    )
     if not p3i_identity_equality_evidence_validator.is_file():
         errors.append("P3I identity/equality evidence validator is missing")
     else:
@@ -643,13 +814,21 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3I identity/equality evidence campaign failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3I identity/equality evidence campaign failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3i_identity_equality_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3i_identity_equality_coordinate_ontology/validate.py"
+    p3i_identity_equality_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3i_identity_equality_coordinate_ontology/validate.py"
+    )
     if not p3i_identity_equality_coordinate_validator.is_file():
-        errors.append("P3I subject/relation-positioned identity/equality coordinate validator is missing")
+        errors.append(
+            "P3I subject/relation-positioned identity/equality coordinate validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(p3i_identity_equality_coordinate_validator)],
@@ -660,11 +839,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3I subject/relation-positioned identity/equality coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3I subject/relation-positioned identity/equality coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3u_partiality_uncertainty_evidence_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3u_partiality_uncertainty_evidence/validate.py"
+    p3u_partiality_uncertainty_evidence_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3u_partiality_uncertainty_evidence/validate.py"
+    )
     if not p3u_partiality_uncertainty_evidence_validator.is_file():
         errors.append("P3U partiality/uncertainty evidence validator is missing")
     else:
@@ -677,13 +862,21 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3U partiality/uncertainty evidence campaign failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3U partiality/uncertainty evidence campaign failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3u_partiality_uncertainty_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3u_partiality_uncertainty_coordinate_ontology/validate.py"
+    p3u_partiality_uncertainty_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3u_partiality_uncertainty_coordinate_ontology/validate.py"
+    )
     if not p3u_partiality_uncertainty_coordinate_validator.is_file():
-        errors.append("P3U bearer-positioned partiality/uncertainty coordinate validator is missing")
+        errors.append(
+            "P3U bearer-positioned partiality/uncertainty coordinate validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(p3u_partiality_uncertainty_coordinate_validator)],
@@ -694,9 +887,15 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3U bearer-positioned partiality/uncertainty coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3U bearer-positioned partiality/uncertainty coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
 
-    time_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/time_coordinate_ontology/validate.py"
+    time_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/time_coordinate_ontology/validate.py"
+    )
     if not time_coordinate_validator.is_file():
         errors.append("bearer-positioned time coordinate validator is missing")
     else:
@@ -710,9 +909,15 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("bearer-positioned time coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "bearer-positioned time coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
 
-    semantic_object_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/semantic_object_coordinate_ontology/validate.py"
+    semantic_object_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/semantic_object_coordinate_ontology/validate.py"
+    )
     if not semantic_object_coordinate_validator.is_file():
         errors.append("bearer-positioned semantic-object coordinate validator is missing")
     else:
@@ -726,9 +931,15 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("bearer-positioned semantic-object coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "bearer-positioned semantic-object coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
 
-    semantic_role_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/semantic_role_coordinate_ontology/validate.py"
+    semantic_role_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/semantic_role_coordinate_ontology/validate.py"
+    )
     if not semantic_role_coordinate_validator.is_file():
         errors.append("interaction-positioned semantic-role coordinate validator is missing")
     else:
@@ -742,9 +953,15 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("interaction-positioned semantic-role coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "interaction-positioned semantic-role coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
 
-    authority_trust_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/authority_trust_coordinate_ontology/validate.py"
+    authority_trust_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/authority_trust_coordinate_ontology/validate.py"
+    )
     if not authority_trust_coordinate_validator.is_file():
         errors.append("bearer-positioned authority/trust coordinate validator is missing")
     else:
@@ -758,9 +975,15 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("bearer-positioned authority/trust coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "bearer-positioned authority/trust coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
 
-    effect_boundary_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/effect_boundary_coordinate_ontology/validate.py"
+    effect_boundary_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/effect_boundary_coordinate_ontology/validate.py"
+    )
     if not effect_boundary_coordinate_validator.is_file():
         errors.append("stage-positioned effect-boundary coordinate validator is missing")
     else:
@@ -774,9 +997,15 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("stage-positioned effect-boundary coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "stage-positioned effect-boundary coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
 
-    evidence_conformance_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/evidence_conformance_coordinate_ontology/validate.py"
+    evidence_conformance_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/evidence_conformance_coordinate_ontology/validate.py"
+    )
     if not evidence_conformance_coordinate_validator.is_file():
         errors.append("claim-positioned evidence/conformance coordinate validator is missing")
     else:
@@ -790,11 +1019,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("claim-positioned evidence/conformance coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "claim-positioned evidence/conformance coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    representation_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/representation_coordinate_ontology/validate.py"
+    representation_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/representation_coordinate_ontology/validate.py"
+    )
     if not representation_coordinate_validator.is_file():
         errors.append("layer-positioned representation coordinate validator is missing")
     else:
@@ -808,11 +1043,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("layer-positioned representation coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "layer-positioned representation coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    compatibility_evolution_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/compatibility_evolution_coordinate_ontology/validate.py"
+    compatibility_evolution_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/compatibility_evolution_coordinate_ontology/validate.py"
+    )
     if not compatibility_evolution_coordinate_validator.is_file():
         errors.append("directional compatibility/evolution coordinate validator is missing")
     else:
@@ -826,11 +1067,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("directional compatibility/evolution coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "directional compatibility/evolution coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    privacy_security_safety_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/privacy_security_safety_coordinate_ontology/validate.py"
+    privacy_security_safety_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/privacy_security_safety_coordinate_ontology/validate.py"
+    )
     if not privacy_security_safety_coordinate_validator.is_file():
         errors.append("cross-concern privacy/security/safety coordinate validator is missing")
     else:
@@ -844,11 +1091,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("cross-concern privacy/security/safety coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "cross-concern privacy/security/safety coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    resources_failure_coordinate_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/resources_failure_coordinate_ontology/validate.py"
+    resources_failure_coordinate_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/resources_failure_coordinate_ontology/validate.py"
+    )
     if not resources_failure_coordinate_validator.is_file():
         errors.append("finite-resource/total-failure coordinate validator is missing")
     else:
@@ -862,11 +1115,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("finite-resource/total-failure coordinate rebase failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "finite-resource/total-failure coordinate rebase failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    coordinate_route_completion_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/coordinate_route_completion/validate.py"
+    coordinate_route_completion_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/coordinate_route_completion/validate.py"
+    )
     if not coordinate_route_completion_validator.is_file():
         errors.append("all-cell coordinate route completion validator is missing")
     else:
@@ -880,11 +1139,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("all-cell coordinate route completion failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "all-cell coordinate route completion failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    coordinate_compiler_ir_normalization_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/coordinate_compiler_ir_normalization/validate.py"
+    coordinate_compiler_ir_normalization_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/coordinate_compiler_ir_normalization/validate.py"
+    )
     if not coordinate_compiler_ir_normalization_validator.is_file():
         errors.append("coordinate compiler-IR normalization validator is missing")
     else:
@@ -898,11 +1163,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("coordinate compiler-IR normalization failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "coordinate compiler-IR normalization failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    cross_axis_seam_tests_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/cross_axis_seam_tests/validate.py"
+    cross_axis_seam_tests_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/cross_axis_seam_tests/validate.py"
+    )
     if not cross_axis_seam_tests_validator.is_file():
         errors.append("cross-axis seam negative-twin validator is missing")
     else:
@@ -916,11 +1187,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("cross-axis seam negative-twin validation failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "cross-axis seam negative-twin validation failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    cross_axis_coordinate_audit_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/cross_axis_coordinate_audit/validate.py"
+    cross_axis_coordinate_audit_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/cross_axis_coordinate_audit/validate.py"
+    )
     if not cross_axis_coordinate_audit_validator.is_file():
         errors.append("cross-axis coordinate coverage/compiler-surface audit validator is missing")
     else:
@@ -934,11 +1211,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("cross-axis coordinate coverage/compiler-surface audit failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "cross-axis coordinate coverage/compiler-surface audit failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    library_coordinate_binding_projection_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/library_coordinate_binding_projection/validate.py"
+    library_coordinate_binding_projection_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/library_coordinate_binding_projection/validate.py"
+    )
     if not library_coordinate_binding_projection_validator.is_file():
         errors.append("per-library coordinate compiler-binding projection validator is missing")
     else:
@@ -952,13 +1235,21 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("per-library coordinate compiler-binding projection failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "per-library coordinate compiler-binding projection failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    product_coordinate_binding_projection_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/product_coordinate_binding_projection/validate.py"
+    product_coordinate_binding_projection_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/product_coordinate_binding_projection/validate.py"
+    )
     if not product_coordinate_binding_projection_validator.is_file():
-        errors.append("product/capability/solution-pack coordinate compiler-binding projection validator is missing")
+        errors.append(
+            "product/capability/solution-pack coordinate compiler-binding projection validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(product_coordinate_binding_projection_validator)],
@@ -970,11 +1261,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("product/capability/solution-pack coordinate compiler-binding projection failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "product/capability/solution-pack coordinate compiler-binding projection failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    targeted_evidence_coverage_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/targeted_evidence_coverage/validate.py"
+    targeted_evidence_coverage_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/targeted_evidence_coverage/validate.py"
+    )
     if not targeted_evidence_coverage_validator.is_file():
         errors.append("targeted semantic-axis evidence coverage validator is missing")
     else:
@@ -987,11 +1284,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("targeted semantic-axis evidence coverage failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "targeted semantic-axis evidence coverage failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    targeted_evidence_cluster_adjudication_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/targeted_evidence_cluster_adjudication/validate.py"
+    targeted_evidence_cluster_adjudication_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/targeted_evidence_cluster_adjudication/validate.py"
+    )
     if not targeted_evidence_cluster_adjudication_validator.is_file():
         errors.append("targeted evidence coordinate-cluster adjudication validator is missing")
     else:
@@ -1005,11 +1308,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("targeted evidence coordinate-cluster adjudication failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "targeted evidence coordinate-cluster adjudication failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    process_analytics_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/process_analytics_semantic_slice/validate.py"
+    process_analytics_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/process_analytics_semantic_slice/validate.py"
+    )
     if not process_analytics_semantic_slice_validator.is_file():
         errors.append("process analytics evidence-backed semantic-slice validator is missing")
     else:
@@ -1023,11 +1332,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("process analytics evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "process analytics evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    operations_research_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/operations_research_semantic_slice/validate.py"
+    operations_research_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/operations_research_semantic_slice/validate.py"
+    )
     if not operations_research_semantic_slice_validator.is_file():
         errors.append("operations research evidence-backed semantic-slice validator is missing")
     else:
@@ -1041,11 +1356,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("operations research evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "operations research evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    predictive_analytics_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/predictive_analytics_semantic_slice/validate.py"
+    predictive_analytics_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/predictive_analytics_semantic_slice/validate.py"
+    )
     if not predictive_analytics_semantic_slice_validator.is_file():
         errors.append("predictive analytics evidence-backed semantic-slice validator is missing")
     else:
@@ -1059,11 +1380,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("predictive analytics evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "predictive analytics evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    causal_inference_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/causal_inference_semantic_slice/validate.py"
+    causal_inference_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/causal_inference_semantic_slice/validate.py"
+    )
     if not causal_inference_semantic_slice_validator.is_file():
         errors.append("causal inference evidence-backed semantic-slice validator is missing")
     else:
@@ -1077,11 +1404,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("causal inference evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "causal inference evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    geospatial_analytics_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/geospatial_analytics_semantic_slice/validate.py"
+    geospatial_analytics_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/geospatial_analytics_semantic_slice/validate.py"
+    )
     if not geospatial_analytics_semantic_slice_validator.is_file():
         errors.append("geospatial analytics evidence-backed semantic-slice validator is missing")
     else:
@@ -1095,11 +1428,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("geospatial analytics evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "geospatial analytics evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    document_processing_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/document_processing_semantic_slice/validate.py"
+    document_processing_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/document_processing_semantic_slice/validate.py"
+    )
     if not document_processing_semantic_slice_validator.is_file():
         errors.append("document processing evidence-backed semantic-slice validator is missing")
     else:
@@ -1113,11 +1452,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("document processing evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "document processing evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    signal_condition_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/signal_condition_semantic_slice/validate.py"
+    signal_condition_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/signal_condition_semantic_slice/validate.py"
+    )
     if not signal_condition_semantic_slice_validator.is_file():
         errors.append("signal condition evidence-backed semantic-slice validator is missing")
     else:
@@ -1131,11 +1476,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("signal condition evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "signal condition evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    statistical_inference_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/statistical_inference_semantic_slice/validate.py"
+    statistical_inference_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/statistical_inference_semantic_slice/validate.py"
+    )
     if not statistical_inference_semantic_slice_validator.is_file():
         errors.append("statistical inference evidence-backed semantic-slice validator is missing")
     else:
@@ -1149,11 +1500,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("statistical inference evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "statistical inference evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    query_olap_warehouse_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/query_olap_warehouse_semantic_slice/validate.py"
+    query_olap_warehouse_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/query_olap_warehouse_semantic_slice/validate.py"
+    )
     if not query_olap_warehouse_semantic_slice_validator.is_file():
         errors.append("query/OLAP/warehouse evidence-backed semantic-slice validator is missing")
     else:
@@ -1167,13 +1524,21 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("query/OLAP/warehouse evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "query/OLAP/warehouse evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    bi_visualization_metrics_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/bi_visualization_metrics_semantic_slice/validate.py"
+    bi_visualization_metrics_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/bi_visualization_metrics_semantic_slice/validate.py"
+    )
     if not bi_visualization_metrics_semantic_slice_validator.is_file():
-        errors.append("BI/visualization/metrics evidence-backed semantic-slice validator is missing")
+        errors.append(
+            "BI/visualization/metrics evidence-backed semantic-slice validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(bi_visualization_metrics_semantic_slice_validator)],
@@ -1185,13 +1550,21 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("BI/visualization/metrics evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "BI/visualization/metrics evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    quality_reconciliation_controls_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/quality_reconciliation_controls_semantic_slice/validate.py"
+    quality_reconciliation_controls_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/quality_reconciliation_controls_semantic_slice/validate.py"
+    )
     if not quality_reconciliation_controls_semantic_slice_validator.is_file():
-        errors.append("quality/reconciliation/controls evidence-backed semantic-slice validator is missing")
+        errors.append(
+            "quality/reconciliation/controls evidence-backed semantic-slice validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(quality_reconciliation_controls_semantic_slice_validator)],
@@ -1203,11 +1576,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("quality/reconciliation/controls evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "quality/reconciliation/controls evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    graph_network_knowledge_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/graph_network_knowledge_semantic_slice/validate.py"
+    graph_network_knowledge_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/graph_network_knowledge_semantic_slice/validate.py"
+    )
     if not graph_network_knowledge_semantic_slice_validator.is_file():
         errors.append("graph/network/knowledge evidence-backed semantic-slice validator is missing")
     else:
@@ -1221,11 +1600,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("graph/network/knowledge evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "graph/network/knowledge evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    visual_image_inspection_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/visual_image_inspection_semantic_slice/validate.py"
+    visual_image_inspection_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/visual_image_inspection_semantic_slice/validate.py"
+    )
     if not visual_image_inspection_semantic_slice_validator.is_file():
         errors.append("visual/image inspection evidence-backed semantic-slice validator is missing")
     else:
@@ -1239,11 +1624,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("visual/image inspection evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "visual/image inspection evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    forecasting_planning_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/forecasting_planning_semantic_slice/validate.py"
+    forecasting_planning_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/forecasting_planning_semantic_slice/validate.py"
+    )
     if not forecasting_planning_semantic_slice_validator.is_file():
         errors.append("forecasting/planning evidence-backed semantic-slice validator is missing")
     else:
@@ -1257,13 +1648,21 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("forecasting/planning evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "forecasting/planning evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    annotation_labeling_evaluation_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/annotation_labeling_evaluation_semantic_slice/validate.py"
+    annotation_labeling_evaluation_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/annotation_labeling_evaluation_semantic_slice/validate.py"
+    )
     if not annotation_labeling_evaluation_semantic_slice_validator.is_file():
-        errors.append("annotation/labeling/evaluation evidence-backed semantic-slice validator is missing")
+        errors.append(
+            "annotation/labeling/evaluation evidence-backed semantic-slice validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(annotation_labeling_evaluation_semantic_slice_validator)],
@@ -1275,13 +1674,21 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("annotation/labeling/evaluation evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "annotation/labeling/evaluation evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    entity_resolution_mastering_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/entity_resolution_mastering_semantic_slice/validate.py"
+    entity_resolution_mastering_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/entity_resolution_mastering_semantic_slice/validate.py"
+    )
     if not entity_resolution_mastering_semantic_slice_validator.is_file():
-        errors.append("entity-resolution/master/reference evidence-backed semantic-slice validator is missing")
+        errors.append(
+            "entity-resolution/master/reference evidence-backed semantic-slice validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(entity_resolution_mastering_semantic_slice_validator)],
@@ -1293,13 +1700,21 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("entity-resolution/master/reference evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "entity-resolution/master/reference evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    data_preparation_profiling_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/data_preparation_profiling_semantic_slice/validate.py"
+    data_preparation_profiling_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/data_preparation_profiling_semantic_slice/validate.py"
+    )
     if not data_preparation_profiling_semantic_slice_validator.is_file():
-        errors.append("data-preparation/profiling evidence-backed semantic-slice validator is missing")
+        errors.append(
+            "data-preparation/profiling evidence-backed semantic-slice validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(data_preparation_profiling_semantic_slice_validator)],
@@ -1311,13 +1726,21 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("data-preparation/profiling evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "data-preparation/profiling evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    decision_automation_assurance_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/decision_automation_assurance_semantic_slice/validate.py"
+    decision_automation_assurance_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/decision_automation_assurance_semantic_slice/validate.py"
+    )
     if not decision_automation_assurance_semantic_slice_validator.is_file():
-        errors.append("decision-automation/assurance evidence-backed semantic-slice validator is missing")
+        errors.append(
+            "decision-automation/assurance evidence-backed semantic-slice validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(decision_automation_assurance_semantic_slice_validator)],
@@ -1329,13 +1752,21 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("decision-automation/assurance evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "decision-automation/assurance evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    search_information_retrieval_semantic_slice_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/search_information_retrieval_semantic_slice/validate.py"
+    search_information_retrieval_semantic_slice_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/search_information_retrieval_semantic_slice/validate.py"
+    )
     if not search_information_retrieval_semantic_slice_validator.is_file():
-        errors.append("search/information-retrieval evidence-backed semantic-slice validator is missing")
+        errors.append(
+            "search/information-retrieval evidence-backed semantic-slice validator is missing"
+        )
     else:
         completed = subprocess.run(
             [sys.executable, str(search_information_retrieval_semantic_slice_validator)],
@@ -1347,11 +1778,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("search/information-retrieval evidence-backed semantic slice failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "search/information-retrieval evidence-backed semantic slice failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    analytical_formalism_frontier_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/analytical_formalism_frontier/validate.py"
+    analytical_formalism_frontier_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/analytical_formalism_frontier/validate.py"
+    )
     if not analytical_formalism_frontier_validator.is_file():
         errors.append("analytical formalism coverage frontier validator is missing")
     else:
@@ -1365,11 +1802,17 @@ def main() -> int:
         if output:
             print(output)
         if completed.returncode:
-            errors.append("analytical formalism coverage frontier failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "analytical formalism coverage frontier failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    cross_slice_boundary_frontier_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/cross_slice_boundary_frontier/validate.py"
+    cross_slice_boundary_frontier_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/cross_slice_boundary_frontier/validate.py"
+    )
     if not cross_slice_boundary_frontier_validator.is_file():
         errors.append("cross-slice boundary frontier validator is missing")
     else:
@@ -1382,11 +1825,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("cross-slice boundary frontier failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "cross-slice boundary frontier failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    semantic_research_frontier_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/semantic_research_frontier/validate.py"
+    semantic_research_frontier_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/semantic_research_frontier/validate.py"
+    )
     if not semantic_research_frontier_validator.is_file():
         errors.append("semantic research frontier validator is missing")
     else:
@@ -1399,11 +1847,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("semantic research frontier failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "semantic research frontier failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    semantic_decision_locus_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/semantic_decision_locus_ontology/validate.py"
+    semantic_decision_locus_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/semantic_decision_locus_ontology/validate.py"
+    )
     if not semantic_decision_locus_validator.is_file():
         errors.append("semantic decision-locus ontology validator is missing")
     else:
@@ -1416,11 +1869,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("semantic decision-locus factorization failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "semantic decision-locus factorization failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    semantic_gap_topology_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/validate.py"
+    semantic_gap_topology_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/validate.py"
+    )
     if not semantic_gap_topology_validator.is_file():
         errors.append("semantic gap-topology validator is missing")
     else:
@@ -1437,7 +1896,10 @@ def main() -> int:
         elif output:
             adjudication_outputs.append(output)
 
-    p1_authority_symbol_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/validate.py"
+    p1_authority_symbol_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1_authority_symbols/validate.py"
+    )
     if not p1_authority_symbol_validator.is_file():
         errors.append("P1 source-authority/public-symbol validator is missing")
     else:
@@ -1450,12 +1912,21 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P1 source-authority/public-symbol corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P1 source-authority/public-symbol corpus failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p2_owner_adjudication_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p2_owner_adjudication/validate.py"
-    p1b_foundation_authority_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1b_foundation_authority_adjudication/validate.py"
+    p2_owner_adjudication_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p2_owner_adjudication/validate.py"
+    )
+    p1b_foundation_authority_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1b_foundation_authority_adjudication/validate.py"
+    )
     if not p1b_foundation_authority_validator.is_file():
         errors.append("P1B foundation-authority adjudication validator is missing")
     else:
@@ -1468,7 +1939,10 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P1B foundation-authority adjudication corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P1B foundation-authority adjudication corpus failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
@@ -1484,11 +1958,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P2 public-symbol owner-adjudication corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P2 public-symbol owner-adjudication corpus failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p3_applicability_adjudication_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/validate.py"
+    p3_applicability_adjudication_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p3_applicability_adjudication/validate.py"
+    )
     if not p3_applicability_adjudication_validator.is_file():
         errors.append("P3 family-axis applicability-adjudication validator is missing")
     else:
@@ -1501,11 +1981,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P3 family-axis applicability-adjudication corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P3 family-axis applicability-adjudication corpus failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p4_ratification_ingestion_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p4_ratification_ingestion/validate.py"
+    p4_ratification_ingestion_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p4_ratification_ingestion/validate.py"
+    )
     if not p4_ratification_ingestion_validator.is_file():
         errors.append("P4 ratification-ingestion validator is missing")
     else:
@@ -1518,11 +2004,16 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P4 ratification-ingestion corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P4 ratification-ingestion corpus failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p5_exact_contract_adjudication_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p5_exact_contract_adjudication/validate.py"
+    p5_exact_contract_adjudication_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p5_exact_contract_adjudication/validate.py"
+    )
     if not p5_exact_contract_adjudication_validator.is_file():
         errors.append("P5 exact-contract adjudication validator is missing")
     else:
@@ -1535,11 +2026,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P5 exact-contract adjudication corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P5 exact-contract adjudication corpus failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p6_implementation_qualification_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/validate.py"
+    p6_implementation_qualification_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p6_implementation_qualification/validate.py"
+    )
     if not p6_implementation_qualification_validator.is_file():
         errors.append("P6 implementation-qualification validator is missing")
     else:
@@ -1552,11 +2049,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P6 implementation-qualification corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P6 implementation-qualification corpus failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p7_offer_binding_qualification_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p7_offer_binding_qualification/validate.py"
+    p7_offer_binding_qualification_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p7_offer_binding_qualification/validate.py"
+    )
     if not p7_offer_binding_qualification_validator.is_file():
         errors.append("P7 offer-binding qualification validator is missing")
     else:
@@ -1569,11 +2072,17 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P7 offer-binding qualification corpus failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P7 offer-binding qualification corpus failed: "
+                + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
-    p8_vertical_acceptance_tensor_validator = ROOT.parent / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p8_vertical_acceptance_tensor/validate.py"
+    p8_vertical_acceptance_tensor_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p8_vertical_acceptance_tensor/validate.py"
+    )
     if not p8_vertical_acceptance_tensor_validator.is_file():
         errors.append("P8 vertical-acceptance tensor validator is missing")
     else:
@@ -1586,7 +2095,9 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append("P8 vertical-acceptance tensor failed: " + (output or completed.stderr.strip()))
+            errors.append(
+                "P8 vertical-acceptance tensor failed: " + (output or completed.stderr.strip())
+            )
         elif output:
             adjudication_outputs.append(output)
 
@@ -1604,26 +2115,37 @@ def main() -> int:
         output = completed.stdout.strip()
         if completed.returncode != 0:
             errors.append(
-                "deterministic vertical composition failed: "
-                + (output or completed.stderr.strip())
+                "deterministic vertical composition failed: " + (output or completed.stderr.strip())
             )
         elif output:
             adjudication_outputs.append(output)
 
     inventory_challenges = {
-        "analytical-operations inventory challenge": ROOT / "inventory_challenges/analytical_operations_gap_audit/validate.py",
-        "presentation-experience inventory challenge": ROOT / "inventory_challenges/presentation_experience_gap_audit/validate.py",
-        "presentation SOTA atlas upstream bridge": ROOT / "adjudications/consumption_experiences/presentation_semantics/bridge_validate.py",
-        "quality/reconciliation split audit": ROOT / "inventory_challenges/quality_reconciliation_split_audit/validate.py",
+        "analytical-operations inventory challenge": ROOT
+        / "inventory_challenges/analytical_operations_gap_audit/validate.py",
+        "presentation-experience inventory challenge": ROOT
+        / "inventory_challenges/presentation_experience_gap_audit/validate.py",
+        "presentation SOTA atlas upstream bridge": ROOT
+        / "adjudications/consumption_experiences/presentation_semantics/bridge_validate.py",
+        "quality/reconciliation split audit": ROOT
+        / "inventory_challenges/quality_reconciliation_split_audit/validate.py",
         "upstream demand-surface sweep": ROOT / "upstream_demand_surface_sweep/validate.py",
         "solution-synthesis architecture": ROOT / "solution_synthesis_architecture/validate.py",
         "corpus build protocol": ROOT / "corpus_build_protocol/validate.py",
-        "semantic fixed-point campaign": ROOT / "semantic_fixed_point_campaign/validate_fixed_point.py",
-        "horizontal coverage-family research corpus": ROOT.parent / "analytics_landscape/product_families/validate.py",
-        "horizontal evidence-governance base projection": ROOT.parent / "analytics_landscape/product_families/validate_evidence_governance.py",
-        "horizontal product-evidence packets": ROOT.parent / "analytics_landscape/product_families/validate_product_evidence_packets.py",
-        "horizontal effective evidence governance": ROOT.parent / "analytics_landscape/product_families/validate_effective_evidence_governance.py",
-        "horizontal evidence-upgrade campaigns": ROOT.parent / "analytics_landscape/product_families/validate_evidence_upgrade_campaigns.py",
+        "semantic fixed-point campaign": ROOT
+        / "semantic_fixed_point_campaign/validate_fixed_point.py",
+        "horizontal coverage-family research corpus": ROOT.parent
+        / "analytics_landscape/product_families/validate.py",
+        "horizontal evidence-governance base projection": ROOT.parent
+        / "analytics_landscape/product_families/validate_evidence_governance.py",
+        "horizontal product-evidence packets": ROOT.parent
+        / "analytics_landscape/product_families/validate_product_evidence_packets.py",
+        "horizontal effective evidence governance": ROOT.parent
+        / "analytics_landscape/product_families/validate_effective_evidence_governance.py",
+        "horizontal evidence-upgrade campaigns": ROOT.parent
+        / "analytics_landscape/product_families/validate_evidence_upgrade_campaigns.py",
+        "horizontal reviewed-vendor dispositions": ROOT.parent
+        / "analytics_landscape/product_families/validate_reviewed_vendor_dispositions.py",
         "corpus architecture router": ROOT / "corpus_architecture_router/validate.py",
     }
     for challenge_name, inventory_challenge_validator in inventory_challenges.items():
@@ -1639,10 +2161,7 @@ def main() -> int:
         )
         output = completed.stdout.strip()
         if completed.returncode != 0:
-            errors.append(
-                f"{challenge_name} failed: "
-                + (output or completed.stderr.strip())
-            )
+            errors.append(f"{challenge_name} failed: " + (output or completed.stderr.strip()))
         elif output:
             adjudication_outputs.append(output)
 
@@ -1660,12 +2179,10 @@ def main() -> int:
         output = completed.stdout.strip()
         if completed.returncode != 0:
             errors.append(
-                "product-ontology closure program failed: "
-                + (output or completed.stderr.strip())
+                "product-ontology closure program failed: " + (output or completed.stderr.strip())
             )
         elif output:
             adjudication_outputs.append(output)
-
 
     semantic_gap_frontier_accounting_validator = (
         ROOT.parent
@@ -1685,8 +2202,7 @@ def main() -> int:
         output = completed.stdout.strip()
         if completed.returncode != 0:
             errors.append(
-                "semantic gap-frontier accounting failed: "
-                + (output or completed.stderr.strip())
+                "semantic gap-frontier accounting failed: " + (output or completed.stderr.strip())
             )
         elif output:
             adjudication_outputs.append(output)

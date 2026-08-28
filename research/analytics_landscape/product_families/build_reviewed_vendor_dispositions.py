@@ -26,15 +26,17 @@ def load_json(path: Path) -> dict:
 
 def load_jsonl(path: Path) -> list[dict]:
     return [
-        json.loads(line)
-        for line in path.read_text(encoding="utf-8").splitlines()
-        if line.strip()
+        json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()
     ]
 
 
 def main() -> int:
     base = load_jsonl(BASE)
-    exact = load_jsonl(EXACT)
+    exact_all = load_jsonl(EXACT)
+    exact = [row for row in exact_all if row["disposition_kind"] == "BASE_CLAIM_UPGRADE"]
+    discoveries = [
+        row for row in exact_all if row["disposition_kind"] == "STRONG_EVIDENCE_DISCOVERY"
+    ]
     review_source = load_json(REVIEWS)
 
     claims_by_id = {row["claim_id"]: row for row in base}
@@ -85,8 +87,7 @@ def main() -> int:
         missing_exact = retained - exact_by_claim.keys()
         if missing_exact:
             raise SystemExit(
-                f"{organization_id}: retained claims lack exact evidence: "
-                f"{sorted(missing_exact)}"
+                f"{organization_id}: retained claims lack exact evidence: {sorted(missing_exact)}"
             )
         undeclared_exact = {
             claim_id
@@ -160,6 +161,7 @@ def main() -> int:
         "as_of": review_source["as_of"],
         "base_membership_claim_count": len(base),
         "exact_product_evidence_claim_count": len(exact_claim_ids),
+        "strong_discovery_claim_count": len(discoveries),
         "reviewed_organization_count": len(reviewed_ids),
         "reviewed_claim_count": len(reviewed_claim_ids),
         "retained_reviewed_claim_count": disposition_counts[RETAIN],
@@ -167,9 +169,7 @@ def main() -> int:
         "exact_unreviewed_claim_count": len(exact_unreviewed_claim_ids),
         "open_weak_membership_claim_count": len(open_weak_claim_ids),
         "accounted_claim_count": (
-            len(reviewed_claim_ids)
-            + len(open_weak_claim_ids)
-            + len(exact_unreviewed_claim_ids)
+            len(reviewed_claim_ids) + len(open_weak_claim_ids) + len(exact_unreviewed_claim_ids)
         ),
         "reviewed_organization_ids": sorted(reviewed_ids),
         "non_absence_law": (

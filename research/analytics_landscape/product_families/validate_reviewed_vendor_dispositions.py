@@ -24,9 +24,7 @@ def load_json(path: Path) -> dict:
 
 def load_jsonl(path: Path) -> list[dict]:
     return [
-        json.loads(line)
-        for line in path.read_text(encoding="utf-8").splitlines()
-        if line.strip()
+        json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()
     ]
 
 
@@ -36,7 +34,11 @@ def fail(message: str) -> None:
 
 def main() -> int:
     base = load_jsonl(BASE)
-    exact = load_jsonl(EXACT)
+    exact_all = load_jsonl(EXACT)
+    exact = [row for row in exact_all if row["disposition_kind"] == "BASE_CLAIM_UPGRADE"]
+    discoveries = [
+        row for row in exact_all if row["disposition_kind"] == "STRONG_EVIDENCE_DISCOVERY"
+    ]
     reviews = load_json(REVIEWS)
     dispositions = load_jsonl(DISPOSITIONS)
     summary = load_json(SUMMARY)
@@ -51,13 +53,9 @@ def main() -> int:
     if len(disposition_by_claim) != len(dispositions):
         fail("duplicate review disposition claim IDs")
 
-    reviewed_ids = {
-        row["organization_id"] for row in reviews.get("organizations", [])
-    }
+    reviewed_ids = {row["organization_id"] for row in reviews.get("organizations", [])}
     expected_reviewed_claims = {
-        row["claim_id"]
-        for row in base
-        if row["organization_id"] in reviewed_ids
+        row["claim_id"] for row in base if row["organization_id"] in reviewed_ids
     }
     if set(disposition_by_claim) != expected_reviewed_claims:
         missing = expected_reviewed_claims - disposition_by_claim.keys()
@@ -119,6 +117,7 @@ def main() -> int:
     expected_summary = {
         "base_membership_claim_count": len(base),
         "exact_product_evidence_claim_count": len(exact),
+        "strong_discovery_claim_count": len(discoveries),
         "reviewed_organization_count": len(reviewed_ids),
         "reviewed_claim_count": len(reviewed_claim_ids),
         "retained_reviewed_claim_count": counts[RETAIN],
@@ -129,10 +128,7 @@ def main() -> int:
     }
     for field, expected in expected_summary.items():
         if summary.get(field) != expected:
-            fail(
-                f"summary mismatch for {field}: "
-                f"{summary.get(field)!r} != {expected!r}"
-            )
+            fail(f"summary mismatch for {field}: {summary.get(field)!r} != {expected!r}")
     if summary.get("completion_claim") is not False:
         fail("completion claim must remain false")
     if summary.get("semantic_authority_promotions") != 0:

@@ -54,14 +54,10 @@
         "https://docs.databricks.com/"
       ],
       "retained_claim_ids": [
-        "claim.membership.hpf_alert_delivery.org_databricks",
-        "claim.membership.hpf_analytics_engineering.org_databricks",
         "claim.membership.hpf_catalog_discovery.org_databricks",
         "claim.membership.hpf_conversational_agentic.org_databricks",
         "claim.membership.hpf_dashboards_scorecards.org_databricks",
-        "claim.membership.hpf_data_apps_embedded.org_databricks",
         "claim.membership.hpf_data_products.org_databricks",
-        "claim.membership.hpf_geospatial.org_databricks",
         "claim.membership.hpf_ml_predictive.org_databricks",
         "claim.membership.hpf_notebook_documents.org_databricks",
         "claim.membership.hpf_orchestration_dataflow.org_databricks",
@@ -107,7 +103,6 @@
         "claim.membership.hpf_semantic_metrics.org_google_cloud",
         "claim.membership.hpf_source_acquisition.org_google_cloud",
         "claim.membership.hpf_temporal_forecast.org_google_cloud",
-        "claim.membership.hpf_trust_assurance_ops.org_google_cloud",
         "claim.membership.hpf_unstructured_search.org_google_cloud"
       ],
       "default_unretained_disposition": "REJECT_WEAK_CANDIDATE_FROM_CANONICAL_EVIDENCE",

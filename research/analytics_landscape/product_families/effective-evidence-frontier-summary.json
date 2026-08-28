@@ -1,0 +1,25 @@
+{
+  "accounted_claim_count": 1012,
+  "as_of": "2026-08-28",
+  "base_membership_claim_count": 1012,
+  "completion_claim": false,
+  "exact_product_evidence_claim_count": 57,
+  "exact_unreviewed_claim_count": 8,
+  "non_absence_law": "Rejecting a weak candidate removes it from canonical product-boundary evidence; it does not assert that the organization lacks the capability.",
+  "open_weak_membership_claim_count": 862,
+  "qualification_promotions": 0,
+  "rejected_reviewed_claim_count": 93,
+  "report_id": "effective_horizontal_evidence_frontier",
+  "retained_reviewed_claim_count": 49,
+  "reviewed_claim_count": 142,
+  "reviewed_organization_count": 4,
+  "reviewed_organization_ids": [
+    "org_databricks",
+    "org_google_cloud",
+    "org_microsoft",
+    "org_snowflake"
+  ],
+  "semantic_authority_promotions": 0,
+  "status": "REVIEWED_VENDOR_CLAIMS_TOTAL_OPEN_WEAK_FRONTIER_EXPLICIT",
+  "strong_discovery_claim_count": 6
+}

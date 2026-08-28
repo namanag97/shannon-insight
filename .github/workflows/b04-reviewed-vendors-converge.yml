@@ -1,0 +1,48 @@
+name: B04 Reviewed Vendor Dispositions Convergence
+
+on:
+  push:
+    branches:
+      - closure/b04-reviewed-vendor-dispositions
+    paths:
+      - research/analytics_landscape/product_families/**
+      - .github/workflows/b04-reviewed-vendors-converge.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  converge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild B04 evidence and review projections
+        run: |
+          python3 research/analytics_landscape/product_families/build_evidence_governance.py
+          python3 research/analytics_landscape/product_families/build_effective_evidence_governance.py
+          python3 research/analytics_landscape/product_families/build_evidence_upgrade_campaigns.py
+          python3 research/analytics_landscape/product_families/build_reviewed_vendor_dispositions.py
+      - name: Validate B04 evidence and review projections
+        run: |
+          python3 research/analytics_landscape/product_families/validate.py
+          python3 research/analytics_landscape/product_families/validate_evidence_governance.py
+          python3 research/analytics_landscape/product_families/validate_effective_evidence_governance.py
+          python3 research/analytics_landscape/product_families/validate_evidence_upgrade_campaigns.py
+          python3 research/analytics_landscape/product_families/validate_reviewed_vendor_dispositions.py
+      - name: Persist deterministic generated state
+        run: |
+          git config user.name 'shannon-insight-research-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/analytics_landscape/product_families/
+          if git diff --cached --quiet; then
+            echo 'Reviewed-vendor B04 state already current'
+            exit 0
+          fi
+          git commit -m 'research: regenerate reviewed-vendor B04 frontier [skip b04-review]'
+          git push origin HEAD:${{ github.ref_name }}

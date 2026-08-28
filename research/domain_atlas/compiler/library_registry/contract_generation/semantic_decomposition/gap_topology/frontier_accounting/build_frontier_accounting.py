@@ -144,11 +144,12 @@ def rel(path: Path) -> str:
 
 
 def record_identity(row: dict[str, Any]) -> str:
+    row_digest = sha256_text(canonical(row))
     for field in IDENTITY_FIELDS:
         value = row.get(field)
         if value not in (None, "") and not isinstance(value, (dict, list)):
-            return f"{field}:{value}"
-    return f"row-sha256:{sha256_text(canonical(row))}"
+            return f"{field}:{value}@sha256:{row_digest[:16]}"
+    return f"row-sha256:{row_digest}"
 
 
 def exact_cluster_ref(kind: str, key: str) -> str:
@@ -159,6 +160,9 @@ def require_count(label: str, expected: int, values: Iterable[Any]) -> list[Any]
     result = list(values)
     if len(result) != expected:
         raise ValueError(f"{label}: declared count {expected} != exact constituents {len(result)}")
+    identities = [canonical(value) for value in result]
+    if len(identities) != len(set(identities)):
+        raise ValueError(f"{label}: duplicate exact constituents are not independently attributable")
     return result
 
 
@@ -371,7 +375,10 @@ def exact_atoms() -> list[dict[str, Any]]:
             row["packet_count"],
             row["packet_refs"],
         )
-        symbol_by_packet = dict(zip(packets, row.get("symbol_refs", []), strict=False))
+        symbol_refs = row.get("symbol_refs", [])
+        if symbol_refs and len(symbol_refs) != len(packets):
+            raise ValueError(f"{row['batch_id']}: symbol_refs do not align with packet_refs")
+        symbol_by_packet = dict(zip(packets, symbol_refs, strict=False))
         for packet_ref in packets:
             add_atom(
                 atoms,
@@ -520,6 +527,10 @@ def build_decision_kernels(
             "formalism": FORMALISM_BY_GAP_KIND[gap_kind],
             "bearer_or_decision_locus": signature["locus"],
             "authority_requirement": method["closure_authority"],
+            "scope_grain": signature["scope_grain"],
+            "reuse_layer": signature["reuse_layer"],
+            "decision_shape": signature["decision_shape"],
+            "propagation_mode": signature["propagation_mode"],
             "law_and_refusal_family": {
                 "law": "No atom inherits a semantic conclusion, authority, implementation verdict or acceptance merely because it shares this reusable method kernel.",
                 "typed_refusal": f"{gap_kind.upper().replace('-', '_')}_RESIDUAL_OPEN",

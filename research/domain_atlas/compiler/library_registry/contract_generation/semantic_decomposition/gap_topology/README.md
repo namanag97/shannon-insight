@@ -1,5 +1,10 @@
 # Semantic gap topology
 
+> **Live-count authority:** Numeric snapshots in the narrative below are historical context.
+> `summary.json` is authoritative for the current cluster/atom frontier, and
+> `frontier_accounting/summary.json` plus its validator prove exact cluster-to-atom-to-kernel
+> routing. Neither file claims semantic closure, implementation, qualification or acceptance.
+
 This control plane classifies open work orthogonally by defect, semantic axis, locus, grain, epistemic state, closure operation, authority, evidence, dependency role, blast radius and lifecycle.
 
 The 685 exact clusters are also factored losslessly into **10 closure-method kernels**. A method

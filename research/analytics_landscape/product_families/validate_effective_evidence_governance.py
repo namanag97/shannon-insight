@@ -12,10 +12,7 @@ from urllib.parse import urlparse
 HERE = Path(__file__).resolve().parent
 BUILDER = HERE / "build_effective_evidence_governance.py"
 BASE = HERE / "organization-family-membership-claims.jsonl"
-UPGRADES = (
-    HERE / "organization-family-evidence-upgrades.jsonl",
-    HERE / "organization-family-evidence-upgrades.generated.jsonl",
-)
+UPGRADE_GLOB = "organization-family-evidence-upgrades*.jsonl"
 DISCOVERIES = HERE / "organization-family-evidence-discoveries.jsonl"
 OUTPUT = HERE / "effective-evidence-upgrade-dispositions.jsonl"
 SUMMARY = HERE / "effective-evidence-governance-summary.json"
@@ -32,7 +29,10 @@ def validate() -> dict:
     if len(before) != 2:
         raise AssertionError("effective evidence artifacts missing")
     base = load_jsonl(BASE)
-    upgrades = [row for path in UPGRADES for row in load_jsonl(path)]
+    upgrade_paths = sorted(HERE.glob(UPGRADE_GLOB), key=lambda path: path.name)
+    if not upgrade_paths:
+        raise AssertionError(f"no exact-evidence overlay shards match {UPGRADE_GLOB}")
+    upgrades = [row for path in upgrade_paths for row in load_jsonl(path)]
     discoveries = load_jsonl(DISCOVERIES)
     output = load_jsonl(OUTPUT)
     summary = json.loads(SUMMARY.read_text(encoding="utf-8"))

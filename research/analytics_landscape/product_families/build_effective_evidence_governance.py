@@ -9,10 +9,7 @@ from urllib.parse import urlparse
 
 HERE = Path(__file__).resolve().parent
 BASE = HERE / "organization-family-membership-claims.jsonl"
-UPGRADES = (
-    HERE / "organization-family-evidence-upgrades.jsonl",
-    HERE / "organization-family-evidence-upgrades.generated.jsonl",
-)
+UPGRADE_GLOB = "organization-family-evidence-upgrades*.jsonl"
 DISCOVERIES = HERE / "organization-family-evidence-discoveries.jsonl"
 OUTPUT = HERE / "effective-evidence-upgrade-dispositions.jsonl"
 SUMMARY = HERE / "effective-evidence-governance-summary.json"
@@ -61,7 +58,10 @@ def validate_evidence_record(record: dict, record_id: str) -> None:
 
 def main() -> int:
     base = load_jsonl(BASE)
-    upgrades = [row for path in UPGRADES for row in load_jsonl(path)]
+    upgrade_paths = sorted(HERE.glob(UPGRADE_GLOB), key=lambda path: path.name)
+    if not upgrade_paths:
+        raise SystemExit(f"no exact-evidence overlay shards match {UPGRADE_GLOB}")
+    upgrades = [row for path in upgrade_paths for row in load_jsonl(path)]
     discoveries = load_jsonl(DISCOVERIES)
     by_claim = {row["claim_id"]: row for row in base}
     if len(by_claim) != len(base):

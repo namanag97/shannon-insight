@@ -1,0 +1,55 @@
+name: Macro Model Primary-Source Challenge
+
+on:
+  push:
+    branches:
+      - 'research/macro-model-*'
+    paths:
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/**
+      - .github/workflows/macro-model-challenge.yml
+  pull_request:
+    paths:
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/**
+      - .github/workflows/macro-model-challenge.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build effective macro challenge
+        run: python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/build_macro_challenge.py
+      - name: Validate effective macro challenge
+        run: python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/validate.py
+      - name: Persist deterministic artifacts on research branch
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'shannon-insight-research-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/primary-sources.jsonl \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/deep-evidence-claims.jsonl \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/macro-challenges.jsonl \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/proposed-axis-deltas.jsonl \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/effective-new-axis-signatures.jsonl \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/family-axis-review-packages.jsonl \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/effective-macro-model.json \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/summary.json \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/manifest.json
+          if git diff --cached --quiet; then
+            echo 'Macro challenge artifacts already current'
+            exit 0
+          fi
+          git commit -m 'research: generate macro-model challenge artifacts [skip macro]'
+          git push origin HEAD:${{ github.ref_name }}
+      - name: Refuse stale artifacts in pull requests
+        if: github.event_name == 'pull_request'
+        run: git diff --exit-code -- research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge

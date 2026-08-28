@@ -10,15 +10,15 @@
   "qualified_implementation_count": 0,
   "ratified_product_count": 0,
   "report_id": "code_intelligence_python_product_boundary",
-  "research_python_file_count": 541,
+  "research_python_file_count": 558,
   "research_python_role_counts": {
     "qualification_execution_harness": 14,
     "research_analysis_or_support": 60,
     "research_authoring_model": 16,
     "research_conformance_test": 1,
-    "research_corpus_builder": 218,
+    "research_corpus_builder": 226,
     "research_migration_or_reconciliation": 1,
-    "research_validator": 231
+    "research_validator": 240
   },
   "status": "APPLICATION_PRODUCT_BOUNDARY_EXPLICIT_IMPLEMENTATION_AND_RESEARCH_ROLES_UNQUALIFIED",
   "top_level_component_count": 42,

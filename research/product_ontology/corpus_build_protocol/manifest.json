@@ -7,8 +7,8 @@
       "sha256": "6a61b535875ec5f673b6ad0888ebe9e2b53ca74ff9d96bdb0ebeefb840bc2e4b"
     },
     "dependency-edges.jsonl": {
-      "bytes": 3082,
-      "sha256": "32259af38393e7d480c365f0d79c02fc85f7c0296fe66464c3d317d4abaf02f1"
+      "bytes": 3748,
+      "sha256": "910d4d2ddbfefef4d986f341ea87b90984fbfb11a0f7f4df5c5c58edc4408b55"
     },
     "migration-batches.jsonl": {
       "bytes": 23096,
@@ -19,12 +19,12 @@
       "sha256": "5df3c3709ac368b02c3ccfe5bd87b4b26ca403bf8fca0db0f615731164ab9e85"
     },
     "observed-package-candidates.jsonl": {
-      "bytes": 198945,
-      "sha256": "93012df41f0513676de2dde9fd0da9cb00a76aa5935bd5d09844011929c25a92"
+      "bytes": 199885,
+      "sha256": "0621a6505056697288e436cc06310f546b5e9d89f2fd9d5def4dbfbda1f2078f"
     },
     "package-contracts.jsonl": {
-      "bytes": 10727,
-      "sha256": "ffc25924fd25bf3aad29040a78bc9dc0c8687b049feb27b1b9d2ce13da75ebad"
+      "bytes": 12080,
+      "sha256": "51ec60a3c60a32a677e7d0acbcc9ba083d598937960ef516187450dc4155efe5"
     },
     "protocol-vocabulary.jsonl": {
       "bytes": 1983,
@@ -32,7 +32,7 @@
     },
     "summary.json": {
       "bytes": 535,
-      "sha256": "e86ad7c0f0a6845fc13eef28619711000d67c74517f3a7dde60f7a1f84afb488"
+      "sha256": "8569d2c8ab4530911a5d227b066c5e61af8c9de82c3e10424d8c487b502886fd"
     }
   },
   "manifest_id": "manifest.corpus-build-protocol.v1"

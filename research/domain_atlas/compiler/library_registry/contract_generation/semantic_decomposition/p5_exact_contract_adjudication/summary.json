@@ -12,7 +12,7 @@
   "execution_packages": 60,
   "family_semantic_kernels": 24,
   "input_snapshot": {
-    "aggregate_sha256": "90239934ee52d5c8ee822d6c2a7c2731bd6c13b845f44cdeb79ac717a44ef7f9",
+    "aggregate_sha256": "a4b41e5e0f7c717adfaa80796ecbc10e480bc802a502c91033c1165ebe333434",
     "files": [
       {
         "bytes": 1153060,
@@ -69,10 +69,10 @@
         "sha256": "aadadf96e0d6cf629c5da970a62995504d8831f6697dc5774d4cd20b21822b17"
       },
       {
-        "bytes": 72722,
+        "bytes": 72828,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/readiness-audits.jsonl",
         "record_count": 24,
-        "sha256": "c23f8be0eb5b6c46545b978818f2afdb885b2a6eeffc3d2fd4ceee4196cb56b7"
+        "sha256": "4419949db3fe2ae11d42200c35863b6dbc7bf86900d70bf986a71cb554c80697"
       },
       {
         "bytes": 67834,
@@ -84,7 +84,7 @@
         "bytes": 1117558,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p1b_foundation_authority_adjudication/ratification-packet-templates.jsonl",
         "record_count": 661,
-        "sha256": "04c48e2d4d961b5144939a9264b4c584f400eb3d150d25451e25d26d30f23e30"
+        "sha256": "a20234b21a912abada39390a5a03373faa6404e9cadbd3f689c48924cbfc970b"
       },
       {
         "bytes": 592694,
@@ -123,7 +123,7 @@
         "sha256": "f1b5431e01e3e65104d738186bfa7c14176fab02ba9c65cfe5dce212a4e130c5"
       }
     ],
-    "snapshot_id": "snapshot.p5-input.90239934ee52d5c8"
+    "snapshot_id": "snapshot.p5-input.a4b41e5e0f7c717a"
   },
   "lowered_exact_contract_candidates": 0,
   "populated_archetype_obligation_kernels": 15,

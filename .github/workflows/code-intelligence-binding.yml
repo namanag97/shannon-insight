@@ -1,0 +1,32 @@
+name: Code Intelligence Binding
+
+on:
+  pull_request:
+    paths:
+      - research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/**
+      - .github/workflows/code-intelligence-binding.yml
+  push:
+    branches:
+      - main
+    paths:
+      - research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/**
+      - .github/workflows/code-intelligence-binding.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install 'jsonschema>=4'
+      - name: Verify deterministic binding
+        working-directory: research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence
+        run: |
+          python3 build_binding.py --check
+          python3 validate_binding.py

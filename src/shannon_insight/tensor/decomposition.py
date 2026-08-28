@@ -188,7 +188,8 @@ def cp_decomposition(
 
             # Check convergence
             T_approx = _reconstruct_cp([A, B, C, D])
-            error = float(np.linalg.norm(T - T_approx) / max(np.linalg.norm(T), 1e-10))
+            denominator = max(float(np.linalg.norm(T)), 1e-10)
+            error = float(np.linalg.norm(T - T_approx)) / denominator
 
             if abs(prev_error - error) < tol:
                 logger.debug(f"CP converged at iteration {iteration}, error={error:.6f}")
@@ -274,7 +275,8 @@ def tucker_decomposition(
         T_approx = core.copy()
         for mode in range(4):
             T_approx = _mode_dot(T_approx, factors[mode], mode)
-        error = float(np.linalg.norm(T - T_approx) / max(np.linalg.norm(T), 1e-10))
+        denominator = max(float(np.linalg.norm(T)), 1e-10)
+        error = float(np.linalg.norm(T - T_approx)) / denominator
 
         return TuckerResult(
             core=core.astype(np.float32),

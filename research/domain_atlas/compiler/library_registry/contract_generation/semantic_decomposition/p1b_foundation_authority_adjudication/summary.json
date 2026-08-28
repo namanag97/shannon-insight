@@ -12,7 +12,7 @@
   "edition": 1,
   "family_constitution_dockets": 24,
   "input_snapshot": {
-    "aggregate_sha256": "8e307d38a7a7af5dc1742e4da2247cec939032af66a858f7be9dd0a1fca3ed1d",
+    "aggregate_sha256": "abaa64a4efd3fd1355707814e490866f6e7f90a02a34303e27d43b6165bf6f12",
     "files": [
       {
         "bytes": 67834,
@@ -21,10 +21,10 @@
         "sha256": "f9b770fce59202e9d44274ba9ebc28b182da5a40e5fefe3c262303168cd241bf"
       },
       {
-        "bytes": 72722,
+        "bytes": 72828,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/source_authority_audit/readiness-audits.jsonl",
         "record_count": 24,
-        "sha256": "c23f8be0eb5b6c46545b978818f2afdb885b2a6eeffc3d2fd4ceee4196cb56b7"
+        "sha256": "4419949db3fe2ae11d42200c35863b6dbc7bf86900d70bf986a71cb554c80697"
       },
       {
         "bytes": 398176,
@@ -51,7 +51,7 @@
         "sha256": "07184c6afe32e144d4136f4f9261dd25e5808c4fac1c6a27c860b948a1781bac"
       }
     ],
-    "snapshot_id": "snapshot.p1b-input.8e307d38a7a7af5d"
+    "snapshot_id": "snapshot.p1b-input.abaa64a4efd3fd13"
   },
   "program_id": "program.p1b-foundation-authority-adjudication.v1",
   "ratification_packet_templates": 661,

@@ -11,6 +11,10 @@
   "semantic_authority_promotions": 0,
   "status": "EXACT_EVIDENCE_OVERLAY_ACTIVE_REMAINING_WEAK_CLAIMS_EXPLICIT",
   "strong_exact_product_membership_claim_count": 18,
+  "upgrade_input_file_count": 1,
+  "upgrade_input_files": [
+    "organization-family-evidence-upgrades.jsonl"
+  ],
   "upgraded_family_ids": [
     "hpf_alert_delivery",
     "hpf_catalog_discovery",

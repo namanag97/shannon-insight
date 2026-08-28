@@ -1,116 +1,36 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for the B04 exact-evidence overlay."""
+"""Fail-closed validation for sparse B04 exact-evidence dispositions."""
 from __future__ import annotations
-
-import json
-import subprocess
-import sys
+import json, subprocess, sys
 from pathlib import Path
 from urllib.parse import urlparse
-
-HERE = Path(__file__).resolve().parent
-BUILDER = HERE / "build_effective_evidence_governance.py"
-BASE = HERE / "organization-family-membership-claims.jsonl"
-UPGRADES = HERE / "organization-family-evidence-upgrades.jsonl"
-OUTPUT = HERE / "effective-organization-family-membership-claims.jsonl"
-SUMMARY = HERE / "effective-evidence-governance-summary.json"
-
-
-def load_jsonl(path: Path) -> list[dict]:
-    if not path.is_file():
-        raise AssertionError(f"missing artifact: {path.name}")
-    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
-
-
-def validate() -> dict:
-    before = {p: p.read_bytes() for p in (OUTPUT, SUMMARY) if p.is_file()}
-    if len(before) != 2:
-        raise AssertionError("effective evidence artifacts are missing")
-    base = load_jsonl(BASE)
-    upgrades = load_jsonl(UPGRADES)
-    effective = load_jsonl(OUTPUT)
-    summary = json.loads(SUMMARY.read_text(encoding="utf-8"))
-
-    if len(base) != 1012:
-        raise AssertionError(f"unexpected base membership population: {len(base)}")
-    if len(effective) != len(base):
-        raise AssertionError("effective overlay changed membership population")
-    if len({r['claim_id'] for r in effective}) != len(effective):
-        raise AssertionError("effective claim ids are duplicated")
-    base_by_id = {r["claim_id"]: r for r in base}
-    effective_by_id = {r["claim_id"]: r for r in effective}
-
-    for upgrade in upgrades:
-        claim = effective_by_id.get(upgrade["claim_id"])
-        if claim is None:
-            raise AssertionError(f"upgrade missing from effective claims: {upgrade['upgrade_id']}")
-        if claim["organization_id"] != upgrade["organization_id"] or claim["family_id"] != upgrade["family_id"]:
-            raise AssertionError(f"upgrade scope drift: {upgrade['upgrade_id']}")
-        if claim.get("upgrade_id") != upgrade["upgrade_id"]:
-            raise AssertionError(f"upgrade identity drift: {upgrade['upgrade_id']}")
-        if claim.get("evidence_strength") != "STRONG_EXACT_OFFICIAL_PRODUCT_DOCUMENTATION":
-            raise AssertionError(f"upgrade not strong-exact: {upgrade['upgrade_id']}")
-        parsed = urlparse(claim["evidence_locator"])
-        if parsed.scheme != "https" or not parsed.netloc or not (parsed.path or "/").strip("/"):
-            raise AssertionError(f"upgrade locator is not exact: {upgrade['upgrade_id']}")
-        if not claim.get("product_id") or not claim.get("product_name"):
-            raise AssertionError(f"upgrade lacks exact product identity: {upgrade['upgrade_id']}")
-        for forbidden in ("semantic_authority", "qualification_claim", "completion_claim"):
-            if claim.get(forbidden) is not False:
-                raise AssertionError(f"upgrade illegally promotes {forbidden}: {upgrade['upgrade_id']}")
-
-    upgraded_ids = {r["claim_id"] for r in upgrades}
-    for cid, row in effective_by_id.items():
-        if cid in upgraded_ids:
-            continue
-        original = base_by_id[cid]
-        for field in (
-            "evidence_locator",
-            "evidence_locator_kind",
-            "evidence_strength",
-            "status",
-            "claim",
-        ):
-            if row.get(field) != original.get(field):
-                raise AssertionError(f"non-upgraded claim changed field {field}: {cid}")
-
-    strong = sum(
-        r.get("evidence_strength") == "STRONG_EXACT_OFFICIAL_PRODUCT_DOCUMENTATION"
-        for r in effective
-    )
-    if summary.get("strong_exact_product_membership_claim_count") != strong:
-        raise AssertionError("strong evidence summary drift")
-    if summary.get("remaining_weak_membership_claim_count") != len(effective) - strong:
-        raise AssertionError("remaining weak evidence summary drift")
-    if summary.get("semantic_authority_promotions") != 0 or summary.get("qualification_promotions") != 0:
-        raise AssertionError("effective summary illegally promotes authority or qualification")
-    if summary.get("completion_claim") is not False:
-        raise AssertionError("effective evidence summary claims completion")
-
-    result = subprocess.run([sys.executable, str(BUILDER)], cwd=HERE.parents[2], capture_output=True, text=True)
-    if result.returncode != 0:
-        raise AssertionError(result.stdout + result.stderr)
-    after = {p: p.read_bytes() for p in (OUTPUT, SUMMARY)}
-    if before != after:
-        raise AssertionError("effective evidence artifacts are stale or nondeterministic")
-    return {
-        "claim_count": len(effective),
-        "upgrade_count": len(upgrades),
-        "strong_exact_count": strong,
-        "remaining_weak_count": len(effective) - strong,
-        "status": "VALID",
-        "completion_claim": False,
-    }
-
-
-def main() -> int:
-    try:
-        print(json.dumps(validate(), sort_keys=True))
-    except Exception as exc:
-        print(f"FAIL effective_evidence_governance: {exc}", file=sys.stderr)
-        return 1
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+HERE=Path(__file__).resolve().parent
+BUILDER=HERE/'build_effective_evidence_governance.py'; BASE=HERE/'organization-family-membership-claims.jsonl'; UP=HERE/'organization-family-evidence-upgrades.jsonl'; OUT=HERE/'effective-evidence-upgrade-dispositions.jsonl'; SUM=HERE/'effective-evidence-governance-summary.json'
+def L(p): return [json.loads(x) for x in p.read_text(encoding='utf-8').splitlines() if x.strip()]
+def validate():
+    before={p:p.read_bytes() for p in (OUT,SUM) if p.is_file()}
+    if len(before)!=2: raise AssertionError('effective evidence artifacts missing')
+    base=L(BASE); up=L(UP); out=L(OUT); summary=json.loads(SUM.read_text())
+    if len(base)!=1012: raise AssertionError(f'unexpected base population {len(base)}')
+    if len(out)!=len(up): raise AssertionError('sparse disposition count drift')
+    by={r['claim_id']:r for r in base}
+    if len({r['claim_id'] for r in out})!=len(out): raise AssertionError('duplicate disposition claim')
+    for r in out:
+        b=by.get(r['claim_id'])
+        if not b or (r['organization_id'],r['family_id'])!=(b['organization_id'],b['family_id']): raise AssertionError(f"scope drift {r.get('upgrade_id')}")
+        p=urlparse(r['official_locator'])
+        if p.scheme!='https' or not p.netloc or not (p.path or '/').strip('/'): raise AssertionError(f"non-exact locator {r['upgrade_id']}")
+        if r.get('evidence_strength')!='STRONG_EXACT_OFFICIAL_PRODUCT_DOCUMENTATION': raise AssertionError(f"strength drift {r['upgrade_id']}")
+        if r.get('effective_status')!='BOUND_STRONG_EXACT_PRODUCT_EVIDENCE_AUTHORITY_WITHHELD': raise AssertionError(f"status drift {r['upgrade_id']}")
+        for k in ('semantic_authority','qualification_claim','completion_claim'):
+            if r.get(k) is not False: raise AssertionError(f"illegal {k} {r['upgrade_id']}")
+    if summary['strong_exact_product_membership_claim_count']!=len(out) or summary['remaining_weak_membership_claim_count']!=len(base)-len(out): raise AssertionError('summary drift')
+    if summary.get('semantic_authority_promotions')!=0 or summary.get('qualification_promotions')!=0 or summary.get('completion_claim') is not False: raise AssertionError('illegal summary promotion')
+    run=subprocess.run([sys.executable,str(BUILDER)],cwd=HERE,capture_output=True,text=True)
+    if run.returncode: raise AssertionError(run.stdout+run.stderr)
+    if before!={p:p.read_bytes() for p in (OUT,SUM)}: raise AssertionError('artifacts stale or nondeterministic')
+    return {'base_claim_count':len(base),'upgrade_count':len(out),'remaining_weak_count':len(base)-len(out),'status':'VALID','completion_claim':False}
+def main():
+    try: print(json.dumps(validate(),sort_keys=True)); return 0
+    except Exception as e: print(f'FAIL effective_evidence_governance: {e}',file=sys.stderr); return 1
+if __name__=='__main__': raise SystemExit(main())

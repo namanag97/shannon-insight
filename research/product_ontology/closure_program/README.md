@@ -6,7 +6,7 @@ This package is the operational cockpit for converting researched proposals into
 
 `closure-tranches.jsonl` is the live semantic-convergence quotient projection produced from `research_convergence_rebase`. The rebase summary separately retains the immutable 686-quotient campaign as prior-snapshot provenance. The live projection MUST NOT imply that prior research dispositions cover newly introduced or expanded atoms.
 
-The frozen GPT campaign remains immutable. Current research discovered after that snapshot is added through three explicit ledgers: bounded source records in `source-authority-source-supplements.jsonl`, proposed-unratified family decisions in `source-authority-resolution-supplements.jsonl`, and exact rebase-quotient transitions in `current-research-resolution-supplements.jsonl`. The builder rejects duplicate identities, shadowing of frozen records, unresolved evidence references, digest drift, scope mismatch, and any canonical-completion claim. `effective-research-resolution-receipts.jsonl` makes the before/after residual arithmetic auditable without rewriting historical evidence.
+The frozen GPT campaign remains immutable. Current research discovered after that snapshot is added through explicit ledgers: bounded source records in `source-authority-source-supplements.jsonl`; proposed-unratified family decisions in `source-authority-resolution-supplements.jsonl`; digest-bound axis, contract and symbol decisions in `current-research-decision-supplements.jsonl`; and exact quotient transitions in `current-research-resolution-supplements.jsonl` plus the separately reviewable symbol supplement. The builder rejects duplicate identities, shadowing, unresolved evidence, digest drift, decision overlap, incomplete quotient coverage, scope mismatch and any canonical-completion claim. Internal P1 symbol decisions may bind validated digest-addressed candidate corpora whose primary-source chains remain owned by P1. `effective-research-resolution-receipts.jsonl` makes the before/after residual arithmetic auditable without rewriting historical evidence.
 
 `master-batches.jsonl` and `master-summary.json` are the current dependency-ordered closure frontier. They consume the latest committed dossier-readiness, effective qualification, industry integration, context-map, source-system, data-shape, analytical-method and provider-target summaries.
 
@@ -31,9 +31,14 @@ Current live facts include:
 - 18 historical data-shape gaps with explicit effective dispositions and 0 end-to-end closed gaps;
 - 144 candidate global contexts and 308 context relations;
 - 59 provider implementation artifacts / concrete offers as unqualified seeds;
-- 24/24 current source-family research payloads prepared for named authority review, with the
-  application-behavior addition reducing the effective research frontier from 29 quotients / 171
-  atoms to 28 quotients / 170 atoms while closing 0 canonical gaps;
+- 24/24 current source-family research payloads prepared for named authority review;
+- all 29 newly introduced or expanded research quotients / 171 research atoms now carry exact,
+  falsifiable, digest-bound proposed-unratified dispositions: 1 source-family decision, 20
+  application axis/family-evidence decisions, 8 exact application contract atoms and 7 residual
+  symbol-batch classifications, while closing 0 canonical gaps;
+- 0 effective research-residual quotients / 0 effective research-residual atoms; authority,
+  independent verification, implementation, qualification, physical proof and acceptance remain
+  separate downstream gates;
 - 0 portable, vertically accepted, build-ready or ratified products.
 
 No count is a completeness claim.

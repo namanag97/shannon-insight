@@ -46,6 +46,12 @@ def merge_disjoint(primary, supplements, key, label):
     return primary | supplements
 
 
+def scope_is_covered(scope_ref, decision):
+    return scope_ref in decision.get("affected_scope_refs", []) or any(
+        scope_ref.startswith(prefix) for prefix in decision.get("affected_scope_prefixes", [])
+    )
+
+
 def main():
     rebase_summary = json.loads((REBASE / "summary.json").read_text(encoding="utf-8"))
     rebased = [
@@ -112,17 +118,56 @@ def main():
         "source_id",
         "source identity",
     )
+    rebased_by_id = index_unique(rebased, "rebase_id", "rebased research quotient")
+    current_research_decisions = index_unique(
+        load(HERE / "current-research-decision-supplements.jsonl"),
+        "research_decision_id",
+        "current proposed-unratified research decision",
+    )
+    decision_rebase_owners = {}
+    for decision_id, decision in sorted(current_research_decisions.items()):
+        evidence_checks = {
+            evidence["path"]: sha(ROOT / evidence["path"]) == evidence["sha256"]
+            for evidence in decision["input_evidence"]
+        }
+        checks = {
+            "resolved_rebase_ids_present": bool(decision.get("resolved_rebase_ids")),
+            "all_rebase_ids_resolve": set(decision["resolved_rebase_ids"]) <= set(rebased_by_id),
+            "all_input_evidence_digests_match": all(evidence_checks.values()),
+            "all_source_refs_resolve": set(decision["source_refs"]) <= set(sources),
+            "bounded_decision_present": bool(decision.get("bounded_decision")),
+            "negative_twins_present": bool(decision.get("counterexample_or_negative_twin")),
+            "rejected_inferences_present": bool(decision.get("rejected_inferences")),
+            "invalidation_condition_present": bool(decision.get("invalidation_condition")),
+            "research_status_not_authority": decision.get("status") == "PROPOSED_UNRATIFIED",
+            "completion_not_claimed": decision.get("completion_claim") is False,
+        }
+        if not all(checks.values()):
+            raise ValueError(f"invalid current research decision {decision_id}: {checks}")
+        for rebase_id in decision["resolved_rebase_ids"]:
+            if rebase_id in decision_rebase_owners:
+                raise ValueError(f"current research decisions overlap at {rebase_id}")
+            base = rebased_by_id[rebase_id]
+            if base["gap_kind"] not in decision["gap_kinds"]:
+                raise ValueError(f"current research decision gap kind mismatch: {rebase_id}")
+            if not all(
+                scope_is_covered(scope_ref, decision)
+                for scope_ref in base["current_affected_scope_refs"]
+            ):
+                raise ValueError(f"current research decision scope mismatch: {rebase_id}")
+            decision_rebase_owners[rebase_id] = decision_id
     resolution_supplements = index_unique(
-        load(HERE / "current-research-resolution-supplements.jsonl"),
+        load(HERE / "current-research-resolution-supplements.jsonl")
+        + load(HERE / "current-research-resolution-symbol-supplements.jsonl"),
         "rebase_id",
         "current research-resolution supplement",
     )
-    rebased_by_id = index_unique(rebased, "rebase_id", "rebased research quotient")
-    resolution_ids = index_unique(
+    source_authority_resolution_ids = index_unique(
         list(current_resolutions.values()),
         "source_authority_resolution_id",
         "supplemental source-authority resolution",
     )
+    resolution_ids = source_authority_resolution_ids | current_research_decisions
 
     effective_resolution_receipts = []
     for rebase_id, supplement in sorted(resolution_supplements.items()):
@@ -136,8 +181,14 @@ def main():
         resolved_atoms = supplement["resolved_research_atoms"]
         if supplement["gap_kind"] != base["gap_kind"]:
             raise ValueError(f"supplement gap kind mismatch: {rebase_id}")
-        if resolution["family_ref"] not in base["current_affected_scope_refs"]:
-            raise ValueError(f"supplement resolution scope mismatch: {rebase_id}")
+        if resolution_ref in source_authority_resolution_ids:
+            if resolution["family_ref"] not in base["current_affected_scope_refs"]:
+                raise ValueError(f"supplement resolution scope mismatch: {rebase_id}")
+        elif (
+            rebase_id not in resolution["resolved_rebase_ids"]
+            or decision_rebase_owners.get(rebase_id) != resolution_ref
+        ):
+            raise ValueError(f"supplement research-decision binding mismatch: {rebase_id}")
         if (
             base.get("research_vacancy") is not True
             or base.get("research_residual_atoms", 0) < resolved_atoms
@@ -174,8 +225,16 @@ def main():
     }
     if supplemented_resolution_refs != set(resolution_ids):
         raise ValueError(
-            "every current source-authority resolution must bind exactly one research-resolution supplement"
+            "every current research decision must bind at least one research-resolution supplement"
         )
+    for decision_id, decision in current_research_decisions.items():
+        bound_rebase_ids = {
+            row["rebase_id"]
+            for row in resolution_supplements.values()
+            if row["evidence_resolution_ref"] == decision_id
+        }
+        if bound_rebase_ids != set(decision["resolved_rebase_ids"]):
+            raise ValueError(f"current research decision coverage mismatch: {decision_id}")
 
     resolved_atoms_by_rebase = {
         row["rebase_id"]: row["resolved_research_atoms"] for row in effective_resolution_receipts
@@ -318,7 +377,7 @@ def main():
             for row in tranches
             if row["gap_kind"] == "source-authority"
         ),
-        "next_required_action": "A named project semantic authority must accept, modify, or reject all 24 current source-family payloads and a separate verifier must attest each exact receipt before P4 ingestion; current research preparation is not ratification.",
+        "next_required_action": "All 29 newly introduced or expanded research quotients now have digest-bound proposed-unratified dispositions. Named semantic authorities must accept, modify, split or reject the 24 source-family payloads, 16-axis application decisions, eight exact application contracts and seven symbol-batch classifications; separate verifiers must attest exact receipts before canonical ingestion. Research preparation is not ratification, implementation, qualification or acceptance.",
         "completion_claim": False,
     }
     (HERE / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")

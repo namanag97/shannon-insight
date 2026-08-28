@@ -8,6 +8,15 @@
   "independently_appraised": false,
   "production_qualified": false,
   "provider_offers": 1,
+  "reference_chain": {
+    "access_surface": "source-surface.sqlite.github_actions.synthetic.database_api.v1",
+    "acquisition_plan": "acquisition-plan.sqlite.github_actions.synthetic.items.v1",
+    "connector_implementation": "connector.python_stdlib.sqlite3.github_actions.v1",
+    "governed_data_cut": "governed-cut.sqlite.github_actions.synthetic.items.v1",
+    "provider_offer": "source-offer.sqlite.embedded_relational.current_documented",
+    "source_class": "source.operational_database.embedded_relational",
+    "source_occurrence": "source-occurrence.sqlite.github_actions.synthetic.v1"
+  },
   "report_id": "sqlite_full_source_acquisition_reference_chain",
   "source_classes": 1,
   "source_occurrences": 1

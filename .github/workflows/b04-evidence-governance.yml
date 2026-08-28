@@ -23,23 +23,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Build evidence governance projection
+      - name: Build base evidence governance projection
         run: python3 research/analytics_landscape/product_families/build_evidence_governance.py
+      - name: Build exact evidence overlay
+        run: python3 research/analytics_landscape/product_families/build_effective_evidence_governance.py
       - name: Validate horizontal corpus
         run: python3 research/analytics_landscape/product_families/validate.py
-      - name: Validate evidence governance
+      - name: Validate base evidence governance
         run: python3 research/analytics_landscape/product_families/validate_evidence_governance.py
-      - name: Persist generated projection
+      - name: Validate exact evidence overlay
+        run: python3 research/analytics_landscape/product_families/validate_effective_evidence_governance.py
+      - name: Persist generated projections
         run: |
           git config user.name "shannon-insight-research-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/analytics_landscape/product_families/research-reference-role-projection.jsonl \
                   research/analytics_landscape/product_families/organization-family-membership-claims.jsonl \
                   research/analytics_landscape/product_families/organization-identity-projection.jsonl \
-                  research/analytics_landscape/product_families/evidence-governance-summary.json
+                  research/analytics_landscape/product_families/evidence-governance-summary.json \
+                  research/analytics_landscape/product_families/effective-evidence-upgrade-dispositions.jsonl \
+                  research/analytics_landscape/product_families/effective-evidence-governance-summary.json
           if git diff --cached --quiet; then
-            echo "Evidence governance projection already current"
+            echo "Evidence governance projections already current"
             exit 0
           fi
-          git commit -m "research: generate B04 evidence governance projection [skip ci]"
+          git commit -m "research: generate B04 effective evidence overlay [skip b04-evidence]"
           git push origin HEAD:${{ github.ref_name }}

@@ -2,7 +2,7 @@
 
 This tranche upgrades only existing `org_databricks` organization-to-family observations for which an exact Databricks documentation page supports a bounded product-capability claim.
 
-It covers Unity Catalog, metric views, AI/BI Genie, Delta Sharing, Lakeflow Connect, Lakeflow Jobs, Lakeflow Declarative Pipelines, Databricks SQL, Mosaic AI Model Serving, Mosaic AI Vector Search, AI/BI dashboards, notebooks, Databricks Apps, H3 geospatial functions, and SQL alerts.
+The current 12 exact rows cover Unity Catalog (discovery and trust/assurance), metric views, AI/BI Genie, Delta Sharing, notebooks, SQL warehouses, MLflow models in Unity Catalog, Lakeflow Jobs, Lakeflow Connect, Mosaic AI Vector Search, and AI/BI dashboards.
 
 ## Non-proof rules
 

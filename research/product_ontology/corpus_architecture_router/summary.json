@@ -7,7 +7,7 @@
   "occurrence_only_records": 318987,
   "packages": 50,
   "parse_findings": 0,
-  "routed_files": 3846,
+  "routed_files": 3847,
   "routed_record_occurrences": 417917,
   "rules": 50,
   "self_hosting_exclusion": "research/product_ontology/corpus_architecture_router/",

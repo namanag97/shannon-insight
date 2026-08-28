@@ -1,25 +1,26 @@
 name: B04 Horizontal Evidence Governance
 
 on:
+  pull_request:
+    paths:
+      - research/analytics_landscape/product_families/**
+      - .github/workflows/b04-evidence-governance.yml
   push:
     branches:
-      - 'closure/b04-*'
+      - main
     paths:
       - research/analytics_landscape/product_families/**
       - .github/workflows/b04-evidence-governance.yml
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -33,19 +34,5 @@ jobs:
         run: python3 research/analytics_landscape/product_families/validate_evidence_governance.py
       - name: Validate exact evidence overlay
         run: python3 research/analytics_landscape/product_families/validate_effective_evidence_governance.py
-      - name: Persist generated projections
-        run: |
-          git config user.name "shannon-insight-research-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/analytics_landscape/product_families/research-reference-role-projection.jsonl \
-                  research/analytics_landscape/product_families/organization-family-membership-claims.jsonl \
-                  research/analytics_landscape/product_families/organization-identity-projection.jsonl \
-                  research/analytics_landscape/product_families/evidence-governance-summary.json \
-                  research/analytics_landscape/product_families/effective-evidence-upgrade-dispositions.jsonl \
-                  research/analytics_landscape/product_families/effective-evidence-governance-summary.json
-          if git diff --cached --quiet; then
-            echo "Evidence governance projections already current"
-            exit 0
-          fi
-          git commit -m "research: generate B04 effective evidence overlay [skip b04-evidence]"
-          git push origin HEAD:${{ github.ref_name }}
+      - name: Refuse stale generated projections
+        run: git diff --exit-code -- research/analytics_landscape/product_families

@@ -2,15 +2,15 @@
   "as_of": "2026-08-28",
   "base_membership_claim_count": 1012,
   "completion_claim": false,
-  "exact_evidence_upgrade_count": 12,
-  "family_count_with_exact_upgrade": 12,
-  "organization_count_with_exact_upgrade": 1,
+  "exact_evidence_upgrade_count": 18,
+  "family_count_with_exact_upgrade": 13,
+  "organization_count_with_exact_upgrade": 2,
   "qualification_promotions": 0,
-  "remaining_weak_membership_claim_count": 1000,
+  "remaining_weak_membership_claim_count": 994,
   "report_id": "effective_horizontal_evidence_governance",
   "semantic_authority_promotions": 0,
   "status": "EXACT_EVIDENCE_OVERLAY_ACTIVE_REMAINING_WEAK_CLAIMS_EXPLICIT",
-  "strong_exact_product_membership_claim_count": 12,
+  "strong_exact_product_membership_claim_count": 18,
   "upgraded_family_ids": [
     "hpf_alert_delivery",
     "hpf_catalog_discovery",
@@ -21,11 +21,13 @@
     "hpf_geospatial",
     "hpf_ml_predictive",
     "hpf_semantic_metrics",
+    "hpf_source_acquisition",
     "hpf_temporal_forecast",
     "hpf_trust_assurance_ops",
     "hpf_unstructured_search"
   ],
   "upgraded_organization_ids": [
+    "org_microsoft",
     "org_snowflake"
   ]
 }

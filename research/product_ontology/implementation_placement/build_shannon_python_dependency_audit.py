@@ -6,7 +6,7 @@ import ast
 import hashlib
 import importlib.util
 import json
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 from types import ModuleType
 from typing import Any
@@ -46,11 +46,20 @@ def source_module(path: Path) -> str:
     return "shannon_insight" + (f".{suffix}" if suffix else "")
 
 
-def resolve_from_import(current_module: str, node: ast.ImportFrom) -> str | None:
+def resolve_from_import(
+    current_module: str,
+    node: ast.ImportFrom,
+    *,
+    is_package: bool = False,
+) -> str | None:
+    """Resolve ImportFrom using the source file's actual package context."""
     module = node.module or ""
     if node.level == 0:
         return module or None
-    package = current_module.rsplit(".", 1)[0] if "." in current_module else current_module
+    if is_package:
+        package = current_module
+    else:
+        package = current_module.rsplit(".", 1)[0] if "." in current_module else current_module
     relative = "." * node.level + module
     try:
         return importlib.util.resolve_name(relative, package)
@@ -156,10 +165,9 @@ def main() -> int:
         source_top = top_level_internal(current)
         if source_top == "__package_root__":
             continue
+        source_text = path.read_text(encoding="utf-8", errors="replace")
         try:
-            tree = ast.parse(
-                path.read_text(encoding="utf-8", errors="replace"), filename=str(path)
-            )
+            tree = ast.parse(source_text, filename=str(path))
         except SyntaxError as exc:
             unresolved_relative_imports.append(
                 {
@@ -175,16 +183,18 @@ def main() -> int:
             if isinstance(node, ast.Import):
                 targets = [alias.name for alias in node.names]
             elif isinstance(node, ast.ImportFrom):
-                resolved = resolve_from_import(current, node)
+                resolved = resolve_from_import(
+                    current,
+                    node,
+                    is_package=path.name == "__init__.py",
+                )
                 if resolved is None and node.level:
                     unresolved_relative_imports.append(
                         {
                             "path": str(path.relative_to(ROOT)),
                             "line": node.lineno,
                             "reason": "RELATIVE_IMPORT_UNRESOLVED",
-                            "detail": ast.get_source_segment(
-                                path.read_text(encoding="utf-8", errors="replace"), node
-                            ),
+                            "detail": ast.get_source_segment(source_text, node),
                         }
                     )
                     continue

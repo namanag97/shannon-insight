@@ -30,13 +30,24 @@ def main() -> int:
     upgraded_claims = {
         row["claim_id"] for row in upgrades if row["disposition_kind"] == "BASE_CLAIM_UPGRADE"
     }
+    review_dispositions = load_jsonl(HERE / "organization-family-review-dispositions.jsonl")
+    reviewed_claims = {row["claim_id"] for row in review_dispositions}
     base_claims = load_jsonl(HERE / "organization-family-membership-claims.jsonl")
-    remaining_claims = [row for row in base_claims if row["claim_id"] not in upgraded_claims]
+    remaining_claims = [
+        row
+        for row in base_claims
+        if row["claim_id"] not in upgraded_claims and row["claim_id"] not in reviewed_claims
+    ]
 
     assert len(campaigns) == len({row["organization_id"] for row in remaining_claims})
     assert sum(row["weak_membership_count"] for row in campaigns) == len(remaining_claims)
     assert summary["base_membership_claim_count"] == len(base_claims)
     assert summary["exact_membership_upgrade_count"] == len(upgraded_claims)
+    assert summary["reviewed_membership_disposition_count"] == len(reviewed_claims)
+    assert summary["reviewed_rejected_membership_count"] == sum(
+        row["disposition"] == "REJECT_WEAK_CANDIDATE_FROM_CANONICAL_EVIDENCE"
+        for row in review_dispositions
+    )
     assert summary["remaining_weak_membership_count"] == len(remaining_claims)
     assert summary["semantic_authority_promotions"] == summary["qualification_promotions"] == 0
     assert summary["completion_claim"] is False
@@ -49,7 +60,7 @@ def main() -> int:
     assert before == {path: path.read_bytes() for path in OUTPUTS}, "campaign outputs are stale"
     print(
         f"PASS B04 evidence-upgrade campaigns: {len(upgraded_claims)} exact upgrades retained; "
-        f"{len(remaining_claims)} weak claims routed into {len(campaigns)} organization campaigns"
+        f"{len(remaining_claims)} unreviewed weak claims routed into {len(campaigns)} organization campaigns"
     )
     return 0
 

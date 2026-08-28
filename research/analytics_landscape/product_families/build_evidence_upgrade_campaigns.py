@@ -23,12 +23,16 @@ def main() -> int:
     base_claims = load_jsonl("organization-family-membership-claims.jsonl")
     identities = load_jsonl("organization-identity-projection.jsonl")
     upgrades = load_jsonl("effective-evidence-upgrade-dispositions.jsonl")
+    review_dispositions = load_jsonl("organization-family-review-dispositions.jsonl")
     identity_by_id = {row["organization_id"]: row for row in identities}
     upgraded_claim_ids = {
         row["claim_id"] for row in upgrades if row["disposition_kind"] == "BASE_CLAIM_UPGRADE"
     }
     if not upgraded_claim_ids <= {row["claim_id"] for row in base_claims}:
         raise SystemExit("effective evidence overlay targets an unknown base claim")
+    reviewed_claim_ids = {row["claim_id"] for row in review_dispositions}
+    if not reviewed_claim_ids <= {row["claim_id"] for row in base_claims}:
+        raise SystemExit("review disposition targets an unknown base claim")
 
     remaining_by_organization: dict[str, list[dict]] = defaultdict(list)
     upgraded_by_organization: dict[str, int] = defaultdict(int)
@@ -36,7 +40,10 @@ def main() -> int:
         organization_id = claim["organization_id"]
         if claim["claim_id"] in upgraded_claim_ids:
             upgraded_by_organization[organization_id] += 1
-        else:
+        if (
+            claim["claim_id"] not in reviewed_claim_ids
+            and claim["claim_id"] not in upgraded_claim_ids
+        ):
             remaining_by_organization[organization_id].append(claim)
 
     rows = []
@@ -89,6 +96,11 @@ def main() -> int:
         "as_of": "2026-08-28",
         "base_membership_claim_count": len(base_claims),
         "exact_membership_upgrade_count": len(upgraded_claim_ids),
+        "reviewed_membership_disposition_count": len(reviewed_claim_ids),
+        "reviewed_rejected_membership_count": sum(
+            row["disposition"] == "REJECT_WEAK_CANDIDATE_FROM_CANONICAL_EVIDENCE"
+            for row in review_dispositions
+        ),
         "remaining_weak_membership_count": remaining_weak_count,
         "organization_campaign_count": len(rows),
         "top_20_campaigns": [
@@ -103,7 +115,7 @@ def main() -> int:
         "semantic_authority_promotions": 0,
         "qualification_promotions": 0,
         "completion_claim": False,
-        "status": "PRIORITIZED_REMAINING_EXACT_EVIDENCE_RESEARCH",
+        "status": "PRIORITIZED_UNREVIEWED_EXACT_EVIDENCE_RESEARCH",
     }
     (HERE / "evidence-upgrade-campaign-summary.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"

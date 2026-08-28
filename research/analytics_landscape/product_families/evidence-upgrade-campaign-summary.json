@@ -3,12 +3,14 @@
   "base_membership_claim_count": 1012,
   "completion_claim": false,
   "exact_membership_upgrade_count": 57,
-  "organization_campaign_count": 232,
+  "organization_campaign_count": 227,
   "qualification_promotions": 0,
-  "remaining_weak_membership_count": 955,
+  "remaining_weak_membership_count": 845,
   "report_id": "horizontal_evidence_upgrade_campaigns",
+  "reviewed_membership_disposition_count": 167,
+  "reviewed_rejected_membership_count": 110,
   "semantic_authority_promotions": 0,
-  "status": "PRIORITIZED_REMAINING_EXACT_EVIDENCE_RESEARCH",
+  "status": "PRIORITIZED_UNREVIEWED_EXACT_EVIDENCE_RESEARCH",
   "top_20_campaigns": [
     {
       "name": "Oracle",
@@ -19,12 +21,6 @@
     {
       "name": "IBM",
       "organization_id": "org_ibm",
-      "priority_score": 403,
-      "weak_membership_count": 31
-    },
-    {
-      "name": "Microsoft",
-      "organization_id": "org_microsoft",
       "priority_score": 403,
       "weak_membership_count": 31
     },
@@ -53,18 +49,6 @@
       "weak_membership_count": 25
     },
     {
-      "name": "Databricks",
-      "organization_id": "org_databricks",
-      "priority_score": 299,
-      "weak_membership_count": 23
-    },
-    {
-      "name": "Snowflake",
-      "organization_id": "org_snowflake",
-      "priority_score": 299,
-      "weak_membership_count": 23
-    },
-    {
       "name": "Salesforce Tableau",
       "organization_id": "org_salesforce_tableau",
       "priority_score": 286,
@@ -77,12 +61,6 @@
       "weak_membership_count": 19
     },
     {
-      "name": "Qlik",
-      "organization_id": "org_qlik",
-      "priority_score": 221,
-      "weak_membership_count": 17
-    },
-    {
       "name": "SAS",
       "organization_id": "org_sas",
       "priority_score": 221,
@@ -91,12 +69,6 @@
     {
       "name": "Alteryx",
       "organization_id": "org_alteryx",
-      "priority_score": 208,
-      "weak_membership_count": 16
-    },
-    {
-      "name": "Google Cloud",
-      "organization_id": "org_google_cloud",
       "priority_score": 208,
       "weak_membership_count": 16
     },
@@ -129,6 +101,36 @@
       "organization_id": "org_gooddata",
       "priority_score": 143,
       "weak_membership_count": 11
+    },
+    {
+      "name": "Domo",
+      "organization_id": "org_domo",
+      "priority_score": 130,
+      "weak_membership_count": 10
+    },
+    {
+      "name": "Sisense",
+      "organization_id": "org_sisense",
+      "priority_score": 130,
+      "weak_membership_count": 10
+    },
+    {
+      "name": "FICO",
+      "organization_id": "org_fico",
+      "priority_score": 117,
+      "weak_membership_count": 9
+    },
+    {
+      "name": "Metabase",
+      "organization_id": "org_metabase",
+      "priority_score": 117,
+      "weak_membership_count": 9
+    },
+    {
+      "name": "Preset",
+      "organization_id": "org_preset",
+      "priority_score": 117,
+      "weak_membership_count": 9
     }
   ]
 }

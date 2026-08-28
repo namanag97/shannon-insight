@@ -1,0 +1,50 @@
+name: Macro Model Challenge Iteration 4
+
+on:
+  push:
+    branches:
+      - 'research/macro-model-*'
+    paths:
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/iteration4_model.py
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/build_iteration4.py
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/validate_iteration4.py
+      - .github/workflows/macro-model-challenge-iteration4.yml
+  pull_request:
+    paths:
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/**
+      - .github/workflows/macro-model-challenge-iteration4.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build iteration 4
+        run: python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/build_iteration4.py
+      - name: Validate iteration 4 when validator exists
+        run: |
+          if [ -f research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/validate_iteration4.py ]; then
+            python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/validate_iteration4.py
+          fi
+      - name: Persist iteration-4 artifacts on research branch
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'shannon-insight-research-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/iteration4-*.json \
+                  research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/iteration4-*.jsonl
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'research: generate macro-model iteration 4 [skip macro4]'
+          git push origin HEAD:${{ github.ref_name }}
+      - name: Refuse stale iteration-4 artifacts in pull requests
+        if: github.event_name == 'pull_request'
+        run: git diff --exit-code -- research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/iteration4-*.json research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/macro_model_challenge/iteration4-*.jsonl

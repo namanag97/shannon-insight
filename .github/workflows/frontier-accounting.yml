@@ -47,6 +47,16 @@ jobs:
           python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/build_frontier_accounting.py
           python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/validate.py
 
+      - name: Rebuild global product-boundary inventory
+        run: |
+          python3 research/product_ontology/global_boundary_research/build_corpus.py
+          python3 research/product_ontology/global_boundary_research/validate_corpus.py
+
+      - name: Rebuild governed corpus build protocol
+        run: |
+          python3 research/product_ontology/corpus_build_protocol/build_registry.py
+          python3 research/product_ontology/corpus_build_protocol/validate.py
+
       - name: Rebuild and validate corpus architecture router
         run: |
           python3 research/product_ontology/corpus_architecture_router/build_router.py
@@ -69,6 +79,8 @@ jobs:
           git config http.postBuffer 104857600
           git add \
             research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology \
+            research/product_ontology/global_boundary_research \
+            research/product_ontology/corpus_build_protocol \
             research/product_ontology/corpus_architecture_router \
             research/product_ontology/validate_registry.py
           if git diff --cached --quiet; then

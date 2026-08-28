@@ -3,7 +3,7 @@
   "files": {
     "readiness-audits.jsonl": {
       "bytes": 72828,
-      "sha256": "84789c51ffefa5bbdf6480aa392ff5a6109001db2c10828f01067c4d0056d97e"
+      "sha256": "ffd5d49b0636de24cc9692753480664c0456af8dcb4e292a0c2674f8c88a9044"
     },
     "source-authority-decision.schema.json": {
       "bytes": 3282,
@@ -15,7 +15,7 @@
     },
     "validator-receipts.jsonl": {
       "bytes": 29747,
-      "sha256": "186115664e9880ceb24474909123b7dfca506a7cd5296c9a8d1b3985f13e5aa5"
+      "sha256": "0f14e1d633e4a17a85ddba91ba338e9469f12bc00a5be924ee668acbe1242acd"
     }
   },
   "manifest_id": "manifest.family-source-authority-audit.v1"

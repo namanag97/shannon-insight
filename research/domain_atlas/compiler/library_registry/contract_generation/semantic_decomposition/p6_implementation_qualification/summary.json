@@ -8,7 +8,7 @@
   "gate_execution_kernels": 16,
   "implementation_slots": 1052,
   "input_snapshot": {
-    "aggregate_sha256": "7d635f47c31468465b5bba0b473f1e62a69e964750b046ac20b5aae16dcdd0e9",
+    "aggregate_sha256": "881f2c4a8ba3d3658eec59cde297defe930220e40fc04f7c6961bcf706b2e962",
     "files": [
       {
         "bytes": 1389513,
@@ -62,10 +62,10 @@
         "bytes": 2700922,
         "path": "research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/p5_exact_contract_adjudication/exact-contract-ratification-packet-templates.jsonl",
         "record_count": 682,
-        "sha256": "1c85be085ba7f5efbf09be0f0f1493567ec5a7a3fdeca0645a2b48da0ed75193"
+        "sha256": "ec30b5cd7fffc67b197014610663e9fa39119ef74acbf94c71f51cf754064be5"
       }
     ],
-    "snapshot_id": "snapshot.p6-input.7d635f47c3146846"
+    "snapshot_id": "snapshot.p6-input.881f2c4a8ba3d365"
   },
   "portable_offers": 0,
   "product_qualification_dockets": 66,

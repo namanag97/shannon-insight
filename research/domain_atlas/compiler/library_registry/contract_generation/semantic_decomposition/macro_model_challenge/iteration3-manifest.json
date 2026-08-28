@@ -1,0 +1,63 @@
+{
+  "as_of": "2026-08-28",
+  "completion_claim": false,
+  "files": {
+    "iteration3-axis-deltas.jsonl": {
+      "bytes": 12388,
+      "sha256": "7bfa2d82cd3b3cacb7285fcdd1fe05c9a328d5dc6bf638ed1d6b9a712f3d7ee4"
+    },
+    "iteration3-correction-receipts.jsonl": {
+      "bytes": 967,
+      "sha256": "6b918c461eb74cd2265af17922df67660b593c4cc3936ef4e200a7b2655c7b1d"
+    },
+    "iteration3-cross-axis-interactions.jsonl": {
+      "bytes": 4929,
+      "sha256": "705a5b9c0a8fed9a1700bec872c47ae0f323dfbc25d4aea1ad47e07e57270537"
+    },
+    "iteration3-deep-evidence-claims.jsonl": {
+      "bytes": 31551,
+      "sha256": "e3f2a621aac0edf93c1e5e4468f19ccf12979e557b99394f0f3eaa23b937e39a"
+    },
+    "iteration3-effective-macro-model.json": {
+      "bytes": 1612,
+      "sha256": "ee4107d5eaa38858956eee5ee683d1142c9efe645da924b9a29eaabd6190bbbe"
+    },
+    "iteration3-family-axis-review-packages.jsonl": {
+      "bytes": 289861,
+      "sha256": "2482d81924ec9a7202de8bd7cc80527c7350978e4b5734dfc6f84b0394ab9f08"
+    },
+    "iteration3-macro-challenges.jsonl": {
+      "bytes": 7090,
+      "sha256": "361eced7ded44bc7532a6621d2dd94d15aa51fbef395c8389509831da8d9940f"
+    },
+    "iteration3-new-challenges.jsonl": {
+      "bytes": 712,
+      "sha256": "0089de8122d8ff3c6105e30d467fb40344c0d950a67d4742bd1e049391833e21"
+    },
+    "iteration3-new-deep-claims.jsonl": {
+      "bytes": 4092,
+      "sha256": "524922e411e97356e642352d549bf28ee838319f3f373216f802c7634280b475"
+    },
+    "iteration3-new-primary-sources.jsonl": {
+      "bytes": 1878,
+      "sha256": "938e892a2db8fcab11dfc30e859950c80b0e86a28cafc9add06040ca43d330e5"
+    },
+    "iteration3-primary-sources.jsonl": {
+      "bytes": 53201,
+      "sha256": "575882f3e7effda6f5130196aa38e5a7891d95207ae26f4d1a24273a0be09a29"
+    },
+    "iteration3-signatures.jsonl": {
+      "bytes": 919631,
+      "sha256": "5627747e94f5a6997ab6c14031c3af61570ee6a46b4e0de551c47ba17f8dde23"
+    },
+    "iteration3-summary.json": {
+      "bytes": 1385,
+      "sha256": "d9d420f7298fff321637fc5352ecd82414887d80736601b3bccc310f0345edef"
+    },
+    "iteration3-targeted-evidence-work-packages.jsonl": {
+      "bytes": 386758,
+      "sha256": "da3a24508bb07fd6a24f8ebaf777050cea41fc5892d68362ba4120094f96c5f7"
+    }
+  },
+  "manifest_id": "manifest.macro-model-primary-source-challenge.v3"
+}

@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-08-28",
+  "base_axis_count": 16,
+  "candidate_axis_count": 8,
+  "candidate_axis_ids": [
+    "quantity_and_value_semantics",
+    "observation_measurement_and_metrology",
+    "scope_population_and_eligibility",
+    "normativity_and_obligation",
+    "provenance_and_derivation",
+    "epistemic_status",
+    "causal_and_interventional_semantics",
+    "stochastic_mechanism_and_assignment"
+  ],
+  "canonical_mutation_allowed": false,
+  "completion_claim": false,
+  "effective_research_axis_count": 24,
+  "laws": [
+    "Iteration 2 is immutable and digest-bound; the old measurement axis is superseded only in this research candidate.",
+    "Quantitative value semantics and observation/metrology are independent questions linked only when an observation result is quantitative.",
+    "Currency is unit-like for monetary interpretation but is not an SI physical unit and cannot inherit physical conversion/calibration laws.",
+    "A numeric or monetary value need not be an observation; targets, prices, notionals and declared amounts preserve epistemic status separately.",
+    "No research-axis split closes semantic-owner, exact-contract, implementation, qualification, provider, physical or vertical-acceptance gates."
+  ],
+  "model_id": "model.enterprise-data-analytics-semantic-axes.challenge-v3",
+  "record_kind": "effective_macro_model_research_candidate_iteration3",
+  "split_lineage": {
+    "measurement_and_observation": [
+      "quantity_and_value_semantics",
+      "observation_measurement_and_metrology"
+    ]
+  },
+  "status": "ITERATION_3_RESEARCH_CHALLENGE_CANDIDATE_NOT_RATIFIED"
+}

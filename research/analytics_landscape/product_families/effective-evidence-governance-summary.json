@@ -4,15 +4,15 @@
   "completion_claim": false,
   "discovered_strong_membership_claim_count": 5,
   "effective_membership_claim_count": 1017,
-  "exact_evidence_upgrade_count": 26,
-  "family_count_with_exact_upgrade": 20,
-  "organization_count_with_exact_upgrade": 3,
+  "exact_evidence_upgrade_count": 38,
+  "family_count_with_exact_upgrade": 22,
+  "organization_count_with_exact_upgrade": 4,
   "qualification_promotions": 0,
-  "remaining_weak_membership_claim_count": 986,
+  "remaining_weak_membership_claim_count": 974,
   "report_id": "effective_horizontal_evidence_governance",
   "semantic_authority_promotions": 0,
   "status": "EXACT_EVIDENCE_OVERLAY_AND_DISCOVERY_ACTIVE_REMAINING_WEAK_CLAIMS_EXPLICIT",
-  "strong_exact_product_membership_claim_count": 31,
+  "strong_exact_product_membership_claim_count": 43,
   "upgraded_family_ids": [
     "hpf_alert_delivery",
     "hpf_analytics_engineering",
@@ -26,7 +26,9 @@
     "hpf_exploration_workspace",
     "hpf_geospatial",
     "hpf_ml_predictive",
+    "hpf_notebook_documents",
     "hpf_orchestration_dataflow",
+    "hpf_query_compute",
     "hpf_reporting_narrative",
     "hpf_semantic_metrics",
     "hpf_source_acquisition",
@@ -36,6 +38,7 @@
     "hpf_visual_presentation"
   ],
   "upgraded_organization_ids": [
+    "org_databricks",
     "org_microsoft",
     "org_qlik",
     "org_snowflake"

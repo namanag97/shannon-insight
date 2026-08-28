@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Prioritize the remaining weak organization-family claims into research campaigns."""
+
 from __future__ import annotations
 
 import json
@@ -13,7 +14,9 @@ def load_jsonl(name: str) -> list[dict]:
     path = HERE / name
     if not path.is_file():
         return []
-    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    return [
+        json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()
+    ]
 
 
 def main() -> int:
@@ -38,9 +41,7 @@ def main() -> int:
     for organization_id, claims in remaining_by_organization.items():
         identity = identity_by_id[organization_id]
         families = sorted({claim["family_id"] for claim in claims})
-        homepage_only = sum(
-            claim["evidence_strength"] == "WEAK_HOMEPAGE_ONLY" for claim in claims
-        )
+        homepage_only = sum(claim["evidence_strength"] == "WEAK_HOMEPAGE_ONLY" for claim in claims)
         rows.append(
             {
                 "record_kind": "horizontal_evidence_upgrade_campaign",
@@ -52,7 +53,9 @@ def main() -> int:
                 "family_refs": families,
                 "weak_membership_count": len(claims),
                 "homepage_only_count": homepage_only,
-                "exact_membership_already_upgraded_count": upgraded_by_organization[organization_id],
+                "exact_membership_already_upgraded_count": upgraded_by_organization[
+                    organization_id
+                ],
                 "priority_score": len(claims) * 10 + homepage_only * 3,
                 "required_evidence_upgrade": [
                     "exact product/project identity",

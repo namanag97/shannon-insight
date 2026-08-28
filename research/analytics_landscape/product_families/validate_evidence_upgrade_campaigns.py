@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Fail-closed checks for effective B04 evidence-upgrade campaign projections."""
+
 from __future__ import annotations
 
 import json
@@ -9,11 +10,16 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 BUILDER = HERE / "build_evidence_upgrade_campaigns.py"
-OUTPUTS = (HERE / "evidence-upgrade-campaigns.jsonl", HERE / "evidence-upgrade-campaign-summary.json")
+OUTPUTS = (
+    HERE / "evidence-upgrade-campaigns.jsonl",
+    HERE / "evidence-upgrade-campaign-summary.json",
+)
 
 
 def load_jsonl(path: Path) -> list[dict]:
-    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    return [
+        json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()
+    ]
 
 
 def main() -> int:
@@ -34,7 +40,9 @@ def main() -> int:
     assert summary["completion_claim"] is False
     assert all(row["completion_claim"] is False for row in campaigns)
 
-    result = subprocess.run([sys.executable, str(BUILDER)], cwd=HERE, capture_output=True, text=True)
+    result = subprocess.run(
+        [sys.executable, str(BUILDER)], cwd=HERE, capture_output=True, text=True
+    )
     assert result.returncode == 0, result.stdout + result.stderr
     assert before == {path: path.read_bytes() for path in OUTPUTS}, "campaign outputs are stale"
     print(

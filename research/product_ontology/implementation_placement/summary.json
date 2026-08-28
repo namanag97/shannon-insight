@@ -1,0 +1,13 @@
+{
+  "application_product_id": "application_product.software_engineering.codebase_intelligence",
+  "completion_claim": false,
+  "implementation_qualified": false,
+  "module_count": 40,
+  "placement_verdict": "RETAIN_AS_APPLICATION_PRODUCT_AND_QUALIFICATION_PROVING_IMPLEMENTATION",
+  "product_ratified": false,
+  "projection_digest": "sha256:d26e41403f71a010e7049c377a93a49b5eb548c0662a0cfecedd92506b1f8f7e",
+  "report_id": "shannon_python_implementation_placement",
+  "source_file_count": 248,
+  "source_line_count": 56539,
+  "unknown_horizontal_coverage_coordinate_count": 0
+}

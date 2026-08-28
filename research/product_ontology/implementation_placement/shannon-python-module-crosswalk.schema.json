@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shannon-insight.dev/schemas/shannon-python-module-crosswalk.schema.json",
+  "title": "Shannon Python module placement row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_kind",
+    "module",
+    "source_kind",
+    "implementation_role",
+    "application_product_id",
+    "horizontal_coverage_coordinates",
+    "rationale",
+    "file_count",
+    "line_count",
+    "source_files",
+    "semantic_authority",
+    "implementation_qualified",
+    "product_ratified"
+  ],
+  "properties": {
+    "record_kind": {"const": "python_module_placement"},
+    "module": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "source_kind": {"enum": ["package", "module"]},
+    "implementation_role": {
+      "enum": [
+        "domain_observation_and_identity",
+        "application_acquisition",
+        "domain_semantic_library_candidate",
+        "domain_relation_construction",
+        "analytical_method_kernel_candidate",
+        "application_measurement_and_scoring",
+        "application_diagnostic_analysis",
+        "application_finding_lifecycle",
+        "application_decision_support",
+        "application_evidence_eventing",
+        "application_infrastructure",
+        "application_orchestration",
+        "application_support",
+        "application_runtime_support",
+        "experience_delivery",
+        "application_control"
+      ]
+    },
+    "application_product_id": {"const": "application_product.software_engineering.codebase_intelligence"},
+    "horizontal_coverage_coordinates": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^hpf_[a-z0-9_]+$"}
+    },
+    "rationale": {"type": "string", "minLength": 20},
+    "file_count": {"type": "integer", "minimum": 1},
+    "line_count": {"type": "integer", "minimum": 1},
+    "source_files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "line_count"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^src/shannon_insight/.+\\.py$"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "line_count": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "semantic_authority": {"const": false},
+    "implementation_qualified": {"const": false},
+    "product_ratified": {"const": false}
+  }
+}

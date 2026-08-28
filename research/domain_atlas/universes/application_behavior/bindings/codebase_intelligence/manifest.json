@@ -20,12 +20,12 @@
       "sha256": "bdb8b97eaaa6b911a385046313788a386a7fcf2a4be6823e3bd7540f50dd756a"
     },
     "research-python-roles.jsonl": {
-      "records": 541,
-      "sha256": "a17c24935ae94b4b4339701bf0ce3f6540b139f5ec0634f3e8b42911ea9134b4"
+      "records": 561,
+      "sha256": "b89329bb4a922c943580d0d397c80a2c85e180ca844beb86d0adb8f1ba1d0269"
     },
     "summary.json": {
       "records": 1,
-      "sha256": "686f87dbaffb20f890323ae4ff37dc9f8972230560c9dc2f91e87558d83f1062"
+      "sha256": "50f2b900d0289ee688bd780ebf7cde76a42150c3f54ba9a1cb07e76b8d337999"
     }
   },
   "inputs": {

@@ -5,13 +5,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-VALIDATOR = (
-    ROOT
-    / "research"
-    / "product_ontology"
-    / "implementation_placement"
-    / "validate_manifest.py"
-)
+VALIDATOR = ROOT / "research" / "product_ontology" / "implementation_placement" / "validate_manifest.py"
 
 
 def test_shannon_python_implementation_placement_manifest_is_current() -> None:

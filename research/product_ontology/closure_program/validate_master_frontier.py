@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+
 import json
 from pathlib import Path
 
@@ -19,6 +20,7 @@ source_systems = json.loads((ROOT / "research/domain_atlas/universes/source_syst
 data_shapes = json.loads((ROOT / "research/domain_atlas/universes/data_shapes/coverage-report.json").read_text(encoding="utf-8"))
 providers = json.loads((ROOT / "research/domain_atlas/compiler/provider_target_registry/manifest.json").read_text(encoding="utf-8"))
 evidence_governance = json.loads((ROOT / "research/analytics_landscape/product_families/evidence-governance-summary.json").read_text(encoding="utf-8"))
+effective_evidence_governance = json.loads((ROOT / "research/analytics_landscape/product_families/effective-evidence-governance-summary.json").read_text(encoding="utf-8"))
 boundary_falsification = json.loads((ROOT / "research/product_ontology/dossier_readiness/product-boundary-falsification-summary.json").read_text(encoding="utf-8"))
 contract_scopes = json.loads((ROOT / "research/product_ontology/qualification_program/contract-scope-summary.json").read_text(encoding="utf-8"))
 canonical_refs = json.loads((ROOT / "research/domain_atlas/industries/canonical-reference-effective-summary.json").read_text(encoding="utf-8"))
@@ -65,7 +67,10 @@ assert summary["program_level_gate_count"] == 5
 assert summary["final_product_gate"] == "B15_TWO_RELEASE_CHANGE_AND_RATIFICATION"
 assert summary["final_program_gate"] == "B20_CONTINUOUS_VALIDITY_AND_DECOMMISSION"
 assert summary["completion_claim"] is False
-assert rows[4]["current"]["weak_membership_claims"] == evidence_governance["weak_membership_claim_count"]
+assert rows[4]["current"]["organization_family_membership_claims"] == effective_evidence_governance["effective_membership_claim_count"]
+assert rows[4]["current"]["weak_membership_claims"] == effective_evidence_governance["remaining_weak_membership_claim_count"]
+assert rows[4]["current"]["strong_exact_membership_claims"] == effective_evidence_governance["strong_exact_product_membership_claim_count"]
+assert rows[4]["current"]["strong_discovered_membership_claims"] == effective_evidence_governance["discovered_strong_membership_claim_count"]
 assert rows[5]["current"]["falsification_contracts"] == boundary_falsification["falsification_contract_count"]
 assert rows[6]["current"]["exact_semantic_contract_scopes"] == contract_scopes["semantic_contract_scope_count"]
 assert rows[7]["current"]["ledger_dispositions"] == industry_effective["ledger_disposition_records"]

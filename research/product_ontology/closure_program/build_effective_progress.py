@@ -24,7 +24,9 @@ def exists(p):
 def main():
     master = L("research/product_ontology/closure_program/expanded-batches.jsonl")
     q = J("research/product_ontology/qualification_program/effective-summary.json")
-    b04 = J("research/analytics_landscape/product_families/evidence-governance-summary.json")
+    b04 = J(
+        "research/analytics_landscape/product_families/effective-evidence-governance-summary.json"
+    )
     b05 = J(
         "research/product_ontology/dossier_readiness/product-boundary-falsification-summary.json"
     )
@@ -85,9 +87,10 @@ def main():
     statuses["B04_HORIZONTAL_EVIDENCE_GOVERNANCE"] = {
         "state": "MACHINE_ACTIVE",
         "remaining": {
-            "weak_memberships": b04["weak_membership_claim_count"],
-            "organization_identity_graphs": b04["unique_organization_count"]
-            - b04["identity_relationships_fully_adjudicated_count"],
+            "weak_memberships": b04["remaining_weak_membership_claim_count"],
+            "strong_exact_memberships": b04["strong_exact_product_membership_claim_count"],
+            "strong_discovered_memberships": b04["discovered_strong_membership_claim_count"],
+            "organization_identity_graphs": 232,
         },
         "machine_addressable": True,
     }

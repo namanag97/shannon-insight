@@ -24,7 +24,9 @@ def main() -> int:
     identities = load_jsonl("organization-identity-projection.jsonl")
     upgrades = load_jsonl("effective-evidence-upgrade-dispositions.jsonl")
     identity_by_id = {row["organization_id"]: row for row in identities}
-    upgraded_claim_ids = {row["claim_id"] for row in upgrades}
+    upgraded_claim_ids = {
+        row["claim_id"] for row in upgrades if row["disposition_kind"] == "BASE_CLAIM_UPGRADE"
+    }
     if not upgraded_claim_ids <= {row["claim_id"] for row in base_claims}:
         raise SystemExit("effective evidence overlay targets an unknown base claim")
 

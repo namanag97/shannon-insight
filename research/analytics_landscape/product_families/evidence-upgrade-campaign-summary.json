@@ -2,10 +2,10 @@
   "as_of": "2026-08-28",
   "base_membership_claim_count": 1012,
   "completion_claim": false,
-  "exact_membership_upgrade_count": 18,
+  "exact_membership_upgrade_count": 26,
   "organization_campaign_count": 232,
   "qualification_promotions": 0,
-  "remaining_weak_membership_count": 994,
+  "remaining_weak_membership_count": 986,
   "report_id": "horizontal_evidence_upgrade_campaigns",
   "semantic_authority_promotions": 0,
   "status": "PRIORITIZED_REMAINING_EXACT_EVIDENCE_RESEARCH",
@@ -59,12 +59,6 @@
       "weak_membership_count": 26
     },
     {
-      "name": "Qlik",
-      "organization_id": "org_qlik",
-      "priority_score": 325,
-      "weak_membership_count": 25
-    },
-    {
       "name": "ThoughtSpot",
       "organization_id": "org_thoughtspot",
       "priority_score": 325,
@@ -87,6 +81,12 @@
       "organization_id": "org_dataiku",
       "priority_score": 247,
       "weak_membership_count": 19
+    },
+    {
+      "name": "Qlik",
+      "organization_id": "org_qlik",
+      "priority_score": 221,
+      "weak_membership_count": 17
     },
     {
       "name": "SAS",

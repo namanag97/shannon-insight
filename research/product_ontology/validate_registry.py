@@ -8,7 +8,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parent
 
 
@@ -1621,6 +1620,10 @@ def main() -> int:
         "corpus build protocol": ROOT / "corpus_build_protocol/validate.py",
         "semantic fixed-point campaign": ROOT / "semantic_fixed_point_campaign/validate_fixed_point.py",
         "horizontal coverage-family research corpus": ROOT.parent / "analytics_landscape/product_families/validate.py",
+        "horizontal evidence-governance base projection": ROOT.parent / "analytics_landscape/product_families/validate_evidence_governance.py",
+        "horizontal product-evidence packets": ROOT.parent / "analytics_landscape/product_families/validate_product_evidence_packets.py",
+        "horizontal effective evidence governance": ROOT.parent / "analytics_landscape/product_families/validate_effective_evidence_governance.py",
+        "horizontal evidence-upgrade campaigns": ROOT.parent / "analytics_landscape/product_families/validate_evidence_upgrade_campaigns.py",
         "corpus architecture router": ROOT / "corpus_architecture_router/validate.py",
     }
     for challenge_name, inventory_challenge_validator in inventory_challenges.items():

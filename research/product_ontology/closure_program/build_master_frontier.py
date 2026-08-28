@@ -23,7 +23,6 @@ def main() -> int:
     industries = read_json(ROOT / "research/domain_atlas/industries/integration-audit.json")
     industry_effective = read_json(ROOT / "research/domain_atlas/industries/canonical-reference-effective-summary.json")
     industry_review = read_json(ROOT / "research/domain_atlas/industries/canonical-reference-machine-review-summary.json")
-    industry_candidates = read_json(ROOT / "research/domain_atlas/industries/canonical-reference-auto-alias-summary.json")
     industry_residuals = read_json(ROOT / "research/domain_atlas/industries/canonical-reference-residual-summary.json")
     context_map = read_json(ROOT / "research/domain_atlas/context_map/manifest.json")
     source_systems = read_json(ROOT / "research/domain_atlas/universes/source_systems/coverage-report.json")
@@ -33,9 +32,9 @@ def main() -> int:
     horizontal_audit = [json.loads(x) for x in (ROOT / "research/analytics_landscape/product_families/consolidation-hardening-audit.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
     ownership = read_json(ROOT / "research/domain_atlas/ownership-ambiguities.json")
     evidence_governance = read_json(ROOT / "research/analytics_landscape/product_families/evidence-governance-summary.json")
+    effective_evidence_governance = read_json(ROOT / "research/analytics_landscape/product_families/effective-evidence-governance-summary.json")
     boundary_falsification = read_json(ROOT / "research/product_ontology/dossier_readiness/product-boundary-falsification-summary.json")
     contract_scopes = read_json(ROOT / "research/product_ontology/qualification_program/contract-scope-summary.json")
-    canonical_refs = read_json(ROOT / "research/domain_atlas/industries/canonical-reference-effective-summary.json")
     source_occurrences = read_json(ROOT / "research/domain_atlas/universes/source_systems/occurrence-registry-summary.json")
     source_topology = read_json(ROOT / "research/domain_atlas/universes/source_systems/source-acquisition-topology.json")
     source_reference_chain = read_json(ROOT / "research/domain_atlas/universes/source_systems/source-acquisition-reference-summary.json")
@@ -94,7 +93,7 @@ def main() -> int:
             "batch_id": "B04_HORIZONTAL_EVIDENCE_GOVERNANCE",
             "depends_on": ["B00_TRUTH_CONVERGENCE"],
             "scope": "Normalize organization/product identity, bind evidence to falsifiable claims, classify evidence roles, and preserve candidate status.",
-            "current": {"audit_requirements": len(horizontal_audit), "open_or_partial": sum(r["status"] != "SATISFIED_ENFORCED" for r in horizontal_audit), "organization_family_membership_claims": evidence_governance["organization_family_membership_claim_count"], "weak_membership_claims": evidence_governance["weak_membership_claim_count"], "organization_identities": evidence_governance["unique_organization_count"], "identity_relationships_fully_adjudicated": evidence_governance["identity_relationships_fully_adjudicated_count"]},
+            "current": {"audit_requirements": len(horizontal_audit), "open_or_partial": sum(r["status"] != "SATISFIED_ENFORCED" for r in horizontal_audit), "organization_family_membership_claims": effective_evidence_governance["effective_membership_claim_count"], "strong_exact_membership_claims": effective_evidence_governance["strong_exact_product_membership_claim_count"], "strong_discovered_membership_claims": effective_evidence_governance["discovered_strong_membership_claim_count"], "weak_membership_claims": effective_evidence_governance["remaining_weak_membership_claim_count"], "organization_identities": evidence_governance["unique_organization_count"], "identity_relationships_fully_adjudicated": evidence_governance["identity_relationships_fully_adjudicated_count"]},
             "exit_condition": "Every company/product-family membership is claim-bound to exact evidence; research refs have controlled roles; acquisition/rename/project identities are normalized; validator enforces all rules.",
             "status": "OPEN",
             "authority_refs": ["research/analytics_landscape/product_families/consolidation-hardening-audit.jsonl"],

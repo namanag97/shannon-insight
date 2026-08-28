@@ -27,7 +27,9 @@ def main() -> int:
     campaigns = load_jsonl(OUTPUTS[0])
     summary = json.loads(OUTPUTS[1].read_text(encoding="utf-8"))
     upgrades = load_jsonl(HERE / "effective-evidence-upgrade-dispositions.jsonl")
-    upgraded_claims = {row["claim_id"] for row in upgrades}
+    upgraded_claims = {
+        row["claim_id"] for row in upgrades if row["disposition_kind"] == "BASE_CLAIM_UPGRADE"
+    }
     base_claims = load_jsonl(HERE / "organization-family-membership-claims.jsonl")
     remaining_claims = [row for row in base_claims if row["claim_id"] not in upgraded_claims]
 

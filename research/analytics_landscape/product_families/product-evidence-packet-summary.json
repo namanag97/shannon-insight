@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-08-28",
+  "base_claim_upgrade_count": 8,
+  "bounded_family_claim_count": 13,
+  "completion_claim": false,
+  "new_strong_membership_discovery_count": 5,
+  "organization_count": 1,
+  "packet_count": 5,
+  "product_count": 4,
+  "product_identity_evidence_count": 4,
+  "qualification_promotions": 0,
+  "report_id": "organization_product_evidence_packet_projection",
+  "semantic_authority_promotions": 0,
+  "status": "EXACT_PRODUCT_PACKETS_EXPANDED_AUTHORITY_AND_QUALIFICATION_WITHHELD"
+}

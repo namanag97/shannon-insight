@@ -1,0 +1,91 @@
+name: Semantic Gap Frontier Accounting
+
+on:
+  push:
+    branches:
+      - codex/global-gap-frontier-accounting
+    paths:
+      - .github/workflows/frontier-accounting.yml
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/build_frontier_accounting.py
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/validate.py
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/integrate_frontier_accounting.py
+      - research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/README.md
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: semantic-gap-frontier-accounting-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  account:
+    if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[frontier-generated]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Rebuild and validate parent gap topology
+        run: |
+          python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/build_gap_topology.py
+          python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/validate.py
+
+      - name: Install global validation route
+        run: |
+          python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/integrate_frontier_accounting.py
+
+      - name: Build and validate exhaustive frontier accounting
+        run: |
+          python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/build_frontier_accounting.py
+          python3 research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology/frontier_accounting/validate.py
+
+      - name: Rebuild global product-boundary inventory
+        run: |
+          python3 research/product_ontology/global_boundary_research/build_corpus.py
+          python3 research/product_ontology/global_boundary_research/validate_corpus.py
+
+      - name: Rebuild governed corpus build protocol
+        run: |
+          python3 research/product_ontology/corpus_build_protocol/build_registry.py
+          python3 research/product_ontology/corpus_build_protocol/validate.py
+
+      - name: Rebuild and validate corpus architecture router
+        run: |
+          python3 research/product_ontology/corpus_architecture_router/build_router.py
+          python3 research/product_ontology/corpus_architecture_router/validate.py
+
+      - name: Run repository-wide product-ontology validation
+        timeout-minutes: 35
+        run: |
+          python3 research/product_ontology/validate_registry.py
+
+      - name: Check generated diff
+        run: |
+          git diff --check
+          git status --short
+
+      - name: Commit generated accounting
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config http.postBuffer 104857600
+          git add \
+            research/domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/gap_topology \
+            research/product_ontology/global_boundary_research \
+            research/product_ontology/corpus_build_protocol \
+            research/product_ontology/corpus_architecture_router \
+            research/product_ontology/validate_registry.py
+          if git diff --cached --quiet; then
+            echo "Generated accounting is already current."
+          else
+            git commit -m "research: materialize exhaustive gap frontier accounting [frontier-generated]"
+            git push
+          fi

@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 HERE = Path(__file__).resolve().parent
 BASE = HERE / "organization-family-membership-claims.jsonl"
 UPGRADE_GLOB = "organization-family-evidence-upgrades*.jsonl"
-DISCOVERIES = HERE / "organization-family-evidence-discoveries.jsonl"
+DISCOVERY_GLOB = "organization-family-evidence-discoveries*.jsonl"
 OUTPUT = HERE / "effective-evidence-upgrade-dispositions.jsonl"
 SUMMARY = HERE / "effective-evidence-governance-summary.json"
 REQ = {
@@ -62,7 +62,10 @@ def main() -> int:
     if not upgrade_paths:
         raise SystemExit(f"no exact-evidence overlay shards match {UPGRADE_GLOB}")
     upgrades = [row for path in upgrade_paths for row in load_jsonl(path)]
-    discoveries = load_jsonl(DISCOVERIES)
+    discovery_paths = sorted(HERE.glob(DISCOVERY_GLOB), key=lambda path: path.name)
+    if not discovery_paths:
+        raise SystemExit(f"no strong-discovery shards match {DISCOVERY_GLOB}")
+    discoveries = [row for path in discovery_paths for row in load_jsonl(path)]
     by_claim = {row["claim_id"]: row for row in base}
     if len(by_claim) != len(base):
         raise SystemExit("duplicate base claims")

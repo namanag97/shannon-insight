@@ -2,20 +2,14 @@
   "as_of": "2026-08-28",
   "base_membership_claim_count": 1012,
   "completion_claim": false,
-  "exact_membership_upgrade_count": 38,
+  "exact_membership_upgrade_count": 57,
   "organization_campaign_count": 232,
   "qualification_promotions": 0,
-  "remaining_weak_membership_count": 974,
+  "remaining_weak_membership_count": 955,
   "report_id": "horizontal_evidence_upgrade_campaigns",
   "semantic_authority_promotions": 0,
   "status": "PRIORITIZED_REMAINING_EXACT_EVIDENCE_RESEARCH",
   "top_20_campaigns": [
-    {
-      "name": "Google Cloud",
-      "organization_id": "org_google_cloud",
-      "priority_score": 455,
-      "weak_membership_count": 35
-    },
     {
       "name": "Oracle",
       "organization_id": "org_oracle",
@@ -97,6 +91,12 @@
     {
       "name": "Alteryx",
       "organization_id": "org_alteryx",
+      "priority_score": 208,
+      "weak_membership_count": 16
+    },
+    {
+      "name": "Google Cloud",
+      "organization_id": "org_google_cloud",
       "priority_score": 208,
       "weak_membership_count": 16
     },

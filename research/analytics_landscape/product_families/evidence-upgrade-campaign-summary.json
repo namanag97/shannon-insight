@@ -1,10 +1,14 @@
 {
-  "as_of": "2026-08-27",
+  "as_of": "2026-08-28",
+  "base_membership_claim_count": 1012,
   "completion_claim": false,
+  "exact_membership_upgrade_count": 12,
   "organization_campaign_count": 232,
+  "qualification_promotions": 0,
+  "remaining_weak_membership_count": 1000,
   "report_id": "horizontal_evidence_upgrade_campaigns",
-  "status": "PRIORITIZED_EXACT_EVIDENCE_RESEARCH_NOT_UPGRADED",
-  "strong_memberships_created": 0,
+  "semantic_authority_promotions": 0,
+  "status": "PRIORITIZED_REMAINING_EXACT_EVIDENCE_RESEARCH",
   "top_20_campaigns": [
     {
       "name": "Microsoft",
@@ -21,12 +25,6 @@
     {
       "name": "Google Cloud",
       "organization_id": "org_google_cloud",
-      "priority_score": 455,
-      "weak_membership_count": 35
-    },
-    {
-      "name": "Snowflake",
-      "organization_id": "org_snowflake",
       "priority_score": 455,
       "weak_membership_count": 35
     },
@@ -71,6 +69,12 @@
       "organization_id": "org_thoughtspot",
       "priority_score": 325,
       "weak_membership_count": 25
+    },
+    {
+      "name": "Snowflake",
+      "organization_id": "org_snowflake",
+      "priority_score": 299,
+      "weak_membership_count": 23
     },
     {
       "name": "Salesforce Tableau",
@@ -126,6 +130,5 @@
       "priority_score": 143,
       "weak_membership_count": 11
     }
-  ],
-  "weak_membership_count": 1012
+  ]
 }

@@ -1,0 +1,533 @@
+{
+  "as_of": "2026-08-28",
+  "base_model": {
+    "axis_count": 16,
+    "axis_ids": [
+      "semantic_object",
+      "semantic_role",
+      "identity_and_equality",
+      "grain_and_cardinality",
+      "state_and_change",
+      "time",
+      "order_and_topology",
+      "partiality_and_uncertainty",
+      "authority_and_trust",
+      "effect_boundary",
+      "representation",
+      "composition_algebra",
+      "compatibility_and_evolution",
+      "resources_and_failure",
+      "evidence_and_conformance",
+      "privacy_security_safety"
+    ],
+    "ontology_id": "ontology.library-semantic-axes.v1",
+    "sha256": "70b8972a5e1f83dde452fcf78ff4d6845baa8324451caae7454f53e10df3f66b"
+  },
+  "candidate_additions": [
+    {
+      "axis": "measurement_and_observation",
+      "evidence_refs": [
+        "bipm_si",
+        "bipm_gum",
+        "bipm_vim",
+        "iso_80000_1",
+        "iso_19156",
+        "ogc_om",
+        "w3c_ssn",
+        "qudt_schema",
+        "ucum"
+      ],
+      "facets": [
+        {
+          "facet": "observed_property",
+          "laws": [
+            "the property being observed is distinct from the observation act and result"
+          ],
+          "patterns": [
+            "\\b(observed property|observable|measurand|phenomenon)\\b"
+          ]
+        },
+        {
+          "facet": "quantity_kind_and_dimension",
+          "laws": [
+            "quantity kind and dimensionality constrain valid comparison and conversion"
+          ],
+          "patterns": [
+            "\\b(quantity kind|dimension|dimensional|physical quantity)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "unit_and_scale",
+          "laws": [
+            "unit is distinct from quantity kind and numerical magnitude"
+          ],
+          "patterns": [
+            "\\b(unit|unit of measure|scale|ucum|qudt)\\b"
+          ]
+        },
+        {
+          "facet": "observation_or_measurement_act",
+          "laws": [
+            "observation identity is distinct from result identity"
+          ],
+          "patterns": [
+            "\\b(observation|measurement|measure|sample)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "procedure_instrument_or_sensor",
+          "laws": [
+            "procedure and instrument are explicit inputs to interpretation"
+          ],
+          "patterns": [
+            "\\b(procedure|instrument|sensor|device|method of measurement|calibrat)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "measurement_result",
+          "laws": [
+            "result is scoped to property, subject, procedure, unit and time"
+          ],
+          "patterns": [
+            "\\b(measurement result|observed value|reading|result value)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "calibration_or_reference_standard",
+          "laws": [
+            "calibration is an evidence-bearing relation, not a unit conversion"
+          ],
+          "patterns": [
+            "\\b(calibration|reference standard|reference material)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "metrological_traceability",
+          "laws": [
+            "metrological traceability requires an unbroken documented calibration chain with uncertainty contributions"
+          ],
+          "patterns": [
+            "\\b(traceability|traceable|calibration chain|metrolog)\\w*\\b"
+          ]
+        }
+      ],
+      "model_verdict": "ADD_RESEARCH_AXIS",
+      "non_collapse": [
+        "observation act is not observation result",
+        "quantity kind is not unit and unit is not magnitude",
+        "conversion is not calibration",
+        "uncertainty is not error and error is not tolerance",
+        "instrument reading is not accepted domain fact",
+        "sample is not the ultimate feature of interest"
+      ],
+      "phase": "phase2_dynamics_and_information",
+      "question": "How is a property observed or measured, expressed as a quantity, calibrated, and traced to references?"
+    },
+    {
+      "axis": "scope_population_and_eligibility",
+      "evidence_refs": [
+        "fhir_group",
+        "fda_e9r1",
+        "iso_19156",
+        "ogc_om",
+        "xbrl_dimensions",
+        "w3c_odrl",
+        "cdisc_adam"
+      ],
+      "facets": [
+        {
+          "facet": "population_or_cohort",
+          "laws": [
+            "population identity is explicit and editioned"
+          ],
+          "patterns": [
+            "\\b(population|cohort|group|universe)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "enumerated_membership",
+          "laws": [
+            "enumerated membership records who is included, not the rule that would generate the group"
+          ],
+          "patterns": [
+            "\\b(member list|enumerated membership|members)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "definitional_membership",
+          "laws": [
+            "definitional membership is a predicate and may not be materialized"
+          ],
+          "patterns": [
+            "\\b(definitional|characteristic|criteria|predicate)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "inclusion_exclusion_eligibility",
+          "laws": [
+            "eligibility and observed participation are distinct"
+          ],
+          "patterns": [
+            "\\b(eligib|inclusion|exclusion|qualifying|screening)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "sampling_frame_or_sample",
+          "laws": [
+            "sample and target population remain distinct"
+          ],
+          "patterns": [
+            "\\b(sampling frame|sample|sampling feature|sampled population)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "denominator_or_support",
+          "laws": [
+            "denominator/support is part of result semantics, not merely aggregation grain"
+          ],
+          "patterns": [
+            "\\b(denominator|support|risk set|at risk|exposure set)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "contextual_constraint",
+          "laws": [
+            "contextual applicability must be explicit and cannot be inferred from representation"
+          ],
+          "patterns": [
+            "\\b(scope|context|applicability|constraint|segment)\\w*\\b"
+          ]
+        }
+      ],
+      "model_verdict": "ADD_RESEARCH_AXIS",
+      "non_collapse": [
+        "grain and cardinality are not population membership",
+        "group definition is not enumerated membership",
+        "sample is not population",
+        "eligibility is not observed participation",
+        "denominator is not numerator",
+        "context constraint is not authority"
+      ],
+      "phase": "phase1_subject_and_grain",
+      "question": "To which subjects, population, cohort, sampling frame or contextual eligibility predicate does a semantic claim apply?"
+    },
+    {
+      "axis": "normativity_and_obligation",
+      "evidence_refs": [
+        "w3c_odrl",
+        "w3c_odrl_vocab",
+        "oasis_xacml",
+        "oasis_xacml_admin",
+        "fhir_consent",
+        "nist_800_53",
+        "oscal_profile"
+      ],
+      "facets": [
+        {
+          "facet": "permission",
+          "laws": [
+            "permission is an explicit normative state, not absence of prohibition"
+          ],
+          "patterns": [
+            "\\b(permission|permitted|permit)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "prohibition",
+          "laws": [
+            "prohibition is explicit and scope-bound"
+          ],
+          "patterns": [
+            "\\b(prohibition|prohibited|deny|forbid)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "obligation_or_duty",
+          "laws": [
+            "duty existence is distinct from fulfillment"
+          ],
+          "patterns": [
+            "\\b(obligation|duty|required|must)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "entitlement_or_license",
+          "laws": [
+            "entitlement scope and grantor authority are explicit"
+          ],
+          "patterns": [
+            "\\b(entitlement|license|right|usage right)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "exception_or_waiver",
+          "laws": [
+            "waiver is scoped, authorized and time-bounded where applicable"
+          ],
+          "patterns": [
+            "\\b(exception|waiver|variance|exemption)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "fulfillment",
+          "laws": [
+            "fulfillment requires evidence and cannot be inferred from declaration"
+          ],
+          "patterns": [
+            "\\b(fulfill|satisfy|compliance achieved|performed duty)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "breach_or_infringement",
+          "laws": [
+            "breach identity and finding authority are explicit"
+          ],
+          "patterns": [
+            "\\b(breach|violation|infringement|noncompliance)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "remedy_or_consequence",
+          "laws": [
+            "remedy or consequence is distinct from the underlying duty and from enforcement execution"
+          ],
+          "patterns": [
+            "\\b(remedy|consequence|penalty|compensation)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "advice_or_nonbinding_guidance",
+          "laws": [
+            "advice does not silently acquire obligatory force"
+          ],
+          "patterns": [
+            "\\b(advice|guidance|recommendation|nonbinding)\\w*\\b"
+          ]
+        }
+      ],
+      "model_verdict": "ADD_RESEARCH_AXIS",
+      "non_collapse": [
+        "authority to decide is not permission",
+        "permission is not obligation",
+        "prohibition is not absence of permission",
+        "duty declaration is not fulfillment",
+        "breach is not enforcement action",
+        "advice is not obligation"
+      ],
+      "phase": "phase3_authority_effect_and_safety",
+      "question": "What is permitted, prohibited, required, waived, fulfilled, breached, remedied or merely advised?"
+    },
+    {
+      "axis": "provenance_and_derivation",
+      "evidence_refs": [
+        "w3c_prov_dm",
+        "w3c_prov_o",
+        "openlineage_facets",
+        "openlineage_job",
+        "openlineage_run",
+        "cdisc_adam",
+        "cdisc_ars",
+        "fhir_provenance"
+      ],
+      "facets": [
+        {
+          "facet": "source_or_attribution",
+          "laws": [
+            "source relation does not by itself establish source authority or truth"
+          ],
+          "patterns": [
+            "\\b(source|attribution|origin|derived from)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "generation",
+          "laws": [
+            "generation links an entity to an activity/run and time"
+          ],
+          "patterns": [
+            "\\b(generation|generated by|produced by)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "usage",
+          "laws": [
+            "usage identifies inputs without implying causal sufficiency"
+          ],
+          "patterns": [
+            "\\b(used|usage|input dataset|consumed)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "derivation",
+          "laws": [
+            "derivation preserves its transformation relation and cannot imply semantic equivalence"
+          ],
+          "patterns": [
+            "\\b(deriv|lineage|provenance)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "transformation_chain",
+          "laws": [
+            "each transformation occurrence, version and boundary remains addressable"
+          ],
+          "patterns": [
+            "\\b(transform chain|pipeline|job graph|processing chain)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "custody_or_transfer",
+          "laws": [
+            "custody or transfer is distinct from derivation and semantic ownership"
+          ],
+          "patterns": [
+            "\\b(custody|transfer|handoff|disclosure|share)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "lineage_cut",
+          "laws": [
+            "lineage is scoped to exact dataset/run cuts"
+          ],
+          "patterns": [
+            "\\b(lineage cut|input cut|output cut|dataset version)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "invalidation_or_correction",
+          "laws": [
+            "invalidation is a provenance fact and not erasure of prior evidence"
+          ],
+          "patterns": [
+            "\\b(invalidat|correct|supersed|retract)\\w*\\b"
+          ]
+        }
+      ],
+      "model_verdict": "ADD_RESEARCH_AXIS",
+      "non_collapse": [
+        "provenance is not truth",
+        "lineage relation is not causal proof",
+        "source identity is not source authority",
+        "job is not run",
+        "run is not dataset",
+        "derivation is not semantic equivalence"
+      ],
+      "phase": "phase5_behavior_resources_and_proof",
+      "question": "From what entities, activities, runs, sources and transformations was this object generated, used, derived, attributed, transferred or invalidated?"
+    },
+    {
+      "axis": "epistemic_status",
+      "evidence_refs": [
+        "ieee_hla",
+        "ieee_hla_interface",
+        "fmi3",
+        "onnx_ir",
+        "onnx_versioning",
+        "fhir_risk",
+        "fhir_observation",
+        "cdisc_ars",
+        "fda_e9r1"
+      ],
+      "facets": [
+        {
+          "facet": "observed_or_asserted",
+          "laws": [
+            "observation/assertion provenance and authority are explicit"
+          ],
+          "patterns": [
+            "\\b(observed|asserted|recorded fact|measurement)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "derived",
+          "laws": [
+            "derived values retain derivation inputs and rule/model identity"
+          ],
+          "patterns": [
+            "\\b(derived|computed|calculated)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "estimated_or_inferred",
+          "laws": [
+            "estimate is not direct observation and carries an estimand or inferential target"
+          ],
+          "patterns": [
+            "\\b(estimate|estimated|infer|posterior|parameter estimate)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "predicted_or_forecast",
+          "laws": [
+            "prediction targets an unobserved or future quantity and is not an observation"
+          ],
+          "patterns": [
+            "\\b(predict|forecast|risk estimate|future)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "simulated_or_synthetic",
+          "laws": [
+            "simulation output is an execution of an abstraction, not measured world state"
+          ],
+          "patterns": [
+            "\\b(simulat|synthetic|generated scenario|model output)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "hypothetical_or_counterfactual",
+          "laws": [
+            "counterfactual state is distinct from realized outcome"
+          ],
+          "patterns": [
+            "\\b(hypothetical|counterfactual|what if|potential outcome)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "normative_target_or_reference",
+          "laws": [
+            "normative/reference target is not an observed or predicted state"
+          ],
+          "patterns": [
+            "\\b(target|benchmark|reference value|goal)\\w*\\b"
+          ]
+        },
+        {
+          "facet": "recommendation_or_proposal",
+          "laws": [
+            "recommendation is not authorization or executed effect"
+          ],
+          "patterns": [
+            "\\b(recommend|proposal|suggested action)\\w*\\b"
+          ]
+        }
+      ],
+      "model_verdict": "ADD_RESEARCH_AXIS",
+      "non_collapse": [
+        "observation is not prediction",
+        "prediction is not simulation",
+        "estimate is not observed fact",
+        "counterfactual is not realized outcome",
+        "model is not execution",
+        "simulation result is not measured world state",
+        "recommendation is not authorized decision"
+      ],
+      "phase": "phase2_dynamics_and_information",
+      "question": "What epistemic relation does a value, result, model or claim have to observed reality, possible worlds, or a future decision?"
+    }
+  ],
+  "canonical_mutation_allowed": false,
+  "completion_claim": false,
+  "effective_research_axis_count": 21,
+  "laws": [
+    "This overlay challenges but never rewrites the historical 16-axis candidate corpus.",
+    "Source breadth is not authority; only bounded claims with authority limits and negative twins support model changes.",
+    "Lexical discovery is a routing signal, never an applicability decision.",
+    "A missing lexical signal remains UNRESOLVED rather than INAPPLICABLE.",
+    "A proposed axis may be rejected or folded back into existing axes after counterexample review.",
+    "No macro-model research result closes semantic-owner, exact-contract, implementation, qualification, provider, physical or vertical-acceptance gates."
+  ],
+  "model_id": "model.enterprise-data-analytics-semantic-axes.challenge-v1",
+  "record_kind": "effective_macro_model_research_candidate",
+  "status": "RESEARCH_CHALLENGE_CANDIDATE_NOT_RATIFIED"
+}

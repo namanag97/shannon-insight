@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-08-28",
+  "completion_claim": false,
+  "files": {
+    "deep-evidence-claims.jsonl": {
+      "bytes": 19047,
+      "sha256": "b7fea9728f1a39c07c7b5aed7c23a4f3b7a10b2b29e8722953a912b37f9dde9b"
+    },
+    "effective-macro-model.json": {
+      "bytes": 17202,
+      "sha256": "a0eaa3bbe51c0137056aabd5fe9f065ec3500fdb419372a4ee5786f23292c00a"
+    },
+    "effective-new-axis-signatures.jsonl": {
+      "bytes": 1093315,
+      "sha256": "fbec2a35a3bad1f21bfd802508b876bc424685b2d31179be34c4273c2200438d"
+    },
+    "family-axis-review-packages.jsonl": {
+      "bytes": 164885,
+      "sha256": "8fcb84fcdd7c500a99e241bfceb086a118fc883a76e7ceeccf1b8cd8e7669272"
+    },
+    "macro-challenges.jsonl": {
+      "bytes": 4543,
+      "sha256": "d6a95ac3c7df5836febd413f24f70e47a9728d340a41ea82ac475707490b3eb4"
+    },
+    "primary-sources.jsonl": {
+      "bytes": 45857,
+      "sha256": "78bd3535e24d17a19482f43e639ffd6a9175a2a84a14185b8b5d3803c2ce6ccb"
+    },
+    "proposed-axis-deltas.jsonl": {
+      "bytes": 7468,
+      "sha256": "a6838e4fa2a87ee44152eac20a394d496ed86ef0d834443083d642775818f797"
+    },
+    "summary.json": {
+      "bytes": 755,
+      "sha256": "ca4f74141fde0cba1cdc5de582f3d1e4cd342eff6eb5dd9623d8075eb2972129"
+    }
+  },
+  "manifest_id": "manifest.macro-model-primary-source-challenge.v1"
+}

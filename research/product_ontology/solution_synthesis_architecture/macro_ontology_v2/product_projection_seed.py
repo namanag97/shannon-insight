@@ -1,0 +1,92 @@
+"""Fallback retained-product index for macro ontology regeneration outside the repository.
+
+This is not semantic authority and is never preferred when the canonical dossier readiness JSONL
+is present. It exists so the macro package can deterministically emit one projection per retained
+product in an isolated artifact checkout.
+"""
+
+PRODUCT_INDEX_SEED = [
+    ("product.analytical_notebook", "Reproducible Analytical Notebook", "consumption"),
+    ("product.annotation_operations", "Annotation and Ground-Truth Operations", "analytical_operations"),
+    ("product.batch_transform_build", "Batch Transformation Build Engine", "movement"),
+    ("product.bi_reporting", "Business Intelligence and Reporting Experience", "consumption"),
+    ("product.business_glossary", "Business Glossary Service", "governance"),
+    ("product.catalog_service", "Catalog and Commit Authority", "persistence"),
+    ("product.controlled_data_collaboration", "Controlled Data Collaboration", "governance"),
+    ("product.data_contract_registry", "Data Contract Registry", "governance"),
+    ("product.data_marketplace", "Data Marketplace Experience", "consumption"),
+    ("product.data_product_developer_platform", "Data Product Developer Platform", "platform"),
+    ("product.data_product_publication", "Data Product Publication Control Plane", "governance"),
+    ("product.data_protection_recovery", "Data Protection and Recovery", "persistence"),
+    ("product.data_quality_operations", "Data Quality Operations", "assurance"),
+    ("product.data_sharing_exchange", "Data Sharing Exchange", "governance"),
+    ("product.data_use_policy", "Data Access, Purpose and Disclosure Policy", "governance"),
+    ("product.dataflow_execution", "Stateful Dataflow Execution Engine", "movement"),
+    ("product.dataset_curation_workbench", "Dataset Curation Workbench", "analytical_operations"),
+    ("product.decision_automation", "Decision Modeling and Execution", "decisioning"),
+    ("product.digital_preservation_archive", "Digital Preservation Archive", "persistence"),
+    ("product.query_execution_service", "Distributed Analytical Query Engine", "compute"),
+    ("product.document_processing_review", "Document Processing and Review Operations", "analytical_operations"),
+    ("product.embedded_analytics", "Embedded Analytics Delivery", "consumption"),
+    ("product.entity_resolution", "Entity Resolution and Identity Mapping Engine", "governance"),
+    ("product.event_streaming", "Event Streaming Platform", "movement"),
+    ("product.experimentation_platform", "Experimentation Control and Analysis Platform", "methods"),
+    ("product.feature_platform", "Feature Definition and Serving Platform", "models"),
+    ("product.finops_allocation", "Usage, Cost and FinOps Allocation", "platform"),
+    ("product.forecasting_workbench", "Forecasting Workbench and Service", "methods"),
+    ("product.geospatial_workbench", "Geospatial Analysis Workbench", "methods"),
+    ("product.graph_analysis_workbench", "Graph and Network Analysis Workbench", "methods"),
+    ("product.image_analysis_workbench", "Image Analysis Workbench", "analytical_operations"),
+    ("product.assurance_case_appraisal", "Independent Evidence and Assurance", "assurance"),
+    ("product.ingestion_delivery", "Managed Ingestion and Delivery Service", "movement"),
+    ("product.integrated_planning_workbench", "Integrated Planning Workbench and Service", "methods"),
+    ("product.managed_lakehouse_experience", "Managed Lakehouse Experience", "persistence"),
+    ("product.lineage_provenance", "Lineage and Provenance Evidence", "assurance"),
+    ("product.managed_table_maintenance", "Managed Analytical Table Maintenance", "persistence"),
+    ("product.master_data_governance", "Master Data Governance", "governance"),
+    ("product.metadata_discovery", "Metadata Discovery Catalog", "governance"),
+    ("product.model_assurance", "Predictive Model Evaluation and Monitoring", "models"),
+    ("product.model_lifecycle", "Predictive Model Engineering and Lifecycle", "models"),
+    ("product.online_inference", "Predictive Inference Serving", "models"),
+    ("product.ontology_knowledge_model", "Ontology and Knowledge-Model Service", "governance"),
+    ("product.operational_activation", "Operational Data Activation Service", "movement"),
+    ("product.optimization_solver", "Optimization Solver Engine", "methods"),
+    ("product.optional_model_extension", "Optional Model and Agent Extension Runtime", "extension"),
+    ("product.pipeline_orchestration", "Pipeline Orchestration Control Plane", "movement"),
+    ("product.platform_estate_tenancy_administration", "Platform Estate & Tenancy Administration", "platform"),
+    ("product.privacy_rights_retention", "Privacy Rights and Retention Control", "governance"),
+    ("product.process_mining_workbench", "Process and Object-Centric Mining Workbench", "methods"),
+    ("product.project_portfolio_controls", "Project & Portfolio Controls", "control"),
+    ("product.reconciliation_control_operations", "Reconciliation and Control Operations", "assurance"),
+    ("product.reference_data_governance", "Reference Data Governance", "governance"),
+    ("product.runtime_resource_control", "Analytical Runtime Resource Control Plane", "platform"),
+    ("product.schema_registry", "Schema Registry", "governance"),
+    ("product.search_index_service", "Search and Index Serving", "serving"),
+    ("product.self_service_data_preparation", "Self-Service Data Preparation Workbench", "preparation"),
+    ("product.semantic_metric_formula_service", "Semantic Metric and Formula Service", "semantics"),
+    ("product.signal_condition_diagnostics", "Signal Condition Monitoring and Diagnostics", "analytical_operations"),
+    ("product.simulation_environment", "Simulation Modeling and Experiment Environment", "methods"),
+    ("product.solution_compiler", "Bounded Intent-to-Solution Compiler Kernel", "platform"),
+    ("product.source_connectivity_control", "Source Connectivity Control Plane", "movement"),
+    ("product.source_replication_cdc", "Source Replication and CDC Engine", "movement"),
+    ("product.virtual_data_access", "Virtual Data Access", "serving"),
+    ("product.visual_inspection_operations", "Visual Inspection Operations", "analytical_operations"),
+    ("product.managed_warehouse_experience", "Managed Analytical Warehouse Experience", "persistence"),
+]
+
+
+def seed_products():
+    return [
+        {
+            "local_subject_ref": product_ref,
+            "candidate_id": f"candidate.seed.{product_ref.removeprefix('product.')}",
+            "name": name,
+            "family": family,
+            "adjudication_bundle": "fallback_index_only",
+            "product_specific_ddd": {"dossier_ref": None},
+            "library_and_compiler": {"provided_capability_refs": [], "required_capability_refs": []},
+            "ratification": "WITHHELD",
+            "_projection_source": "FALLBACK_RETAINED_PRODUCT_INDEX_2026_08_26",
+        }
+        for product_ref, name, family in PRODUCT_INDEX_SEED
+    ]

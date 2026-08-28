@@ -6,7 +6,7 @@
   "architecture_completion_claim": "candidate structural architecture complete",
   "macro_plane_count": 27,
   "unassigned_macro_responsibility_count": 0,
-  "cross_plane_law_count": 32,
+  "cross_plane_law_count": 36,
   "closure_batch_count": 21,
   "closure_batches_with_architecture_defined": 21,
   "closure_batches_requiring_new_macro_plane": 0,

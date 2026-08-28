@@ -1663,6 +1663,31 @@ def main() -> int:
         elif output:
             adjudication_outputs.append(output)
 
+
+    semantic_gap_frontier_accounting_validator = (
+        ROOT.parent
+        / "domain_atlas/compiler/library_registry/contract_generation/semantic_decomposition/"
+        "gap_topology/frontier_accounting/validate.py"
+    )
+    if not semantic_gap_frontier_accounting_validator.is_file():
+        errors.append("semantic gap-frontier accounting validator is missing")
+    else:
+        completed = subprocess.run(
+            [sys.executable, str(semantic_gap_frontier_accounting_validator)],
+            cwd=ROOT.parent.parent,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        output = completed.stdout.strip()
+        if completed.returncode != 0:
+            errors.append(
+                "semantic gap-frontier accounting failed: "
+                + (output or completed.stderr.strip())
+            )
+        elif output:
+            adjudication_outputs.append(output)
+
     if errors:
         for error in errors:
             print(f"ERROR: {error}")

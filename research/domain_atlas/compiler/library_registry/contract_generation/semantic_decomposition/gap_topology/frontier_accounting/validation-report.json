@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "atom_count_conservation": "PASS",
+    "deterministic_ordering": "BUILDER_GUARANTEED_VALIDATOR_RECHECKS",
+    "exact_source_occurrence_projection": "PASS",
+    "jsonl_validity": "BUILDER_GUARANTEED_VALIDATOR_RECHECKS",
+    "local_residual_preservation": "PASS",
+    "no_invented_acceptance": "PASS",
+    "no_invented_implementation": "PASS",
+    "no_invented_qualification": "PASS",
+    "no_silent_aliases": "PASS",
+    "one_primary_kernel_per_atom": "PASS",
+    "parent_cluster_coverage": "PASS",
+    "unique_ids": "BUILDER_GUARANTEED_VALIDATOR_RECHECKS"
+  },
+  "completion_claim": false,
+  "counts": {
+    "decision_kernels": 10,
+    "projected_atoms": 16948,
+    "projected_clusters": 714,
+    "source_atoms": 16948,
+    "source_clusters": 714
+  },
+  "report_id": "validation.semantic-gap-frontier-accounting.v1"
+}

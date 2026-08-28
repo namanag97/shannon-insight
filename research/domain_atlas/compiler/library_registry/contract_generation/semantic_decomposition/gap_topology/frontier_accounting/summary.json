@@ -1,0 +1,43 @@
+{
+  "accepted_atoms": 0,
+  "as_of": "2026-08-28",
+  "atom_shards": 32,
+  "closed_by_existing_valid_evidence": 0,
+  "completion_claim": false,
+  "decision_kernels": 10,
+  "disposition_counts": {
+    "COVERED_BY_REUSABLE_KERNEL": 11811,
+    "EVIDENCE_VACANCY": 2856,
+    "IMPLEMENTATION_ONLY": 682,
+    "QUALIFICATION_ONLY": 1599
+  },
+  "edition": 1,
+  "implemented_atoms": 0,
+  "multiply_mapped_atoms": 0,
+  "parent_gap_topology_program_ref": "program.semantic-gap-topology.v1",
+  "parent_gap_topology_sha256": "e95f3470f6b79155b0189d6578f52bdb39e1aa525aafaca9311fcceff9fc6b4c",
+  "program_id": "program.semantic-gap-frontier-accounting.v1",
+  "projected_gap_atoms": 16948,
+  "projected_gap_clusters": 714,
+  "qualified_atoms": 0,
+  "residual_counts": {
+    "CONCRETE_IMPLEMENTATION_OCCURRENCE": 682,
+    "EXACT_MEMBER_APPLICABILITY_DECISION": 10912,
+    "FAMILY_AXIS_EVIDENCE_AND_COUNTEREXAMPLES": 2832,
+    "INDEPENDENT_IMPLEMENTATION_QUALIFICATION": 682,
+    "OWNER_RATIFIED_EXACT_CONTRACT": 682,
+    "PRODUCT_OR_VERTICAL_ACCEPTANCE_RECEIPT": 917,
+    "SOURCE_AUTHORITY_DECISION": 24,
+    "SYMBOL_OWNER_AND_OCCURRENCE_RATIFICATION": 217
+  },
+  "reversibility": "PASS_BY_EXACT_SOURCE_OCCURRENCE_AND_CONSTITUENT_DIGEST",
+  "source_gap_atoms": 16948,
+  "source_gap_clusters": 714,
+  "status_counts": {
+    "EVIDENCE_VACANCY": 14667,
+    "IMPLEMENTATION_VACANCY": 682,
+    "QUALIFICATION_VACANCY": 1599
+  },
+  "unmapped_atoms": 0,
+  "unmapped_clusters": 0
+}

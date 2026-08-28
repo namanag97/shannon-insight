@@ -4,7 +4,7 @@
   "status": "CANDIDATE_STRUCTURALLY_COMPLETE_NOT_RATIFIED_NOT_QUALIFIED",
   "completion_claim": false,
   "architecture_completion_claim": "candidate structural architecture complete",
-  "macro_plane_count": 24,
+  "macro_plane_count": 27,
   "unassigned_macro_responsibility_count": 0,
   "cross_plane_law_count": 32,
   "closure_batch_count": 21,
@@ -25,6 +25,11 @@
   "current_library_signature_count": 682,
   "research_residual_atoms_in_current_closure_program": 0,
   "research_residual_quotients_in_current_closure_program": 0,
+  "first_class_planes_added_by_stress_test": [
+    "A25_CONTRACT_SCHEMA_AND_SEMANTIC_EVOLUTION",
+    "A26_DESIRED_STATE_CONTROL_AND_RECONCILIATION",
+    "A27_ECONOMICS_CAPACITY_SLO_AND_BUDGETS"
+  ],
   "architecture_remaining_work_classes": [
     "named semantic/product/contract authority",
     "independent evidence verification",

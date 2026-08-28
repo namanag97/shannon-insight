@@ -1,0 +1,30 @@
+{
+  "as_of": "2026-08-28",
+  "base_axis_count": 16,
+  "candidate_axis_count": 7,
+  "candidate_axis_ids": [
+    "measurement_and_observation",
+    "scope_population_and_eligibility",
+    "normativity_and_obligation",
+    "provenance_and_derivation",
+    "epistemic_status",
+    "causal_and_interventional_semantics",
+    "stochastic_mechanism_and_assignment"
+  ],
+  "canonical_mutation_allowed": false,
+  "completion_claim": false,
+  "cross_axis_interaction_count": 16,
+  "effective_research_axis_count": 23,
+  "laws": [
+    "Iteration 1 remains immutable and digest-bound; iteration 2 records corrections instead of rewriting history.",
+    "Axis universality is a semantic-question claim, not a lexical-frequency claim.",
+    "A lexical hit is only a review candidate; a lexical miss remains unresolved rather than inapplicable.",
+    "Cross-axis dependency never authorizes collapsing one axis into another.",
+    "Causal order and temporal/topological order are explicitly non-equivalent.",
+    "Stochastic mechanism and probabilistic uncertainty are explicitly non-equivalent.",
+    "No macro challenge closes owner, exact-contract, implementation, qualification, provider, physical or vertical-acceptance gates."
+  ],
+  "model_id": "model.enterprise-data-analytics-semantic-axes.challenge-v2",
+  "record_kind": "effective_macro_model_research_candidate_iteration2",
+  "status": "ITERATION_2_RESEARCH_CHALLENGE_CANDIDATE_NOT_RATIFIED"
+}

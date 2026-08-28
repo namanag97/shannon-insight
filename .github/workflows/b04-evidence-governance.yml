@@ -8,19 +8,22 @@ on:
   push:
     branches:
       - main
+      - 'closure/b04-*'
     paths:
       - research/analytics_landscape/product_families/**
       - .github/workflows/b04-evidence-governance.yml
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -34,5 +37,27 @@ jobs:
         run: python3 research/analytics_landscape/product_families/validate_evidence_governance.py
       - name: Validate exact evidence overlay
         run: python3 research/analytics_landscape/product_families/validate_effective_evidence_governance.py
-      - name: Refuse stale generated projections
+      - name: Refuse stale generated projections in pull requests
+        if: github.event_name == 'pull_request'
+        run: git diff --exit-code -- research/analytics_landscape/product_families
+      - name: Persist generated projections on B04 feature branches
+        if: github.event_name == 'push' && github.ref_name != 'main'
+        run: |
+          git config user.name 'shannon-insight-research-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            research/analytics_landscape/product_families/organization-family-membership-claims.jsonl \
+            research/analytics_landscape/product_families/organization-identity-projection.jsonl \
+            research/analytics_landscape/product_families/research-reference-role-projection.jsonl \
+            research/analytics_landscape/product_families/evidence-governance-summary.json \
+            research/analytics_landscape/product_families/effective-evidence-upgrade-dispositions.jsonl \
+            research/analytics_landscape/product_families/effective-evidence-governance-summary.json
+          if git diff --cached --quiet; then
+            echo 'B04 generated projections already current'
+            exit 0
+          fi
+          git commit -m 'research: regenerate B04 exact-evidence projection [skip b04]'
+          git push origin HEAD:${{ github.ref_name }}
+      - name: Refuse stale generated projections on main
+        if: github.event_name == 'push' && github.ref_name == 'main'
         run: git diff --exit-code -- research/analytics_landscape/product_families

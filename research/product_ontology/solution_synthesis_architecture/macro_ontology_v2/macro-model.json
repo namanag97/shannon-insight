@@ -1,0 +1,71 @@
+{
+  "architecture_id": "architecture.solution_synthesis_macro_ontology.v2",
+  "as_of": "2026-08-28",
+  "coordinates": {
+    "control_planes": 8,
+    "fabrics": 13,
+    "lanes": 8,
+    "layers": 9,
+    "roles": 24,
+    "state_dimensions": 11,
+    "viewpoints": 12
+  },
+  "ir": {
+    "join_rules": 20,
+    "stages": 28
+  },
+  "kind": "ARCHITECTURE_PATTERN_NOT_PRODUCT",
+  "laws": [
+    "definition_is_not_occurrence",
+    "semantic_identity_is_not_physical_representation",
+    "schema_is_not_contract",
+    "compatibility_verdict_is_not_migration",
+    "desired_state_is_not_observed_state",
+    "policy_decision_is_not_effect_execution",
+    "slo_target_is_not_telemetry_observation",
+    "provenance_is_not_audit_is_not_assurance",
+    "prediction_is_not_decision_is_not_authorization_is_not_effect",
+    "qualification_is_not_vertical_acceptance",
+    "product_is_not_capability_is_not_library_is_not_implementation",
+    "provider_offer_is_not_qualified_offer",
+    "evidence_is_scope_bound_and_revocable",
+    "unknown_meaning_opens_research_instead_of_defaulting",
+    "ordering_is_not_event_time_is_not_visibility_is_not_finality",
+    "durability_is_not_visibility",
+    "watermark_is_not_business_completeness",
+    "consistency_model_is_not_delivery_semantics",
+    "logical_meaning_is_not_materialized_representation",
+    "region_is_not_residency_is_not_jurisdiction",
+    "checkpoint_is_not_backup_is_not_retention",
+    "tenant_is_not_organization_is_not_authorization_scope",
+    "interface_is_not_implementation"
+  ],
+  "ontology": {
+    "lexical_ambiguities": 27,
+    "noun_candidates": 750,
+    "noun_lexemes": 734,
+    "relation_types": 211,
+    "verb_candidates": 389,
+    "verb_lexemes": 378
+  },
+  "product_projection": {
+    "canonical_product_count_expected_by_fallback": 66,
+    "flattened_product_noun_candidates": 775,
+    "flattened_product_verb_candidates": 493,
+    "projection_count": 66,
+    "source": "research/product_ontology/dossier_readiness/product-readiness.jsonl",
+    "status": "GENERATED_NOT_RATIFIED"
+  },
+  "research": {
+    "evidence_tags": 433,
+    "primary_or_official_sources": 219,
+    "source_types": {
+      "standard_spec": 45,
+      "official_product_docs": 127,
+      "academic_primary": 39,
+      "expert_primary": 8
+    }
+  },
+  "sovereign_question": "How can enterprise intent, meaning, data, behavior, decisions, effects, service envelopes, runtime state, evidence and evolution remain separately owned yet compose into a reproducible solution without silently collapsing authority, semantics, implementation, occurrence or acceptance?",
+  "status": "RESEARCH_CANDIDATE_UNRATIFIED"
+}

@@ -8,7 +8,6 @@ import sys
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[2]
 MAPPER = ROOT / "research/domain_atlas/compiler/canonical_reference_mapper"
 sys.path.insert(0, str(MAPPER))
@@ -48,7 +47,10 @@ class B07CanonicalReferenceMapperTest(unittest.TestCase):
             "method.constrained_optimization": {
                 "occurrences": 37,
                 "target_refs": {"or.method.constraint_optimization"},
-                "authority": {"authority.google.or_tools.constraint_optimization", "authority.google.or_tools.cp_sat"},
+                "authority": {
+                    "authority.google.or_tools.constraint_optimization",
+                    "authority.google.or_tools.cp_sat",
+                },
             },
             "method.causal_rca": {
                 "occurrences": 35,
@@ -64,9 +66,13 @@ class B07CanonicalReferenceMapperTest(unittest.TestCase):
         for raw_ref, expectation in expected.items():
             with self.subTest(raw_ref=raw_ref):
                 mapping = by_raw[raw_ref]
-                self.assertEqual(len(mapping["evidence"]["source_occurrence_refs"]), expectation["occurrences"])
+                self.assertEqual(
+                    len(mapping["evidence"]["source_occurrence_refs"]), expectation["occurrences"]
+                )
                 self.assertEqual(set(mapping["target_refs"]), expectation["target_refs"])
-                self.assertEqual(set(mapping["evidence"]["authority_evidence_refs"]), expectation["authority"])
+                self.assertEqual(
+                    set(mapping["evidence"]["authority_evidence_refs"]), expectation["authority"]
+                )
                 self.assertIn(mapping["proposed_relation"], {"narrower", "overlap"})
                 self.assertEqual(mapping["status"], "proposed")
                 self.assertFalse(mapping["adjudicated"])

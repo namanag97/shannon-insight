@@ -7,7 +7,7 @@
   "independent_appraisals": 0,
   "input_gated_builder_observations": 0,
   "migration_wave_ref": "M01_UNIVERSE_AND_EVIDENCE_PRODUCERS",
-  "observations_sha256": "339742aa3414fa2d1d286928dd2a19777fb5ae04bdb33e4fc9891999d34fe9c4",
+  "observations_sha256": "ed5b99271de4f38a300add1625696666551fd6e68a83ca1cf1fa66df447d733d",
   "package_local_write_packages": 51,
   "package_observations": 51,
   "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
@@ -15,7 +15,7 @@
   "qualification_claim": false,
   "ratification_claim": false,
   "stable_packages": 51,
-  "subject_commit": "796dfbe3c4e12ec067767483efbd7cf03dc7a7e4",
+  "subject_commit": "c3cfd2e44957405c09619d3b7827f859bf19d5bd",
   "validator_observations": 60,
   "validator_pass_packages": 51
 }

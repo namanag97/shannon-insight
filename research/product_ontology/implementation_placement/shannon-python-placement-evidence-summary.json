@@ -1,0 +1,24 @@
+{
+  "completion_claim": false,
+  "evidence_role_counts": {
+    "architecture": 9,
+    "empirical_validation": 1,
+    "product_boundary_evidence": 11,
+    "standard": 6
+  },
+  "qualification_claim_count": 0,
+  "report_id": "shannon_python_placement_primary_evidence",
+  "semantic_authority_claim_count": 0,
+  "source_count": 27,
+  "source_kind_counts": {
+    "official_documentation": 8,
+    "official_product_documentation": 6,
+    "official_project_documentation": 1,
+    "official_research_guidance": 1,
+    "official_specification": 6,
+    "standard": 5
+  },
+  "sources_with_bounded_claim": 27,
+  "sources_with_explicit_non_proof": 27,
+  "status": "CLAIM_BOUND_PRIMARY_EVIDENCE_NOT_SEMANTIC_AUTHORITY"
+}

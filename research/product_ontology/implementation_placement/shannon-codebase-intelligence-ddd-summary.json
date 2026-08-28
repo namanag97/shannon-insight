@@ -1,0 +1,18 @@
+{
+  "bounded_context_count": 9,
+  "build_ready": false,
+  "candidate_ddd_complete": true,
+  "command_count": 12,
+  "completion_claim": false,
+  "ddd_digest": "sha256:f4b1fc48bcc50e6526f501442f9467f05dbea190f4fd695bc477881c500c1413",
+  "event_count": 18,
+  "implementation_qualified": false,
+  "invariant_count": 10,
+  "owned_artifact_count": 10,
+  "portfolio_disposition": "RETAIN_EXTERNAL_APPLICATION_PRODUCT_CANDIDATE",
+  "product_id": "application_product.software_engineering.codebase_intelligence",
+  "product_ratified": false,
+  "refusal_count": 11,
+  "report_id": "shannon_codebase_intelligence_ddd",
+  "semantic_ratified": false
+}

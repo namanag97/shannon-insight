@@ -1,0 +1,34 @@
+name: Shannon Python Placement Schemas
+
+on:
+  push:
+    branches:
+      - architecture/shannon-python-product-placement
+    paths:
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_placement_schema.py
+      - .github/workflows/shannon-python-placement-schema.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_placement_schema.py
+      - .github/workflows/shannon-python-placement-schema.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - run: python3 research/product_ontology/implementation_placement/build_shannon_python_placement.py
+      - run: python3 research/product_ontology/implementation_placement/validate_shannon_python_schemas.py
+      - run: pytest -q tests/research/test_shannon_python_placement_schema.py

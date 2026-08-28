@@ -1,0 +1,67 @@
+name: Shannon Python Product Placement
+
+on:
+  push:
+    branches:
+      - architecture/shannon-python-product-placement
+    paths:
+      - src/shannon_insight/**
+      - research/analytics_landscape/product_families/**
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_placement.py
+      - .github/workflows/shannon-python-placement.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/shannon_insight/**
+      - research/analytics_landscape/product_families/**
+      - research/product_ontology/implementation_placement/**
+      - tests/research/test_shannon_python_placement.py
+      - .github/workflows/shannon-python-placement.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  placement:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install validation dependencies
+        run: pip install -e '.[dev]'
+      - name: Generate placement projection
+        run: python3 research/product_ontology/implementation_placement/build_shannon_python_placement.py
+      - name: Validate placement projection
+        run: python3 research/product_ontology/implementation_placement/validate_shannon_python_placement.py
+      - name: Run focused regression
+        run: pytest -q tests/research/test_shannon_python_placement.py
+      - name: Require generated artifacts in pull requests
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --exit-code -- \
+            research/product_ontology/implementation_placement/shannon-python-placement.json \
+            research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl \
+            research/product_ontology/implementation_placement/summary.json
+      - name: Persist generated artifacts on the placement branch
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'shannon-insight-architecture-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            research/product_ontology/implementation_placement/shannon-python-placement.json \
+            research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl \
+            research/product_ontology/implementation_placement/summary.json
+          if git diff --cached --quiet; then
+            echo 'Python placement artifacts already current'
+            exit 0
+          fi
+          git commit -m 'architecture: generate Python placement corpus [skip placement]'
+          git push origin HEAD:${{ github.ref_name }}

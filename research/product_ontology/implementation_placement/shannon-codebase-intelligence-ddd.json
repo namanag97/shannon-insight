@@ -265,7 +265,7 @@
     "Publication is compare-and-append against exact predecessor/baseline identity.",
     "Cancellation is monotone for an attempt and preserves completed phase receipts."
   ],
-  "ddd_digest": "sha256:863b6fc9b56c7c287356ca4ab7f0863f018e60a89aa81fcabc163840fec291d8",
+  "ddd_digest": "sha256:f4b1fc48bcc50e6526f501442f9467f05dbea190f4fd695bc477881c500c1413",
   "dependencies": [
     {
       "dependency": "repository and version-control readers",
@@ -397,7 +397,7 @@
   },
   "implementation_binding": {
     "implementation_id": "implementation.shannon_python.codebase_insight",
-    "placement_projection_digest": "sha256:9fcb22668a222e23112f072b410dd9935c660608926d24a107c258cbafa4a9ef",
+    "placement_projection_digest": "sha256:d26e41403f71a010e7049c377a93a49b5eb548c0662a0cfecedd92506b1f8f7e",
     "status": "UNQUALIFIED_IMPLEMENTATION_CANDIDATE"
   },
   "invariants": [

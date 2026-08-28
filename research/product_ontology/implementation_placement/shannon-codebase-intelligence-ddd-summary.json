@@ -4,7 +4,7 @@
   "candidate_ddd_complete": true,
   "command_count": 12,
   "completion_claim": false,
-  "ddd_digest": "sha256:863b6fc9b56c7c287356ca4ab7f0863f018e60a89aa81fcabc163840fec291d8",
+  "ddd_digest": "sha256:f4b1fc48bcc50e6526f501442f9467f05dbea190f4fd695bc477881c500c1413",
   "event_count": 18,
   "implementation_qualified": false,
   "invariant_count": 10,

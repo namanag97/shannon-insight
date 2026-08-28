@@ -42,19 +42,19 @@
       "byte_count": 639,
       "path": "research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd-summary.json",
       "role": "generated_artifact",
-      "sha256": "sha256:9bdec570762fa5e0a859a1604e4f1f0eb75f26d2d742bcc01f0a1cafc1c0aaa3"
+      "sha256": "sha256:040201d9440338ad5bc0caece2a501a2aeb6c6e1335991718f9d94f30bfb7e9d"
     },
     {
       "byte_count": 28671,
       "path": "research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd.json",
       "role": "generated_artifact",
-      "sha256": "sha256:cd501ac8be808893d06bd446e11ada3ca03e97cc4503206cc7c643e69274baf3"
+      "sha256": "sha256:0c113708a39f2fa894d3a8aeb7ef57578cd5225408b664368c77ba3e210ad3cd"
     },
     {
       "byte_count": 63426,
       "path": "research/product_ontology/implementation_placement/shannon-python-extraction-candidates.jsonl",
       "role": "generated_artifact",
-      "sha256": "sha256:0d5ceb17ecbbad16992dcd6d7aba2dc358e413b00df0d87a10521f56c2bb0e75"
+      "sha256": "sha256:65ba0b7494fe6c7614ba4f6f6792b7d812d39dffcd7ac3b4fdea98b9cc55c9d0"
     },
     {
       "byte_count": 726,
@@ -66,7 +66,7 @@
       "byte_count": 59317,
       "path": "research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl",
       "role": "generated_artifact",
-      "sha256": "sha256:25b854ec9bcfbc1d8a85d6b0d553e1f6c22905e9c9a2f3df05edd8324367e3cf"
+      "sha256": "sha256:314a372cceabbe330697f3ec997cf96b77a6987b5b6640aff813bef898ba81c5"
     },
     {
       "byte_count": 2492,
@@ -78,7 +78,7 @@
       "byte_count": 4703,
       "path": "research/product_ontology/implementation_placement/shannon-python-placement.json",
       "role": "generated_artifact",
-      "sha256": "sha256:649acceab6b45426453363ca936c9d092077f8ab005a259327eeb69e8bef8e2a"
+      "sha256": "sha256:754c681bf690f02ed326782f5bf319682177c0b5e618d500adca3e1def524159"
     },
     {
       "byte_count": 3670,
@@ -90,7 +90,7 @@
       "byte_count": 578,
       "path": "research/product_ontology/implementation_placement/summary.json",
       "role": "generated_artifact",
-      "sha256": "sha256:bcb2ac36a69c90ea71f8f1c3c849cb968456c53c9ea279ffc037a63ea19c30dd"
+      "sha256": "sha256:6946e0cd5324ea70c73135b35a2bf0c94f8ef5f3b3d9462850c5ef12db97e07b"
     },
     {
       "byte_count": 9288,
@@ -118,13 +118,13 @@
     }
   ],
   "implementation_id": "implementation.shannon_python.codebase_insight",
-  "manifest_digest": "sha256:1a2a8b7cf1e1d91640672cd02dceae194f8a3604354856f2c5100f0372dd721e",
+  "manifest_digest": "sha256:4c9611736469b1729035c4652cd7dfc5fbdcb1b67ad60844aaab8b1eabd2221a",
   "manifest_id": "shannon_python_implementation_placement",
   "projection_links": {
     "bound_exact_contract_count": 0,
     "candidate_count": 10,
-    "ddd_digest": "sha256:863b6fc9b56c7c287356ca4ab7f0863f018e60a89aa81fcabc163840fec291d8",
-    "placement_digest": "sha256:9fcb22668a222e23112f072b410dd9935c660608926d24a107c258cbafa4a9ef",
+    "ddd_digest": "sha256:f4b1fc48bcc50e6526f501442f9467f05dbea190f4fd695bc477881c500c1413",
+    "placement_digest": "sha256:d26e41403f71a010e7049c377a93a49b5eb548c0662a0cfecedd92506b1f8f7e",
     "qualified_candidate_count": 0
   },
   "schema_version": "1.0.0"

@@ -2,31 +2,63 @@ name: Code Intelligence Binding
 
 on:
   pull_request:
+    branches:
+      - main
     paths:
+      - src/shannon_insight/**
+      - research/**/*.py
       - research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/**
       - .github/workflows/code-intelligence-binding.yml
   push:
     branches:
       - main
+      - architecture/shannon-python-product-placement
     paths:
+      - src/shannon_insight/**
+      - research/**/*.py
       - research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/**
       - .github/workflows/code-intelligence-binding.yml
   workflow_dispatch:
 
+concurrency:
+  group: code-intelligence-binding-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: pip install 'jsonschema>=4'
-      - name: Verify deterministic binding
+      - name: Regenerate deterministic binding
+        working-directory: research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence
+        run: python3 build_binding.py
+      - name: Validate deterministic binding
         working-directory: research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence
         run: |
           python3 build_binding.py --check
           python3 validate_binding.py
+      - name: Require generated binding in pull requests
+        if: github.event_name == 'pull_request'
+        run: git diff --exit-code -- research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/
+      - name: Persist generated binding on governed branches
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'shannon-insight-architecture-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/domain_atlas/universes/application_behavior/bindings/codebase_intelligence/
+          if git diff --cached --quiet; then
+            echo 'Code Intelligence Binding already current'
+            exit 0
+          fi
+          git commit -m 'architecture: regenerate code-intelligence binding [skip binding]'
+          git push origin HEAD:${{ github.ref_name }}

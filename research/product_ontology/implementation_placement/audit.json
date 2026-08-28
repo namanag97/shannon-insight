@@ -3,19 +3,19 @@
   "artifact_digests": [
     {
       "path": "research/product_ontology/implementation_placement/manifest.json",
-      "sha256": "sha256:9ebef47bcb328dcaf67102b83222ab340f416c36aa40fbeb33709f35174f2941"
+      "sha256": "sha256:52307905f047d40398b94cf98e734e097fb1fbeca5e8722a66744541ef8a816e"
     },
     {
       "path": "research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd-summary.json",
-      "sha256": "sha256:9bdec570762fa5e0a859a1604e4f1f0eb75f26d2d742bcc01f0a1cafc1c0aaa3"
+      "sha256": "sha256:040201d9440338ad5bc0caece2a501a2aeb6c6e1335991718f9d94f30bfb7e9d"
     },
     {
       "path": "research/product_ontology/implementation_placement/shannon-codebase-intelligence-ddd.json",
-      "sha256": "sha256:cd501ac8be808893d06bd446e11ada3ca03e97cc4503206cc7c643e69274baf3"
+      "sha256": "sha256:0c113708a39f2fa894d3a8aeb7ef57578cd5225408b664368c77ba3e210ad3cd"
     },
     {
       "path": "research/product_ontology/implementation_placement/shannon-python-extraction-candidates.jsonl",
-      "sha256": "sha256:0d5ceb17ecbbad16992dcd6d7aba2dc358e413b00df0d87a10521f56c2bb0e75"
+      "sha256": "sha256:65ba0b7494fe6c7614ba4f6f6792b7d812d39dffcd7ac3b4fdea98b9cc55c9d0"
     },
     {
       "path": "research/product_ontology/implementation_placement/shannon-python-extraction-summary.json",
@@ -23,7 +23,7 @@
     },
     {
       "path": "research/product_ontology/implementation_placement/shannon-python-module-crosswalk.jsonl",
-      "sha256": "sha256:25b854ec9bcfbc1d8a85d6b0d553e1f6c22905e9c9a2f3df05edd8324367e3cf"
+      "sha256": "sha256:314a372cceabbe330697f3ec997cf96b77a6987b5b6640aff813bef898ba81c5"
     },
     {
       "path": "research/product_ontology/implementation_placement/shannon-python-placement-evidence-summary.json",
@@ -35,7 +35,7 @@
     },
     {
       "path": "research/product_ontology/implementation_placement/shannon-python-placement.json",
-      "sha256": "sha256:649acceab6b45426453363ca936c9d092077f8ab005a259327eeb69e8bef8e2a"
+      "sha256": "sha256:754c681bf690f02ed326782f5bf319682177c0b5e618d500adca3e1def524159"
     },
     {
       "path": "research/product_ontology/implementation_placement/shannon-python-source-totality.json",
@@ -43,7 +43,7 @@
     },
     {
       "path": "research/product_ontology/implementation_placement/summary.json",
-      "sha256": "sha256:bcb2ac36a69c90ea71f8f1c3c849cb968456c53c9ea279ffc037a63ea19c30dd"
+      "sha256": "sha256:6946e0cd5324ea70c73135b35a2bf0c94f8ef5f3b3d9462850c5ef12db97e07b"
     },
     {
       "path": "research/product_ontology/implementation_placement/validate_manifest.py",
@@ -74,7 +74,7 @@
       "sha256": "sha256:a09f76f37622ca9c9064bf139e0777b361ac87137d30269f58a6a0adae58bb63"
     }
   ],
-  "audit_digest": "sha256:1d7a1621e63fa9bf2d15d0b61cc4a4072f9c4d834cee5ee000fb88f87cba4a9b",
+  "audit_digest": "sha256:9e43ba9661b9122faafa6ce3f0edd7bb69108bd1765acbad4cabf170fdc709c8",
   "audit_id": "shannon_python_implementation_placement_completion_audit",
   "build_ready": false,
   "computed_counts": {

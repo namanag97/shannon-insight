@@ -8,26 +8,22 @@ on:
   push:
     branches:
       - main
-      - 'closure/b04-*'
     paths:
       - research/analytics_landscape/product_families/build_evidence_upgrade_campaigns.py
       - research/analytics_landscape/product_families/organization-family-membership-claims.jsonl
       - research/analytics_landscape/product_families/organization-identity-projection.jsonl
       - research/analytics_landscape/product_families/evidence-upgrade-*.json*
-      - research/analytics_landscape/product_families/organization-family-evidence-upgrades.jsonl
       - .github/workflows/b04-evidence-upgrade-campaigns.yml
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -35,28 +31,7 @@ jobs:
         run: python3 research/analytics_landscape/product_families/build_evidence_upgrade_campaigns.py
       - name: Validate effective campaign projection
         run: python3 research/analytics_landscape/product_families/validate_evidence_upgrade_campaigns.py
-      - name: Refuse stale generated projections in pull requests
-        if: github.event_name == 'pull_request'
-        run: |
-          git diff --exit-code -- \
-            research/analytics_landscape/product_families/evidence-upgrade-campaigns.jsonl \
-            research/analytics_landscape/product_families/evidence-upgrade-campaign-summary.json
-      - name: Persist campaign projections on B04 feature branches
-        if: github.event_name == 'push' && github.ref_name != 'main'
-        run: |
-          git config user.name 'shannon-insight-research-bot'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add \
-            research/analytics_landscape/product_families/evidence-upgrade-campaigns.jsonl \
-            research/analytics_landscape/product_families/evidence-upgrade-campaign-summary.json
-          if git diff --cached --quiet; then
-            echo 'B04 campaign projections already current'
-            exit 0
-          fi
-          git commit -m 'research: regenerate B04 evidence campaigns [skip b04-campaigns]'
-          git push origin HEAD:${{ github.ref_name }}
-      - name: Refuse stale generated projections on main
-        if: github.event_name == 'push' && github.ref_name == 'main'
+      - name: Refuse stale generated projections
         run: |
           git diff --exit-code -- \
             research/analytics_landscape/product_families/evidence-upgrade-campaigns.jsonl \
